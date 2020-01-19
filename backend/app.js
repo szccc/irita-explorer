@@ -75,4 +75,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.use(function (err,req,res,next) {
+  res.setTimeout(100 * 1000,function () {
+    console.log('Request has time out')
+    res.status(408).send('请求超时')
+  })
+})
 module.exports = app;
