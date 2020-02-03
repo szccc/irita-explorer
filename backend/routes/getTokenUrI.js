@@ -11,8 +11,16 @@ router.get('/',(req,res,next) => {
 		}else {
 			if(body){
 				let resultData = JSON.parse(body);
-				data = resultData.result.value;
-				res.send(data)
+				if(resultData.result && resultData.result.value){
+					data = resultData.result.value;
+					res.send(data)
+				}else {
+					res.send({
+						code:'EX-100000',
+						msg:'not found result'
+					})
+				}
+				
 			}
 		}
 	})
