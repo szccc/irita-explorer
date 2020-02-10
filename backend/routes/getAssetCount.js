@@ -36,12 +36,13 @@ const  scheduleCronstyle = () => {
 												MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {
 													let iritaExplorerDb = db.db('irita-explorer');
 													iritaExplorerDb.collection('asset_list').updateOne({
-														_id: `${denomName}${tokenID}`
+														denom:`${denomName}`,
+														tokenId:`${tokenID}`
 													},{$set:{
-															_id: `${denomName}${tokenID}`,
 															denom: denomName,
 															tokenId: tokenID,
-															data: data
+															owner:data.nfts[tokenID].owner,
+															tokenUri:data.nfts[tokenID].token_uri
 														}
 													},{upsert:true})
 												})
@@ -51,10 +52,10 @@ const  scheduleCronstyle = () => {
 												MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {
 													let iritaExplorerDb = db.db('irita-explorer');
 													iritaExplorerDb.collection('asset_list').insertOne({
-														_id: `${denomName}${tokenID}`,
 														denom: denomName,
 														tokenId: tokenID,
-														data: data
+														owner: data.nfts[tokenID].owner,
+														tokenUri:data.nfts[tokenID].token_uri
 													})
 												})
 											}
