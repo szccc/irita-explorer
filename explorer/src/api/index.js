@@ -6,7 +6,7 @@ const urlAPI ={
 	txList:'/api/txs?page={pageNumber}&size={pageSize}&txType={txType}&status={status}&beginTime={beginTime}&endTime={endTime}',
 	allTxType:'/api/allTxType',
 	nftList:'/api/nft/denoms',
-	denomInformation:'/api/nft/denom?denom={denom}',
+	denomInformation:'/api/nft/denom?denom={denom}&page={pageNum}&size={pageSize}&owner={owner}&tokenId={tokenId}',
 	ownerDetail:'/api/nft/owner?owner={ownerAddress}',
 	getTokenUri: '/api/nft/collection?denom={denom}&tokenId={tokenId}',
 	getTxByAddress: '/api/address/txs?page={pageNum}&size={pageSize}&owner={ownerAddress}',

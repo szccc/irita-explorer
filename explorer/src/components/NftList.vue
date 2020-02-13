@@ -2,97 +2,158 @@
 	<div class="nft_list_container">
 		<div class="nft_list_content_wrap">
 			<div class="nft_list_header_content">
-				<h3 class="nft_list_header_title">NFT Collections</h3>
+				<h3 class="nft_list_header_title">{{allCount}} Assets</h3>
+				<el-select v-model="value" :change="filterTokenIdByDenom(value)">
+					<el-option v-for="(item, index) in nftList"
+							   :key="index"
+							   :label="item.label"
+							   :value="item.value"></el-option>
+				</el-select>
+				<el-input v-model="input" placeholder="Search by Owner / TokenID"></el-input>
+				<div class="tx_type_mobile_content">
+					<div class="search_btn" @click="getNftsByFilter">Search</div>
+					<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
+				</div>
 			</div>
-			<ul class="nft_denom_content">
-				<li class="nft_denom_list_item" v-for="item in nftList" @click="showDenomInformation(item.item)"  :class="item.isActive ? 'hidden_footer_padding' : ''">
-					<p class="nft_denom_title">
-						<span>{{item.item}}</span>
-						<span class="select_content" :class="item.isActive ? 'show_bottom_select' : ''" >
-							<i class="iconfont iconxialaxuanzejiantou"></i>
-						</span>
-					</p>
-					<div class="nft_denom_list_content"  v-show="item.isActive">
-						<el-table :data="denomArray">
-							<el-table-column label="ID">
-								<template slot-scope="scope">
-									<router-link :to="`/nft/token?denom=${item.item}&&tokenId=${scope.row.id}`">{{scope.row.id}}</router-link>
-								</template>
-							</el-table-column>
-							<el-table-column label="Owner">
-								<template slot-scope="scope">
-									<router-link :to="`/address/${scope.row.owner}`">{{scope.row.owner}}</router-link>
-								</template>
-							</el-table-column>
-							<el-table-column label="URI" prop="token_uri">
-								<template slot-scope="scope">
-									<a v-if="scope.row.token_uri" :download="scope.row.token_uri" :href="scope.row.token_uri" target="_blank">{{scope.row.token_uri}}</a>
-									<span v-else>--</span>
-								</template>
-							</el-table-column>
-						</el-table>
-					</div>
-				</li>
-			</ul>
+			<div class="nef_list_table_container">
+				<el-table :data="denomArray">
+					<el-table-column label="Owner" width="150px">
+						<template slot-scope="scope">
+							<el-tooltip :content="scope.row.owner"
+										class="item"
+										placement="top"
+										effect="dark">
+								<router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
+							</el-tooltip>
+						</template>
+					</el-table-column>
+					<el-table-column label="Denom">
+						<template slot-scope="scope">
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.denom}`">{{scope.row.denom}}</router-link>
+						</template>
+					</el-table-column>
+					<el-table-column label="Token ID">
+						<template slot-scope="scope">
+							<router-link :to="`/nft/token?denom=${scope.row.tokenId}&&tokenId=${scope.row.tokenId}`">{{scope.row.tokenId}}</router-link>
+						</template>
+					</el-table-column>
+					<el-table-column label="URI" prop="token_uri">
+						<template slot-scope="scope">
+							<a v-if="scope.row.tokenUri" :download="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+							<span v-else>--</span>
+						</template>
+					</el-table-column>
+				</el-table>
+			</div>
+			<div class="pagination_content">
+				<keep-alive>
+					<m-pagination :page-size="pageSize"
+								  :total="allCount"
+								  :page="currentPageNum"
+								  :page-change="pageChange">
+					</m-pagination>
+				</keep-alive>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 	import Server from "../service"
+	import Tools from "../util/Tools";
+	import MPagination from "./MPagination";
 	export default {
 		name: "NftList",
+		components: {MPagination},
 		data () {
 			return {
-				nftList: null,
-				denomArray:[]
+				nftList: [
+					{
+						value:'all',
+						label:'All',
+					}
+				],
+				denomArray:[],
+				value:'All',
+				denom: "",
+				currentPageNum: 1,
+				pageSize: 20,
+				tokenId: '',
+				owner: '',
+				input:'',
+				allCount:0
 			}
 		},
 		mounted(){
-			this.getNftList()
+			this.getNftList();
+			this.getNftsByFilter()
 		},
 		methods:{
-			getNftList(){
-				Server.commonInterface({nftList:{}},(res) =>{
+			filterTokenIdByDenom(value){
+				if(value === 'all'){
+					this.denom = ''
+				}else {
+					this.denom = value;
+				}
+			},
+			resetFilterCondition(){
+				this.input = '';
+				this.denom = 'All';
+				this.currentPageNum = 1;
+				this.tokenId = '';
+				this.owner = '';
+				this.getNftsByFilter()
+			},
+			pageChange(pageNum){
+				this.currentPageNum = pageNum;
+				this.getNftsByFilter()
+			},
+			getNftsByFilter(){
+				if (this.$Codec.Bech32.isBech32(this.$Crypto.config.iris.bech32.accAddr, this.input)) {
+					this.owner = this.input
+				} else if (this.$Codec.Bech32.isBech32(this.$Crypto.config.iris.bech32.valAddr, this.input)) {
+					this.owner = this.input
+				}
+				if(!this.owner){
+					this.tokenId =  this.input
+				}
+				Server.commonInterface({denomInformation:{
+						denom: this.denom === 'All' ? '' : this.denom,
+						pageNum: this.currentPageNum,
+						pageSize: this.pageSize,
+						tokenId: this.tokenId,
+						owner: this.owner,
+					}},(res) => {
 					try {
 						if(res){
-							this.nftList = res.map(item => {
-								return {
-									item: item,
-									isActive: false
-								}
-							})
+							this.allCount = res.count
+							this.denomArray = res.data;
 						}
 					}catch (e) {
 						console.error(e)
 					}
 				})
 			},
-			showDenomInformation(denom){
-				Server.commonInterface({denomInformation:{
-						denom: denom
-					}},(result) => {
+			formatAddress(address){
+				return Tools.formatValidatorAddress(address)
+			},
+			getNftList(){
+				Server.commonInterface({nftList:{}},(res) =>{
 					try {
-						if(result && result.data){
-							this.denomArray = []
-							for(let item in result.data[denom].nfts){
-								this.denomArray.push(result.data[denom].nfts[item]);
-							}
-							if(this.nftList)
-							this.nftList = this.nftList.map((item) => {
-								if(item.item === denom){
-									item.isActive = !item.isActive;
-								}else {
-									item.isActive = false;
+						if(res){
+							let nftList = res.map(item => {
+								return {
+									label: item,
+									value: item
 								}
-								return item
 							})
+							this.nftList = this.nftList.concat(nftList)
 						}
 					}catch (e) {
 						console.error(e)
 					}
 				})
-			}
+			},
 		}
 	}
 </script>
@@ -109,6 +170,46 @@
 			.nft_list_header_content{
 				width: 100%;
 				margin: 0.3rem 0 0 0;
+				display: flex;
+				align-items: center;
+				.el-select{
+					/deep/ .el-input{
+						width: 1.8rem;
+						.el-input__inner{
+							padding-left: 0.07rem;
+							height: 0.32rem;
+							font-size: 0.14rem !important;
+							line-height: 0.32rem;
+							&::-webkit-input-placeholder{
+								font-size: 0.14rem !important;
+							}
+						}
+						.el-input__inner:focus{
+							border-color: #3264FD !important;
+						}
+						.el-input__suffix{
+							.el-input__suffix-inner{
+								.el-input__icon{
+									line-height: 0.32rem;
+								}
+							}
+						}
+					}
+				}
+
+				/deep/ .el-input{
+					max-width: 3.5rem;
+					margin-left: 0.1rem;
+					.el-input__inner{
+						padding-left: 0.07rem;
+						height: 0.32rem;
+						font-size: 0.14rem !important;
+						line-height: 0.32rem;
+						&::-webkit-input-placeholder{
+							font-size: 0.14rem !important;
+						}
+					}
+				}
 				.nft_list_header_title{
 					font-size: 0.18rem;
 					color: #22252A;
@@ -127,8 +228,103 @@
 					background: #fff;
 					text-indent: 0.2rem;
 				}
+				.tx_type_mobile_content{
+					display: flex;
+					align-items: center;
+
+					/deep/.el-select{
+						width: 1.3rem;
+						margin-right: 0.1rem;
+						.el-input{
+							.el-input__inner{
+								padding-left: 0.07rem;
+								height: 0.32rem;
+								font-size: 0.14rem !important;
+								line-height: 0.32rem;
+								&::-webkit-input-placeholder{
+									font-size: 0.14rem !important;
+								}
+							}
+							.el-input__inner:focus{
+								border-color: #3264FD !important;
+							}
+							.el-input__suffix{
+								.el-input__suffix-inner{
+									.el-input__icon{
+										line-height: 0.32rem;
+									}
+								}
+							}
+						}
+						.is-focus{
+							.el-input__inner{
+								border-color: #3264FD !important;
+							}
+						}
+
+					}
+					/deep/.el-date-editor{
+						width: 1.3rem;
+						.el-icon-circle-close{
+							display: none !important;
+						}
+						.el-input__inner{
+							height:0.32rem;
+							padding-left: 0.07rem;
+							padding-right: 0;
+							line-height: 0.32rem;
+							&::-webkit-input-placeholder{
+								font-size: 0.14rem !important;
+							}
+							&:focus{
+								border-color: #3264FD;
+							}
+						}
+						.el-input__prefix{
+							right: 5px;
+							left: 1rem;
+							.el-input__icon{
+								line-height: 0.32rem;
+							}
+						}
+					}
+					.joint_mark{
+						margin: 0 0.08rem;
+					}
+					.reset_btn{
+						background: #3264FD;
+						color: #fff;
+						border-radius: 0.04rem;
+						margin-left: 0.1rem;
+						cursor: pointer;
+						i{
+							padding: 0.08rem;
+							font-size: 0.14rem;
+							line-height: 1;
+							display: inline-block;
+						}
+					}
+					.search_btn{
+						cursor: pointer;
+						background: #3264FD;
+						margin-left: 0.1rem;
+						color: #fff;
+						border-radius: 0.04rem;
+						padding: 0.05rem 0.18rem;
+						font-size: 0.14rem;
+						line-height: 0.2rem;
+					}
+				}
 			}
-			.nft_denom_content{
+			.nef_list_table_container{
+				margin-top: 0.05rem;
+			}
+			.pagination_content{
+				display: flex;
+				justify-content: flex-end;
+				margin: 0.1rem 0 0.2rem 0;
+			}
+			/*.nft_denom_content{
 				width: 100%;
 				.nft_denom_list_item{
 					width: 100%;
@@ -169,7 +365,7 @@
 				.hidden_footer_padding{
 					padding-bottom: 0;
 				}
-			}
+			}*/
 			
 		}
 	}
