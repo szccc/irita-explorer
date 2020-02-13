@@ -29,12 +29,12 @@
 					</el-table-column>
 					<el-table-column label="Denom">
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.denom}`">{{scope.row.denom}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.tokenId}`">{{scope.row.denom}}</router-link>
 						</template>
 					</el-table-column>
 					<el-table-column label="Token ID">
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.tokenId}&&tokenId=${scope.row.tokenId}`">{{scope.row.tokenId}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.tokenId}`">{{scope.row.tokenId}}</router-link>
 						</template>
 					</el-table-column>
 					<el-table-column label="URI" prop="token_uri">
