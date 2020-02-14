@@ -21,12 +21,13 @@ router.get('/',(req,res,next) => {
 			throw error
 		}else {
 			if(body){
+
+
 				let resData = JSON.parse(body);
 				let differenceBlock = 100;
 				if(resData.block){
 					responseData.block_height = resData.block.header.height;
 					responseData.block_time = resData.block.header.time;
-					responseData.totals_txs = resData.block.header.total_txs;
 					let diffBlockUrl = `${lcdBlockHeightUrl}${Number(responseData.block_height) - differenceBlock}`;
 					let getValidatorNumberUrl = `${config.lcdAddress}/validatorsets/latest`;
 					request(diffBlockUrl,(error,response,body) => {
@@ -52,6 +53,12 @@ router.get('/',(req,res,next) => {
 								}
 								MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {
 									let iritaExplorerDb = db.db('irita-explorer');
+									iritaExplorerDb.collection('sync_tx').find({}).count((err,result) => {
+										if (err) throw err;
+										if (result) {
+											responseData.totals_txs = result;
+										}
+									});
 									iritaExplorerDb.collection('asset_list').find({}).count((err,result) => {
 										if(err) throw err;
 										if(result){
