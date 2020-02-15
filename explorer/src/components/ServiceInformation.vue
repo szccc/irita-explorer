@@ -49,14 +49,23 @@
 								<router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column label="Request ID" prop="requestId"></el-table-column>
+						<el-table-column label="Request ID">
+							<template slot-scope="scope">
+								<span>{{scope.row.requestId || '--'}}</span>
+							</template>
+						</el-table-column>
 						<el-table-column label="Tx Type" prop="txType"></el-table-column>
 						<el-table-column label="From">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column label="To" prop="to"></el-table-column>
+						<el-table-column label="To">
+							<template slot-scope="scope">
+								<router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
+								<span v-if="scope.row.to === '--'">--</span>
+							</template>
+						</el-table-column>
 						<el-table-column label="Height" >
 							<template slot-scope="scope">
 								<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
@@ -66,6 +75,15 @@
 					</el-table>
 				</div>
 			</div>
+			<div class="pagination_content">
+				<keep-alive>
+					<m-pagination :page-size="pageSize"
+								  :total="txCount"
+								  :page="currentPageNum"
+								  :page-change="pageChange">
+					</m-pagination>
+				</keep-alive>
+			</div>
 		</div>
 	</div>
 </template>
@@ -73,8 +91,10 @@
 <script>
 	import Service from "../service"
 	import Tools from "../util/Tools"
+	import MPagination from "./MPagination";
 	export default {
 		name: "ServiceInformation",
+		components: {MPagination},
 		data() {
 			return {
 				from:'',
@@ -83,15 +103,21 @@
 				description:'',
 				idlContent:'',
 				bindingArray:[],
-				transactionArray:[]
+				transactionArray:[],
+				pageSize:10,
+				currentPageNum:1,
+				txCount:0,
 			}
 		},
 		mounted () {
 			this.getServiceInformation();
 			this.getServiceBindingList();
-			this.getServiceTransaction();
 		},
 		methods:{
+			pageChange(pageNum){
+				this.currentPageNum = pageNum;
+				this.getServiceTransaction();
+			},
 			getServiceInformation(){
 				Service.commonInterface({serviceInformation:{
 						serviceName:this.$route.query.serviceName,
@@ -104,6 +130,7 @@
 							this.publisher = res.definition.author;
 							this.description = res.definition.description;
 							this.idlContent = res.definition.idl_content;
+							this.getServiceTransaction();
 						}
 					}catch (e) {
 						console.error(e)
@@ -135,11 +162,14 @@
 			getServiceTransaction(){
 				Service.commonInterface({serviceTransaction:{
 						serviceName:this.$route.query.serviceName,
-						chainId:this.$route.query.chainId
+						chainId:this.$route.query.chainId,
+						address: this.publisher,
+						pageNum: this.currentPageNum,
+						pageSize: this.pageSize
 					}},(res)=>{
 					try {
 						if(res){
-
+							this.txCount = res.count;
 							this.transactionArray = res.data.map(item => {
 								return {
 									txHash: item.tx_hash,
@@ -240,6 +270,11 @@
 				.service_information_transaction_table_content{
 					background: #fff;
 				}
+			}
+			.pagination_content{
+				display: flex;
+				justify-content: flex-end;
+				margin: 0.1rem 0 0.2rem 0;
 			}
 		}
 	}

@@ -7,12 +7,57 @@ router.get('/',(req,res,next) => {
 		if (err) throw err;
 		let iritaExplorerDb = db.db('irita-explorer'),data,countNumber;
 		let sqFind= {
-			'$and':[
+			"$or":[
 				{
-					'msgs.msg.name':req.query.serviceName
+					"$and":[
+						{
+							'from':req.query.address
+						},
+						{
+							'type':'service_define'
+						}
+					],
 				},
 				{
-					'msgs.msg.chain_id':req.query.chainId
+					"$and":[
+						{
+							'to':req.query.address
+						},
+						{
+							'type':'service_request'
+						}
+					],
+				},
+				{
+					"$and":[
+						{
+							'from':req.query.address
+						},
+						{
+							'type':'service_bind'
+						}
+					],
+				},
+				{
+					"$and":[
+						{
+							'from':req.query.address
+						},
+						{
+							'type':'service_bind'
+						}
+					],
+				},
+				{
+					"$and":[
+						{
+							'from':req.query.address
+						},
+						{
+							'type':'service_response'
+						}
+					],
+
 				},
 			]
 		};
@@ -22,7 +67,7 @@ router.get('/',(req,res,next) => {
 				countNumber = result
 			}
 		});
-		iritaExplorerDb.collection('sync_tx').find(sqFind).toArray((error,result) => {
+		iritaExplorerDb.collection('sync_tx').find(sqFind).skip((Number(req.query.page) - 1)*Number(req.query.size)).sort({height: -1}).limit(Number(req.query.size)).toArray((error,result) => {
 			if(error) throw error;
 			if(result){
 				data = result.map(item => {
