@@ -13,7 +13,7 @@ const urlAPI ={
 	getTxByToken: '/api/token/txs?page={pageNum}&size={pageSize}&tokenId={tokenId}',
 	serviceInformation:'/api/service?serviceName={serviceName}&chainId={chainId}',
 	serviceBindingList:'/api/service/binding?serviceName={serviceName}&chainId={chainId}',
-	serviceTransaction: '/api/service/transaction?serviceName={serviceName}&chainId={chainId}',
+	serviceTransaction: '/api/service/transaction?serviceName={serviceName}&chainId={chainId}&address={address}&page={pageNum}&size={pageSize}',
 	getTransactionInformation:"/api/tx?txhash={hash}",
 	getServiceList:'/api/services?page={pageNumber}&size={pageSize}',
 	blockInformation:'/api/blockInformation?height={height}',
