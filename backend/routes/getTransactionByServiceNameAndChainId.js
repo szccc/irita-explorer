@@ -11,7 +11,10 @@ router.get('/',(req,res,next) => {
 				{
 					"$and":[
 						{
-							'from':req.query.address
+							'msgs.msg.name':req.query.serviceName
+						},
+						{
+							'msgs.msg.chain_id':req.query.chainId
 						},
 						{
 							'type':'service_define'
@@ -21,7 +24,10 @@ router.get('/',(req,res,next) => {
 				{
 					"$and":[
 						{
-							'to':req.query.address
+							'msgs.msg.def_name':req.query.serviceName
+						},
+						{
+							'msgs.msg.def_chain_id':req.query.chainId
 						},
 						{
 							'type':'service_request'
@@ -31,33 +37,15 @@ router.get('/',(req,res,next) => {
 				{
 					"$and":[
 						{
-							'from':req.query.address
+							'msgs.msg.def_name':req.query.serviceName
+						},
+						{
+							'msgs.msg.def_chain_id':req.query.chainId
 						},
 						{
 							'type':'service_bind'
 						}
 					],
-				},
-				{
-					"$and":[
-						{
-							'from':req.query.address
-						},
-						{
-							'type':'service_bind'
-						}
-					],
-				},
-				{
-					"$and":[
-						{
-							'from':req.query.address
-						},
-						{
-							'type':'service_response'
-						}
-					],
-
 				},
 			]
 		};
