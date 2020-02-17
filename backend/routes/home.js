@@ -21,8 +21,6 @@ router.get('/',(req,res,next) => {
 			throw error
 		}else {
 			if(body){
-
-
 				let resData = JSON.parse(body);
 				let differenceBlock = 100;
 				if(resData.block){
