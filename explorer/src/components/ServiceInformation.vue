@@ -2,7 +2,7 @@
 	<div class="service_information_container">
 		<div class="service_information_content_wrap">
 			<div class="service_information_definition_content">
-				<h3 class="service_information_definition_title">Service Definition</h3>
+				<h3 class="service_information_definition_title">Service Definition  {{$route.query.serviceName}}</h3>
 				<div class="service_information_content">
 					<p class="service_information_text_content">
 						<span>Chain ID:</span>
@@ -163,7 +163,6 @@
 				Service.commonInterface({serviceTransaction:{
 						serviceName:this.$route.query.serviceName,
 						chainId:this.$route.query.chainId,
-						address: this.publisher,
 						pageNum: this.currentPageNum,
 						pageSize: this.pageSize
 					}},(res)=>{
