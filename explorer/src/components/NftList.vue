@@ -74,7 +74,7 @@
 					}
 				],
 				denomArray:[],
-				value:'All',
+				value:'all',
 				denom: "",
 				currentPageNum: 1,
 				pageSize: 20,
@@ -99,6 +99,7 @@
 			resetFilterCondition(){
 				this.input = '';
 				this.denom = 'All';
+				this.value = 'all';
 				this.currentPageNum = 1;
 				this.tokenId = '';
 				this.owner = '';
