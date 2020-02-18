@@ -15,9 +15,9 @@
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&tokenId=${scope.row.id}`">{{scope.row.denom}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column label="URI" prop="tokenUri">
+					<el-table-column label="URI" prop="tokenUri" width="650px">
 						<template slot-scope="scope">
-							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+							<a v-if="scope.row.tokenUri && scope.row.tokenUri !== '--'" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
@@ -63,7 +63,11 @@
 						</template>
 					</el-table-column>
 					<el-table-column label="Status" prop="status"></el-table-column>
-					<el-table-column label="Timestamp" prop="time"></el-table-column>
+					<el-table-column label="Timestamp" prop="time" width="200px">
+						<template slot-scope="scope">
+							<span>{{scope.row.time}}</span>
+						</template>
+					</el-table-column>
 				</el-table>
 			</div>
 			<div class="pagination_content" v-show="flShowPagination">
@@ -177,7 +181,7 @@
 									from: item.from ? item.from : '--',
 									to: item.to ? item.to : '--',
 									signer: item.signer,
-									status:item.status,
+									status:Tools.firstWordUpperCase(item.status),
 									time: Tools.formatUtc(item.timestamp)
 								}
 							})

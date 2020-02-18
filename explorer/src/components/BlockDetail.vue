@@ -51,7 +51,11 @@
 							</template>
 						</el-table-column>
 						<el-table-column label="Status" prop="status"></el-table-column>
-						<el-table-column label="Timestamp" prop="time"></el-table-column>
+						<el-table-column label="Timestamp" prop="time" width="200px">
+							<template slot-scope="scope">
+								<span>{{scope.row.time}}</span>
+							</template>
+						</el-table-column>
 					</el-table>
 				</div>
 			</div>
@@ -158,7 +162,7 @@
 									from: item.from ? item.from : '--',
 									to: item.to ? item.to : '--',
 									signer: item.signer,
-									status:item.status,
+									status:Tools.firstWordUpperCase(item.status),
 									time: Tools.formatUtc(item.timestamp)
 								}
 							})

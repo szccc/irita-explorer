@@ -53,4 +53,12 @@ export default class Tools{
 	static removeAllSpace(str) {
 		return str.replace(/\s+/g, "");
 	}
+	/**
+	 * 首字母大写
+	 * */
+	static firstWordUpperCase (str){
+		return str.toLowerCase().replace(/(\s|^)[a-z]/g, function(char){
+			return char.toUpperCase();
+		});
+	}
 }
