@@ -27,12 +27,12 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Denom">
+					<el-table-column label="Denom" width="150px">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.tokenId}`">{{scope.row.denom}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column label="Token ID">
+					<el-table-column label="Token ID" width="300px">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.tokenId}`">{{scope.row.tokenId}}</router-link>
 						</template>

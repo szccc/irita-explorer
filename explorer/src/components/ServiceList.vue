@@ -100,7 +100,7 @@
 									publisher: msgPublisher,
 									from: item.from,
 									description: msgDescription,
-									status: item.status
+									status: Tools.firstWordUpperCase(item.status)
 								}
 							})
 						}

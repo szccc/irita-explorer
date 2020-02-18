@@ -19,8 +19,10 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>URI</span>
-					<span>
-						<a :href="Uri" target="_blank">{{Uri}}</a></span>
+					<span v-if="Uri && Uri !== '--'">
+						<a :href="Uri" target="_blank">{{Uri}}</a>
+					</span>
+					<span v-else>--</span>
 				</div>
 			</div>
 			<div class="nft_token_list_content">
@@ -28,10 +30,12 @@
 				<el-table :data="txListByToken">
 					<el-table-column label="TxHash">
 						<template slot-scope="scope">
-							<!--	<el-tooltip effect="dark" :content="scope.row.txHash" placement="top">
-								</el-tooltip>-->
-							<!--<span>{{formatTxHash(scope.row.txHash)}}</span>-->
-							<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+							<el-tooltip :content="scope.row.txHash"
+										class="item"
+										placement="top"
+										effect="dark">
+								<router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column label="Block">
@@ -42,22 +46,42 @@
 					<el-table-column label="TxType" prop="txType"></el-table-column>
 					<el-table-column label="From">
 						<template slot-scope="scope">
-							<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
+							<el-tooltip :content="scope.row.from"
+										class="item"
+										placement="top"
+										effect="dark">
+								<router-link v-if="scope.row.from !== '--'" :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
+							</el-tooltip>
+							<span v-if="scope.row.from === '--'">{{formatAddress(scope.row.from)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="To">
+					<el-table-column label="To" >
 						<template slot-scope="scope">
-							<router-link  v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
-							<span v-if="scope.row.to === '--'">--</span>
+							<el-tooltip :content="scope.row.to"
+										class="item"
+										placement="top"
+										effect="dark">
+								<router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
+							</el-tooltip>
+							<span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="Signer">
+					<el-table-column label="Signer" >
 						<template slot-scope="scope">
-							<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
+							<el-tooltip :content="scope.row.signer"
+										class="item"
+										placement="top"
+										effect="dark">
+								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column label="Status" prop="status"></el-table-column>
-					<el-table-column label="Timestamp" prop="time"></el-table-column>
+					<el-table-column label="Timestamp" prop="time" width="200px">
+						<template slot-scope="scope">
+							<span>{{scope.row.time}}</span>
+						</template>
+					</el-table-column>
 				</el-table>
 			</div>
 		</div>
@@ -118,7 +142,7 @@
 									from: item.from ? item.from : '--',
 									to: item.to ? item.to : '--',
 									signer: item.signer,
-									status:item.status,
+									status:Tools.firstWordUpperCase(item.status),
 									time: Tools.formatUtc(item.timestamp)
 								}
 							})
