@@ -18,7 +18,7 @@ const  scheduleCronstyle = () => {
 			if(error){
 				throw error
 			}else {
-				if(body){
+				if(body && !JSON.parse(body).error){
 					let resultData = JSON.parse(body).result;
 					denomArray = resultData;
 					resultData.forEach( item => {

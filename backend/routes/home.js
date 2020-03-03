@@ -20,7 +20,7 @@ router.get('/',(req,res,next) => {
 		if(error){
 			throw error
 		}else {
-			if(body){
+			if(body && !JSON.parse(body).error){
 				let resData = JSON.parse(body);
 				let differenceBlock = 100;
 				if(resData.block){
