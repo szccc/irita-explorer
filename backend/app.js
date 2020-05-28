@@ -29,6 +29,7 @@ var serviceInformationRouter = require('./routes/getServiceInformation');
 var serviceBindingRouter = require('./routes/getServiceBindings');
 var transactionInformation = require('./routes/getTransactionDetail');
 var serviceListRouter = require('./routes/getServiceList');
+var denomListRouter = require('./routes/getDenomList');
 // var serviceTranaactionByServiceNameRouter = require('./routes/getTransactionByServiceNameAndChainId');
 var app = express();
 
@@ -61,6 +62,7 @@ app.use('/api/service', serviceInformationRouter);
 app.use('/api/service/binding', serviceBindingRouter);
 app.use('/api/tx', transactionInformation);
 app.use('/api/services', serviceListRouter);
+app.use('/api/denoms', denomListRouter);
 //app.use('/api/service/transaction', serviceTranaactionByServiceNameRouter);
 app.use('/api/blockTxList', blockTxListRouter);
 app.use('/api/validatorList', validatorList);

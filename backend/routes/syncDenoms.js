@@ -55,7 +55,6 @@ function insertNft(name){
                             primary_key:`${name}${d.value.id}`
                         }
                     });
-                    console.log(dataList)
 
                     nftModel.insertMany(dataList,function(err){
                         if(err){
