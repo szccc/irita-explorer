@@ -6,6 +6,7 @@ var logger = require('morgan');
 // require("./routes/syncServiceList");
 require("./routes/getAssetCount")
 require("./routes/syncVadidator")
+require("./routes/syncDenoms");
 require('./routes/db')
 // var blockList = require('./routes/getBlockList');
 // var blocksRouter = require('./routes/getBlocks');
@@ -60,7 +61,7 @@ app.use('/api/service', serviceInformationRouter);
 app.use('/api/service/binding', serviceBindingRouter);
 app.use('/api/tx', transactionInformation);
 app.use('/api/services', serviceListRouter);
-app.use('/api/service/transaction', serviceTranaactionByServiceNameRouter);
+//app.use('/api/service/transaction', serviceTranaactionByServiceNameRouter);
 app.use('/api/blockTxList', blockTxListRouter);
 app.use('/api/validatorList', validatorList);
 

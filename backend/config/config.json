@@ -1,7 +1,7 @@
 {
   "app": {
-    "mongoUrl": "${mongoUrl}",
-    "lcdAddress": "${lcdAddress}",
-    "syncServiceTime": "${syncServiceTime}"
+    "mongoUrl":"mongodb://csrb:csrbpassword@192.168.150.33:37017/sync",
+    "lcdAddress": "http://192.168.150.32:2317",
+    "syncServiceTime": "1 * * * * * "
   }
 }

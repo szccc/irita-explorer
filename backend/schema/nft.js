@@ -1,9 +1,12 @@
 const mongoose = require('mongoose')
-const nftList = new mongoose.Schema({
-	name: String,
-	creator: String,
-	JSONSchema: String
+const nft = new mongoose.Schema({
+    nft_id: String,
+    onwer: String,
+    token_uri: String,
+    token_data: String,
+    name: String,
+    primary_key: {type:String, unique:true,dropDups: true},
 })
-let nftListModel = mongoose.model('sync_list',nftList,'sync_nft')
+let nftModel = mongoose.model('sync_list',nft,'sync_nft')
 
-module.exports = nftListModel
+module.exports = nftModel
