@@ -9,7 +9,7 @@ const getDenomInformationUrl = `${config.lcdAddress}/nft/nfts/collection/`;
 // const  scheduleCronstyle = () => {
 	console.log('同步更新中')
 	// schedule.scheduleJob(mongoUrl.syncServiceTime,() => {
-		let getDenomsPromise = new Promise((resolve, reject) => {
+	/*	let getDenomsPromise = new Promise((resolve, reject) => {
 			request(nftListUrl,(error,response,body) => {
 				if(error){
 					reject(error)
@@ -30,17 +30,17 @@ const getDenomInformationUrl = `${config.lcdAddress}/nft/nfts/collection/`;
 				console.log(result,'')
 				if(result.length < 1){
 					nftListModel.create({
-						name: item.name,
-						creator: item.creator,
-						JSONSchema: item.schema
+						// name: item.name,
+						// creator: item.creator,
+						// JSONSchema: item.schema
 					})
 				}else {
-					nftListModel.updateOne({name})
+					nftListModel.updateOne({})
 				}
 			})
 			JSON.parse(result).result.forEach(item => {
 			
-			})
+			})*/
 			// result.forEach( item => {
 			// 	request(`${getDenomInformationUrl}${encodeURIComponent(item)}`,(error,response,body) => {
 			// 		if(error)throw error;
@@ -101,7 +101,7 @@ const getDenomInformationUrl = `${config.lcdAddress}/nft/nfts/collection/`;
 			// 		}
 			// 	})
 			// })
-		})
+		// })
 	// })
 	
 	/*MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {

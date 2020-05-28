@@ -4,7 +4,7 @@ const router = express.Router();
 const nftMode = require('../schema/nft');
 
 router.get('/',(req,res,next) => {
-	let  sqFind  = {};
+	/*let  sqFind  = {};
 	if(req.query.denom === '' && req.query.owner === '' ){
 	
 	}else {
@@ -50,7 +50,7 @@ router.get('/',(req,res,next) => {
 		})
 	}).catch(error => {
 		res.send(error)
-	})
+	})*/
 
 	// let nftListUrl = `${config.lcdAddress}/nft/denoms`
 	// request(nftListUrl,(error,response,body) => {

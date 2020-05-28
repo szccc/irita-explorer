@@ -7,7 +7,7 @@ router.get('/',(req,res,next) => {
 
 	MongoClient.connect(mongoUrl.mongoUrl,{ useUnifiedTopology: true,useNewUrlParser : true },(err,db) => {
 		if(err) throw err;
-		let iritaExplorerDb = db.db('irita-explorer');
+		let iritaExplorerDb = db.db('csrb');
 		let Data = [],countNumber;
 		let sqFind = {'msgs.msg.id':req.query.tokenId};
 		iritaExplorerDb.collection('sync_tx').find(sqFind).count((err,result) => {

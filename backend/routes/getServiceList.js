@@ -1,13 +1,35 @@
-var mongoUrl = require('../config/index')
-var express = require('express');
-var router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
-
+const express = require('express');
+const router = express.Router();
+const serviceTxListModel = require('../schema/serviceTx');
 router.get('/',(req,res,next) => {
 	
-	MongoClient.connect(mongoUrl.mongoUrl,{ useUnifiedTopology: true,useNewUrlParser : true },(err,db) => {
+	let getServiceListCount = new Promise((resolve, reject) => {
+		serviceTxListModel.count().then(count => {
+			resolve(count)
+		}).catch(err => {
+			reject(err)
+		})
+	})
+	getServiceListCount.then(count => {
+		serviceTxListModel.find({}).then( serviceList => {
+			let Data = []
+			Data = serviceList.map(item => {
+				return {
+					txHash: item.tx_hash,
+					from: item.from,
+					status: item.status === 1 ? 'success' : 'failed',
+					msgs: item.msgs
+				}
+			})
+			res.send({
+				count: count,
+				data: Data
+			});
+		})
+	})
+	/*MongoClient.connect(mongoUrl.mongoUrl,{ useUnifiedTopology: true,useNewUrlParser : true },(err,db) => {
 		if (err) throw err;
-		let iritaExplorerDb = db.db('irita-explorer');
+		let iritaExplorerDb = db.db('csrb');
 		let Data = [],countNumber;
 		iritaExplorerDb.collection('service_tx').find().count((err,result) => {
 			if (err) throw err;
@@ -34,7 +56,7 @@ router.get('/',(req,res,next) => {
 			});
 			db.close();
 		})
-	})
+	})*/
 })
 
 

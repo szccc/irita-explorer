@@ -4,11 +4,38 @@
 			<div class="service_information_definition_content">
 				<h3 class="service_information_definition_title">Service Definition ({{$route.query.serviceName}})</h3>
 				<div class="service_information_content">
-					<p class="service_information_text_content">
+					<!--<p class="service_information_text_content">
 						<span>Chain ID:</span>
 						<span>{{chainId}}</span>
+					</p>-->
+					<p class="service_information_text_content">
+						<span>Author:</span>
+						<span>{{author}}</span>
 					</p>
 					<p class="service_information_text_content">
+						<span>Author Description:</span>
+						<span>{{authorDescription}}</span>
+					</p>
+					<p class="service_information_text_content">
+						<span>Description:</span>
+						<span>{{description}}</span>
+					</p>
+					<p class="service_information_text_content">
+						<span>Name:</span>
+						<span>{{name}}</span>
+					</p>
+					<p class="service_information_text_content">
+						<span>Schemas:</span>
+						<span>{{schemas}}</span>
+					</p>
+					<p class="service_information_text_content">
+						<span>Tags:</span>
+						<span>{{tags}}</span>
+					</p>
+					
+					
+					
+					<!--<p class="service_information_text_content">
 						<span>Publisher:</span>
 						<span><router-link :to="`/address/${publisher}`">{{publisher}}</router-link></span>
 					</p>
@@ -19,7 +46,7 @@
 					<p class="service_information_text_content">
 						<span>IDL Content:</span>
 						<span >{{idlContent}}</span>
-					</p>
+					</p>-->
 				</div>
 			</div>
 			<div class="service_information_bindings_content">
@@ -27,15 +54,22 @@
 				<div class="service_information_bindings_table_content">
 					<el-table :data="bindingArray">
 						<!--<el-table-column label="TxHash" prop="txHash"></el-table-column>-->
-						<el-table-column label="Binding Chain ID" prop="bindingChainId"></el-table-column>
-						<el-table-column label="From">
+						<el-table-column label="Available" prop="available"></el-table-column>
+						<el-table-column label="Deposit" prop="deposit"></el-table-column>
+						<el-table-column label="Disabled Time" prop="disabledTime"></el-table-column>
+						<el-table-column label="owner">
 							<template slot-scope="scope">
-								<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
+								<router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column label="Binding Type" prop="bindingType"></el-table-column>
-						<el-table-column label="Avg Rsp Time" prop="avgRspTime"></el-table-column>
-						<el-table-column label="Usable Time" prop="usableTime"></el-table-column>
+						<el-table-column label="pricing" prop="Pricing"></el-table-column>
+						<el-table-column label="provider">
+							<template slot-scope="scope">
+								<router-link :to="`/address/${scope.row.provider}`">{{formatAddress(scope.row.provider)}}</router-link>
+							</template>
+						</el-table-column>
+						<el-table-column label="Qos" prop="qos"></el-table-column>
+						<el-table-column label="Service Name" prop="serviceName"></el-table-column>
 						<!--<el-table-column label="Status" prop="status"></el-table-column>-->
 					</el-table>
 				</div>
@@ -107,11 +141,18 @@
 				pageSize:10,
 				currentPageNum:1,
 				txCount:0,
+				author:'',
+				authorDescription:'',
+				name:'',
+				schemas:'',
+				tags:''
+				
 			}
 		},
 		mounted () {
 			this.getServiceInformation();
 			this.getServiceBindingList();
+			this.getServiceTransaction()
 		},
 		methods:{
 			pageChange(pageNum){
@@ -121,18 +162,26 @@
 			getServiceInformation(){
 				Service.commonInterface({serviceInformation:{
 						serviceName:this.$route.query.serviceName,
-						chainId:this.$route.query.chainId
 					}},(res) => {
 					try {
-						if(res && res.definition){
-							this.from = res.definition.author;
-							this.chainId = res.definition.chain_id;
-							this.publisher = res.definition.author;
-							this.description = res.definition.description;
-							this.idlContent = res.definition.idl_content;
+						if(res ){
+							this.author = res.author
+							this.authorDescription = res.author_description
+							this.description = res.description;
+							this.name = res.name
+							this.schemas = res.schemas
+							this.tags = res.tags
+							
+							
+							
+							// this.from = res.definition.author;
+							// this.chainId = res.definition.chain_id;
+							// this.publisher = res.definition.author;
+							// this.idlContent = res.definition.idl_content;
 							this.getServiceTransaction();
 						}
-					}catch (e) {
+					}
+					catch (e) {
 						console.error(e)
 					}
 				})
@@ -140,19 +189,29 @@
 			getServiceBindingList(){
 				Service.commonInterface({serviceBindingList:{
 						serviceName:this.$route.query.serviceName,
-						chainId:this.$route.query.chainId
 					}},(res) => {
 					try {
 						if(res){
 							this.bindingArray = res.map((item) => {
-								return {
+								return{
+									available:`${item.available}` ,
+									deposit: `${item.deposit[0].amount} ${item.deposit[0].denom}`,
+									disabledTime: Tools.formatUtc(item.disabled_time),
+									owner: item.owner,
+									pricing: `${item.pricing}`,
+									provider: item.provider,
+									qos: item.qos,
+									serviceName: item.service_name,
+								}
+								/*return {
 									bindingChainId: item.bind_chain_id,
 									from: item.provider,
 									bindingType: item.binding_type,
 									avgRspTime: item.level.avg_rsp_time,
 									usableTime: item.level.usable_time,
-								}
+								}*/
 							})
+							console.log(this.bindingArray,"及饿哦过")
 						}
 					}catch (e) {
 						console.error(e)
@@ -162,7 +221,6 @@
 			getServiceTransaction(){
 				Service.commonInterface({serviceTransaction:{
 						serviceName:this.$route.query.serviceName,
-						chainId:this.$route.query.chainId,
 						pageNum: this.currentPageNum,
 						pageSize: this.pageSize
 					}},(res)=>{
