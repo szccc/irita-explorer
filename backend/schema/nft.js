@@ -6,6 +6,8 @@ const nft = new mongoose.Schema({
     token_data: String,
     name: String,
     primary_key: {type:String, unique:true,dropDups: true},
+    create_time :String,
+    update_time : String
 })
 let nftModel = mongoose.model('sync_list',nft,'sync_nft')
 

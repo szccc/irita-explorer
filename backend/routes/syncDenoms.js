@@ -19,6 +19,8 @@ schedule.scheduleJob(mongoUrl.syncServiceTime,() => {
                         name:d.name,
                         json_schema:d.schema,
                         creator:d.creator,
+                        create_time:String(new Date().getTime()),
+                        update_time:String(new Date().getTime()),
                     }
                 });
                 denomModel.insertMany(dataList,function(err){
@@ -52,7 +54,9 @@ function insertNft(name){
                             onwer: d.value.owner,
                             token_uri: d.value.tokenURI,
                             token_data: d.value.token_data,
-                            primary_key:`${name}${d.value.id}`
+                            primary_key:`${name}${d.value.id}`,
+                            create_time:String(new Date().getTime()),
+                            update_time:String(new Date().getTime()),
                         }
                     });
 
