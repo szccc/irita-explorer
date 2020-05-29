@@ -51,7 +51,7 @@ function insertNft(name){
                         return {
                             name:name,
                             nft_id: d.value.id,
-                            onwer: d.value.owner,
+                            owner: d.value.owner,
                             token_uri: d.value.tokenURI,
                             token_data: d.value.token_data,
                             create_time:String(new Date().getTime()),
