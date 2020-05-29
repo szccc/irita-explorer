@@ -4,19 +4,19 @@
 			<div class="service_list_title">Services</div>
 			<div class="service_list_content">
 				<el-table :data="serviceList">
+					<el-table-column label="Service Name">
+						<template slot-scope="scope">
+							<span>
+								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
+							</span>
+						</template>
+					</el-table-column>
 					<el-table-column label="TxHash">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.txHash"
 							            effect="dark" placement="top">
 								<router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
 							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column label="Service Name">
-						<template slot-scope="scope">
-							<span>
-								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
-							</span>
 						</template>
 					</el-table-column>
 <!--					<el-table-column label="Chain ID" prop="chainId"></el-table-column>-->

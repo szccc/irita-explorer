@@ -17,17 +17,17 @@ router.get('/',(req,res,next) => {
 					{
 						"$and":[
 							{
-								'msgs.msg.name':req.query.serviceName
+								'msgs.msg.service_name':req.query.serviceName
 							},
 							{
-								'msgs.type':'request_service'
+								'msgs.type':'call_service'
 							}
 						],
 					},
 					{
 						"$and":[
 							{
-								'msgs.msg.name':req.query.serviceName
+								'msgs.msg.service_name':req.query.serviceName
 							},
 							{
 								'msgs.type':'bind_service'

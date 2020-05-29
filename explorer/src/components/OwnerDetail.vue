@@ -149,7 +149,6 @@
 					}},(res) => {
 					try {
 						if(res ){
-							console.log(res,"数据返回")
 							this.assetArray = res.map(item => {
 								return{
 									denom: item.name,
@@ -161,7 +160,6 @@
 									tokenUri: item.token_uri,
 								}
 							})
-							console.log(this.assetArray,"数据包")
 							/*res.map(item => {
 								if(item){
 									this.denomArray = item.ids.map(id => {

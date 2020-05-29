@@ -36,7 +36,6 @@ router.get('/',(req,res,next) => {
 		result.forEach(item => {
 			denomArr.unshift(item['_id'].name)
 		});
-		console.log(denomArr)
 		denomArr.forEach( item => {
 			nftMode.aggregate({
 				$lookup:{

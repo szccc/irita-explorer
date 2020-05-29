@@ -118,12 +118,12 @@
 			}
 		},
 		mounted () {
-			// this.getNavigation();
+			this.getNavigation();
 			this.getLastBlocks();
 			this.getTransaction();
 			clearInterval(this.syncTimer )
 			this.syncTimer = setInterval(() => {
-				// this.getNavigation();
+				this.getNavigation();
 				this.getLastBlocks();
 				this.getTransaction();
 			},5000)
@@ -144,13 +144,13 @@
 				Server.commonInterface({homeNavigation:{}},(res) => {
 					try {
 						if(res){
-							this.block_height = res.block_height;
-							this.transactionNumber = res.totals_txs;
-							this.validatorNumber = res.validator_number;
-							this.transactionTime = Tools.formatUtc(res.block_time);
-							this.ageTime = this.componentAgeTime(res.block_time,res.diffBlockTime);
-							this.assetsNumber = res.asset_number;
-							this.serverNumber = res.server_number;
+							this.block_height = res.height;
+							this.transactionNumber = res.txCount;
+							this.validatorNumber = res.validatorCount;
+							this.transactionTime = Tools.formatUtc(res.timestamp);
+							this.ageTime = res.ageTime;
+							this.assetsNumber = res.nftCount;
+							this.serverNumber = res.serviceCount;
 						}
 					}catch (e) {
 					
