@@ -49,21 +49,21 @@ const getDenomInformationUrl = `${config.lcdAddress}/nft/nfts/collection/`;
 			// 			let denomName = item,data = resultData.result[item];
 			// 			nftListModel.find({}).then(result => {
 			// 				if(result.length < 1) {
-			// 					/*for (const detail in data) {
+			// 					/!*for (const detail in data) {
 			// 						for (const detailValue in data[detail]) {
 			// 							let insertData = Object.assign({denom:denomName},data[detail][detailValue])
 			// 							nftListModel.create(insertData)
 			// 						}
-			// 					}*/
+			// 					}*!/
 			// 				}else {
-			// 					/*for (const detail in data) {
+			// 					/!*for (const detail in data) {
 			// 						for (const detailValue in data[detail]) {
 			// 							let insertData = Object.assign({denom:denomName},data[detail][detailValue])
 			// 							nftListModel.update({denom:denomName},insertData,{upsert: true, new: true, setDefaultsOnInsert: true},(result,error) =>{
 			//
 			// 							})
 			// 						}
-			// 					}*/
+			// 					}*!/
 			// 				}
 			// 			})
 			//
@@ -71,7 +71,7 @@ const getDenomInformationUrl = `${config.lcdAddress}/nft/nfts/collection/`;
 			//
 			//
 			//
-			// 			/*nftListModel.find({}).then(res => {
+			// 			/!*nftListModel.find({}).then(res => {
 			// 				if(err) throw err;
 			// 				if(result && result.length > 0){
 			// 					for(let tokenID in resultData.result[item].nfts){
@@ -97,7 +97,7 @@ const getDenomInformationUrl = `${config.lcdAddress}/nft/nfts/collection/`;
 			// 						})
 			// 					}
 			// 				}
-			// 			})*/
+			// 			})*!/
 			// 		}
 			// 	})
 			// })

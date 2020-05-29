@@ -60,7 +60,8 @@ app.use('/api/service', serviceInformationRouter);
 app.use('/api/service/binding', serviceBindingRouter);
 app.use('/api/tx', transactionInformation);
 app.use('/api/services', serviceListRouter);
-app.use('/api/service/transaction', serviceTranaactionByServiceNameRouter);
+app.use('/api/denoms', denomListRouter);
+//app.use('/api/service/transaction', serviceTranaactionByServiceNameRouter);
 app.use('/api/blockTxList', blockTxListRouter);
 app.use('/api/validatorList', validatorList);
 
