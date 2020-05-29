@@ -3,7 +3,7 @@
 		<div class="header_content">
 			<div class="header_logo_img_content">
 				<router-link :to="`/home`">
-					<img src="../assets/IRITA_logo.png" alt="">
+					<img src="../assets/csrb_logo.png" alt="">
 				</router-link>
 			</div>
 			<div class="header_menu">
