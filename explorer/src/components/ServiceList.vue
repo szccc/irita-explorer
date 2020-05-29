@@ -15,11 +15,11 @@
 					<el-table-column label="Service Name">
 						<template slot-scope="scope">
 							<span>
-								<router-link :to="`/service?serviceName=${scope.row.serviceName}&chainId=${scope.row.chainId}`">{{scope.row.serviceName}}</router-link>
+								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="Chain ID" prop="chainId"></el-table-column>
+<!--					<el-table-column label="Chain ID" prop="chainId"></el-table-column>-->
 					<el-table-column label="Publisher" prop="publisher">
 						<template slot-scope="scope">
 							<el-tooltip placement="top"
@@ -38,7 +38,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Chain ID" prop="description"></el-table-column>
+					<el-table-column label="Description" prop="description"></el-table-column>
 					<el-table-column label="Status" prop="status"></el-table-column>
 				</el-table>
 			</div>

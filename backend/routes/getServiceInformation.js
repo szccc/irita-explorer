@@ -1,10 +1,16 @@
-var express = require('express');
-var router = express.Router();
-var config = require('../config/index');
-var request = require('request');
-
+const express = require('express');
+const router = express.Router();
+const serviceTxListModel = require('../schema/serviceTx')
 router.get('/',(req,res,next) => {
-	let getServiceDefinitionsUrl = `${config.lcdAddress}/service/definitions/${req.query.chainId}/${req.query.serviceName}`,data;
+	let sqFind = {'msgs.msg.name':req.query.serviceName}
+	serviceTxListModel.find(sqFind).then(serviceInform => {
+		res.send(serviceInform[0].msgs[0].msg)
+	}).catch(error => {
+		res.send(error)
+	})
+	
+	
+	/*let getServiceDefinitionsUrl = `${config.lcdAddress}/service/definitions/${req.query.serviceName}`,data;
 	request(getServiceDefinitionsUrl,(error,response,body) => {
 		if(error){
 			throw error
@@ -15,7 +21,7 @@ router.get('/',(req,res,next) => {
 			}
 		}
 		res.send(data)
-	})
+	})*/
 });
 
 

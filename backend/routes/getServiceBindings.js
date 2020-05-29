@@ -4,7 +4,7 @@ var config = require('../config/index');
 var request = require('request');
 
 router.get('/',(req,res,next) => {
-	let getServiceBindingListUrl = `${config.lcdAddress}/service/bindings/${req.query.chainId}/${req.query.serviceName}`,data;
+	let getServiceBindingListUrl = `${config.lcdAddress}/service/bindings/${req.query.serviceName}`,data;
 	request(getServiceBindingListUrl,(error,response,body) => {
 		if(error){
 			throw error

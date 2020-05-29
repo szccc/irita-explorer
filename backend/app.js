@@ -3,11 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-// require("./routes/syncServiceList");
-require("./routes/getAssetCount")
-require("./routes/syncVadidator")
-require("./routes/syncDenoms");
 require('./routes/db')
+require("./routes/syncServiceList");
+// require("./routes/getAssetCount")
+require("./routes/syncVadidator")
 // var blockList = require('./routes/getBlockList');
 // var blocksRouter = require('./routes/getBlocks');
 var validatorList = require('./routes/getValidatorList');
@@ -29,8 +28,7 @@ var serviceInformationRouter = require('./routes/getServiceInformation');
 var serviceBindingRouter = require('./routes/getServiceBindings');
 var transactionInformation = require('./routes/getTransactionDetail');
 var serviceListRouter = require('./routes/getServiceList');
-var denomListRouter = require('./routes/getDenomList');
-// var serviceTranaactionByServiceNameRouter = require('./routes/getTransactionByServiceNameAndChainId');
+var serviceTranaactionByServiceNameRouter = require('./routes/getTransactionByServiceNameAndChainId');
 var app = express();
 
 // view engine setup
@@ -42,8 +40,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use('/api/blocks', blockList);
-// app.use('/api/block', blocksRouter);
+app.use('/api/blocks', blockList);
+app.use('/api/block', blocksRouter);
 app.use('/api/blocks/recent', blocksRouter);
 app.use('/api/blockInformation', blockInformationRouter);
 app.use('/api/txs/recent', transactionRouter);
