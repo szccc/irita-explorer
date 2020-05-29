@@ -4,7 +4,7 @@ const router = express.Router();
 const nftMode = require('../schema/nft');
 const denomModel = require('../schema/denom')
 router.get('/',(req,res,next) => {
-/*	let  sqFind  = {};
+	/*let  sqFind  = {};
 	if(req.query.denom === '' && req.query.owner === '' ){
 	
 	}else {

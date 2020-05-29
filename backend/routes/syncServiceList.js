@@ -1,11 +1,76 @@
-var mongoUrl = require('../config/index')
-var MongoClient = require('mongodb').MongoClient;
+
+const express = require('express');
+const router = express.Router();
+const serviceTxListModel = require('../schema/serviceTx');
+const serviceConfigModel = require('../schema/service_config');
+const txListModel = require('../schema/tx')
 const schedule = require('node-schedule');
-const  scheduleCronstyle = () => {
+const mongoUrl = require('../config/index')
+// const  scheduleCronstyle = () => {
 	console.log('定时任务启动')
-	schedule.scheduleJob(mongoUrl.syncServiceTime,() => {
+	// schedule.scheduleJob(mongoUrl.syncServiceTime,() => {
 		console.log("定时更新执行中")
-		MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {
+		let getServiceConfigHeight = new Promise((resolve, reject) => {
+			serviceConfigModel.find({}).then( result => {
+				console.log(result)
+				if(result.length > 0){
+					console.log('已经插入过了')
+					resolve(result)
+				}else {
+					console.log('还没有插入')
+					reject(0)
+				}
+			}).catch(error => {
+				console.log(error,"查询出错")
+			})
+		})
+		
+		getServiceConfigHeight.then(result => {
+			console.log(result,"上次查询的高度")
+			if(result){
+				let sqFind= {
+					'$and':[
+						{
+							type: 'define_service'
+						},
+						{
+							height:{
+								'$gt':result
+							}
+						}
+					]
+				}
+				serviceTxListModel.find(sqFind).then(result => {
+					serviceTxListModel.insertMany(result)
+				})
+			}else {
+				console.log('查询进入')
+				let sqFind = {
+					type:'define_service'
+				}
+				serviceTxListModel.find(sqFind).then(result => {
+					if(result.length > 0){
+						//去重插入
+					
+					}else {
+						txListModel.find(sqFind).then( txResult => {
+							serviceTxListModel.insertMany(txResult)
+						})
+					}
+				})
+				
+			}
+		}).catch(err => {
+			console.log(err,"数据结果")
+			let sqFind = {
+				type:'define_service'
+			}
+			txListModel.find(sqFind).then( txResult => {
+				serviceTxListModel.insertMany(txResult)
+			})
+		})
+		
+		/*MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {
 			if (err) throw err;
 			let iritaExplorerDb = db.db('sync'),sqFindHeight;
 			iritaExplorerDb.createCollection('service_config');
@@ -91,7 +156,7 @@ const  scheduleCronstyle = () => {
 					})
 				}
 			})
-		})
-	})
-}
-scheduleCronstyle();
+		})*/
+	// })
+// }
+// scheduleCronstyle();

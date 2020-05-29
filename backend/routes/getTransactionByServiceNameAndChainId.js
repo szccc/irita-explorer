@@ -3,39 +3,39 @@ const router = express.Router();
 const txListModel = require('../schema/tx')
 router.get('/',(req,res,next) => {
 	let sqFind= {
-		"$or":[
-			{
-				"$and":[
+				"$or":[
 					{
-						'msgs.msg.name':req.query.serviceName
+						"$and":[
+							{
+								'msgs.msg.name':req.query.serviceName
+							},
+							{
+								'msgs.type':'define_service'
+							}
+						],
 					},
 					{
-						'msgs.type':'define_service'
-					}
-				],
-			},
-			{
-				"$and":[
-					{
-						'msgs.msg.name':req.query.serviceName
+						"$and":[
+							{
+								'msgs.msg.name':req.query.serviceName
+							},
+							{
+								'msgs.type':'request_service'
+							}
+						],
 					},
 					{
-						'msgs.type':'request_service'
-					}
-				],
-			},
-			{
-				"$and":[
-					{
-						'msgs.msg.name':req.query.serviceName
+						"$and":[
+							{
+								'msgs.msg.name':req.query.serviceName
+							},
+							{
+								'msgs.type':'bind_service'
+							}
+						],
 					},
-					{
-						'msgs.type':'bind_service'
-					}
-				],
-			},
-		]
-	};
+				]
+			};
 	let getCountPromist = new Promise((resolve, reject) => {
 		txListModel.count(sqFind).then(count => {
 			resolve(count)

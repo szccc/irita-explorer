@@ -58,7 +58,7 @@ router.get('/',(req,res,next) => {
 									}
 								}
 								MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {
-									let iritaExplorerDb = db.db('irita-explorer');
+									let iritaExplorerDb = db.db('csrb');
 									iritaExplorerDb.collection('sync_tx').find({}).count((err,result) => {
 										if (err) throw err;
 										if (result) {

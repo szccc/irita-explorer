@@ -112,9 +112,9 @@
 			<div class="pagination_content">
 				<keep-alive>
 					<m-pagination :page-size="pageSize"
-					              :total="txCount"
-					              :page="currentPageNum"
-					              :page-change="pageChange">
+								  :total="txCount"
+								  :page="currentPageNum"
+								  :page-change="pageChange">
 					</m-pagination>
 				</keep-alive>
 			</div>
@@ -152,6 +152,7 @@
 		mounted () {
 			this.getServiceInformation();
 			this.getServiceBindingList();
+			this.getServiceTransaction()
 			// this.getServiceTransaction()
 		},
 		methods:{
