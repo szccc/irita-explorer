@@ -1,7 +1,7 @@
 <template>
 	<div class="footer_container">
 		<div class="footer_content">
-			<span>© csrbplorer 2020 all rights reserved</span>
+			<span>© CSRBplorer 2020 all rights reserved</span>
 		</div>
 	</div>
 </template>
