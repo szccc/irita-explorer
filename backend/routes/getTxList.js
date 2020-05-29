@@ -48,8 +48,6 @@ router.get('/',(req,res,next) => {
 			reject(err)
 		})
 	})
-	 console.log(sqFind)
-	 console.log(sqFind['$and'])
 	getTxCountPromise.then(countResult => {
 		txDocument.find(sqFind).skip((Number(req.query.page) - 1)*Number(req.query.size)).sort({height: -1}).limit(Number(req.query.size)).then( result => {
 			Data = result.map(item => {

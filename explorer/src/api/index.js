@@ -11,7 +11,7 @@ const urlAPI ={
 	getTokenUri: '/api/nft/collection?denom={denom}&tokenId={tokenId}',
 	getTxByAddress: '/api/address/txs?page={pageNum}&size={pageSize}&owner={ownerAddress}',
 	getTxByToken: '/api/token/txs?page={pageNum}&size={pageSize}&tokenId={tokenId}',
-	serviceInformation:'/api/service?serviceName={serviceName}&chainId={chainId}',
+	serviceInformation:'/api/service?serviceName={serviceName}',
 	serviceBindingList:'/api/service/binding?serviceName={serviceName}&chainId={chainId}',
 	serviceTransaction: '/api/service/transaction?serviceName={serviceName}&chainId={chainId}&page={pageNum}&size={pageSize}',
 	getTransactionInformation:"/api/tx?txhash={hash}",

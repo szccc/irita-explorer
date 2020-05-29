@@ -5,15 +5,24 @@ const denomModel = require('../schema/denom');
 
 router.get('/', (req, res, next) =>{
     let sqFind = {};
-
-    if(req.query.denom){
+    if(req.query.denom ){
         sqFind['$and'] = [{
-            denom : req.query.denom
+            name : req.query.denom
         }]
     }
     console.log(sqFind)
-    console.log(req.query)
-    denomModel
+    let nftCount = new Promise((resolve, reject) => {
+        denomModel.aggregate(
+            [{$lookup : {from : "sync_nft", localField : "name", foreignField : "name", as : "nft"}},
+                {$match:sqFind}
+        ]).then(result => [
+            resolve(result.length)
+        ]).catch(err => {
+            reject(err)
+        })
+    })
+    nftCount.then(count => {
+        denomModel
         .aggregate(
             [
                 {
@@ -24,16 +33,51 @@ router.get('/', (req, res, next) =>{
                         as : "nft"
                     }
                 },{
-                    $match:sqFind
-                }
+                $match:sqFind
+            }
             ])
-        .skip((Number(req.query.pageNum) - 1) * Number(req.query.pageSize))
-        .limit(Number(req.query.pageSize))
+        .skip((Number(req.query.page) - 1) * Number(req.query.size))
+        .limit(Number(req.query.size))
         .then(result =>{
-            res.send(result)
+            let responseData = [],responseNft = [];
+            if(req.query.tokenId !== ''){
+                result.forEach(item => {
+                    if(item.nft && item.nft.length > 0){
+                        item.nft.forEach(value => {
+                            if(value.nft_id === req.query.tokenId) {
+                                responseNft.push(value)
+                                item.nft = responseNft
+                                responseData.push(item)
+                            }
+                        })
+                    }
+                })
+            }else if(req.query.owner !== ''){
+                result.forEach(item => {
+                    if(item.nft && item.nft.length > 0){
+                        item.nft.forEach(value => {
+                            if(value.owner === req.query.owner) {
+                                responseNft.push(value)
+                                item.nft = responseNft
+                                responseData.push(item)
+                            }
+                        })
+                    }
+                })
+            }else {
+                responseData = result
+            }
+            res.send({
+                count: count,
+                data: responseData
+            })
         }).catch(err =>{
-        console.error('query denoms error:', err)
+            console.error('query denoms error:', err)
+            res.send(err)
+        });
+    }).catch(err =>{
         res.send(err)
-    });
+    })
+    
 })
 module.exports = router;

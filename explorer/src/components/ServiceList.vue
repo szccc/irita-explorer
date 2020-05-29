@@ -19,7 +19,7 @@
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="Chain ID" prop="chainId"></el-table-column>
+<!--					<el-table-column label="Chain ID" prop="chainId"></el-table-column>-->
 					<el-table-column label="Publisher" prop="publisher">
 						<template slot-scope="scope">
 							<el-tooltip placement="top"

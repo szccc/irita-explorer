@@ -6,21 +6,40 @@
 				<div class="nft_token_information_item">
 					<span>Owner:</span>
 					<span>
-						<router-link :to="`/address/${Owner}`">{{Owner}}</router-link>
+						<router-link :to="`/address/${owner}`">{{owner}}</router-link>
 					</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>Denom:</span>
-					<span>{{Denom}}</span>
+					<span>{{name}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>Token ID</span>
-					<span>{{TokenID}}</span>
+					<span>{{tokenID}}</span>
 				</div>
 				<div class="nft_token_information_item">
+					<span>Schema</span>
+					<span>{{schema}}</span>
+				</div>
+				<!--<div class="nft_token_information_item">
+					<span>Primary Key</span>
+					<span>{{primaryKey}}</span>
+				</div>-->
+				<div class="nft_token_information_item">
+					<span>Token Data</span>
+					<span>{{tokenData}}</span>
+				</div>
+				<div class="nft_token_information_item">
+					<span>Creator</span>
+					<span>{{creator}}</span>
+				</div>
+				
+				
+				
+				<div class="nft_token_information_item">
 					<span>URI</span>
-					<span v-if="Uri && Uri !== '--'">
-						<a :href="Uri" target="_blank">{{Uri}}</a>
+					<span v-if="tokenUri && tokenUri !== '--'">
+						<a :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					</span>
 					<span v-else>--</span>
 				</div>
@@ -34,7 +53,7 @@
 										class="item"
 										placement="top"
 										effect="dark">
-								<router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+								<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
 							</el-tooltip>
 						</template>
 					</el-table-column>
@@ -95,13 +114,20 @@
 		name: "NftToken",
 		data() {
 			return {
-				Owner:'',
+				owner:'',
 				Denom: '',
 				TokenID: '',
 				Uri:'',
 				pageNum:1,
 				pageSize: 10,
-				txListByToken:[]
+				txListByToken:[],
+				creator:'',
+				schema: '',
+				name:'',
+				tokenID:'',
+				primaryKey:'',
+				tokenData:'',
+				tokenUri:''
 			}
 		},
 		mounted () {
@@ -115,10 +141,20 @@
 					}},(res) => {
 					try {
 						if(res){
-							this.Owner = res.owner;
+							this.creator = res[0].creator;
+							this.schema = res[0].json_schema;
+							this.name = res[0].name;
+								if(res[0].nft){
+									this.tokenID = res[0].nft[0].nft_id;
+									this.primaryKey = res[0].nft[0].primary_key;
+									this.owner = res[0].nft[0].owner;
+									this.tokenData = res[0].nft[0].token_data;
+									this.tokenUri = res[0].nft[0].token_uri;
+								}
+							/*this.Owner = res.owner;
 							this.Denom = this.$route.query.denom;
 							this.TokenID = res.id;
-							this.Uri = res.token_uri;
+							this.Uri = res.token_uri;*/
 							this.getTokenTx()
 						}
 					}catch (e) {
@@ -128,22 +164,22 @@
 			},
 			getTokenTx(){
 				Server.commonInterface({getTxByToken:{
-						tokenId: this.TokenID,
+						tokenId: this.tokenID,
 						pageNum: this.pageNum,
 						pageSize: this.pageSize
 					}},(res) => {
 					try {
 						if(res){
-							this.txListByToken = res.data.map( item => {
+							this.txListByToken = res.map( item => {
 								return {
-									txHash: item.hash,
+									txHash: item.tx_hash,
 									blockHeight: item.height,
-									txType: item.txType,
+									txType: item.type,
 									from: item.from ? item.from : '--',
 									to: item.to ? item.to : '--',
 									signer: item.signer,
-									status:Tools.firstWordUpperCase(item.status),
-									time: Tools.formatUtc(item.timestamp)
+									status:item.status === 1 ? 'Success' :'Fail',
+									time: Tools.formatUtc(item.time)
 								}
 							})
 						}

@@ -5,7 +5,36 @@
 			<div class="address_asset_content">
 				<div class="address_asset_title">Assets</div>
 				<el-table :data="assetArray">
-					<el-table-column label="ID" prop="id">
+					<el-table-column label="Owner" width="150px">
+						<template slot-scope="scope">
+							<el-tooltip :content="scope.row.owner"
+							            class="item"
+							            placement="top"
+							            effect="dark">
+								<router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
+							</el-tooltip>
+						</template>
+					</el-table-column>
+					<el-table-column label="Denom" width="150px">
+						<template slot-scope="scope">
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.denom}}</router-link>
+						</template>
+					</el-table-column>
+					<el-table-column label="Name" width="150px" prop="name"></el-table-column>
+					<el-table-column label="Token ID" width="300px">
+						<template slot-scope="scope">
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.id}}</router-link>
+						</template>
+					</el-table-column>
+					<el-table-column label="Token Data" width="300px" prop="tokenData"></el-table-column>
+					<el-table-column label="Primary Key" width="300px" prop="primaryKey"></el-table-column>
+					<el-table-column label="URI" prop="tokenUri">
+						<template slot-scope="scope">
+							<a v-if="scope.row.tokenUri" :download="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+							<span v-else>--</span>
+						</template>
+					</el-table-column>
+					<!--<el-table-column label="ID" prop="id">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&tokenId=${scope.row.id}`">{{scope.row.id}}</router-link>
 						</template>
@@ -17,10 +46,10 @@
 					</el-table-column>
 					<el-table-column label="URI" prop="tokenUri" width="650px">
 						<template slot-scope="scope">
-							<a v-if="scope.row.tokenUri && scope.row.tokenUri !== '--'" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
-							<span v-else>--</span>
+							<a v-if="scope.row.tokenUri && scope.row.tokenUri !== '&#45;&#45;'" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+							<span v-else>&#45;&#45;</span>
 						</template>
-					</el-table-column>
+					</el-table-column>-->
 				</el-table>
 			</div>
 			<div class="address_transaction_content">
@@ -119,9 +148,22 @@
 						ownerAddress: this.$route.params.param
 					}},(res) => {
 					try {
-						if(res && res.idCollections){
-							res.idCollections.map(item => {
-								if(item.ids){
+						if(res ){
+							console.log(res,"数据返回")
+							this.assetArray = res.map(item => {
+								return{
+									denom: item.name,
+									id: item.nft_id,
+									name: item.name,
+									owner: item.owner,
+									primaryKey: item.primary_key,
+									tokenData: item.token_data,
+									tokenUri: item.token_uri,
+								}
+							})
+							console.log(this.assetArray,"数据包")
+							/*res.map(item => {
+								if(item){
 									this.denomArray = item.ids.map(id => {
 										return {
 											id: id,
@@ -137,7 +179,7 @@
 										
 									});
 								})
-							});
+							});*/
 						}
 					}catch (e) {
 						console.error(e)

@@ -7,7 +7,7 @@ const  scheduleCronstyle = () => {
 		console.log("定时更新执行中")
 		MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {
 			if (err) throw err;
-			let iritaExplorerDb = db.db('irita-explorer'),sqFindHeight;
+			let iritaExplorerDb = db.db('sync'),sqFindHeight;
 			iritaExplorerDb.createCollection('service_config');
 			iritaExplorerDb.createCollection('service_tx');
 			//查询config高度
@@ -20,7 +20,7 @@ const  scheduleCronstyle = () => {
 					iritaExplorerDb.collection('sync_tx').find({
 						'$and':[
 							{
-								type: 'service_define'
+								type: 'define_service'
 							},
 							{
 								height:{
@@ -52,7 +52,7 @@ const  scheduleCronstyle = () => {
 				}else {
 					//没有查询到config高度，只通过type查询并插入数据
 					let sqFind = {
-						type:'service_define'
+						type:'define_service'
 					}
 					iritaExplorerDb.collection('sync_tx').find(sqFind).toArray((error,syncTxResult) => {
 						if (error) throw error;
