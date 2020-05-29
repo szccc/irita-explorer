@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const nftMode = require('../schema/nft');
-
+const denomModel = require('../schema/denom')
 router.get('/',(req,res,next) => {
 	/*let  sqFind  = {};
 	if(req.query.denom === '' && req.query.owner === '' ){
@@ -29,8 +29,32 @@ router.get('/',(req,res,next) => {
 			}
 		})
 		
+	})*/
+	
+	denomModel.aggregate([{"$group":{_id:{name:'$name'}}}]).then(result => {
+		let denomArr = [];
+		result.forEach(item => {
+			denomArr.unshift(item['_id'].name)
+		});
+		console.log(denomArr)
+		denomArr.forEach( item => {
+			nftMode.aggregate({
+				$lookup:{
+					form: 'sync-nft',
+					localField:'name',
+					foreignField: item,
+					as:''
+				}
+			}).then(result => {
+				res.send(result)
+			})
+		})
 	})
-	getNftCountPromist.then(count => {
+	let lookUpSqFind = {
+	
+	}
+	
+	/*getNftCountPromist.then(count => {
 		nftMode.find(sqFind).skip((Number(req.query.page) - 1)*Number(req.query.size)).limit(Number(req.query.size)).then(result => {
 			let Data = []
 			result.forEach( item => {

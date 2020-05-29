@@ -153,6 +153,7 @@
 			this.getServiceInformation();
 			this.getServiceBindingList();
 			this.getServiceTransaction()
+			// this.getServiceTransaction()
 		},
 		methods:{
 			pageChange(pageNum){

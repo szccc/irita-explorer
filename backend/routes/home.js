@@ -4,10 +4,17 @@ var config = require('../config/index');
 var request = require('request');
 var mongoUrl = require('../config/index')
 var MongoClient = require('mongodb').MongoClient;
+const blockModel = require('../schema/blockList')
+const transactionModel = require('../schema/tx')
+const validatorModel = require('../schema/validator')
+const serviceModel = require('../schema/serviceTx')
+const nftAssetModel = require('../schema/nft')
 router.get('/',(req,res,next) => {
-	let lcdBlockLatestHeightURL = `${config.lcdAddress}/blocks/latest`;
-	let lcdBlockHeightUrl = `${config.lcdAddress}/blocks/`;
-	request(lcdBlockLatestHeightURL,(error,response,body) => {
+	
+	
+	// let lcdBlockLatestHeightURL = `${config.lcdAddress}/blocks/latest`;
+	// let lcdBlockHeightUrl = `${config.lcdAddress}/blocks/`;
+	/*request(lcdBlockLatestHeightURL,(error,response,body) => {
 		var responseData = {
 				block_height: null,
 				block_time: null,
@@ -78,7 +85,7 @@ router.get('/',(req,res,next) => {
 				}
 			}
 		}
-	})
+	})*/
 });
 
 

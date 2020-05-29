@@ -29,17 +29,20 @@
 					</el-table-column>
 					<el-table-column label="Denom" width="150px">
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.tokenId}`">{{scope.row.denom}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.denom}}</router-link>
 						</template>
 					</el-table-column>
-				<!--	<el-table-column label="Token ID" width="300px">
+					<el-table-column label="Name" width="150px" prop="name"></el-table-column>
+					<el-table-column label="Token ID" width="300px">
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.tokenId}`">{{scope.row.tokenId}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_id}}</router-link>
 						</template>
-					</el-table-column>-->
+					</el-table-column>
+					<el-table-column label="Token Data" width="300px" prop="token_data"></el-table-column>
+<!--					<el-table-column label="Primary Key" width="300px" prop="primary_key"></el-table-column>-->
 					<el-table-column label="URI" prop="token_uri">
 						<template slot-scope="scope">
-							<a v-if="scope.row.schema" :download="scope.row.schema" :href="scope.row.schema" target="_blank">{{scope.row.schema}}</a>
+							<a v-if="scope.row.token_uri" :download="scope.row.token_uri" :href="scope.row.token_uri" target="_blank">{{scope.row.token_uri}}</a>
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
@@ -123,10 +126,25 @@
 						pageNum: this.currentPageNum,
 						pageSize: this.pageSize,
 						owner: this.owner,
+						tokenId: this.tokenId
 					}},(res) => {
 					try {
 						if(res){
-							res.data.forEach(item => {
+							let denomArray = []
+							
+							this.allCount = res.count
+							res.data.forEach( denom => {
+								
+								if(denom.nft && denom.nft.length > 0){
+									denom.nft.forEach( item => {
+										item.denom = denom.name
+										denomArray.unshift(item)
+									})
+								}
+							})
+							this.denomArray = denomArray
+							console.log(this.denomArray,"数据返回")
+							/*res.data.forEach(item => {
 								if(item.tokenUri.includes('$schema')){
 									item.schema = JSON.parse(item.tokenUri).$id
 								}else {
@@ -135,7 +153,7 @@
 								
 							})
 							this.allCount = res.count
-							this.denomArray = res.data;
+							this.denomArray = res.data;*/
 						}else {
 							this.allCount = 0
 							this.denomArray = []

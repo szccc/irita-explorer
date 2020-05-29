@@ -1,4 +1,4 @@
-
+const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
 const router = express.Router();
 const serviceTxListModel = require('../schema/serviceTx');
@@ -6,11 +6,11 @@ const serviceConfigModel = require('../schema/service_config');
 const txListModel = require('../schema/tx')
 const schedule = require('node-schedule');
 const mongoUrl = require('../config/index')
-// const  scheduleCronstyle = () => {
+const  scheduleCronstyle = () => {
 	console.log('定时任务启动')
-	// schedule.scheduleJob(mongoUrl.syncServiceTime,() => {
+	schedule.scheduleJob(mongoUrl.syncServiceTime,() => {
 		console.log("定时更新执行中")
-		let getServiceConfigHeight = new Promise((resolve, reject) => {
+	/*	let getServiceConfigHeight = new Promise((resolve, reject) => {
 			serviceConfigModel.find({}).then( result => {
 				console.log(result)
 				if(result.length > 0){
@@ -68,9 +68,9 @@ const mongoUrl = require('../config/index')
 			txListModel.find(sqFind).then( txResult => {
 				serviceTxListModel.insertMany(txResult)
 			})
-		})
+		})*/
 		
-		/*MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {
+		MongoClient.connect(mongoUrl.mongoUrl, {useUnifiedTopology: true, useNewUrlParser: true}, (err, db) => {
 			if (err) throw err;
 			let iritaExplorerDb = db.db('sync'),sqFindHeight;
 			iritaExplorerDb.createCollection('service_config');
@@ -156,7 +156,7 @@ const mongoUrl = require('../config/index')
 					})
 				}
 			})
-		})*/
-	// })
-// }
-// scheduleCronstyle();
+		})
+	})
+}
+scheduleCronstyle();
