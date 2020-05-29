@@ -4,7 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require("./routes/syncServiceList");
-require("./routes/getAssetCount")
 require("./routes/syncVadidator")
 require("./routes/syncDenoms");
 require('./routes/db')
