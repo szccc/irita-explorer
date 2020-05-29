@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const denomModel = require('../schema/denom');
-
+const nftModel = require('../schema/nft')
 
 router.get('/', (req, res, next) =>{
     let sqFind = {};
@@ -10,14 +10,10 @@ router.get('/', (req, res, next) =>{
             name : req.query.denom
         }]
     }
-    console.log(sqFind)
     let nftCount = new Promise((resolve, reject) => {
-        denomModel.aggregate(
-            [{$lookup : {from : "sync_nft", localField : "name", foreignField : "name", as : "nft"}},
-                {$match:sqFind}
-        ]).then(result => [
-            resolve(result.length)
-        ]).catch(err => {
+        nftModel.count().then( count => {
+            resolve(count)
+        }).catch(err => {
             reject(err)
         })
     })

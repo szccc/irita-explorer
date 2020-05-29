@@ -54,22 +54,22 @@
 				<div class="service_information_bindings_table_content">
 					<el-table :data="bindingArray">
 						<!--<el-table-column label="TxHash" prop="txHash"></el-table-column>-->
+						<el-table-column label="Service Name" prop="serviceName"></el-table-column>
 						<el-table-column label="Available" prop="available"></el-table-column>
 						<el-table-column label="Deposit" prop="deposit"></el-table-column>
-						<el-table-column label="Disabled Time" prop="disabledTime"></el-table-column>
-						<el-table-column label="owner">
+<!--						<el-table-column label="Disabled Time" prop="disabledTime"></el-table-column>-->
+						<el-table-column label="Owner">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column label="pricing" prop="Pricing"></el-table-column>
-						<el-table-column label="provider">
+						<el-table-column label="Pricing" prop="pricing"></el-table-column>
+						<el-table-column label="Provider">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.provider}`">{{formatAddress(scope.row.provider)}}</router-link>
 							</template>
 						</el-table-column>
 						<el-table-column label="Qos" prop="qos"></el-table-column>
-						<el-table-column label="Service Name" prop="serviceName"></el-table-column>
 						<!--<el-table-column label="Status" prop="status"></el-table-column>-->
 					</el-table>
 				</div>
@@ -167,7 +167,7 @@
 					try {
 						if(res ){
 							this.author = res.author
-							this.authorDescription = res.author_description
+							this.authorDescription = res.author_description ? res.author_description : '--'
 							this.description = res.description;
 							this.name = res.name
 							this.schemas = res.schemas
@@ -212,7 +212,6 @@
 									usableTime: item.level.usable_time,
 								}*/
 							})
-							console.log(this.bindingArray,"及饿哦过")
 						}
 					}catch (e) {
 						console.error(e)

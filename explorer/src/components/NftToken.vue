@@ -165,6 +165,7 @@
 			getTokenTx(){
 				Server.commonInterface({getTxByToken:{
 						tokenId: this.tokenID,
+						denom: this.$route.query.denom,
 						pageNum: this.pageNum,
 						pageSize: this.pageSize
 					}},(res) => {

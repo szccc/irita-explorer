@@ -9,7 +9,7 @@
 							   :label="item.label"
 							   :value="item.value"></el-option>
 				</el-select>
-				<el-input v-model="input" placeholder="Search by Owner"></el-input>
+				<el-input v-model="input" placeholder="Search by TokenID"></el-input>
 				<div class="tx_type_mobile_content">
 					<div class="search_btn" @click="getNftsByFilter">Search</div>
 					<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
@@ -17,6 +17,11 @@
 			</div>
 			<div class="nef_list_table_container">
 				<el-table :data="denomArray">
+					<el-table-column label="Denom" width="150px">
+						<template slot-scope="scope">
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.denom}}</router-link>
+						</template>
+					</el-table-column>
 					<el-table-column label="Owner" width="150px">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.owner"
@@ -27,12 +32,6 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Denom" width="150px">
-						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.denom}}</router-link>
-						</template>
-					</el-table-column>
-					<el-table-column label="Name" width="150px" prop="name"></el-table-column>
 					<el-table-column label="Token ID" width="300px">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_id}}</router-link>
@@ -143,7 +142,6 @@
 								}
 							})
 							this.denomArray = denomArray
-							console.log(this.denomArray,"数据返回")
 							/*res.data.forEach(item => {
 								if(item.tokenUri.includes('$schema')){
 									item.schema = JSON.parse(item.tokenUri).$id

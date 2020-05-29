@@ -101,10 +101,12 @@
 								<span>Method ID:</span>
 								<span>{{methodId}}</span>
 							</p>
-							<p v-if="txType === 'call_service' || txType === 'service_response'">
+							<!--<p v-if="txType === 'call_service' || txType === 'service_response'">
 								<span>Provider:</span>
-								<span style="display: flex;flex-direction: column"><router-link  v-for="item in provider" :to="`/address/${item}`">{{item}}</router-link></span><br/>
-							</p>
+								<span style="display: flex;flex-direction: column">
+									<router-link  v-for="item in provider" :to="`/address/${item}`">{{item}}</router-link>
+								</span>
+							</p>-->
 							<p v-if="txType === 'call_service'">
 								<span>Consumer:</span>
 								<span><router-link :to="`/address/${consumer}`">{{consumer}}</router-link></span>
@@ -434,10 +436,6 @@
 							</p>
 							<p>
 								<span>input:</span>
-								<span>{{input}}</span>
-							</p>
-							<p>
-								<span>Provider:</span>
 								<span>{{input}}</span>
 							</p>
 							<p>
