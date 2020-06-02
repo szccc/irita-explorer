@@ -15,7 +15,7 @@
 						background-color="#3264FD"
 						text-color="#fff"
 						active-text-color="#fff">
-					<el-submenu index="1">
+					<!--<el-submenu index="1">
 						<template slot="title">Blockchain</template>
 						<el-menu-item index="2-1">
 							<router-link :to="`/home`">Overview</router-link>
@@ -26,14 +26,20 @@
 						<el-menu-item index="2-3">
 							<router-link :to="`/txs`">Transactions</router-link>
 						</el-menu-item>
-					</el-submenu>
+					</el-submenu>-->
+					<el-menu-item index="1">
+						<router-link :to="`/blocks`">Blocks</router-link>
+					</el-menu-item>
 					<el-menu-item index="2">
-						<router-link :to="`/validators`">Validators</router-link>
+						<router-link :to="`/txs`">Transactions</router-link>
 					</el-menu-item>
 					<el-menu-item index="3">
-						<router-link :to="`/nftAsset`">NFT Asset</router-link>
+						<router-link :to="`/validators`">Validators</router-link>
 					</el-menu-item>
 					<el-menu-item index="4">
+						<router-link :to="`/nftAsset`">NFT Asset</router-link>
+					</el-menu-item>
+					<el-menu-item index="5">
 						<router-link :to="`/services`">Service</router-link>
 					</el-menu-item>
 				</el-menu>
