@@ -47,7 +47,6 @@ function insertNft(name){
         }else {
             if(response){
                 let data = JSON.parse(body)
-                console.log('--',data.result)
                 if(data.result && data.result.nfts){
                     data.result.nfts.forEach((d)=>{
                         let data = {
