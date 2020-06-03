@@ -97,14 +97,14 @@
 					}},(res) => {
 					try {
 						if(res.length > 0){
-							this.validatorList = res[0].result.map((item,index) => {
+							this.validatorList = res[0].result[0].validators.map((item,index) => {
 								return {
 									index:index + 1,
 									// moniker: item.description.moniker,
-									operator: item.validators[0].address,
-									proposerPriority: item.validators[0].proposer_priority,
-									votingPower: item.validators[0].voting_power,
-									pubKey: item.validators[0].pub_key,
+									operator: item.address,
+									proposerPriority: item.proposer_priority,
+									votingPower: item.voting_power,
+									pubKey: item.pub_key,
 									// website: item.description.website ? item.description.website : '--',
 									// identity: item.description.identity ? item.description.identity : '--',
 									// detail: item.description.detail ? item.description.detail : '--',

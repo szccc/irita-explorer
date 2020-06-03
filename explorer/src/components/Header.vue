@@ -180,6 +180,13 @@
 			.el-menu-demo{
 				width: 100%;
 				background: #3264FD;
+				.el-menu-item{
+					a{
+						display: inline-block;
+						width: 100%;
+						height: 100%;
+					}
+				}
 			}
 			.header_input_content{
 				flex: 1;
