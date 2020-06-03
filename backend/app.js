@@ -7,9 +7,9 @@ require("./routes/syncServiceList");
 require("./routes/syncVadidator")
 require("./routes/syncDenoms");
 require('./routes/db')
-require("./routes/syncServiceList");
+/*require("./routes/syncServiceList");
 // require("./routes/getAssetCount")
-require("./routes/syncVadidator")
+require("./routes/syncVadidator")*/
 // var blockList = require('./routes/getBlockList');
 // var blocksRouter = require('./routes/getBlocks');
 var validatorList = require('./routes/getValidatorList');
