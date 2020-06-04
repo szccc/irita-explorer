@@ -6,9 +6,9 @@
 			</div>
 			<div class="validator_table_list_content">
 				<el-table :data="validatorList">
-					<el-table-column label="#" prop="index"></el-table-column>
+					<el-table-column label="#" prop="index" width="150px"></el-table-column>
 <!--					<el-table-column label="Moniker" prop="moniker"></el-table-column>-->
-					<el-table-column label="Operator">
+					<el-table-column label="Operator" width="200px">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.operator"
 							            placement="top"
@@ -21,7 +21,7 @@
 <!--					<el-table-column label="Identity" prop="identity"></el-table-column>-->
 <!--					<el-table-column label="Details" prop="detail"></el-table-column>-->
 <!--					<el-table-column label="Proposer Priority" prop="proposerPriority"></el-table-column>-->
-					<el-table-column label="Voting Power" prop="votingPower"></el-table-column>
+					<el-table-column label="Voting Power" width="200px" prop="votingPower"></el-table-column>
 					<el-table-column label="Pub Key" prop="pubKey"></el-table-column>
 				</el-table>
 			</div>
