@@ -173,7 +173,7 @@
 							</p>
 							<p>
 								<span>Provider:</span>
-								<span><router-link v-for="item in provider " :to="`/address/${item}`">{{item}}</router-link></span>
+								<span><router-link v-for="(item,index) in provider" :key="index" :to="`/address/${item}`">{{item}}</router-link></span>
 							</p>
 							<p>
 								<span>Qos:</span>
@@ -440,7 +440,7 @@
 							</p>
 							<p>
 								<span>Provider:</span>
-								<span style="display: flex;flex-direction: column"><router-link v-for="item in provider " :to="`/address/${item}`">{{item}}</router-link></span>
+								<span style="display: flex;flex-direction: column"><router-link v-for="(item,index) in provider" :key="index" :to="`/address/${item}`">{{item}}</router-link></span>
 							</p>
 							<p>
 								<span>Repeated:</span>

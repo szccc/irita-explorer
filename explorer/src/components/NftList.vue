@@ -17,9 +17,9 @@
 			</div>
 			<div class="nef_list_table_container">
 				<el-table :data="denomArray">
-					<el-table-column label="Denom" width="150px">
+					<el-table-column label="Denom" width="155px">
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.denom}}</router-link>
+							{{scope.row.denom}}
 						</template>
 					</el-table-column>
 					<el-table-column label="Owner" width="150px">
@@ -32,12 +32,12 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Token ID" width="300px">
+					<el-table-column label="Token ID" width="200px">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_id}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column label="Token Data" width="300px" prop="token_data"></el-table-column>
+					<el-table-column label="Token Data" width="450px" prop="token_data"></el-table-column>
 <!--					<el-table-column label="Primary Key" width="300px" prop="primary_key"></el-table-column>-->
 					<el-table-column label="URI" prop="token_uri">
 						<template slot-scope="scope">
