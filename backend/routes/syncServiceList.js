@@ -32,16 +32,13 @@ const  scheduleCronstyle = () => {
 							height:{
 								'$gt':resultHeight
 							}
-						}
+						},
 					]
 				}
-				txListModel.find(sqFind).sort({height: -1}).then(result => {
-					serviceConfigModel.updateOne({
-						height:resultHeight
-					},{$set:result[0].height},{upsert:true})
-					serviceTxListModel.insertMany(result,function (err) {
+				txListModel.find(sqFind).select({'_id':0}).sort({height: -1}).then(result => {
+					serviceTxListModel.insertMany(result,{ordered:false},function (err) {
 						if(err){
-							console.error('insert nft failed!',err.errmsg);
+							console.error('insert nft failed!',err);
 						} else{
 							console.log('insert service tx successfully!');
 						}
