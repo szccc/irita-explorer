@@ -97,7 +97,7 @@
 					}},(res) => {
 					try {
 						if(res.length > 0){
-							this.validatorList = res[0].result[0].validators.map((item,index) => {
+							this.validatorList = res.map((item,index) => {
 								return {
 									index:index + 1,
 									// moniker: item.description.moniker,
