@@ -1,7 +1,7 @@
 const dbConfig = require('../config/config.json')
 
 const mongoose = require('mongoose')
-
+mongoose.set('useCreateIndex', true)
 function dbConnect() {
 	mongoose.connect(`${dbConfig.app.mongoUrl}`, {useUnifiedTopology: true, useNewUrlParser: true }).then( () => {
 		console.log('db connected!')

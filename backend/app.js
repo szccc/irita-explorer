@@ -3,8 +3,9 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('./routes/db')
 require("./routes/syncServiceList");
-require("./routes/syncVadidator")
+require("./routes/syncValidator")
 require("./routes/syncDenoms");
 require('./routes/db')
 /*require("./routes/syncServiceList");
@@ -32,7 +33,6 @@ var serviceBindingRouter = require('./routes/getServiceBindings');
 var transactionInformation = require('./routes/getTransactionDetail');
 var serviceListRouter = require('./routes/getServiceList');
 var denomListRouter = require('./routes/getDenomList');
-var serviceTranaactionByServiceNameRouter = require('./routes/getTransactionByServiceNameAndChainId');
 var serviceTranaactionByServiceNameRouter = require('./routes/getTransactionByServiceNameAndChainId');
 var app = express();
 
