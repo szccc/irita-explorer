@@ -13,24 +13,25 @@ schedule.scheduleJob(mongoUrl.syncServiceTime,() => {
         }else {
             if(response){
                 let data = JSON.parse(body)
-                let dataList = data.result.map((d)=>{
+                data.result.forEach((d)=>{
                     insertNft(d.name);
-                    return {
+                    let data = {
                         name:d.name,
                         json_schema:d.schema,
                         creator:d.creator,
                         create_time:String(new Date().getTime()),
                         update_time:String(new Date().getTime()),
                     }
-                });
-                denomModel.insertMany(dataList,function(err){
-                    if(err){
-                        console.error('insert denom failed!',err.errmsg);
-                    } else{
-                        console.log('insert denoms successfully!');
-                    }
+                    denomModel.create(data,function(err){
+                        if(err){
+                            console.error('insert denom failed!',err.errmsg);
+                        } else{
+                            console.log('insert denoms successfully!');
+                        }
 
+                    });
                 });
+
             }
         }
     })
@@ -47,8 +48,8 @@ function insertNft(name){
             if(response){
                 let data = JSON.parse(body)
                 if(data.result && data.result.nfts){
-                    let dataList = data.result.nfts.map((d)=>{
-                        return {
+                    data.result.nfts.forEach((d)=>{
+                        let data = {
                             name:name,
                             nft_id: d.value.id,
                             owner: d.value.owner,
@@ -56,17 +57,18 @@ function insertNft(name){
                             token_data: d.value.token_data,
                             create_time:String(new Date().getTime()),
                             update_time:String(new Date().getTime()),
-                        }
+                        };
+                        nftModel.create(data,function(err){
+                            if(err){
+                                console.error('insert nft failed!',err.errmsg);
+                            } else{
+                                console.log('insert nft successfully!');
+                            }
+
+                        });
                     });
 
-                    nftModel.insertMany(dataList,function(err){
-                        if(err){
-                            console.error('insert nft failed!',err.errmsg);
-                        } else{
-                            console.log('insert nft successfully!');
-                        }
 
-                    });
                 }
 
             }
