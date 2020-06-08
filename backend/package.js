@@ -15,7 +15,7 @@ replaceEnv([
 	],
 	{
 		"mongoUrl": program.P[0],
-		"lcdAddress": program.P[1],
+		"lcdAddress": program.P[1].replace(/\*\*/g,','),
 		"syncServiceTime": program.P[2],
 		
 	}
