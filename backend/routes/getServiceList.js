@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const serviceTxListModel = require('../schema/serviceTx');
+const serviceTxListModel = require('../schema/tx');
 router.get('/',(req,res,next) => {
 	
 	let getServiceListCount = new Promise((resolve, reject) => {
@@ -11,7 +11,10 @@ router.get('/',(req,res,next) => {
 		})
 	})
 	getServiceListCount.then(count => {
-		serviceTxListModel.find({}).then( serviceList => {
+		let sqFind = {
+			type:'define_service'
+		}
+		serviceTxListModel.find(sqFind).then( serviceList => {
 			let Data = []
 			Data = serviceList.map(item => {
 				return {

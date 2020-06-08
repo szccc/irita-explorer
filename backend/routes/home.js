@@ -7,7 +7,6 @@ var MongoClient = require('mongodb').MongoClient;
 const blockModel = require('../schema/blockList')
 const transactionModel = require('../schema/tx')
 const validatorModel = require('../schema/validator')
-const serviceModel = require('../schema/serviceTx')
 const nftAssetModel = require('../schema/nft')
 router.get('/',(req,res,next) => {
 	let differenceBlock = 100;
@@ -55,7 +54,7 @@ router.get('/',(req,res,next) => {
 	}
 	function getServiceCount() {
 		return new Promise( (resolve, reject) => {
-			serviceModel.count('_id').then(serviceCountNumber => {
+			transactionModel.count({type:'define_service'}).then(serviceCountNumber => {
 				resolve(serviceCountNumber)
 			})
 		})

@@ -169,7 +169,7 @@
 							</p>
 							<p>
 								<span>Pricing:</span>
-								<span><router-link :to="`/address/${pricing}`">{{pricing}}</router-link></span>
+								<span>{{pricing}}</span>
 							</p>
 							<p>
 								<span>Provider:</span>
