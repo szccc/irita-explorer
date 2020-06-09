@@ -11,7 +11,7 @@ router.get('/',(req,res,next) => {
 		})
 	})
 	getServiceListCount.then(count => {
-		serviceTxListModel.find().then( serviceList => {
+		serviceTxListModel.find({}).then( serviceList => {
 			let Data = []
 			Data = serviceList.map(item => {
 				return {
