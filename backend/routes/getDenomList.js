@@ -11,53 +11,30 @@ router.get('/', (req, res, next) =>{
         }]
     }
     let nftCount = new Promise((resolve, reject) => {
-        nftModel.count().then( count => {
+        nftModel.count(sqFind).then( count => {
             resolve(count)
         }).catch(err => {
             reject(err)
         })
     })
     nftCount.then(count => {
-        denomModel
-        .aggregate(
-            [
-                {
-                    $lookup : {
-                        from : "sync_nft",
-                        localField : "name",
-                        foreignField : "name",
-                        as : "nft"
-                    }
-                },{
-                $match:sqFind
-            }
-            ])
-        .skip((Number(req.query.page) - 1) * Number(req.query.size))
-        .limit(Number(req.query.size))
+        nftModel.find(sqFind).select({'_id':0,'__v':0}).skip((Number(req.query.page) - 1) * Number(req.query.size)).limit(Number(req.query.size))
         .then(result =>{
             let responseData = [],responseNft = [];
             if(req.query.tokenId !== ''){
                 result.forEach(item => {
-                    if(item.nft && item.nft.length > 0){
-                        item.nft.forEach(value => {
-                            if(value.nft_id === req.query.tokenId) {
-                                responseNft.push(value)
-                                item.nft = responseNft
-                                responseData.push(item)
-                            }
-                        })
+                    if(item.nft_id === req.query.tokenId) {
+                        responseNft.push(item)
+                        item.nft = responseNft
+                        responseData.push(item)
                     }
                 })
             }else if(req.query.owner !== ''){
                 result.forEach(item => {
-                    if(item.nft && item.nft.length > 0){
-                        item.nft.forEach(value => {
-                            if(value.owner === req.query.owner) {
-                                responseNft.push(value)
-                                item.nft = responseNft
-                                responseData.push(item)
-                            }
-                        })
+                    if(item.owner === req.query.owner) {
+                        responseNft.push(item)
+                        item.nft = responseNft
+                        responseData.push(item)
                     }
                 })
             }else {
