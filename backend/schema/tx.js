@@ -8,7 +8,7 @@ const txList = new mongoose.Schema({
 	time: Date,
 	type: String,
 	from: String,
-	To: String,
+	to: String,
 	status:Number,
 	coins:{
 		denom:String,

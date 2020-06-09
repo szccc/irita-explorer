@@ -8,7 +8,7 @@ const serviceTxList = new mongoose.Schema({
 	time: Date,
 	type: String,
 	from: String,
-	To: String,
+	to: String,
 	status:Number,
 	coins:{
 		denom:String,
@@ -21,6 +21,6 @@ const serviceTxList = new mongoose.Schema({
 	"txn-revno": Number,
 	"txn-queue": Array
 })
-serviceTxList.index({name: 1, nft_id: 1}, {unique: true});
+serviceTxList.index({tx_hash: 1}, {unique: true});
 let serviceTxListModel = mongoose.model('service_tx',serviceTxList,'service_tx')
 module.exports = serviceTxListModel

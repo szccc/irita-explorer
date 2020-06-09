@@ -7,8 +7,8 @@ var MongoClient = require('mongodb').MongoClient;
 const blockModel = require('../schema/blockList')
 const transactionModel = require('../schema/tx')
 const validatorModel = require('../schema/validator')
-const serviceModel = require('../schema/serviceTx')
 const nftAssetModel = require('../schema/nft')
+const serviceModel = require('../schema/serviceTx')
 router.get('/',(req,res,next) => {
 	let differenceBlock = 100;
 	function getLastHeight() {
@@ -41,33 +41,33 @@ router.get('/',(req,res,next) => {
 	}
 	function getTransactionCount ( ) {
 		return new Promise( (resolve, reject) => {
-			transactionModel.count('_id').then(txCount => {
+			transactionModel.count().then(txCount => {
 				resolve(txCount)
 			})
 		})
 	}
 	function getValidatorCount() {
 		return new Promise( (resolve, reject) => {
-			validatorModel.count('_id').then(validatorCount => {
+			validatorModel.count().then(validatorCount => {
 				resolve(validatorCount)
 			})
 		} )
 	}
 	function getServiceCount() {
 		return new Promise( (resolve, reject) => {
-			serviceModel.count('_id').then(serviceCountNumber => {
+			serviceModel.count().then(serviceCountNumber => {
 				resolve(serviceCountNumber)
 			})
 		})
 	}
 	function getNftCount() {
 		return new  Promise((resolve, reject) => {
-			nftAssetModel.count('_id').then(nftCount =>{
+			nftAssetModel.count().then(nftCount =>{
 				resolve(nftCount)
 			})
 		})
 	}
-	async function doit() {
+	async function getAllCount() {
 		let lastHeight = await getLastHeight();
 		let txCount = await getTransactionCount();
 		let validatorCount = await getValidatorCount();
@@ -83,7 +83,7 @@ router.get('/',(req,res,next) => {
 			timestamp:lastHeight.last_height_time
 		})
 	}
-	doit()
+	getAllCount()
 });
 
 

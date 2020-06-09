@@ -63,7 +63,7 @@
 								<span><router-link v-if="to !== '--'"  :to="`/address/${to}`">{{to}}</router-link><span v-if="to === '--'">{{to}}</span></span>
 							</p>
 							<p v-if="txType === 'nft_burn' || txType === 'nft_mint' || txType === 'nft_edit' || txType === 'nft_transfer'">
-								<span>Token ID:</span>
+								<span>ID:</span>
 								<span>{{tokenId}}</span>
 							</p>
 							<p v-if="txType === 'nft_burn' || txType === 'nft_mint' || txType === 'nft_edit' || txType === 'nft_transfer'">
@@ -169,7 +169,7 @@
 							</p>
 							<p>
 								<span>Pricing:</span>
-								<span><router-link :to="`/address/${pricing}`">{{pricing}}</router-link></span>
+								<span>{{pricing}}</span>
 							</p>
 							<p>
 								<span>Provider:</span>
@@ -255,11 +255,11 @@
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
 							</p>
 							<p>
-								<span>Token Data:</span>
+								<span>Data:</span>
 								<span>{{tokenData}}</span>
 							</p>
 							<p>
-								<span>Token Uri:</span>
+								<span>Uri:</span>
 								<span>{{tokenUri}}</span>
 							</p>
 							
@@ -319,11 +319,11 @@
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
 							</p>
 							<p>
-								<span>Token Data:</span>
+								<span>Data:</span>
 								<span>{{tokenData}}</span>
 							</p>
 							<p>
-								<span>Token Uri:</span>
+								<span>Uri:</span>
 								<span>{{tokenUri}}</span>
 							</p>
 						</div>
@@ -341,11 +341,11 @@
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
 							</p>
 							<p>
-								<span>Token Data:</span>
+								<span>Data:</span>
 								<span>{{tokenData}}</span>
 							</p>
 							<p>
-								<span>Token Uri:</span>
+								<span>Uri:</span>
 								<span>{{tokenUri}}</span>
 							</p>
 						</div>

@@ -1,8 +1,4 @@
-const MongoClient = require('mongodb').MongoClient;
-const express = require('express');
-const router = express.Router();
 const serviceTxListModel = require('../schema/serviceTx');
-const serviceConfigModel = require('../schema/service_config');
 const txListModel = require('../schema/tx')
 const schedule = require('node-schedule');
 const mongoUrl = require('../config/index')
@@ -11,7 +7,7 @@ const  scheduleCronstyle = () => {
 	schedule.scheduleJob(mongoUrl.syncServiceTime,() => {
 		console.log("定时更新执行中")
 		let getServiceConfigHeight = new Promise((resolve, reject) => {
-			serviceConfigModel.findOne({}).then( result => {
+			serviceTxListModel.findOne({}).then( result => {
 				if(result){
 					resolve(result.height)
 				}else {
@@ -22,6 +18,7 @@ const  scheduleCronstyle = () => {
 			})
 		})
 		getServiceConfigHeight.then(resultHeight => {
+			
 			if(resultHeight){
 				let sqFind= {
 					'$and':[
@@ -32,16 +29,13 @@ const  scheduleCronstyle = () => {
 							height:{
 								'$gt':resultHeight
 							}
-						}
+						},
 					]
 				}
-				txListModel.find(sqFind).sort({height: -1}).then(result => {
-					serviceConfigModel.updateOne({
-						height:resultHeight
-					},{$set:result[0].height},{upsert:true})
-					serviceTxListModel.insertMany(result,function (err) {
+				txListModel.find(sqFind).select({'_id':0}).sort({height: -1}).then(result => {
+					serviceTxListModel.insertMany(result,{ordered:false},function (err) {
 						if(err){
-							console.error('insert nft failed!',err.errmsg);
+							console.error('insert nft failed!',err);
 						} else{
 							console.log('insert service tx successfully!');
 						}
