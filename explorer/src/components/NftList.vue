@@ -19,7 +19,7 @@
 				<el-table :data="denomArray">
 					<el-table-column label="Denom" width="155px">
 						<template slot-scope="scope">
-							{{scope.row.denom}}
+							{{scope.row.name}}
 						</template>
 					</el-table-column>
 					<el-table-column label="Owner" width="150px">
@@ -120,6 +120,7 @@
 				if(!this.owner){
 					this.tokenId =  this.input
 				}
+				sessionStorage.setItem('selectDenom',this.denom)
 				Server.commonInterface({denomInformation:{
 						denom: this.denom === 'All' ? '' : this.denom,
 						pageNum: this.currentPageNum,
@@ -130,16 +131,10 @@
 					try {
 						if(res){
 							let denomArray = []
-							
 							this.allCount = res.count
 							res.data.forEach( denom => {
-								
-								if(denom.nft && denom.nft.length > 0){
-									denom.nft.forEach( item => {
-										item.denom = denom.name
-										denomArray.unshift(item)
-									})
-								}
+								denom.denom = denom.name
+								denomArray.unshift(denom)
 							})
 							this.denomArray = denomArray
 							/*res.data.forEach(item => {
