@@ -21,5 +21,6 @@ const serviceTxList = new mongoose.Schema({
 	"txn-revno": Number,
 	"txn-queue": Array
 })
+serviceTxList.index({tx_hash: 1}, {unique: true});
 let serviceTxListModel = mongoose.model('service_tx',serviceTxList,'service_tx')
 module.exports = serviceTxListModel
