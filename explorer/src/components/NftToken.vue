@@ -1,7 +1,7 @@
 <template>
 	<div class="nft_token_container">
 		<div class="nft_token_content_wrap">
-			<div class="nft_token_title">NFT Token Information</div>
+			<div class="nft_token_title">NFT Information</div>
 			<div class="nft_token_information_content">
 				<div class="nft_token_information_item">
 					<span>Owner:</span>
@@ -14,7 +14,7 @@
 					<span>{{name}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>Token ID</span>
+					<span>ID</span>
 					<span>{{tokenID}}</span>
 				</div>
 				<div class="nft_token_information_item">
@@ -26,7 +26,7 @@
 					<span>{{primaryKey}}</span>
 				</div>-->
 				<div class="nft_token_information_item">
-					<span>Token Data</span>
+					<span>Data</span>
 					<span>{{tokenData}}</span>
 				</div>
 				<div class="nft_token_information_item">
@@ -45,7 +45,7 @@
 				</div>
 			</div>
 			<div class="nft_token_list_content">
-				<div class="nft_token_list_title">NFT Token Txs</div>
+				<div class="nft_token_list_title">NFT Txs</div>
 				<el-table :data="txListByToken">
 					<el-table-column label="TxHash">
 						<template slot-scope="scope">

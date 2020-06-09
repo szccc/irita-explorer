@@ -9,7 +9,7 @@
 							   :label="item.label"
 							   :value="item.value"></el-option>
 				</el-select>
-				<el-input v-model="input" placeholder="Search by TokenID"></el-input>
+				<el-input v-model="input" placeholder="Search by ID"></el-input>
 				<div class="tx_type_mobile_content">
 					<div class="search_btn" @click="getNftsByFilter">Search</div>
 					<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
@@ -32,12 +32,12 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Token ID" width="200px">
+					<el-table-column label="ID" width="200px">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_id}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column label="Token Data" width="450px" prop="token_data"></el-table-column>
+					<el-table-column label="Data" width="450px" prop="token_data"></el-table-column>
 <!--					<el-table-column label="Primary Key" width="300px" prop="primary_key"></el-table-column>-->
 					<el-table-column label="URI" prop="token_uri">
 						<template slot-scope="scope">

@@ -18,22 +18,9 @@ router.get('/',(req,res,next) => {
 						"$and":[
 							{
 								'msgs.msg.service_name':req.query.serviceName
-							},
-							{
-								'msgs.type':'call_service'
 							}
-						],
-					},
-					{
-						"$and":[
-							{
-								'msgs.msg.service_name':req.query.serviceName
-							},
-							{
-								'msgs.type':'bind_service'
-							}
-						],
-					},
+						]
+					}
 				]
 			};
 	let getCountPromist = new Promise((resolve, reject) => {

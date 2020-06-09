@@ -83,12 +83,21 @@
 								<router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
 							</template>
 						</el-table-column>
+						<el-table-column label="Height" >
+							<template slot-scope="scope">
+								<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
+							</template>
+						</el-table-column>
 						<el-table-column label="Request ID">
 							<template slot-scope="scope">
-								<span>{{scope.row.requestId || '--'}}</span>
+								<el-tooltip :content="scope.row.requestId"  v-if="scope.row.requestId">
+									<span>{{formatAddress(scope.row.requestId)}}</span>
+								</el-tooltip>
+								<span v-else>--</span>
 							</template>
 						</el-table-column>
 						<el-table-column label="Tx Type" prop="txType"></el-table-column>
+						
 						<el-table-column label="From">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
@@ -96,15 +105,20 @@
 						</el-table-column>
 						<el-table-column label="To">
 							<template slot-scope="scope">
-								<router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
-								<span v-if="scope.row.to === '--'">--</span>
+								<el-tooltip v-if="scope.row.content.length > 0 ">
+									<div slot="content">
+										<div style="display: flex;flex-direction: column">
+											<span v-for="item in scope.row.content">{{item}}</span>
+										</div>
+									</div>
+									<span>{{scope.row.to}}</span>
+								</el-tooltip>
+								<router-link v-if="scope.row.to !== '' && scope.row.content.length == 0" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
+								<span v-if="scope.row.to === ''">--</span>
 							</template>
 						</el-table-column>
-						<el-table-column label="Height" >
-							<template slot-scope="scope">
-								<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
-							</template>
-						</el-table-column>
+						<el-table-column label="Status" prop="status"></el-table-column>
+						
 						<el-table-column label="Timestamp" prop="timestamp"></el-table-column>
 					</el-table>
 				</div>
@@ -228,12 +242,18 @@
 						if(res){
 							this.txCount = res.count;
 							this.transactionArray = res.data.map(item => {
+								let toAddressArray = [];
+								if(item.to.includes(',')){
+									toAddressArray = item.to.split(",")
+								}
 								return {
 									txHash: item.tx_hash,
-									requestId:item.msgs[0].msg.chain_id,
+									requestId:item.msgs[0].msg.request_id,
 									txType: item.txType,
+									status: item.status,
 									from: item.from ? item.from : '--',
-									to: item.to ? item.to : '--',
+									to: toAddressArray.length > 0 ? `${toAddressArray.length} Address` : item.to,
+									content:toAddressArray,
 									height: item.height,
 									timestamp:Tools.formatUtc(item.time)
 								}
