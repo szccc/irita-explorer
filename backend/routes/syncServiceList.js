@@ -1,8 +1,4 @@
-const MongoClient = require('mongodb').MongoClient;
-const express = require('express');
-const router = express.Router();
 const serviceTxListModel = require('../schema/serviceTx');
-const serviceConfigModel = require('../schema/service_config');
 const txListModel = require('../schema/tx')
 const schedule = require('node-schedule');
 const mongoUrl = require('../config/index')
@@ -11,7 +7,7 @@ const  scheduleCronstyle = () => {
 	schedule.scheduleJob(mongoUrl.syncServiceTime,() => {
 		console.log("定时更新执行中")
 		let getServiceConfigHeight = new Promise((resolve, reject) => {
-			serviceConfigModel.findOne({}).then( result => {
+			serviceTxListModel.findOne({}).then( result => {
 				if(result){
 					resolve(result.height)
 				}else {
@@ -22,6 +18,7 @@ const  scheduleCronstyle = () => {
 			})
 		})
 		getServiceConfigHeight.then(resultHeight => {
+			
 			if(resultHeight){
 				let sqFind= {
 					'$and':[
