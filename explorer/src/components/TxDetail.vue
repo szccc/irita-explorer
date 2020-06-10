@@ -239,27 +239,27 @@
 						</div>
 						<div v-if="txType === 'mint_nft'" >
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.mintNft.denom')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.denom')}}</span>
 								<span>{{denom}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.mintNft.id')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.id')}}</span>
 								<span>{{id}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.mintNft.recipient')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.recipient')}}</span>
 								<span><router-link :to="`/address/${recipient}`">{{recipient}}</router-link></span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.mintNft.sender')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.sender')}}</span>
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.mintNft.data')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.data')}}</span>
 								<span>{{tokenData}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.mintNft.uri')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.uri')}}</span>
 								<span>{{tokenUri}}</span>
 							</p>
 							
@@ -303,63 +303,63 @@
 						</div>
 						<div v-if="txType === 'transfer_nft'" >
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.transferNft.denom')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.denom')}}</span>
 								<span>{{denom}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.transferNft.id')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.id')}}</span>
 								<span>{{id}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.transferNft.recipient')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.recipient')}}</span>
 								<span><router-link :to="`/address/${recipient}`">{{recipient}}</router-link> </span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.transferNft.sender')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.sender')}}</span>
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.transferNft.data')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.data')}}</span>
 								<span>{{tokenData}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.transferNft.uri')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.uri')}}</span>
 								<span>{{tokenUri}}</span>
 							</p>
 						</div>
 						<div v-if="txType === 'edit_nft'" >
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.editNft.denom')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.denom')}}</span>
 								<span>{{denom}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.editNft.id')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.id')}}</span>
 								<span>{{id}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.editNft.sender')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.sender')}}</span>
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.editNft.data')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.data')}}</span>
 								<span>{{tokenData}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.editNft.uri')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.uri')}}</span>
 								<span>{{tokenUri}}</span>
 							</p>
 						</div>
 						<div v-if="txType === 'issue_denom'" >
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.issueDenom.denom')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.issueDenom.denom')}}</span>
 								<span>{{denom}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.issueDenom.schema')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.issueDenom.schema')}}</span>
 								<span>{{schema}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.issueDenom.sender')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.issueDenom.sender')}}</span>
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
 							</p>
 						</div>
@@ -399,75 +399,75 @@
 						</div>
 						<div v-if="txType === 'send'" >
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.send.amount')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.send.amount')}}</span>
 								<span>{{amount}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.send.from')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.send.from')}}</span>
 								<span><router-link :to="`/address/${from}`">{{from}}</router-link></span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.send.to')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.send.to')}}</span>
 								<span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
 							</p>
 						</div>
 						<div v-if="txType === 'respond_service'" >
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.respondService.output')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.respondService.output')}}</span>
 								<span>{{output}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.respondService.provider')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.respondService.provider')}}</span>
 								<span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.respondService.requestId')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.respondService.requestId')}}</span>
 								<span>{{requestId}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.respondService.result')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.respondService.result')}}</span>
 								<span>{{result}}</span>
 							</p>
 						</div>
 						<div v-if="txType === 'call_service'" >
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.consumer')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.consumer')}}</span>
 								<span>{{consumer}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.input')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.input')}}</span>
 								<span>{{input}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.provider')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.provider')}}</span>
 								<span style="display: flex;flex-direction: column"><router-link v-for="(item,index) in provider" :key="index" :to="`/address/${item}`">{{item}}</router-link></span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.repeated')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.repeated')}}</span>
 								<span>{{repeated}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.repeatedFrequency')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.repeatedFrequency')}}</span>
 								<span>{{repeatedFrequency}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.repeatedTotal')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.repeatedTotal')}}</span>
 								<span>{{repeatedTotal}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.serviceFeeCap')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.serviceFeeCap')}}</span>
 								<span>{{serviceFeeCap}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.serviceName')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.serviceName')}}</span>
 								<span>{{serviceName}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.superMode')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.superMode')}}</span>
 								<span>{{superMode}}</span>
 							</p>
 							<p>
-								<span>{{$t('ExplorerZH.transactionInformation.callService.timeOut')}}</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.timeOut')}}</span>
 								<span>{{timeout}}</span>
 							</p>
 						</div>

@@ -1,24 +1,24 @@
 <template>
 	<div class="nft_token_container">
 		<div class="nft_token_content_wrap">
-			<div class="nft_token_title">{{$t('ExplorerZH.nftDetail.nftInformation')}}</div>
+			<div class="nft_token_title">{{$t('ExplorerCN.nftDetail.nftInformation')}}</div>
 			<div class="nft_token_information_content">
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerZH.nftDetail.owner')}}</span>
+					<span>{{$t('ExplorerCN.nftDetail.owner')}}</span>
 					<span>
 						<router-link :to="`/address/${owner}`">{{owner}}</router-link>
 					</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerZH.nftDetail.denom')}}</span>
+					<span>{{$t('ExplorerCN.nftDetail.denom')}}</span>
 					<span>{{name}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerZH.nftDetail.id')}}</span>
+					<span>{{$t('ExplorerCN.nftDetail.id')}}</span>
 					<span>{{tokenID}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerZH.nftDetail.schema')}}</span>
+					<span>{{$t('ExplorerCN.nftDetail.schema')}}</span>
 					<span>{{schema}}</span>
 				</div>
 				<!--<div class="nft_token_information_item">
@@ -26,18 +26,18 @@
 					<span>{{primaryKey}}</span>
 				</div>-->
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerZH.nftDetail.data')}}</span>
+					<span>{{$t('ExplorerCN.nftDetail.data')}}</span>
 					<span>{{tokenData}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerZH.nftDetail.creator')}}</span>
+					<span>{{$t('ExplorerCN.nftDetail.creator')}}</span>
 					<span>{{creator}}</span>
 				</div>
 				
 				
 				
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerZH.nftDetail.uri')}}</span>
+					<span>{{$t('ExplorerCN.nftDetail.uri')}}</span>
 					<span v-if="tokenUri && tokenUri !== '--'">
 						<a :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					</span>
@@ -45,9 +45,9 @@
 				</div>
 			</div>
 			<div class="nft_token_list_content">
-				<div class="nft_token_list_title"> {{$t('ExplorerZH.nftDetail.nftTxs')}}</div>
+				<div class="nft_token_list_title"> {{$t('ExplorerCN.nftDetail.nftTxs')}}</div>
 				<el-table :data="txListByToken">
-					<el-table-column :label="$t('ExplorerZH.transactions.txHash')">
+					<el-table-column :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.txHash"
 										class="item"
@@ -57,13 +57,13 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.block')">
+					<el-table-column :label="$t('ExplorerCN.transactions.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.txType')" prop="txType"></el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.from')">
+					<el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.transactions.from')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.from"
 										class="item"
@@ -74,7 +74,7 @@
 							<span v-if="scope.row.from === '--'">{{formatAddress(scope.row.from)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.to')" >
+					<el-table-column :label="$t('ExplorerCN.transactions.to')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.to"
 										class="item"
@@ -85,7 +85,7 @@
 							<span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.signer')" >
+					<el-table-column :label="$t('ExplorerCN.transactions.signer')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.signer"
 										class="item"
@@ -95,8 +95,8 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.status')" prop="status"></el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.timestamp')" prop="time" width="200px">
+					<el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
 						<template slot-scope="scope">
 							<span>{{scope.row.time}}</span>
 						</template>

@@ -69,14 +69,14 @@
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.from')">
+					<el-table-column :label="$t('ExplorerCN.transactions.from')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.from" placement="top">
 								<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.to')">
+					<el-table-column :label="$t('ExplorerCN.transactions.to')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.to" placement="top">
 								<router-link  v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
@@ -84,15 +84,15 @@
 							<span v-if="scope.row.to === '--'">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.signer')">
+					<el-table-column :label="$t('ExplorerCN.transactions.signer')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.signer" placement="top">
 								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.status')" prop="status"></el-table-column>
-					<el-table-column :label="$t('ExplorerZH.transactions.timestamp')" prop="time" width="200px">
+					<el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
 						<template slot-scope="scope">
 							<span>{{scope.row.time}}</span>
 						</template>
