@@ -10,15 +10,15 @@
 			</div>
 			<div class="block_detail_content">
 				<p>
-					<span>Block Hash:</span>
+					<span>{{$t('ExplorerCN.blockDetail.blockHash')}}</span>
 					<span>{{blockHash}}</span>
 				</p>
 				<p>
-					<span>Transaction:</span>
+					<span>{{$t('ExplorerCN.blockDetail.transaction')}}</span>
 					<span>{{txNumber}}</span>
 				</p>
 				<p>
-					<span>Timestamp:</span>
+					<span>{{$t('ExplorerCN.blockDetail.timestamp')}}</span>
 					<span>{{time}}</span>
 				</p>
 			</div>
