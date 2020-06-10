@@ -56,39 +56,39 @@
 						<!--<el-table-column label="TxHash" prop="txHash"></el-table-column>-->
 						<el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.serviceName')" prop="serviceName"></el-table-column>
 						<el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.available')" prop="available"></el-table-column>
-						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.deposit')" prop="deposit"></el-table-column>
+						<el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')" prop="deposit"></el-table-column>
 <!--						<el-table-column label="Disabled Time" prop="disabledTime"></el-table-column>-->
-						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.owner')">
+						<el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.owner')">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.pricing')" prop="pricing"></el-table-column>
-						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.provider')">
+						<el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.pricing')" prop="pricing"></el-table-column>
+						<el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.provider}`">{{formatAddress(scope.row.provider)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.qos')" prop="qos"></el-table-column>
+						<el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')" prop="qos"></el-table-column>
 						<!--<el-table-column label="Status" prop="status"></el-table-column>-->
 					</el-table>
 				</div>
 			</div>
 			<div class="service_information_transaction_content">
-				<h3 class="service_information_transaction_title">{{$t('ExplorerZH.serviceDetail.serviceTransactions')}}</h3>
+				<h3 class="service_information_transaction_title">{{$t('ExplorerCN.serviceDetail.serviceTransactions')}}</h3>
 				<div class="service_information_transaction_table_content">
 					<el-table :data="transactionArray">
-						<el-table-column :label="$t('ExplorerZH.transactions.txHash')">
+						<el-table-column :label="$t('ExplorerCN.transactions.txHash')">
 							<template slot-scope="scope">
 								<router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerZH.transactions.block')" >
+						<el-table-column :label="$t('ExplorerCN.transactions.block')" >
 							<template slot-scope="scope">
 								<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerZH.transactions.requestId')">
+						<el-table-column :label="$t('ExplorerCN.transactions.requestId')">
 							<template slot-scope="scope">
 								<el-tooltip :content="scope.row.requestId"  v-if="scope.row.requestId">
 									<span>{{formatAddress(scope.row.requestId)}}</span>
@@ -96,14 +96,14 @@
 								<span v-else>--</span>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerZH.transactions.txType')" prop="txType"></el-table-column>
+						<el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
 						
-						<el-table-column :label="$t('ExplorerZH.transactions.from')">
+						<el-table-column :label="$t('ExplorerCN.transactions.from')">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerZH.transactions.to')">
+						<el-table-column :label="$t('ExplorerCN.transactions.to')">
 							<template slot-scope="scope">
 								<el-tooltip v-if="scope.row.content.length > 0 ">
 									<div slot="content">
@@ -117,9 +117,9 @@
 								<span v-if="scope.row.to === ''">--</span>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerZH.transactions.status')" prop="status"></el-table-column>
+						<el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
 						
-						<el-table-column :label="$t('ExplorerZH.transactions.timestamp')" prop="timestamp"></el-table-column>
+						<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="timestamp"></el-table-column>
 					</el-table>
 				</div>
 			</div>

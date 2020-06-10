@@ -1,35 +1,35 @@
 export const ExplorerCN = {
 	Navigation:{
-		block: '区块',
-		transactions: '交易',
-		validators: '验证人',
-		nftAsset: '资产',
-		service: '服务',
-		searchPlaceHolder: '搜索地址/交易摘要/区块高度'
+		block: '区块浏览',
+		transactions: '交易浏览',
+		validators: '共识节点',
+		nftAsset: 'NFT 资产',
+		service: '服务浏览',
+		searchPlaceHolder: '请输入地址/交易摘要/区块高度进行搜索'
 	},
 	home:{
-		blockHeight: '最新区块高度',
-		transactions: '交易总量',
+		blockHeight: '最新区块',
+		transactions: '交易数量',
 		avgBlockTime: '平均出块时间',
-		last100Blocs: '最近100个区块',
-		validators: '验证人总数',
-		services: '服务总量',
-		assets: '资产总量',
+		last100Blocs: '最近100块',
+		validators: '共识节点数',
+		services: '服务数量',
+		assets: '资产数量',
 		blocks: '最近区块',
 		viewAll: '查看全部',
 		listTransactions: '最近交易',
 	},
 	block:{
 		currentHeight: '当前区块',
-		block: '区块',
-		transactions: '交易',
-		timestamp: '时间',
-		age: '距离当前时间'
+		block: '区块高度',
+		transactions: '交易数量',
+		timestamp: '参考时间',
+		age: '参考块龄'
 	},
 	blockDetail:{
-		blockHash: '区块哈希:',
-		transaction: '交易总量:',
-		timestamp: '时间:',
+		blockHash: '区块摘要:',
+		transaction: '交易数量:',
+		timestamp: '参考时间:',
 		
 	},
 	transactions:{
@@ -42,23 +42,23 @@ export const ExplorerCN = {
 		to: '接收方',
 		signer: '签名方',
 		status: '交易状态',
-		timestamp: '时间',
+		timestamp: '参考时间',
 		requestId: '请求标识'
 	},
 	validators:{
 		name: '名称',
-		operator: '维护者',
+		operator: '操作地址',
 		votingPower: '权重',
 		pubKey: '公钥'
 	},
 	nftAsset:{
-		assets: '资产',
+		assets: 'NFT 资产',
 		search: '搜索',
 		denom: '报表类别',
 		owner: '拥有者',
 		id: '报表标识',
 		data: '链上数据',
-		uri: '链接',
+		uri: '链外链接',
 		placeHolder: '搜索报表标识'
 	},
 	service: {
@@ -75,14 +75,14 @@ export const ExplorerCN = {
 		txHash: '交易摘要：',
 		blockHeight: '区块高度：',
 		status: '交易状态：',
-		timestamp: '时间：',
-		signer: '签名者：',
+		timestamp: '参考时间：',
+		signer: '签名方：',
 		memo: '备注：',
 		transactionMessage: '交易消息',
 		txType: '交易类型：',
 		issueDenom:{
 			denom: '报表类别：',
-			schema: '数据结构：',
+			schema: '上链结构：',
 			sender: '创建者：',
 		},
 		send:{
@@ -96,7 +96,7 @@ export const ExplorerCN = {
 			provider: '服务提供方：',
 			repeated: '是否重复调用：',
 			repeatedFrequency: '重复调用频率：',
-			repeatedTotal: '重复调用总量：',
+			repeatedTotal: '重复调用总数：',
 			serviceFeeCap: '服务费用：',
 			superMode: '超级模式：',
 			timeOut: '超时时间：',
@@ -119,14 +119,14 @@ export const ExplorerCN = {
 			recipient: '接收方：',
 			sender: '发送方：',
 			data: '链上数据：',
-			uri: '链接：'
+			uri: '链外链接：'
 		},
 		editNft:{
 			denom: '报表类别：',
 			id: '报表标识：',
 			sender: '发送方：',
 			data: '链上数据：',
-			uri: '链接：'
+			uri: '链外链接：'
 		},
 		defineService: {
 			serviceName: '服务名称：',
@@ -149,7 +149,7 @@ export const ExplorerCN = {
 			recipient: '接收方：',
 			sender: '发送方：',
 			data: '链上数据：',
-			uri: '链接：'
+			uri: '链外链接：'
 		}
 	},
 	addressDetail: {
@@ -159,18 +159,18 @@ export const ExplorerCN = {
 		name: '名称',
 		id: '报表标识',
 		data: '链上数据',
-		uri: '链接',
+		uri: '链外链接',
 	},
 	nftDetail: {
-		nftInformation: '资产详情',
+		nftInformation: '报表详情',
 		owner: '拥有者：',
 		denom: '报表类别：',
 		id: '报表标识：',
-		schema: '数据结构：',
+		schema: '上链结构：',
 		data: '链上数据：',
 		creator: '创建者：',
-		uri: '链接：',
-		nftTxs: '资产交易'
+		uri: '链外链接：',
+		nftTxs: '相关交易'
 	},
 	serviceDetail: {
 		serviceDefinition: '服务详情',
@@ -178,7 +178,7 @@ export const ExplorerCN = {
 		authorDescription: '创建者简介：',
 		description: '服务简介：',
 		name: '名称：',
-		schema: '数据结构：',
+		schema: '上链结构：',
 		tags: '标签：',
 		serviceBindings: {
 			serviceBindings: '服务绑定',
@@ -196,6 +196,6 @@ export const ExplorerCN = {
 		title: '搜索结果',
 		backHome: '返回首页',
 		resultTitle: '搜索结果为空。',
-		searchTip: '尝试搜索交易、区块高度。'
+		searchTip: '尝试搜索交易摘要或区块高度。'
 	}
 }
