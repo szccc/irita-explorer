@@ -1,17 +1,17 @@
 <template>
 	<div class="service_list_container_content">
 		<div class="service_list_content_wrap">
-			<div class="service_list_title">Services</div>
+			<div class="service_list_title">{{$t('ExplorerCN.service.services')}}</div>
 			<div class="service_list_content">
 				<el-table :data="serviceList">
-					<el-table-column label="Service Name">
+					<el-table-column :label="$t('ExplorerCN.service.serviceName')">
 						<template slot-scope="scope">
 							<span>
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="TxHash">
+					<el-table-column :label="$t('ExplorerCN.service.txHash')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.txHash"
 							            effect="dark" placement="top">
@@ -20,7 +20,7 @@
 						</template>
 					</el-table-column>
 <!--					<el-table-column label="Chain ID" prop="chainId"></el-table-column>-->
-					<el-table-column label="Publisher" prop="publisher">
+					<el-table-column :label="$t('ExplorerCN.service.publisher')" prop="publisher">
 						<template slot-scope="scope">
 							<el-tooltip placement="top"
 							            effect="dark"
@@ -29,7 +29,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="From">
+					<el-table-column :label="$t('ExplorerCN.service.from')">
 						<template slot-scope="scope">
 							<el-tooltip placement="top"
 							            effect="dark"
@@ -38,8 +38,8 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Description" prop="description"></el-table-column>
-					<el-table-column label="Status" prop="status"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.service.description')" prop="description"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.service.status')" prop="status"></el-table-column>
 				</el-table>
 			</div>
 			<div class="pagination_content">

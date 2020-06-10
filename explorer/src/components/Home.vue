@@ -4,35 +4,35 @@
 			<div class="home_content_header_content">
 				<ul class="home_content_header_top_content">
 					<li class="home_content_header_top_item_content">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>Block Height</p>
+						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>{{$t('ExplorerCN.home.blockHeight')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`block/${block_height}`">{{block_height}}</router-link></p>
 						<p class="home_content_header_top_footer_content"></p>
 					</li>
 					<li class="home_content_header_top_item_content">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconTransactions"></i>Transaction</p>
+						<p class="home_content_header_top_item_title"><i class="iconfont iconTransactions"></i>{{$t('ExplorerCN.home.transactions')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`/txs`">{{transactionNumber}}</router-link></p>
 						<p class="home_content_header_top_footer_content">{{transactionTime}}</p>
 					</li>
 					<li class="home_content_header_top_item_content">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>Avg Block Time</p>
+						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerCN.home.avgBlockTime')}}</p>
 						<p class="home_content_header_top_center_content">{{ageTime}}</p>
-						<p class="home_content_header_top_footer_content">Last 100 Blocks</p>
+						<p class="home_content_header_top_footer_content">{{$t('ExplorerCN.home.last100Blocs')}}</p>
 					</li>
 				</ul>
 				<ul class="home_content_header_bottom_content">
 					<li class="home_content_header_bottom_item_content">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconVotingPower"></i>Validators</p>
+						<p class="home_content_header_bottom_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerCN.home.validators')}}</p>
 						<p class="home_content_header_bottom_footer">{{validatorNumber}}</p>
 					</li>
 					<li class="home_content_header_bottom_item_content">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconservice"></i>Services</p>
+						<p class="home_content_header_bottom_title"><i class="iconfont iconservice"></i>{{$t('ExplorerCN.home.services')}}</p>
 						<p class="home_content_header_bottom_footer">
 							<router-link v-if="serverNumber" :to="`/services`">{{serverNumber}}</router-link>
 							<span v-else >--</span>
 						</p>
 					</li>
 					<li class="home_content_header_bottom_item_content">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconAssets"></i>Assets</p>
+						<p class="home_content_header_bottom_title"><i class="iconfont iconAssets"></i>{{$t('ExplorerCN.home.assets')}}</p>
 						<p class="home_content_header_bottom_footer"><router-link :to="`/nftAsset`">{{assetsNumber}}</router-link></p>
 					</li>
 				</ul>
@@ -42,10 +42,10 @@
 					<div class="home_block_top_content">
 						<div class="home_block_top_title">
 							<i class="iconfont iconBlocks"></i>
-							<span>Blocks</span>
+							<span>{{$t('ExplorerCN.home.blocks')}}</span>
 						</div>
 						<div class="home_block_view_all">
-							<router-link :to="`/blocks`">View All</router-link>
+							<router-link :to="`/blocks`">{{$t('ExplorerCN.home.viewAll')}}</router-link>
 						</div>
 					</div>
 					<ul class="home_block_bottom_content">
@@ -69,10 +69,10 @@
 					<div class="home_transaction_top_content">
 						<div class="home_transaction_top_title">
 							<i class="iconfont iconTransactions"></i>
-							<span>Transactions</span>
+							<span>{{$t('ExplorerCN.home.listTransactions')}}</span>
 						</div>
 						<div class="home_transaction_view_all">
-							<router-link :to="`/txs`">View All</router-link>
+							<router-link :to="`/txs`">{{$t('ExplorerCN.home.viewAll')}}</router-link>
 						</div>
 					</div>
 					<ul class="home_transaction_bottom_content">

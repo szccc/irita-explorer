@@ -1,24 +1,24 @@
 <template>
 	<div class="nft_token_container">
 		<div class="nft_token_content_wrap">
-			<div class="nft_token_title">NFT Information</div>
+			<div class="nft_token_title">{{$t('ExplorerZH.nftDetail.nftInformation')}}</div>
 			<div class="nft_token_information_content">
 				<div class="nft_token_information_item">
-					<span>Owner:</span>
+					<span>{{$t('ExplorerZH.nftDetail.owner')}}</span>
 					<span>
 						<router-link :to="`/address/${owner}`">{{owner}}</router-link>
 					</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>Denom:</span>
+					<span>{{$t('ExplorerZH.nftDetail.denom')}}</span>
 					<span>{{name}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>ID</span>
+					<span>{{$t('ExplorerZH.nftDetail.id')}}</span>
 					<span>{{tokenID}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>Schema</span>
+					<span>{{$t('ExplorerZH.nftDetail.schema')}}</span>
 					<span>{{schema}}</span>
 				</div>
 				<!--<div class="nft_token_information_item">
@@ -26,18 +26,18 @@
 					<span>{{primaryKey}}</span>
 				</div>-->
 				<div class="nft_token_information_item">
-					<span>Data</span>
+					<span>{{$t('ExplorerZH.nftDetail.data')}}</span>
 					<span>{{tokenData}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>Creator</span>
+					<span>{{$t('ExplorerZH.nftDetail.creator')}}</span>
 					<span>{{creator}}</span>
 				</div>
 				
 				
 				
 				<div class="nft_token_information_item">
-					<span>URI</span>
+					<span>{{$t('ExplorerZH.nftDetail.uri')}}</span>
 					<span v-if="tokenUri && tokenUri !== '--'">
 						<a :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					</span>
@@ -45,9 +45,9 @@
 				</div>
 			</div>
 			<div class="nft_token_list_content">
-				<div class="nft_token_list_title">NFT Txs</div>
+				<div class="nft_token_list_title"> {{$t('ExplorerZH.nftDetail.nftTxs')}}</div>
 				<el-table :data="txListByToken">
-					<el-table-column label="TxHash">
+					<el-table-column :label="$t('ExplorerZH.transactions.txHash')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.txHash"
 										class="item"
@@ -57,13 +57,13 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Block">
+					<el-table-column :label="$t('ExplorerZH.transactions.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column label="TxType" prop="txType"></el-table-column>
-					<el-table-column label="From">
+					<el-table-column :label="$t('ExplorerZH.transactions.txType')" prop="txType"></el-table-column>
+					<el-table-column :label="$t('ExplorerZH.transactions.from')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.from"
 										class="item"
@@ -74,7 +74,7 @@
 							<span v-if="scope.row.from === '--'">{{formatAddress(scope.row.from)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="To" >
+					<el-table-column :label="$t('ExplorerZH.transactions.to')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.to"
 										class="item"
@@ -85,7 +85,7 @@
 							<span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="Signer" >
+					<el-table-column :label="$t('ExplorerZH.transactions.signer')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.signer"
 										class="item"
@@ -95,8 +95,8 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Status" prop="status"></el-table-column>
-					<el-table-column label="Timestamp" prop="time" width="200px">
+					<el-table-column :label="$t('ExplorerZH.transactions.status')" prop="status"></el-table-column>
+					<el-table-column :label="$t('ExplorerZH.transactions.timestamp')" prop="time" width="200px">
 						<template slot-scope="scope">
 							<span>{{scope.row.time}}</span>
 						</template>

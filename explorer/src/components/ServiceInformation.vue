@@ -2,34 +2,34 @@
 	<div class="service_information_container">
 		<div class="service_information_content_wrap">
 			<div class="service_information_definition_content">
-				<h3 class="service_information_definition_title">Service Definition ({{$route.query.serviceName}})</h3>
+				<h3 class="service_information_definition_title">{{$t('ExplorerCN.serviceDetail.serviceDefinition')}} ({{$route.query.serviceName}})</h3>
 				<div class="service_information_content">
 					<!--<p class="service_information_text_content">
 						<span>Chain ID:</span>
 						<span>{{chainId}}</span>
 					</p>-->
 					<p class="service_information_text_content">
-						<span>Author:</span>
+						<span>{{$t('ExplorerCN.serviceDetail.author')}}</span>
 						<span>{{author}}</span>
 					</p>
 					<p class="service_information_text_content">
-						<span>Author Description:</span>
+						<span>{{$t('ExplorerCN.serviceDetail.authorDescription')}}</span>
 						<span>{{authorDescription}}</span>
 					</p>
 					<p class="service_information_text_content">
-						<span>Description:</span>
+						<span>{{$t('ExplorerCN.serviceDetail.description')}}</span>
 						<span>{{description}}</span>
 					</p>
 					<p class="service_information_text_content">
-						<span>Name:</span>
+						<span>{{$t('ExplorerCN.serviceDetail.name')}} </span>
 						<span>{{name}}</span>
 					</p>
 					<p class="service_information_text_content">
-						<span>Schemas:</span>
+						<span>{{$t('ExplorerCN.serviceDetail.schema')}}</span>
 						<span>{{schemas}}</span>
 					</p>
 					<p class="service_information_text_content">
-						<span>Tags:</span>
+						<span>{{$t('ExplorerCN.serviceDetail.tags')}}</span>
 						<span>{{tags}}</span>
 					</p>
 					
@@ -50,45 +50,45 @@
 				</div>
 			</div>
 			<div class="service_information_bindings_content">
-				<h3 class="service_information_binding_title">Service Bindings</h3>
+				<h3 class="service_information_binding_title">{{$t('ExplorerCN.serviceDetail.serviceBindings.serviceBindings')}}</h3>
 				<div class="service_information_bindings_table_content">
 					<el-table :data="bindingArray">
 						<!--<el-table-column label="TxHash" prop="txHash"></el-table-column>-->
-						<el-table-column label="Service Name" prop="serviceName"></el-table-column>
-						<el-table-column label="Available" prop="available"></el-table-column>
-						<el-table-column label="Deposit" prop="deposit"></el-table-column>
+						<el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.serviceName')" prop="serviceName"></el-table-column>
+						<el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.available')" prop="available"></el-table-column>
+						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.deposit')" prop="deposit"></el-table-column>
 <!--						<el-table-column label="Disabled Time" prop="disabledTime"></el-table-column>-->
-						<el-table-column label="Owner">
+						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.owner')">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column label="Pricing" prop="pricing"></el-table-column>
-						<el-table-column label="Provider">
+						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.pricing')" prop="pricing"></el-table-column>
+						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.provider')">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.provider}`">{{formatAddress(scope.row.provider)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column label="Qos" prop="qos"></el-table-column>
+						<el-table-column :label="$t('ExplorerZH.serviceDetail.serviceBindings.qos')" prop="qos"></el-table-column>
 						<!--<el-table-column label="Status" prop="status"></el-table-column>-->
 					</el-table>
 				</div>
 			</div>
 			<div class="service_information_transaction_content">
-				<h3 class="service_information_transaction_title">Service Transactions</h3>
+				<h3 class="service_information_transaction_title">{{$t('ExplorerZH.serviceDetail.serviceTransactions')}}</h3>
 				<div class="service_information_transaction_table_content">
 					<el-table :data="transactionArray">
-						<el-table-column label="TxHash">
+						<el-table-column :label="$t('ExplorerZH.transactions.txHash')">
 							<template slot-scope="scope">
 								<router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column label="Height" >
+						<el-table-column :label="$t('ExplorerZH.transactions.block')" >
 							<template slot-scope="scope">
 								<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column label="Request ID">
+						<el-table-column :label="$t('ExplorerZH.transactions.requestId')">
 							<template slot-scope="scope">
 								<el-tooltip :content="scope.row.requestId"  v-if="scope.row.requestId">
 									<span>{{formatAddress(scope.row.requestId)}}</span>
@@ -96,14 +96,14 @@
 								<span v-else>--</span>
 							</template>
 						</el-table-column>
-						<el-table-column label="Tx Type" prop="txType"></el-table-column>
+						<el-table-column :label="$t('ExplorerZH.transactions.txType')" prop="txType"></el-table-column>
 						
-						<el-table-column label="From">
+						<el-table-column :label="$t('ExplorerZH.transactions.from')">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column label="To">
+						<el-table-column :label="$t('ExplorerZH.transactions.to')">
 							<template slot-scope="scope">
 								<el-tooltip v-if="scope.row.content.length > 0 ">
 									<div slot="content">
@@ -117,9 +117,9 @@
 								<span v-if="scope.row.to === ''">--</span>
 							</template>
 						</el-table-column>
-						<el-table-column label="Status" prop="status"></el-table-column>
+						<el-table-column :label="$t('ExplorerZH.transactions.status')" prop="status"></el-table-column>
 						
-						<el-table-column label="Timestamp" prop="timestamp"></el-table-column>
+						<el-table-column :label="$t('ExplorerZH.transactions.timestamp')" prop="timestamp"></el-table-column>
 					</el-table>
 				</div>
 			</div>
