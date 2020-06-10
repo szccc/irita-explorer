@@ -312,7 +312,7 @@
 						span:last-child{
 							font-size: 0.14rem;
 							line-height: 0.16rem;
-							color: #787C99;
+							color: #171D44;
 							flex: 1;
 							text-align: left;
 						}

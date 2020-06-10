@@ -30,7 +30,7 @@ export const ExplorerCN = {
 		blockHash: '区块摘要:',
 		transaction: '交易数量:',
 		timestamp: '参考时间:',
-		
+		transactions: '区块交易',
 	},
 	transactions:{
 		txs: '交易',
