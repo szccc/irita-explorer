@@ -559,7 +559,7 @@
 						if(res){
 							this.txHash = res.txHash;
 							this.blockHeight = res.block_height;
-							this.status = res.status;
+							this.status = Tools.firstWordUpperCase(res.status);
 							this.timestamp = Tools.formatUtc(res.timestamp);
 							this.signer = res.signer;
 							this.memo = res.memo ? res.memo : '--';

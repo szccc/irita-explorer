@@ -174,7 +174,8 @@
 			.header_logo_img_content{
 				padding-right: 0.2rem;
 				img{
-					height: 0.3rem
+					height: 0.3rem;
+					padding-top: 0.04rem;
 				}
 			}
 			.el-menu-demo{
