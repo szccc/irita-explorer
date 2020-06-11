@@ -5,7 +5,7 @@ export const ExplorerCN = {
 		validators: '共识节点',
 		nftAsset: 'NFT 资产',
 		service: '服务浏览',
-		searchPlaceHolder: '请输入地址/交易摘要/区块高度进行搜索'
+		searchPlaceHolder: '请输入地址/交易哈希/区块高度进行搜索'
 	},
 	home:{
 		blockHeight: '最新区块',
@@ -35,7 +35,7 @@ export const ExplorerCN = {
 	transactions:{
 		txs: '交易',
 		search: '搜索',
-		txHash: '交易摘要',
+		txHash: '交易哈希',
 		block: '区块高度',
 		txType: '交易类型',
 		from: '发送方',
@@ -64,7 +64,7 @@ export const ExplorerCN = {
 	service: {
 		services: '服务',
 		serviceName: '服务名称',
-		txHash: '交易摘要',
+		txHash: '交易哈希',
 		publisher: '提供者',
 		from: '创建者',
 		description: '描述',
@@ -72,7 +72,7 @@ export const ExplorerCN = {
 	},
 	transactionInformation:{
 		transactionInformation: '交易详情',
-		txHash: '交易摘要：',
+		txHash: '交易哈希：',
 		blockHeight: '区块高度：',
 		status: '交易状态：',
 		timestamp: '参考时间：',
@@ -196,6 +196,6 @@ export const ExplorerCN = {
 		title: '搜索结果',
 		backHome: '返回首页',
 		resultTitle: '搜索结果为空。',
-		searchTip: '尝试搜索交易摘要或区块高度。'
+		searchTip: '尝试搜索交易哈希或区块高度。'
 	}
 }
