@@ -2,27 +2,27 @@
 	<div class="nft_list_container">
 		<div class="nft_list_content_wrap">
 			<div class="nft_list_header_content">
-				<h3 class="nft_list_header_title">{{allCount}} Assets</h3>
+				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerCN.nftAsset.assets')}}</h3>
 				<el-select v-model="value" :change="filterTokenIdByDenom(value)">
 					<el-option v-for="(item, index) in nftList"
 							   :key="index"
 							   :label="item.label"
 							   :value="item.value"></el-option>
 				</el-select>
-				<el-input v-model="input" placeholder="Search by ID"></el-input>
+				<el-input v-model="input" :placeholder="$t('ExplorerCN.nftAsset.placeHolder')"></el-input>
 				<div class="tx_type_mobile_content">
-					<div class="search_btn" @click="getNftsByFilter">Search</div>
+					<div class="search_btn" @click="getNftsByFilter">{{$t('ExplorerCN.nftAsset.search')}}</div>
 					<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
 				</div>
 			</div>
 			<div class="nef_list_table_container">
 				<el-table :data="denomArray">
-					<el-table-column label="Denom" width="155px">
+					<el-table-column :label="$t('ExplorerCN.nftAsset.denom')" width="155px">
 						<template slot-scope="scope">
 							{{scope.row.name}}
 						</template>
 					</el-table-column>
-					<el-table-column label="Owner" width="150px">
+					<el-table-column :label="$t('ExplorerCN.nftAsset.owner')" width="150px">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.owner"
 										class="item"
@@ -32,14 +32,14 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="ID" width="200px">
+					<el-table-column :label="$t('ExplorerCN.nftAsset.id')" width="200px">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_id}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column label="Data" width="450px" prop="token_data"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.nftAsset.data')" width="450px" prop="token_data"></el-table-column>
 <!--					<el-table-column label="Primary Key" width="300px" prop="primary_key"></el-table-column>-->
-					<el-table-column label="URI" prop="token_uri">
+					<el-table-column :label="$t('ExplorerCN.nftAsset.uri')" prop="token_uri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.token_uri" :download="scope.row.token_uri" :href="scope.row.token_uri" target="_blank">{{scope.row.token_uri}}</a>
 							<span v-else>--</span>
@@ -109,6 +109,9 @@
 			},
 			pageChange(pageNum){
 				this.currentPageNum = pageNum;
+				// if(sessionStorage.getItem('selectDenom')){
+				// 	this.denom = sessionStorage.getItem('selectDenom')
+				// }
 				this.getNftsByFilter()
 			},
 			getNftsByFilter(){
@@ -122,7 +125,7 @@
 				}
 				sessionStorage.setItem('selectDenom',this.denom)
 				Server.commonInterface({denomInformation:{
-						denom: this.denom === 'All' ? '' : this.denom,
+						denom: this.denom,
 						pageNum: this.currentPageNum,
 						pageSize: this.pageSize,
 						owner: this.owner,

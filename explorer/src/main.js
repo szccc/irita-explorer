@@ -10,13 +10,21 @@ import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
 const  codec  = require("irisnet-crypto/util/codec.js") ;
 const  crypto = require("irisnet-crypto");
+import VueI18n from 'vue-i18n'
 Vue.prototype.$Codec = codec;
 Vue.prototype.$Crypto = crypto;
 locale.use(lang);
 Vue.use(ElementUI)
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+  locale:'zh-CN',
+  messages: {
+    "zh-CN" : require('../lang/CN-Cindy')
+  }
+})
 Vue.config.productionTip = false;
-
 new Vue({
+  i18n,
   router,
   store,
   render: h => h(App),

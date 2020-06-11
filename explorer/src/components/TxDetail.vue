@@ -2,38 +2,38 @@
 	<div class="tx_detail_container">
 		<div class="tx_detail_content_wrap">
 			<div class="tx_detail_content">
-				<h3 class="tx_detail_title">Transaction Information</h3>
+				<h3 class="tx_detail_title">{{$t('ExplorerCN.transactionInformation.transactionInformation')}}</h3>
 				<div class="tx_information_content">
 					<p class="tx_information_list_item">
-						<span>TxHash:</span>
+						<span>{{$t('ExplorerCN.transactionInformation.txHash')}}</span>
 						<span>{{txHash}}</span>
 					</p>
 					<p class="tx_information_list_item">
-						<span>Block:</span>
+						<span>{{$t('ExplorerCN.transactionInformation.blockHeight')}}</span>
 						<span><router-link :to="`/block/${blockHeight}`">{{blockHeight}}</router-link></span>
 					</p>
 					<p class="tx_information_list_item">
-						<span>Status:</span>
+						<span>{{$t('ExplorerCN.transactionInformation.status')}}</span>
 						<span>{{status}}</span>
 					</p>
 					<p class="tx_information_list_item">
-						<span>Timestamp:</span>
+						<span>{{$t('ExplorerCN.transactionInformation.timestamp')}}</span>
 						<span>{{timestamp}}</span>
 					</p>
 					<p class="tx_information_list_item">
-						<span>Signer:</span>
+						<span>{{$t('ExplorerCN.transactionInformation.signer')}}</span>
 						<span><router-link :to="`/address/${signer}`">{{signer}}</router-link></span>
 					</p>
 					<p class="tx_information_list_item">
-						<span>Memo:</span>
+						<span>{{$t('ExplorerCN.transactionInformation.memo')}}</span>
 						<span>{{memo}}</span>
 					</p>
 				</div>
 				<div class="tx_information_tx_message_content">
-					<div class="tx_information_tx_message_title">Transaction Message</div>
+					<div class="tx_information_tx_message_title">{{$t('ExplorerCN.transactionInformation.transactionMessage')}}</div>
 					<div class="tx_information_tx_content">
 						<p>
-							<span>TxType:</span>
+							<span>{{$t('ExplorerCN.transactionInformation.txType')}}</span>
 							<span>{{txType}}</span>
 						</p>
 						<div  v-if="txType !== 'call_service' &&
@@ -130,7 +130,7 @@
 						</div>
 						<div v-if="txType === 'define_service'">
 							<p>
-								<span>Service Name:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.defineService.serviceName')}}</span>
 								<span>{{serviceName}}</span>
 							</p>
 							<!--<p>
@@ -138,19 +138,19 @@
 								<span>{{chainId}}</span>
 							</p>-->
 							<p>
-								<span>Description:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.defineService.description')}}</span>
 								<span>{{description}}</span>
 							</p>
 							<p>
-								<span>Tags:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.defineService.tags')}}</span>
 								<span>{{tags}}</span>
 							</p>
 							<p>
-								<span>Author:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.defineService.author')}}</span>
 								<span><router-link :to="`/address/${author}`">{{author}}</router-link></span>
 							</p>
 							<p>
-								<span>Author Description:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.defineService.authorDescription')}}</span>
 								<span>{{authorDescription}}</span>
 							</p>
 							<!--<p>
@@ -160,27 +160,27 @@
 						</div>
 						<div v-if="txType === 'bind_service'" >
 							<p>
-								<span>Deposit:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.bindService.deposit')}}</span>
 								<span>{{deposit}}</span>
 							</p>
 							<p>
-								<span>Owner:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.bindService.owner')}}</span>
 								<span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
 							</p>
 							<p>
-								<span>Pricing:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.bindService.pricing')}}</span>
 								<span>{{pricing}}</span>
 							</p>
 							<p>
-								<span>Provider:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.bindService.provider')}}</span>
 								<span><router-link v-for="(item,index) in provider" :key="index" :to="`/address/${item}`">{{item}}</router-link></span>
 							</p>
 							<p>
-								<span>Qos:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.bindService.qos')}}</span>
 								<span>{{qos}}</span>
 							</p>
 							<p>
-								<span>Service Name:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.bindService.serviceName')}}</span>
 								<span>{{defineName}}</span>
 							</p>
 							
@@ -224,42 +224,42 @@
 						</div>
 						<div v-if="txType === 'burn_nft'" >
 							<p>
-								<span>Sender:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.burnNft.sender')}}</span>
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
 							</p>
 							<p>
-								<span>denom:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.burnNft.denom')}}</span>
 								<span>{{denom}}</span>
 							</p>
 							
 							<p>
-								<span>ID:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.burnNft.id')}}</span>
 								<span>{{id}}</span>
 							</p>
 						</div>
 						<div v-if="txType === 'mint_nft'" >
 							<p>
-								<span>denom:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.denom')}}</span>
 								<span>{{denom}}</span>
 							</p>
 							<p>
-								<span>ID:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.id')}}</span>
 								<span>{{id}}</span>
 							</p>
 							<p>
-								<span>Recipient:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.recipient')}}</span>
 								<span><router-link :to="`/address/${recipient}`">{{recipient}}</router-link></span>
 							</p>
 							<p>
-								<span>Sender:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.sender')}}</span>
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
 							</p>
 							<p>
-								<span>Data:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.data')}}</span>
 								<span>{{tokenData}}</span>
 							</p>
 							<p>
-								<span>Uri:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.mintNft.uri')}}</span>
 								<span>{{tokenUri}}</span>
 							</p>
 							
@@ -303,63 +303,63 @@
 						</div>
 						<div v-if="txType === 'transfer_nft'" >
 							<p>
-								<span>Denom:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.denom')}}</span>
 								<span>{{denom}}</span>
 							</p>
 							<p>
-								<span>ID:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.id')}}</span>
 								<span>{{id}}</span>
 							</p>
 							<p>
-								<span>Recipient:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.recipient')}}</span>
 								<span><router-link :to="`/address/${recipient}`">{{recipient}}</router-link> </span>
 							</p>
 							<p>
-								<span>Sender:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.sender')}}</span>
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
 							</p>
 							<p>
-								<span>Data:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.data')}}</span>
 								<span>{{tokenData}}</span>
 							</p>
 							<p>
-								<span>Uri:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.transferNft.uri')}}</span>
 								<span>{{tokenUri}}</span>
 							</p>
 						</div>
 						<div v-if="txType === 'edit_nft'" >
 							<p>
-								<span>Denom:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.denom')}}</span>
 								<span>{{denom}}</span>
 							</p>
 							<p>
-								<span>ID:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.id')}}</span>
 								<span>{{id}}</span>
 							</p>
 							<p>
-								<span>Sender:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.sender')}}</span>
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
 							</p>
 							<p>
-								<span>Data:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.data')}}</span>
 								<span>{{tokenData}}</span>
 							</p>
 							<p>
-								<span>Uri:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.editNft.uri')}}</span>
 								<span>{{tokenUri}}</span>
 							</p>
 						</div>
 						<div v-if="txType === 'issue_denom'" >
 							<p>
-								<span>Denom:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.issueDenom.denom')}}</span>
 								<span>{{denom}}</span>
 							</p>
 							<p>
-								<span>Schema:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.issueDenom.schema')}}</span>
 								<span>{{schema}}</span>
 							</p>
 							<p>
-								<span>Sender:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.issueDenom.sender')}}</span>
 								<span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
 							</p>
 						</div>
@@ -399,75 +399,75 @@
 						</div>
 						<div v-if="txType === 'send'" >
 							<p>
-								<span>Amount:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.send.amount')}}</span>
 								<span>{{amount}}</span>
 							</p>
 							<p>
-								<span>From </span>
+								<span>{{$t('ExplorerCN.transactionInformation.send.from')}}</span>
 								<span><router-link :to="`/address/${from}`">{{from}}</router-link></span>
 							</p>
 							<p>
-								<span>To </span>
+								<span>{{$t('ExplorerCN.transactionInformation.send.to')}}</span>
 								<span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
 							</p>
 						</div>
 						<div v-if="txType === 'respond_service'" >
 							<p>
-								<span>Out Put:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.respondService.output')}}</span>
 								<span>{{output}}</span>
 							</p>
 							<p>
-								<span>Provider:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.respondService.provider')}}</span>
 								<span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
 							</p>
 							<p>
-								<span>Request Id:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.respondService.requestId')}}</span>
 								<span>{{requestId}}</span>
 							</p>
 							<p>
-								<span>Result:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.respondService.result')}}</span>
 								<span>{{result}}</span>
 							</p>
 						</div>
 						<div v-if="txType === 'call_service'" >
 							<p>
-								<span>Consumer:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.consumer')}}</span>
 								<span>{{consumer}}</span>
 							</p>
 							<p>
-								<span>input:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.input')}}</span>
 								<span>{{input}}</span>
 							</p>
 							<p>
-								<span>Provider:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.provider')}}</span>
 								<span style="display: flex;flex-direction: column"><router-link v-for="(item,index) in provider" :key="index" :to="`/address/${item}`">{{item}}</router-link></span>
 							</p>
 							<p>
-								<span>Repeated:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.repeated')}}</span>
 								<span>{{repeated}}</span>
 							</p>
 							<p>
-								<span>Repeated Frequency:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.repeatedFrequency')}}</span>
 								<span>{{repeatedFrequency}}</span>
 							</p>
 							<p>
-								<span>Repeated Total:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.repeatedTotal')}}</span>
 								<span>{{repeatedTotal}}</span>
 							</p>
 							<p>
-								<span>Service Fee Cap:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.serviceFeeCap')}}</span>
 								<span>{{serviceFeeCap}}</span>
 							</p>
 							<p>
-								<span>Service Name:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.serviceName')}}</span>
 								<span>{{serviceName}}</span>
 							</p>
 							<p>
-								<span>superMode:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.superMode')}}</span>
 								<span>{{superMode}}</span>
 							</p>
 							<p>
-								<span>Timeout:</span>
+								<span>{{$t('ExplorerCN.transactionInformation.callService.timeOut')}}</span>
 								<span>{{timeout}}</span>
 							</p>
 						</div>
@@ -559,7 +559,7 @@
 						if(res){
 							this.txHash = res.txHash;
 							this.blockHeight = res.block_height;
-							this.status = res.status;
+							this.status = Tools.firstWordUpperCase(res.status);
 							this.timestamp = Tools.formatUtc(res.timestamp);
 							this.signer = res.signer;
 							this.memo = res.memo ? res.memo : '--';

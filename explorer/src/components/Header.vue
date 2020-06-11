@@ -3,7 +3,7 @@
 		<div class="header_content">
 			<div class="header_logo_img_content">
 				<router-link :to="`/home`">
-					<img src="../assets/csrb_logo.png" alt="">
+					<img src="../assets/csrb_logo.svg" alt="">
 				</router-link>
 			</div>
 			<div class="header_menu">
@@ -28,19 +28,19 @@
 						</el-menu-item>
 					</el-submenu>-->
 					<el-menu-item index="1">
-						<router-link :to="`/blocks`">Blocks</router-link>
+						<router-link :to="`/blocks`">{{$t('ExplorerCN.Navigation.block')}}</router-link>
 					</el-menu-item>
 					<el-menu-item index="2">
-						<router-link :to="`/txs`">Transactions</router-link>
+						<router-link :to="`/txs`">{{$t('ExplorerCN.Navigation.transactions')}}</router-link>
 					</el-menu-item>
 					<el-menu-item index="3">
-						<router-link :to="`/validators`">Validators</router-link>
+						<router-link :to="`/validators`">{{$t('ExplorerCN.Navigation.validators')}}</router-link>
 					</el-menu-item>
 					<el-menu-item index="4">
-						<router-link :to="`/nftAsset`">NFT Asset</router-link>
+						<router-link :to="`/nftAsset`">{{$t('ExplorerCN.Navigation.nftAsset')}}</router-link>
 					</el-menu-item>
 					<el-menu-item index="5">
-						<router-link :to="`/services`">Service</router-link>
+						<router-link :to="`/services`">{{$t('ExplorerCN.Navigation.service')}}</router-link>
 					</el-menu-item>
 				</el-menu>
 			</div>
@@ -49,7 +49,7 @@
 					<div class="search_input_wrap">
 						<input type="text"
 						       class="search_input"
-						       placeholder="Search by Address / Txhash / Block"
+						       :placeholder="$t('ExplorerCN.Navigation.searchPlaceHolder')"
 						       v-model.trim="searchInputValue"
 						       @keyup.enter="onInputChange">
 						<span @click="getData(searchInputValue)" class="iconfont iconsousuo"></span>
@@ -174,7 +174,8 @@
 			.header_logo_img_content{
 				padding-right: 0.2rem;
 				img{
-					height: 0.24rem
+					height: 0.3rem;
+					padding-top: 0.04rem;
 				}
 			}
 			.el-menu-demo{

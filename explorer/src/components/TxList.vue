@@ -2,7 +2,7 @@
 	<div  class="tx_content_container">
 		<div class="tx_content_wrap">
 			<div class="tx_content_header_wrap">
-				<div class="total_tx_content">{{txCount}} Txs</div>
+				<div class="total_tx_content">{{txCount}} {{$t('ExplorerCN.transactions.txs')}}</div>
 				<div class="filer_content">
 					<div class="tx_type_mobile_content">
 						<el-select v-model="value" filterable :change="filterTxByTxType(value)">
@@ -37,14 +37,14 @@
 						</el-date-picker>
 					</div>
 					<div class="tx_type_mobile_content">
-						<div class="search_btn" @click="getFilterTxs">Search</div>
+						<div class="search_btn" @click="getFilterTxs">{{$t('ExplorerCN.transactions.search')}}</div>
 						<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
 					</div>
 				</div>
 			</div>
 			<div class="tx_list_content">
 				<el-table :data="transactionArray">
-					<el-table-column label="TxHash">
+					<el-table-column :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.txHash"
 							            class="item"
@@ -54,13 +54,13 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Block">
+					<el-table-column :label="$t('ExplorerCN.transactions.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column label="TxType" prop="txType"></el-table-column>
-					<el-table-column label="From">
+					<el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.transactions.from')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.from"
 							            class="item"
@@ -71,7 +71,7 @@
 							<span v-if="scope.row.from === '--'">{{formatAddress(scope.row.from)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="To">
+					<el-table-column :label="$t('ExplorerCN.transactions.to')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.to"
 							            class="item"
@@ -82,7 +82,7 @@
 							<span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column label="Signer">
+					<el-table-column :label="$t('ExplorerCN.transactions.signer')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.signer"
 							            class="item"
@@ -92,8 +92,8 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column label="Status" prop="status"></el-table-column>
-					<el-table-column label="Timestamp" prop="time" width="200px">
+					<el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
 						<template slot-scope="scope">
 							<span>{{scope.row.time}}</span>
 						</template>

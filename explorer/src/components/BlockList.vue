@@ -5,7 +5,7 @@
 				<div class="block_list_header_content">
 					<div class="block_list_herder_top_content">
 						<div class="block_list_current_height_content">
-							<span class="block_list_current_height_title">Current Height:</span>
+							<span class="block_list_current_height_title">{{$t('ExplorerCN.block.currentHeight')}}</span>
 							<span class="block_list_current_height_number">
 							<router-link :to="`/block/${dataCount}`">{{dataCount}}</router-link>
 						</span>
@@ -16,14 +16,14 @@
 					</div>
 					<div class="block_list_pagination_content">
 						<el-table :data="blockList" stripe>
-							<el-table-column label="Block">
+							<el-table-column :label="$t('ExplorerCN.block.block')">
 								<template slot-scope="scope">
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 								</template>
 							</el-table-column>
-							<el-table-column prop="numTxs" label="Transactions"></el-table-column>
-							<el-table-column prop="time" label="Timestamp"></el-table-column>
-							<el-table-column prop="ageTime" label="Age"></el-table-column>
+							<el-table-column prop="numTxs" :label="$t('ExplorerCN.block.transactions')"></el-table-column>
+							<el-table-column prop="time" :label="$t('ExplorerCN.block.timestamp')"></el-table-column>
+							<el-table-column prop="ageTime" :label="$t('ExplorerCN.block.age')"></el-table-column>
 						</el-table>
 					</div>
 					<div class="pagination_content">

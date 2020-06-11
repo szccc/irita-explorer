@@ -7,8 +7,8 @@
 			<div class="validator_table_list_content">
 				<el-table :data="validatorList">
 					<el-table-column label="#" prop="index" width="50px"></el-table-column>
-					<el-table-column label="Name" prop="name" width="200px"></el-table-column>
-					<el-table-column label="Operator" width="200px">
+					<el-table-column :label="$t('ExplorerCN.validators.name')" prop="name" width="200px"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.validators.operator')" width="200px">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.operator"
 							            placement="top"
@@ -21,8 +21,8 @@
 <!--					<el-table-column label="Identity" prop="identity"></el-table-column>-->
 <!--					<el-table-column label="Details" prop="detail"></el-table-column>-->
 <!--					<el-table-column label="Proposer Priority" prop="proposerPriority"></el-table-column>-->
-					<el-table-column label="Voting Power" width="150px" prop="votingPower"></el-table-column>
-					<el-table-column label="Pub Key" prop="pubKey"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.validators.votingPower')" width="150px" prop="votingPower"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.validators.pubKey')" prop="pubKey"></el-table-column>
 				</el-table>
 			</div>
 		</div>
@@ -44,15 +44,15 @@
 				status:'bonded',
 				validatorStatusTitleList:[
 					{
-						title:'Active',
+						title:'共识中',
 						isActive: true,
 					},
 					{
-						title:'Candidate',
+						title:'候选中',
 						isActive: false,
 					},
 					{
-						title:'Jailed',
+						title:'待解禁',
 						isActive: false,
 					}
 				],
