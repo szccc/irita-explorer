@@ -92,7 +92,7 @@
                             publisher: msgPublisher,
                             from: tx.from,
                             description: msgDescription,
-                            status: tx.status === 1 ? '成功' : '失败'
+                            status: tx.status === 1 ? 'Success' : 'Failed'
                         }
                     });
                     console.log(this.serviceList)
