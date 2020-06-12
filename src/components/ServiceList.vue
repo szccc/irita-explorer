@@ -58,6 +58,7 @@
 	import Service from "../service"
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
+    import { HttpHelper } from '../helper/httpHelper';
 	export default {
 		name: "ServiceList",
 		components: {MPagination},
@@ -73,41 +74,35 @@
 			this.getServiceList();
 		},
 		methods:{
-			getServiceList(){
-				Service.commonInterface({getServiceList:{
-						pageNumber: this.pageNum,
-						pageSize: this.pageSize
-					}},(res) => {
-					try {
-						if(res){
-							this.txCount = res.count;
-							this.serviceList = res.data.map(item => {
-								let msgServiceName,msgChainid,msgPublisher,msgDescription;
-								if(item.msgs){
-									item.msgs.forEach(item => {
-										if(item.msg){
-											msgServiceName = item.msg.name;
-											msgChainid = item.msg.chain_id;
-											msgPublisher = item.msg.author;
-											msgDescription = item.msg.description
-										}
-									})
-								}
-								return {
-									txHash: item.txHash,
-									serviceName: msgServiceName,
-									chainId: msgChainid,
-									publisher: msgPublisher,
-									from: item.from,
-									description: msgDescription,
-									status: Tools.firstWordUpperCase(item.status)
-								}
-							})
-						}
-					}catch (e) {
-						console.error(e)
-					}
-				})
+			async getServiceList(){
+                let url = `txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&type=define_service`;
+                const res = await HttpHelper.get(url);
+                if(res && res.code === 0){
+                    console.log(res)
+                    this.serviceList = res.data.data.map((tx)=>{
+                        let msgServiceName,msgPublisher,msgDescription;
+                        if(tx.msgs && tx.msgs.length > 0){
+                            msgServiceName = tx.msgs[0].msg.name;
+                            msgPublisher = tx.msgs[0].msg.author;
+                            msgDescription = tx.msgs[0].msg.description
+                        }
+                        return {
+                            txHash: tx.tx_hash,
+                            serviceName: msgServiceName,
+                            publisher: msgPublisher,
+                            from: tx.from,
+                            description: msgDescription,
+                            status: tx.status === 1 ? '成功' : '失败'
+                        }
+                    });
+                    console.log(this.serviceList)
+                    this.txCount = res.data.count;
+
+                } else if(res.code){
+
+                } else {
+
+                }
 			},
 			formatTxHash(TxHash){
 				if(TxHash){
