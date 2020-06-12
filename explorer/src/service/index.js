@@ -1,7 +1,7 @@
 import Service from '../axios'
 import urlApi from '../api'
 const Server = {
-	commonInterface(params,callback) {
+	commonInterface(params, callback, errCallBack) {
 		let url ;
 		if(JSON.stringify(params[Object.keys(params)[0]]) === '{}'){
 			url = urlApi[Object.keys(params)[0]]
@@ -12,10 +12,14 @@ const Server = {
 				url = url.replace(new RegExp(rule,"g"),params[Object.keys(params)[0]][key]);
 			}
 		}
-		Service.http(url).then( res => {
-			callback(res);
+		Service.http(url).then( (res) => {
+			if (res.code == 0) {
+				callback  ? callback(res.data || null) : null;
+			}else{
+				errCallBack ? errCallBack(res) : null;
+			}
 		}).catch(err => {
-			callback({error:err})
+			errCallBack ? errCallBack({error:err}) : null;
 		})
 	},
 }
