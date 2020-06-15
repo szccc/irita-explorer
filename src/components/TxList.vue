@@ -250,10 +250,8 @@
                             from : tx.from ? tx.from : '--',
                             to : tx.to ? tx.to : '--',
                             signer : tx.signer,
-                            //status : Tools.firstWordUpperCase(tx.status),
-                            status : tx.status === 1 ? '成功' : '失败',
-                            //time : Tools.formatUtc(tx.timestamp)
-                            time :moment(tx.time)
+                            status : tx.status === 1 ? 'Success' : 'Failed',
+                            time :moment(tx.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
                         }
                     });
                     console.log(this.transactionArray)
