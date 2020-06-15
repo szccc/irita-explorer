@@ -200,11 +200,11 @@
                 }
 			},
 			async getServiceBindingList(){
-                let url = `txs/services/detail/${this.$route.query.serviceName}`;
-                const res = await HttpHelper.get(url, cfg.server.lcd);
-                if(res && res.code === 0){
+                let url = `service/bindings/${this.$route.query.serviceName}`;
+                const res = await HttpHelper.getFromLcd(url);
+                if(res){
                     console.log(res)
-                   /* this.bindingArray = res.data.map((item) =>{
+                    this.bindingArray = res.result.map((item) =>{
                         return {
                             available : `${item.available}`,
                             deposit : `${item.deposit[0].amount} ${item.deposit[0].denom}`,
@@ -215,7 +215,7 @@
                             qos : item.qos,
                             serviceName : item.service_name,
                         }
-                    })*/
+                    })
 
                 } else if(res.code){
 
