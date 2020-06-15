@@ -19,7 +19,7 @@
 				<el-table :data="denomArray">
 					<el-table-column :label="$t('ExplorerCN.nftAsset.denom')" width="155px">
 						<template slot-scope="scope">
-							{{scope.row.name}}
+							{{scope.row.denom}}
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.nftAsset.owner')" width="150px">
@@ -34,14 +34,13 @@
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.nftAsset.id')" width="200px">
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_id}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.id}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.data')" width="450px" prop="token_data"></el-table-column>
-<!--					<el-table-column label="Primary Key" width="300px" prop="primary_key"></el-table-column>-->
-					<el-table-column :label="$t('ExplorerCN.nftAsset.uri')" prop="token_uri">
+					<el-table-column :label="$t('ExplorerCN.nftAsset.data')" width="450px" prop="tokenData"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.nftAsset.uri')" prop="tokenUri">
 						<template slot-scope="scope">
-							<a v-if="scope.row.token_uri" :download="scope.row.token_uri" :href="scope.row.token_uri" target="_blank">{{scope.row.token_uri}}</a>
+							<a v-if="scope.row.token_uri" :download="scope.row.token_uri" :href="scope.row.token_uri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
@@ -124,32 +123,18 @@
 					this.tokenId =  this.input
 				}
 				sessionStorage.setItem('selectDenom',this.denom)
-				Server.commonInterface({denomInformation:{
+				Server.commonInterface({nftList:{
 						denom: this.denom,
 						pageNum: this.currentPageNum,
 						pageSize: this.pageSize,
 						owner: this.owner,
-						tokenId: this.tokenId
-					}},(res) => {
+						nftId: this.tokenId,
+						useCount:true,
+					}},(data) => {
 					try {
-						if(res){
-							let denomArray = []
-							this.allCount = res.count
-							res.data.forEach( denom => {
-								denom.denom = denom.name
-								denomArray.unshift(denom)
-							})
-							this.denomArray = denomArray
-							/*res.data.forEach(item => {
-								if(item.tokenUri.includes('$schema')){
-									item.schema = JSON.parse(item.tokenUri).$id
-								}else {
-									item.schema =  item.tokenUri
-								}
-								
-							})
-							this.allCount = res.count
-							this.denomArray = res.data;*/
+						if(data && data.data){
+							this.allCount = data.count;
+							this.denomArray = data.data
 						}else {
 							this.allCount = 0
 							this.denomArray = []
@@ -163,13 +148,13 @@
 				return Tools.formatValidatorAddress(address)
 			},
 			getNftList(){
-				Server.commonInterface({nftList:{}},(res) =>{
+				Server.commonInterface({denoms:{}},(data) =>{
 					try {
-						if(res){
-							let nftList = res.map(item => {
+						if(data.data){
+							let nftList = data.data.map(item => {
 								return {
-									label: item,
-									value: item
+									label: item.name,
+									value: item.name
 								}
 							})
 							this.nftList = this.nftList.concat(nftList)

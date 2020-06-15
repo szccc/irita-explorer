@@ -135,26 +135,21 @@
 		},
 		methods:{
 			getTokenInformation(){
-				Server.commonInterface({getTokenUri:{
+				Server.commonInterface({nftDetails:{
 						denom: this.$route.query.denom,
-						tokenId: this.$route.query.tokenId,
-					}},(res) => {
+						nftId: this.$route.query.tokenId,
+					}},(data) => {
 					try {
-						if(res){
-							this.creator = res[0].creator;
-							this.schema = res[0].json_schema;
-							this.name = res[0].name;
-								if(res[0].nft){
-									this.tokenID = res[0].nft[0].nft_id;
-									this.primaryKey = res[0].nft[0].primary_key;
-									this.owner = res[0].nft[0].owner;
-									this.tokenData = res[0].nft[0].token_data;
-									this.tokenUri = res[0].nft[0].token_uri;
-								}
-							/*this.Owner = res.owner;
-							this.Denom = this.$route.query.denom;
-							this.TokenID = res.id;
-							this.Uri = res.token_uri;*/
+						if(data){
+							this.creator = (data.denomDetail || {}).creator;
+							this.schema = (data.denomDetail || {}).json_schema;
+							this.name = data.denom;
+							this.tokenID = data.id;
+							// this.primaryKey = data.primary_key;
+							this.owner = data.owner;
+							this.tokenData = data.tokenData;
+							this.tokenUri = data.tokenUri;
+								
 							this.getTokenTx()
 						}
 					}catch (e) {

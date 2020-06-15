@@ -58,18 +58,19 @@
 			getBlockList () {
 				Server.commonInterface({blockList:{
 						pageNum: this.pageNumber,
-						pageSize: this.pageSize
-					}},(res) => {
+						pageSize: this.pageSize,
+						useCount:true,
+					}},(data) => {
 					try {
-						if(res){
-							this.dataCount = res.count;
-							this.blockList = res.data.map( item => {
+						if(data){
+							this.dataCount = data.count;
+							this.blockList = data.data.map( item => {
 								return{
 									height: item.height,
-									time: Tools.formatUtc(item.timestamp),
-									Time: item.timestamp,
-									numTxs: item.numTxs,
-									ageTime: Tools.formatAge(new Date(),item.timestamp,"ago",">")
+									time: Tools.formatUtc(item.time),
+									Time: item.time,
+									numTxs: item.txn,
+									ageTime: Tools.formatAge(new Date(),item.time,"ago",">")
 								}
 							})
 						}

@@ -113,10 +113,10 @@
 		},
 		methods:{
 			getLatestBlock(){
-				Service.commonInterface({homeLatestBlock:{}},(res) => {
+				Service.commonInterface({latestBlock:{}},(data) => {
 					try {
-						if(res){
-							this.getMaxBlock(res[0].height);
+						if(data && data.block && data.block.header){
+							this.getMaxBlock(data.block.header.height);
 						}
 					}catch (e) {
 						console.error(e)
@@ -127,13 +127,13 @@
 			getBlockInformation(){
 				Service.commonInterface({blockInformation: {
 						height:this.$route.params.height
-					}},(res) => {
+					}},(data) => {
 					try {
-						if(res){
-							this.heightValue = res[0].height;
-							this.blockHash = res[0].block_hash;
-							this.txNumber = res[0].numTxs;
-							this.time = Tools.formatUtc(res[0].timestamp);
+						if(data){
+							this.heightValue = data.height;
+							this.blockHash = data.hash;
+							this.txNumber = data.txn;
+							this.time = Tools.formatUtc(data.time);
 						}
 					}catch (e) {
 						console.error(e)
