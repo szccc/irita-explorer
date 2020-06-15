@@ -124,6 +124,7 @@
     import Tools from "../util/Tools"
     import MPagination from "./MPagination";
     import { HttpHelper } from '../helper/httpHelper';
+    import moment from 'moment';
 
     export default {
         name : "TxList",
@@ -153,15 +154,15 @@
             this.getAllTxType();
             let statusArray = [
                 {
-                    value:'allStatus',
+                    value:'',
                     label:'All Status'
                 },
                 {
-                    value:'success',
+                    value:1,
                     label:'Success'
                 },
                 {
-                    value:'fail',
+                    value:2,
                     label:'Failed'
                 }
             ]
@@ -249,10 +250,8 @@
                             from : tx.from ? tx.from : '--',
                             to : tx.to ? tx.to : '--',
                             signer : tx.signer,
-                            //status : Tools.firstWordUpperCase(tx.status),
-                            status : tx.status,
-                            //time : Tools.formatUtc(tx.timestamp)
-                            time : tx.time
+                            status : tx.status === 1 ? 'Success' : 'Failed',
+                            time :moment(tx.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
                         }
                     });
                     console.log(this.transactionArray)

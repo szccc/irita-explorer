@@ -115,6 +115,8 @@
 	import Server  from "../service"
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
+    import { HttpHelper } from '../helper/httpHelper';
+    import moment from 'moment';
 	export default {
 		name: "OwnerDetail",
 		components: {MPagination},
@@ -204,38 +206,35 @@
 					}
 				})
 			},
-			getTxByAddress(){
-				Server.commonInterface({getTxByAddress:{
-						pageNum: this.pageNum,
-						pageSize: this.pageSize,
-						ownerAddress: this.$route.params.param
-					}},(res) => {
-					try {
-						if(res){
-							this.totalTxNumber = res.count;
-							if(res.count > this.pageSize){
-								this.flShowPagination  = true
-							}else {
-								this.flShowPagination  = false
-							}
-							this.txList = res.data.map(item => {
-								return{
-									txHash: item.hash,
-									blockHeight: item.height,
-									txType: item.txType,
-									from: item.from ? item.from : '--',
-									to: item.to ? item.to : '--',
-									signer: item.signer,
-									status:Tools.firstWordUpperCase(item.status),
-									time: Tools.formatUtc(item.timestamp)
-								}
-							})
-						}
-					
-					}catch (e) {
-						console.error(e)
-					}
-				})
+			async getTxByAddress(){
+                let url = `txs/addresses?pageNum=${this.pageNum}&pageSize=${this.pageSize}&address=${this.$route.params.param}&useCount=true`;
+                const res = await HttpHelper.get(url);
+                if(res && res.code === 0){
+                    console.log(res)
+                    this.totalTxNumber = res.data.count;
+                    if(res.data.count > this.pageSize){
+                        this.flShowPagination  = true
+                    }else {
+                        this.flShowPagination  = false
+                    }
+                    this.txList = res.data.data.map(item => {
+                        return{
+                            txHash: item.tx_hash,
+                            blockHeight: item.height,
+                            txType: item.type,
+                            from: item.from ? item.from : '--',
+                            to: item.to ? item.to : '--',
+                            signer: item.signer,
+                            status:item.status === 1 ? 'Success' : 'Failed',
+                            time: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss")
+                        }
+                    })
+
+                } else if(res.code){
+
+                } else {
+
+                }
 			},
 			formatTxHash(TxHash){
 				if(TxHash){

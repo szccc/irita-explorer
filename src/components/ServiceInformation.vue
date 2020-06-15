@@ -105,7 +105,7 @@
 						</el-table-column>
 						<el-table-column :label="$t('ExplorerCN.transactions.to')">
 							<template slot-scope="scope">
-								<el-tooltip v-if="scope.row.content.length > 0 ">
+								<el-tooltip v-if="scope.row.content && scope.row.content.length > 0 ">
 									<div slot="content">
 										<div style="display: flex;flex-direction: column">
 											<span v-for="item in scope.row.content">{{item}}</span>
@@ -113,7 +113,7 @@
 									</div>
 									<span>{{scope.row.to}}</span>
 								</el-tooltip>
-								<router-link v-if="scope.row.to !== '' && scope.row.content.length == 0" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
+								<router-link v-if="scope.row.to !== '' && scope.row.content && scope.row.content.length == 0" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
 								<span v-if="scope.row.to === ''">--</span>
 							</template>
 						</el-table-column>
@@ -140,6 +140,9 @@
 	import Service from "../service"
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
+    import { HttpHelper } from '../helper/httpHelper';
+    import moment from 'moment';
+    import {cfg} from '../config';
 	export default {
 		name: "ServiceInformation",
 		components: {MPagination},
@@ -174,95 +177,80 @@
 				this.currentPageNum = pageNum;
 				this.getServiceTransaction();
 			},
-			getServiceInformation(){
-				Service.commonInterface({serviceInformation:{
-						serviceName:this.$route.query.serviceName,
-					}},(res) => {
-					try {
-						if(res ){
-							this.author = res.author
-							this.authorDescription = res.author_description ? res.author_description : '--'
-							this.description = res.description;
-							this.name = res.name
-							this.schemas = res.schemas
-							this.tags = res.tags
-							
-							
-							
-							// this.from = res.definition.author;
-							// this.chainId = res.definition.chain_id;
-							// this.publisher = res.definition.author;
-							// this.idlContent = res.definition.idl_content;
-							this.getServiceTransaction();
-						}
-					}
-					catch (e) {
-						console.error(e)
-					}
-				})
+			async getServiceInformation(){
+                let url = `txs/services/detail/${this.$route.query.serviceName}`;
+                const res = await HttpHelper.get(url);
+                console.log(res)
+                if(res && res.code === 0){
+                    if(res.data.msgs && res.data.msgs.length > 0 && res.data.msgs[0].msg){
+                        const {author, author_description, description, name, schemas, tags} = res.data.msgs[0].msg;
+                        this.author = author;
+                        this.authorDescription = author_description ? author_description : '--';
+                        this.description = description;
+                        this.name = name;
+                        this.schemas = schemas;
+                        this.tags = tags;
+                    }
+
+                    this.getServiceTransaction();
+                } else if(res.code){
+
+                } else {
+
+                }
 			},
-			getServiceBindingList(){
-				Service.commonInterface({serviceBindingList:{
-						serviceName:this.$route.query.serviceName,
-					}},(res) => {
-					try {
-						if(res){
-							this.bindingArray = res.map((item) => {
-								return{
-									available:`${item.available}` ,
-									deposit: `${item.deposit[0].amount} ${item.deposit[0].denom}`,
-									disabledTime: Tools.formatUtc(item.disabled_time),
-									owner: item.owner,
-									pricing: `${item.pricing}`,
-									provider: item.provider,
-									qos: item.qos,
-									serviceName: item.service_name,
-								}
-								/*return {
-									bindingChainId: item.bind_chain_id,
-									from: item.provider,
-									bindingType: item.binding_type,
-									avgRspTime: item.level.avg_rsp_time,
-									usableTime: item.level.usable_time,
-								}*/
-							})
-						}
-					}catch (e) {
-						console.error(e)
-					}
-				})
+			async getServiceBindingList(){
+                let url = `txs/services/detail/${this.$route.query.serviceName}`;
+                const res = await HttpHelper.get(url, cfg.server.lcd);
+                if(res && res.code === 0){
+                    console.log(res)
+                   /* this.bindingArray = res.data.map((item) =>{
+                        return {
+                            available : `${item.available}`,
+                            deposit : `${item.deposit[0].amount} ${item.deposit[0].denom}`,
+                            disabledTime : Tools.formatUtc(item.disabled_time),
+                            owner : item.owner,
+                            pricing : `${item.pricing}`,
+                            provider : item.provider,
+                            qos : item.qos,
+                            serviceName : item.service_name,
+                        }
+                    })*/
+
+                } else if(res.code){
+
+                } else {
+
+                }
 			},
-			getServiceTransaction(){
-				Service.commonInterface({serviceTransaction:{
-						serviceName:this.$route.query.serviceName,
-						pageNum: this.currentPageNum,
-						pageSize: this.pageSize
-					}},(res)=>{
-					try {
-						if(res){
-							this.txCount = res.count;
-							this.transactionArray = res.data.map(item => {
-								let toAddressArray = [];
-								if(item.to.includes(',')){
-									toAddressArray = item.to.split(",")
-								}
-								return {
-									txHash: item.tx_hash,
-									requestId:item.msgs[0].msg.request_id,
-									txType: item.txType,
-									status: item.status,
-									from: item.from ? item.from : '--',
-									to: toAddressArray.length > 0 ? `${toAddressArray.length} Address` : item.to,
-									content:toAddressArray,
-									height: item.height,
-									timestamp:Tools.formatUtc(item.time)
-								}
-							})
-						}
-					}catch (e) {
-						console.error(e)
-					}
-				})
+			async getServiceTransaction(){
+                let url = `txs/services?pageNum=${this.currentPageNum}&pageSize=${this.pageSize}&serviceName=${this.$route.query.serviceName}`;
+                const res = await HttpHelper.get(url);
+                if(res && res.code === 0){
+                    this.transactionArray = res.data.data.map((item) => {
+                        let toAddressArray = [];
+                        if(item.to.includes(',')){
+                            toAddressArray = item.to.split(",")
+                        }
+                        return {
+                            txType: item.type,
+                            from: item.from ? item.from : '--',
+                            signer: item.signer,
+                            status:item.status === 1 ? 'Success' : 'Failed',
+                            txHash: item.tx_hash,
+                            requestId:item.msgs[0].msg.request_id,
+                            to: toAddressArray.length > 0 ? `${toAddressArray.length} Address` : item.to,
+                            content:toAddressArray,
+                            height: item.height,
+                            timestamp: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
+                        }
+                    })
+
+                } else if(res.code){
+
+                } else {
+
+                }
 			},
 			formatTxHash(TxHash){
 				if(TxHash){

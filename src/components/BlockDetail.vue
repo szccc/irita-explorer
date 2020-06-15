@@ -66,6 +66,8 @@
 <script>
 	import Service from '../service'
 	import Tools from "../util/Tools"
+    import { HttpHelper } from '../helper/httpHelper';
+    import moment from 'moment';
 	export default {
 		name: "BlockDetail",
 		data(){
@@ -148,29 +150,31 @@
 					this.activeNext = true;
 				}
 			},
-			getTransactionList(){
-				Service.commonInterface({blockInformationTx:{
-						height:this.$route.params.height
-					}},(res) => {
-					try {
-						if (res){
-							this.transactionArray = res.data.map((item) => {
-								return {
-									txHash: item.txHash,
-									blockHeight: item.height,
-									txType: item.txType,
-									from: item.from ? item.from : '--',
-									to: item.to ? item.to : '--',
-									signer: item.signer,
-									status:Tools.firstWordUpperCase(item.status),
-									time: Tools.formatUtc(item.timestamp)
-								}
-							})
-						}
-					}catch (e) {
-						console.error(e)
-					}
-				})
+			async getTransactionList(){
+                let url = `txs/blocks?pageNum=1&pageSize=100&height=${this.$route.params.height}`;
+                const res = await HttpHelper.get(url);
+                if(res && res.code === 0){
+                    console.log(res)
+                    this.transactionArray = res.data.data.map((item) => {
+                        return {
+                            txHash: item.tx_hash,
+                            blockHeight: item.height,
+                            txType: item.type,
+                            from: item.from ? item.from : '--',
+                            to: item.to ? item.to : '--',
+                            signer: item.signer,
+                            status:item.status === 1 ? 'Success' : 'Failed',
+                            time: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss")
+                        }
+                    })
+
+                } else if(res.code){
+
+                } else {
+
+                }
+
+
 			},
 			skipNext(num) {
 				if(Number(this.$route.params.height) >= 1){
