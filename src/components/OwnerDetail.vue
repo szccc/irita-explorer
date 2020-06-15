@@ -146,7 +146,7 @@
 			getOwnerDetail(){
 				Server.commonInterface({nftList:{
 						owner: this.$route.params.param,
-						pageSize:100000,
+						pageSize:1000,
 						pageNum:1,
 						useCount:false,
 						denom:'',
