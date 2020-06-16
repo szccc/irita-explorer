@@ -62,6 +62,7 @@
 <script>
 	import Server from "../service"
 	import { getDenoms, getNfts } from "../service/api"
+	import constant from "../constant"
 	import Tools from "../util/Tools";
 	import MPagination from "./MPagination";
 	export default {
@@ -115,9 +116,9 @@
 				this.getNftsByFilter()
 			},
 			async getNftsByFilter(){
-				if (this.$Codec.Bech32.isBech32(this.$Crypto.config.iris.bech32.accAddr, this.input)) {
+				if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.input)) {
 					this.owner = this.input
-				} else if (this.$Codec.Bech32.isBech32(this.$Crypto.config.iris.bech32.valAddr, this.input)) {
+				} else if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.input)) {
 					this.owner = this.input
 				}
 				if(!this.owner){
