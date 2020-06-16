@@ -195,7 +195,7 @@
             },
             async getTxList(){
                let urlParams = this.getParamsByUrlHash();
-                let url = `txs?pageNum=${this.currentPageNum}&pageSize=${this.pageSize}`;
+                let url = `txs?pageNum=${this.currentPageNum}&pageSize=${this.pageSize}&useCount=true`;
                 if(urlParams.txType){
                     url += `&type=${urlParams.txType}`;
                 }
@@ -224,6 +224,7 @@
                             time :Tools.getDisplayDate(tx.time),
                         }
                     });
+                    this.txCount = res.data.count;
                     console.log(this.transactionArray)
                 } else if(res.code){
 
