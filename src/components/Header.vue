@@ -89,7 +89,6 @@
 					this.clearSearchContent();
 					return
 				} else {
-					debugger;
 					if (/^[A-F0-9]{64}$/.test(this.searchInputValue)) {
 						this.searchTx();
 					} else if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.searchInputValue)) {
