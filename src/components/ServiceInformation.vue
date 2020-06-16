@@ -141,8 +141,6 @@
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
     import { HttpHelper } from '../helper/httpHelper';
-    import moment from 'moment';
-    import {cfg} from '../config';
 	export default {
 		name: "ServiceInformation",
 		components: {MPagination},
@@ -242,7 +240,7 @@
                             to: toAddressArray.length > 0 ? `${toAddressArray.length} Address` : item.to,
                             content:toAddressArray,
                             height: item.height,
-                            timestamp: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
+                            timestamp: Tools.getDisplayDate(item.time)
                         }
                     })
 

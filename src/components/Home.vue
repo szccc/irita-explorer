@@ -99,7 +99,6 @@
 	import Server from "../service"
 	import Tools from "../util/Tools"
     import { HttpHelper } from '../helper/httpHelper';
-    import moment from 'moment';
 	export default {
 		name: "Home",
 		data () {
@@ -177,8 +176,8 @@
 									flShowTranslationalAnimation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
 									showAnimation: item.showAnimation ? item.showAnimation : "",
 									height: item.height,
-									time: Tools.formatUtc(item.time),
-									Time: item.time,
+									time: Tools.getDisplayDate(item.time),
+									Time: Tools.getDisplayDate(item.time),
 									txNumber: item.txn,
 									blockAgeTime: Tools.formatAge(new Date(),item.time,"ago",">")
 								}
@@ -201,7 +200,6 @@
                 let url = `txs?pageNum=1&pageSize=10`;
                 const res = await HttpHelper.get(url);
                 if(res && res.code === 0){
-                    console.log(res)
                     console.log(this.transactionArray)
                     for (let txIndex = 0; txIndex < res.data.data.length; txIndex++){
                         if(new Date(res.data.data[txIndex].time).getTime() > localStorage.getItem("lastTxTime")){
@@ -223,9 +221,9 @@
                             flShowTranslationalAnimtation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
                             showAnimation: item.showAnimation ? item.showAnimation : '',
                             hash: item.tx_hash,
-                            time: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
+                            time: Tools.getDisplayDate(item.time),
                             txType: item.type,
-                            Time: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
+                            Time: Tools.getDisplayDate(item.time),
                             txAgeTime: Tools.formatAge(new Date(),item.time,"ago",">")
                         }
                     });

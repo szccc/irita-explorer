@@ -67,7 +67,6 @@
 	import Service from '../service'
 	import Tools from "../util/Tools"
     import { HttpHelper } from '../helper/httpHelper';
-    import moment from 'moment';
 	export default {
 		name: "BlockDetail",
 		data(){
@@ -164,7 +163,7 @@
                             to: item.to ? item.to : '--',
                             signer: item.signer,
                             status:item.status === 1 ? 'Success' : 'Failed',
-                            time: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss")
+                            time: Tools.getDisplayDate(item.time)
                         }
                     })
 

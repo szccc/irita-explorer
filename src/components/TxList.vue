@@ -124,7 +124,6 @@
     import Tools from "../util/Tools"
     import MPagination from "./MPagination";
     import { HttpHelper } from '../helper/httpHelper';
-    import moment from 'moment';
 
     export default {
         name : "TxList",
@@ -222,7 +221,7 @@
                             to : tx.to ? tx.to : '--',
                             signer : tx.signer,
                             status : tx.status === 1 ? 'Success' : 'Failed',
-                            time :moment(tx.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
+                            time :Tools.getDisplayDate(tx.time),
                         }
                     });
                     console.log(this.transactionArray)

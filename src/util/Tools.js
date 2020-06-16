@@ -1,3 +1,4 @@
+import moment from 'moment';
 export default class Tools{
 	/**
 	 *  格式化成标准的utc时间
@@ -75,4 +76,8 @@ export default class Tools{
 		let s = date.getSeconds() < 10 ? '0' + (date.getSeconds()) : + (date.getSeconds()) ;
 		return Y + M + D + h + ':'+ m + ':'+s;
 	}
+
+	static getDisplayDate(timestamp){
+	    return moment(timestamp*1000).zone(-8).format("YYYY-MM-DD HH:mm:ss");
+    }
 }
