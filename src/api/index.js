@@ -1,17 +1,17 @@
 const urlAPI ={
 	//1
-	statistics:'/api/statistics',
+	// statistics:'/api/statistics',
 	homeLatestTransaction:'/api/txs/recent',
 	//1
-	blockList:'/api/blocks?pageNum={pageNum}&pageSize={pageSize}&useCount={useCount}',
+	// blockList:'/api/blocks?pageNum={pageNum}&pageSize={pageSize}&useCount={useCount}',
 	txList:'/api/txs?page={pageNumber}&size={pageSize}&txType={txType}&status={status}&beginTime={beginTime}&endTime={endTime}',
 	allTxType:'/api/allTxType',
 	//1
-	denoms:"/api/denoms",
+	// denoms:"/api/denoms",
 	//1
-	nftList:'/api/nfts?pageNum={pageNum}&pageSize={pageSize}&useCount={useCount}&denom={denom}&nftId={nftId}&owner={owner}',
+	// nftList:'/api/nfts?pageNum={pageNum}&pageSize={pageSize}&useCount={useCount}&denom={denom}&nftId={nftId}&owner={owner}',
 	//1
-	nftDetails:'/api/nfts/details?denom={denom}&nftId={nftId}',
+	// nftDetails:'/api/nfts/details?denom={denom}&nftId={nftId}',
 	denomInformation:'/api/nft/denom?denom={denom}&page={pageNum}&size={pageSize}&owner={owner}&tokenId={tokenId}',
 	// ownerDetail:'/api/nft/owner?owner={ownerAddress}',
 	getTokenUri: '/api/nft/collection?denom={denom}&tokenId={tokenId}',
@@ -23,7 +23,7 @@ const urlAPI ={
 	getTransactionInformation:"/api/tx?txhash={hash}",
 	getServiceList:'/api/services?page={pageNumber}&size={pageSize}',
 	//1
-	blockInformation:'/api/blocks/{height}',
+	// blockInformation:'/api/blocks/{height}',
 	//1
 	latestBlock:'/api/blocks/latest',
 	blockInformationTx:'/api/blockTxList?height={height}',

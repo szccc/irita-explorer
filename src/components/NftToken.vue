@@ -109,6 +109,7 @@
 
 <script>
 	import Server from "../service"
+	import { getNftDetail } from "../service/api"
 	import Tools from "../util/Tools"
 	export default {
 		name: "NftToken",
@@ -134,28 +135,25 @@
 			this.getTokenInformation();
 		},
 		methods:{
-			getTokenInformation(){
-				Server.commonInterface({nftDetails:{
-						denom: this.$route.query.denom,
-						nftId: this.$route.query.tokenId,
-					}},(data) => {
-					try {
-						if(data){
-							this.creator = (data.denomDetail || {}).creator;
-							this.schema = (data.denomDetail || {}).json_schema;
-							this.name = data.denom;
-							this.tokenID = data.id;
-							// this.primaryKey = data.primary_key;
-							this.owner = data.owner;
-							this.tokenData = data.tokenData;
-							this.tokenUri = data.tokenUri;
-								
-							this.getTokenTx()
-						}
-					}catch (e) {
-						console.error(e)
+			async getTokenInformation(){
+				try {
+					let nftDetail = await getNftDetail(this.$route.query.denom, this.$route.query.tokenId);
+
+					if(nftDetail){
+						this.creator = (nftDetail.denomDetail || {}).creator;
+						this.schema = (nftDetail.denomDetail || {}).json_schema;
+						this.name = nftDetail.denom;
+						this.tokenID = nftDetail.id;
+						// this.primaryKey = nftDetail.primary_key;
+						this.owner = nftDetail.owner;
+						this.tokenData = nftDetail.tokenData;
+						this.tokenUri = nftDetail.tokenUri;
+							
+						this.getTokenTx()
 					}
-				})
+				}catch (e) {
+					console.error(e)
+				}
 			},
 			getTokenTx(){
 				Server.commonInterface({getTxByToken:{

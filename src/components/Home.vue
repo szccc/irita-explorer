@@ -98,6 +98,7 @@
 <script>
 	import Server from "../service"
 	import Tools from "../util/Tools"
+	import { getStatistics, getBlockList } from "../service/api"
 	export default {
 		name: "Home",
 		data () {
@@ -140,28 +141,27 @@
 			}
 		},
 		methods:{
-			getNavigation(){
-				Server.commonInterface({statistics:{}},(data) => {
-					try {
-						if(data){
-							this.block_height = data.blockHeight;
-							this.transactionNumber = data.txCount;
-							this.validatorNumber = data.validatorCount;
-							this.transactionTime = Tools.formatUtc(data.latestBlockTime);
-							this.ageTime = data.avgBlockTime;
-							this.assetsNumber = data.assetCount;
-							this.serverNumber = data.serviceCount;
-						}
-					}catch (e) {
-					
+			async getNavigation(){
+				try{
+					let statistics = await getStatistics();
+					if(statistics){
+						this.block_height = statistics.blockHeight;
+						this.transactionNumber = statistics.txCount;
+						this.validatorNumber = statistics.validatorCount;
+						this.transactionTime = Tools.formatUtc(statistics.latestBlockTime);
+						this.ageTime = statistics.avgBlockTime;
+						this.assetsNumber = statistics.assetCount;
+						this.serverNumber = statistics.serviceCount;
 					}
-				})
+				}catch(err){
+
+				}
 			},
-			getLastBlocks(){
-				Server.commonInterface({blockList:{pageNum: 1,pageSize: 10}} ,(data) => {
-					try {
-						if(data && data.data && data.data.length){
-							let blocks = data.data;
+			async getLastBlocks(){
+				try{
+					let blockData = await getBlockList(1, 10, false);
+					if(blockData && blockData.data && blockData.data.length){
+							let blocks = blockData.data;
 							this.showBlockFadeinAnimation(blocks);
 							let that = this;
 							setTimeout( ()=> {
@@ -189,11 +189,9 @@
 								})
 							},1000)
 						}
-						
-					}catch (e) {
-						console.error(e)
-					}
-				})
+				}catch(err){
+
+				}
 			},
 			getTransaction(){
 				Server.commonInterface({homeLatestTransaction:{}},(res) => {
