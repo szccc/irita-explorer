@@ -14,14 +14,14 @@ export default class Tools{
 	static formatAge(currentServerTime,time,suffix,prefix){
 		let dateBegin = new Date(time);
 		let dateDiff = currentServerTime - dateBegin.getTime();
-		let dayDiff = Math.floor(dateDiff / (24 * 3600 * 1000));
-		let hourLevel = dateDiff % (24 * 3600 * 1000);
-		let hours = Math.floor(hourLevel / (3600 * 1000));
-		let minuteLevel = hourLevel % (3600 * 1000);
-		let minutes = Math.floor(minuteLevel / (60 * 1000));
-		let secondLevel = minuteLevel % (60 * 1000) ;
-		let seconds = Math.round(secondLevel / 1000);
-		
+		//console.log('----',dateBegin.getTime())
+		let dayDiff = Math.floor((currentServerTime - time) / (24 * 3600));
+		let hourLevel = dateDiff % (24 * 3600);
+		let hours = Math.floor(hourLevel / 3600);
+		let minuteLevel = hourLevel % 3600;
+		let minutes = Math.floor(minuteLevel / 60);
+		let seconds = minuteLevel % 60 ;
+
 		let str = `${dayDiff?`${dayDiff}d`:''} ${hours ? `${hours}h` : ''} ${dayDiff && hours ? '' : (minutes ? `${minutes}m`:'')} ${dayDiff || hours || minutes? '' : (seconds ? `${seconds}s`:'')}`;
 		if(prefix && suffix){
 			return`${prefix} ${str} ${suffix}`
@@ -79,5 +79,9 @@ export default class Tools{
 
 	static getDisplayDate(timestamp){
 	    return moment(timestamp*1000).zone(-8).format("YYYY-MM-DD HH:mm:ss");
+    }
+
+    static getTimestamp(){
+        return Math.floor(new Date().getTime() / 1000);
     }
 }

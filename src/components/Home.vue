@@ -176,16 +176,16 @@
 									flShowTranslationalAnimation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
 									showAnimation: item.showAnimation ? item.showAnimation : "",
 									height: item.height,
-									time: Tools.getDisplayDate(item.time),
-									Time: Tools.getDisplayDate(item.time),
+                                    time: Tools.getDisplayDate(item.time),
+                                    Time: item.time,
 									txNumber: item.txn,
-									blockAgeTime: Tools.formatAge(new Date(),item.time,"ago",">")
+									blockAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
 								}
 							});
 							clearInterval(this.blocksTimer)
 							this.blocksTimer = setInterval( () => {
 								that.latestBlockArray = that.latestBlockArray.map(item => {
-									item.blockAgeTime = Tools.formatAge(new Date(),item.Time,"ago",">");
+									item.blockAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
 									return item
 								})
 							},1000)
@@ -202,7 +202,7 @@
                 if(res && res.code === 0){
                     console.log(this.transactionArray)
                     for (let txIndex = 0; txIndex < res.data.data.length; txIndex++){
-                        if(new Date(res.data.data[txIndex].time).getTime() > localStorage.getItem("lastTxTime")){
+                        if(res.data.data[txIndex].time > JSON.parse(localStorage.getItem("lastTxTime"))){
                             res.data.data[txIndex].showAnimation = "show";
                             res.data.data.forEach(item => {
                                 item.flShowTranslationalAnimation = true
@@ -214,8 +214,8 @@
                             return item.flShowTranslationalAnimation = false
                         })
                     },1000);
-                    let lastTxTime = new Date(res.data.data[0].time).getTime();
-                    localStorage.setItem('lastTxTime',lastTxTime);
+
+                    localStorage.setItem('lastTxTime',JSON.stringify(Tools.getTimestamp()));
                     this.latestTransaction = res.data.data.map(item => {
                         return {
                             flShowTranslationalAnimtation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
@@ -223,14 +223,14 @@
                             hash: item.tx_hash,
                             time: Tools.getDisplayDate(item.time),
                             txType: item.type,
-                            Time: Tools.getDisplayDate(item.time),
-                            txAgeTime: Tools.formatAge(new Date(),item.time,"ago",">")
+                            Time: item.time,
+                            txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
                         }
                     });
                     clearInterval(this.transfersTimer);
                     this.transfersTimer = setInterval(()=> {
                         this.latestTransaction = this.latestTransaction.map(item => {
-                            item.txAgeTime = Tools.formatAge(new Date(),item.Time,"ago",">");
+                            item.txAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
                             return item
                         })
                     },1000)
@@ -239,11 +239,6 @@
                 } else {
 
                 }
-
-
-
-
-
 			},
 			showBlockFadeinAnimation (blockList) {
 				let storedLastBlockHeight = localStorage.getItem('lastBlockHeight') ? localStorage.getItem('lastBlockHeight') : '';
