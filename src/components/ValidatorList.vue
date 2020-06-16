@@ -97,16 +97,16 @@
 			async validatorListRequest(){
 				try {
 					let validatorsData = await getValidatorList(this.status=='unbonded', this.pageNumber, this.pageSize, true);
-					if(res.length > 0){
-						this.validatorList = res.map((item,index) => {
+					if(validatorsData && validatorsData.data && validatorsData.data.length){
+						this.validatorList = validatorsData.data.map((item,index) => {
 							return {
 								index:index + 1,
 								name: item.name,
 								// moniker: item.description.moniker,
-								operator: item.address,
-								proposerPriority: item.proposer_priority,
-								votingPower: item.voting_power,
-								pubKey: item.pub_key,
+								operator: item.operator,
+								// proposerPriority: item.proposer_priority,
+								votingPower: item.power,
+								pubKey: item.pubkey,
 								// website: item.description.website ? item.description.website : '--',
 								// identity: item.description.identity ? item.description.identity : '--',
 								// detail: item.description.detail ? item.description.detail : '--',
