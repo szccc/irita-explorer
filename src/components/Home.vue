@@ -98,6 +98,8 @@
 <script>
 	import Server from "../service"
 	import Tools from "../util/Tools"
+    import { HttpHelper } from '../helper/httpHelper';
+    import moment from 'moment';
 	export default {
 		name: "Home",
 		data () {
@@ -195,50 +197,55 @@
 					}
 				})
 			},
-			getTransaction(){
-				Server.commonInterface({homeLatestTransaction:{}},(res) => {
-					try {
-						if(res){
-							let that = this;
-							for (let txIndex = 0; txIndex < res.length; txIndex++){
-								if(new Date(res[txIndex].timestamp).getTime() > localStorage.getItem("lastTxTime")){
-									res[txIndex].showAnimation = "show";
-									res.forEach(item => {
-										item.flShowTranslationalAnimation = true
-									})
-								}
-							}
-							setTimeout(function () {
-								that.latestTransaction.map(item => {
-									return item.flShowTranslationalAnimation = false
-								})
-							},1000);
-							let lastTxTime = new Date(res[0].time).getTime();
-							localStorage.setItem('lastTxTime',lastTxTime);
-							this.latestTransaction = res.map(item => {
-								return {
-									flShowTranslationalAnimation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
-									showAnimation: item.showAnimation ? item.showAnimation : '',
-									hash: item.hash,
-									time: Tools.formatUtc(item.timestamp),
-									txType: item.txType,
-									Time: item.timestamp,
-									txAgeTime: Tools.formatAge(new Date(),item.timestamp,"ago",">")
-								}
-							});
-							clearInterval(this.transfersTimer);
-							this.transfersTimer = setInterval(function () {
-								that.latestTransaction = that.latestTransaction.map(item => {
-									item.txAgeTime = Tools.formatAge(new Date(),item.Time,"ago",">");
-									return item
-								})
-							},1000)
-						}
-						
-					}catch (e) {
-						console.error(e)
-					}
-				})
+			async getTransaction(){
+                let url = `txs?pageNum=1&pageSize=10`;
+                const res = await HttpHelper.get(url);
+                if(res && res.code === 0){
+                    console.log(res)
+                    console.log(this.transactionArray)
+                    for (let txIndex = 0; txIndex < res.data.data.length; txIndex++){
+                        if(new Date(res.data.data[txIndex].time).getTime() > localStorage.getItem("lastTxTime")){
+                            res.data.data[txIndex].showAnimation = "show";
+                            res.data.data.forEach(item => {
+                                item.flShowTranslationalAnimation = true
+                            })
+                        }
+                    }
+                    setTimeout(()=> {
+                        this.latestTransaction.map(item => {
+                            return item.flShowTranslationalAnimation = false
+                        })
+                    },1000);
+                    let lastTxTime = new Date(res.data.data[0].time).getTime();
+                    localStorage.setItem('lastTxTime',lastTxTime);
+                    this.latestTransaction = res.data.data.map(item => {
+                        return {
+                            flShowTranslationalAnimtation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
+                            showAnimation: item.showAnimation ? item.showAnimation : '',
+                            hash: item.tx_hash,
+                            time: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
+                            txType: item.type,
+                            Time: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
+                            txAgeTime: Tools.formatAge(new Date(),item.time,"ago",">")
+                        }
+                    });
+                    clearInterval(this.transfersTimer);
+                    this.transfersTimer = setInterval(()=> {
+                        this.latestTransaction = this.latestTransaction.map(item => {
+                            item.txAgeTime = Tools.formatAge(new Date(),item.Time,"ago",">");
+                            return item
+                        })
+                    },1000)
+                } else if(res.code){
+
+                } else {
+
+                }
+
+
+
+
+
 			},
 			showBlockFadeinAnimation (blockList) {
 				let storedLastBlockHeight = localStorage.getItem('lastBlockHeight') ? localStorage.getItem('lastBlockHeight') : '';

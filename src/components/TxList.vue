@@ -195,36 +195,7 @@
                 history.pushState(null, null, `/#/txs?txType=&status=&startTime=&endTime=&page=1`);
             },
             async getTxList(){
-               let param = {}, urlParams = this.getParamsByUrlHash();
-                /* param.txList = {};
-                param.txList.pageNumber = this.currentPageNum;
-                param.txList.pageSize = this.pageSize;
-                param.txList.txType = urlParams.txType ? urlParams.txType : '';
-                param.txList.status = urlParams.txStatus ? urlParams.txStatus : '';
-                param.txList.beginTime = urlParams.filterStartTime ? urlParams.filterStartTime : '';
-                param.txList.endTime = urlParams.filterEndTime ? urlParams.filterEndTime : '';
-                Server.commonInterface(param, (res) =>{
-                    try {
-                        if(res){
-                            this.txCount = res.count;
-                            this.transactionArray = res.data.map((item) =>{
-                                return {
-                                    txHash : item.txHash,
-                                    blockHeight : item.height,
-                                    txType : item.txType,
-                                    from : item.from ? item.from : '--',
-                                    to : item.to ? item.to : '--',
-                                    signer : item.signer,
-                                    status : Tools.firstWordUpperCase(item.status),
-                                    time : Tools.formatUtc(item.timestamp)
-                                }
-                            })
-                        }
-                    } catch (e) {
-                        console.error(e)
-                    }
-                })*/
-
+               let urlParams = this.getParamsByUrlHash();
                 let url = `txs?pageNum=${this.currentPageNum}&pageSize=${this.pageSize}`;
                 if(urlParams.txType){
                     url += `&type=${urlParams.txType}`;

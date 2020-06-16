@@ -110,6 +110,8 @@
 <script>
 	import Server from "../service"
 	import Tools from "../util/Tools"
+    import { HttpHelper } from '../helper/httpHelper';
+    import moment from 'moment';
 	export default {
 		name: "NftToken",
 		data() {
@@ -157,33 +159,31 @@
 					}
 				})
 			},
-			getTokenTx(){
-				Server.commonInterface({getTxByToken:{
-						tokenId: this.tokenID,
-						denom: this.$route.query.denom,
-						pageNum: this.pageNum,
-						pageSize: this.pageSize
-					}},(res) => {
-					try {
-						if(res){
-							this.txListByToken = res.map( item => {
-								return {
-									txHash: item.tx_hash,
-									blockHeight: item.height,
-									txType: item.type,
-									from: item.from ? item.from : '--',
-									to: item.to ? item.to : '--',
-									signer: item.signer,
-									status:item.status === 1 ? 'Success' :'Fail',
-									time: Tools.formatUtc(item.time)
-								}
-							})
-						}
-						
-					}catch (e) {
-						console.error(e)
-					}
-				})
+			async getTokenTx(){
+                let url = `txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&nftId=${this.tokenID}&denom=${this.$route.query.denom}`;
+                console.log('query tx url', url);
+
+                const res = await HttpHelper.get(url);
+                if(res && res.code === 0){
+                    console.log(res)
+                    this.transactionArray = res.data.data.map((tx)=>{
+                        return {
+                            txHash : tx.tx_hash,
+                            blockHeight : tx.height,
+                            txType : tx.type,
+                            from : tx.from ? tx.from : '--',
+                            to : tx.to ? tx.to : '--',
+                            signer : tx.signer,
+                            status : tx.status === 1 ? 'Success' : 'Failed',
+                            time :moment(tx.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
+                        }
+                    });
+                    console.log(this.transactionArray)
+                } else if(res.code){
+
+                } else {
+
+                }
 			},
 			formatTxHash(TxHash){
 				if(TxHash){
