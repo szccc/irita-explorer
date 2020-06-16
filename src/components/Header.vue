@@ -103,7 +103,7 @@
 			searchBlock(){
 				Service.commonInterface({blockInformation:{height:this.searchInputValue}},(blockInformation) => {
 					try {
-						if(blockInformation&&blockInformation.length > 0){
+						if(blockInformation&&blockInformation.height){
 							this.$router.push(`/block/${this.searchInputValue}`);
 							this.clearSearchContent();
 						}else {
