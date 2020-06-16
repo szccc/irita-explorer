@@ -62,6 +62,7 @@
 <script>
 	import Tools from "../util/Tools";
 	import Service from "../service";
+	import constant from "../constant"
 	import { getBlockWithHeight } from '../service/api';
 	export default {
 		data() {
@@ -88,11 +89,12 @@
 					this.clearSearchContent();
 					return
 				} else {
+					debugger;
 					if (/^[A-F0-9]{64}$/.test(this.searchInputValue)) {
 						this.searchTx();
-					} else if (this.$Codec.Bech32.isBech32(this.$Crypto.config.iris.bech32.accAddr, this.searchInputValue)) {
+					} else if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.searchInputValue)) {
 						this.searchDelegator();
-					} else if (this.$Codec.Bech32.isBech32(this.$Crypto.config.iris.bech32.valAddr, this.searchInputValue)) {
+					} else if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.searchInputValue)) {
 						this.searchDelegator();
 					} else if (/^\+?[1-9][0-9]*$/.test(this.searchInputValue)) {
 						this.searchBlock();

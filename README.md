@@ -1,3 +1,10 @@
 # explooer
-## npm install (cnpm install)
-## npm run serve
+
+##setup
+npm install (cnpm install)
+
+## Compiles and hot-reloads for development
+npm run serve
+
+## Compiles and minifies for production
+npm run build
