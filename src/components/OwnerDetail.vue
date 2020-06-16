@@ -113,6 +113,7 @@
 
 <script>
 	import Server  from "../service"
+	import { getNfts } from "../service/api"
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
     import { HttpHelper } from '../helper/httpHelper';
@@ -144,67 +145,40 @@
 			this.address = this.$route.params.param
 		},
 		methods:{
-			getOwnerDetail(){
-				Server.commonInterface({nftList:{
-						owner: this.$route.params.param,
-						pageSize:1000,
-						pageNum:1,
-						useCount:false,
-						denom:'',
-						nftId:'',
-					}},(data) => {
-					try {
-						if(data && data.data ){
-							this.assetArray = data.data.map(item => {
-								return{
-									denom: item.denom,
-									id: item.id,
-									name: item.denom,
-									owner: item.owner,
-									// primaryKey: item.primary_key,
-									tokenData: item.tokenData,
-									tokenUri: item.tokenUri,
-								}
-							})
-							/*res.map(item => {
-								if(item){
-									this.denomArray = item.ids.map(id => {
-										return {
-											id: id,
-											denom: item.denom,
-										}
-									})
-								}
-								this.assetArray = [];
-								this.denomArray.forEach(item => {
-									this.getDenomUri(item.denom,item.id,(res) => {
-										item.tokenUri = res;
-										this.assetArray.unshift(item)
-										
-									});
-								})
-							});*/
-						}
-					}catch (e) {
-						console.error(e)
-					}
-				})
-			},
-			getDenomUri(denom,id,callback){
-				Server.commonInterface({getTokenUri:{denom: denom, tokenId: id}},(res) => {
-					try {
-						if(res){
-							if(res.token_uri){
-								callback(res.token_uri)
-							}else {
-								callback('--')
+			async getOwnerDetail(){
+				try {				
+					let nftData = await getNfts('', '', this.$route.params.param, 1, 1000, true);
+					if(nftData && nftData.data ){
+						this.assetArray = nftData.data.map(item => {
+							return{
+								denom: item.denom,
+								id: item.id,
+								name: item.denom,
+								owner: item.owner,
+								tokenData: item.tokenData,
+								tokenUri: item.tokenUri,
 							}
-						}
-					}catch (e) {
-						console.error(e)
+						})
 					}
-				})
+				}catch (e) {
+					console.error(e)
+				}
 			},
+			// getDenomUri(denom,id,callback){
+			// 	Server.commonInterface({getTokenUri:{denom: denom, tokenId: id}},(res) => {
+			// 		try {
+			// 			if(res){
+			// 				if(res.token_uri){
+			// 					callback(res.token_uri)
+			// 				}else {
+			// 					callback('--')
+			// 				}
+			// 			}
+			// 		}catch (e) {
+			// 			console.error(e)
+			// 		}
+			// 	})
+			// },
 			async getTxByAddress(){
                 let url = `txs/addresses?pageNum=${this.pageNum}&pageSize=${this.pageSize}&address=${this.$route.params.param}&useCount=true`;
                 const res = await HttpHelper.get(url);

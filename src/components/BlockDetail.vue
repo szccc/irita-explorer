@@ -64,8 +64,9 @@
 </template>
 
 <script>
-	import Service from '../service'
-	import Tools from "../util/Tools"
+	import Service from '../service';
+	import { getBlockWithHeight, getLatestBlock } from '../service/api';
+	import Tools from "../util/Tools";
     import { HttpHelper } from '../helper/httpHelper';
 	export default {
 		name: "BlockDetail",
@@ -85,7 +86,7 @@
 			$route() {
 				this.getBlockInformation();
 				this.getTransactionList();
-				this.getLatestBlock()
+				this.latestBlock()
 				if (Number(this.$route.params.height) <= 1) {
 					this.active = false;
 				} else {
@@ -103,7 +104,7 @@
 		mounted () {
 			this.getBlockInformation();
 			this.getTransactionList();
-			this.getLatestBlock()
+			this.latestBlock()
 			if (Number(this.$route.params.height) > 1) {
 				this.active = true;
 				this.activeNext = true;
@@ -113,33 +114,28 @@
 			}
 		},
 		methods:{
-			getLatestBlock(){
-				Service.commonInterface({latestBlock:{}},(data) => {
-					try {
-						if(data && data.block && data.block.header){
-							this.getMaxBlock(data.block.header.height);
-						}
-					}catch (e) {
-						console.error(e)
+			async latestBlock(){
+				try {
+					let blockData = await getLatestBlock();
+					if(blockData && blockData.block && blockData.block.header){
+						this.getMaxBlock(blockData.block.header.height);
 					}
-				})
-				
+				}catch (e) {
+					console.error(e)
+				}				
 			},
-			getBlockInformation(){
-				Service.commonInterface({blockInformation: {
-						height:this.$route.params.height
-					}},(data) => {
-					try {
-						if(data){
-							this.heightValue = data.height;
-							this.blockHash = data.hash;
-							this.txNumber = data.txn;
-							this.time = Tools.formatUtc(data.time);
-						}
-					}catch (e) {
-						console.error(e)
+			async getBlockInformation(){
+				try {
+					let blockData = await getBlockWithHeight(this.$route.params.height);
+					if(blockData){
+						this.heightValue = blockData.height;
+						this.blockHash = blockData.hash;
+						this.txNumber = blockData.txn;
+						this.time = Tools.formatUtc(blockData.time);
 					}
-				})
+				}catch (e) {
+					console.error(e)
+				}
 			},
 			getMaxBlock(latestHeight) {
 				this.maxBlock = latestHeight;

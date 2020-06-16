@@ -60,8 +60,9 @@
 	</div>
 </template>
 <script>
-	import Tools from "../util/Tools"
-	import Service from "../service"
+	import Tools from "../util/Tools";
+	import Service from "../service";
+	import { getBlockWithHeight } from '../service/api';
 	export default {
 		data() {
 			return {
@@ -100,22 +101,19 @@
 					}
 				}
 			},
-			searchBlock(){
-				Service.commonInterface({blockInformation:{height:this.searchInputValue}},(blockInformation) => {
-					try {
-						if(blockInformation&&blockInformation.height){
+			async searchBlock(){
+				try {
+						let blockData = await getBlockWithHeight(this.searchInputValue)
+						if(blockData&&blockData.height){
 							this.$router.push(`/block/${this.searchInputValue}`);
 							this.clearSearchContent();
 						}else {
 							this.toSearchResultPage();
 						}
-						
 					}catch (e) {
 						console.error(e)
 						this.toSearchResultPage();
 					}
-					
-				})
 			},
 			searchDelegator () {
 				Service.commonInterface({ownerDetail:{ownerAddress:this.searchInputValue}}, (delegatorAddress) => {

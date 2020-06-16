@@ -31,6 +31,7 @@
 
 <script>
 	import Service from "../service"
+	import { getValidatorList } from "../service/api"
 	import Tools from "../util/Tools"
 	import MTabs from "./MTabs";
 	export default {
@@ -46,14 +47,17 @@
 					{
 						title:'共识中',
 						isActive: true,
+						name:'bonded'
 					},
-					{
-						title:'候选中',
-						isActive: false,
-					},
+					// {
+					// 	title:'候选中',
+					// 	isActive: false,
+					// 	name:'unbonding'
+					// },
 					{
 						title:'待解禁',
 						isActive: false,
+						name:'unbonded'
 					}
 				],
 				proposerPriority:'',
@@ -62,7 +66,7 @@
 			}
 		},
 		mounted () {
-			this.getValidatorList();
+			this.validatorListRequest();
 		},
 		methods:{
 			selectValidatorStatus(index){
@@ -72,53 +76,77 @@
 				});
 				// localStorage.setItem('validatorTabIndex',index);
 				this.validatorStatusTitleList[index].isActive = true;
-				this.getValidatorStatus(index);
-				this.getValidatorList()
+				this.status = this.validatorStatusTitleList[index]['name'];
+				// this.getValidatorStatus(index);
+				this.validatorListRequest()
 			},
-			getValidatorStatus(index){
-				let validatorStatus;
-				switch (index) {
-					case 0 :
-						this.status = 'bonded';
-						break;
-					case 1 :
-						this.status = 'unbonding';
-						break;
-					case 2 :
-						this.status = 'unbonded'
-				}
-				return validatorStatus
-			},
-			getValidatorList(){
-				Service.commonInterface({validatorList:{
-						status: this.status,
-						pageNum: this.pageNumber,
-						pageSize: this.pageSize
-					}},(res) => {
-					try {
-						if(res.length > 0){
-							this.validatorList = res.map((item,index) => {
-								return {
-									index:index + 1,
-									name: item.name,
-									// moniker: item.description.moniker,
-									operator: item.address,
-									proposerPriority: item.proposer_priority,
-									votingPower: item.voting_power,
-									pubKey: item.pub_key,
-									// website: item.description.website ? item.description.website : '--',
-									// identity: item.description.identity ? item.description.identity : '--',
-									// detail: item.description.detail ? item.description.detail : '--',
-								}
-							})
-							
-						}else {
-							this.validatorList = []
-						}
-					}catch (e) {
-						console.error(e)
+			// getValidatorStatus(index){
+			// 	let validatorStatus;
+			// 	switch (index) {
+			// 		case 0 :
+			// 			this.status = 'bonded';
+			// 			break;
+			// 		case 1 :
+			// 			this.status = 'unbonding';
+			// 			break;
+			// 		case 2 :
+			// 			this.status = 'unbonded'
+			// 	}
+			// 	return validatorStatus
+			// },
+			async validatorListRequest(){
+				try {
+					let validatorsData = await getValidatorList(this.status=='unbonded', this.pageNumber, this.pageSize, true);
+					if(res.length > 0){
+						this.validatorList = res.map((item,index) => {
+							return {
+								index:index + 1,
+								name: item.name,
+								// moniker: item.description.moniker,
+								operator: item.address,
+								proposerPriority: item.proposer_priority,
+								votingPower: item.voting_power,
+								pubKey: item.pub_key,
+								// website: item.description.website ? item.description.website : '--',
+								// identity: item.description.identity ? item.description.identity : '--',
+								// detail: item.description.detail ? item.description.detail : '--',
+							}
+						})
+					}else {
+						this.validatorList = []
 					}
-				})
+				}catch (e) {
+					console.error(e)
+				}
+				// Service.commonInterface({validatorList:{
+				// 		status: this.status,
+				// 		pageNum: this.pageNumber,
+				// 		pageSize: this.pageSize
+				// 	}},(res) => {
+				// 	try {
+				// 		if(res.length > 0){
+				// 			this.validatorList = res.map((item,index) => {
+				// 				return {
+				// 					index:index + 1,
+				// 					name: item.name,
+				// 					// moniker: item.description.moniker,
+				// 					operator: item.address,
+				// 					proposerPriority: item.proposer_priority,
+				// 					votingPower: item.voting_power,
+				// 					pubKey: item.pub_key,
+				// 					// website: item.description.website ? item.description.website : '--',
+				// 					// identity: item.description.identity ? item.description.identity : '--',
+				// 					// detail: item.description.detail ? item.description.detail : '--',
+				// 				}
+				// 			})
+							
+				// 		}else {
+				// 			this.validatorList = []
+				// 		}
+				// 	}catch (e) {
+				// 		console.error(e)
+				// 	}
+				// })
 			},
 			formatAddress(address){
 				return Tools.formatValidatorAddress(address)
