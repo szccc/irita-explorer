@@ -141,16 +141,16 @@
 		},
 		methods:{
 			getNavigation(){
-				Server.commonInterface({homeNavigation:{}},(res) => {
+				Server.commonInterface({statistics:{}},(data) => {
 					try {
-						if(res){
-							this.block_height = res.height;
-							this.transactionNumber = res.txCount;
-							this.validatorNumber = res.validatorCount;
-							this.transactionTime = Tools.formatUtc(res.timestamp);
-							this.ageTime = res.ageTime;
-							this.assetsNumber = res.nftCount;
-							this.serverNumber = res.serviceCount;
+						if(data){
+							this.block_height = data.blockHeight;
+							this.transactionNumber = data.txCount;
+							this.validatorNumber = data.validatorCount;
+							this.transactionTime = Tools.formatUtc(data.latestBlockTime);
+							this.ageTime = data.avgBlockTime;
+							this.assetsNumber = data.assetCount;
+							this.serverNumber = data.serviceCount;
 						}
 					}catch (e) {
 					
@@ -158,26 +158,27 @@
 				})
 			},
 			getLastBlocks(){
-				Server.commonInterface({homeLatestBlock:{}},(res) => {
+				Server.commonInterface({blockList:{pageNum: 1,pageSize: 10}} ,(data) => {
 					try {
-						if(res){
-							this.showBlockFadeinAnimation(res);
+						if(data && data.data && data.data.length){
+							let blocks = data.data;
+							this.showBlockFadeinAnimation(blocks);
 							let that = this;
 							setTimeout( ()=> {
 								that.latestBlockArray.map(item => {
 									return item.flShowTranslationalAnimation = false
 								})
 							},1000);
-							localStorage.setItem("lastBlockHeight",res[0].height);
-							this.latestBlockArray = res.map(item => {
+							localStorage.setItem("lastBlockHeight",blocks[0].height);
+							this.latestBlockArray = blocks.map(item => {
 								return {
 									flShowTranslationalAnimation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
 									showAnimation: item.showAnimation ? item.showAnimation : "",
 									height: item.height,
-									time: Tools.formatUtc(item.timestamp),
-									Time: item.timestamp,
-									txNumber: item.numTxs,
-									blockAgeTime: Tools.formatAge(new Date(),item.timestamp,"ago",">")
+									time: Tools.formatUtc(item.time),
+									Time: item.time,
+									txNumber: item.txn,
+									blockAgeTime: Tools.formatAge(new Date(),item.time,"ago",">")
 								}
 							});
 							clearInterval(this.blocksTimer)

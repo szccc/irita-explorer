@@ -146,20 +146,25 @@
 		},
 		methods:{
 			getOwnerDetail(){
-				Server.commonInterface({ownerDetail:{
-						ownerAddress: this.$route.params.param
-					}},(res) => {
+				Server.commonInterface({nftList:{
+						owner: this.$route.params.param,
+						pageSize:1000,
+						pageNum:1,
+						useCount:false,
+						denom:'',
+						nftId:'',
+					}},(data) => {
 					try {
-						if(res ){
-							this.assetArray = res.map(item => {
+						if(data && data.data ){
+							this.assetArray = data.data.map(item => {
 								return{
-									denom: item.name,
-									id: item.nft_id,
-									name: item.name,
+									denom: item.denom,
+									id: item.id,
+									name: item.denom,
 									owner: item.owner,
-									primaryKey: item.primary_key,
-									tokenData: item.token_data,
-									tokenUri: item.token_uri,
+									// primaryKey: item.primary_key,
+									tokenData: item.tokenData,
+									tokenUri: item.tokenUri,
 								}
 							})
 							/*res.map(item => {
