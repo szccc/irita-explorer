@@ -16,7 +16,7 @@ export class HttpHelper {
     }
 
     static async getFromLcd(url){
-        const data = await axios.get(`${cfg.server.lcd}/${url}`);
+        const data = await axios.get(`${url}`);
         if(data && data.status === 200){
             return data.data;
         } else {

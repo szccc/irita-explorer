@@ -200,7 +200,7 @@
                 }
 			},
 			async getServiceBindingList(){
-                let url = `service/bindings/${this.$route.query.serviceName}`;
+                let url = `/api/service/bindings/${this.$route.query.serviceName}`;
                 const res = await HttpHelper.getFromLcd(url);
                 if(res){
                     console.log(res)
