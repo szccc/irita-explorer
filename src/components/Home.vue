@@ -99,6 +99,7 @@
 	import Server from "../service"
 	import Tools from "../util/Tools"
 	import { getStatistics, getBlockList } from "../service/api"
+    import { HttpHelper } from '../helper/httpHelper';
 	export default {
 		name: "Home",
 		data () {
@@ -175,16 +176,16 @@
 									flShowTranslationalAnimation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
 									showAnimation: item.showAnimation ? item.showAnimation : "",
 									height: item.height,
-									time: Tools.formatUtc(item.time),
-									Time: item.time,
+                                    time: Tools.getDisplayDate(item.time),
+                                    Time: item.time,
 									txNumber: item.txn,
-									blockAgeTime: Tools.formatAge(new Date(),item.time,"ago",">")
+									blockAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
 								}
 							});
 							clearInterval(this.blocksTimer)
 							this.blocksTimer = setInterval( () => {
 								that.latestBlockArray = that.latestBlockArray.map(item => {
-									item.blockAgeTime = Tools.formatAge(new Date(),item.Time,"ago",">");
+									item.blockAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
 									return item
 								})
 							},1000)
@@ -193,50 +194,49 @@
 
 				}
 			},
-			getTransaction(){
-				Server.commonInterface({homeLatestTransaction:{}},(res) => {
-					try {
-						if(res){
-							let that = this;
-							for (let txIndex = 0; txIndex < res.length; txIndex++){
-								if(new Date(res[txIndex].timestamp).getTime() > localStorage.getItem("lastTxTime")){
-									res[txIndex].showAnimation = "show";
-									res.forEach(item => {
-										item.flShowTranslationalAnimation = true
-									})
-								}
-							}
-							setTimeout(function () {
-								that.latestTransaction.map(item => {
-									return item.flShowTranslationalAnimation = false
-								})
-							},1000);
-							let lastTxTime = new Date(res[0].time).getTime();
-							localStorage.setItem('lastTxTime',lastTxTime);
-							this.latestTransaction = res.map(item => {
-								return {
-									flShowTranslationalAnimation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
-									showAnimation: item.showAnimation ? item.showAnimation : '',
-									hash: item.hash,
-									time: Tools.formatUtc(item.timestamp),
-									txType: item.txType,
-									Time: item.timestamp,
-									txAgeTime: Tools.formatAge(new Date(),item.timestamp,"ago",">")
-								}
-							});
-							clearInterval(this.transfersTimer);
-							this.transfersTimer = setInterval(function () {
-								that.latestTransaction = that.latestTransaction.map(item => {
-									item.txAgeTime = Tools.formatAge(new Date(),item.Time,"ago",">");
-									return item
-								})
-							},1000)
-						}
-						
-					}catch (e) {
-						console.error(e)
-					}
-				})
+			async getTransaction(){
+                let url = `txs?pageNum=1&pageSize=10`;
+                const res = await HttpHelper.get(url);
+                if(res && res.code === 0){
+                    console.log(this.transactionArray)
+                    for (let txIndex = 0; txIndex < res.data.data.length; txIndex++){
+                        if(res.data.data[txIndex].time > JSON.parse(localStorage.getItem("lastTxTime"))){
+                            res.data.data[txIndex].showAnimation = "show";
+                            res.data.data.forEach(item => {
+                                item.flShowTranslationalAnimation = true
+                            })
+                        }
+                    }
+                    setTimeout(()=> {
+                        this.latestTransaction.map(item => {
+                            return item.flShowTranslationalAnimation = false
+                        })
+                    },1000);
+
+                    localStorage.setItem('lastTxTime',JSON.stringify(Tools.getTimestamp()));
+                    this.latestTransaction = res.data.data.map(item => {
+                        return {
+                            flShowTranslationalAnimtation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
+                            showAnimation: item.showAnimation ? item.showAnimation : '',
+                            hash: item.tx_hash,
+                            time: Tools.getDisplayDate(item.time),
+                            txType: item.type,
+                            Time: item.time,
+                            txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
+                        }
+                    });
+                    clearInterval(this.transfersTimer);
+                    this.transfersTimer = setInterval(()=> {
+                        this.latestTransaction = this.latestTransaction.map(item => {
+                            item.txAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
+                            return item
+                        })
+                    },1000)
+                } else if(res.code){
+
+                } else {
+
+                }
 			},
 			showBlockFadeinAnimation (blockList) {
 				let storedLastBlockHeight = localStorage.getItem('lastBlockHeight') ? localStorage.getItem('lastBlockHeight') : '';

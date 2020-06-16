@@ -141,8 +141,6 @@
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
     import { HttpHelper } from '../helper/httpHelper';
-    import moment from 'moment';
-    import {cfg} from '../config';
 	export default {
 		name: "ServiceInformation",
 		components: {MPagination},
@@ -200,11 +198,11 @@
                 }
 			},
 			async getServiceBindingList(){
-                let url = `txs/services/detail/${this.$route.query.serviceName}`;
-                const res = await HttpHelper.get(url, cfg.server.lcd);
-                if(res && res.code === 0){
+                let url = `/api/service/bindings/${this.$route.query.serviceName}`;
+                const res = await HttpHelper.getFromLcd(url);
+                if(res){
                     console.log(res)
-                   /* this.bindingArray = res.data.map((item) =>{
+                    this.bindingArray = res.result.map((item) =>{
                         return {
                             available : `${item.available}`,
                             deposit : `${item.deposit[0].amount} ${item.deposit[0].denom}`,
@@ -215,7 +213,7 @@
                             qos : item.qos,
                             serviceName : item.service_name,
                         }
-                    })*/
+                    })
 
                 } else if(res.code){
 
@@ -242,7 +240,7 @@
                             to: toAddressArray.length > 0 ? `${toAddressArray.length} Address` : item.to,
                             content:toAddressArray,
                             height: item.height,
-                            timestamp: moment(item.time).zone(+0).format("YYYY-MM-DD HH:mm:ss"),
+                            timestamp: Tools.getDisplayDate(item.time)
                         }
                     })
 

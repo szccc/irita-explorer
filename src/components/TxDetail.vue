@@ -489,10 +489,8 @@
 </template>
 
 <script>
-    import Service from "../service"
     import Tools from "../util/Tools"
     import { HttpHelper } from '../helper/httpHelper';
-    import moment from 'moment';
 
     export default {
         name : "TxDetail",
@@ -591,7 +589,7 @@
                     this.txHash = res.data.tx_hash;
                     this.blockHeight = res.data.height;
                     this.status = res.data.status === 1 ? 'Success' : 'Failed';
-                    this.timestamp = moment(res.data.time).zone(+0).format("YYYY-MM-DD HH:mm:ss");
+                    this.timestamp = Tools.getDisplayDate(res.data.time);
                     this.signer = res.data.signer;
                     this.memo = res.data.memo ? res.data.memo : '--';
                     this.txType = res.data.msgs[0].type;
