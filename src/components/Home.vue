@@ -253,8 +253,8 @@
 					}
 				}
 			},
-			componentAgeTime(startTime,endTime){
-				return ((Number(new Date(startTime).getTime()) - Number(new Date(endTime).getTime())) /1000/ 100).toFixed(2)
+			componentAgeTime(beginTime,endTime){
+				return ((Number(new Date(beginTime).getTime()) - Number(new Date(endTime).getTime())) /1000/ 100).toFixed(2)
 			}
 		},
 		destroyed () {

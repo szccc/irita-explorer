@@ -5,24 +5,38 @@
                 <div class="total_tx_content">{{txCount}} {{$t('ExplorerCN.transactions.txs')}}</div>
                 <div class="filer_content">
                     <div class="tx_type_mobile_content">
-                        <el-select v-model="value" filterable :change="filterTxByTxType(value)">
+                        <!--<el-select v-model="value" filterable :change="filterTxByTxType(value)">
+                            <el-option v-for="(item, index) in txTypeOption"
+                                       :key="index"
+                                       :label="item.label"
+                                       :value="item.value"></el-option>
+                        </el-select>-->
+                        <el-select v-model="txType">
                             <el-option v-for="(item, index) in txTypeOption"
                                        :key="index"
                                        :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>
 
-                        <el-select v-model="statusValue" :change="filterTxByStatus(statusValue)">
-                            <el-option v-for="(item, index) in status"
+
+                        <!--<el-select v-model="statusValue" :change="filterTxByStatus(statusValue)">
+                            <el-option v-for="(item, index) in statusOpt"
+                                       :key="index"
+                                       :label="item.label"
+                                       :value="item.value"></el-option>
+                        </el-select>-->
+                        <el-select v-model="statusValue">
+                            <el-option v-for="(item, index) in statusOpt"
                                        :key="index"
                                        :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>
+
                     </div>
                     <div class="tx_type_mobile_content">
                         <el-date-picker type="date"
-                                        v-model="startTime"
-                                        @change="getStartTime(startTime)"
+                                        v-model="beginTime"
+                                        @change="getStartTime(beginTime)"
                                         :editable="false"
                                         value-format="yyyy-MM-dd"
                                         placeholder="Select Date">
@@ -108,9 +122,9 @@
             </div>
             <div class="pagination_content">
                 <keep-alive>
-                    <m-pagination :page-size="pageSize"
+                    <m-pagination :page-size="Number(pageSize)"
                                   :total="txCount"
-                                  :page="currentPageNum"
+                                  :page="Number(pageNum)"
                                   :page-change="pageChange">
                     </m-pagination>
                 </keep-alive>
@@ -124,89 +138,100 @@
     import Tools from "../util/Tools"
     import MPagination from "./MPagination";
     import { HttpHelper } from '../helper/httpHelper';
+    import moment from 'moment';
 
     export default {
         name : "TxList",
         components : {MPagination},
         data(){
+            const {txType, status, beginTime, endTime, pageNum, pageSize} = Tools.urlParser();
+
             return {
-                currentPageNum : 1,
-                pageSize : 10,
-                txType : '',
                 transactionArray : [],
                 txCount : 0,
                 txTypeOption : [],
-                status : [],
-                statusValue : this.getParamsByUrlHash().txStatus ? this.getParamsByUrlHash().txStatus : 'allStatus',
-                value : this.getParamsByUrlHash().txType ? this.getParamsByUrlHash().txType : 'allTxType',
-                startTime : this.getParamsByUrlHash().urlParamShowStartTime ? this.getParamsByUrlHash().urlParamShowStartTime : '',
-                endTime : this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',
-                filterStartTime : '',
+                statusOpt : [
+                    {
+                        value:'',
+                        label:'All Status'
+                    },
+                    {
+                        value:1,
+                        label:'Success'
+                    },
+                    {
+                        value:2,
+                        label:'Failed'
+                    }
+                ],
+                statusValue : status ? status : '',
+                txType : txType ? txType : '',
+                beginTime : beginTime ? beginTime : '',
+                endTime : endTime ? endTime : '',
+                /*filterStartTime : '',
                 filterEndTime : '',
                 urlParamsShowStartTime : this.getParamsByUrlHash().urlParamShowStartTime ? this.getParamsByUrlHash().urlParamShowStartTime : '',
-                urlParamsShowEndTime : this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',
+                urlParamsShowEndTime : this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',*/
                 txStatus : '',
+                pageNum: pageNum ? pageNum : 1,
+                pageSize: pageSize ? pageSize : 10,
             }
         },
         mounted(){
-            this.getTxList();
+            this.getFilterTxs();
             this.getAllTxType();
-            let statusArray = [
-                {
-                    value:'',
-                    label:'All Status'
-                },
-                {
-                    value:1,
-                    label:'Success'
-                },
-                {
-                    value:2,
-                    label:'Failed'
-                }
-            ]
-            statusArray.forEach( item => {
-                this.status.push(item)
-            })
         },
         methods : {
             getFilterTxs(){
-                this.currentPageNum = 1;
-                sessionStorage.setItem('txpagenum', 1);
-                history.pushState(null, null, `/#/txs?txType=${this.TxType}&status=${this.txStatus}&startTime=${this.urlParamsShowStartTime}&endTime=${this.urlParamsShowEndTime}&page=1`);
+                this.pageNum = 1;
+                let url = `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`;
+                if(this.txType){
+                    url += `&type=${this.txType}`;
+                }
+                if(this.statusValue){
+                    url += `&status=${this.statusValue}`;
+                }
+                if(this.beginTime){
+                    url += `&beginTime=${this.beginTime}`;
+                }
+                if(this.endTime){
+                    url += `&endTime=${this.endTime}`;
+                }
+                history.pushState(null, null, url);
                 this.getTxList();
             },
-            filterTxByTxType(e){
+            /*filterTxByTxType(e){
                 if(e === 'allTxType' || e === undefined){
                     this.TxType = ''
                 } else {
                     this.TxType = e
                 }
-            },
+            },*/
             resetUrl(){
-                this.startTime = '';
+                this.beginTime = '';
                 this.endTime = '';
-                this.value = 'allTxType';
-                this.statusValue = 'allStatus';
+                this.txType = '';
+                this.statusValue = '';
                 this.txStatus = '';
-                this.urlParamsShowStartTime = '';
-                this.urlParamsShowEndTime = ''
-                history.pushState(null, null, `/#/txs?txType=&status=&startTime=&endTime=&page=1`);
+                this.beginTime = '';
+                this.endTime = '';
+                history.pushState(null, null, `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`);
             },
             async getTxList(){
-               let urlParams = this.getParamsByUrlHash();
-                let url = `txs?pageNum=${this.currentPageNum}&pageSize=${this.pageSize}&useCount=true`;
-                if(urlParams.txType){
-                    url += `&type=${urlParams.txType}`;
+                console.log(Tools.urlParser())
+                const {txType, status, beginTime, endTime, pageNum, pageSize} = Tools.urlParser();
+                let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+                if(txType){
+                    url += `&type=${txType}`;
                 }
-                if(urlParams.txStatus){
-                    url += `&status=${urlParams.txStatus}`;
+                if(status){
+                    url += `&status=${status}`;
                 }
-                if(urlParams.filterStartTime){
-                    url += `&beginTime=${urlParams.filterStartTime}`;
+                if(beginTime){
+                    url += `&beginTime=${moment(this.beginTime).startOf('d').unix()}`;
                 }
-                if(urlParams.filterEndTime){
-                    url += `&endTime=${urlParams.filterEndTime}`;
+                if(endTime){
+                    url += `&endTime=${moment(this.beginTime).endOf('d').unix()}`;
                 }
                 console.log('query tx url', url);
 
@@ -225,21 +250,15 @@
                         }
                     });
                     this.txCount = res.data.count;
+
                     console.log(this.transactionArray)
                 } else if(res.code){
 
                 } else {
 
                 }
-
-
-
-
-
-
             },
             async getAllTxType(){
-
                 const res = await HttpHelper.get(`txs/types`);
                 if(res && res.code === 0){
                     const typeList = res.data.data.map((type)=>{
@@ -249,7 +268,7 @@
                         }
                     });
                     typeList.unshift({
-                        value : 'allTxType',
+                        value : '',
                         label : 'All TxType',
                         slot : 'allTxType'
                     });
@@ -259,32 +278,21 @@
                 } else {
 
                 }
-
-
             },
-            filterTxByTxType(e){
-                if(e === 'allTxType' || e === undefined){
-                    this.TxType = ''
-                } else {
-                    this.TxType = e
-                }
-            },
-            filterTxByStatus(e){
-                if(e === 'allStatus' || e === undefined){
+            /*filterTxByStatus(e){
+                if(e === '' || e === undefined){
                     this.txStatus = ''
                 } else {
                     this.txStatus = e
                 }
-            },
+            },*/
             getStartTime(time){
-                this.urlParamsShowStartTime = time;
-                this.filterStartTime = this.formatStartTime(time)
+                this.beginTime = time;
             },
             getEndTime(time){
-                this.urlParamsShowEndTime = time;
-                this.filterEndTime = this.formatEndTime(time)
+                this.endTime =time;
             },
-            formatEndTime(time){
+            /*formatEndTime(time){
 
                 // let utcTime = Tools.conversionTimeToUTCByValidatorsLine(new Date(time).toISOString());
                 let oneDaySeconds = 24 * 60 * 60;
@@ -293,17 +301,18 @@
             formatStartTime(time){
                 // let utcTime = Tools.conversionTimeToUTCByValidatorsLine(new Date(time).toISOString());
                 return Number(new Date(time).getTime() / 1000)
-            },
+            },*/
             resetFilterCondition(){
-                this.value = 'allTxType';
-                this.statusValue = 'allStatus';
-                this.startTime = '';
+                this.txType = '';
+                this.statusValue = '';
+                this.beginTime = '';
                 this.endTime = '';
-                this.currentPageNum = 1;
+                this.pageNum = 1;
+                this.pageSize = 10;
                 this.resetUrl();
                 this.getTxList()
             },
-            getParamsByUrlHash(){
+            /*getParamsByUrlHash(){
                 let txType,
                     txStatus,
                     filterStartTime,
@@ -319,7 +328,7 @@
                             txType = item.split("=")[1]
                         } else if(item.includes('status')){
                             txStatus = item.split("=")[1]
-                        } else if(item.includes('startTime')){
+                        } else if(item.includes('beginTime')){
                             urlParamShowStartTime = item.split("=")[1]
                             filterStartTime = this.formatStartTime(item.split("=")[1])
                         } else if(item.includes('endTime')){
@@ -329,19 +338,32 @@
                     })
                 }
                 return {txType, txStatus, filterStartTime, filterEndTime, urlParamShowStartTime, urlParamShowEndTime}
-            },
+            },*/
             pageChange(pageNum){
-                this.currentPageNum = pageNum;
-                if(this.currentPageNumCache === this.currentPageNum){
-                    return;
+                if(this.pageNum === pageNum) return;
+                this.pageNum = pageNum;
+
+                /*let urlParams = this.getParamsByUrlHash();
+                this.statusValue = urlParams.txStatus ? urlParams.txStatus : '';
+                this.txType = urlParams.txType ? urlParams.txType : 'allTxType';
+                this.beginTime = urlParams.urlParamShowStartTime ? urlParams.urlParamShowStartTime : '';
+                this.endTime = urlParams.urlParamShowEndTime ? urlParams.urlParamShowEndTime : '';*/
+
+                const {txType, status, beginTime, endTime, pageSize} = Tools.urlParser();
+                let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+                if(txType){
+                    url += `&type=${txType}`;
                 }
-                this.currentPageNumCache = this.currentPageNum;
-                let urlParams = this.getParamsByUrlHash();
-                this.statusValue = urlParams.txStatus ? urlParams.txStatus : 'allStatus';
-                this.value = urlParams.txType ? urlParams.txType : 'allTxType';
-                this.startTime = urlParams.urlParamShowStartTime ? urlParams.urlParamShowStartTime : '';
-                this.endTime = urlParams.urlParamShowEndTime ? urlParams.urlParamShowEndTime : '';
-                history.pushState(null, null, `/#/txs?txType=${urlParams.txType ? urlParams.txType : ''}&status=${urlParams.txStatus ? urlParams.txStatus : ''}&startTime=${urlParams.urlParamShowStartTime ? urlParams.urlParamShowStartTime : ''}&endTime=${urlParams.urlParamShowEndTime ? urlParams.urlParamShowEndTime : ''}&page=${pageNum}`);
+                if(status){
+                    url += `&status=${status}`;
+                }
+                if(beginTime){
+                    url += `&beginTime=${beginTime}`;
+                }
+                if(endTime){
+                    url += `&endTime=${endTime}`;
+                }
+                history.pushState(null, null, url);
                 this.getTxList();
             },
             formatTxHash(TxHash){

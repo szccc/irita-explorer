@@ -198,10 +198,9 @@
                 }
 			},
 			async getServiceBindingList(){
-                let url = `/api/service/bindings/${this.$route.query.serviceName}`;
+                let url = `service/bindings/${this.$route.query.serviceName}`;
                 const res = await HttpHelper.getFromLcd(url);
                 if(res){
-                    console.log(res)
                     this.bindingArray = res.result.map((item) =>{
                         return {
                             available : `${item.available}`,
