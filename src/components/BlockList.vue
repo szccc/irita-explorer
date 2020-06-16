@@ -39,6 +39,7 @@
 	import Server from "../service"
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
+	import { getBlockList } from "../service/api";
 	export default {
 		name: "BlockList",
 		components: {MPagination},
@@ -52,45 +53,39 @@
 			}
 		},
 		mounted () {
-			this.getBlockList()
+			this.getBlocks()
 		},
 		methods: {
-			getBlockList () {
-				Server.commonInterface({blockList:{
-						pageNum: this.pageNumber,
-						pageSize: this.pageSize,
-						useCount:true,
-					}},(data) => {
-					try {
-						if(data){
-							this.dataCount = data.count;
-							this.blockList = data.data.map( item => {
-								return{
-									height: item.height,
-									time: Tools.formatUtc(item.time),
-									Time: item.time,
-									numTxs: item.txn,
-									ageTime: Tools.formatAge(new Date(),item.time,"ago",">")
-								}
-							})
-						}
-						clearInterval(this.blockListTimer);
-						this.blockListTimer = setInterval(() => {
-							this.blockList.map(item => {
-								item.ageTime = Tools.formatAge(new Date(),item.Time,"ago",">");
-								return item
-							})
-						},1000)
-					
-						
-					}catch (e) {
-						console.error(e)
+			async getBlocks () {
+				
+				try {
+					let blockData = await getBlockList(this.pageNumber, this.pageSize, true);
+					if(blockData){
+						this.dataCount = blockData.count;
+						this.blockList = blockData.data.map( item => {
+							return{
+								height: item.height,
+								time: Tools.formatUtc(item.time),
+								Time: item.time,
+								numTxs: item.txn,
+								ageTime: Tools.formatAge(new Date(),item.time,"ago",">")
+							}
+						})
 					}
-				})
+					clearInterval(this.blockListTimer);
+					this.blockListTimer = setInterval(() => {
+						this.blockList.map(item => {
+							item.ageTime = Tools.formatAge(new Date(),item.Time,"ago",">");
+							return item
+						})
+					},1000)
+				}catch (e) {
+					console.error(e)
+				}
 			},
 			pageChange(pageNum){
 				this.pageNumber = pageNum;
-				this.getBlockList()
+				this.getBlocks()
 			}
 		}
 	}

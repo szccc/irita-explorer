@@ -61,6 +61,7 @@
 
 <script>
 	import Server from "../service"
+	import { getDenoms, getNfts } from "../service/api"
 	import Tools from "../util/Tools";
 	import MPagination from "./MPagination";
 	export default {
@@ -113,7 +114,7 @@
 				// }
 				this.getNftsByFilter()
 			},
-			getNftsByFilter(){
+			async getNftsByFilter(){
 				if (this.$Codec.Bech32.isBech32(this.$Crypto.config.iris.bech32.accAddr, this.input)) {
 					this.owner = this.input
 				} else if (this.$Codec.Bech32.isBech32(this.$Crypto.config.iris.bech32.valAddr, this.input)) {
@@ -123,46 +124,40 @@
 					this.tokenId =  this.input
 				}
 				sessionStorage.setItem('selectDenom',this.denom)
-				Server.commonInterface({nftList:{
-						denom: this.denom,
-						pageNum: this.currentPageNum,
-						pageSize: this.pageSize,
-						owner: this.owner,
-						nftId: this.tokenId,
-						useCount:true,
-					}},(data) => {
-					try {
-						if(data && data.data){
-							this.allCount = data.count;
-							this.denomArray = data.data
-						}else {
-							this.allCount = 0
-							this.denomArray = []
-						}
+								
+				try {
+					let nftData = await getNfts(this.denom, this.tokenId, this.owner, this.currentPageNum, this.pageSize, true);
+					if(nftData && nftData.data){
+						this.allCount = nftData.count;
+						this.denomArray = nftData.data
+					}else {
+						this.allCount = 0
+						this.denomArray = []
+					}
 					}catch (e) {
+						this.allCount = 0
+						this.denomArray = []
 						console.error(e)
 					}
-				})
 			},
 			formatAddress(address){
 				return Tools.formatValidatorAddress(address)
 			},
-			getNftList(){
-				Server.commonInterface({denoms:{}},(data) =>{
-					try {
-						if(data.data){
-							let nftList = data.data.map(item => {
-								return {
-									label: item.name,
-									value: item.name
-								}
-							})
-							this.nftList = this.nftList.concat(nftList)
-						}
+			async getNftList(){
+				try {
+					let denomData = await getDenoms();
+					if(denomData){
+						let nftList = denomData.data.map(item => {
+							return {
+								label: item.name,
+								value: item.name
+							}
+						})
+						this.nftList = this.nftList.concat(nftList)
+					}
 					}catch (e) {
 						console.error(e)
 					}
-				})
 			},
 		}
 	}
