@@ -16,7 +16,7 @@ export class HttpHelper {
     }
 
     static async getFromLcd(url){
-        const data = await axios.get(`${url}`);
+        const data = await axios.get(`http://10.2.10.130:2317/${url}`);
         if(data && data.status === 200){
             return data.data;
         } else {

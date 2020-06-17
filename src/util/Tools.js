@@ -1,4 +1,5 @@
 import moment from 'moment';
+import URLSearchParams from 'url-search-params';
 export default class Tools{
 	/**
 	 *  格式化成标准的utc时间
@@ -83,5 +84,26 @@ export default class Tools{
 
     static getTimestamp(){
         return Math.floor(new Date().getTime() / 1000);
+    }
+
+    static urlParser(url = document.location.toString()){
+        if(url.includes('?')){
+            const searchStr = url.split('?')[1];
+            let searchInstance = new URLSearchParams(searchStr);
+            let params = {};
+            for(let entries of searchInstance.entries()){
+                params[entries[0]] = entries[1]
+            }
+            return params;
+        }else if(url.includes('&')){
+            let searchInstance = new URLSearchParams(url);
+            let params = {};
+            for(let entries of searchInstance.entries()){
+                params[entries[0]] = entries[1]
+            }
+            return params;
+        }else {
+            return {}
+        }
     }
 }
