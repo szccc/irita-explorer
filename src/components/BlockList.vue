@@ -68,14 +68,14 @@
 								time: Tools.getDisplayDate(item.time),
 								Time: item.time,
 								numTxs: item.txn,
-								ageTime: Tools.formatAge(new Date(),item.time,"ago",">")
+								ageTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
 							}
 						})
 					}
 					clearInterval(this.blockListTimer);
 					this.blockListTimer = setInterval(() => {
 						this.blockList.map(item => {
-							item.ageTime = Tools.formatAge(new Date(),item.Time,"ago",">");
+							item.ageTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
 							return item
 						})
 					},1000)
