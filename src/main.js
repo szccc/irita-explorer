@@ -13,6 +13,9 @@ const  crypto = require("irisnet-crypto");
 import VueI18n from 'vue-i18n'
 Vue.prototype.$Codec = codec;
 Vue.prototype.$Crypto = crypto;
+
+console.log('=============:',process.env);
+
 locale.use(lang);
 Vue.use(ElementUI)
 Vue.use(VueI18n)
