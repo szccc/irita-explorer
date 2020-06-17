@@ -219,7 +219,7 @@
                             return {
                                 available : `${item.available}`,
                                 deposit : `${item.deposit[0].amount} ${item.deposit[0].denom}`,
-                                disabledTime : Tools.formatUtc(item.disabled_time),
+                                disabledTime : Tools.getDisplayDate(item.disabled_time),
                                 owner : item.owner,
                                 pricing : `${item.pricing}`,
                                 provider : item.provider,

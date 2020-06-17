@@ -130,7 +130,7 @@
 						this.heightValue = blockData.height;
 						this.blockHash = blockData.hash;
 						this.txNumber = blockData.txn;
-						this.time = Tools.formatUtc(blockData.time);
+						this.time = Tools.getDisplayDate(blockData.time);
 					}
 				}catch (e) {
 					console.error(e)

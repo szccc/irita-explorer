@@ -2,14 +2,6 @@ import moment from 'moment';
 import URLSearchParams from 'url-search-params';
 export default class Tools{
 	/**
-	 *  格式化成标准的utc时间
-	 */
-	static formatUtc(originTime){
-		return Tools.formatDateYearAndMinutesAndSeconds(originTime)
-		// return `${originTime.substr(0,4)}/${originTime.substr(5,2)}/${originTime.substr(8,2)} ${originTime.substr(11,8)}+UTC`;
-	}
-	
-	/**
 	 * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
 	 */
 	static formatAge(currentServerTime,time,suffix,prefix){
@@ -64,22 +56,9 @@ export default class Tools{
 			return char.toUpperCase();
 		});
 	}
-	/**
-	 * 格式化时间 -> 年月日时分秒
-	 * */
-	static formatDateYearAndMinutesAndSeconds(timestamp) {
-		let date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
-		let Y = date.getFullYear() + '-';
-		let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-		let D = date.getDate() < 10 ? '0' + (date.getDate()) + " " : (date.getDate()) + ' ';
-		let h = date.getHours() < 10 ? '0' + (date.getHours()) : + (date.getHours()) ;
-		let m = date.getMinutes() < 10 ? '0' + (date.getMinutes()) : + (date.getMinutes());
-		let s = date.getSeconds() < 10 ? '0' + (date.getSeconds()) : + (date.getSeconds()) ;
-		return Y + M + D + h + ':'+ m + ':'+s;
-	}
 
-	static getDisplayDate(timestamp){
-	    return moment(timestamp*1000).zone(-8).format("YYYY-MM-DD HH:mm:ss");
+	static getDisplayDate(timestamp, format = "YYYY-MM-DD HH:mm:ss"){
+	    return moment(timestamp*1000).zone(-8).format(format);
     }
 
     static getTimestamp(){
