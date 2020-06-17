@@ -60,7 +60,6 @@
 </template>
 
 <script>
-	import Server from "../service"
 	import { getDenoms, getNfts } from "../service/api"
 	import constant from "../constant"
 	import Tools from "../util/Tools";

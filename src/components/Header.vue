@@ -61,7 +61,6 @@
 </template>
 <script>
 	import Tools from "../util/Tools";
-	import Service from "../service";
 	import constant from "../constant"
 	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../service/api';
 	export default {

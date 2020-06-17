@@ -30,7 +30,6 @@
 </template>
 
 <script>
-	import Service from "../service"
 	import { getValidatorList } from "../service/api"
 	import Tools from "../util/Tools"
 	import MTabs from "./MTabs";

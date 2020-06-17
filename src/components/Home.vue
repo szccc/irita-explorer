@@ -96,9 +96,8 @@
 </template>
 
 <script>
-	import Server from "../service"
-	import Tools from "../util/Tools"
-	import { getStatistics, getBlockList } from "../service/api"
+	import Tools from "../util/Tools";
+	import { getStatistics, getBlockList } from "../service/api";
 	import {getTxList} from "../service/api";
 
     export default {
