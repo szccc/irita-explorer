@@ -720,7 +720,7 @@
                                 this.output = res.msgs[0].msg.output;
                                 this.provider = res.msgs[0].msg.provider;
                                 this.requestId = res.msgs[0].msg.request_id;
-                                this.res.datault = res.msgs[0].msg.result;
+                                this.result = res.msgs[0].msg.result;
 
 
                         }

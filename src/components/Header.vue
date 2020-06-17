@@ -63,7 +63,7 @@
 	import Tools from "../util/Tools";
 	import Service from "../service";
 	import constant from "../constant"
-	import { getBlockWithHeight } from '../service/api';
+	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../service/api';
 	export default {
 		data() {
 			return {
@@ -116,36 +116,35 @@
 						this.toSearchResultPage();
 					}
 			},
-			searchDelegator () {
-				Service.commonInterface({ownerDetail:{ownerAddress:this.searchInputValue}}, (delegatorAddress) => {
-					try {
-						if (delegatorAddress) {
-							let url = `/address/${this.searchInputValue}`;
-							this.$router.push(url);
-							this.clearSearchContent();
-						} else {
-							this.toSearchResultPage()
-						}
-					}catch (e) {
-						console.error(e);
-						this.toSearchResultPage();
-					}
-				});
+			async searchDelegator () {
+                try {
+                    const res = await getAddressTxList(this.searchInputValue, 1, 10);
+                    if(res){
+                        this.$router.push(`/address/${this.searchInputValue}`);
+                        this.clearSearchContent();
+                    }else{
+                        this.toSearchResultPage();
+                    }
+
+                }catch (e) {
+                    console.error(e);
+                    this.toSearchResultPage();
+                }
 			},
-			searchTx () {
-				Service.commonInterface({getTransactionInformation:{hash: this.searchInputValue}}, (tx) => {
-					try {
-						if (tx) {
-							this.$router.push(`/tx?txHash=${this.searchInputValue}`);
-							this.clearSearchContent();
-						} else {
-							this.toSearchResultPage();
-						}
-					}catch (e) {
-						console.error(e);
-						this.toSearchResultPage();
-					}
-				});
+			async searchTx () {
+			    try {
+                    const res = await getTxDetail(this.searchInputValue);
+                    if(res){
+                        this.$router.push(`/tx?txHash=${this.searchInputValue}`);
+                        this.clearSearchContent();
+                    }else{
+                        this.toSearchResultPage();
+                    }
+
+                }catch (e) {
+                    console.error(e);
+                    this.toSearchResultPage();
+                }
 			},
 			toSearchResultPage () {
 				this.$router.push(`/searchResult?${this.searchInputValue}`);
