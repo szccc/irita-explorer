@@ -184,7 +184,7 @@
                 this.pageNum = 1;
                 let url = `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`;
                 if(this.txType){
-                    url += `&type=${this.txType}`;
+                    url += `&txType=${this.txType}`;
                 }
                 if(this.statusValue){
                     url += `&status=${this.statusValue}`;
@@ -223,6 +223,7 @@
                 };
 
                 try{
+                    console.log(params)
                     const res = await getTxList(params);
                     console.log(res)
                     this.transactionArray = res.data.map((tx)=>{
@@ -337,7 +338,7 @@
                 const {txType, status, beginTime, endTime, pageSize} = Tools.urlParser();
                 let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
                 if(txType){
-                    url += `&type=${txType}`;
+                    url += `&txType=${txType}`;
                 }
                 if(status){
                     url += `&status=${status}`;
