@@ -149,7 +149,7 @@
 						this.block_height = statistics.blockHeight;
 						this.transactionNumber = statistics.txCount;
 						this.validatorNumber = statistics.validatorCount;
-						this.transactionTime = Tools.formatUtc(statistics.latestBlockTime);
+						this.transactionTime = Tools.getDisplayDate(statistics.latestBlockTime);
 						this.ageTime = statistics.avgBlockTime;
 						this.assetsNumber = statistics.assetCount;
 						this.serverNumber = statistics.serviceCount;
