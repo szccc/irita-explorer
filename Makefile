@@ -1,11 +1,12 @@
 setup:
-	cnpm install && npm run revert  && npm run param $(params)
+	cnpm install
 
 run:
 	npm run serve
 
-build_dev:
+build:
 	npm run build
 
-build:setup
-	npm run build
+setup_and_run:setup run
+
+setup_and_build:setup build
