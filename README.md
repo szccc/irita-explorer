@@ -6,7 +6,7 @@ step1 安装依赖
 ```
  	make setup
 ```
-step2 run
+step2 run 
 ```
 	make run
 ```
