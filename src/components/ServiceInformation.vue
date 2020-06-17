@@ -237,6 +237,7 @@
             async getServiceTransaction(){
                 try {
                     const res = await getServiceTxList(this.currentPageNum,this.pageSize,this.$route.query.serviceName);
+                    console.log(res)
                     this.transactionArray = res.data.map((item) =>{
                         let toAddressArray = [];
                         if(item.to.includes(',')){
@@ -253,8 +254,10 @@
                             content : toAddressArray,
                             height : item.height,
                             timestamp : Tools.getDisplayDate(item.time)
-                        }
-                    })
+                        };
+
+                    });
+                    this.txCount = res.count;
                 }catch (e) {
                     this.$message.error('获取service交易列表错误,请稍后重试');
                 }

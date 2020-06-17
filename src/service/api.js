@@ -113,7 +113,7 @@ export function getServiceBindingTxList(serviceName){
 }
 
 export function getServiceTxList(currentPageNum,pageSize,serviceName){
-    let url = `txs/services?pageNum=${currentPageNum}&pageSize=${pageSize}&serviceName=${serviceName}`;
+    let url = `txs/services?pageNum=${currentPageNum}&pageSize=${pageSize}&serviceName=${serviceName}&useCount=true`;
     return get(url);
 }
 
