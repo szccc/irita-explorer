@@ -55,11 +55,11 @@
 </template>
 
 <script>
-	import Service from "../service"
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
-    import { HttpHelper } from '../helper/httpHelper';
-	export default {
+    import {getDefineServiceTxList} from "../service/api";
+
+    export default {
 		name: "ServiceList",
 		components: {MPagination},
 		data() {
@@ -75,34 +75,34 @@
 		},
 		methods:{
 			async getServiceList(){
-                let url = `txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&type=define_service`;
-                const res = await HttpHelper.get(url);
-                if(res && res.code === 0){
-                    console.log(res)
-                    this.serviceList = res.data.data.map((tx)=>{
-                        let msgServiceName,msgPublisher,msgDescription;
-                        if(tx.msgs && tx.msgs.length > 0){
-                            msgServiceName = tx.msgs[0].msg.name;
-                            msgPublisher = tx.msgs[0].msg.author;
-                            msgDescription = tx.msgs[0].msg.description
-                        }
-                        return {
-                            txHash: tx.tx_hash,
-                            serviceName: msgServiceName,
-                            publisher: msgPublisher,
-                            from: tx.from,
-                            description: msgDescription,
-                            status: tx.status === 1 ? 'Success' : 'Failed'
-                        }
-                    });
-                    console.log(this.serviceList)
-                    this.txCount = res.data.count;
+                try {
+                    const res = await getDefineServiceTxList(this.pageNum,this.pageSize);
+                    if(res){
+                        console.log(res)
+                        this.serviceList = res.data.map((tx)=>{
+                            let msgServiceName,msgPublisher,msgDescription;
+                            if(tx.msgs && tx.msgs.length > 0){
+                                msgServiceName = tx.msgs[0].msg.name;
+                                msgPublisher = tx.msgs[0].msg.author;
+                                msgDescription = tx.msgs[0].msg.description
+                            }
+                            return {
+                                txHash: tx.tx_hash,
+                                serviceName: msgServiceName,
+                                publisher: msgPublisher,
+                                from: tx.from,
+                                description: msgDescription,
+                                status: tx.status === 1 ? 'Success' : 'Failed'
+                            }
+                        });
+                        console.log(this.serviceList)
+                        this.txCount = res.count;
 
-                } else if(res.code){
-
-                } else {
-
+                    }
+                }catch (e) {
+                    this.$message.error('获取服务交易列表失败,请稍后重试');
                 }
+
 			},
 			formatTxHash(TxHash){
 				if(TxHash){

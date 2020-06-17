@@ -112,12 +112,12 @@
 </template>
 
 <script>
-	import Server  from "../service"
 	import { getNfts } from "../service/api"
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
-    import { HttpHelper } from '../helper/httpHelper';
-	export default {
+    import {getAddressTxList} from "../service/api";
+
+    export default {
 		name: "OwnerDetail",
 		components: {MPagination},
 		data() {
@@ -180,34 +180,33 @@
 			// 	})
 			// },
 			async getTxByAddress(){
-                let url = `txs/addresses?pageNum=${this.pageNum}&pageSize=${this.pageSize}&address=${this.$route.params.param}&useCount=true`;
-                const res = await HttpHelper.get(url);
-                if(res && res.code === 0){
-                    console.log(res)
-                    this.totalTxNumber = res.data.count;
-                    if(res.data.count > this.pageSize){
-                        this.flShowPagination  = true
-                    }else {
-                        this.flShowPagination  = false
-                    }
-                    this.txList = res.data.data.map(item => {
-                        return{
-                            txHash: item.tx_hash,
-                            blockHeight: item.height,
-                            txType: item.type,
-                            from: item.from ? item.from : '--',
-                            to: item.to ? item.to : '--',
-                            signer: item.signer,
-                            status:item.status === 1 ? 'Success' : 'Failed',
-                            time: Tools.getDisplayDate(item.time),
+			    try {
+                    const res = await getAddressTxList(this.$route.params.param, this.pageNum, this.pageSize);
+                    if(res){
+                        console.log(res)
+                        this.totalTxNumber = res.count;
+                        if(res.count > this.pageSize){
+                            this.flShowPagination  = true
+                        }else {
+                            this.flShowPagination  = false
                         }
-                    })
-
-                } else if(res.code){
-
-                } else {
-
+                        this.txList = res.data.map(item => {
+                            return{
+                                txHash: item.tx_hash,
+                                blockHeight: item.height,
+                                txType: item.type,
+                                from: item.from ? item.from : '--',
+                                to: item.to ? item.to : '--',
+                                signer: item.signer,
+                                status:item.status === 1 ? 'Success' : 'Failed',
+                                time: Tools.getDisplayDate(item.time),
+                            }
+                        })
+                    }
+                }catch (e) {
+                    this.$message.error('获取交易列表失败,请稍后重试');
                 }
+
 			},
 			formatTxHash(TxHash){
 				if(TxHash){

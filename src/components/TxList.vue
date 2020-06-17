@@ -134,11 +134,9 @@
 </template>
 
 <script>
-    import Server from "../service"
     import Tools from "../util/Tools"
     import MPagination from "./MPagination";
-    import { HttpHelper } from '../helper/httpHelper';
-    import moment from 'moment';
+    import {getAllTxTypes, getTxList} from '../service/api';
 
     export default {
         name : "TxList",
@@ -220,24 +218,14 @@
             async getTxList(){
                 console.log(Tools.urlParser())
                 const {txType, status, beginTime, endTime, pageNum, pageSize} = Tools.urlParser();
-                let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
-                if(txType){
-                    url += `&type=${txType}`;
-                }
-                if(status){
-                    url += `&status=${status}`;
-                }
-                if(beginTime){
-                    url += `&beginTime=${moment(this.beginTime).startOf('d').unix()}`;
-                }
-                if(endTime){
-                    url += `&endTime=${moment(this.endTime).endOf('d').unix()}`;
-                }
-                console.log('query tx url', url);
+                const params = {
+                    txType,status, beginTime, endTime, pageNum, pageSize
+                };
 
-                const res = await HttpHelper.get(url);
-                if(res && res.code === 0){
-                    this.transactionArray = res.data.data.map((tx)=>{
+                try{
+                    const res = await getTxList(params);
+                    console.log(res)
+                    this.transactionArray = res.data.map((tx)=>{
                         return {
                             txHash : tx.tx_hash,
                             blockHeight : tx.height,
@@ -249,19 +237,17 @@
                             time :Tools.getDisplayDate(tx.time),
                         }
                     });
-                    this.txCount = res.data.count;
-
-                    console.log(this.transactionArray)
-                } else if(res.code){
-
-                } else {
-
+                    this.txCount = res.count;
+                }catch (e) {
+                    this.$message.error('获取交易列表失败,请稍后重试');
                 }
+
+
             },
             async getAllTxType(){
-                const res = await HttpHelper.get(`txs/types`);
-                if(res && res.code === 0){
-                    const typeList = res.data.data.map((type)=>{
+                try {
+                    const res = await getAllTxTypes();
+                    const typeList = res.data.map((type)=>{
                         return {
                             value: type.typeName,
                             item:type.typeName,
@@ -273,11 +259,10 @@
                         slot : 'allTxType'
                     });
                     this.txTypeOption = typeList;
-                } else if(res.code){
-
-                } else {
-
+                }catch (e) {
+                    this.$message.error('获取交易类型失败,请稍后重试');
                 }
+
             },
             /*filterTxByStatus(e){
                 if(e === '' || e === undefined){

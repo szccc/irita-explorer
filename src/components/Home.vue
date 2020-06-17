@@ -99,8 +99,9 @@
 	import Server from "../service"
 	import Tools from "../util/Tools"
 	import { getStatistics, getBlockList } from "../service/api"
-    import { HttpHelper } from '../helper/httpHelper';
-	export default {
+	import {getTxList} from "../service/api";
+
+    export default {
 		name: "Home",
 		data () {
 			return {
@@ -195,48 +196,52 @@
 				}
 			},
 			async getTransaction(){
-                let url = `txs?pageNum=1&pageSize=10`;
-                const res = await HttpHelper.get(url);
-                if(res && res.code === 0){
-                    console.log(this.transactionArray)
-                    for (let txIndex = 0; txIndex < res.data.data.length; txIndex++){
-                        if(res.data.data[txIndex].time > JSON.parse(localStorage.getItem("lastTxTime"))){
-                            res.data.data[txIndex].showAnimation = "show";
-                            res.data.data.forEach(item => {
-                                item.flShowTranslationalAnimation = true
+                const params = {
+                    pageNum:1,
+                    pageSize:10,
+                };
+                try {
+                    const res = await getTxList(params);
+                    if(res){
+                        console.log(this.transactionArray)
+                        for (let txIndex = 0; txIndex < res.data.length; txIndex++){
+                            if(res.data[txIndex].time > JSON.parse(localStorage.getItem("lastTxTime"))){
+                                res.data[txIndex].showAnimation = "show";
+                                res.data.forEach(item => {
+                                    item.flShowTranslationalAnimation = true
+                                })
+                            }
+                        }
+                        setTimeout(()=> {
+                            this.latestTransaction.map(item => {
+                                return item.flShowTranslationalAnimation = false
                             })
-                        }
+                        },1000);
+
+                        localStorage.setItem('lastTxTime',JSON.stringify(Tools.getTimestamp()));
+                        this.latestTransaction = res.data.map(item => {
+                            return {
+                                flShowTranslationalAnimtation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
+                                showAnimation: item.showAnimation ? item.showAnimation : '',
+                                hash: item.tx_hash,
+                                time: Tools.getDisplayDate(item.time),
+                                txType: item.type,
+                                Time: item.time,
+                                txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
+                            }
+                        });
+                        clearInterval(this.transfersTimer);
+                        this.transfersTimer = setInterval(()=> {
+                            this.latestTransaction = this.latestTransaction.map(item => {
+                                item.txAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
+                                return item
+                            })
+                        },1000)
                     }
-                    setTimeout(()=> {
-                        this.latestTransaction.map(item => {
-                            return item.flShowTranslationalAnimation = false
-                        })
-                    },1000);
-
-                    localStorage.setItem('lastTxTime',JSON.stringify(Tools.getTimestamp()));
-                    this.latestTransaction = res.data.data.map(item => {
-                        return {
-                            flShowTranslationalAnimtation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
-                            showAnimation: item.showAnimation ? item.showAnimation : '',
-                            hash: item.tx_hash,
-                            time: Tools.getDisplayDate(item.time),
-                            txType: item.type,
-                            Time: item.time,
-                            txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
-                        }
-                    });
-                    clearInterval(this.transfersTimer);
-                    this.transfersTimer = setInterval(()=> {
-                        this.latestTransaction = this.latestTransaction.map(item => {
-                            item.txAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
-                            return item
-                        })
-                    },1000)
-                } else if(res.code){
-
-                } else {
-
+                }catch (e) {
+                    //this.$message.error('获取交易列表失败,请稍后重试');
                 }
+
 			},
 			showBlockFadeinAnimation (blockList) {
 				let storedLastBlockHeight = localStorage.getItem('lastBlockHeight') ? localStorage.getItem('lastBlockHeight') : '';

@@ -108,10 +108,9 @@
 </template>
 
 <script>
-	import Server from "../service"
 	import { getNftDetail } from "../service/api"
 	import Tools from "../util/Tools"
-    import { HttpHelper } from '../helper/httpHelper';
+	import {getTokenTxList} from '../service/api'
 	export default {
 		name: "NftToken",
 		data() {
@@ -157,13 +156,10 @@
 				}
 			},
 			async getTokenTx(){
-                let url = `txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&nftId=${this.tokenID}&denom=${this.$route.query.denom}`;
-                console.log('query tx url', url);
-
-                const res = await HttpHelper.get(url);
-                if(res && res.code === 0){
+                const res = await getTokenTxList(this.tokenID,this.$route.query.denom,this.pageNum ,this.pageSize );
+                try {
                     console.log(res)
-                    this.transactionArray = res.data.data.map((tx)=>{
+                    this.txListByToken = res.data.map((tx)=>{
                         return {
                             txHash : tx.tx_hash,
                             blockHeight : tx.height,
@@ -175,16 +171,14 @@
                             time :Tools.getDisplayDate(tx.time)
                         }
                     });
-                    console.log(this.transactionArray)
-                } else if(res.code){
-
-                } else {
-
+                    console.log(this.txListByToken)
+                }catch (e) {
+                    this.$message.error('获取交易列表失败,请稍后重试');
                 }
 			},
 			formatTxHash(TxHash){
 				if(TxHash){
-					return Tools.formatTxHash(TxHash)
+                    return Tools.formatTxHash(TxHash)
 				}
 			},
 			formatAddress(address){

@@ -490,7 +490,7 @@
 
 <script>
     import Tools from "../util/Tools"
-    import { HttpHelper } from '../helper/httpHelper';
+    import {getTxDetail} from "../service/api";
 
     export default {
         name : "TxDetail",
@@ -563,191 +563,172 @@
         },
         methods : {
             async getTransactionInformation(){
-                /*Service.commonInterface({
-                    getTransactionInformation : {
-                        hash : this.$route.query.txHash
-                    }
-                }, (res) =>{
-                    try {
-                        if(res){
+                try {
+                    const res = await getTxDetail(this.$route.query.txHash);
+                    if(res){
+                        console.log(res)
+                        this.txHash = res.tx_hash;
+                        this.blockHeight = res.height;
+                        this.status = res.status === 1 ? 'Success' : 'Failed';
+                        this.timestamp = Tools.getDisplayDate(res.time);
+                        this.signer = res.signer;
+                        this.memo = res.memo ? res.memo : '--';
+                        this.txType = res.msgs[0].type;
+                        switch (this.txType){
+                            case 'transfer_token_owner':
+                                this.symbol = res.msgs[0].msg.symbol;
+                                this.dstOwner = res.msgs[0].msg.dst_owner;
+                                this.srcOwner = res.msgs[0].msg.src_owner;
+                                break;
+                            case 'mint_nft':
+                                this.denom = res.msgs[0].msg.denom;
+                                this.id = res.msgs[0].msg.id;
+                                this.recipient = res.msgs[0].msg.recipient;
+                                this.sender = res.msgs[0].msg.sender;
+                                this.tokenData = res.msgs[0].msg.token_data;
+                                this.tokenUri = res.msgs[0].msg.token_uri;
+                                break;
+                            case 'burn_nft':
+                                this.sender = res.msgs[0].msg.sender;
+                                this.denom = res.msgs[0].msg.denom;
+                                this.id = res.msgs[0].msg.id;
+                                break;
+                            case 'mint_token':
+                                this.amount = res.msgs[0].msg.amount;
+                                this.owner = res.msgs[0].msg.owner;
+                                this.symbol = res.msgs[0].msg.symbol;
+                                this.to = res.msgs[0].msg.to;
+                                break;
+                            case 'create_record':
+                                this.recordArray = res.msgs[0].msg.contents.map(item =>{
+                                    return {
+                                        digest : item.digest ? item.digest : '--',
+                                        digest_algo : item.digest_algo ? item.digest_algo : '--',
+                                        uri : item.uri ? item.uri : '',
+                                        meta : item.meta ? item.meta : "--",
+                                    }
+                                })
+                                break;
+                            case 'service_response':
+                                this.requestChainId = res.msgs[0].msg.req_chain_id;
+                                this.provider = res.msgs[0].msg.provider;
+                                this.output = res.msgs[0].msg.output;
+                                this.errorMessage = res.msgs[0].msg.error_msg ? res.msgs[0].msg.error_msg : '--';
+                                this.requestId = res.msgs[0].msg.request_id;
+                                break;
+                            case 'nft_burn':
+                                this.from = res.msgs[0].msg.sender;
+                                this.tokenId = res.msgs[0].msg.id;
+                                this.denom = res.msgs[0].msg.denom;
+                                break;
+                            case 'nft_edit':
+                                this.from = res.msgs[0].msg.sender;
+                                this.tokenId = res.msgs[0].msg.id;
+                                this.denom = res.msgs[0].msg.denom;
+                                this.url = res.msgs[0].msg.token_uri;
+                                break;
+                            case 'define_service':
+                                this.serviceName = res.msgs[0].msg.name;
+                                this.description = res.msgs[0].msg.description;
+                                this.author = res.msgs[0].msg.author;
+                                this.authorDescription = res.msgs[0].msg.author_description;
+                                this.tags = res.msgs[0].msg.tags
+                                break;
+                            case 'bind_service':
+                                this.defineName = res.msgs[0].msg.service_name;
+                                this.provider = res.msgs[0].msg.provider;
+                                this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}`;
+                                this.owner = res.msgs[0].msg.owner;
+                                this.pricing = res.msgs[0].msg.pricing;
+                                this.qos = res.msgs[0].msg.qos;
+                                break;
+                            case 'send':
+                                this.from = res.msgs[0].msg.fromaddress;
+                                this.to = res.msgs[0].msg.toaddress;
+                                this.amount = `${res.msgs[0].msg.amount[0].amount} ${res.msgs[0].msg.amount[0].denom}`
+                                break;
+                            case 'nft_mint':
+                                this.from = res.msgs[0].msg.sender;
+                                this.to = res.msgs[0].msg.sender;
+                                this.tokenId = res.msgs[0].msg.id;
+                                this.denom = res.msgs[0].msg.denom;
+                                this.url = res.msgs[0].msg.token_uri;
+                                break;
+                            case 'call_service':
+                                this.consumer = res.msgs[0].msg.consumer;
+                                this.input = res.msgs[0].msg.input;
+                                this.provider = res.msgs[0].msg.providers;
+                                this.repeated = res.msgs[0].msg.repeated;
+                                this.repeatedFrequency = res.msgs[0].msg.repeated_frequency;
+                                this.repeatedTotal = res.msgs[0].msg.repeated_total;
+                                this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}`;
+                                this.serviceName = res.msgs[0].msg.service_name;
+                                this.superMode = res.msgs[0].msg.super_mode;
+                                this.timeout = res.msgs[0].msg.timeout;
+
+                                // this.defineChainId = res.msgs[0].msg.def_chain_id;
+                                // this.bindChainId = res.msgs[0].msg.bind_chain_id;
+                                // this.requestChainId = res.msgs[0].msg.req_chain_id;
+                                // this.methodId = res.msgs[0].msg.method_id;
+                                // this.profiling = res.msgs[0].msg.profiling
+                                break;
+                            case 'nft_transfer':
+                                this.from = res.msgs[0].msg.sender;
+                                this.to = res.msgs[0].msg.sender;
+                                this.tokenId = res.msgs[0].msg.id;
+                                this.denom = res.msgs[0].msg.denom;
+                                this.url = res.msgs[0].msg.token_uri;
+                                break;
+                            case 'edit_token':
+                                this.symbol = res.msgs[0].msg.symbol;
+                                this.name = res.msgs[0].msg.name;
+                                this.owner = res.msgs[0].msg.owner;
+                                this.minTable = res.msgs[0].msg.mintable;
+                                this.maxSupply = res.msgs[0].msg.max_supply;
+                                break;
+                            case 'transfer_nft':
+                                this.denom = res.msgs[0].msg.denom;
+                                this.id = res.msgs[0].msg.id;
+                                this.recipient = res.msgs[0].msg.recipient;
+                                this.sender = res.msgs[0].msg.sender;
+                                this.tokenData = res.msgs[0].msg.token_data;
+                                this.tokenUri = res.msgs[0].msg.token_uri;
+                                break;
+                            case 'edit_nft':
+                                this.denom = res.msgs[0].msg.denom;
+                                this.id = res.msgs[0].msg.id;
+                                this.sender = res.msgs[0].msg.sender;
+                                this.tokenData = res.msgs[0].msg.token_data;
+                                this.tokenUri = res.msgs[0].msg.token_uri;
+                                break;
+                            case 'issue_denom':
+                                this.denom = res.msgs[0].msg.denom;
+                                this.schema = res.msgs[0].msg.schema;
+                                this.sender = res.msgs[0].msg.sender;
+                                break;
+                            case 'issue_token':
+                                this.initialSupply = res.msgs[0].msg.initial_supply;
+                                this.maxSupply = res.msgs[0].msg.max_supply;
+                                this.minUnit = res.msgs[0].msg.min_unit;
+                                this.minTable = res.msgs[0].msg.mintable;
+                                this.name = res.msgs[0].msg.name;
+                                this.owner = res.msgs[0].msg.owner;
+                                this.scale = res.msgs[0].msg.scale;
+                                this.symbol = res.msgs[0].msg.symbol;
+                                break;
+                            case 'respond_service':
+                                this.output = res.msgs[0].msg.output;
+                                this.provider = res.msgs[0].msg.provider;
+                                this.requestId = res.msgs[0].msg.request_id;
+                                this.res.datault = res.msgs[0].msg.result;
 
 
                         }
-                    } catch (e) {
-                        console.error(e)
                     }
-                })*/
-
-
-                let url = `txs/${this.$route.query.txHash}`;
-
-                console.log('query tx url', url);
-
-                const res = await HttpHelper.get(url);
-                if(res && res.code === 0){
-                    console.log(res)
-                    this.txHash = res.data.tx_hash;
-                    this.blockHeight = res.data.height;
-                    this.status = res.data.status === 1 ? 'Success' : 'Failed';
-                    this.timestamp = Tools.getDisplayDate(res.data.time);
-                    this.signer = res.data.signer;
-                    this.memo = res.data.memo ? res.data.memo : '--';
-                    this.txType = res.data.msgs[0].type;
-                    switch (this.txType){
-                        case 'transfer_token_owner':
-                            this.symbol = res.data.msgs[0].msg.symbol;
-                            this.dstOwner = res.data.msgs[0].msg.dst_owner;
-                            this.srcOwner = res.data.msgs[0].msg.src_owner;
-                            break;
-                        case 'mint_nft':
-                            this.denom = res.data.msgs[0].msg.denom;
-                            this.id = res.data.msgs[0].msg.id;
-                            this.recipient = res.data.msgs[0].msg.recipient;
-                            this.sender = res.data.msgs[0].msg.sender;
-                            this.tokenData = res.data.msgs[0].msg.token_data;
-                            this.tokenUri = res.data.msgs[0].msg.token_uri;
-                            break;
-                        case 'burn_nft':
-                            this.sender = res.data.msgs[0].msg.sender;
-                            this.denom = res.data.msgs[0].msg.denom;
-                            this.id = res.data.msgs[0].msg.id;
-                            break;
-                        case 'mint_token':
-                            this.amount = res.data.msgs[0].msg.amount;
-                            this.owner = res.data.msgs[0].msg.owner;
-                            this.symbol = res.data.msgs[0].msg.symbol;
-                            this.to = res.data.msgs[0].msg.to;
-                            break;
-                        case 'create_record':
-                            this.recordArray = res.data.msgs[0].msg.contents.map(item =>{
-                                return {
-                                    digest : item.digest ? item.digest : '--',
-                                    digest_algo : item.digest_algo ? item.digest_algo : '--',
-                                    uri : item.uri ? item.uri : '',
-                                    meta : item.meta ? item.meta : "--",
-                                }
-                            })
-                            break;
-                        case 'service_response':
-                            this.requestChainId = res.data.msgs[0].msg.req_chain_id;
-                            this.provider = res.data.msgs[0].msg.provider;
-                            this.output = res.data.msgs[0].msg.output;
-                            this.errorMessage = res.data.msgs[0].msg.error_msg ? res.data.msgs[0].msg.error_msg : '--';
-                            this.requestId = res.data.msgs[0].msg.request_id;
-                            break;
-                        case 'nft_burn':
-                            this.from = res.data.msgs[0].msg.sender;
-                            this.tokenId = res.data.msgs[0].msg.id;
-                            this.denom = res.data.msgs[0].msg.denom;
-                            break;
-                        case 'nft_edit':
-                            this.from = res.data.msgs[0].msg.sender;
-                            this.tokenId = res.data.msgs[0].msg.id;
-                            this.denom = res.data.msgs[0].msg.denom;
-                            this.url = res.data.msgs[0].msg.token_uri;
-                            break;
-                        case 'define_service':
-                            this.serviceName = res.data.msgs[0].msg.name;
-                            this.description = res.data.msgs[0].msg.description;
-                            this.author = res.data.msgs[0].msg.author;
-                            this.authorDescription = res.data.msgs[0].msg.author_description;
-                            this.tags = res.data.msgs[0].msg.tags
-                            break;
-                        case 'bind_service':
-                            this.defineName = res.data.msgs[0].msg.service_name;
-                            this.provider = res.data.msgs[0].msg.provider;
-                            this.deposit = `${res.data.msgs[0].msg.deposit[0].amount} ${res.data.msgs[0].msg.deposit[0].denom}`;
-                            this.owner = res.data.msgs[0].msg.owner;
-                            this.pricing = res.data.msgs[0].msg.pricing;
-                            this.qos = res.data.msgs[0].msg.qos;
-                            break;
-                        case 'send':
-                            this.from = res.data.msgs[0].msg.fromaddres.datas;
-                            this.to = res.data.msgs[0].msg.toaddres.datas;
-                            this.amount = `${res.data.msgs[0].msg.amount[0].amount} ${res.data.msgs[0].msg.amount[0].denom}`
-                            break;
-                        case 'nft_mint':
-                            this.from = res.data.msgs[0].msg.sender;
-                            this.to = res.data.msgs[0].msg.sender;
-                            this.tokenId = res.data.msgs[0].msg.id;
-                            this.denom = res.data.msgs[0].msg.denom;
-                            this.url = res.data.msgs[0].msg.token_uri;
-                            break;
-                        case 'call_service':
-                            this.consumer = res.data.msgs[0].msg.consumer;
-                            this.input = res.data.msgs[0].msg.input;
-                            this.provider = res.data.msgs[0].msg.providers;
-                            this.repeated = res.data.msgs[0].msg.repeated;
-                            this.repeatedFrequency = res.data.msgs[0].msg.repeated_frequency;
-                            this.repeatedTotal = res.data.msgs[0].msg.repeated_total;
-                            this.serviceFeeCap = `${res.data.msgs[0].msg.service_fee_cap[0].amount} ${res.data.msgs[0].msg.service_fee_cap[0].denom}`;
-                            this.serviceName = res.data.msgs[0].msg.service_name;
-                            this.superMode = res.data.msgs[0].msg.super_mode;
-                            this.timeout = res.data.msgs[0].msg.timeout;
-
-                            // this.defineChainId = res.data.msgs[0].msg.def_chain_id;
-                            // this.bindChainId = res.data.msgs[0].msg.bind_chain_id;
-                            // this.requestChainId = res.data.msgs[0].msg.req_chain_id;
-                            // this.methodId = res.data.msgs[0].msg.method_id;
-                            // this.profiling = res.data.msgs[0].msg.profiling
-                            break;
-                        case 'nft_transfer':
-                            this.from = res.data.msgs[0].msg.sender;
-                            this.to = res.data.msgs[0].msg.sender;
-                            this.tokenId = res.data.msgs[0].msg.id;
-                            this.denom = res.data.msgs[0].msg.denom;
-                            this.url = res.data.msgs[0].msg.token_uri;
-                            break;
-                        case 'edit_token':
-                            this.symbol = res.data.msgs[0].msg.symbol;
-                            this.name = res.data.msgs[0].msg.name;
-                            this.owner = res.data.msgs[0].msg.owner;
-                            this.minTable = res.data.msgs[0].msg.mintable;
-                            this.maxSupply = res.data.msgs[0].msg.max_supply;
-                            break;
-                        case 'transfer_nft':
-                            this.denom = res.data.msgs[0].msg.denom;
-                            this.id = res.data.msgs[0].msg.id;
-                            this.recipient = res.data.msgs[0].msg.recipient;
-                            this.sender = res.data.msgs[0].msg.sender;
-                            this.tokenData = res.data.msgs[0].msg.token_data;
-                            this.tokenUri = res.data.msgs[0].msg.token_uri;
-                            break;
-                        case 'edit_nft':
-                            this.denom = res.data.msgs[0].msg.denom;
-                            this.id = res.data.msgs[0].msg.id;
-                            this.sender = res.data.msgs[0].msg.sender;
-                            this.tokenData = res.data.msgs[0].msg.token_data;
-                            this.tokenUri = res.data.msgs[0].msg.token_uri;
-                            break;
-                        case 'issue_denom':
-                            this.denom = res.data.msgs[0].msg.denom;
-                            this.schema = res.data.msgs[0].msg.schema;
-                            this.sender = res.data.msgs[0].msg.sender;
-                            break;
-                        case 'issue_token':
-                            this.initialSupply = res.data.msgs[0].msg.initial_supply;
-                            this.maxSupply = res.data.msgs[0].msg.max_supply;
-                            this.minUnit = res.data.msgs[0].msg.min_unit;
-                            this.minTable = res.data.msgs[0].msg.mintable;
-                            this.name = res.data.msgs[0].msg.name;
-                            this.owner = res.data.msgs[0].msg.owner;
-                            this.scale = res.data.msgs[0].msg.scale;
-                            this.symbol = res.data.msgs[0].msg.symbol;
-                            break;
-                        case 'respond_service':
-                            this.output = res.data.msgs[0].msg.output;
-                            this.provider = res.data.msgs[0].msg.provider;
-                            this.requestId = res.data.msgs[0].msg.request_id;
-                            this.res.datault = res.msgs[0].msg.result;
-
-
-                    }
-                } else if(res.code){
-
-                } else {
-
+                }catch (e) {
+                    this.$message.error('获取交易信息失败,请稍后重试');
                 }
+
             }
         }
     }

@@ -64,10 +64,9 @@
 </template>
 
 <script>
-	import Service from '../service';
 	import { getBlockWithHeight, getLatestBlock } from '../service/api';
 	import Tools from "../util/Tools";
-    import { HttpHelper } from '../helper/httpHelper';
+    import {getBlockTxList} from '../service/api';
 	export default {
 		name: "BlockDetail",
 		data(){
@@ -146,30 +145,27 @@
 				}
 			},
 			async getTransactionList(){
-                let url = `txs/blocks?pageNum=1&pageSize=100&height=${this.$route.params.height}`;
-                const res = await HttpHelper.get(url);
-                if(res && res.code === 0){
-                    console.log(res)
-                    this.transactionArray = res.data.data.map((item) => {
-                        return {
-                            txHash: item.tx_hash,
-                            blockHeight: item.height,
-                            txType: item.type,
-                            from: item.from ? item.from : '--',
-                            to: item.to ? item.to : '--',
-                            signer: item.signer,
-                            status:item.status === 1 ? 'Success' : 'Failed',
-                            time: Tools.getDisplayDate(item.time)
-                        }
-                    })
+                try {
+                    const res = await getBlockTxList(this.$route.params.height);
+                    if(res){
+                        console.log(res)
+                        this.transactionArray = res.data.map((item) => {
+                            return {
+                                txHash: item.tx_hash,
+                                blockHeight: item.height,
+                                txType: item.type,
+                                from: item.from ? item.from : '--',
+                                to: item.to ? item.to : '--',
+                                signer: item.signer,
+                                status:item.status === 1 ? 'Success' : 'Failed',
+                                time: Tools.getDisplayDate(item.time)
+                            }
+                        })
 
-                } else if(res.code){
-
-                } else {
-
+                    }
+                }catch (e) {
+                    this.$message.error('获取交易列表失败,请稍后重试');
                 }
-
-
 			},
 			skipNext(num) {
 				if(Number(this.$route.params.height) >= 1){
