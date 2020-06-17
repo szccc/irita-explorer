@@ -7,10 +7,10 @@
 //     }
 // };
 
-let {NODE_ENV, VUE_APP_SERVER_ADDR, VUE_APP_LCD_ADDR } = process.env;
+let { NODE_ENV, VUE_APP_SERVER_ADDR, VUE_APP_LCD_ADDR } = process.env;
 
 export const cfg = {
-	env:NODE_ENV,
+	env: NODE_ENV,
     server : {
         address: VUE_APP_SERVER_ADDR,
         lcd: VUE_APP_LCD_ADDR,

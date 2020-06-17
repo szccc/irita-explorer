@@ -36,7 +36,6 @@
 </template>
 
 <script>
-	import Server from "../service"
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
 	import { getBlockList } from "../service/api";

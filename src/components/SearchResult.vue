@@ -23,7 +23,6 @@
 <script>
 
 	import Tools from '../util/Tools';
-	import Service from "../service"
 
 	export default {
 		name: "searchResult",
