@@ -92,10 +92,10 @@ export function getTxList(params){
         url += `&status=${status}`;
     }
     if(beginTime){
-        url += `&beginTime=${moment(this.beginTime).startOf('d').unix()}`;
+        url += `&beginTime=${moment(beginTime).startOf('d').unix()}`;
     }
     if(endTime){
-        url += `&endTime=${moment(this.endTime).endOf('d').unix()}`;
+        url += `&endTime=${moment(endTime).endOf('d').unix()}`;
     }
     console.log('query tx url', url);
     return get(url);
