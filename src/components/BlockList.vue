@@ -1,0 +1,151 @@
+<template>
+	<div class="block_list_container">
+		<div class="block_list_content_wrap">
+			<div class="block_list_content">
+				<div class="block_list_header_content">
+					<div class="block_list_herder_top_content">
+						<div class="block_list_current_height_content">
+							<span class="block_list_current_height_title">{{$t('ExplorerCN.block.currentHeight')}}</span>
+							<span class="block_list_current_height_number">
+							<router-link :to="`/block/${dataCount}`">{{dataCount}}</router-link>
+						</span>
+						</div>
+						<div class="pagination_content">
+							<m-pagination :page-size="pageSize" :total="dataCount" :page="pageNumber" :page-change="pageChange"></m-pagination>
+						</div>
+					</div>
+					<div class="block_list_pagination_content">
+						<el-table :data="blockList" stripe>
+							<el-table-column :label="$t('ExplorerCN.block.block')">
+								<template slot-scope="scope">
+									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
+								</template>
+							</el-table-column>
+							<el-table-column prop="numTxs" :label="$t('ExplorerCN.block.transactions')"></el-table-column>
+							<el-table-column prop="time" :label="$t('ExplorerCN.block.timestamp')"></el-table-column>
+							<el-table-column prop="ageTime" :label="$t('ExplorerCN.block.age')"></el-table-column>
+						</el-table>
+					</div>
+					<div class="pagination_content">
+						<m-pagination :page-size="pageSize" :total="dataCount" :page="pageNumber" :page-change="pageChange"></m-pagination>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+	import Tools from "../util/Tools"
+	import MPagination from "./MPagination";
+	import { getBlockList } from "../service/api";
+	export default {
+		name: "BlockList",
+		components: {MPagination},
+		data() {
+			return {
+				pageNumber: 1,
+				pageSize: 20,
+				dataCount: 0,
+				blockList: [],
+				blockListTimer: null
+			}
+		},
+		mounted () {
+			this.getBlocks()
+		},
+		methods: {
+			async getBlocks () {
+				
+				try {
+					let blockData = await getBlockList(this.pageNumber, this.pageSize, true);
+					if(blockData){
+						this.dataCount = blockData.count;
+						this.blockList = blockData.data.map( item => {
+							return{
+								height: item.height,
+								time: Tools.getDisplayDate(item.time),
+								Time: item.time,
+								numTxs: item.txn,
+								ageTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
+							}
+						})
+					}
+					clearInterval(this.blockListTimer);
+					this.blockListTimer = setInterval(() => {
+						this.blockList.map(item => {
+							item.ageTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
+							return item
+						})
+					},1000)
+				}catch (e) {
+					console.error(e)
+				}
+			},
+			pageChange(pageNum){
+				this.pageNumber = pageNum;
+				this.getBlocks()
+			}
+		}
+	}
+</script>
+
+<style scoped lang="scss">
+	a{
+		color: #3264FD !important;
+	}
+	.block_list_container{
+		/*margin-top: 0.61rem;*/
+		.block_list_content_wrap{
+			max-width: 12rem;
+			margin: 0 auto;
+			.block_list_content{
+				.block_list_header_content{
+					.block_list_herder_top_content{
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						/*position: fixed;*/
+						/*top: 0.61rem;*/
+						/*z-index: 10;*/
+						.pagination_content{
+							display: flex;
+							justify-content: flex-end;
+							margin: 0.3rem 0 0.1rem 0;
+						}
+					}
+					.block_list_pagination_content{
+						/deep/ .el-table{
+							.el-table__header-wrapper{
+								/*position: fixed;*/
+								/*z-index: 10;*/
+							}
+						}
+					}
+					.block_list_current_height_content{
+						padding:0.3rem 0 0.1rem 0.2rem;
+						text-align: left;
+						.block_list_current_height_title{
+							color: #22252A;
+							font-size: 0.18rem;
+							line-height: 0.21rem;
+							font-weight: bold;
+						}
+						.block_list_current_height_number{
+							a{
+								margin-left: 0.15rem;
+								font-size: 0.18rem;
+								font-weight: bold;
+							}
+						}
+					}
+					.pagination_content{
+						display: flex;
+						justify-content: flex-end;
+						margin: 0.05rem 0 0.2rem 0;
+					}
+				}
+			}
+		}
+	}
+</style>

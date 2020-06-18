@@ -1,7 +1,0 @@
-{
-  "app": {
-    "mongoUrl": "${mongoUrl}",
-    "lcdAddress": "${lcdAddress}",
-    "syncServiceTime": "${syncServiceTime}"
-  }
-}
