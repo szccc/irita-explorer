@@ -201,6 +201,7 @@
                 };
                 try {
                     const res = await getTxList(params);
+                    console.log('tx list:',res)
                     if(res){
                         for (let txIndex = 0; txIndex < res.data.length; txIndex++){
                             if(res.data[txIndex].time > JSON.parse(localStorage.getItem("lastTxTime"))){
@@ -215,7 +216,7 @@
                                 return item.flShowTranslationalAnimation = false
                             })
                         },1000);
-
+                        console.log('tx list--:',res)
                         localStorage.setItem('lastTxTime',JSON.stringify(Tools.getTimestamp()));
                         this.latestTransaction = res.data.map(item => {
                             return {
