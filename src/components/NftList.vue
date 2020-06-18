@@ -100,7 +100,7 @@
 			},
 			resetFilterCondition(){
 				this.input = '';
-				this.denom = 'All';
+				this.denom = '';
 				this.value = 'all';
 				this.currentPageNum = 1;
 				this.tokenId = '';
