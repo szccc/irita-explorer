@@ -3,32 +3,36 @@ import moment from 'moment';
 
 function get(url){
 	return new Promise(async (res,rej)=>{
-		let data = await HttpHelper.get(url);
-		if(data && data.code == 0){
-			res(data.data || data);
-		}else{
-			console.error(`error form ${url}:`,JSON.stringify(data));
-			rej(data);
+		try{
+			let data = await HttpHelper.get(url);
+			if(data && data.code == 0){
+				res(data.data || data);
+			}else{
+				console.error(`error form ${url}:`,JSON.stringify(data));
+				rej(data);
+			}
+		}catch(err){
+			console.error(`error form ${url}:`,err.message);
+			rej(err);
 		}
-	}).catch((err)=>{
-		console.error(`error form ${url}:`,err.message);
-		rej(err);
 	});
 }
 
 function getFromLcd(url){
 	return new Promise(async (res,rej)=>{
-		let data = await HttpHelper.getFromLcd(url);
-		if(data){
-			res(data);
-		}else{
-			console.error(`error form ${url}:`,JSON.stringify(data));
-			rej(data);
+		try{
+			let data = await HttpHelper.getFromLcd(url);
+			if(data){
+				res(data);
+			}else{
+				console.error(`error form ${url}:`,JSON.stringify(data));
+				rej(data);
+			}
+		}catch(err){
+			console.error(`error form ${url}:`,err.message);
+			rej(err);
 		}
-	}).catch((err)=>{
-		console.error(`error form ${url}:`,err.message);
-		rej(err);
-	});
+	})
 }
 
 

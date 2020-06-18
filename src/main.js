@@ -14,6 +14,10 @@ import VueI18n from 'vue-i18n'
 Vue.prototype.$Codec = codec;
 Vue.prototype.$Crypto = crypto;
 
+if (process.env.NODE_ENV === 'development') {
+	console.log('process.env=============:',process.env);
+}
+
 locale.use(lang);
 Vue.use(ElementUI)
 Vue.use(VueI18n)
