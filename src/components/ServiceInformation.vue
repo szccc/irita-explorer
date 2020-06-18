@@ -217,7 +217,7 @@
                     if(res){
                         this.bindingArray = res.result.map((item) =>{
                             return {
-                                available : `${item.available}`,
+                                available : `${item.available ? item.available : 'false'}`,
                                 deposit : `${item.deposit[0].amount} ${item.deposit[0].denom}`,
                                 disabledTime : Tools.getDisplayDate(item.disabled_time),
                                 owner : item.owner,

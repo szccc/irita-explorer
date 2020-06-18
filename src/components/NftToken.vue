@@ -102,6 +102,9 @@
 						</template>
 					</el-table-column>
 				</el-table>
+                <div class="pagination_content">
+                    <m-pagination :page-size="pageSize" :total="count" :page="pageNum" :page-change="pageChange"></m-pagination>
+                </div>
 			</div>
 		</div>
 	</div>
@@ -111,6 +114,7 @@
 	import { getNftDetail } from "../service/api"
 	import Tools from "../util/Tools"
 	import {getTokenTxList} from '../service/api'
+    import MPagination from "./MPagination";
 	export default {
 		name: "NftToken",
 		data() {
@@ -120,6 +124,7 @@
 				TokenID: '',
 				Uri:'',
 				pageNum:1,
+                count:0,
 				pageSize: 10,
 				txListByToken:[],
 				creator:'',
@@ -131,6 +136,7 @@
 				tokenUri:''
 			}
 		},
+        components: {MPagination},
 		mounted () {
 			this.getTokenInformation();
 		},
@@ -155,6 +161,10 @@
 					console.error(e)
 				}
 			},
+            pageChange(pageNum){
+			    this.pageNum = pageNum;
+			    this.getTokenTx();
+            },
 			async getTokenTx(){
                 const res = await getTokenTxList(this.tokenID,this.$route.query.denom,this.pageNum ,this.pageSize );
                 try {
@@ -171,6 +181,7 @@
                             time :Tools.getDisplayDate(tx.time)
                         }
                     });
+                    this.count = res.count;
                     console.log(this.txListByToken)
                 }catch (e) {
                     this.$message.error('获取交易列表失败,请稍后重试');
@@ -240,6 +251,11 @@
 					text-indent: 0.2rem;
 					margin: 0.3rem 0 0.1rem 0;
 				}
+                .pagination_content{
+                    display: flex;
+                    justify-content: flex-end;
+                    margin: 0.3rem 0 0.1rem 0;
+                }
 			}
 			
 		}

@@ -202,7 +202,6 @@
                 try {
                     const res = await getTxList(params);
                     if(res){
-                        console.log(this.transactionArray)
                         for (let txIndex = 0; txIndex < res.data.length; txIndex++){
                             if(res.data[txIndex].time > JSON.parse(localStorage.getItem("lastTxTime"))){
                                 res.data[txIndex].showAnimation = "show";
@@ -229,6 +228,7 @@
                                 txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
                             }
                         });
+                        console.log(this.latestTransaction)
                         clearInterval(this.transfersTimer);
                         this.transfersTimer = setInterval(()=> {
                             this.latestTransaction = this.latestTransaction.map(item => {
