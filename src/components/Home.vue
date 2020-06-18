@@ -204,7 +204,11 @@
                     console.log('tx list:',res)
                     if(res){
                         for (let txIndex = 0; txIndex < res.data.length; txIndex++){
-                            if(res.data[txIndex].time > JSON.parse(localStorage.getItem("lastTxTime"))){
+                            let lastTxTime = Tools.getTimestamp();
+                            if(localStorage.getItem("lastTxTime")){
+                                lastTxTime = JSON.parse(localStorage.getItem("lastTxTime"));
+                            }
+                            if(res.data[txIndex].time > lastTxTime){
                                 res.data[txIndex].showAnimation = "show";
                                 res.data.forEach(item => {
                                     item.flShowTranslationalAnimation = true
@@ -240,6 +244,7 @@
                     }
                 }catch (e) {
                     //this.$message.error('获取交易列表失败,请稍后重试');
+                    console.error(e);
                 }
 
 			},
