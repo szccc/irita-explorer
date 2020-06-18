@@ -170,7 +170,7 @@
 									return item.flShowTranslationalAnimation = false
 								})
 							},1000);
-							localStorage.setItem("lastBlockHeight",blocks[0].height);
+							sessionStorage.setItem("lastBlockHeight",blocks[0].height);
 							this.latestBlockArray = blocks.map(item => {
 								return {
 									flShowTranslationalAnimation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
@@ -205,8 +205,8 @@
                     if(res){
                         for (let txIndex = 0; txIndex < res.data.length; txIndex++){
                             let lastTxTime = Tools.getTimestamp();
-                            if(localStorage.getItem("lastTxTime")){
-                                lastTxTime = JSON.parse(localStorage.getItem("lastTxTime"));
+                            if(sessionStorage.getItem("lastTxTime")){
+                                lastTxTime = JSON.parse(sessionStorage.getItem("lastTxTime"));
                             }
                             if(res.data[txIndex].time > lastTxTime){
                                 res.data[txIndex].showAnimation = "show";
@@ -220,7 +220,7 @@
                                 return item.flShowTranslationalAnimation = false
                             })
                         },1000);
-                        localStorage.setItem('lastTxTime',JSON.stringify(Tools.getTimestamp()));
+                        sessionStorage.setItem('lastTxTime',JSON.stringify(Tools.getTimestamp()));
                         this.latestTransaction = res.data.map(item => {
                             return {
                                 flShowTranslationalAnimtation :  item.flShowTranslationalAnimation ? item.flShowTranslationalAnimation : "",
@@ -247,7 +247,7 @@
 
 			},
 			showBlockFadeinAnimation (blockList) {
-				let storedLastBlockHeight = localStorage.getItem('lastBlockHeight') ? localStorage.getItem('lastBlockHeight') : '';
+				let storedLastBlockHeight = sessionStorage.getItem('lastBlockHeight') ? sessionStorage.getItem('lastBlockHeight') : '';
 				if(storedLastBlockHeight){
 					for(let index = 0; index < blockList.length; index++){
 						if(blockList[index].height > storedLastBlockHeight){
