@@ -58,7 +58,7 @@ export default class Tools{
 	}
 
 	static getDisplayDate(timestamp, format = "YYYY-MM-DD HH:mm:ss"){
-	    return moment(timestamp*1000).zone(-8).format(format);
+	    return moment(timestamp*1000).utcOffset(+480).format(format);
     }
 
     static getTimestamp(){
