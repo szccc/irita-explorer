@@ -336,7 +336,7 @@
                 this.endTime = urlParams.urlParamShowEndTime ? urlParams.urlParamShowEndTime : '';*/
 
                 const {txType, status, beginTime, endTime, pageSize} = Tools.urlParser();
-                let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+                let url = `/#/txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
                 if(txType){
                     url += `&txType=${txType}`;
                 }

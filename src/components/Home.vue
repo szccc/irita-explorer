@@ -220,7 +220,6 @@
                                 return item.flShowTranslationalAnimation = false
                             })
                         },1000);
-                        console.log('tx list--:',res)
                         localStorage.setItem('lastTxTime',JSON.stringify(Tools.getTimestamp()));
                         this.latestTransaction = res.data.map(item => {
                             return {
@@ -233,7 +232,6 @@
                                 txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
                             }
                         });
-                        console.log(this.latestTransaction)
                         clearInterval(this.transfersTimer);
                         this.transfersTimer = setInterval(()=> {
                             this.latestTransaction = this.latestTransaction.map(item => {
