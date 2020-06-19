@@ -137,7 +137,7 @@ export function getAddressTxList(address, pageNum, pageSize){
 }
 
 export function getDefineServiceTxList(pageNum, pageSize){
-    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=define_service`;
+    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=define_service&status=1`;
     return get(url);
 }
 

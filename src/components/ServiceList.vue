@@ -39,7 +39,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.service.description')" prop="description"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.service.status')" prop="status"></el-table-column>
+					<!-- <el-table-column :label="$t('ExplorerCN.service.status')" prop="status"></el-table-column> -->
 				</el-table>
 			</div>
 			<div class="pagination_content">
@@ -92,7 +92,7 @@
                                 publisher: msgPublisher,
                                 from: tx.from,
                                 description: msgDescription,
-                                status: tx.status === 1 ? 'Success' : 'Failed'
+                                // status: tx.status === 1 ? 'Success' : 'Failed'
                             }
                         });
                         console.log(this.serviceList)

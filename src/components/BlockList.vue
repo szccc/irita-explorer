@@ -7,7 +7,7 @@
 						<div class="block_list_current_height_content">
 							<span class="block_list_current_height_title">{{$t('ExplorerCN.block.currentHeight')}}</span>
 							<span class="block_list_current_height_number">
-							<router-link :to="`/block/${dataCount}`">{{dataCount}}</router-link>
+							<router-link :to="`/block/${latestBlockHeight}`">{{latestBlockHeight}}</router-link>
 						</span>
 						</div>
 						<div class="pagination_content">
@@ -38,7 +38,7 @@
 <script>
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
-	import { getBlockList } from "../service/api";
+	import { getBlockList, getLatestBlock } from "../service/api";
 	export default {
 		name: "BlockList",
 		components: {MPagination},
@@ -47,6 +47,7 @@
 				pageNumber: 1,
 				pageSize: 20,
 				dataCount: 0,
+				latestBlockHeight:0,
 				blockList: [],
 				blockListTimer: null
 			}
@@ -56,7 +57,7 @@
 		},
 		methods: {
 			async getBlocks () {
-				
+				this.latestBlock();
 				try {
 					let blockData = await getBlockList(this.pageNumber, this.pageSize, true);
 					if(blockData){
@@ -81,6 +82,16 @@
 				}catch (e) {
 					console.error(e)
 				}
+			},
+			async latestBlock(){
+				try {
+					let blockData = await getLatestBlock();
+					if(blockData && blockData.block && blockData.block.header){
+						this.latestBlockHeight = blockData.block.header.height;
+					}
+				}catch (e) {
+					console.error(e)
+				}				
 			},
 			pageChange(pageNum){
 				this.pageNumber = pageNum;
