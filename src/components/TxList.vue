@@ -216,16 +216,14 @@
                 history.pushState(null, null, `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`);
             },
             async getTxList(){
-                console.log(Tools.urlParser())
                 const {txType, status, beginTime, endTime, pageNum, pageSize} = Tools.urlParser();
                 const params = {
                     txType,status, beginTime, endTime, pageNum, pageSize
                 };
 
                 try{
-                    console.log(params)
                     const res = await getTxList(params);
-                    console.log(res)
+
                     this.transactionArray = res.data.map((tx)=>{
                         return {
                             txHash : tx.tx_hash,
@@ -239,6 +237,9 @@
                         }
                     });
                     this.txCount = res.count;
+                    this.pageNum = res.pageNum;
+                    this.pageSize = res.pageSize;
+                    console.log(this.transactionArray)
                 }catch (e) {
                     this.$message.error('获取交易列表失败,请稍后重试');
                 }
