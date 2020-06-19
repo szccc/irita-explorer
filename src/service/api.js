@@ -8,11 +8,11 @@ function get(url){
 			if(data && data.code == 0){
 				res(data.data || data);
 			}else{
-				console.error(`error form ${url}:`,JSON.stringify(data));
+				console.error(`error from ${url}:`,JSON.stringify(data));
 				rej(data);
 			}
 		}catch(err){
-			console.error(`error form ${url}:`,err.message);
+			console.error(`error from ${url}:`,err.message);
 			rej(err);
 		}
 	});
@@ -25,11 +25,11 @@ function getFromLcd(url){
 			if(data){
 				res(data);
 			}else{
-				console.error(`error form ${url}:`,JSON.stringify(data));
+				console.error(`error from ${url}:`,JSON.stringify(data));
 				rej(data);
 			}
 		}catch(err){
-			console.error(`error form ${url}:`,err.message);
+			console.error(`error from ${url}:`,err.message);
 			rej(err);
 		}
 	})
