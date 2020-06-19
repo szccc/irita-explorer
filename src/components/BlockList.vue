@@ -86,8 +86,8 @@
 			async latestBlock(){
 				try {
 					let blockData = await getLatestBlock();
-					if(blockData && blockData.block && blockData.block.header){
-						this.latestBlockHeight = blockData.block.header.height;
+					if(blockData){
+						this.latestBlockHeight = blockData.height;
 					}
 				}catch (e) {
 					console.error(e)
