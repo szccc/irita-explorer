@@ -40,7 +40,7 @@
 					<el-table-column :label="$t('ExplorerCN.nftAsset.data')" width="450px" prop="tokenData"></el-table-column>
 					<el-table-column :label="$t('ExplorerCN.nftAsset.uri')" prop="tokenUri">
 						<template slot-scope="scope">
-							<a v-if="scope.row.token_uri" :download="scope.row.token_uri" :href="scope.row.token_uri" target="_blank">{{scope.row.tokenUri}}</a>
+							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
