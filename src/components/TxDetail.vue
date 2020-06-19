@@ -393,8 +393,8 @@
                                 <span>{{name}}</span>
                             </p>
                             <p>
-                                <span>owner:</span>s
-                                <span>{{Owner}}</span>
+                                <span>owner:</span>
+                                <span>{{owner}}</span>
                             </p>
                             <p>
                                 <span>Scale:</span>
