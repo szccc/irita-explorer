@@ -6,7 +6,7 @@
                 <div class="tx_information_content">
                     <p class="tx_information_list_item">
                         <span>{{$t('ExplorerCN.transactionInformation.txHash')}}</span>
-                        <span>{{txHash}}</span>
+                        <span style="word-break:break-all;">{{txHash}}</span>
                     </p>
                     <p class="tx_information_list_item">
                         <span>{{$t('ExplorerCN.transactionInformation.blockHeight')}}</span>
@@ -22,7 +22,7 @@
                     </p>
                     <p class="tx_information_list_item">
                         <span>{{$t('ExplorerCN.transactionInformation.signer')}}</span>
-                        <span><router-link :to="`/address/${signer}`">{{signer}}</router-link></span>
+                        <span style="word-break:break-all;"><router-link :to="`/address/${signer}`">{{signer}}</router-link></span>
                     </p>
                     <p class="tx_information_list_item">
                         <span>{{$t('ExplorerCN.transactionInformation.memo')}}</span>
@@ -740,6 +740,7 @@
     }
 
     .tx_detail_container {
+        padding:0 0.15rem;
         .tx_detail_content_wrap {
             max-width: 12rem;
             margin: 0 auto;
@@ -762,7 +763,7 @@
                         margin-bottom: 0.14rem;
                         span:nth-of-type(1) {
                             text-align: left;
-                            width: 1.5rem;
+                            min-width: 1.5rem;
                             color: #787C99;
                             font-size: 0.14rem;
                             line-height: 0.16rem;
@@ -799,7 +800,7 @@
                                 width: 100%;
                                 .record_name {
                                     color: #787C99;
-                                    width: 1.5rem;
+                                    min-width: 1.5rem;
                                     text-align: left;
                                     font-size: 0.14rem;
                                 }
@@ -826,7 +827,7 @@
                             margin-bottom: 0.16rem;
                             span:nth-of-type(1) {
                                 color: #787C99;
-                                width: 1.5rem;
+                                min-width: 1.5rem;
                                 text-align: left;
                                 font-size: 0.14rem;
                             }
@@ -843,6 +844,76 @@
                         }
                     }
 
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .tx_detail_container {
+            .tx_detail_content_wrap {
+                
+                .tx_detail_content {
+                    .tx_detail_title {
+                        
+                    }
+                    .tx_information_content {
+                        
+                        .tx_information_list_item {
+                            
+                            span:nth-of-type(1) {
+                                min-width: 1rem;
+                            }
+                            span:nth-of-type(2) {
+                                
+                            }
+                        }
+                        .tx_information_list_item:last-child {
+                            
+                        }
+                    }
+                    .tx_information_tx_message_content {
+                        .tx_information_tx_message_title {
+                            
+                        }
+                        .tx_information_tx_content {
+                            
+                            .record_container {
+                                
+                                .record_content {
+                                    
+                                    .record_name {
+                                        min-width: 1rem;
+                                    }
+                                    .record_list_content {
+                                        
+                                        /deep/ .el-table {
+                                            
+                                            tr {
+                                                
+                                                th {
+                                                    
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            p {
+                                
+                                span:nth-of-type(1) {
+                                    min-width: 1rem;
+                                }
+                                span:nth-of-type(2) {
+                                    
+                                }
+                            }
+                            p:last-child {
+                                
+                            }
+                        }
+
+                    }
                 }
             }
         }

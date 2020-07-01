@@ -11,7 +11,7 @@
 			<div class="block_detail_content">
 				<p>
 					<span>{{$t('ExplorerCN.blockDetail.blockHash')}}</span>
-					<span>{{blockHash}}</span>
+					<span style="word-break: break-all;">{{blockHash}}</span>
 				</p>
 				<p>
 					<span>{{$t('ExplorerCN.blockDetail.transaction')}}</span>
@@ -33,19 +33,19 @@
 						</el-table-column>
 						<el-table-column :label="$t('ExplorerCN.transactions.block')" prop="blockHeight"></el-table-column>
 						<el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.from')">
+						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
 							<template slot-scope="scope">
 								<router-link v-if="scope.row.from !== '--'" :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
 								<span v-if="scope.row.from === '--'">--</span>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.to')">
+						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
 							<template slot-scope="scope">
 								<router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
 								<span v-if="scope.row.to === '--'">--</span>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.signer')">
+						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
 							<template slot-scope="scope">
 								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
 							</template>
@@ -205,6 +205,7 @@
 		color: #3264FD !important;
 	}
 	.block_detail_container{
+		padding: 0 0.15rem;
 		.block_detail_content_wrap{
 			max-width: 12rem;
 			margin: 0 auto;
@@ -259,7 +260,7 @@
 						text-align: left;
 						color: #787C99;
 						font-size: 0.14rem;
-						width: 1.5rem;
+						min-width: 1.5rem;
 					}
 					span:nth-of-type(2){
 						text-align: left;
@@ -284,4 +285,50 @@
 		}
 	}
 
+
+@media screen and (max-width: 768px) {
+	.block_detail_container{
+		.block_detail_content_wrap{
+			.block_detail_header_content{
+				.block_height_content{
+					.information_value{
+						
+					}
+					.flag_item_left {
+						
+					}
+					.flag_item_left_disabled {
+						
+					}
+					.flag_item_right {
+						
+					}
+					.flag_item_right_disabled {
+						
+					}
+				}
+			}
+			.block_detail_content{
+				
+				p{
+					
+					span:nth-of-type(1){
+						min-width: 1rem;
+					}
+					span:nth-of-type(2){
+						
+					}
+				}
+				p:last-child{
+					
+				}
+			}
+			.block_transaction_content{
+				.block_transaction_title_content{
+					
+				}
+			}
+		}
+	}
+}
 </style>
