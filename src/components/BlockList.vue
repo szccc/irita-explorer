@@ -107,18 +107,29 @@
 	}
 	.block_list_container{
 		/*margin-top: 0.61rem;*/
+        @media screen and (min-width: 910px) and (max-width: 1280px){
+            .block_list_content_wrap{
+                max-width: 12rem;
+            }
+        }
+        @media screen and (max-width: 910px){
+            .block_list_content_wrap{
+                width:100%;
+            }
+        }
 		.block_list_content_wrap{
-			max-width: 12rem;
 			margin: 0 auto;
 			.block_list_content{
+                width:100%;
 				.block_list_header_content{
+                    width:100%;
+                    padding:0 0.15rem;
+                    box-sizing:border-box;
 					.block_list_herder_top_content{
 						display: flex;
 						justify-content: space-between;
 						align-items: center;
-						/*position: fixed;*/
-						/*top: 0.61rem;*/
-						/*z-index: 10;*/
+                        width:100%;
 						.pagination_content{
 							display: flex;
 							justify-content: flex-end;
@@ -126,13 +137,29 @@
 						}
 					}
 					.block_list_pagination_content{
-						/deep/ .el-table{
+
+
+                        width:100%;
+                        overflow-x: auto;
+						.el-table{
 							.el-table__header-wrapper{
 								/*position: fixed;*/
 								/*z-index: 10;*/
 							}
 						}
+                        @media screen and (min-width: 910px) and (max-width: 1280px){
+                            .el-table{
+                                min-width:8rem;
+                            }
+                        }
+                        @media screen and (max-width: 910px){
+                            .el-table{
+                                min-width:4rem;
+                            }
+                        }
 					}
+
+
 					.block_list_current_height_content{
 						padding:0.3rem 0 0.1rem 0.2rem;
 						text-align: left;
@@ -151,6 +178,7 @@
 						}
 					}
 					.pagination_content{
+                        width:100%;
 						display: flex;
 						justify-content: flex-end;
 						margin: 0.05rem 0 0.2rem 0;
