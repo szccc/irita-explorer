@@ -3,7 +3,6 @@
         <div class="tx_content_wrap">
             <div class="tx_content_header_wrap">
                 <div class="total_tx_content">{{txCount}} {{$t('ExplorerCN.transactions.txs')}}</div>
-                <div class="filer_content">
                     <div class="tx_type_mobile_content">
                         <!--<el-select v-model="value" filterable :change="filterTxByTxType(value)">
                             <el-option v-for="(item, index) in txTypeOption"
@@ -54,7 +53,6 @@
                         <div class="search_btn" @click="getFilterTxs">{{$t('ExplorerCN.transactions.search')}}</div>
                         <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
-                </div>
             </div>
             <div class="tx_list_content">
                 <el-table :data="transactionArray">
@@ -371,12 +369,47 @@
     }
 
     .tx_content_container {
+        width:100%;
+        @media screen and (min-width: 910px){
+            .tx_content_wrap{
+                max-width: 12rem;
+                .tx_content_header_wrap{
+                    display: flex;
+                    justify-content: flex-start;
+                }
+            }
+
+        }
+        @media screen and (max-width: 910px){
+            .tx_content_wrap{
+                width:100%;
+                padding:0 0.15rem;
+                .tx_content_header_wrap{
+                    display: flex;
+                    flex-direction:column;
+                    align-items: flex-start;
+
+                    .tx_type_mobile_content{
+                        margin-bottom:0.1rem;
+                        &:last-child{
+                            width:100%;
+                            justify-content: flex-end;
+                            .search_btn{
+                                margin-left:0;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+        }
         .tx_content_wrap {
-            max-width: 12rem;
             margin: 0 auto;
+            box-sizing: border-box;
+
             .tx_content_header_wrap {
-                display: flex;
-                justify-content: flex-start;
+
                 .total_tx_content {
                     height: 0.61rem;
                     line-height: 0.61rem;
@@ -384,11 +417,11 @@
                     font-size: 0.18rem;
                     font-weight: bold;
                     margin-right: 0.2rem;
-                    text-indent: 0.2rem;
+                   //text-indent: 0.2rem;
                 }
-                .filer_content {
+                /*.filer_content {
                     display: flex;
-                    align-items: center;
+                    align-items: center;*/
                     .tx_type_mobile_content {
                         display: flex;
                         align-items: center;
@@ -476,7 +509,7 @@
                             line-height: 0.2rem;
                         }
                     }
-                }
+                //}
             }
             .pagination_content {
                 display: flex;

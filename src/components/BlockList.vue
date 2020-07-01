@@ -108,7 +108,7 @@
 	}
 	.block_list_container{
 		/*margin-top: 0.61rem;*/
-        @media screen and (min-width: 910px) and (max-width: 1280px){
+        @media screen and (min-width: 910px){
             .block_list_content_wrap{
                 max-width: 12rem;
             }
@@ -172,7 +172,6 @@
 						}
 						.block_list_current_height_number{
 							a{
-								margin-left: 0.15rem;
 								font-size: 0.18rem;
 								font-weight: bold;
 							}
