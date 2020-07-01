@@ -279,6 +279,7 @@
 		.home_content_wrap{
 			max-width: 12rem;
 			margin: 0 auto;
+			padding:0 0.15rem;
 			.home_content_header_content{
 				display: flex;
 				flex-direction: column;
@@ -497,4 +498,135 @@
 		from{transform: translateY(-0.59rem);}
 		to{transform: translateY(0)}
 	}
+
+	@media screen and (max-width: 1000px) {
+		.home_container{
+			.home_content_wrap{
+				.home_content_header_content{
+					.home_content_header_top_content{
+						margin-top: 0.05rem;
+						flex-direction:column;
+						height:auto;
+						.home_content_header_top_item_content{
+							width:100%;
+							padding: 0.14rem;
+							margin:0.05rem 0;
+							.home_content_header_top_center_content{
+								margin-top: 0.2rem;
+							}
+						}
+						
+						.home_content_header_top_item_content:last-child{
+							
+						}
+					}
+					.home_content_header_bottom_content{
+						margin-top: 0rem;
+						height:auto;
+						flex-direction:column;
+						.home_content_header_bottom_item_content{
+							width:100%;
+							padding: 0.14rem;
+							margin:0.05rem 0;
+							.home_content_header_bottom_footer{
+								margin-top: 0.2rem;
+							}
+						}
+						
+						.home_content_header_bottom_item_content:last-child{
+							
+						}
+					}
+				}
+				.home_block_and_transaction_content{
+					flex-direction:column;
+					.home_block_content{
+						margin-right: 0rem;
+						.home_block_top_content{
+							.home_block_top_title{
+								i{
+									
+								}
+								span{
+									
+								}
+							}
+							.home_block_view_all{
+								font-size:0.16rem;
+								a{
+
+								}
+							}
+						}
+						.home_block_bottom_content{
+							
+							.home_block_list_item_content{
+								
+								.home_block_time_content{
+									
+									.home_block{
+										a{
+											
+										}
+									}
+								}
+								.home_tx_time_content{
+									
+									.home_tx{
+										span{
+											
+										}
+									}
+								}
+							}
+							.animation{
+								
+							}
+						}
+						
+					}
+					.home_transaction_content{
+						margin-top:0.2rem;
+						.home_transaction_top_content{
+							
+							.home_transaction_top_title{
+								i{
+									
+								}
+								span{
+									
+								}
+							}
+							.home_transaction_view_all{
+								a{
+									
+								}
+								
+								
+							}
+						}
+						.home_transaction_bottom_content{
+							
+							.home_transaction_list_item_content{
+								
+								.home_transaction_time_content{
+									
+									.home_transaction{
+										
+										a{
+											
+										}
+									}
+								}
+								.home_tx_type_content{
+									
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 </style>

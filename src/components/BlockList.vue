@@ -94,6 +94,7 @@
 				}				
 			},
 			pageChange(pageNum){
+				if (this.pageNumber == pageNum) {return;}
 				this.pageNumber = pageNum;
 				this.getBlocks()
 			}
