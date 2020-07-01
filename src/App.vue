@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header></Header>
-    <router-view style="margin-top: 0.61rem;flex: 1;"/>
+    <router-view class="content"/>
     <Footer></Footer>
   </div>
 </template>
@@ -60,6 +60,17 @@ export default {
           }
         }
       }
+    }
+  }
+
+  .content{
+    margin-top: 0.61rem;
+    flex: 1;
+  }
+
+  @media screen and (max-width: 1000px) {
+    .content{
+      margin-top: 0rem;
     }
   }
 /*  {
