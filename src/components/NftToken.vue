@@ -21,10 +21,6 @@
 					<span>{{$t('ExplorerCN.nftDetail.schema')}}</span>
 					<span>{{schema}}</span>
 				</div>
-				<!--<div class="nft_token_information_item">
-					<span>Primary Key</span>
-					<span>{{primaryKey}}</span>
-				</div>-->
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerCN.nftDetail.data')}}</span>
 					<span>{{tokenData}}</span>
@@ -47,7 +43,7 @@
 			<div class="nft_token_list_content">
 				<div class="nft_token_list_title"> {{$t('ExplorerCN.nftDetail.nftTxs')}}</div>
 				<el-table :data="txListByToken">
-					<el-table-column :label="$t('ExplorerCN.transactions.txHash')">
+					<el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.txHash"
 										class="item"
@@ -62,8 +58,8 @@
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.from')">
+					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.from"
 										class="item"
@@ -74,7 +70,7 @@
 							<span v-if="scope.row.from === '--'">{{formatAddress(scope.row.from)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.to')" >
+					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.to')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.to"
 										class="item"
@@ -85,7 +81,7 @@
 							<span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.signer')" >
+					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.signer')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.signer"
 										class="item"
@@ -204,6 +200,7 @@
 		color: #3264FD !important;
 	}
 	.nft_token_container{
+		padding:0 0.15rem;
 		.nft_token_content_wrap{
 			max-width: 12rem;
 			margin: 0 auto;
@@ -226,7 +223,7 @@
 					margin-bottom: 0.16rem;
 					display: flex;
 					span:nth-of-type(1){
-						width: 1.27rem;
+						min-width: 1.27rem;
 						font-size: 0.14rem;
 						color: #787C99;
 						line-height: 0.16rem;
@@ -235,6 +232,7 @@
 						font-size: 0.14rem;
 						color: #171D44;
 						flex: 1;
+						word-break:break-all;
 					}
 				}
 				.nft_token_information_item:last-child{
@@ -260,4 +258,39 @@
 			
 		}
 	}
+
+	@media screen and (max-width: 768px) {
+        .nft_token_container{
+			.nft_token_content_wrap{
+				
+				.nft_token_title{
+					
+				}
+				.nft_token_information_content{
+					
+					.nft_token_information_item{
+						
+						span:nth-of-type(1){
+							min-width: 1rem;
+						}
+						span:nth-of-type(2){
+							
+						}
+					}
+					.nft_token_information_item:last-child{
+						
+					}
+				}
+				.nft_token_list_content{
+					.nft_token_list_title{
+						
+					}
+	                .pagination_content{
+	                    
+	                }
+				}
+				
+			}
+		}
+    }
 </style>

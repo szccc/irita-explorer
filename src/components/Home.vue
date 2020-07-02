@@ -179,13 +179,13 @@
                                     time: Tools.getDisplayDate(item.time),
                                     Time: item.time,
 									txNumber: item.txn,
-									blockAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
+									blockAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time*1000,"ago",">")
 								}
 							});
 							clearInterval(this.blocksTimer)
 							this.blocksTimer = setInterval( () => {
 								that.latestBlockArray = that.latestBlockArray.map(item => {
-									item.blockAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
+									item.blockAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time*1000,"ago",">");
 									return item
 								})
 							},1000)
@@ -201,7 +201,7 @@
                 };
                 try {
                     const res = await getTxList(params);
-                    console.log('tx list:',res)
+                    // console.log('tx list:',res)
                     if(res){
                         for (let txIndex = 0; txIndex < res.data.length; txIndex++){
                             let lastTxTime = Tools.getTimestamp();
@@ -229,13 +229,13 @@
                                 time: Tools.getDisplayDate(item.time),
                                 txType: item.type,
                                 Time: item.time,
-                                txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time,"ago",">")
+                                txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time*1000,"ago",">")
                             }
                         });
                         clearInterval(this.transfersTimer);
                         this.transfersTimer = setInterval(()=> {
                             this.latestTransaction = this.latestTransaction.map(item => {
-                                item.txAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time,"ago",">");
+                                item.txAgeTime = Tools.formatAge(Tools.getTimestamp(),item.Time*1000,"ago",">");
                                 return item
                             })
                         },1000)

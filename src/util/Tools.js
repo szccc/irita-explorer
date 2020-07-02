@@ -6,14 +6,15 @@ export default class Tools{
 	 */
 	static formatAge(currentServerTime,time,suffix,prefix){
 		let dateBegin = new Date(time);
-		let dateDiff = currentServerTime - dateBegin.getTime();
+		let dateDiff = currentServerTime - dateBegin.getTime()/1000;
+		if (dateDiff < 0) { return '' };
 		//console.log('----',dateBegin.getTime())
-		let dayDiff = Math.floor((currentServerTime - time) / (24 * 3600));
+		let dayDiff = Math.floor(dateDiff / (24 * 3600));
 		let hourLevel = dateDiff % (24 * 3600);
 		let hours = Math.floor(hourLevel / 3600);
-		let minuteLevel = hourLevel % 3600;
+		let minuteLevel = dateDiff % 3600;
 		let minutes = Math.floor(minuteLevel / 60);
-		let seconds = minuteLevel % 60 ;
+		let seconds = dateDiff % 60 ;
 
 		let str = `${dayDiff?`${dayDiff}d`:''} ${hours ? `${hours}h` : ''} ${dayDiff && hours ? '' : (minutes ? `${minutes}m`:'')} ${dayDiff || hours || minutes? '' : (seconds ? `${seconds}s`:'')}`;
 		if(prefix && suffix){
@@ -24,12 +25,14 @@ export default class Tools{
 			return`${str}`
 		}
 	}
+
 	/**
 	 * 格式化hash
 	 * */
 	static formatTxHash(txHash){
 		return `${txHash.substring(0,3)}...${txHash.substring(txHash.length - 3)}`
 	}
+
 	/**
 	 * 格式化地址
 	 */
@@ -48,6 +51,7 @@ export default class Tools{
 	static removeAllSpace(str) {
 		return str.replace(/\s+/g, "");
 	}
+	
 	/**
 	 * 首字母大写
 	 * */

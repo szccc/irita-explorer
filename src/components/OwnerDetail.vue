@@ -51,7 +51,7 @@
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.from" placement="top">

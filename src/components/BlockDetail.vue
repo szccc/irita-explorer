@@ -26,13 +26,13 @@
 				<div class="block_transaction_title_content">{{$t('ExplorerCN.blockDetail.transactions')}}</div>
 				<div class="block_transaction_list_content">
 					<el-table :data="transactionArray">
-						<el-table-column :label="$t('ExplorerCN.transactions.txHash')">
+						<el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
 							<template slot-scope="scope">
 								<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
 							</template>
 						</el-table-column>
 						<el-table-column :label="$t('ExplorerCN.transactions.block')" prop="blockHeight"></el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+						<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
 						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
 							<template slot-scope="scope">
 								<router-link v-if="scope.row.from !== '--'" :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
