@@ -5,10 +5,6 @@
                 <h3 class="service_information_definition_title">{{$t('ExplorerCN.serviceDetail.serviceDefinition')}}
                     ({{$route.query.serviceName}})</h3>
                 <div class="service_information_content">
-                    <!--<p class="service_information_text_content">
-                        <span>Chain ID:</span>
-                        <span>{{chainId}}</span>
-                    </p>-->
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerCN.serviceDetail.author')}}</span>
                         <span>{{author}}</span>
@@ -33,20 +29,6 @@
                         <span>{{$t('ExplorerCN.serviceDetail.tags')}}</span>
                         <span>{{tags}}</span>
                     </p>
-
-
-                    <!--<p class="service_information_text_content">
-                        <span>Publisher:</span>
-                        <span><router-link :to="`/address/${publisher}`">{{publisher}}</router-link></span>
-                    </p>
-                    <p class="service_information_text_content">
-                        <span>Description:</span>
-                        <span>{{description}}</span>
-                    </p>
-                    <p class="service_information_text_content">
-                        <span>IDL Content:</span>
-                        <span >{{idlContent}}</span>
-                    </p>-->
                 </div>
             </div>
             <div class="service_information_bindings_content">
@@ -54,23 +36,21 @@
                     {{$t('ExplorerCN.serviceDetail.serviceBindings.serviceBindings')}}</h3>
                 <div class="service_information_bindings_table_content">
                     <el-table :data="bindingArray">
-                        <!--<el-table-column label="TxHash" prop="txHash"></el-table-column>-->
-                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.serviceName')"
+                        <el-table-column min-width="100px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.serviceName')"
                                          prop="serviceName"></el-table-column>
                         <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.available')"
                                          prop="available"></el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
+                        <el-table-column min-width="100px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
                                          prop="deposit"></el-table-column>
-                        <!--						<el-table-column label="Disabled Time" prop="disabledTime"></el-table-column>-->
-                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.owner')">
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.owner')">
                             <template slot-scope="scope">
                                 <router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}
                                 </router-link>
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.pricing')"
+                        <el-table-column min-width="150px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.pricing')"
                                          prop="pricing"></el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
                             <template slot-scope="scope">
                                 <router-link :to="`/address/${scope.row.provider}`">
                                     {{formatAddress(scope.row.provider)}}
@@ -79,7 +59,6 @@
                         </el-table-column>
                         <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')"
                                          prop="qos"></el-table-column>
-                        <!--<el-table-column label="Status" prop="status"></el-table-column>-->
                     </el-table>
                 </div>
             </div>
@@ -88,7 +67,7 @@
                     {{$t('ExplorerCN.serviceDetail.serviceTransactions')}}</h3>
                 <div class="service_information_transaction_table_content">
                     <el-table :data="transactionArray">
-                        <el-table-column :label="$t('ExplorerCN.transactions.txHash')">
+                        <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
                             <template slot-scope="scope">
                                 <router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}
                                 </router-link>
@@ -99,7 +78,7 @@
                                 <router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.transactions.requestId')">
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip :content="scope.row.requestId" v-if="scope.row.requestId">
                                     <span>{{formatAddress(scope.row.requestId)}}</span>
@@ -107,15 +86,15 @@
                                 <span v-else>--</span>
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+                        <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
 
-                        <el-table-column :label="$t('ExplorerCN.transactions.from')">
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
                             <template slot-scope="scope">
                                 <router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}
                                 </router-link>
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.transactions.to')">
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
                             <template slot-scope="scope">
                                 <el-tooltip v-if="scope.row.content && scope.row.content.length > 0 ">
                                     <div slot="content">
@@ -134,7 +113,7 @@
                         </el-table-column>
                         <el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
 
-                        <el-table-column :label="$t('ExplorerCN.transactions.timestamp')"
+                        <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" width="200px"
                                          prop="timestamp"></el-table-column>
                     </el-table>
                 </div>
@@ -281,6 +260,7 @@
     }
 
     .service_information_container {
+        padding:0 0.15rem;
         .service_information_content_wrap {
             max-width: 12rem;
             margin: 0 auto;
@@ -292,7 +272,7 @@
                     font-weight: bold;
                     color: #22252a;
                     text-align: left;
-                    text-indent: 0.2rem;
+                    margin-left:0.2rem;
                 }
                 .service_information_content {
                     box-sizing: border-box;
@@ -306,7 +286,7 @@
                             font-size: 0.14rem;
                             line-height: 0.16rem;
                             color: #787C99;
-                            width: 1.5rem;
+                            min-width: 1.5rem;
                             text-align: left;
                         }
                         span:last-child {
@@ -315,6 +295,7 @@
                             color: #171D44;
                             flex: 1;
                             text-align: left;
+                            word-break:break-all;
                         }
                     }
                     .service_information_text_content:last-child {
@@ -352,6 +333,54 @@
                 display: flex;
                 justify-content: flex-end;
                 margin: 0.1rem 0 0.2rem 0;
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .service_information_container {
+            
+            .service_information_content_wrap {
+                
+                .service_information_definition_content {
+                    .service_information_definition_title {
+                        
+                    }
+                    .service_information_content {
+                        
+                        .service_information_text_content {
+                            
+                            span:nth-of-type(1) {
+                                min-width: 1rem;
+                            }
+                            span:last-child {
+                                
+                            }
+                        }
+                        .service_information_text_content:last-child {
+                            
+                        }
+                    }
+                }
+                .service_information_bindings_content {
+                    .service_information_binding_title {
+                        
+                    }
+                    .service_information_bindings_table_content {
+                        
+                    }
+                }
+                .service_information_transaction_content {
+                    .service_information_transaction_title {
+                        
+                    }
+                    .service_information_transaction_table_content {
+                        
+                    }
+                }
+                .pagination_content {
+                    
+                }
             }
         }
     }
