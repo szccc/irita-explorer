@@ -148,7 +148,7 @@
                 try {
                     const res = await getBlockTxList(this.$route.params.height);
                     if(res){
-                        console.log(res)
+                        // console.log(res)
                         this.transactionArray = res.data.map((item) => {
                             return {
                                 txHash: item.tx_hash,

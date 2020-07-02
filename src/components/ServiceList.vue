@@ -76,7 +76,7 @@
                 try {
                     const res = await getDefineServiceTxList(this.pageNum,this.pageSize);
                     if(res){
-                        console.log(res)
+                        // console.log(res)
                         this.serviceList = res.data.map((tx)=>{
                             let msgServiceName,msgPublisher,msgDescription;
                             if(tx.msgs && tx.msgs.length > 0){
@@ -93,7 +93,7 @@
                                 // status: tx.status === 1 ? 'Success' : 'Failed'
                             }
                         });
-                        console.log(this.serviceList)
+                        // console.log(this.serviceList)
                         this.txCount = res.count;
 
                     }

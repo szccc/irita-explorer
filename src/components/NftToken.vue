@@ -164,7 +164,7 @@
 			async getTokenTx(){
                 const res = await getTokenTxList(this.tokenID,this.$route.query.denom,this.pageNum ,this.pageSize );
                 try {
-                    console.log(res)
+                    // console.log(res)
                     this.txListByToken = res.data.map((tx)=>{
                         return {
                             txHash : tx.tx_hash,
@@ -178,7 +178,7 @@
                         }
                     });
                     this.count = res.count;
-                    console.log(this.txListByToken)
+                    // console.log(this.txListByToken)
                 }catch (e) {
                     this.$message.error('获取交易列表失败,请稍后重试');
                 }

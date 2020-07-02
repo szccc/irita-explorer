@@ -175,7 +175,7 @@
                 const res = await getServiceDetail(this.$route.query.serviceName);
 
                 try {
-                    console.log(res)
+                    // console.log(res)
                     if(res.msgs && res.msgs.length > 0 && res.msgs[0].msg){
                         const {author, author_description, description, name, schemas, tags} = res.msgs[0].msg;
                         this.author = author;
@@ -216,7 +216,7 @@
             async getServiceTransaction(){
                 try {
                     const res = await getServiceTxList(this.currentPageNum,this.pageSize,this.$route.query.serviceName);
-                    console.log(res)
+                    // console.log(res)
                     this.transactionArray = res.data.map((item) =>{
                         let toAddressArray = [];
                         if(item.to.includes(',')){

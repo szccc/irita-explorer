@@ -566,7 +566,7 @@
                 try {
                     const res = await getTxDetail(this.$route.query.txHash);
                     if(res){
-                        console.log(res)
+                        // console.log(res)
                         this.txHash = res.tx_hash;
                         this.blockHeight = res.height;
                         this.status = res.status === 1 ? 'Success' : 'Failed';
