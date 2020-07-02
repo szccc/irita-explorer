@@ -22,7 +22,7 @@
 <!--					<el-table-column label="Details" prop="detail"></el-table-column>-->
 <!--					<el-table-column label="Proposer Priority" prop="proposerPriority"></el-table-column>-->
 					<el-table-column :label="$t('ExplorerCN.validators.votingPower')" width="150px" prop="votingPower"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.validators.pubKey')" prop="pubKey"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.validators.pubKey')" prop="pubKey" width="450px"></el-table-column>
 				</el-table>
 			</div>
 		</div>
@@ -159,9 +159,25 @@
 		color: #3264FD !important;
 	}
 	.validator_list_container{
+        width:100%;
+        @media screen and (min-width: 910px){
+            .validator_list_content_wrap{
+                max-width: 12rem;
+
+            }
+
+        }
+        @media screen and (max-width: 910px){
+            .validator_list_content_wrap{
+                width:100%;
+                padding:0 0.15rem;
+
+            }
+
+        }
 		.validator_list_content_wrap{
-			max-width: 12rem;
 			margin: 0 auto;
+            box-sizing: border-box;
 			.validator_table_list_content{
 				background: #fff;
 				margin-top: 0.1rem;
