@@ -95,7 +95,7 @@
 			},
 			mobileMenuDidClick(item,index){
 				this.$router.push(item.link)
-				this.activeIndex2 = index+1;
+				this.activeIndex2 = String(index+1);
 				this.featureShow = false;
 
 			},

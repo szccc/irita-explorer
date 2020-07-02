@@ -1,11 +1,11 @@
 <template>
 	<div class="address_container_content">
 		<div class="address_content_wrap">
-			<div class="address_text_title">{{address}}</div>
+			<div class="address_text_title" style="word-break:break-all;margin-left:0.2rem;">{{address}}</div>
 			<div class="address_asset_content">
 				<div class="address_asset_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
 				<el-table :data="assetArray">
-					<el-table-column :label="$t('ExplorerCN.addressDetail.owner')" width="150px">
+					<el-table-column min-width="0.12rem" :label="$t('ExplorerCN.addressDetail.owner')" width="150px">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.owner"
 							            class="item"
@@ -27,34 +27,17 @@
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.addressDetail.data')" width="350px" prop="tokenData"></el-table-column>
-<!--					<el-table-column label="Primary Key" width="300px" prop="primaryKey"></el-table-column>-->
 					<el-table-column :label="$t('ExplorerCN.addressDetail.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :download="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
-					<!--<el-table-column label="ID" prop="id">
-						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&tokenId=${scope.row.id}`">{{scope.row.id}}</router-link>
-						</template>
-					</el-table-column>
-					<el-table-column label="Token">
-						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&tokenId=${scope.row.id}`">{{scope.row.denom}}</router-link>
-						</template>
-					</el-table-column>
-					<el-table-column label="URI" prop="tokenUri" width="650px">
-						<template slot-scope="scope">
-							<a v-if="scope.row.tokenUri && scope.row.tokenUri !== '&#45;&#45;'" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
-							<span v-else>&#45;&#45;</span>
-						</template>
-					</el-table-column>-->
 				</el-table>
 			</div>
 			<div class="address_transaction_content">
 				<el-table :data="txList">
-					<el-table-column :label="$t('ExplorerCN.transactions.txHash')">
+					<el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
 							<el-tooltip effect="dark"
 							            :content="scope.row.txHash"
@@ -68,15 +51,15 @@
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.from')">
+					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.from" placement="top">
 								<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.to')">
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.to" placement="top">
 								<router-link  v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
@@ -84,7 +67,7 @@
 							<span v-if="scope.row.to === '--'">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.signer')">
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.signer" placement="top">
 								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
@@ -229,6 +212,7 @@
 		color: #3264FD !important;
 	}
 	.address_container_content{
+		padding:0 0.15rem;
 		.address_content_wrap{
 			max-width: 12rem;
 			margin: 0 auto;
@@ -239,7 +223,6 @@
 				line-height: 0.26rem;
 				font-weight: bold;
 				padding: 0.3rem 0;
-				text-indent: 0.2rem;
 			}
 			.address_asset_content{
 				.address_asset_title{
