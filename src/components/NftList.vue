@@ -168,48 +168,121 @@
 		color: #3264FD !important;
 	}
 	.nft_list_container{
+        @media screen and (min-width: 910px){
+            .nft_list_content_wrap{
+                max-width: 12rem;
+                .nft_list_header_content{
+                    display: flex;
+                    align-items: center;
+                    .el-select{
+                        /deep/ .el-input{
+                            width: 1.8rem;
+                            .el-input__inner{
+                                padding-left: 0.07rem;
+                                height: 0.32rem;
+                                line-height: 0.32rem;
+                            }
+                            .el-input__inner:focus{
+                                border-color: #3264FD !important;
+                            }
+                            .el-input__suffix{
+                                .el-input__suffix-inner{
+                                    .el-input__icon{
+                                        line-height: 0.32rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    /deep/ .el-input{
+                        max-width: 3.5rem;
+                        margin-left: 0.1rem;
+                        .el-input__inner{
+                            padding-left: 0.07rem;
+                            height: 0.32rem;
+                            font-size: 0.14rem !important;
+                            line-height: 0.32rem;
+                        }
+                    }
+                    .tx_type_mobile_content{
+                        align-items: center;
+                    }
+                }
+            }
+
+        }
+        @media screen and (max-width: 910px){
+            .nft_list_content_wrap{
+                width:100%;
+                padding:0 0.15rem;
+                box-sizing: border-box;
+                .nft_list_header_content{
+                    display: flex;
+                    flex-direction:column;
+                    justify-content: flex-start;
+                    .nft_list_header_title{
+                        margin-bottom:0.1rem;
+                    }
+                    .el-select{
+                        margin-bottom:0.1rem;
+                        /deep/ .el-input{
+                            //width: 1.8rem;
+                            .el-input__inner{
+                                padding-left: 0.07rem;
+                                height: 0.32rem;
+                                line-height: 0.32rem;
+                            }
+                            .el-input__inner:focus{
+                                border-color: #3264FD !important;
+                            }
+                            .el-input__suffix{
+                                .el-input__suffix-inner{
+                                    .el-input__icon{
+                                        line-height: 0.32rem;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    /deep/ .el-input{
+                        margin-bottom:0.1rem;
+                        .el-input__inner{
+                            padding-left: 0.07rem;
+                            height: 0.32rem;
+                            font-size: 0.14rem !important;
+                            line-height: 0.32rem;
+                        }
+                    }
+                    .tx_type_mobile_content{
+                        justify-content: flex-end;
+                        margin-bottom:0.1rem;
+                    }
+                }
+            }
+
+        }
 		.nft_list_content_wrap{
-			max-width: 12rem;
 			margin: 0 auto;
-			width: 100%;
 			.nft_list_header_content{
 				width: 100%;
 				margin: 0.3rem 0 0 0;
-				display: flex;
-				align-items: center;
+
 				.el-select{
 					/deep/ .el-input{
-						width: 1.8rem;
 						.el-input__inner{
-							padding-left: 0.07rem;
-							height: 0.32rem;
 							font-size: 0.14rem !important;
-							line-height: 0.32rem;
 							&::-webkit-input-placeholder{
 								font-size: 0.14rem !important;
-							}
-						}
-						.el-input__inner:focus{
-							border-color: #3264FD !important;
-						}
-						.el-input__suffix{
-							.el-input__suffix-inner{
-								.el-input__icon{
-									line-height: 0.32rem;
-								}
 							}
 						}
 					}
 				}
 
 				/deep/ .el-input{
-					max-width: 3.5rem;
-					margin-left: 0.1rem;
 					.el-input__inner{
-						padding-left: 0.07rem;
-						height: 0.32rem;
 						font-size: 0.14rem !important;
-						line-height: 0.32rem;
 						&::-webkit-input-placeholder{
 							font-size: 0.14rem !important;
 						}
@@ -220,7 +293,7 @@
 					color: #22252A;
 					line-height: 0.21rem;
 					text-align: left;
-					text-indent: 0.2rem;
+					//text-indent: 0.2rem;
 				}
 				.nft_denom_content{
 					margin-top: 0.1rem;
@@ -235,7 +308,7 @@
 				}
 				.tx_type_mobile_content{
 					display: flex;
-					align-items: center;
+
 
 					/deep/.el-select{
 						width: 1.3rem;

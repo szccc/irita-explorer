@@ -125,15 +125,28 @@
 		color: #3264FD !important;
 	}
 	.service_list_container_content{
+        @media screen and (min-width: 910px){
+            .service_list_content_wrap{
+                max-width: 12rem;
+            }
+
+        }
+        @media screen and (max-width: 910px){
+            .service_list_content_wrap{
+                width:100%;
+                padding:0 0.15rem;
+                box-sizing: border-box;
+
+            }
+
+        }
 		.service_list_content_wrap{
-			max-width: 12rem;
 			margin: 0 auto;
 			.service_list_title{
 				color: #22252A;
 				font-size: 0.18rem;
 				line-height: 0.21rem;
 				font-weight: bold;
-				text-indent: 0.2rem;
 				margin: 0.3rem 0 0.1rem 0;
 				text-align: left;
 			}
