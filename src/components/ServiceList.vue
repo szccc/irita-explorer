@@ -4,14 +4,14 @@
 			<div class="service_list_title">{{$t('ExplorerCN.service.services')}}</div>
 			<div class="service_list_content">
 				<el-table :data="serviceList">
-					<el-table-column :label="$t('ExplorerCN.service.serviceName')">
+					<el-table-column min-width="140px" :label="$t('ExplorerCN.service.serviceName')">
 						<template slot-scope="scope">
 							<span>
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.service.txHash')">
+					<el-table-column min-width="100px" :label="$t('ExplorerCN.service.txHash')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.txHash"
 							            effect="dark" placement="top">
@@ -19,8 +19,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-<!--					<el-table-column label="Chain ID" prop="chainId"></el-table-column>-->
-					<el-table-column :label="$t('ExplorerCN.service.publisher')" prop="publisher">
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.publisher')" prop="publisher">
 						<template slot-scope="scope">
 							<el-tooltip placement="top"
 							            effect="dark"
@@ -29,7 +28,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.service.from')">
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.from')">
 						<template slot-scope="scope">
 							<el-tooltip placement="top"
 							            effect="dark"
@@ -38,8 +37,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.service.description')" prop="description"></el-table-column>
-					<!-- <el-table-column :label="$t('ExplorerCN.service.status')" prop="status"></el-table-column> -->
+					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.description')" prop="description"></el-table-column>
 				</el-table>
 			</div>
 			<div class="pagination_content">
@@ -78,7 +76,7 @@
                 try {
                     const res = await getDefineServiceTxList(this.pageNum,this.pageSize);
                     if(res){
-                        console.log(res)
+                        // console.log(res)
                         this.serviceList = res.data.map((tx)=>{
                             let msgServiceName,msgPublisher,msgDescription;
                             if(tx.msgs && tx.msgs.length > 0){
@@ -95,7 +93,7 @@
                                 // status: tx.status === 1 ? 'Success' : 'Failed'
                             }
                         });
-                        console.log(this.serviceList)
+                        // console.log(this.serviceList)
                         this.txCount = res.count;
 
                     }

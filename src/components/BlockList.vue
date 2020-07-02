@@ -22,8 +22,8 @@
 								</template>
 							</el-table-column>
 							<el-table-column prop="numTxs" :label="$t('ExplorerCN.block.transactions')"></el-table-column>
-							<el-table-column prop="time" :label="$t('ExplorerCN.block.timestamp')"></el-table-column>
-							<el-table-column prop="ageTime" :label="$t('ExplorerCN.block.age')"></el-table-column>
+							<el-table-column min-width="180px" prop="time" :label="$t('ExplorerCN.block.timestamp')"></el-table-column>
+							<el-table-column min-width="120px" prop="ageTime" :label="$t('ExplorerCN.block.age')"></el-table-column>
 						</el-table>
 					</div>
 					<div class="pagination_content">

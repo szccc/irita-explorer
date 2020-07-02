@@ -166,7 +166,7 @@
 			    try {
                     const res = await getAddressTxList(this.$route.params.param, this.pageNum, this.pageSize);
                     if(res){
-                        console.log(res)
+                        // console.log(res)
                         this.totalTxNumber = res.count;
                         if(res.count > this.pageSize){
                             this.flShowPagination  = true

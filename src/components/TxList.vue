@@ -56,7 +56,7 @@
             </div>
             <div class="tx_list_content">
                 <el-table :data="transactionArray">
-                    <el-table-column :label="$t('ExplorerCN.transactions.txHash')">
+                    <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.txHash"
                                         class="item"
@@ -72,8 +72,8 @@
                             <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.from')">
+                    <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+                    <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.from"
                                         class="item"
@@ -86,7 +86,7 @@
                             <span v-if="scope.row.from === '--'">{{formatAddress(scope.row.from)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.to')">
+                    <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.to"
                                         class="item"
@@ -99,7 +99,7 @@
                             <span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.signer')">
+                    <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.signer"
                                         class="item"
@@ -237,7 +237,7 @@
                     this.txCount = res.count;
                     this.pageNum = res.pageNum;
                     this.pageSize = res.pageSize;
-                    console.log(this.transactionArray)
+                    // console.log(this.transactionArray)
                 }catch (e) {
                     this.$message.error('获取交易列表失败,请稍后重试');
                 }
