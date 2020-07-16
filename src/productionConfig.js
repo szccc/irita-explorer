@@ -1,0 +1,47 @@
+/*导航栏功能映射{
+	"100":"区块浏览",
+	"101":"交易浏览",
+	"102":"共识节点",
+	"103":"NFT资产",
+	"104":"服务浏览",
+	"105":"搜索"(始终排在末尾)}*/
+
+let config = {
+	"title":"",//浏览器标签标题
+	"logoTitle":"",//logo标题
+	"logoSubTitle":"",//logo副标题
+	"nav":{
+		"color":"",//nav文字颜色
+		"bgColor":""//nav背景颜色
+	},
+	"footer":{
+		"color":"",//nav背景颜色
+		"bgColor":"",//nav背景颜色
+	},
+	"navFuncList":["100","101","102","103","104","105"],//导航栏功能列表
+	"homeCard":{//首页卡片配置
+		"lestBlock":true,
+		"txCount":true,
+		"avgBlockTime":true,
+		"validatorCount":true,
+		"serviceCount":true,
+		"assetCount":true,
+	},
+	"funcConfig":{//模块支持 
+		"block":true,
+		"tx":true,
+		"validator":true,
+		"asset":true,
+		"service":true
+	},
+	"textColors":{//预设字体颜色
+		"common":"",
+	},
+	"bottonColor":{//预设按钮字体颜色
+		"common":"",
+	},
+	"bottonBgColor":{//预设按钮背景颜色
+		"common":"",
+	}
+}
+export default config;

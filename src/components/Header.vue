@@ -25,7 +25,7 @@
 					<img class="menu_btn" src="../assets/menu.png" >
 				</div>
 			</div>
-			<div class="header_input_content">
+			<div class="header_input_content" v-if="searchShow">
 				<div class="search_input_container">
 					<div class="search_input_wrap">
 						<input type="text"
@@ -49,6 +49,7 @@
 <script>
 	import Tools from "../util/Tools";
 	import constant from "../constant"
+	import prodConfig from "../productionConfig"
 	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../service/api';
 	export default {
 		data() {
@@ -57,29 +58,43 @@
 				activeIndex2: '1',
 				searchInputValue: '',
 				featureShow:false,
-				menuList:[
-					{
-						titel:this.$t('ExplorerCN.Navigation.block'),
-						link:'/blocks',
-					},
-					{
-						titel:this.$t('ExplorerCN.Navigation.transactions'),
-						link:'/txs',
-					},
-					{
-						titel:this.$t('ExplorerCN.Navigation.validators'),
-						link:'/validators',
-					},
-					{
-						titel:this.$t('ExplorerCN.Navigation.nftAsset'),
-						link:'/nftAsset',
-					},
-					{
-						titel:this.$t('ExplorerCN.Navigation.service'),
-						link:'/services',
-					}
-				]
+				menuList:[],
+				searchShow:false,
 			};
+		},
+		beforeMount(){
+			let funcs = {
+				'100':{
+					titel:this.$t('ExplorerCN.Navigation.block'),
+					link:'/blocks',
+				},
+				'101':{
+					titel:this.$t('ExplorerCN.Navigation.transactions'),
+					link:'/txs',
+				},
+				'102':{
+					titel:this.$t('ExplorerCN.Navigation.validators'),
+					link:'/validators',
+				},
+				'103':{
+					titel:this.$t('ExplorerCN.Navigation.nftAsset'),
+					link:'/nftAsset',
+				},
+				'104':{
+					titel:this.$t('ExplorerCN.Navigation.service'),
+					link:'/services',
+				}
+			};
+			if (prodConfig.navFuncList && prodConfig.navFuncList.length) {
+				prodConfig.navFuncList.forEach((item)=>{
+					if (funcs[item]) {
+						this.menuList.push(funcs[item]);
+					}
+					if (item == '105') {
+						this.searchShow = true;
+					}
+				});
+			}
 		},
 		mounted(){
 			this.$Crypto.getCrypto('iris', 'testnet');

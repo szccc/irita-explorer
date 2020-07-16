@@ -2,7 +2,7 @@
 	<div class="address_container_content">
 		<div class="address_content_wrap">
 			<div class="address_text_title" style="word-break:break-all;margin-left:0.2rem;">{{address}}</div>
-			<div class="address_asset_content">
+			<div class="address_asset_content" v-show="prodConfig.funcConfig.asset">
 				<div class="address_asset_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
 				<el-table :data="assetArray">
 					<el-table-column min-width="0.12rem" :label="$t('ExplorerCN.addressDetail.owner')" width="150px">
@@ -97,6 +97,7 @@
 <script>
 	import { getNfts } from "../service/api"
 	import Tools from "../util/Tools"
+	import prodConfig from "../productionConfig"
 	import MPagination from "./MPagination";
     import {getAddressTxList} from "../service/api";
 
@@ -105,6 +106,7 @@
 		components: {MPagination},
 		data() {
 			return{
+				prodConfig:prodConfig,
 				assetArray:[],
 				denomArray:[],
 				address:'',
