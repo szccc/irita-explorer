@@ -3,35 +3,35 @@
 		<div class="home_content_wrap">
 			<div class="home_content_header_content">
 				<ul class="home_content_header_top_content">
-					<li class="home_content_header_top_item_content">
+					<li class="home_content_header_top_item_content" v-show="prodConfig.homeCard.lestBlock">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>{{$t('ExplorerCN.home.blockHeight')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`block/${block_height}`">{{block_height}}</router-link></p>
 						<p class="home_content_header_top_footer_content"></p>
 					</li>
-					<li class="home_content_header_top_item_content">
+					<li class="home_content_header_top_item_content" v-show="prodConfig.homeCard.txCount">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconTransactions"></i>{{$t('ExplorerCN.home.transactions')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`/txs`">{{transactionNumber}}</router-link></p>
 						<p class="home_content_header_top_footer_content">{{transactionTime}}</p>
 					</li>
-					<li class="home_content_header_top_item_content">
+					<li class="home_content_header_top_item_content" v-show="prodConfig.homeCard.avgBlockTime">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerCN.home.avgBlockTime')}}</p>
 						<p class="home_content_header_top_center_content">{{ageTime}}</p>
 						<p class="home_content_header_top_footer_content">{{$t('ExplorerCN.home.last100Blocs')}}</p>
 					</li>
 				</ul>
-				<ul class="home_content_header_bottom_content">
+				<ul class="home_content_header_bottom_content" v-show="prodConfig.homeCard.validatorCount">
 					<li class="home_content_header_bottom_item_content">
 						<p class="home_content_header_bottom_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerCN.home.validators')}}</p>
 						<p class="home_content_header_bottom_footer">{{validatorNumber}}</p>
 					</li>
-					<li class="home_content_header_bottom_item_content">
+					<li class="home_content_header_bottom_item_content" v-show="prodConfig.homeCard.serviceCount">
 						<p class="home_content_header_bottom_title"><i class="iconfont iconservice"></i>{{$t('ExplorerCN.home.services')}}</p>
 						<p class="home_content_header_bottom_footer">
 							<router-link v-if="serverNumber" :to="`/services`">{{serverNumber}}</router-link>
 							<span v-else >--</span>
 						</p>
 					</li>
-					<li class="home_content_header_bottom_item_content">
+					<li class="home_content_header_bottom_item_content" v-show="prodConfig.homeCard.assetCount">
 						<p class="home_content_header_bottom_title"><i class="iconfont iconAssets"></i>{{$t('ExplorerCN.home.assets')}}</p>
 						<p class="home_content_header_bottom_footer"><router-link :to="`/nftAsset`">{{assetsNumber}}</router-link></p>
 					</li>
@@ -97,6 +97,7 @@
 
 <script>
 	import Tools from "../util/Tools";
+	import prodConfig from "../productionConfig"
 	import { getStatistics, getBlockList } from "../service/api";
 	import {getTxList} from "../service/api";
 
@@ -104,6 +105,7 @@
 		name: "Home",
 		data () {
 			return {
+				prodConfig:prodConfig,
 				block_height: 0,
 				transactionNumber: 0,
 				transactionTime:"",
@@ -285,12 +287,12 @@
 				flex-direction: column;
 				.home_content_header_top_content{
 					display: flex;
-					justify-content: space-between;
 					margin-top: 0.2rem;
 					height: 1.3rem;
 					.home_content_header_top_item_content{
 						flex: 1;
-						margin-right: 0.2rem;
+						max-width:32%;
+						margin:0 0.1rem;
 						border-radius: 0.04rem;
 						border: 0.01rem solid rgba(231,233,235,1);
 						background: #fff;
@@ -312,18 +314,21 @@
 							margin-top: 0.1rem;
 						}
 					}
+					.home_content_header_top_item_content:first-child{
+						margin-left: 0;
+					}
 					.home_content_header_top_item_content:last-child{
 						margin-right: 0;
 					}
 				}
 				.home_content_header_bottom_content{
 					display: flex;
-					justify-content: space-between;
 					margin-top: 0.2rem;
 					height: 1rem;
 					.home_content_header_bottom_item_content{
 						flex: 1;
-						margin-right: 0.2rem;
+						max-width:32%;
+						margin:0 0.1rem;
 						border: 0.01rem solid rgba(231,233,235,1);
 						background: #fff;
 						text-align: left;
@@ -343,6 +348,9 @@
 								color: #3264FD;
 							}
 						}
+					}
+					.home_content_header_bottom_item_content:first-child{
+						margin-left: 0;
 					}
 					.home_content_header_bottom_item_content:last-child{
 						margin-right: 0;
@@ -509,6 +517,7 @@
 						height:auto;
 						.home_content_header_top_item_content{
 							width:100%;
+							max-width:100%;
 							padding: 0.14rem;
 							margin:0.05rem 0;
 							.home_content_header_top_center_content{
@@ -526,6 +535,7 @@
 						flex-direction:column;
 						.home_content_header_bottom_item_content{
 							width:100%;
+							max-width:100%;
 							padding: 0.14rem;
 							margin:0.05rem 0;
 							.home_content_header_bottom_footer{
