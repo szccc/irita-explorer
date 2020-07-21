@@ -1,7 +1,9 @@
 <template>
 	<div class="service_list_container_content">
 		<div class="service_list_content_wrap">
-			<div class="service_list_title">{{$t('ExplorerCN.service.services')}}</div>
+			<div class="service_list_title">
+                {{$t('ExplorerCN.service.services')}}
+            </div>
 			<div class="service_list_content" v-for="service in serviceList">
                 <div class="service_list_top">
                     <span class="service_list_service_name">
@@ -15,7 +17,7 @@
 					<el-table-column min-width="140px" :label="$t('ExplorerCN.service.provider')">
 						<template slot-scope="scope">
 							<span>
-								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">
+								<router-link :to="`/address/${scope.row.provider}`">
                                     {{Tools.formatValidatorAddress(scope.row.provider)}}
                                 </router-link>
 							</span>
@@ -24,17 +26,35 @@
 					<el-table-column min-width="100px" :label="$t('ExplorerCN.service.respondTimes')">
 						<template slot-scope="scope">
 							<span>
-								<router-link :to="`tx?txHash=${scope.row.txHash}`">{{scope.row.respondTimes}}</router-link>
+								<router-link
+                                        :to="`service/respond/${service.serviceName}/${scope.row.provider}`">
+                                        {{scope.row.respondTimes}} 次
+                                    </router-link>
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.isAvailable')" prop="isAvailable"></el-table-column>
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.isAvailable')">
+                        <<template slot-scope="scope">
+                        <div class="service_information_available_container">
+                            <img class="service_tx_status"
+                                 v-if="scope.row.isAvailable"
+                                 src="../assets/true.png"/>
+                            <img class="service_tx_status"
+                                 v-else
+                                 src="../assets/false.png"/>
+                            <span>
+                                        {{scope.row.isAvailable}}
+                                    </span>
+                        </div>
+
+                    </template>
+                    </el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.price')" prop="price"></el-table-column>
 					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.minBlock')" prop="qos"></el-table-column>
 					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.time')" prop="bindTime"></el-table-column>
 				</el-table>
 			</div>
-			<div class="pagination_content">
+			<div class="pagination_content" v-if="txCount > 10">
 				<m-pagination :page-size="pageSize"
 				              :total="txCount"
 				              :page="pageNum"
@@ -139,12 +159,14 @@
 		.service_list_content_wrap{
 			margin: 0 auto;
 			.service_list_title{
-				color: #22252A;
-				font-size: 0.18rem;
-				line-height: 0.21rem;
-				font-weight: bold;
-				margin: 0.3rem 0 0.1rem 0;
-				text-align: left;
+                text-align: left;
+                margin: 0.42rem 0 0.15rem 0;
+                width: 100%;
+                box-sizing: border-box;
+                padding-left: 0.27rem;
+                font-size: 0.18rem;
+                font-weight: 600;
+                color: #171D44;
 			}
             .service_list_content{
                 display:flex;
@@ -154,6 +176,10 @@
                 background: #ffffff;
                 border-radius:5px;
                 border:1px solid rgba(215,215,215,1);
+                .service_information_available_container{
+                    display:flex;
+                    align-items: center;
+                }
                 .service_list_top{
                     display:flex;
                     justify-content: flex-start;

@@ -63,7 +63,7 @@ export const ExplorerCN = {
 		placeHolder: '搜索报表标识'
 	},
 	service: {
-		services: '服务',
+		services: '服务列表',
 		serviceName: '服务名称',
 		txHash: '交易哈希',
 		publisher: '提供者',
@@ -202,11 +202,17 @@ export const ExplorerCN = {
 			respondTimes: '响应次数',
 			bindTime: '绑定时间',
 			disabledTime: '解绑时间',
+            hash:'绑定哈希'
 		},
 		serviceTransactions: '服务交易',
         hash:'定义类型交易',
         height:'定义区块',
         time:'定义时间',
+        respondRecord:'服务响应记录',
+        provider:'提供者',
+        consumer:'消费者',
+        requestHash:'请求哈希',
+        txRecord:'交易记录'
 	},
 	searchResult:{
 		title: '搜索结果',

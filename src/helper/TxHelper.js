@@ -4,11 +4,12 @@ import { TX_TYPE } from "../constant";
 export class TxHelper {
 
     static getFromAndToAddressFromMsg(msgs){
-        if(!msgs) return;
+
         let res = {
             from : '--',
             to : '--'
         };
+        if(!msgs || msgs.msg) return res;
         const {type, msg} = msgs;
         switch (type){
             case TX_TYPE.define_service:
@@ -31,7 +32,15 @@ export class TxHelper {
                 break;
             case TX_TYPE.call_service:
                 res.from = msg.consumer;
-                res.to = msg.providers.length > 0 ? (msg.providers.length > 1 ? msg.providers : msg.providers[0]) : '--';
+                if(msg.providers.length === 0){
+                    res.to = '--'
+                }else{
+                    if(msg.providers.length > 1){
+                        res.to = msg.providers;
+                    }else{
+                        res.to = msg.providers[0]
+                    }
+                }
                 break;
             case TX_TYPE.respond_service:
                 res.from = msg.provider;

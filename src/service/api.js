@@ -160,10 +160,29 @@ export function getAllServiceTxList(pageNum, pageSize){
     return get(url);
 }
 
-export function getServiceBindingByServiceName(serviceName){
+export function getServiceRespondInfo(serviceName, provider){
+    let url = `txs/services/bind_info?serviceName=${serviceName}&provider=${provider}`;
+    return get(url);
+}
+
+
+
+export function getServiceBindingByServiceName(serviceName, provider){
     let url = `service/bindings/${serviceName}`;
+    if(provider){
+        url += `/${provider}`;
+    }
     return getFromLcd(url);
 }
+
+export function getRespondServiceRecord(serviceName, provider, pageNum, pageSize){
+    let url = `txs/services/respond?serviceName=${serviceName}&provider=${provider}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+    return get(url);
+}
+
+
+
+
 
 
 

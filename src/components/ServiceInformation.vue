@@ -3,7 +3,7 @@
         <div class="service_information_content_wrap">
             <p class="service_information_title">
                 {{$t('ExplorerCN.serviceDetail.serviceDefinition')}}
-                ({{$route.query.serviceName}})
+                {{$route.query.serviceName}}
             </p>
             <div class="service_information_definition_content">
                 <h3 class="service_information_definition_title">
@@ -54,11 +54,11 @@
                     {{$t('ExplorerCN.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
                     <el-table :data="serviceList">
-                        <el-table-column min-width="100px"
+                        <el-table-column min-width="120px"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
                             <template slot-scope="scope">
                                 <span>
-                                    <router-link :to="`/service?serviceName=${scope.row.serviceName}`">
+                                    <router-link :to="`/address/${scope.row.provider}`">
                                         {{Tools.formatValidatorAddress(scope.row.provider)}}
                                     </router-link>
                                 </span>
@@ -67,26 +67,41 @@
                         <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.respondTimes')">
                             <template slot-scope="scope">
                                 <span>
-                                    <router-link :to="`tx?txHash=${scope.row.txHash}`">
+                                    <router-link
+                                            :to="`service/respond/${$route.query.serviceName}/${scope.row.provider}`">
                                         {{scope.row.respondTimes}} 次
                                     </router-link>
                                 </span>
                             </template>
                         </el-table-column>
-                        <el-table-column min-width="80px"
-                                         :label="$t('ExplorerCN.serviceDetail.serviceBindings.available')"
-                                         prop="isAvailable"></el-table-column>
-                        <el-table-column min-width="80px"
+                        <el-table-column min-width="100px"
+                                         :label="$t('ExplorerCN.serviceDetail.serviceBindings.available')">
+                            <template slot-scope="scope">
+                                <div class="service_information_available_container">
+                                    <img class="service_tx_status"
+                                         v-if="scope.row.isAvailable"
+                                         src="../assets/true.png"/>
+                                    <img class="service_tx_status"
+                                         v-else
+                                         src="../assets/false.png"/>
+                                    <span>
+                                        {{scope.row.isAvailable}}
+                                    </span>
+                                </div>
+
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="120px"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.pricing')"
                                          prop="price"></el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
                                          prop="deposit"></el-table-column>
-                        <el-table-column min-width="100px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')"
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')"
                                          prop="qos"></el-table-column>
-                        <el-table-column min-width="120px"
+                        <el-table-column min-width="160px"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.bindTime')"
                                          prop="bindTime"></el-table-column>
-                        <el-table-column min-width="120px"
+                        <el-table-column min-width="160px"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.disabledTime')"
                                          prop="disabledTime"></el-table-column>
                     </el-table>
@@ -153,23 +168,26 @@
                         </el-table-column>
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
                             <template slot-scope="scope">
-                                <router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}
+                                <router-link :to="`/address/${scope.row.from}`"
+                                             v-if="scope.row.from !== '--'">
+                                    {{formatAddress(scope.row.from)}}
                                 </router-link>
+                                <span v-else>--</span>
                             </template>
                         </el-table-column>
 
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
                             <template slot-scope="scope">
-                                <el-tooltip v-if="scope.row.content && scope.row.content.length > 0 ">
+                                <!--<el-tooltip v-if="scope.row.content && scope.row.content.length > 0 ">
                                     <div slot="content">
                                         <div style="display: flex;flex-direction: column">
                                             <span v-for="item in scope.row.content">{{item}}</span>
                                         </div>
                                     </div>
                                     <span>{{scope.row.to}}</span>
-                                </el-tooltip>
+                                </el-tooltip>-->
 
-                                <span v-if="scope.row.to === ''">--</span>
+                                <span v-if="scope.row.to === '--'">--</span>
                                 <div class="service_tx_to_container" v-else>
                                     <router-link
                                             v-if="typeof scope.row.to === 'string'"
@@ -255,22 +273,22 @@
                 status : '',
                 statusOpt : [
                     {
-                        value:'',
-                        label:'所有交易状态'
+                        value : '',
+                        label : '所有交易状态'
                     },
                     {
-                        value:1,
-                        label:'成功'
+                        value : 1,
+                        label : '成功'
                     },
                     {
-                        value:0,
-                        label:'失败'
+                        value : 0,
+                        label : '失败'
                     }
                 ],
                 txTypeOption : [
                     {
-                        value:'',
-                        label:'所有交易类型'
+                        value : '',
+                        label : '所有交易类型'
                     },
                 ],
 
@@ -301,7 +319,7 @@
                         this.description = description;
                         this.name = name;
                         this.schemas = schemas;
-                        this.tags = tags;
+                        this.tags = tags.length > 0 ? tags : '--';
                         this.hash = res.tx_hash;
                         this.height = res.height;
                         this.time = Tools.getDisplayDate(res.time);
@@ -322,12 +340,12 @@
                             serviceList.data.forEach((s) =>{
                                 s.bindTime = Tools.getDisplayDate(s.bindTime);
                                 bindings.result.forEach((b) =>{
-                                    console.log(b.disabled_time)
+                                    console.log('-------',b.pricing)
                                     let deposit = `${b.deposit[0].amount} ${b.deposit[0].denom}`;
                                     if(s.provider === b.provider){
                                         s.isAvailable = b.available ? 'True' : 'False';
                                         s.price = JSON.parse(b.pricing).price;
-                                        s.qos = b.qos;
+                                        s.qos = `${b.qos} blocks`;
                                         s.deposit = deposit;
                                         s.disabledTime = b.available ? '--' : Tools.getFormatDate(b.disabled_time);
                                     }
@@ -365,16 +383,14 @@
                     this.transactionArray = res.data.map((item) =>{
                         let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
                         let requestContextId = TxHelper.getContextId(item.msgs[0], item.events);
-
                         let from = addrObj ? addrObj.from : '--',
                             to = addrObj ? addrObj.to : '--';
-                        console.log('--------', item.type,to)
                         return {
                             type : item.type,
                             from,
                             status : item.status,
                             txHash : item.hash,
-                            id: requestContextId,
+                            id : requestContextId,
                             to,
                             height : item.height,
                             timestamp : Tools.getDisplayDate(item.time)
@@ -394,13 +410,13 @@
             async getAllTxType(){
                 try {
                     const res = await getAllServiceTxTypes();
-                    res.data.forEach((type)=>{
+                    res.data.forEach((type) =>{
                         this.txTypeOption.push({
-                            value: type.typeName,
-                            item:type.typeName,
+                            value : type.typeName,
+                            item : type.typeName,
                         });
                     });
-                }catch (e) {
+                } catch (e) {
                     console.error(e);
                     this.$message.error('获取交易类型失败,请稍后重试');
                 }
@@ -432,33 +448,34 @@
         .service_information_content_wrap {
             max-width: 12rem;
             margin: 0 auto;
-            display:flex;
-            flex-direction:column;
-            .service_information_title{
+            display: flex;
+            flex-direction: column;
+            .service_information_title {
                 text-align: left;
-                margin:0.42rem 0 0.15rem 0;
-                width:100%;
+                margin: 0.42rem 0 0.15rem 0;
+                width: 100%;
                 box-sizing: border-box;
-                padding-left:0.27rem;
-                font-size:0.18rem;
-                font-weight:600;
-                color:#171D44;
+                padding-left: 0.27rem;
+                font-size: 0.18rem;
+                font-weight: 600;
+                color: #171D44;
             }
             .service_information_definition_content {
                 background: #ffffff;
                 box-sizing: border-box;
-                padding:0.25rem 0.27rem 0.2rem 0.27rem;
-                margin-bottom:0.48rem;
+                padding: 0.25rem 0.27rem 0.2rem 0.27rem;
+                margin-bottom: 0.48rem;
+                border-radius:5px;
+                border:1px solid rgba(215,215,215,1);
                 .service_information_definition_title {
                     font-size: 0.18rem;
                     color: #22252A;
-                    font-weight:600;
-                    margin-bottom:0.36rem;
+                    font-weight: 600;
+                    margin-bottom: 0.36rem;
                     text-align: left;
                 }
                 .service_information_content {
                     box-sizing: border-box;
-                    padding: 0.2rem;
                     background: #fff;
                     .service_information_text_content {
                         display: flex;
@@ -470,7 +487,7 @@
                             color: #787C99;
                             min-width: 1.5rem;
                             text-align: left;
-                            font-weight:600;
+                            font-weight: 600;
                         }
                         span:last-child {
                             font-size: 0.14rem;
@@ -490,40 +507,48 @@
             .service_information_bindings_content {
                 background: #ffffff;
                 box-sizing: border-box;
-                padding:0.25rem 0.27rem 0.2rem 0.27rem;
-                margin-bottom:0.48rem;
+                padding: 0.25rem 0.27rem 0.2rem 0.27rem;
+                margin-bottom: 0.48rem;
+                border-radius:5px;
+                border:1px solid rgba(215,215,215,1);
                 .service_information_binding_title {
                     font-size: 0.18rem;
                     color: #22252A;
-                    font-weight:600;
-                    margin-bottom:0.36rem;
+                    font-weight: 600;
+                    margin-bottom: 0.36rem;
                     text-align: left;
                 }
                 .service_information_bindings_table_content {
                     background: #fff;
+                    .service_information_available_container{
+                        display:flex;
+                        align-items: center;
+                    }
                 }
             }
             .service_information_transaction_content {
                 background: #ffffff;
                 box-sizing: border-box;
-                padding:0.25rem 0.27rem 0.2rem 0.27rem;
+                padding: 0.25rem 0.27rem 0.2rem 0.27rem;
+                border-radius:5px;
+                border:1px solid rgba(215,215,215,1);
                 .service_information_transaction_title {
                     font-size: 0.18rem;
                     color: #22252A;
-                    font-weight:600;
-                    margin-bottom:0.36rem;
+                    font-weight: 600;
+                    margin-bottom: 0.36rem;
                     text-align: left;
                 }
-                .service_information_transaction_condition_container{
-                    width:100%;
-                    display:flex;
+                .service_information_transaction_condition_container {
+                    width: 100%;
+                    display: flex;
                     justify-content: flex-start;
-                    margin-bottom:0.4rem;
+                    margin-bottom: 0.4rem;
                     align-items: center;
-                    .service_information_transaction_condition_count{
-                        font-size:0.14rem;
-                        margin-right:0.42rem;
-                        font-weight:600;
+                    .service_information_transaction_condition_count {
+                        font-size: 0.14rem;
+                        margin-right: 0.42rem;
+                        font-weight: 600;
 
                     }
                     /deep/ .el-select {
@@ -557,7 +582,7 @@
                         }
 
                     }
-                    .search_btn{
+                    .search_btn {
                         cursor: pointer;
                         background: #3264FD;
                         color: #fff;
@@ -569,18 +594,18 @@
                 }
                 .service_information_transaction_table_content {
                     background: #fff;
-                    .service_tx_status{
-                        position:relative;
-                        top:0.02rem;
+                    .service_tx_status {
+                        position: relative;
+                        top: 0.02rem;
                     }
-                    .service_tx_to_container{
+                    .service_tx_to_container {
 
-                        .service_tx_muti_to_container{
-                            display:flex;
-                            flex-direction:column;
+                        .service_tx_muti_to_container {
+                            display: flex;
+                            flex-direction: column;
                             align-items: flex-start;
-                            .service_tx_muti_to_ellipsis{
-                                color:#3264FD;
+                            .service_tx_muti_to_ellipsis {
+                                color: #3264FD;
                             }
                         }
                     }
@@ -634,6 +659,21 @@
                     }
                     .service_information_transaction_table_content {
 
+                    }
+                    .service_information_transaction_condition_container{
+                        flex-direction:column;
+                        align-items: flex-start;
+                        .service_information_transaction_condition_count {
+                            margin-bottom:0.1rem;
+                        }
+                        /deep/ .el-select {
+                            width: 100%;
+                            margin-bottom: 0.1rem;
+
+                        }
+                        .search_btn {
+
+                        }
                     }
                 }
                 .pagination_content {
