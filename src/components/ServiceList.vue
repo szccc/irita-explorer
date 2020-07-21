@@ -1,46 +1,60 @@
 <template>
 	<div class="service_list_container_content">
 		<div class="service_list_content_wrap">
-			<div class="service_list_title">{{$t('ExplorerCN.service.services')}}</div>
-			<div class="service_list_content">
-				<el-table :data="serviceList">
-					<el-table-column min-width="140px" :label="$t('ExplorerCN.service.serviceName')">
+			<div class="service_list_title">
+                {{$t('ExplorerCN.service.services')}}
+            </div>
+			<div class="service_list_content" v-for="service in serviceList">
+                <div class="service_list_top">
+                    <span class="service_list_service_name">
+                        <router-link :to="`/service?serviceName=${service.serviceName}`">
+                            {{ service.serviceName }}
+                        </router-link>
+                    </span>
+                </div>
+
+				<el-table :data="service.bindList">
+					<el-table-column min-width="140px" :label="$t('ExplorerCN.service.provider')">
 						<template slot-scope="scope">
 							<span>
-								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
+								<router-link :to="`/address/${scope.row.provider}`">
+                                    {{Tools.formatValidatorAddress(scope.row.provider)}}
+                                </router-link>
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="100px" :label="$t('ExplorerCN.service.txHash')">
+					<el-table-column min-width="100px" :label="$t('ExplorerCN.service.respondTimes')">
 						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.txHash"
-							            effect="dark" placement="top">
-								<router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
-							</el-tooltip>
+							<span>
+								<router-link
+                                        :to="`service/respond/${service.serviceName}/${scope.row.provider}`">
+                                        {{scope.row.respondTimes}} 次
+                                    </router-link>
+							</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.publisher')" prop="publisher">
-						<template slot-scope="scope">
-							<el-tooltip placement="top"
-							            effect="dark"
-							            :content="scope.row.publisher">
-								<router-link :to="`/address/${scope.row.publisher}`">{{formatAddress(scope.row.publisher)}}</router-link>
-							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.from')">
-						<template slot-scope="scope">
-							<el-tooltip placement="top"
-							            effect="dark"
-							            :content="scope.row.from">
-								<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
-							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.description')" prop="description"></el-table-column>
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.isAvailable')">
+                        <<template slot-scope="scope">
+                        <div class="service_information_available_container">
+                            <img class="service_tx_status"
+                                 v-if="scope.row.isAvailable"
+                                 src="../assets/true.png"/>
+                            <img class="service_tx_status"
+                                 v-else
+                                 src="../assets/false.png"/>
+                            <span>
+                                        {{scope.row.isAvailable}}
+                                    </span>
+                        </div>
+
+                    </template>
+                    </el-table-column>
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.price')" prop="price"></el-table-column>
+					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.minBlock')" prop="qos"></el-table-column>
+					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.time')" prop="bindTime"></el-table-column>
 				</el-table>
 			</div>
-			<div class="pagination_content">
+			<div class="pagination_content" v-if="txCount > 10">
 				<m-pagination :page-size="pageSize"
 				              :total="txCount"
 				              :page="pageNum"
@@ -55,7 +69,7 @@
 <script>
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
-    import {getDefineServiceTxList} from "../service/api";
+    import {getAllServiceTxList, getServiceBindingByServiceName} from "../service/api";
 
     export default {
 		name: "ServiceList",
@@ -66,6 +80,7 @@
 				pageSize: 20,
 				serviceList:[],
 				txCount:0,
+                Tools,
 			}
 		},
 		mounted () {
@@ -74,30 +89,33 @@
 		methods:{
 			async getServiceList(){
                 try {
-                    const res = await getDefineServiceTxList(this.pageNum,this.pageSize);
-                    if(res){
-                        // console.log(res)
-                        this.serviceList = res.data.map((tx)=>{
-                            let msgServiceName,msgPublisher,msgDescription;
-                            if(tx.msgs && tx.msgs.length > 0){
-                                msgServiceName = tx.msgs[0].msg.name;
-                                msgPublisher = tx.msgs[0].msg.author;
-                                msgDescription = tx.msgs[0].msg.description
+                    let serviceList = await getAllServiceTxList(this.pageNum,this.pageSize);
+                    if(serviceList && serviceList.data){
+                        console.log(serviceList)
+                        for(let service of serviceList.data){
+                            let bindings = await getServiceBindingByServiceName(service.serviceName);
+
+                            if(bindings.result){
+                                service.bindList.forEach((s)=>{
+                                    s.bindTime = Tools.getDisplayDate(s.bindTime);
+                                    bindings.result.forEach((b)=>{
+                                        if(s.provider === b.provider){
+                                            s.isAvailable = b.available ? 'True' : 'False';
+                                            s.price = JSON.parse(b.pricing).price;
+                                            s.qos = b.qos;
+                                        }
+                                    })
+                                })
                             }
-                            return {
-                                txHash: tx.tx_hash,
-                                serviceName: msgServiceName,
-                                publisher: msgPublisher,
-                                from: tx.from,
-                                description: msgDescription,
-                                // status: tx.status === 1 ? 'Success' : 'Failed'
-                            }
-                        });
-                        // console.log(this.serviceList)
-                        this.txCount = res.count;
+                        }
+                        console.log(serviceList)
+                        this.serviceList = serviceList.data;
+
+                        this.txCount = serviceList.count;
 
                     }
                 }catch (e) {
+                    console.error(e);
                     this.$message.error('获取服务交易列表失败,请稍后重试');
                 }
 
@@ -141,13 +159,39 @@
 		.service_list_content_wrap{
 			margin: 0 auto;
 			.service_list_title{
-				color: #22252A;
-				font-size: 0.18rem;
-				line-height: 0.21rem;
-				font-weight: bold;
-				margin: 0.3rem 0 0.1rem 0;
-				text-align: left;
+                text-align: left;
+                margin: 0.42rem 0 0.15rem 0;
+                width: 100%;
+                box-sizing: border-box;
+                padding-left: 0.27rem;
+                font-size: 0.18rem;
+                font-weight: 600;
+                color: #171D44;
 			}
+            .service_list_content{
+                display:flex;
+                flex-direction:column;
+                margin-bottom:0.48rem;
+                padding:0.28rem 0.28rem 0.18rem 0.28rem;
+                background: #ffffff;
+                border-radius:5px;
+                border:1px solid rgba(215,215,215,1);
+                .service_information_available_container{
+                    display:flex;
+                    align-items: center;
+                }
+                .service_list_top{
+                    display:flex;
+                    justify-content: flex-start;
+                    margin-bottom:0.4rem;
+                    .service_list_service_name{
+                        color:#3264FD;
+                        font-size:0.14rem;
+                        font-weight:600;
+                        cursor:pointer;
+                    }
+                }
+            }
 		}
 		.pagination_content{
 			display: flex;

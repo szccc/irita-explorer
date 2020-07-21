@@ -42,8 +42,9 @@ export const ExplorerCN = {
 		to: '接收方',
 		signer: '签名方',
 		status: '交易状态',
-		timestamp: '参考时间',
-		requestId: '请求标识'
+		timestamp: '交易时间',
+		requestId: '请求标识',
+		type: '交易类型',
 	},
 	validators:{
 		name: '名称',
@@ -62,13 +63,20 @@ export const ExplorerCN = {
 		placeHolder: '搜索报表标识'
 	},
 	service: {
-		services: '服务',
+		services: '服务列表',
 		serviceName: '服务名称',
 		txHash: '交易哈希',
 		publisher: '提供者',
 		from: '创建者',
 		description: '描述',
-		status: '服务状态'
+		status: '服务状态',
+        list:'服务列表',
+        provider:'提供者',
+        respondTimes:'响应次数',
+        isAvailable:'是否可用',
+        price:'单次调用价格',
+        minBlock:'最小响应时间',
+        time:'绑定时间',
 	},
 	transactionInformation:{
 		transactionInformation: '交易详情',
@@ -231,23 +239,37 @@ export const ExplorerCN = {
 	},
 	serviceDetail: {
 		serviceDefinition: '服务详情',
+		primary: '基本信息',
 		author: '创建者：',
-		authorDescription: '创建者简介：',
-		description: '服务简介：',
+		authorDescription: '创建者描述：',
+		description: '服务描述：',
 		name: '名称：',
 		schema: '上链结构：',
 		tags: '标签：',
 		serviceBindings: {
 			serviceBindings: '服务绑定',
+			providers: '服务提供者',
 			serviceName: '服务名称',
-			available: '有效性',
-			deposit: '押金',
+			available: '是否可用',
+			deposit: '绑定押金',
 			owner: '拥有者',
-			pricing: '价格',
+			pricing: '单次调用价格',
 			provider: '提供者',
-			qos: '评价'
+			qos: '最小响应时间',
+			respondTimes: '响应次数',
+			bindTime: '绑定时间',
+			disabledTime: '解绑时间',
+            hash:'绑定哈希'
 		},
-		serviceTransactions: '服务交易'
+		serviceTransactions: '服务交易',
+        hash:'定义类型交易',
+        height:'定义区块',
+        time:'定义时间',
+        respondRecord:'服务响应记录',
+        provider:'提供者',
+        consumer:'消费者',
+        requestHash:'请求哈希',
+        txRecord:'交易记录'
 	},
 	searchResult:{
 		title: '搜索结果',

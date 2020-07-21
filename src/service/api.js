@@ -82,6 +82,13 @@ export function getAllTxTypes(){
     return get(url);
 }
 
+export function getAllServiceTxTypes(){
+    let url = `txs/types/service`;
+    return get(url);
+}
+
+
+
 export function getTxList(params){
     const {txType, status, beginTime, endTime, pageNum, pageSize} = params;
     let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
@@ -116,13 +123,20 @@ export function getServiceDetail(serviceName){
     return get(url);
 }
 
-export function getServiceBindingTxList(serviceName){
-    let url = `service/bindings/${serviceName}`;
-    return getFromLcd(url);
+export function getServiceBindingTxList(serviceName, pageNum, pageSize){
+    let url = `txs/services/providers?serviceName=${serviceName}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+    return get(url);
 }
 
-export function getServiceTxList(currentPageNum,pageSize,serviceName){
-    let url = `txs/services?pageNum=${currentPageNum}&pageSize=${pageSize}&serviceName=${serviceName}&useCount=true`;
+export function getServiceTxList(type, status, serviceName,currentPageNum,pageSize,){
+    let url = `txs/services/tx?pageNum=${currentPageNum}&pageSize=${pageSize}&serviceName=${serviceName}&useCount=true`;
+    if(type){
+        url += `&type=${type}`;
+    }
+    if(status || status === 0){
+        url += `&status=${status}`;
+    }
+
     return get(url);
 }
 
@@ -145,6 +159,39 @@ export function getDefineServiceTxList(pageNum, pageSize){
     let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=define_service&status=1`;
     return get(url);
 }
+
+export function getAllServiceTxList(pageNum, pageSize){
+    let url = `txs/services?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+    return get(url);
+}
+
+export function getServiceRespondInfo(serviceName, provider){
+    let url = `txs/services/bind_info?serviceName=${serviceName}&provider=${provider}`;
+    return get(url);
+}
+
+
+
+export function getServiceBindingByServiceName(serviceName, provider){
+    let url = `service/bindings/${serviceName}`;
+    if(provider){
+        url += `/${provider}`;
+    }
+    return getFromLcd(url);
+}
+
+export function getRespondServiceRecord(serviceName, provider, pageNum, pageSize){
+    let url = `txs/services/respond?serviceName=${serviceName}&provider=${provider}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+    return get(url);
+}
+
+
+
+
+
+
+
+
 
 
 

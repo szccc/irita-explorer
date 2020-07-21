@@ -1,10 +1,19 @@
 <template>
     <div class="service_information_container">
         <div class="service_information_content_wrap">
+            <p class="service_information_title">
+                {{$t('ExplorerCN.serviceDetail.serviceDefinition')}}
+                {{$route.query.serviceName}}
+            </p>
             <div class="service_information_definition_content">
-                <h3 class="service_information_definition_title">{{$t('ExplorerCN.serviceDetail.serviceDefinition')}}
-                    ({{$route.query.serviceName}})</h3>
+                <h3 class="service_information_definition_title">
+                    {{$t('ExplorerCN.serviceDetail.primary')}}
+                </h3>
                 <div class="service_information_content">
+                    <p class="service_information_text_content">
+                        <span>{{$t('ExplorerCN.serviceDetail.description')}}</span>
+                        <span>{{description}}</span>
+                    </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerCN.serviceDetail.author')}}</span>
                         <span>{{author}}</span>
@@ -14,14 +23,6 @@
                         <span>{{authorDescription}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.description')}}</span>
-                        <span>{{description}}</span>
-                    </p>
-                    <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.name')}} </span>
-                        <span>{{name}}</span>
-                    </p>
-                    <p class="service_information_text_content">
                         <span>{{$t('ExplorerCN.serviceDetail.schema')}}</span>
                         <span>{{schemas}}</span>
                     </p>
@@ -29,48 +30,179 @@
                         <span>{{$t('ExplorerCN.serviceDetail.tags')}}</span>
                         <span>{{tags}}</span>
                     </p>
+                    <p class="service_information_text_content">
+                        <span>{{$t('ExplorerCN.serviceDetail.hash')}}</span>
+                        <span>
+                             <router-link :to="`tx?txHash=${hash}`">
+                                {{hash}}
+                            </router-link>
+                        </span>
+                    </p>
+                    <p class="service_information_text_content">
+                        <span>{{$t('ExplorerCN.serviceDetail.height')}}</span>
+                        <span>{{height}}</span>
+                    </p>
+                    <p class="service_information_text_content">
+                        <span>{{$t('ExplorerCN.serviceDetail.time')}}</span>
+                        <span>{{time}}</span>
+                    </p>
+
                 </div>
             </div>
             <div class="service_information_bindings_content">
                 <h3 class="service_information_binding_title">
-                    {{$t('ExplorerCN.serviceDetail.serviceBindings.serviceBindings')}}</h3>
+                    {{$t('ExplorerCN.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
-                    <el-table :data="bindingArray">
-                        <el-table-column min-width="100px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.serviceName')"
-                                         prop="serviceName"></el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.available')"
-                                         prop="available"></el-table-column>
-                        <el-table-column min-width="100px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
+                    <el-table :data="serviceList">
+                        <el-table-column min-width="120px"
+                                         :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
+                            <template slot-scope="scope">
+                                <span>
+                                    <router-link :to="`/address/${scope.row.provider}`">
+                                        {{Tools.formatValidatorAddress(scope.row.provider)}}
+                                    </router-link>
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.respondTimes')">
+                            <template slot-scope="scope">
+                                <span>
+                                    <router-link
+                                            :to="`service/respond/${$route.query.serviceName}/${scope.row.provider}`">
+                                        {{scope.row.respondTimes}} 次
+                                    </router-link>
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="100px"
+                                         :label="$t('ExplorerCN.serviceDetail.serviceBindings.available')">
+                            <template slot-scope="scope">
+                                <div class="service_information_available_container">
+                                    <img class="service_tx_status"
+                                         v-if="scope.row.isAvailable"
+                                         src="../assets/true.png"/>
+                                    <img class="service_tx_status"
+                                         v-else
+                                         src="../assets/false.png"/>
+                                    <span>
+                                        {{scope.row.isAvailable}}
+                                    </span>
+                                </div>
+
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="120px"
+                                         :label="$t('ExplorerCN.serviceDetail.serviceBindings.pricing')"
+                                         prop="price"></el-table-column>
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
                                          prop="deposit"></el-table-column>
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.owner')">
-                            <template slot-scope="scope">
-                                <router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}
-                                </router-link>
-                            </template>
-                        </el-table-column>
-                        <el-table-column min-width="150px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.pricing')"
-                                         prop="pricing"></el-table-column>
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
-                            <template slot-scope="scope">
-                                <router-link :to="`/address/${scope.row.provider}`">
-                                    {{formatAddress(scope.row.provider)}}
-                                </router-link>
-                            </template>
-                        </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')"
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')"
                                          prop="qos"></el-table-column>
+                        <el-table-column min-width="160px"
+                                         :label="$t('ExplorerCN.serviceDetail.serviceBindings.bindTime')"
+                                         prop="bindTime"></el-table-column>
+                        <el-table-column min-width="160px"
+                                         :label="$t('ExplorerCN.serviceDetail.serviceBindings.disabledTime')"
+                                         prop="disabledTime"></el-table-column>
                     </el-table>
                 </div>
+                <div class="pagination_content" v-show="providerCount > 10">
+                    <m-pagination :page-size="providerPageSize"
+                                  :total="providerCount"
+                                  :page="providerPageNum"
+                                  :page-change="providerPageChange">
+
+                    </m-pagination>
+                </div>
             </div>
+
             <div class="service_information_transaction_content">
                 <h3 class="service_information_transaction_title">
-                    {{$t('ExplorerCN.serviceDetail.serviceTransactions')}}</h3>
+                    {{$t('ExplorerCN.serviceDetail.serviceTransactions')}}
+                </h3>
+                <div class="service_information_transaction_condition_container">
+                    <span class="service_information_transaction_condition_count">
+                        {{ txCount }} Txs
+                    </span>
+                    <el-select v-model="type">
+                        <el-option v-for="(item, index) in txTypeOption"
+                                   :key="index"
+                                   :label="item.label"
+                                   :value="item.value"></el-option>
+                    </el-select>
+                    <el-select v-model="status">
+                        <el-option v-for="(item, index) in statusOpt"
+                                   :key="index"
+                                   :label="item.label"
+                                   :value="item.value"></el-option>
+                    </el-select>
+                    <div class="search_btn" @click="handleSearchClick">
+                        {{$t('ExplorerCN.transactions.search')}}
+                    </div>
+                </div>
                 <div class="service_information_transaction_table_content">
                     <el-table :data="transactionArray">
                         <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
                             <template slot-scope="scope">
-                                <router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}
+                                <img class="service_tx_status"
+                                     v-if="scope.row.status === 1"
+                                     src="../assets/success.png"/>
+                                <img class="service_tx_status"
+                                     v-else
+                                     src="../assets/failed.png"/>
+                                <router-link :to="`tx?txHash=${scope.row.txHash}`">
+                                    {{formatTxHash(scope.row.txHash)}}
                                 </router-link>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :label="$t('ExplorerCN.transactions.type')" width="150px"
+                                         prop="type"></el-table-column>
+
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.requestId')">
+                            <template slot-scope="scope">
+                                <el-tooltip :content="scope.row.id" v-if="scope.row.id">
+                                    <span>{{formatAddress(scope.row.id)}}</span>
+                                </el-tooltip>
+                                <span v-else>--</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
+                            <template slot-scope="scope">
+                                <router-link :to="`/address/${scope.row.from}`"
+                                             v-if="scope.row.from !== '--'">
+                                    {{formatAddress(scope.row.from)}}
+                                </router-link>
+                                <span v-else>--</span>
+                            </template>
+                        </el-table-column>
+
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
+                            <template slot-scope="scope">
+                                <!--<el-tooltip v-if="scope.row.content && scope.row.content.length > 0 ">
+                                    <div slot="content">
+                                        <div style="display: flex;flex-direction: column">
+                                            <span v-for="item in scope.row.content">{{item}}</span>
+                                        </div>
+                                    </div>
+                                    <span>{{scope.row.to}}</span>
+                                </el-tooltip>-->
+
+                                <span v-if="scope.row.to === '--'">--</span>
+                                <div class="service_tx_to_container" v-else>
+                                    <router-link
+                                            v-if="typeof scope.row.to === 'string'"
+                                            :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}
+                                    </router-link>
+                                    <div class="service_tx_muti_to_container" v-else>
+                                        <router-link :to="`/address/${scope.row.to[0]}`">
+                                            {{formatAddress(scope.row.to[0])}}
+                                        </router-link>
+                                        <router-link :to="`/address/${scope.row.to[1]}`">
+                                            {{formatAddress(scope.row.to[1])}}
+                                        </router-link>
+                                        <span class="service_tx_muti_to_ellipsis">...</span>
+                                    </div>
+                                </div>
                             </template>
                         </el-table-column>
                         <el-table-column :label="$t('ExplorerCN.transactions.block')">
@@ -78,55 +210,22 @@
                                 <router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
                             </template>
                         </el-table-column>
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.requestId')">
-                            <template slot-scope="scope">
-                                <el-tooltip :content="scope.row.requestId" v-if="scope.row.requestId">
-                                    <span>{{formatAddress(scope.row.requestId)}}</span>
-                                </el-tooltip>
-                                <span v-else>--</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
-                            <template slot-scope="scope">
-                                <router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}
-                                </router-link>
-                            </template>
-                        </el-table-column>
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
-                            <template slot-scope="scope">
-                                <el-tooltip v-if="scope.row.content && scope.row.content.length > 0 ">
-                                    <div slot="content">
-                                        <div style="display: flex;flex-direction: column">
-                                            <span v-for="item in scope.row.content">{{item}}</span>
-                                        </div>
-                                    </div>
-                                    <span>{{scope.row.to}}</span>
-                                </el-tooltip>
-                                <router-link
-                                        v-if="scope.row.to !== '' && scope.row.content && scope.row.content.length == 0"
-                                        :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}
-                                </router-link>
-                                <span v-if="scope.row.to === ''">--</span>
-                            </template>
-                        </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
 
                         <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" width="200px"
                                          prop="timestamp"></el-table-column>
                     </el-table>
                 </div>
+                <div class="pagination_content" v-show="txCount > 10">
+                    <keep-alive>
+                        <m-pagination :page-size="txPageSize"
+                                      :total="txCount"
+                                      :page="txPageNum"
+                                      :page-change="pageChange">
+                        </m-pagination>
+                    </keep-alive>
+                </div>
             </div>
-            <div class="pagination_content">
-                <keep-alive>
-                    <m-pagination :page-size="pageSize"
-                                  :total="txCount"
-                                  :page="currentPageNum"
-                                  :page-change="pageChange">
-                    </m-pagination>
-                </keep-alive>
-            </div>
+
         </div>
     </div>
 </template>
@@ -134,7 +233,14 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./MPagination";
-    import { getServiceDetail, getServiceBindingTxList,getServiceTxList } from "../service/api";
+    import {
+        getAllServiceTxTypes,
+        getServiceDetail,
+        getServiceBindingTxList,
+        getServiceTxList,
+        getServiceBindingByServiceName
+    } from "../service/api";
+    import { TxHelper } from "../helper/TxHelper";
 
     export default {
         name : "ServiceInformation",
@@ -146,28 +252,58 @@
                 publisher : '',
                 description : '',
                 idlContent : '',
-                bindingArray : [],
+                serviceList : [],
                 transactionArray : [],
-                pageSize : 10,
-                currentPageNum : 1,
+                txPageSize : 10,
+                txPageNum : 1,
                 txCount : 0,
                 author : '',
                 authorDescription : '',
                 name : '',
                 schemas : '',
-                tags : ''
+                tags : '',
+                hash : '',
+                height : '',
+                time : '',
+                providerPageSize : 10,
+                providerCount : 0,
+                providerPageNum : 1,
+                Tools,
+                type : '',
+                status : '',
+                statusOpt : [
+                    {
+                        value : '',
+                        label : '所有交易状态'
+                    },
+                    {
+                        value : 1,
+                        label : '成功'
+                    },
+                    {
+                        value : 0,
+                        label : '失败'
+                    }
+                ],
+                txTypeOption : [
+                    {
+                        value : '',
+                        label : '所有交易类型'
+                    },
+                ],
 
             }
         },
         mounted(){
             this.getServiceInformation();
             this.getServiceBindingList();
+            this.getAllTxType();
             //this.getServiceTransaction()
             // this.getServiceTransaction()
         },
         methods : {
             pageChange(pageNum){
-                this.currentPageNum = pageNum;
+                this.txPageNum = pageNum;
                 this.getServiceTransaction();
             },
             async getServiceInformation(){
@@ -175,7 +311,7 @@
                 const res = await getServiceDetail(this.$route.query.serviceName);
 
                 try {
-                    // console.log(res)
+                    console.log(res)
                     if(res.msgs && res.msgs.length > 0 && res.msgs[0].msg){
                         const {author, author_description, description, name, schemas, tags} = res.msgs[0].msg;
                         this.author = author;
@@ -183,7 +319,10 @@
                         this.description = description;
                         this.name = name;
                         this.schemas = schemas;
-                        this.tags = tags;
+                        this.tags = tags.length > 0 ? tags : '--';
+                        this.hash = res.tx_hash;
+                        this.height = res.height;
+                        this.time = Tools.getDisplayDate(res.time);
                     }
                     this.getServiceTransaction();
                 } catch (e) {
@@ -192,55 +331,100 @@
             },
             async getServiceBindingList(){
                 try {
-                    const res = await getServiceBindingTxList(this.$route.query.serviceName);
-                    if(res){
-                        this.bindingArray = res.result.map((item) =>{
-                            return {
-                                available : `${item.available ? item.available : 'false'}`,
-                                deposit : `${item.deposit[0].amount} ${item.deposit[0].denom}`,
-                                disabledTime : Tools.getDisplayDate(item.disabled_time),
-                                owner : item.owner,
-                                pricing : `${item.pricing}`,
-                                provider : item.provider,
-                                qos : item.qos,
-                                serviceName : item.service_name,
-                            }
-                        })
+                    const serviceList = await getServiceBindingTxList(this.$route.query.serviceName, this.providerPageNum, this.providerPageSize);
+                    console.log(serviceList)
+                    if(serviceList && serviceList.data){
+                        let bindings = await getServiceBindingByServiceName(this.$route.query.serviceName);
+                        console.log(bindings)
+                        if(bindings.result){
+                            serviceList.data.forEach((s) =>{
+                                s.bindTime = Tools.getDisplayDate(s.bindTime);
+                                bindings.result.forEach((b) =>{
+                                    console.log('-------',b.pricing)
+                                    let deposit = `${b.deposit[0].amount} ${b.deposit[0].denom}`;
+                                    if(s.provider === b.provider){
+                                        s.isAvailable = b.available ? 'True' : 'False';
+                                        s.price = JSON.parse(b.pricing).price;
+                                        s.qos = `${b.qos} blocks`;
+                                        s.deposit = deposit;
+                                        s.disabledTime = b.available ? '--' : Tools.getFormatDate(b.disabled_time);
+                                    }
+                                })
+                            })
+                        }
+                        console.log(serviceList)
+                        this.serviceList = serviceList.data;
+                        this.providerCount = Number(serviceList.count);
+                        this.providerPageSize = Number(serviceList.pageSize);
+                        this.providerPageNum = Number(serviceList.pageNum);
                     }
                 } catch (e) {
+                    console.error(e)
                     this.$message.error('获取service绑定交易列表错误,请稍后重试');
                 }
 
 
             },
+            async providerPageChange(pageNum){
+                this.providerPageNum = pageNum;
+                this.getServiceBindingList();
+            },
+
             async getServiceTransaction(){
                 try {
-                    const res = await getServiceTxList(this.currentPageNum,this.pageSize,this.$route.query.serviceName);
-                    // console.log(res)
+                    const res = await getServiceTxList(
+                        this.type,
+                        this.status,
+                        this.$route.query.serviceName,
+                        this.txPageNum,
+                        this.txPageSize
+                    );
+                    console.log(res);
                     this.transactionArray = res.data.map((item) =>{
-                        let toAddressArray = [];
-                        if(item.to.includes(',')){
-                            toAddressArray = item.to.split(",")
-                        }
+                        let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
+                        let requestContextId = TxHelper.getContextId(item.msgs[0], item.events);
+                        let from = addrObj ? addrObj.from : '--',
+                            to = addrObj ? addrObj.to : '--';
                         return {
-                            txType : item.type,
-                            from : item.from ? item.from : '--',
-                            signer : item.signer,
-                            status : item.status === 1 ? 'Success' : 'Failed',
-                            txHash : item.tx_hash,
-                            requestId : item.msgs[0].msg.request_id,
-                            to : toAddressArray.length > 0 ? `${toAddressArray.length} Address` : item.to,
-                            content : toAddressArray,
+                            type : item.type,
+                            from,
+                            status : item.status,
+                            txHash : item.hash,
+                            id : requestContextId,
+                            to,
                             height : item.height,
                             timestamp : Tools.getDisplayDate(item.time)
                         };
 
                     });
+                    console.log(this.transactionArray);
                     this.txCount = res.count;
-                }catch (e) {
+                    this.txPageNum = Number(res.pageNum);
+                    this.txPageSize = Number(res.pageSize);
+                } catch (e) {
+                    console.error(e)
                     this.$message.error('获取service交易列表错误,请稍后重试');
                 }
 
+            },
+            async getAllTxType(){
+                try {
+                    const res = await getAllServiceTxTypes();
+                    res.data.forEach((type) =>{
+                        this.txTypeOption.push({
+                            value : type.typeName,
+                            item : type.typeName,
+                        });
+                    });
+                } catch (e) {
+                    console.error(e);
+                    this.$message.error('获取交易类型失败,请稍后重试');
+                }
+
+            },
+            handleSearchClick(){
+                this.txPageNum = 1;
+                this.getServiceTransaction();
             },
             formatTxHash(TxHash){
                 if(TxHash){
@@ -260,34 +444,50 @@
     }
 
     .service_information_container {
-        padding:0 0.15rem;
+        padding: 0 0.15rem;
         .service_information_content_wrap {
             max-width: 12rem;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            .service_information_title {
+                text-align: left;
+                margin: 0.42rem 0 0.15rem 0;
+                width: 100%;
+                box-sizing: border-box;
+                padding-left: 0.27rem;
+                font-size: 0.18rem;
+                font-weight: 600;
+                color: #171D44;
+            }
             .service_information_definition_content {
+                background: #ffffff;
+                box-sizing: border-box;
+                padding: 0.25rem 0.27rem 0.2rem 0.27rem;
+                margin-bottom: 0.48rem;
+                border-radius:5px;
+                border:1px solid rgba(215,215,215,1);
                 .service_information_definition_title {
-                    margin: 0.3rem 0 0.1rem 0;
                     font-size: 0.18rem;
-                    line-height: 0.21rem;
-                    font-weight: bold;
-                    color: #22252a;
+                    color: #22252A;
+                    font-weight: 600;
+                    margin-bottom: 0.36rem;
                     text-align: left;
-                    margin-left:0.2rem;
                 }
                 .service_information_content {
                     box-sizing: border-box;
-                    padding: 0.2rem;
                     background: #fff;
                     .service_information_text_content {
                         display: flex;
                         justify-content: flex-start;
-                        margin-bottom: 0.16rem;
+                        margin-bottom: 0.46rem;
                         span:nth-of-type(1) {
                             font-size: 0.14rem;
                             line-height: 0.16rem;
                             color: #787C99;
                             min-width: 1.5rem;
                             text-align: left;
+                            font-weight: 600;
                         }
                         span:last-child {
                             font-size: 0.14rem;
@@ -295,91 +495,189 @@
                             color: #171D44;
                             flex: 1;
                             text-align: left;
-                            word-break:break-all;
+                            word-break: break-all;
                         }
                     }
                     .service_information_text_content:last-child {
                         margin-bottom: 0;
                     }
+
                 }
             }
             .service_information_bindings_content {
+                background: #ffffff;
+                box-sizing: border-box;
+                padding: 0.25rem 0.27rem 0.2rem 0.27rem;
+                margin-bottom: 0.48rem;
+                border-radius:5px;
+                border:1px solid rgba(215,215,215,1);
                 .service_information_binding_title {
                     font-size: 0.18rem;
                     color: #22252A;
-                    line-height: 0.21rem;
+                    font-weight: 600;
+                    margin-bottom: 0.36rem;
                     text-align: left;
-                    text-indent: 0.2rem;
-                    margin: 0.3rem 0 0.1rem 0;
                 }
                 .service_information_bindings_table_content {
                     background: #fff;
+                    .service_information_available_container{
+                        display:flex;
+                        align-items: center;
+                    }
                 }
             }
             .service_information_transaction_content {
+                background: #ffffff;
+                box-sizing: border-box;
+                padding: 0.25rem 0.27rem 0.2rem 0.27rem;
+                border-radius:5px;
+                border:1px solid rgba(215,215,215,1);
                 .service_information_transaction_title {
                     font-size: 0.18rem;
                     color: #22252A;
-                    line-height: 0.21rem;
+                    font-weight: 600;
+                    margin-bottom: 0.36rem;
                     text-align: left;
-                    text-indent: 0.2rem;
-                    margin: 0.3rem 0 0.1rem 0;
+                }
+                .service_information_transaction_condition_container {
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-start;
+                    margin-bottom: 0.4rem;
+                    align-items: center;
+                    .service_information_transaction_condition_count {
+                        font-size: 0.14rem;
+                        margin-right: 0.42rem;
+                        font-weight: 600;
+
+                    }
+                    /deep/ .el-select {
+                        width: 1.3rem;
+                        margin-right: 0.22rem;
+                        .el-input {
+                            .el-input__inner {
+                                padding-left: 0.07rem;
+                                height: 0.32rem;
+                                font-size: 0.14rem !important;
+                                line-height: 0.32rem;
+                                &::-webkit-input-placeholder {
+                                    font-size: 0.14rem !important;
+                                }
+                            }
+                            .el-input__inner:focus {
+                                border-color: #3264FD !important;
+                            }
+                            .el-input__suffix {
+                                .el-input__suffix-inner {
+                                    .el-input__icon {
+                                        line-height: 0.32rem;
+                                    }
+                                }
+                            }
+                        }
+                        .is-focus {
+                            .el-input__inner {
+                                border-color: #3264FD !important;
+                            }
+                        }
+
+                    }
+                    .search_btn {
+                        cursor: pointer;
+                        background: #3264FD;
+                        color: #fff;
+                        border-radius: 0.04rem;
+                        padding: 0.05rem 0.18rem;
+                        font-size: 0.14rem;
+                        line-height: 0.2rem;
+                    }
                 }
                 .service_information_transaction_table_content {
                     background: #fff;
+                    .service_tx_status {
+                        position: relative;
+                        top: 0.02rem;
+                    }
+                    .service_tx_to_container {
+
+                        .service_tx_muti_to_container {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            .service_tx_muti_to_ellipsis {
+                                color: #3264FD;
+                            }
+                        }
+                    }
                 }
             }
             .pagination_content {
                 display: flex;
                 justify-content: flex-end;
-                margin: 0.1rem 0 0.2rem 0;
+                margin-top: 0.25rem;
+                //background: #ffffff;
             }
         }
     }
 
     @media screen and (max-width: 768px) {
         .service_information_container {
-            
+
             .service_information_content_wrap {
-                
+
                 .service_information_definition_content {
                     .service_information_definition_title {
-                        
+
                     }
                     .service_information_content {
-                        
+
                         .service_information_text_content {
-                            
+
                             span:nth-of-type(1) {
                                 min-width: 1rem;
                             }
                             span:last-child {
-                                
+
                             }
                         }
                         .service_information_text_content:last-child {
-                            
+
                         }
                     }
                 }
                 .service_information_bindings_content {
                     .service_information_binding_title {
-                        
+
                     }
                     .service_information_bindings_table_content {
-                        
+
                     }
                 }
                 .service_information_transaction_content {
                     .service_information_transaction_title {
-                        
+
                     }
                     .service_information_transaction_table_content {
-                        
+
+                    }
+                    .service_information_transaction_condition_container{
+                        flex-direction:column;
+                        align-items: flex-start;
+                        .service_information_transaction_condition_count {
+                            margin-bottom:0.1rem;
+                        }
+                        /deep/ .el-select {
+                            width: 100%;
+                            margin-bottom: 0.1rem;
+
+                        }
+                        .search_btn {
+
+                        }
                     }
                 }
                 .pagination_content {
-                    
+
                 }
             }
         }
