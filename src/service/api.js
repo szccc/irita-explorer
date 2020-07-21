@@ -108,6 +108,11 @@ export function getTxList(params){
     return get(url);
 }
 
+export function getRelevanceTxList(type, contextId, pageNum, pageSize, useCount=false){
+    let url = `txs/relevance?pageNum=${pageNum}&pageSize=${pageSize}&type=${type}&contextId=${contextId}&useCount=${useCount}`;
+    return get(url);
+}
+
 export function getTokenTxList(nftId, denom, pageNum, pageSize,){
     let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&nftId=${nftId}&denom=${denom}&useCount=true`;
     return get(url);

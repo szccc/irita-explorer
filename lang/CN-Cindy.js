@@ -80,6 +80,7 @@ export const ExplorerCN = {
 	},
 	transactionInformation:{
 		transactionInformation: '交易详情',
+		baseInfo:'基础消息',
 		txHash: '交易哈希：',
 		blockHeight: '区块高度：',
 		status: '交易状态：',
@@ -87,7 +88,10 @@ export const ExplorerCN = {
 		signer: '签名方：',
 		memo: '备注：',
 		transactionMessage: '交易消息',
-		txType: '交易类型：',
+		relevanceTx:'关联交易',
+		txType: '交易类型',
+		requestId: '请求标识',
+		provider: '提供者',
 		issueDenom:{
 			denom: '报表类别：',
 			schema: '上链结构：',
@@ -99,7 +103,7 @@ export const ExplorerCN = {
 			to: '接收方：',
 		},
 		callService: {
-			consumer: '服务消费方：',
+			consumer: '消费服务方：',
 			input: '输入内容：',
 			provider: '服务提供方：',
 			repeated: '是否重复调用：',
@@ -108,14 +112,66 @@ export const ExplorerCN = {
 			serviceFeeCap: '服务费用：',
 			superMode: '超级模式：',
 			timeOut: '超时时间：',
-			serviceName: '服务名称：'
+			serviceName: '服务名称：',
+			requestContextId: '请求标识：',
 		},
 		respondService:{
 			output: '输出内容：',
 			provider: '服务提供者：',
 			requestId: '请求标识：',
-			result: '响应结果：'
+			result: '响应结果：',
+			serviceName: '服务名称：',
+			requestContextId: '请求标识：',
 		},
+		pauseRequestContext:{//pauseRequestContext、startRequestContext、killRequestContext
+			serviceName:'服务名称：',
+			requestContextId:'请求标识：',
+			consumer:'消费服务方：',
+		},
+		// startRequestContext:{
+		// 	serviceName:'服务名称：',
+		// 	requestContextId:'请求标识：',
+		// 	consumer:'消费服务方：',
+		// },
+		// killRequestContext:{
+		// 	serviceName:'服务名称：',
+		// 	requestContextId:'请求标识：',
+		// 	consumer:'消费服务方：',
+		// },
+		updateRequestContext:{
+			serviceName:'服务名称：',
+			requestContextId:'请求标识：',
+			consumer:'消费服务方：',
+			repeatedFrequency: '重复调用频率：',
+			repeatedTotal: '重复调用总数：',
+			serviceFeeCap: '服务费用：',
+			timeOut: '超时时间：',
+			provider: '服务提供者：',
+		},
+		updateServiceBinding:{
+			serviceName:'服务名称：',
+			pricing: '单次调用价格：',
+			owner: '拥有者：',
+			provider: '服务提供者：',
+			qos: '最小响应时间：',
+			deposit: '绑定押金：',
+		},
+		disableServiceBinding:{//disableServiceBinding、refundServiceDeposit
+			serviceName:'服务名称：',
+			owner: '拥有者：',
+			provider: '服务提供者：',
+		},
+		enableServiceBinding:{
+			serviceName:'服务名称：',
+			owner: '拥有者：',
+			provider: '服务提供者：',
+			deposit: '绑定押金：',
+		},
+		// refundServiceDeposit:{
+		// 	serviceName:'服务名称：',
+		// 	owner: '拥有者：',
+		// 	provider: '服务提供者：',
+		// },
 		burnNft:{
 			sender: '发送方：',
 			denom: '报表类别：',
@@ -141,14 +197,15 @@ export const ExplorerCN = {
 			description: '描述：',
 			tags: '标签：',
 			author: '服务创建者：',
-			authorDescription: '创建者简介：'
+			authorDescription: '创建者简介：',
+			schemas:'接口规范：',
 		},
 		bindService: {
-			deposit: '押金：',
+			deposit: '绑定押金：',
 			owner: '拥有者：',
-			pricing: '服务价格：',
+			pricing: '单次调用价格：',
 			provider: '服务提供者：',
-			qos: '服务评价：',
+			qos: '最小响应时间：',
 			serviceName: '服务名称：'
 		},
 		mintNft: {
