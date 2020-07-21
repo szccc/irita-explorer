@@ -64,6 +64,11 @@ export default class Tools{
 	static getDisplayDate(timestamp, format = "YYYY-MM-DD HH:mm:ss"){
 	    return moment(timestamp*1000).utcOffset(+480).format(format);
     }
+    static getFormatDate(date, format = "YYYY-MM-DD HH:mm:ss"){
+	    return moment(date).utcOffset(+480).format(format);
+    }
+
+
 
     static getTimestamp(){
         return Math.floor(new Date().getTime() / 1000);
