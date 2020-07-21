@@ -604,7 +604,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tx_information_relevance_tx">
+                <div class="tx_information_relevance_tx" v-if="txCount>0">
                     <div class="tx_information_relevance_tx_content">
                         <div class="tx_information_relevance_tx_title">
                             {{$t('ExplorerCN.transactionInformation.relevanceTx')}}
@@ -613,14 +613,17 @@
                             <el-table :data="relevanceTxs">
                                 <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                                     <template slot-scope="scope">
-                                        <span :style="`background:${scope.row.status?'green':'red'};width:20px;height:20px;display:inline-block`">  </span>
-                                        <el-tooltip :content="scope.row.txHash"
-                                                    class="item"
-                                                    placement="top"
-                                                    effect="dark">
-                                            <router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}
-                                            </router-link>
-                                        </el-tooltip>
+                                        <div class="tx_information_relevance_tx_list_content_hash" >
+                                            <img class="service_tx_status"
+                                             :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+                                            <el-tooltip :content="scope.row.txHash"
+                                                        class="item"
+                                                        placement="top"
+                                                        effect="dark">
+                                                <router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}
+                                                </router-link>
+                                            </el-tooltip>
+                                        </div>
                                     </template>
                                 </el-table-column>
                                 <el-table-column min-width="120px" :label="$t('ExplorerCN.transactionInformation.txType')" prop="txType"></el-table-column>
@@ -747,7 +750,7 @@
                 serviceFeeCap:'',
                 timeout:'',
                 relevanceTxs: [],
-                txCount: 100,
+                txCount: 0,
                 pageNum: 1,
                 pageSize: 10,
             }
@@ -1238,7 +1241,16 @@
                             font-weight:600;
                         }
                         .tx_information_relevance_tx_list_content{
-
+                            .tx_information_relevance_tx_list_content_hash{
+                                display: flex;
+                                align-items: center;
+                                .service_tx_status{
+                                    width:0.13rem;
+                                    height:0.13rem;
+                                    margin-right:0.05rem;
+                                }
+                            }
+                            
                         }
                         .pagination_content {
                             display: flex;
