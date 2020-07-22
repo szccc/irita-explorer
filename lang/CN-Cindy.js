@@ -269,7 +269,8 @@ export const ExplorerCN = {
         provider:'提供者',
         consumer:'消费者',
         requestHash:'请求哈希',
-        txRecord:'交易记录'
+        respondHash:'响应哈希',
+        txRecord:'响应记录',
 	},
 	searchResult:{
 		title: '搜索结果',
