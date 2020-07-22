@@ -644,9 +644,14 @@
                                         </router-link>
                                         <div v-else>
                                             <p v-for="provider in getCallProviders(scope.row.provider)">
-                                                <router-link  v-if="scope.row.from !== '--'" :to="`/address/${provider}`">
-                                                    {{formatAddress(provider)}}
-                                                </router-link>
+                                                <el-tooltip effect="dark"
+                                                            :content="provider"
+                                                            placement="top">
+                                                    <router-link  :to="`/address/${provider}`">
+                                                        {{formatAddress(provider)}}
+                                                    </router-link>
+                                                </el-tooltip>
+                                                
                                             </p>
                                             <p v-if="scope.row.txType=='call_service' && scope.row.provider.length>2"> ... </p>
                                         </div>
@@ -659,7 +664,7 @@
                                 </el-table-column>
                             </el-table>
                         </div>
-                        <div class="pagination_content" v-show="txCount > 10">
+                        <div class="pagination_content" v-show="txCount > pageSize">
                             <keep-alive>
                                 <m-pagination :page-size="Number(pageSize)"
                                               :total="txCount"
