@@ -597,6 +597,8 @@
                     .service_tx_status {
                         position: relative;
                         top: 0.02rem;
+                        width:0.13rem;
+                        height:0.13rem;
                     }
                     .service_tx_to_container {
 

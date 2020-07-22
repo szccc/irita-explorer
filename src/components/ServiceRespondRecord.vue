@@ -75,7 +75,7 @@
                         <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
-                                     v-if="scope.row.status === 1"
+                                     v-if="scope.row.respondStatus === 1"
                                      src="../assets/success.png"/>
                                 <img class="service_tx_status"
                                      v-else
@@ -119,11 +119,13 @@
 
                         <el-table-column min-width="120px"
                                          :label="$t('ExplorerCN.serviceDetail.requestHash')">
-                            <template slot-scope="scope">
-                                <router-link :to="`/tx?txHash=${scope.row.requestHash}`">
-                                    {{formatTxHash(scope.row.requestHash)}}
-                                </router-link>
-                            </template>
+                                <template slot-scope="scope">
+                                    <img class="service_tx_status"
+                                         src="../assets/success.png"/>
+                                    <router-link :to="`/tx?txHash=${scope.row.requestHash}`">
+                                        {{formatTxHash(scope.row.requestHash)}}
+                                    </router-link>
+                                </template>
                         </el-table-column>
                     </el-table>
                 </div>
@@ -156,12 +158,10 @@
         components : {MPagination},
         data(){
             return {
-                serviceList : [],
                 txList : [],
                 txPageSize : 10,
                 txPageNum : 1,
                 txCount : 0,
-
                 isAvailable : '',
                 price : '',
                 qos : '',
@@ -174,8 +174,6 @@
                 providerCount : 0,
                 providerPageNum : 1,
                 Tools,
-                type : '',
-                status : '',
 
             }
         },
@@ -232,6 +230,7 @@
                             time : Tools.getDisplayDate(item.time),
                             consumer : item.consumer,
                             requestHash : item.requestHash,
+                            respondStatus : item.respondStatus,
                         };
 
                     });
@@ -240,7 +239,7 @@
                     this.txPageSize = Number(res.pageSize);
                 } catch (e) {
                     console.error(e);
-                    this.$message.error('获取service交易列表错误,请稍后重试');
+                    this.$message.error('获取交易列表错误,请稍后重试');
                 }
 
             },
@@ -405,6 +404,8 @@
                     .service_tx_status {
                         position: relative;
                         top: 0.02rem;
+                        width:0.13rem;
+                        height:0.13rem;
                     }
                     .service_tx_to_container {
 
