@@ -999,9 +999,8 @@
                     }
                 }catch (e) {
                     console.error(e);
-                    this.$message.error('获取交易信息失败,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.txInfoFailed'));
                 }
-
             },
             pageChange(pageNum){
                 if(this.pageNum === pageNum) return;

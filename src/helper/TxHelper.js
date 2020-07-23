@@ -12,6 +12,10 @@ export class TxHelper {
         if(!msgs || !msgs.msg) return res;
         const {type, msg} = msgs;
         switch (type){
+            case TX_TYPE.send:
+                res.from = msg.fromaddress;
+                res.to = msg.toaddress;
+                break;
             case TX_TYPE.define_service:
                 res.from = msg.author;
                 break;
@@ -44,7 +48,7 @@ export class TxHelper {
                 break;
             case TX_TYPE.respond_service:
                 res.from = msg.provider;
-                res.to = msg.ex.consumer;
+                res.to = (msg.ex || {}).consumer;
                 break;
             case TX_TYPE.pause_request_context:
                 res.from = msg.consumer;
@@ -66,6 +70,7 @@ export class TxHelper {
                 break;
             case TX_TYPE.transfer_nft:
                 res.from = msg.sender;
+                res.to = msg.recipient;
                 break;
             case TX_TYPE.edit_nft:
                 res.from = msg.sender;
@@ -75,12 +80,8 @@ export class TxHelper {
                 break;
             case TX_TYPE.mint_nft:
                 res.from = msg.sender;
+                res.to = msg.recipient;
                 break;
-
-
-
-
-
         }
         return res;
     }
@@ -124,7 +125,7 @@ export class TxHelper {
                 }
                 break;
             case TX_TYPE.respond_service:
-                requestContextId = msg.ex.request_context_id;
+                requestContextId = (msg.ex || {}).request_context_id;
                 break;
             case TX_TYPE.pause_request_context:
                 requestContextId = msg.request_context_id;

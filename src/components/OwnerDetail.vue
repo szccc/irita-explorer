@@ -444,7 +444,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error('获取交易列表失败,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
                 }
 
 			},
@@ -507,7 +507,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error('获取交易列表失败,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.callServiceListFailed'));
                 }
 
 			},
@@ -526,7 +526,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error('获取交易列表失败,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.respondRecordFailed'));
                 }
 
 			},
@@ -575,7 +575,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error('获取交易列表失败,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.providerServiceListFailed'));
                 }
 
 			},
@@ -645,7 +645,7 @@
                     });
                 } catch (e) {
                     console.error(e);
-                    this.$message.error('获取交易类型失败,请稍后重试');
+                    // this.$message.error(this.$t('ExplorerCN.message.txTypeFailed'));
                 }
 
             },
