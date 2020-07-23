@@ -44,7 +44,7 @@ export class TxHelper {
                 break;
             case TX_TYPE.respond_service:
                 res.from = msg.provider;
-                res.to = msg.consumer;
+                res.to = msg.ex.consumer;
                 break;
             case TX_TYPE.pause_request_context:
                 res.from = msg.consumer;

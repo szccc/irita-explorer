@@ -155,7 +155,7 @@
                                 </router-link>
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.transactions.type')" width="150px"
+                        <el-table-column min-width="160px" :label="$t('ExplorerCN.transactions.type')"
                                          prop="type"></el-table-column>
 
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.requestId')">
@@ -166,7 +166,7 @@
                                 <span v-else>--</span>
                             </template>
                         </el-table-column>
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
+                        <el-table-column  :label="$t('ExplorerCN.transactions.from')">
                             <template slot-scope="scope">
                                 <router-link :to="`/address/${scope.row.from}`"
                                              v-if="scope.row.from !== '--'">
@@ -178,15 +178,6 @@
 
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
                             <template slot-scope="scope">
-                                <!--<el-tooltip v-if="scope.row.content && scope.row.content.length > 0 ">
-                                    <div slot="content">
-                                        <div style="display: flex;flex-direction: column">
-                                            <span v-for="item in scope.row.content">{{item}}</span>
-                                        </div>
-                                    </div>
-                                    <span>{{scope.row.to}}</span>
-                                </el-tooltip>-->
-
                                 <span v-if="scope.row.to === '--'">--</span>
                                 <div class="service_tx_to_container" v-else>
                                     <router-link
@@ -205,7 +196,7 @@
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.transactions.block')">
+                        <el-table-column min-width="80px" :label="$t('ExplorerCN.transactions.block')">
                             <template slot-scope="scope">
                                 <router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
                             </template>
