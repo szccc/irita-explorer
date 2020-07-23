@@ -244,6 +244,26 @@
 			</div>
 			<div class="address_transaction_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.txRecord')}}</div>
+				<div class="address_transaction_condition_container">
+                    <span class="address_transaction_condition_count">
+                        {{ totalTxNumber }} Txs
+                    </span>
+                    <el-select v-model="type">
+                        <el-option v-for="(item, index) in txTypeOption"
+                                   :key="index"
+                                   :label="item.label"
+                                   :value="item.value"></el-option>
+                    </el-select>
+                    <el-select v-model="status">
+                        <el-option v-for="(item, index) in statusOpt"
+                                   :key="index"
+                                   :label="item.label"
+                                   :value="item.value"></el-option>
+                    </el-select>
+                    <div class="search_btn" @click="handleSearchClick">
+                        {{$t('ExplorerCN.transactions.search')}}
+                    </div>
+                </div>
 				<el-table :data="txList">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
@@ -315,7 +335,8 @@
 			getRespondServiceWithAddress,
 			getRespondServiceRecord,
 			getServiceBindingByServiceName,
-			getServiceContextsByServiceName} from "../service/api";
+			getServiceContextsByServiceName,
+			getAllServiceTxTypes} from "../service/api";
 
     export default {
 		name: "OwnerDetail",
@@ -337,12 +358,33 @@
 				respondRecordList:[],
 				respondRecordPageNum:1,
 				respondRecordCount:0,
-				
+				type:'',
+                status:'',
+                statusOpt : [
+                    {
+                        value : '',
+                        label : this.$t('ExplorerCN.common.allTxStatus')
+                    },
+                    {
+                        value : 1,
+                        label : this.$t('ExplorerCN.common.success')
+                    },
+                    {
+                        value : 2,
+                        label : this.$t('ExplorerCN.common.failed')
+                    }
+                ],
+                txTypeOption : [
+                    {
+                        value : '',
+                        label : this.$t('ExplorerCN.common.allTxType')
+                    },
+                ],
 			}
 		},
 		watch:{
 			$route(){
-				this.address = this.$route.params.param
+				this.address = this.$route.params.param;
 				this.getOwnerDetail();
 				this.getTxByAddress();
 				this.getConsumerTxList();
@@ -353,6 +395,7 @@
 		},
 		mounted () {
 			this.getOwnerDetail();
+			this.getAllTxType();
 			this.getTxByAddress();
 			this.getConsumerTxList();
 			this.getRspondRecordList();
@@ -397,7 +440,7 @@
 			//地址相关交易记录
 			async getTxByAddress(){
 			    try {
-                    const res = await getAddressTxList(this.$route.params.param, this.pageNum, this.pageSize);
+                    const res = await getAddressTxList(this.$route.params.param, this.type, this.status, this.pageNum, this.pageSize);
                     if(res){
                         console.log('addressTx======:',res);
                         this.totalTxNumber = res.count;
@@ -592,7 +635,26 @@
             },
             getRespondCount(count){
             	return this.$t('ExplorerCN.addressDetail.totalRespond').replace(/\$\{\%value\%\}/, count);
-            }
+            },
+            handleSearchClick(){
+                this.pageNum = 1;
+                this.getTxByAddress();
+            },
+            async getAllTxType(){
+                try {
+                    const res = await getAllServiceTxTypes();
+                    res.data.forEach((type) =>{
+                        this.txTypeOption.push({
+                            value : type.typeName,
+                            item : type.typeName,
+                        });
+                    });
+                } catch (e) {
+                    console.error(e);
+                    this.$message.error('获取交易类型失败,请稍后重试');
+                }
+
+            },
 		}
 	}
 </script>
@@ -700,7 +762,60 @@
 					display: flex;
                     align-items: center;
 				}
-				.pagination_content{
+				.address_transaction_condition_container {
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-start;
+                    margin-bottom: 0.4rem;
+                    align-items: center;
+                    .address_transaction_condition_count {
+                        font-size: 0.14rem;
+                        margin-right: 0.42rem;
+                        font-weight: 600;
+
+                    }
+                    /deep/ .el-select {
+                        width: 1.3rem;
+                        margin-right: 0.22rem;
+                        .el-input {
+                            .el-input__inner {
+                                padding-left: 0.07rem;
+                                height: 0.32rem;
+                                font-size: 0.14rem !important;
+                                line-height: 0.32rem;
+                                &::-webkit-input-placeholder {
+                                    font-size: 0.14rem !important;
+                                }
+                            }
+                            .el-input__inner:focus {
+                                border-color: #3264FD !important;
+                            }
+                            .el-input__suffix {
+                                .el-input__suffix-inner {
+                                    .el-input__icon {
+                                        line-height: 0.32rem;
+                                    }
+                                }
+                            }
+                        }
+                        .is-focus {
+                            .el-input__inner {
+                                border-color: #3264FD !important;
+                            }
+                        }
+
+                    }
+                    .search_btn {
+                        cursor: pointer;
+                        background: #3264FD;
+                        color: #fff;
+                        border-radius: 0.04rem;
+                        padding: 0.05rem 0.18rem;
+                        font-size: 0.14rem;
+                        line-height: 0.2rem;
+                    }
+                }
+                .pagination_content{
 					margin: 0.2rem 0 0.2rem 0;
 					display: flex;
 					justify-content: flex-end;
