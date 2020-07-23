@@ -1,4 +1,10 @@
 export const ExplorerCN = {
+	common:{
+		allTxStatus:'All Status',
+		success:'Success',
+		failed:'Failed',
+		allTxType:'All TxType',
+	},
 	Navigation:{
 		block: '区块浏览',
 		transactions: '交易浏览',
@@ -218,6 +224,11 @@ export const ExplorerCN = {
 		}
 	},
 	addressDetail: {
+		addressDetail:'地址详情',
+		txRecord:'交易记录',
+		consumerTitle:'服务调用-作为消费者',
+		providerTitle:'服务调用-作为提供者',
+		respondRecord:'响应记录',
 		assets: '资产列表',
 		owner: '拥有者',
 		denom: '报表类别',
@@ -225,6 +236,22 @@ export const ExplorerCN = {
 		id: '报表标识',
 		data: '链上数据',
 		uri: '链外链接',
+		serviceType:'服务类型',
+		respondTimes: '响应次数',
+		available: '是否可用',
+		deposit: '绑定押金',
+		pricing: '单次调用价格',
+		qos: '最小响应时间',
+		bindTime: '绑定时间',
+		disabledTime: '解绑时间',
+		requestId: '请求标识',
+		respondHash:'响应哈希',
+		consumer:'消费者',
+		requestHash:'请求哈希',
+		provider:'提供者',
+		requestStatus:'请求状态',
+		time:'次',
+		totalRespond:'共${%value%}条回复',
 	},
 	nftDetail: {
 		nftInformation: '报表详情',

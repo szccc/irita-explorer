@@ -118,6 +118,16 @@ export function getTokenTxList(nftId, denom, pageNum, pageSize,){
     return get(url);
 }
 
+export function getCallServiceWithAddress(consumerAddr, pageNum, pageSize, useCount=false){
+    let url = `txs/services/call-service?pageNum=${pageNum}&pageSize=${pageSize}&consumerAddr=${consumerAddr}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getRespondServiceWithAddress(providerAddr, pageNum, pageSize, useCount=false){
+    let url = `txs/services/respond-service?pageNum=${pageNum}&pageSize=${pageSize}&providerAddr=${providerAddr}&useCount=${useCount}`;
+    return get(url);
+}
+
 export function getServiceDetail(serviceName){
     let url = `txs/services/detail/${serviceName}`;
     return get(url);
@@ -150,8 +160,8 @@ export function getTxDetail(hash){
     return get(url);
 }
 
-export function getAddressTxList(address, pageNum, pageSize){
-    let url = `txs/addresses?pageNum=${pageNum}&pageSize=${pageSize}&address=${address}&useCount=true`;
+export function getAddressTxList(address, type, status, pageNum, pageSize){
+    let url = `txs/addresses?pageNum=${pageNum}&pageSize=${pageSize}&address=${address}&type=${type}&status=${status}&useCount=true`;
     return get(url);
 }
 
@@ -177,6 +187,11 @@ export function getServiceBindingByServiceName(serviceName, provider){
     if(provider){
         url += `/${provider}`;
     }
+    return getFromLcd(url);
+}
+
+export function getServiceContextsByServiceName(requestContextId){
+    let url = `service/contexts/${requestContextId}`;
     return getFromLcd(url);
 }
 

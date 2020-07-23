@@ -56,21 +56,17 @@
             </div>
             <div class="tx_list_content">
                 <el-table :data="transactionArray">
-                    <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
+                    <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                         <template slot-scope="scope">
-                            <img class="service_tx_status"
-                                 v-if="scope.row.status === 1"
-                                 src="../assets/success.png"/>
-                            <img class="service_tx_status"
-                                 v-else
-                                 src="../assets/failed.png"/>
-                            <el-tooltip :content="scope.row.txHash"
-                                        class="item"
-                                        placement="top"
-                                        effect="dark">
-                                <router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}
-                                </router-link>
-                            </el-tooltip>
+                            <div class="tx_transaction_content_hash">
+                                <img class="status_icon"
+                                             :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+                                <el-tooltip effect="dark"
+                                            :content="scope.row.txHash"
+                                            placement="top">
+                                    <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+                                </el-tooltip>
+                            </div>
                         </template>
                     </el-table-column>
                     <el-table-column :label="$t('ExplorerCN.transactions.block')">
@@ -154,16 +150,16 @@
                 txTypeOption : [],
                 statusOpt : [
                     {
-                        value:'',
-                        label:'All Status'
+                        value : '',
+                        label : this.$t('ExplorerCN.common.allTxStatus')
                     },
                     {
-                        value:1,
-                        label:'Success'
+                        value : 1,
+                        label : this.$t('ExplorerCN.common.success')
                     },
                     {
-                        value:2,
-                        label:'Failed'
+                        value : 2,
+                        label : this.$t('ExplorerCN.common.failed')
                     }
                 ],
                 statusValue : status ? status : '',
@@ -261,12 +257,12 @@
                     const typeList = res.data.map((type)=>{
                         return {
                             value: type.typeName,
-                            item:type.typeName,
+                            label:type.typeName,
                         }
                     });
                     typeList.unshift({
                         value : '',
-                        label : 'All TxType',
+                        label : this.$t('ExplorerCN.common.allTxType'),
                         slot : 'allTxType'
                     });
                     this.txTypeOption = typeList;
@@ -426,7 +422,10 @@
                 height:0.13rem;
             }
             .tx_content_header_wrap {
-
+                .tx_transaction_content_hash{
+                    display: flex;
+                    align-items: center;
+                }
                 .total_tx_content {
                     height: 0.61rem;
                     line-height: 0.61rem;
@@ -527,6 +526,11 @@
                         }
                     }
                 //}
+            }
+            .status_icon{
+                width:0.13rem;
+                height:0.13rem;
+                margin-right:0.05rem;
             }
             .pagination_content {
                 display: flex;

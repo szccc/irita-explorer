@@ -265,21 +265,21 @@
                 statusOpt : [
                     {
                         value : '',
-                        label : '所有交易状态'
+                        label : this.$t('ExplorerCN.common.allTxStatus')
                     },
                     {
                         value : 1,
-                        label : '成功'
+                        label : this.$t('ExplorerCN.common.success')
                     },
                     {
                         value : 0,
-                        label : '失败'
+                        label : this.$t('ExplorerCN.common.failed')
                     }
                 ],
                 txTypeOption : [
                     {
                         value : '',
-                        label : '所有交易类型'
+                        label : this.$t('ExplorerCN.common.allTxType')
                     },
                 ],
 

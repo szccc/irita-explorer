@@ -43,14 +43,17 @@
 			<div class="nft_token_list_content">
 				<div class="nft_token_list_title"> {{$t('ExplorerCN.nftDetail.nftTxs')}}</div>
 				<el-table :data="txListByToken">
-					<el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.txHash"
-										class="item"
-										placement="top"
-										effect="dark">
-								<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
-							</el-tooltip>
+							<div class="tx_transaction_content_hash">
+                  <img class="status_icon"
+                               :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+                  <el-tooltip effect="dark"
+                              :content="scope.row.txHash"
+                              placement="top">
+                      <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+                  </el-tooltip>
+              </div>
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.transactions.block')">
@@ -91,7 +94,6 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
 					<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
 						<template slot-scope="scope">
 							<span>{{scope.row.time}}</span>
@@ -173,7 +175,7 @@
                             from : tx.from ? tx.from : '--',
                             to : tx.to ? tx.to : '--',
                             signer : tx.signer,
-                            status : tx.status === 1 ? 'Success' : 'Failed',
+                            status : tx.status,
                             time :Tools.getDisplayDate(tx.time)
                         }
                     });
@@ -249,13 +251,21 @@
 					text-indent: 0.2rem;
 					margin: 0.3rem 0 0.1rem 0;
 				}
-                .pagination_content{
-                    display: flex;
-                    justify-content: flex-end;
-                    margin: 0.3rem 0 0.1rem 0;
-                }
+        .pagination_content{
+            display: flex;
+            justify-content: flex-end;
+            margin: 0.3rem 0 0.1rem 0;
+        }
+        .tx_transaction_content_hash{
+            display: flex;
+            align-items: center;
+        }
 			}
-			
+			.status_icon{
+	        width:0.13rem;
+	        height:0.13rem;
+	        margin-right:0.05rem;
+	    }
 		}
 	}
 
