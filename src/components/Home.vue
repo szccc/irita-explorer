@@ -155,7 +155,7 @@
 						this.serverNumber = statistics.serviceCount;
 					}
 				}catch(err){
-
+					console.error(err);
 				}
 			},
 			async getLastBlocks(){
@@ -191,7 +191,7 @@
 							},1000)
 						}
 				}catch(err){
-
+					console.error(err);
 				}
 			},
 			async getTransaction(){

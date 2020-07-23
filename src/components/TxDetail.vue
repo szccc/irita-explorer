@@ -935,27 +935,27 @@
                                 this.output = res.msgs[0].msg.output;
                                 this.provider = res.msgs[0].msg.provider;
                                 this.requestId = res.msgs[0].msg.request_id;
-                                this.requestContextId = res.msgs[0].msg.ex.request_context_id;
+                                this.requestContextId = (res.msgs[0].msg.ex || {}).request_context_id;
                                 this.result = res.msgs[0].msg.result;
-                                this.serviceName = res.msgs[0].msg.ex.service_name;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
                                 break;
                             case 'pause_request_context':
-                                this.serviceName = res.msgs[0].msg.ex.service_name;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
                                 this.requestContextId = res.msgs[0].msg.request_context_id;
                                 this.consumer = res.msgs[0].msg.consumer;
                                 break;
                             case 'start_request_context':
-                                this.serviceName = res.msgs[0].msg.ex.service_name;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
                                 this.requestContextId = res.msgs[0].msg.request_context_id;
                                 this.consumer = res.msgs[0].msg.consumer;
                                 break;
                             case 'kill_request_context':
-                                this.serviceName = res.msgs[0].msg.ex.service_name;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
                                 this.requestContextId = res.msgs[0].msg.request_context_id;
                                 this.consumer = res.msgs[0].msg.consumer;
                                 break;
                             case 'update_request_context':
-                                this.serviceName = res.msgs[0].msg.ex.service_name;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
                                 this.requestContextId = res.msgs[0].msg.request_context_id;
                                 this.consumer = res.msgs[0].msg.consumer;
                                 this.provider = res.msgs[0].msg.providers;
@@ -967,7 +967,7 @@
                                 this.timeout = res.msgs[0].msg.timeout;
                                 break;
                             case 'update_service_binding':
-                                this.serviceName = res.msgs[0].msg.ex.service_name;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
                                 this.provider = res.msgs[0].msg.provider;
                                 if (res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length) {
                                     this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}`;
@@ -977,12 +977,12 @@
                                 this.qos = res.msgs[0].msg.qos;
                                 break;
                             case 'disable_service_binding':
-                                this.serviceName = res.msgs[0].msg.ex.service_name;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
                                 this.provider = res.msgs[0].msg.provider;
                                 this.owner = res.msgs[0].msg.owner;
                                 break;
                             case 'enable_service_binding':
-                                this.serviceName = res.msgs[0].msg.ex.service_name;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
                                 this.provider = res.msgs[0].msg.provider;
                                 if (res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length) {
                                     this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}`;
@@ -990,7 +990,7 @@
                                 this.owner = res.msgs[0].msg.owner;
                                 break;
                             case 'refund_service_deposit':
-                                this.serviceName = res.msgs[0].msg.ex.service_name;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
                                 this.provider = res.msgs[0].msg.provider;
                                 this.owner = res.msgs[0].msg.owner;
                                 break;
@@ -998,6 +998,7 @@
                         this.relevanceTxList();
                     }
                 }catch (e) {
+                    console.error(e);
                     this.$message.error('获取交易信息失败,请稍后重试');
                 }
 
