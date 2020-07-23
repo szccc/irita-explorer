@@ -34,10 +34,10 @@ export class TxHelper {
                 res.from = msg.consumer;
                 if(msg.providers.length === 0){
                     res.to = '--'
-                }else{
+                } else {
                     if(msg.providers.length > 1){
                         res.to = msg.providers;
-                    }else{
+                    } else {
                         res.to = msg.providers[0]
                     }
                 }
@@ -58,6 +58,29 @@ export class TxHelper {
             case TX_TYPE.update_request_context:
                 res.from = msg.consumer;
                 break;
+            case TX_TYPE.create_record:
+                res.from = msg.creator;
+                break;
+            case TX_TYPE.burn_nft:
+                res.from = msg.sender;
+                break;
+            case TX_TYPE.transfer_nft:
+                res.from = msg.sender;
+                break;
+            case TX_TYPE.edit_nft:
+                res.from = msg.sender;
+                break;
+            case TX_TYPE.issue_denom:
+                res.from = msg.sender;
+                break;
+            case TX_TYPE.mint_nft:
+                res.from = msg.sender;
+                break;
+
+
+
+
+
         }
         return res;
     }

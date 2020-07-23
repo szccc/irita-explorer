@@ -6,10 +6,13 @@
             </div>
 			<div class="service_list_content" v-for="service in serviceList">
                 <div class="service_list_top">
-                    <span class="service_list_service_name">
+                    <span class="service_list_service_name bold_name">
                         <router-link :to="`/service?serviceName=${service.serviceName}`">
                             {{ service.serviceName }}
                         </router-link>
+                    </span>
+                    <span class="service_list_service_name">
+                        {{ service.description }}
                     </span>
                 </div>
 
@@ -188,10 +191,14 @@
                     .service_list_service_name{
                         color:#3264FD;
                         font-size:0.14rem;
-                        font-weight:600;
                         cursor:pointer;
+                        margin-right:0.15rem;
+                    }
+                    .bold_name{
+                        font-weight:600;
                     }
                 }
+
             }
 		}
 		.pagination_content{

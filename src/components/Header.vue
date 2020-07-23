@@ -54,7 +54,7 @@
 		data() {
 			return {
 				activeIndex: '1',
-				activeIndex2: '1',
+				activeIndex2: '0',
 				searchInputValue: '',
 				featureShow:false,
 				menuList:[
@@ -83,6 +83,7 @@
 		},
 		mounted(){
 			this.$Crypto.getCrypto('iris', 'testnet');
+            this.setActiveIndex();
 		},
 		methods: {
 			handleSelect(key, keyPath) {
@@ -90,6 +91,13 @@
 			onInputChange () {
 				this.getData()
 			},
+            setActiveIndex(){
+			    this.menuList.forEach((m, i)=>{
+			        if(window.location.hash.includes(m.link)){
+                        this.activeIndex2 = String(i+1);
+                    }
+                })
+            },
 			clearSearchContent () {
 				this.searchInputValue = '';
 			},

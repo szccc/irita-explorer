@@ -135,6 +135,7 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./MPagination";
+    import {TxHelper} from "../helper/TxHelper";
     import {getAllTxTypes, getTxList} from '../service/api';
 
     export default {
@@ -222,14 +223,19 @@
 
                 try{
                     const res = await getTxList(params);
+                    console.log("-----",res)
 
                     this.transactionArray = res.data.map((tx)=>{
+                        let addrObj = TxHelper.getFromAndToAddressFromMsg(tx.msgs[0]);
+                        let from = (addrObj && addrObj.from) ? addrObj.from : '--',
+                            to = (addrObj && addrObj.to) ? addrObj.to : '--';
+                        console.log("======",from, to)
                         return {
                             txHash : tx.tx_hash,
                             blockHeight : tx.height,
                             txType : tx.type,
-                            from : tx.from ? tx.from : '--',
-                            to : tx.to ? tx.to : '--',
+                            from,
+                            to,
                             signer : tx.signer,
                             status : tx.status,
                             time :Tools.getDisplayDate(tx.time),
@@ -408,7 +414,13 @@
         .tx_content_wrap {
             margin: 0 auto;
             box-sizing: border-box;
-
+            .service_tx_status {
+                position: relative;
+                top: 0.02rem;
+                left: -0.04rem;
+                width:0.13rem;
+                height:0.13rem;
+            }
             .tx_content_header_wrap {
                 .tx_transaction_content_hash{
                     display: flex;
