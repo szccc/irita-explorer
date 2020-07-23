@@ -56,15 +56,17 @@
             </div>
             <div class="tx_list_content">
                 <el-table :data="transactionArray">
-                    <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
+                    <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                         <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.txHash"
-                                        class="item"
-                                        placement="top"
-                                        effect="dark">
-                                <router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}
-                                </router-link>
-                            </el-tooltip>
+                            <div class="tx_transaction_content_hash">
+                                <img class="status_icon"
+                                             :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+                                <el-tooltip effect="dark"
+                                            :content="scope.row.txHash"
+                                            placement="top">
+                                    <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+                                </el-tooltip>
+                            </div>
                         </template>
                     </el-table-column>
                     <el-table-column :label="$t('ExplorerCN.transactions.block')">
@@ -110,7 +112,6 @@
                             </el-tooltip>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
                     <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
                         <template slot-scope="scope">
                             <span>{{scope.row.time}}</span>
@@ -148,16 +149,16 @@
                 txTypeOption : [],
                 statusOpt : [
                     {
-                        value:'',
-                        label:'All Status'
+                        value : '',
+                        label : this.$t('ExplorerCN.common.allTxStatus')
                     },
                     {
-                        value:1,
-                        label:'Success'
+                        value : 1,
+                        label : this.$t('ExplorerCN.common.success')
                     },
                     {
-                        value:2,
-                        label:'Failed'
+                        value : 2,
+                        label : this.$t('ExplorerCN.common.failed')
                     }
                 ],
                 statusValue : status ? status : '',
@@ -230,7 +231,7 @@
                             from : tx.from ? tx.from : '--',
                             to : tx.to ? tx.to : '--',
                             signer : tx.signer,
-                            status : tx.status === 1 ? 'Success' : 'Failed',
+                            status : tx.status,
                             time :Tools.getDisplayDate(tx.time),
                         }
                     });
@@ -250,12 +251,12 @@
                     const typeList = res.data.map((type)=>{
                         return {
                             value: type.typeName,
-                            item:type.typeName,
+                            label:type.typeName,
                         }
                     });
                     typeList.unshift({
                         value : '',
-                        label : 'All TxType',
+                        label : this.$t('ExplorerCN.common.allTxType'),
                         slot : 'allTxType'
                     });
                     this.txTypeOption = typeList;
@@ -409,7 +410,10 @@
             box-sizing: border-box;
 
             .tx_content_header_wrap {
-
+                .tx_transaction_content_hash{
+                    display: flex;
+                    align-items: center;
+                }
                 .total_tx_content {
                     height: 0.61rem;
                     line-height: 0.61rem;
@@ -510,6 +514,11 @@
                         }
                     }
                 //}
+            }
+            .status_icon{
+                width:0.13rem;
+                height:0.13rem;
+                margin-right:0.05rem;
             }
             .pagination_content {
                 display: flex;

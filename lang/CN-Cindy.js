@@ -1,9 +1,9 @@
 export const ExplorerCN = {
 	common:{
-		allTxStatus:'所有交易状态',
-		success:'成功',
-		failed:'失败',
-		allTxType:'所有交易类型',
+		allTxStatus:'All Status',
+		success:'Success',
+		failed:'Failed',
+		allTxType:'All TxType',
 	},
 	Navigation:{
 		block: '区块浏览',

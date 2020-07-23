@@ -833,10 +833,10 @@
 			}
 
 			.status_icon{
-                        width:0.13rem;
-                        height:0.13rem;
-                        margin-right:0.05rem;
-                    }
+                width:0.13rem;
+                height:0.13rem;
+                margin-right:0.05rem;
+            }
 		}
 	}
 </style>
