@@ -37,7 +37,7 @@
                         <<template slot-scope="scope">
                         <div class="service_information_available_container">
                             <img class="service_tx_status"
-                                 v-if="scope.row.isAvailable"
+                                 v-if="scope.row.available"
                                  src="../assets/true.png"/>
                             <img class="service_tx_status"
                                  v-else
@@ -54,7 +54,7 @@
 					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.time')" prop="bindTime"></el-table-column>
 				</el-table>
 			</div>
-			<div class="pagination_content" v-if="txCount > 10">
+			<div class="pagination_content" v-if="txCount > 5">
 				<m-pagination :page-size="pageSize"
 				              :total="txCount"
 				              :page="pageNum"
@@ -77,7 +77,7 @@
 		data() {
 			return {
 				pageNum: 1,
-				pageSize: 20,
+				pageSize: 5,
 				serviceList:[],
 				txCount:0,
                 Tools,
@@ -101,8 +101,9 @@
                                     bindings.result.forEach((b)=>{
                                         if(s.provider === b.provider){
                                             s.isAvailable = b.available ? 'True' : 'False';
+                                            s.available = b.available;
                                             s.price = JSON.parse(b.pricing).price;
-                                            s.qos = b.qos;
+                                            s.qos = `${b.qos} blocks`;
                                         }
                                     })
                                 })

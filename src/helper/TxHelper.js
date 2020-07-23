@@ -9,7 +9,7 @@ export class TxHelper {
             from : '--',
             to : '--'
         };
-        if(!msgs || msgs.msg) return res;
+        if(!msgs || !msgs.msg) return res;
         const {type, msg} = msgs;
         switch (type){
             case TX_TYPE.define_service:
@@ -88,8 +88,8 @@ export class TxHelper {
             case TX_TYPE.call_service:
                 if(events && Array.isArray(events)){
                     for(let e of events){
-                        if(e && Array.isArray(e)){
-                            for(let a of e){
+                        if(e && e.attributes && Array.isArray(e.attributes)){
+                            for(let a of e.attributes){
                                 if(a.key === 'request_context_id'){
                                     requestContextId = a.value;
                                     break;

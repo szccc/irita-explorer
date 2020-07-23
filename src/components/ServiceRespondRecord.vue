@@ -72,7 +72,7 @@
                 </h3>
                 <div class="service_respond_record_transaction_table_content">
                     <el-table :data="txList">
-                        <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
+                        <el-table-column min-width="100px" :label="$t('ExplorerCN.serviceDetail.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.respondStatus === 1"
@@ -309,7 +309,7 @@
                     .service_respond_record_text_content {
                         display: flex;
                         justify-content: flex-start;
-                        margin-bottom: 0.46rem;
+                        margin-bottom: 0.26rem;
                         span:nth-of-type(1) {
                             font-size: 0.14rem;
                             line-height: 0.16rem;

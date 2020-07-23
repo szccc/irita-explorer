@@ -79,7 +79,7 @@
                             <template slot-scope="scope">
                                 <div class="service_information_available_container">
                                     <img class="service_tx_status"
-                                         v-if="scope.row.isAvailable"
+                                         v-if="scope.row.available"
                                          src="../assets/true.png"/>
                                     <img class="service_tx_status"
                                          v-else
@@ -297,9 +297,8 @@
         mounted(){
             this.getServiceInformation();
             this.getServiceBindingList();
+            this.getServiceTransaction();
             this.getAllTxType();
-            //this.getServiceTransaction()
-            // this.getServiceTransaction()
         },
         methods : {
             pageChange(pageNum){
@@ -307,11 +306,9 @@
                 this.getServiceTransaction();
             },
             async getServiceInformation(){
-
                 const res = await getServiceDetail(this.$route.query.serviceName);
-
                 try {
-                    console.log(res)
+                    console.log('---',res)
                     if(res.msgs && res.msgs.length > 0 && res.msgs[0].msg){
                         const {author, author_description, description, name, schemas, tags} = res.msgs[0].msg;
                         this.author = author;
@@ -324,7 +321,7 @@
                         this.height = res.height;
                         this.time = Tools.getDisplayDate(res.time);
                     }
-                    this.getServiceTransaction();
+
                 } catch (e) {
                     this.$message.error('获取service信息错误,请稍后重试');
                 }
@@ -344,6 +341,7 @@
                                     let deposit = `${b.deposit[0].amount} ${b.deposit[0].denom}`;
                                     if(s.provider === b.provider){
                                         s.isAvailable = b.available ? 'True' : 'False';
+                                        s.available = b.available;
                                         s.price = JSON.parse(b.pricing).price;
                                         s.qos = `${b.qos} blocks`;
                                         s.deposit = deposit;
@@ -379,12 +377,12 @@
                         this.txPageNum,
                         this.txPageSize
                     );
-                    console.log(res);
+
                     this.transactionArray = res.data.map((item) =>{
                         let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
                         let requestContextId = TxHelper.getContextId(item.msgs[0], item.events);
-                        let from = addrObj ? addrObj.from : '--',
-                            to = addrObj ? addrObj.to : '--';
+                        let from = (addrObj && addrObj.from) ? addrObj.from : '--',
+                            to = (addrObj && addrObj.to) ? addrObj.to : '--';
                         return {
                             type : item.type,
                             from,
