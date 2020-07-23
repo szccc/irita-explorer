@@ -458,6 +458,7 @@
                     if(res){
                         console.log('ConsumerTx======:',res);
                         this.consumerTxCount = res.count;
+                        this.consumerTxList = [];
                         for (let item of res.data){
                             let result = {
                                 serviceName:item.msgs[0].msg.ex.service_name,
@@ -520,7 +521,7 @@
                     if(res){
                         console.log('RspondRecordList======:',res);
                         this.respondRecordCount = res.count;
-                        this.respondRecordList = res.data;
+                        this.respondRecordList = res.data || [];
                     }
                 }catch (e) {
                     this.$message.error('获取交易列表失败,请稍后重试');
