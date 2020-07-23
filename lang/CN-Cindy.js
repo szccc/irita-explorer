@@ -14,6 +14,9 @@ export const ExplorerCN = {
 		serviceTxListFailed:'获取服务交易列表失败,请稍后重试',
 		txInfoFailed:'获取交易信息失败,请稍后重试',
 	},
+  table:{
+	  emptyDescription:'更多内容敬请期待...'
+  },
 	Navigation:{
 		block: '区块浏览',
 		transactions: '交易浏览',

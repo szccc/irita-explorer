@@ -223,13 +223,10 @@
 
                 try{
                     const res = await getTxList(params);
-                    console.log("-----",res)
-
                     this.transactionArray = res.data.map((tx)=>{
                         let addrObj = TxHelper.getFromAndToAddressFromMsg(tx.msgs[0]);
                         let from = (addrObj && addrObj.from) ? addrObj.from : '--',
                             to = (addrObj && addrObj.to) ? addrObj.to : '--';
-                        console.log("======",from, to)
                         return {
                             txHash : tx.tx_hash,
                             blockHeight : tx.height,
@@ -244,7 +241,6 @@
                     this.txCount = res.count;
                     this.pageNum = res.pageNum;
                     this.pageSize = res.pageSize;
-                    // console.log(this.transactionArray)
                 }catch (e) {
                     console.error(e);
                     this.$message.error('获取交易列表失败,请稍后重试');

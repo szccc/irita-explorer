@@ -53,7 +53,7 @@
                 <h3 class="service_information_binding_title">
                     {{$t('ExplorerCN.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
-                    <el-table :data="serviceList">
+                    <el-table :data="serviceList" empty-text="-- 暂无服务提供者 --">
                         <el-table-column min-width="120px"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
                             <template slot-scope="scope">
@@ -141,7 +141,7 @@
                     </div>
                 </div>
                 <div class="service_information_transaction_table_content">
-                    <el-table :data="transactionArray">
+                    <el-table :data="transactionArray" empty-text="-- 暂无交易 --">
                         <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"

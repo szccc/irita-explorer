@@ -16,7 +16,7 @@
                     </span>
                 </div>
 
-				<el-table :data="service.bindList">
+				<el-table :data="service.bindList" empty-text="-- 暂无可用服务 --">
 					<el-table-column min-width="140px" :label="$t('ExplorerCN.service.provider')">
 						<template slot-scope="scope">
 							<span>
@@ -65,6 +65,12 @@
 					
 				</m-pagination>
 			</div>
+            <div class="service_list_empty_container" v-if="serviceList.length === 0">
+                <img src="../assets/empty.png" alt="" class="service_list_empty">
+                <span class="service_list_empty_description">
+                    {{ $t('ExplorerCN.table.emptyDescription') }}
+                </span>
+            </div>
 		</div>
 	</div>
 </template>
@@ -162,6 +168,23 @@
         }
 		.service_list_content_wrap{
 			margin: 0 auto;
+            .service_list_empty_container{
+                display:flex;
+                flex-direction:column;
+                align-items: center;
+                margin-top:1.32rem;
+                .service_list_empty{
+                    height:1.78rem;
+                    width:1.74rem;
+                    margin-bottom:0.18rem;
+                }
+                .service_list_empty_description{
+                    color:#B8B8B8;
+                    font-size:0.14rem;
+
+                }
+            }
+
 			.service_list_title{
                 text-align: left;
                 margin: 0.42rem 0 0.15rem 0;
