@@ -13,6 +13,9 @@ export const ExplorerCN = {
 		serviceListFailed:'获取service交易列表错误,请稍后重试',
 		serviceTxListFailed:'获取服务交易列表失败,请稍后重试',
 		txInfoFailed:'获取交易信息失败,请稍后重试',
+		callServiceListFailed:'获取消费者服务调用列表失败,请稍后重试',
+		respondRecordFailed:'获取响应记录失败,请稍后重试',
+		providerServiceListFailed:'获取提供者服务调用列表失败,请稍后重试'
 	},
   table:{
 	  emptyDescription:'更多内容敬请期待...'

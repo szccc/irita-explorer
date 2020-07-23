@@ -172,7 +172,7 @@
                     }
                 }catch (e) {
                 		console.error(e);
-                    this.$message.error('获取交易列表失败,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
                 }
 			},
 			skipNext(num) {
