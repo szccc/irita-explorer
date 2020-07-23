@@ -256,7 +256,7 @@
 	                    <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
                 </div>
-				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="txList">
+				<el-table :data="txList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
