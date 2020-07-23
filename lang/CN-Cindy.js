@@ -5,6 +5,9 @@ export const ExplorerCN = {
 		failed:'Failed',
 		allTxType:'All TxType',
 	},
+    table:{
+	    emptyDescription:'更多内容敬请期待...'
+    },
 	Navigation:{
 		block: '区块浏览',
 		transactions: '交易浏览',
