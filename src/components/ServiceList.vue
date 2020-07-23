@@ -12,7 +12,9 @@
                         </router-link>
                     </span>
                     <span class="service_list_service_name">
-                        {{ service.description }}
+                        <router-link :to="`/service?serviceName=${service.serviceName}`">
+                            {{ service.description }}
+                        </router-link>
                     </span>
                 </div>
 

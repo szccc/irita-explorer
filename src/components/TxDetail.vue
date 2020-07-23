@@ -1142,7 +1142,7 @@
                     .tx_information_list_item {
                         display: flex;
                         justify-content: flex-start;
-                        margin-bottom: 0.48rem;
+                        margin-bottom: 0.26rem;
                         span:nth-of-type(1) {
                             text-align: left;
                             min-width: 1.5rem;
@@ -1212,7 +1212,7 @@
                         }
                         p {
                             display: flex;
-                            margin-bottom: 0.48rem;
+                            margin-bottom: 0.26rem;
                             span:nth-of-type(1) {
                                 color: #787C99;
                                 min-width: 1.5rem;

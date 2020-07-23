@@ -340,7 +340,6 @@
                             serviceList.data.forEach((s) =>{
                                 s.bindTime = Tools.getDisplayDate(s.bindTime);
                                 bindings.result.forEach((b) =>{
-                                    console.log('-------', b.pricing)
                                     let deposit = `${b.deposit[0].amount} ${b.deposit[0].denom}`;
                                     if(s.provider === b.provider){
                                         s.isAvailable = b.available ? 'True' : 'False';
@@ -526,7 +525,7 @@
                     .service_information_text_content {
                         display: flex;
                         justify-content: flex-start;
-                        margin-bottom: 0.46rem;
+                        margin-bottom: 0.26rem;
                         span:nth-of-type(1) {
                             font-size: 0.14rem;
                             line-height: 0.16rem;
