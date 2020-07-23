@@ -1107,7 +1107,7 @@
                     color: #171D44;
                     font-size: 0.18rem;
                     line-height: 0.21rem;
-                    margin: 0.3rem 0 0.15rem 0.15rem;
+                    margin: 0.3rem 0 0.15rem 0.25rem;
                     text-align: left;
                     font-family:PingFangSC-Semibold,PingFang SC;
                     font-weight:600;
@@ -1129,6 +1129,8 @@
                     padding: 0.25rem;
                     background: #fff;
                     text-align:left;
+                    border-radius:0.05rem;
+                    border:1px solid #D7D7D7;
                     .tx_information_list_title{
                         font-size:0.16rem;
                         font-family:PingFangSC-Semibold,PingFang SC;
@@ -1168,6 +1170,8 @@
                         box-sizing: border-box;
                         padding: 0.25rem;
                         background: #fff;
+                        border-radius:0.05rem;
+                        border:1px solid #D7D7D7;
                         .tx_information_tx_message_title {
                             text-align: left;
                             font-size: 0.16rem;
