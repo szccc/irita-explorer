@@ -208,7 +208,7 @@
 
                 } catch (e) {
                     console.error(e);
-                    this.$message.error('获取service信息错误,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.serviceInfoFailed'));
                 }
             },
 
@@ -232,14 +232,13 @@
                             requestHash : item.requestHash,
                             respondStatus : item.respondStatus,
                         };
-
                     });
                     this.txCount = res.count;
                     this.txPageNum = Number(res.pageNum);
                     this.txPageSize = Number(res.pageSize);
                 } catch (e) {
                     console.error(e);
-                    this.$message.error('获取交易列表错误,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
                 }
 
             },

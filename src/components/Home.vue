@@ -155,7 +155,7 @@
 						this.serverNumber = statistics.serviceCount;
 					}
 				}catch(err){
-
+					console.error(err);
 				}
 			},
 			async getLastBlocks(){
@@ -191,7 +191,7 @@
 							},1000)
 						}
 				}catch(err){
-
+					console.error(err);
 				}
 			},
 			async getTransaction(){
@@ -241,7 +241,7 @@
                         },1000)
                     }
                 }catch (e) {
-                    //this.$message.error('获取交易列表失败,请稍后重试');
+                    //this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
                     console.error(e);
                 }
 

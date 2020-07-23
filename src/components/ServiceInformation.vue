@@ -325,7 +325,8 @@
                     }
 
                 } catch (e) {
-                    this.$message.error('获取service信息错误,请稍后重试');
+                    console.error(e);
+                    this.$message.error(this.$t('ExplorerCN.message.serviceInfoFailed'));
                 }
             },
             async getServiceBindingList(){
@@ -360,7 +361,7 @@
                     }
                 } catch (e) {
                     console.error(e)
-                    this.$message.error('获取service绑定交易列表错误,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.serviceBindFailed'));
                 }
 
 
@@ -403,9 +404,8 @@
                     this.txPageSize = Number(res.pageSize);
                 } catch (e) {
                     console.error(e)
-                    this.$message.error('获取service交易列表错误,请稍后重试');
+                    this.$message.error(this.$t('ExplorerCN.message.serviceListFailed'));
                 }
-
             },
             async getAllTxType(){
                 try {
@@ -418,7 +418,7 @@
                     });
                 } catch (e) {
                     console.error(e);
-                    this.$message.error('获取交易类型失败,请稍后重试');
+                    // this.$message.error(this.$t('ExplorerCN.message.txTypeFailed'));
                 }
 
             },
