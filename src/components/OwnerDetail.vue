@@ -263,6 +263,7 @@
                     <div class="search_btn" @click="handleSearchClick">
                         {{$t('ExplorerCN.transactions.search')}}
                     </div>
+                    <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                 </div>
 				<el-table :data="txList">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
@@ -634,6 +635,12 @@
                 this.pageNum = 1;
                 this.getTxByAddress();
             },
+            resetFilterCondition(){
+                this.type = '';
+				this.status = '';
+                this.pageNum = 1;
+                this.getTxByAddress();
+            },
             async getAllTxType(){
                 try {
                     const res = await getAllServiceTxTypes();
@@ -807,6 +814,19 @@
                         padding: 0.05rem 0.18rem;
                         font-size: 0.14rem;
                         line-height: 0.2rem;
+                    }
+                    .reset_btn {
+                        background: #3264FD;
+                        color: #fff;
+                        border-radius: 0.04rem;
+                        margin-left: 0.1rem;
+                        cursor: pointer;
+                        i {
+                            padding: 0.08rem;
+                            font-size: 0.14rem;
+                            line-height: 1;
+                            display: inline-block;
+                        }
                     }
                 }
                 .pagination_content{
