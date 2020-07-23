@@ -15,7 +15,7 @@
 						</div>
 					</div>
 					<div class="block_list_pagination_content">
-						<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="blockList" stripe>
+						<el-table :data="blockList" stripe :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 							<el-table-column :label="$t('ExplorerCN.block.block')">
 								<template slot-scope="scope">
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>

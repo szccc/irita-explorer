@@ -7,7 +7,7 @@
 	      	</div>
 			<div class="address_asset_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
-				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="assetArray">
+				<el-table :data="assetArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column :label="$t('ExplorerCN.addressDetail.denom')" width="150px">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.denom}}</router-link>
@@ -30,10 +30,10 @@
 			</div>
 			<div class="consumer_transaction_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.consumerTitle')}}</div>
-				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="consumerTxList"
+				<el-table :data="consumerTxList"
 						  row-key="txHash"
+                          :empty-text="$t('ExplorerCN.element.table.emptyDescription')"
 						  :span-method="arraySpanMethod"
-					      default-expand-all
     					  >
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
@@ -116,7 +116,7 @@
 			</div>
 			<div class="provider_transaction_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.providerTitle')}}</div>
-				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="providerTxList">
+				<el-table :data="providerTxList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.serviceName" placement="top">
@@ -164,7 +164,7 @@
 					</el-table-column>
 				</el-table>
 				<div class="content_title" style="margin-top:0.4rem">{{$t('ExplorerCN.addressDetail.respondRecord')}}</div>
-				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="respondRecordList">
+				<el-table :data="respondRecordList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.serviceName" placement="top">
@@ -470,7 +470,7 @@
                         this.consumerTxList = [];
                         for (let item of res.data){
                             let result = {
-                                serviceName:(item.msgs[0].msg.ex || {}).service_name,
+                                serviceName:(item.msgs[0].msg.ex || {}).service_name || '',
 								txHash: item.tx_hash,
 								blockHeight: item.height,
 								txType: item.type,
@@ -498,7 +498,7 @@
 	                        			index,
 	                        			isChildren:true,
 	                        			count:item.respond.length,
-		                        		serviceName:(r.msgs[0].msg.ex || {}).service_name,
+		                        		serviceName:(r.msgs[0].msg.ex || {}).service_name || '',
 										txHash: r.tx_hash,
 										blockHeight: r.height,
 										txType: r.type,

@@ -48,7 +48,9 @@ export class TxHelper {
                 break;
             case TX_TYPE.respond_service:
                 res.from = msg.provider;
-                res.to = (msg.ex || {}).consumer;
+                if(msg.ex && msg.ex.consumer){
+                    res.to = msg.ex.consumer;
+                }
                 break;
             case TX_TYPE.pause_request_context:
                 res.from = msg.consumer;
@@ -125,7 +127,7 @@ export class TxHelper {
                 }
                 break;
             case TX_TYPE.respond_service:
-                requestContextId = (msg.ex || {}).request_context_id;
+                requestContextId = msg.ex ? msg.ex.request_context_id : '';
                 break;
             case TX_TYPE.pause_request_context:
                 requestContextId = msg.request_context_id;

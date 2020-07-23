@@ -38,7 +38,7 @@
                                         @change="getStartTime(beginTime)"
                                         :editable="false"
                                         value-format="yyyy-MM-dd"
-                                        placeholder="Select Date">
+                                        :placeholder="$t('ExplorerCN.element.date.select')">
                         </el-date-picker>
                         <span class="joint_mark">~</span>
                         <el-date-picker type="date"
@@ -46,7 +46,7 @@
                                         value-format="yyyy-MM-dd"
                                         @change="getEndTime(endTime)"
                                         :editable="false"
-                                        placeholder="Select Date">
+                                        :placeholder="$t('ExplorerCN.element.date.select')">
                         </el-date-picker>
                     </div>
                     <div class="tx_type_mobile_content">
@@ -55,7 +55,7 @@
                     </div>
             </div>
             <div class="tx_list_content">
-                <el-table :data="transactionArray">
+                <el-table :data="transactionArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
                     <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                         <template slot-scope="scope">
                             <div class="tx_transaction_content_hash">
@@ -90,15 +90,24 @@
                     </el-table-column>
                     <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
                         <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.to"
-                                        class="item"
-                                        placement="top"
-                                        effect="dark">
-                                <router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">
-                                    {{formatAddress(scope.row.to)}}
+                            <span v-if="scope.row.to === '--'">--</span>
+                            <div class="service_tx_to_container" v-else>
+                                <router-link
+                                        v-if="typeof scope.row.to === 'string'"
+                                        :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}
                                 </router-link>
-                            </el-tooltip>
-                            <span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
+                                <div class="service_tx_muti_to_container" v-else>
+                                    <router-link :to="`/address/${scope.row.to[0]}`">
+                                        {{formatAddress(scope.row.to[0])}}
+                                    </router-link>
+                                    <router-link :to="`/address/${scope.row.to[1]}`">
+                                        {{formatAddress(scope.row.to[1])}}
+                                    </router-link>
+                                    <router-link :to="`/tx?txHash=${scope.row.txHash}`">
+                                        ...
+                                    </router-link>
+                                </div>
+                            </div>
                         </template>
                     </el-table-column>
                     <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
@@ -412,6 +421,16 @@
         .tx_content_wrap {
             margin: 0 auto;
             box-sizing: border-box;
+            .service_tx_to_container{
+                .service_tx_muti_to_container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    .service_tx_muti_to_ellipsis {
+                        color: #3264FD;
+                    }
+                }
+            }
             .service_tx_status {
                 position: relative;
                 top: 0.02rem;

@@ -49,7 +49,7 @@
                     <p class="service_respond_record_text_content">
                         <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.owner')}}:</span>
                         <span>
-                            <router-link :to="`/address/owner`">
+                            <router-link :to="`/address/${owner}`">
                                 {{owner}}
                             </router-link>
                         </span>
@@ -71,8 +71,8 @@
                     {{$t('ExplorerCN.serviceDetail.txRecord')}}
                 </h3>
                 <div class="service_respond_record_transaction_table_content">
-                    <el-table :empty-text="$t('ExplorerCN.common.noData')" :data="txList">
-                        <el-table-column min-width="100px" :label="$t('ExplorerCN.serviceDetail.respondHash')">
+                    <el-table :data="txList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.respondStatus === 1"
@@ -88,7 +88,7 @@
                         <el-table-column :label="$t('ExplorerCN.transactions.type')" width="150px"
                                          prop="type"></el-table-column>
 
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.requestId')">
+                        <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip :content="scope.row.requestContextId"
                                             v-if="scope.row.requestContextId">
@@ -258,6 +258,43 @@
     a {
         color: #3264FD !important;
     }
+    @media screen and (min-width: 910px){
+        .service_respond_record_content_wrap{
+            max-width: 12rem;
+            .service_respond_record_title {
+                padding-left: 0.27rem;
+                .service_respond_record_provider {
+
+                    margin-right: 0.15rem;
+                }
+                .service_respond_record_spread {
+                    margin: 0 0.15rem;
+                }
+            }
+
+        }
+
+    }
+    @media screen and (max-width: 910px){
+        .service_respond_record_content_wrap{
+            width:100%;
+            padding:0 0.15rem;
+            box-sizing: border-box;
+            .service_respond_record_title {
+                display:flex;
+                flex-direction:column;
+                .service_respond_record_provider {
+                    margin: 0.1rem 0;
+                }
+                .service_respond_record_spread {
+                    display:none;
+                }
+
+            }
+
+        }
+
+    }
 
     .service_respond_record_container {
         padding: 0 0.15rem;
@@ -271,7 +308,6 @@
                 margin: 0.42rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
-                padding-left: 0.27rem;
                 font-size: 0.18rem;
                 font-weight: 600;
                 color: #171D44;

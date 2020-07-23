@@ -199,7 +199,7 @@
                             <div class="record_content">
                                 <p class="record_name">Contents：</p>
                                 <div class="record_list_content">
-                                    <el-table :empty-text="$t('ExplorerCN.common.noData')" :data="recordArray">
+                                    <el-table :data="recordArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
                                         <el-table-column label="digest" prop="digest" width="300px"></el-table-column>
                                         <el-table-column label="digest algo" width="150px"
                                                          prop="digest_algo"></el-table-column>
@@ -610,7 +610,7 @@
                             {{$t('ExplorerCN.transactionInformation.relevanceTx')}}
                         </div>
                         <div class="tx_information_relevance_tx_list_content">
-                            <el-table :empty-text="$t('ExplorerCN.common.noData')" :data="relevanceTxs">
+                            <el-table :data="relevanceTxs" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
                                 <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                                     <template slot-scope="scope">
                                         <div class="tx_information_relevance_tx_list_content_hash" >
@@ -1142,7 +1142,7 @@
                     .tx_information_list_item {
                         display: flex;
                         justify-content: flex-start;
-                        margin-bottom: 0.48rem;
+                        margin-bottom: 0.26rem;
                         span:nth-of-type(1) {
                             text-align: left;
                             min-width: 1.5rem;
@@ -1212,7 +1212,7 @@
                         }
                         p {
                             display: flex;
-                            margin-bottom: 0.48rem;
+                            margin-bottom: 0.26rem;
                             span:nth-of-type(1) {
                                 color: #787C99;
                                 min-width: 1.5rem;

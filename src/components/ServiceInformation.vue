@@ -53,7 +53,7 @@
                 <h3 class="service_information_binding_title">
                     {{$t('ExplorerCN.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
-                    <el-table :empty-text="$t('ExplorerCN.common.noData')" :data="serviceList">
+                    <el-table :data="serviceList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
                         <el-table-column min-width="120px"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
                             <template slot-scope="scope">
@@ -94,7 +94,8 @@
                         <el-table-column min-width="120px"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.pricing')"
                                          prop="price"></el-table-column>
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
+                        <el-table-column min-width="120px"
+                                         :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
                                          prop="deposit"></el-table-column>
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')"
                                          prop="qos"></el-table-column>
@@ -136,13 +137,19 @@
                                    :label="item.label"
                                    :value="item.value"></el-option>
                     </el-select>
-                    <div class="search_btn" @click="handleSearchClick">
-                        {{$t('ExplorerCN.transactions.search')}}
+                    <div class="tx_type_mobile_content">
+                        <div class="search_btn" @click="handleSearchClick">
+                            {{$t('ExplorerCN.transactions.search')}}
+                        </div>
+                        <div class="reset_btn" @click="resetFilterCondition">
+                            <i class="iconfont iconzhongzhi"></i>
+                        </div>
                     </div>
                 </div>
+
                 <div class="service_information_transaction_table_content">
-                    <el-table :empty-text="$t('ExplorerCN.common.noData')" :data="transactionArray">
-                        <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
+                    <el-table :data="transactionArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
+                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.status === 1"
@@ -155,7 +162,7 @@
                                 </router-link>
                             </template>
                         </el-table-column>
-                        <el-table-column min-width="160px" :label="$t('ExplorerCN.transactions.type')"
+                        <el-table-column min-width="180px" :label="$t('ExplorerCN.transactions.type')"
                                          prop="type"></el-table-column>
 
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.requestId')">
@@ -166,7 +173,7 @@
                                 <span v-else>--</span>
                             </template>
                         </el-table-column>
-                        <el-table-column  :label="$t('ExplorerCN.transactions.from')">
+                        <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.from')">
                             <template slot-scope="scope">
                                 <router-link :to="`/address/${scope.row.from}`"
                                              v-if="scope.row.from !== '--'">
@@ -191,7 +198,9 @@
                                         <router-link :to="`/address/${scope.row.to[1]}`">
                                             {{formatAddress(scope.row.to[1])}}
                                         </router-link>
-                                        <span class="service_tx_muti_to_ellipsis">...</span>
+                                        <router-link :to="`/tx?txHash=${scope.row.txHash}`">
+                                            ...
+                                        </router-link>
                                     </div>
                                 </div>
                             </template>
@@ -260,8 +269,10 @@
                 providerCount : 0,
                 providerPageNum : 1,
                 Tools,
-                type : '',
+                txType : '',
+                txStatus : '',
                 status : '',
+                type : '',
                 statusOpt : [
                     {
                         value : '',
@@ -299,7 +310,7 @@
             async getServiceInformation(){
                 const res = await getServiceDetail(this.$route.query.serviceName);
                 try {
-                    console.log('---',res)
+                    console.log('---', res)
                     if(res.msgs && res.msgs.length > 0 && res.msgs[0].msg){
                         const {author, author_description, description, name, schemas, tags} = res.msgs[0].msg;
                         this.author = author;
@@ -329,7 +340,6 @@
                             serviceList.data.forEach((s) =>{
                                 s.bindTime = Tools.getDisplayDate(s.bindTime);
                                 bindings.result.forEach((b) =>{
-                                    console.log('-------',b.pricing)
                                     let deposit = `${b.deposit[0].amount} ${b.deposit[0].denom}`;
                                     if(s.provider === b.provider){
                                         s.isAvailable = b.available ? 'True' : 'False';
@@ -363,8 +373,8 @@
             async getServiceTransaction(){
                 try {
                     const res = await getServiceTxList(
-                        this.type,
-                        this.status,
+                        this.txType,
+                        this.txStatus,
                         this.$route.query.serviceName,
                         this.txPageNum,
                         this.txPageSize
@@ -412,6 +422,14 @@
 
             },
             handleSearchClick(){
+                this.txStatus = this.status;
+                this.txType = this.type;
+                this.txPageNum = 1;
+                this.getServiceTransaction();
+            },
+            resetFilterCondition(){
+                this.txStatus = this.status = '';
+                this.txType = this.type = '';
                 this.txPageNum = 1;
                 this.getServiceTransaction();
             },
@@ -432,6 +450,45 @@
         color: #3264FD !important;
     }
 
+    @media screen and (min-width: 910px){
+        .service_information_transaction_condition_container{
+            max-width: 12rem;
+            .service_information_title {
+                padding-left: 0.27rem;
+            }
+            .tx_content_header_wrap{
+                display: flex;
+                justify-content: flex-start;
+            }
+        }
+
+    }
+    @media screen and (max-width: 910px){
+        .service_information_content_wrap{
+            width:100%;
+            padding:0 0.15rem;
+            box-sizing: border-box;
+            .service_information_transaction_condition_container{
+                display: flex;
+                flex-direction:column;
+                align-items: flex-start;
+
+                .tx_type_mobile_content{
+                    margin-bottom:0.1rem;
+                    &:last-child{
+                        width:100%;
+                        justify-content: flex-end;
+                        .search_btn{
+                            margin-left:0;
+                        }
+                    }
+
+                }
+            }
+        }
+
+    }
+
     .service_information_container {
         padding: 0 0.15rem;
         .service_information_content_wrap {
@@ -444,7 +501,6 @@
                 margin: 0.42rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
-                padding-left: 0.27rem;
                 font-size: 0.18rem;
                 font-weight: 600;
                 color: #171D44;
@@ -454,8 +510,8 @@
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
-                border-radius:5px;
-                border:1px solid rgba(215,215,215,1);
+                border-radius: 5px;
+                border: 1px solid rgba(215, 215, 215, 1);
                 .service_information_definition_title {
                     font-size: 0.18rem;
                     color: #22252A;
@@ -469,7 +525,7 @@
                     .service_information_text_content {
                         display: flex;
                         justify-content: flex-start;
-                        margin-bottom: 0.46rem;
+                        margin-bottom: 0.26rem;
                         span:nth-of-type(1) {
                             font-size: 0.14rem;
                             line-height: 0.16rem;
@@ -498,8 +554,8 @@
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
-                border-radius:5px;
-                border:1px solid rgba(215,215,215,1);
+                border-radius: 5px;
+                border: 1px solid rgba(215, 215, 215, 1);
                 .service_information_binding_title {
                     font-size: 0.18rem;
                     color: #22252A;
@@ -509,8 +565,8 @@
                 }
                 .service_information_bindings_table_content {
                     background: #fff;
-                    .service_information_available_container{
-                        display:flex;
+                    .service_information_available_container {
+                        display: flex;
                         align-items: center;
                     }
                 }
@@ -519,8 +575,8 @@
                 background: #ffffff;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
-                border-radius:5px;
-                border:1px solid rgba(215,215,215,1);
+                border-radius: 5px;
+                border: 1px solid rgba(215, 215, 215, 1);
                 .service_information_transaction_title {
                     font-size: 0.18rem;
                     color: #22252A;
@@ -571,23 +627,38 @@
                         }
 
                     }
-                    .search_btn {
-                        cursor: pointer;
-                        background: #3264FD;
-                        color: #fff;
-                        border-radius: 0.04rem;
-                        padding: 0.05rem 0.18rem;
-                        font-size: 0.14rem;
-                        line-height: 0.2rem;
+                    .tx_type_mobile_content{
+                        display: flex;
+                        align-items: center;
+                        .search_btn {
+                            cursor: pointer;
+                            background: #3264FD;
+                            color: #fff;
+                            border-radius: 0.04rem;
+                            padding: 0.05rem 0.18rem;
+                            font-size: 0.14rem;
+                            line-height: 0.2rem;
+                        }
+                        .reset_btn {
+                            cursor: pointer;
+                            background: #3264FD;
+                            margin-left: 0.1rem;
+                            color: #fff;
+                            border-radius: 0.04rem;
+                            padding: 0.05rem 0.1rem;
+                            font-size: 0.14rem;
+                            line-height: 0.2rem;
+                        }
                     }
+
                 }
                 .service_information_transaction_table_content {
                     background: #fff;
                     .service_tx_status {
                         position: relative;
                         top: 0.02rem;
-                        width:0.13rem;
-                        height:0.13rem;
+                        width: 0.13rem;
+                        height: 0.13rem;
                     }
                     .service_tx_to_container {
 
@@ -651,11 +722,11 @@
                     .service_information_transaction_table_content {
 
                     }
-                    .service_information_transaction_condition_container{
-                        flex-direction:column;
+                    .service_information_transaction_condition_container {
+                        flex-direction: column;
                         align-items: flex-start;
                         .service_information_transaction_condition_count {
-                            margin-bottom:0.1rem;
+                            margin-bottom: 0.1rem;
                         }
                         /deep/ .el-select {
                             width: 100%;

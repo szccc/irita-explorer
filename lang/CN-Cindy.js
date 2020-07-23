@@ -1,11 +1,19 @@
 export const ExplorerCN = {
 	common:{
-		allTxStatus:'All Status',
+		allTxStatus:'所有交易状态',
 		success:'Success',
 		failed:'Failed',
-		allTxType:'All TxType',
-		noData:'- 暂时没有内容 -',
+		allTxType:'所有交易类型',
 	},
+    element:{
+	    table:{
+            emptyDescription:'- 暂时没有内容 -'
+        },
+        date:{
+	        select:'选择日期'
+        }
+
+    },
 	message:{
 		txListFailed:'获取交易列表失败,请稍后重试',
 		txTypeFailed:'获取交易类型失败,请稍后重试',
@@ -18,9 +26,6 @@ export const ExplorerCN = {
 		respondRecordFailed:'获取响应记录失败,请稍后重试',
 		providerServiceListFailed:'获取提供者服务调用列表失败,请稍后重试'
 	},
-  table:{
-	  emptyDescription:'更多内容敬请期待...'
-  },
 	Navigation:{
 		block: '区块浏览',
 		transactions: '交易浏览',
