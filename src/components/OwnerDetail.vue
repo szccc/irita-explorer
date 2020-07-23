@@ -7,17 +7,7 @@
 	      	</div>
 			<div class="address_asset_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
-				<el-table :data="assetArray">
-					<el-table-column min-width="0.12rem" :label="$t('ExplorerCN.addressDetail.owner')" width="150px">
-						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.owner"
-							            class="item"
-							            placement="top"
-							            effect="dark">
-								<router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
-							</el-tooltip>
-						</template>
-					</el-table-column>
+				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="assetArray">
 					<el-table-column :label="$t('ExplorerCN.addressDetail.denom')" width="150px">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.denom}}</router-link>
@@ -40,7 +30,7 @@
 			</div>
 			<div class="consumer_transaction_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.consumerTitle')}}</div>
-				<el-table :data="consumerTxList"
+				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="consumerTxList"
 						  row-key="txHash"
 						  :span-method="arraySpanMethod"
 					      default-expand-all
@@ -88,7 +78,6 @@
                     </el-table-column>
                     <el-table-column min-width="120px" :label="$t('ExplorerCN.transactionInformation.provider')">
                         <template slot-scope="scope">
-                            
                             <el-tooltip v-if="scope.row.txType=='respond_service'" 
                             			effect="dark"
 								        :content="scope.row.provider"
@@ -127,7 +116,7 @@
 			</div>
 			<div class="provider_transaction_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.providerTitle')}}</div>
-				<el-table :data="providerTxList">
+				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="providerTxList">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.serviceName" placement="top">
@@ -175,7 +164,7 @@
 					</el-table-column>
 				</el-table>
 				<div class="content_title" style="margin-top:0.4rem">{{$t('ExplorerCN.addressDetail.respondRecord')}}</div>
-				<el-table :data="respondRecordList">
+				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="respondRecordList">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
 							<el-tooltip class="item" effect="dark" :content="scope.row.serviceName" placement="top">
@@ -260,12 +249,14 @@
                                    :label="item.label"
                                    :value="item.value"></el-option>
                     </el-select>
-                    <div class="search_btn" @click="handleSearchClick">
-                        {{$t('ExplorerCN.transactions.search')}}
+                    <div class="address_transaction_condition_action">
+                    	<div class="search_btn" @click="handleSearchClick">
+	                        {{$t('ExplorerCN.transactions.search')}}
+	                    </div>
+	                    <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
-                    <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                 </div>
-				<el-table :data="txList">
+				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="txList">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
@@ -294,10 +285,24 @@
 					</el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
 						<template slot-scope="scope">
-							<el-tooltip class="item" effect="dark" :content="scope.row.to" placement="top">
-								<router-link  v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
-							</el-tooltip>
-							<span v-if="scope.row.to === '--'">--</span>
+                            <div v-if="scope.row.txType=='call_service'">
+                                <p v-for="to in getCallProviders(scope.row.to)">
+                                    <el-tooltip effect="dark"
+								            	:content="to"
+								            	placement="top">
+						            	<router-link :to="`/address/${to}`">
+                                        	{{formatAddress(to)}}
+                                    	</router-link>
+									</el-tooltip>
+                                </p>
+                                <p v-if="scope.row.txType=='call_service' && (scope.row.to || []).length > 2"> ... </p>
+                            </div>
+                            <div v-else>
+                            	<el-tooltip class="item" effect="dark" :content="scope.row.to" placement="top">
+									<router-link  v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
+								</el-tooltip>
+								<span v-if="scope.row.to === '--'">--</span>
+                            </div>
 						</template>
 					</el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
@@ -331,6 +336,7 @@
 	import { getNfts } from "../service/api"
 	import Tools from "../util/Tools"
 	import MPagination from "./MPagination";
+	import {TxHelper} from "../helper/TxHelper";
     import {getAddressTxList,
     		getCallServiceWithAddress,
 			getRespondServiceWithAddress,
@@ -431,12 +437,13 @@
                         console.log('addressTx======:',res);
                         this.totalTxNumber = res.count;
                         this.txList = res.data.map(item => {
+                        	let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
                             return{
                                 txHash: item.tx_hash,
                                 blockHeight: item.height,
                                 txType: item.type,
-                                from: item.from ? item.from : '--',
-                                to: item.to ? item.to : '--',
+                                from: addrObj.from || '--',
+                                to: addrObj.to || '--',
                                 signer: item.signer,
                                 status:item.status,
                                 time: Tools.getDisplayDate(item.time),
@@ -684,8 +691,8 @@
 		            margin-right:0.05rem;
 		        }
 		        .address_content_title_address{
-		            font-size:0.14rem;
-		            font-family:PingFangSC-Regular,PingFang SC;
+		            font-size:0.16rem;
+		            font-family:ArialMT;
 		            font-weight:400;
 		            color:#171D44;
 		            line-height:20px;
@@ -815,19 +822,23 @@
                         font-size: 0.14rem;
                         line-height: 0.2rem;
                     }
-                    .reset_btn {
-                        background: #3264FD;
-                        color: #fff;
-                        border-radius: 0.04rem;
-                        margin-left: 0.1rem;
-                        cursor: pointer;
-                        i {
-                            padding: 0.08rem;
-                            font-size: 0.14rem;
-                            line-height: 1;
-                            display: inline-block;
-                        }
+                    .address_transaction_condition_action{
+                    	display:flex;
+                    	.reset_btn {
+	                        background: #3264FD;
+	                        color: #fff;
+	                        border-radius: 0.04rem;
+	                        margin-left: 0.1rem;
+	                        cursor: pointer;
+	                        i {
+	                            padding: 0.08rem;
+	                            font-size: 0.14rem;
+	                            line-height: 1;
+	                            display: inline-block;
+	                        }
+	                    }
                     }
+                    
                 }
                 .pagination_content{
 					margin: 0.2rem 0 0.2rem 0;
@@ -851,6 +862,85 @@
                 height:0.13rem;
                 margin-right:0.05rem;
             }
+		}
+	}
+
+	@media screen and (max-width: 768px) {
+		.address_container_content{
+			.address_content_wrap{
+				.address_content_title {
+			        .address_content_title_first{
+			        }
+			        .address_content_title_address{
+			        }
+			    }
+				.address_asset_content{
+				}
+				.consumer_transaction_content{
+					.consumer_transaction_content_hash{
+					}
+					.consumer_transaction_content_available{
+	                    .consumer_transaction_content_available_icon{
+	                    }
+					}
+					.pagination_content{
+					}
+				}
+				.provider_transaction_content{
+					.respond_transaction_content_hash{
+					}
+					.provider_transaction_content_available{
+	                    .provider_transaction_content_available_icon{
+	                    }
+					}
+					.pagination_content{
+					}
+				}
+
+				.address_transaction_content{
+					.address_transaction_content_hash{
+					}
+					.address_transaction_condition_container {
+						flex-direction:column;
+                        align-items: flex-start;
+	                    .address_transaction_condition_count {
+	                    	margin-bottom:0.1rem;
+	                    }
+	                    /deep/ .el-select {
+	                    	width: 100%;
+                            margin-bottom: 0.1rem;
+	                        .el-input {
+	                            .el-input__inner {
+	                            }
+	                            .el-input__inner:focus {
+	                            }
+	                            .el-input__suffix {
+	                                .el-input__suffix-inner {
+	                                    .el-input__icon {
+	                                    }
+	                                }
+	                            }
+	                        }
+	                        .is-focus {
+	                            .el-input__inner {
+	                            }
+	                        }
+	                    }
+	                    .search_btn {
+	                    }
+	                    .reset_btn {
+	                        i {
+	                        }
+	                    }
+	                }
+	                .pagination_content{
+					}
+				}
+				.content_title{
+				}
+				.status_icon{
+	            }
+			}
 		}
 	}
 </style>

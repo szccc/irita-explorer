@@ -16,7 +16,7 @@
                     </span>
                 </div>
 
-				<el-table :data="service.bindList" empty-text="-- 暂无可用服务 --">
+				<el-table :empty-text="$t('ExplorerCN.common.noData')" :data="service.bindList">
 					<el-table-column min-width="140px" :label="$t('ExplorerCN.service.provider')">
 						<template slot-scope="scope">
 							<span>

@@ -4,6 +4,7 @@ export const ExplorerCN = {
 		success:'Success',
 		failed:'Failed',
 		allTxType:'All TxType',
+		noData:'- 暂时没有内容 -',
 	},
 	message:{
 		txListFailed:'获取交易列表失败,请稍后重试',
@@ -245,7 +246,6 @@ export const ExplorerCN = {
 		providerTitle:'服务调用-作为提供者',
 		respondRecord:'响应记录',
 		assets: '资产列表',
-		owner: '拥有者',
 		denom: '报表类别',
 		name: '名称',
 		id: '报表标识',

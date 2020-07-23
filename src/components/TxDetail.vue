@@ -199,7 +199,7 @@
                             <div class="record_content">
                                 <p class="record_name">Contents：</p>
                                 <div class="record_list_content">
-                                    <el-table :data="recordArray">
+                                    <el-table :empty-text="$t('ExplorerCN.common.noData')" :data="recordArray">
                                         <el-table-column label="digest" prop="digest" width="300px"></el-table-column>
                                         <el-table-column label="digest algo" width="150px"
                                                          prop="digest_algo"></el-table-column>
@@ -610,7 +610,7 @@
                             {{$t('ExplorerCN.transactionInformation.relevanceTx')}}
                         </div>
                         <div class="tx_information_relevance_tx_list_content">
-                            <el-table :data="relevanceTxs">
+                            <el-table :empty-text="$t('ExplorerCN.common.noData')" :data="relevanceTxs">
                                 <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                                     <template slot-scope="scope">
                                         <div class="tx_information_relevance_tx_list_content_hash" >
