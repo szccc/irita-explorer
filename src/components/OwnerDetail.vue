@@ -285,7 +285,13 @@
 					</el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
 						<template slot-scope="scope">
-                            <div v-if="scope.row.txType=='call_service'">
+							<div v-if="typeof scope.row.to == 'string'">
+                            	<el-tooltip class="item" effect="dark" :content="scope.row.to" placement="top">
+									<router-link  v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
+								</el-tooltip>
+								<span v-if="scope.row.to === '--'">--</span>
+                            </div>
+                            <div v-else>
                                 <p v-for="to in getCallProviders(scope.row.to)">
                                     <el-tooltip effect="dark"
 								            	:content="to"
@@ -297,12 +303,7 @@
                                 </p>
                                 <p v-if="scope.row.txType=='call_service' && (scope.row.to || []).length > 2"> ... </p>
                             </div>
-                            <div v-else>
-                            	<el-tooltip class="item" effect="dark" :content="scope.row.to" placement="top">
-									<router-link  v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
-								</el-tooltip>
-								<span v-if="scope.row.to === '--'">--</span>
-                            </div>
+                            
 						</template>
 					</el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
