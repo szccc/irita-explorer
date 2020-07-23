@@ -58,6 +58,12 @@
                 <el-table :data="transactionArray">
                     <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
                         <template slot-scope="scope">
+                            <img class="service_tx_status"
+                                 v-if="scope.row.status === 1"
+                                 src="../assets/success.png"/>
+                            <img class="service_tx_status"
+                                 v-else
+                                 src="../assets/failed.png"/>
                             <el-tooltip :content="scope.row.txHash"
                                         class="item"
                                         placement="top"
@@ -110,7 +116,6 @@
                             </el-tooltip>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
                     <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
                         <template slot-scope="scope">
                             <span>{{scope.row.time}}</span>
@@ -134,6 +139,7 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./MPagination";
+    import {TxHelper} from "../helper/TxHelper";
     import {getAllTxTypes, getTxList} from '../service/api';
 
     export default {
@@ -221,16 +227,21 @@
 
                 try{
                     const res = await getTxList(params);
+                    console.log("-----",res)
 
                     this.transactionArray = res.data.map((tx)=>{
+                        let addrObj = TxHelper.getFromAndToAddressFromMsg(tx.msgs[0]);
+                        let from = (addrObj && addrObj.from) ? addrObj.from : '--',
+                            to = (addrObj && addrObj.to) ? addrObj.to : '--';
+                        console.log("======",from, to)
                         return {
                             txHash : tx.tx_hash,
                             blockHeight : tx.height,
                             txType : tx.type,
-                            from : tx.from ? tx.from : '--',
-                            to : tx.to ? tx.to : '--',
+                            from,
+                            to,
                             signer : tx.signer,
-                            status : tx.status === 1 ? 'Success' : 'Failed',
+                            status : tx.status,
                             time :Tools.getDisplayDate(tx.time),
                         }
                     });
@@ -407,7 +418,13 @@
         .tx_content_wrap {
             margin: 0 auto;
             box-sizing: border-box;
-
+            .service_tx_status {
+                position: relative;
+                top: 0.02rem;
+                left: -0.04rem;
+                width:0.13rem;
+                height:0.13rem;
+            }
             .tx_content_header_wrap {
 
                 .total_tx_content {
