@@ -443,6 +443,7 @@
                         })
                     }
                 }catch (e) {
+                	console.error(e);
                     this.$message.error('获取交易列表失败,请稍后重试');
                 }
 
@@ -461,7 +462,7 @@
                         this.consumerTxList = [];
                         for (let item of res.data){
                             let result = {
-                                serviceName:item.msgs[0].msg.ex.service_name,
+                                serviceName:(item.msgs[0].msg.ex || {}).service_name,
 								txHash: item.tx_hash,
 								blockHeight: item.height,
 								txType: item.type,
@@ -489,13 +490,13 @@
 	                        			index,
 	                        			isChildren:true,
 	                        			count:item.respond.length,
-		                        		serviceName:r.msgs[0].msg.ex.service_name,
+		                        		serviceName:(r.msgs[0].msg.ex || {}).service_name,
 										txHash: r.tx_hash,
 										blockHeight: r.height,
 										txType: r.type,
 										provider:r.msgs[0].msg.provider,
 										time: Tools.getDisplayDate(r.time),
-										requestContextId:r.msgs[0].msg.ex.request_context_id,
+										requestContextId:(r.msgs[0].msg.ex || {}).request_context_id,
 										requestStatus:'--',
 										status:r.status,
 	                        		};
@@ -524,6 +525,7 @@
                         this.respondRecordList = res.data || [];
                     }
                 }catch (e) {
+                	console.error(e);
                     this.$message.error('获取交易列表失败,请稍后重试');
                 }
 
@@ -541,7 +543,7 @@
                         this.providerTxList = [];
                         for(let item of res.data){
                         	let result = {
-                            	serviceName:item.msgs[0].msg.ex.service_name,
+                            	serviceName:(item.msgs[0].msg.ex || {}).service_name,
                             	provider:item.msgs[0].msg.provider,
                             	owner:item.msgs[0].msg.owner,
                                 respond_times:item.respond_times,
@@ -561,10 +563,13 @@
                             (bindings.result || []).forEach((bind)=>{
                                 if(result.provider === bind.provider && result.owner == bind.owner){
                                     result.isAvailable = bind.available;
-                                    result.price = JSON.parse(bind.pricing || '{}').price;
+                                    result.pricing = JSON.parse(bind.pricing || '{}').price;
                                     result.qos = bind.qos;
                                 }
                             })
+                            if (result.pricing && result.pricing.length) {
+                            	result.pricing = result.pricing.replace('point',' point');
+                            }
                             this.providerTxList.push(result);
                         }
                     }

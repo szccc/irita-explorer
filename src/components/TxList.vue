@@ -246,6 +246,7 @@
                     this.pageSize = res.pageSize;
                     // console.log(this.transactionArray)
                 }catch (e) {
+                    console.error(e);
                     this.$message.error('获取交易列表失败,请稍后重试');
                 }
 
@@ -267,6 +268,7 @@
                     });
                     this.txTypeOption = typeList;
                 }catch (e) {
+                    console.error(e);
                     this.$message.error('获取交易类型失败,请稍后重试');
                 }
 

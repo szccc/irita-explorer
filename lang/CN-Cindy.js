@@ -5,6 +5,15 @@ export const ExplorerCN = {
 		failed:'Failed',
 		allTxType:'All TxType',
 	},
+	message:{
+		txListFailed:'获取交易列表失败,请稍后重试',
+		txTypeFailed:'获取交易类型失败,请稍后重试',
+		serviceInfoFailed:'获取service信息错误,请稍后重试',
+		serviceBindFailed:'获取service绑定交易列表错误,请稍后重试',
+		serviceListFailed:'获取service交易列表错误,请稍后重试',
+		serviceTxListFailed:'获取服务交易列表失败,请稍后重试',
+		txInfoFailed:'获取交易信息失败,请稍后重试',
+	},
 	Navigation:{
 		block: '区块浏览',
 		transactions: '交易浏览',
