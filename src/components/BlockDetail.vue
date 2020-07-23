@@ -26,9 +26,17 @@
 				<div class="block_transaction_title_content">{{$t('ExplorerCN.blockDetail.transactions')}}</div>
 				<div class="block_transaction_list_content">
 					<el-table :data="transactionArray">
-						<el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
+						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
 							<template slot-scope="scope">
-								<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+								<div class="tx_transaction_content_hash">
+	                  <img class="status_icon"
+	                               :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+	                  <el-tooltip effect="dark"
+	                              :content="scope.row.txHash"
+	                              placement="top">
+	                      <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+	                  </el-tooltip>
+	              </div>
 							</template>
 						</el-table-column>
 						<el-table-column :label="$t('ExplorerCN.transactions.block')" prop="blockHeight"></el-table-column>
@@ -50,7 +58,6 @@
 								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
 							</template>
 						</el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
 						<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
 							<template slot-scope="scope">
 								<span>{{scope.row.time}}</span>
@@ -157,7 +164,7 @@
                                 from: item.from ? item.from : '--',
                                 to: item.to ? item.to : '--',
                                 signer: item.signer,
-                                status:item.status === 1 ? 'Success' : 'Failed',
+                                status:item.status,
                                 time: Tools.getDisplayDate(item.time)
                             }
                         })
@@ -281,7 +288,16 @@
 					text-align: left;
 					text-indent: 0.2rem;
 				}
+				.tx_transaction_content_hash{
+            display: flex;
+            align-items: center;
+        }
 			}
+			.status_icon{
+	        width:0.13rem;
+	        height:0.13rem;
+	        margin-right:0.05rem;
+	    }
 		}
 	}
 
