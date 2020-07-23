@@ -674,7 +674,7 @@
 		        color: #171D44;
 		        font-size: 0.18rem;
 		        line-height: 0.21rem;
-		        margin: 0.3rem 0 0.15rem 0.15rem;
+		        margin: 0.3rem 0 0.15rem 0.25rem;
 		        text-align: left;
 		        font-family:PingFangSC-Semibold,PingFang SC;
 		        font-weight:600;
