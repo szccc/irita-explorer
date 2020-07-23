@@ -1,12 +1,18 @@
 export const ExplorerCN = {
 	common:{
-		allTxStatus:'All Status',
+		allTxStatus:'所有交易状态',
 		success:'Success',
 		failed:'Failed',
-		allTxType:'All TxType',
+		allTxType:'所有交易类型',
 	},
-    table:{
-	    emptyDescription:'更多内容敬请期待...'
+    element:{
+	    table:{
+            emptyDescription:'- 暂时没有内容 -'
+        },
+        date:{
+	        select:'选择日期'
+        }
+
     },
 	Navigation:{
 		block: '区块浏览',

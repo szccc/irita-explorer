@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div class="nef_list_table_container">
-				<el-table :data="denomArray">
+				<el-table :data="denomArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column :label="$t('ExplorerCN.nftAsset.denom')" width="155px">
 						<template slot-scope="scope">
 							{{scope.row.denom}}

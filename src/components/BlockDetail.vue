@@ -25,7 +25,7 @@
 			<div class="block_transaction_content" v-if="transactionArray.length > 0">
 				<div class="block_transaction_title_content">{{$t('ExplorerCN.blockDetail.transactions')}}</div>
 				<div class="block_transaction_list_content">
-					<el-table :data="transactionArray">
+					<el-table :data="transactionArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
 							<template slot-scope="scope">
 								<div class="tx_transaction_content_hash">

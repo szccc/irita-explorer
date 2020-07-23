@@ -42,7 +42,7 @@
 			</div>
 			<div class="nft_token_list_content">
 				<div class="nft_token_list_title"> {{$t('ExplorerCN.nftDetail.nftTxs')}}</div>
-				<el-table :data="txListByToken">
+				<el-table :data="txListByToken" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
 							<div class="tx_transaction_content_hash">

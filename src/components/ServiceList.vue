@@ -68,7 +68,7 @@
             <div class="service_list_empty_container" v-if="serviceList.length === 0">
                 <img src="../assets/empty.png" alt="" class="service_list_empty">
                 <span class="service_list_empty_description">
-                    {{ $t('ExplorerCN.table.emptyDescription') }}
+                    {{ $t('ExplorerCN.element.table.emptyDescription') }}
                 </span>
             </div>
 		</div>
@@ -152,6 +152,9 @@
 	}
 	.service_list_container_content{
         @media screen and (min-width: 910px){
+            .service_list_title{
+                padding-left: 0.27rem;
+            }
             .service_list_content_wrap{
                 max-width: 12rem;
             }
@@ -190,7 +193,6 @@
                 margin: 0.42rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
-                padding-left: 0.27rem;
                 font-size: 0.18rem;
                 font-weight: 600;
                 color: #171D44;
