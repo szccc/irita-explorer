@@ -422,21 +422,6 @@
 					console.error(e)
 				}
 			},
-			// getDenomUri(denom,id,callback){
-			// 	Server.commonInterface({getTokenUri:{denom: denom, tokenId: id}},(res) => {
-			// 		try {
-			// 			if(res){
-			// 				if(res.token_uri){
-			// 					callback(res.token_uri)
-			// 				}else {
-			// 					callback('--')
-			// 				}
-			// 			}
-			// 		}catch (e) {
-			// 			console.error(e)
-			// 		}
-			// 	})
-			// },
 			//地址相关交易记录
 			async getTxByAddress(){
 			    try {
@@ -473,6 +458,7 @@
                     if(res){
                         console.log('ConsumerTx======:',res);
                         this.consumerTxCount = res.count;
+                        this.consumerTxList = [];
                         for (let item of res.data){
                             let result = {
                                 serviceName:item.msgs[0].msg.ex.service_name,
@@ -492,9 +478,14 @@
 	                                }
 	                            });
 	                        });
-	                        if (item.respond && item.respond.length) {
-	                        	result.children = item.respond.map((r,index)=>{
-	                        		return {
+	                        let context = await getServiceContextsByServiceName(result.requestContextId || '');
+	                        if (context && context.result && context.result.value) {
+	                        	result.state = context.result.value.state;
+	                        }
+                            this.consumerTxList.push(result);
+                            if (item.respond && item.respond.length) {
+	                        	item.respond.forEach((r,index)=>{
+	                        		let respondResult = {
 	                        			index,
 	                        			isChildren:true,
 	                        			count:item.respond.length,
@@ -508,15 +499,10 @@
 										requestStatus:'--',
 										status:r.status,
 	                        		};
+	                        		this.consumerTxList.push(respondResult);
 	                        	});	 
 	                        }
-	                        let context = await getServiceContextsByServiceName(result.requestContextId || '');
-	                        if (context && context.result && context.result.value) {
-	                        	result.state = context.result.value.state;
-	                        }
-                            this.consumerTxList.push(result);
                         }
-                        console.log(']]]]]]]]]]]]:',this.consumerTxList);
                     }
                 }catch (e) {
                 	console.error(e);
@@ -535,7 +521,7 @@
                     if(res){
                         console.log('RspondRecordList======:',res);
                         this.respondRecordCount = res.count;
-                        this.respondRecordList = res.data;
+                        this.respondRecordList = res.data || [];
                     }
                 }catch (e) {
                     this.$message.error('获取交易列表失败,请稍后重试');
@@ -614,23 +600,26 @@
             	return bgColor;
             },
             arraySpanMethod(table){
-            	let els = document.getElementsByClassName('el-icon-arrow-right');
-            	setTimeout(()=>{
-	            	els.forEach((el)=>{
-	            		if (el && el.parentElement) {
-	            			el.parentElement.style.display = 'none';
-		            	}
-	            	});	
-	            },50);
-          //   	console.log('========:',table);
-          //   	if (table.columnIndex === 0) {
-		        //   if (table.rowIndex % 2 === 1) {
-		        //     return {
-		        //       rowspan: 2,
-		        //       colspan: 1
-		        //     };
-		        //   } 
-		        // }
+            	if (table.columnIndex === 0) {
+            		if (table.row.isChildren) {
+			          	if (table.row.index==0) {
+			          		return {
+				              rowspan: table.row.count,
+				              colspan: 1
+				            };
+			          	}else{
+			          		return {
+				              rowspan: 0,
+				              colspan: 0
+				            };
+			          	}
+			        }else{
+			          	return {
+			              rowspan: 1,
+			              colspan: 1
+			            };
+			        }
+		        }
 
             },
             getRespondCount(count){
