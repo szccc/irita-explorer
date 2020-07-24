@@ -2,7 +2,7 @@
 	<div class="header_container">
 		<div class="header_content">
 			<div class="header_menu_content">
-				<div class="header_logo_img_content">
+				<div class="header_logo_img_content" @click="handleLogoClick">
 					<router-link :to="`/home`">
 						<img src="../assets/csrb_logo.png" alt="">
 					</router-link>
@@ -97,6 +97,9 @@
                         this.activeIndex2 = String(i+1);
                     }
                 })
+            },
+            handleLogoClick(){
+                this.activeIndex2 = '-1'
             },
 			clearSearchContent () {
 				this.searchInputValue = '';

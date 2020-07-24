@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header></Header>
-    <router-view class="content"/>
+    <router-view class="content" :key="$route.fullPath"/>
     <Footer></Footer>
   </div>
 </template>
