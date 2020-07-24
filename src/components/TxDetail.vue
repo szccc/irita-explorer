@@ -186,10 +186,6 @@
                                 <span v-if="defineName == '--'"> -- </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerCN.transactionInformation.bindService.pricing')}}</span>
-                                <span>{{pricing}}</span>
-                            </p>
-                            <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.bindService.qos')}}</span>
                                 <span>{{qos}}</span>
                             </p>
@@ -582,10 +578,6 @@
                                     {{serviceName}}
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerCN.transactionInformation.updateServiceBinding.pricing')}}</span>
-                                <span>{{pricing}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateServiceBinding.qos')}}</span>
