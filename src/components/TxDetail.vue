@@ -97,7 +97,8 @@
                             </p>
                             <p v-if="txType === 'call_service'">
                                 <span>Service Name:</span>
-                                <span>{{serviceName}}</span>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p v-if="txType === 'call_service'">
                                 <span>Bind Chain ID:</span>
@@ -109,7 +110,7 @@
                             </p>
                             <p v-if="txType === 'service_response'">
                                 <span>Request ID:</span>
-                                <span>{{requestId}}</span>
+                                <span>{{(requestId || '').toUpperCase()}}</span>
                             </p>
                             <p v-if="txType === 'call_service'">
                                 <span>Method ID:</span>
@@ -145,7 +146,8 @@
                         <div v-if="txType === 'define_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.defineService.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.defineService.description')}}</span>
@@ -425,11 +427,12 @@
                         <div v-if="txType === 'respond_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.respondService.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.respondService.requestId')}}</span>
-                                <span>{{requestId}}</span>
+                                <span>{{(requestId || '').toUpperCase()}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.respondService.provider')}}</span>
@@ -447,11 +450,12 @@
                         <div v-if="txType === 'call_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.requestContextId')}}</span>
-                                <span>{{requestContextId}}</span>
+                                <span>{{(requestContextId || '').toUpperCase()}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.consumer')}}</span>
@@ -483,10 +487,10 @@
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.serviceFeeCap')}}</span>
                                 <span>{{serviceFeeCap}}</span>
                             </p>
-                            <p>
+                            <!-- <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.superMode')}}</span>
                                 <span>{{superMode}}</span>
-                            </p>
+                            </p> -->
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.timeOut')}}</span>
                                 <span>{{timeout}}</span>
@@ -497,11 +501,12 @@
                                    txType === 'kill_request_context'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.pauseRequestContext.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.pauseRequestContext.requestContextId')}}</span>
-                                <span>{{requestContextId}}</span>
+                                <span>{{(requestContextId || '').toUpperCase()}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.pauseRequestContext.consumer')}}</span>
@@ -511,11 +516,12 @@
                         <div v-if="txType === 'update_request_context'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.requestContextId')}}</span>
-                                <span>{{requestContextId}}</span>
+                                <span>{{(requestContextId || '').toUpperCase()}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.consumer')}}</span>
@@ -547,7 +553,8 @@
                         <div v-if="txType === 'update_service_binding'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateServiceBinding.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateServiceBinding.pricing')}}</span>
@@ -573,7 +580,8 @@
                         <div v-if="txType === 'disable_service_binding' || txType === 'refund_service_deposit'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.disableServiceBinding.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.disableServiceBinding.provider')}}</span>
@@ -587,7 +595,8 @@
                         <div v-if="txType === 'enable_service_binding'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.enableServiceBinding.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.enableServiceBinding.deposit')}}</span>
@@ -772,115 +781,115 @@
                     const res = await getTxDetail(this.$route.query.txHash);
                     if(res){
                         // console.log(res)
-                        this.txHash = res.tx_hash;
-                        this.blockHeight = res.height;
+                        this.txHash = res.tx_hash || '--';
+                        this.blockHeight = res.height || '--';
                         this.status = res.status === 1 ? 'Success' : 'Failed';
-                        this.timestamp = Tools.getDisplayDate(res.time);
-                        this.signer = res.signer;
+                        this.timestamp = Tools.getDisplayDate(res.time) || '--';
+                        this.signer = res.signer || '--';
                         this.memo = res.memo ? res.memo : '--';
-                        this.txType = res.msgs[0].type;
+                        this.txType = res.msgs[0].type || '--';
                         switch (this.txType){
                             case 'transfer_token_owner':
-                                this.symbol = res.msgs[0].msg.symbol;
-                                this.dstOwner = res.msgs[0].msg.dst_owner;
-                                this.srcOwner = res.msgs[0].msg.src_owner;
+                                this.symbol = res.msgs[0].msg.symbol || '--';
+                                this.dstOwner = res.msgs[0].msg.dst_owner || '--';
+                                this.srcOwner = res.msgs[0].msg.src_owner || '--';
                                 break;
                             case 'mint_nft':
-                                this.denom = res.msgs[0].msg.denom;
-                                this.id = res.msgs[0].msg.id;
-                                this.recipient = res.msgs[0].msg.recipient;
-                                this.sender = res.msgs[0].msg.sender;
-                                this.tokenData = res.msgs[0].msg.token_data;
-                                this.tokenUri = res.msgs[0].msg.token_uri;
+                                this.denom = res.msgs[0].msg.denom || '--';
+                                this.id = res.msgs[0].msg.id || '--';
+                                this.recipient = res.msgs[0].msg.recipient || '--';
+                                this.sender = res.msgs[0].msg.sender || '--';
+                                this.tokenData = res.msgs[0].msg.token_data || '--';
+                                this.tokenUri = res.msgs[0].msg.token_uri || '--';
                                 break;
                             case 'burn_nft':
-                                this.sender = res.msgs[0].msg.sender;
-                                this.denom = res.msgs[0].msg.denom;
-                                this.id = res.msgs[0].msg.id;
+                                this.sender = res.msgs[0].msg.sender || '--';
+                                this.denom = res.msgs[0].msg.denom || '--';
+                                this.id = res.msgs[0].msg.id || '--';
                                 break;
                             case 'mint_token':
-                                this.amount = res.msgs[0].msg.amount;
-                                this.owner = res.msgs[0].msg.owner;
-                                this.symbol = res.msgs[0].msg.symbol;
-                                this.to = res.msgs[0].msg.to;
+                                this.amount = res.msgs[0].msg.amount || '--';
+                                this.owner = res.msgs[0].msg.owner || '--';
+                                this.symbol = res.msgs[0].msg.symbol || '--';
+                                this.to = res.msgs[0].msg.to || '--';
                                 break;
                             case 'create_record':
                                 this.recordArray = res.msgs[0].msg.contents.map(item =>{
                                     return {
                                         digest : item.digest ? item.digest : '--',
                                         digest_algo : item.digest_algo ? item.digest_algo : '--',
-                                        uri : item.uri ? item.uri : '',
+                                        uri : item.uri ? item.uri : '--',
                                         meta : item.meta ? item.meta : "--",
                                     }
                                 })
                                 break;
                             case 'service_response':
-                                this.requestChainId = res.msgs[0].msg.req_chain_id;
-                                this.provider = res.msgs[0].msg.provider;
-                                this.output = res.msgs[0].msg.output;
+                                this.requestChainId = res.msgs[0].msg.req_chain_id || '--';
+                                this.provider = res.msgs[0].msg.provider || '--';
+                                this.output = res.msgs[0].msg.output || '--';
                                 this.errorMessage = res.msgs[0].msg.error_msg ? res.msgs[0].msg.error_msg : '--';
                                 this.requestId = res.msgs[0].msg.request_id;
                                 break;
                             case 'nft_burn':
-                                this.from = res.msgs[0].msg.sender;
-                                this.tokenId = res.msgs[0].msg.id;
-                                this.denom = res.msgs[0].msg.denom;
+                                this.from = res.msgs[0].msg.sender || '--';
+                                this.tokenId = res.msgs[0].msg.id || '--';
+                                this.denom = res.msgs[0].msg.denom || '--';
                                 break;
                             case 'nft_edit':
-                                this.from = res.msgs[0].msg.sender;
-                                this.tokenId = res.msgs[0].msg.id;
-                                this.denom = res.msgs[0].msg.denom;
-                                this.url = res.msgs[0].msg.token_uri;
+                                this.from = res.msgs[0].msg.sender || '--';
+                                this.tokenId = res.msgs[0].msg.id || '--';
+                                this.denom = res.msgs[0].msg.denom || '--';
+                                this.url = res.msgs[0].msg.token_uri || '--';
                                 break;
                             case 'define_service':
-                                this.serviceName = res.msgs[0].msg.name;
-                                this.description = res.msgs[0].msg.description;
-                                this.author = res.msgs[0].msg.author;
-                                this.authorDescription = res.msgs[0].msg.author_description;
-                                this.tags = res.msgs[0].msg.tags;
-                                this.schemas = res.msgs[0].msg.schemas;
+                                this.serviceName = res.msgs[0].msg.name || '--';
+                                this.description = res.msgs[0].msg.description || '--';
+                                this.author = res.msgs[0].msg.author || '--';
+                                this.authorDescription = res.msgs[0].msg.author_description || '--';
+                                this.tags = res.msgs[0].msg.tags || '--';
+                                this.schemas = res.msgs[0].msg.schemas || '--';
                                 break;
                             case 'bind_service':
-                                this.defineName = res.msgs[0].msg.service_name;
-                                this.provider = res.msgs[0].msg.provider;
+                                this.defineName = res.msgs[0].msg.service_name || '--';
+                                this.provider = res.msgs[0].msg.provider || '--';
                                 if (res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length) {
-                                    this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}`;
+                                    this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}` || '--';
                                 }
-                                this.owner = res.msgs[0].msg.owner;
-                                this.pricing = res.msgs[0].msg.pricing;
-                                this.qos = res.msgs[0].msg.qos;
+                                this.owner = res.msgs[0].msg.owner || '--';
+                                this.pricing = res.msgs[0].msg.pricing || '--';
+                                this.qos = res.msgs[0].msg.qos || '--';
                                 break;
                             case 'send':
-                                this.from = res.msgs[0].msg.fromaddress;
-                                this.to = res.msgs[0].msg.toaddress;
+                                this.from = res.msgs[0].msg.fromaddress || '--';
+                                this.to = res.msgs[0].msg.toaddress || '--';
                                 if (res.msgs[0].msg.amount && res.msgs[0].msg.amount.length) {
-                                    this.amount = `${res.msgs[0].msg.amount[0].amount} ${res.msgs[0].msg.amount[0].denom}`
+                                    this.amount = `${res.msgs[0].msg.amount[0].amount} ${res.msgs[0].msg.amount[0].denom}` || '--';
                                 }
                                 break;
                             case 'nft_mint':
-                                this.from = res.msgs[0].msg.sender;
-                                this.to = res.msgs[0].msg.sender;
-                                this.tokenId = res.msgs[0].msg.id;
-                                this.denom = res.msgs[0].msg.denom;
-                                this.url = res.msgs[0].msg.token_uri;
+                                this.from = res.msgs[0].msg.sender || '--';
+                                this.to = res.msgs[0].msg.sender || '--';
+                                this.tokenId = res.msgs[0].msg.id || '--';
+                                this.denom = res.msgs[0].msg.denom || '--';
+                                this.url = res.msgs[0].msg.token_uri || '--';
                                 break;
                             case 'call_service':
-                                this.consumer = res.msgs[0].msg.consumer;
-                                this.input = res.msgs[0].msg.input;
-                                this.provider = res.msgs[0].msg.providers;
-                                this.repeated = res.msgs[0].msg.repeated;
-                                this.repeatedFrequency = res.msgs[0].msg.repeated_frequency;
-                                this.repeatedTotal = res.msgs[0].msg.repeated_total;
+                                this.consumer = res.msgs[0].msg.consumer || '--';
+                                this.input = res.msgs[0].msg.input || '--';
+                                this.provider = res.msgs[0].msg.providers || '--';
+                                this.repeated = res.msgs[0].msg.repeated || '--';
+                                this.repeatedFrequency = res.msgs[0].msg.repeated_frequency || '--';
+                                this.repeatedTotal = res.msgs[0].msg.repeated_total || '--';
                                 if (res.msgs[0].msg.service_fee_cap && res.msgs[0].msg.service_fee_cap.length) {
-                                    this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}`;
+                                    this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}` || '--';
                                 }
-                                this.serviceName = res.msgs[0].msg.service_name;
-                                this.superMode = res.msgs[0].msg.super_mode;
-                                this.timeout = res.msgs[0].msg.timeout;
+                                this.serviceName = res.msgs[0].msg.service_name || '--';
+                                this.superMode = res.msgs[0].msg.super_mode || '--';
+                                this.timeout = res.msgs[0].msg.timeout || '--';
                                 res.events.forEach((item)=>{
                                     (item.attributes || []).forEach((attr)=>{
                                         if (attr.key == 'request_context_id') {
-                                            this.requestContextId = attr.value;
+                                            this.requestContextId = attr.value || '--';
                                         }
                                     });
                                 });
@@ -891,111 +900,111 @@
                                 // this.profiling = res.msgs[0].msg.profiling
                                 break;
                             case 'nft_transfer':
-                                this.from = res.msgs[0].msg.sender;
-                                this.to = res.msgs[0].msg.sender;
-                                this.tokenId = res.msgs[0].msg.id;
-                                this.denom = res.msgs[0].msg.denom;
-                                this.url = res.msgs[0].msg.token_uri;
+                                this.from = res.msgs[0].msg.sender || '--';
+                                this.to = res.msgs[0].msg.sender || '--';
+                                this.tokenId = res.msgs[0].msg.id || '--';
+                                this.denom = res.msgs[0].msg.denom || '--';
+                                this.url = res.msgs[0].msg.token_uri || '--';
                                 break;
                             case 'edit_token':
-                                this.symbol = res.msgs[0].msg.symbol;
-                                this.name = res.msgs[0].msg.name;
-                                this.owner = res.msgs[0].msg.owner;
-                                this.minTable = res.msgs[0].msg.mintable;
-                                this.maxSupply = res.msgs[0].msg.max_supply;
+                                this.symbol = res.msgs[0].msg.symbol || '--';
+                                this.name = res.msgs[0].msg.name || '--';
+                                this.owner = res.msgs[0].msg.owner || '--';
+                                this.minTable = res.msgs[0].msg.mintable || '--';
+                                this.maxSupply = res.msgs[0].msg.max_supply || '--';
                                 break;
                             case 'transfer_nft':
-                                this.denom = res.msgs[0].msg.denom;
-                                this.id = res.msgs[0].msg.id;
-                                this.recipient = res.msgs[0].msg.recipient;
-                                this.sender = res.msgs[0].msg.sender;
-                                this.tokenData = res.msgs[0].msg.token_data;
-                                this.tokenUri = res.msgs[0].msg.token_uri;
+                                this.denom = res.msgs[0].msg.denom || '--';
+                                this.id = res.msgs[0].msg.id || '--';
+                                this.recipient = res.msgs[0].msg.recipient || '--';
+                                this.sender = res.msgs[0].msg.sender || '--';
+                                this.tokenData = res.msgs[0].msg.token_data || '--';
+                                this.tokenUri = res.msgs[0].msg.token_uri || '--';
                                 break;
                             case 'edit_nft':
-                                this.denom = res.msgs[0].msg.denom;
-                                this.id = res.msgs[0].msg.id;
-                                this.sender = res.msgs[0].msg.sender;
-                                this.tokenData = res.msgs[0].msg.token_data;
-                                this.tokenUri = res.msgs[0].msg.token_uri;
+                                this.denom = res.msgs[0].msg.denom || '--';
+                                this.id = res.msgs[0].msg.id || '--';
+                                this.sender = res.msgs[0].msg.sender || '--';
+                                this.tokenData = res.msgs[0].msg.token_data || '--';
+                                this.tokenUri = res.msgs[0].msg.token_uri || '--';
                                 break;
                             case 'issue_denom':
-                                this.denom = res.msgs[0].msg.denom;
-                                this.schema = res.msgs[0].msg.schema;
-                                this.sender = res.msgs[0].msg.sender;
+                                this.denom = res.msgs[0].msg.denom || '--';
+                                this.schema = res.msgs[0].msg.schema || '--';
+                                this.sender = res.msgs[0].msg.sender || '--';
                                 break;
                             case 'issue_token':
-                                this.initialSupply = res.msgs[0].msg.initial_supply;
-                                this.maxSupply = res.msgs[0].msg.max_supply;
-                                this.minUnit = res.msgs[0].msg.min_unit;
-                                this.minTable = res.msgs[0].msg.mintable;
-                                this.name = res.msgs[0].msg.name;
-                                this.owner = res.msgs[0].msg.owner;
-                                this.scale = res.msgs[0].msg.scale;
-                                this.symbol = res.msgs[0].msg.symbol;
+                                this.initialSupply = res.msgs[0].msg.initial_supply || '--';
+                                this.maxSupply = res.msgs[0].msg.max_supply || '--';
+                                this.minUnit = res.msgs[0].msg.min_unit || '--';
+                                this.minTable = res.msgs[0].msg.mintable || '--';
+                                this.name = res.msgs[0].msg.name || '--';
+                                this.owner = res.msgs[0].msg.owner || '--';
+                                this.scale = res.msgs[0].msg.scale || '--';
+                                this.symbol = res.msgs[0].msg.symbol || '--';
                                 break;
                             case 'respond_service':
-                                this.output = res.msgs[0].msg.output;
-                                this.provider = res.msgs[0].msg.provider;
-                                this.requestId = res.msgs[0].msg.request_id;
-                                this.requestContextId = (res.msgs[0].msg.ex || {}).request_context_id;
-                                this.result = res.msgs[0].msg.result;
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
+                                this.output = res.msgs[0].msg.output || '--';
+                                this.provider = res.msgs[0].msg.provider || '--';
+                                this.requestId = res.msgs[0].msg.request_id || '--';
+                                this.requestContextId = (res.msgs[0].msg.ex || {}).request_context_id || '--';
+                                this.result = res.msgs[0].msg.result || '--';
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 break;
                             case 'pause_request_context':
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
-                                this.requestContextId = res.msgs[0].msg.request_context_id;
-                                this.consumer = res.msgs[0].msg.consumer;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
+                                this.requestContextId = res.msgs[0].msg.request_context_id || '--';
+                                this.consumer = res.msgs[0].msg.consumer || '--';
                                 break;
                             case 'start_request_context':
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
-                                this.requestContextId = res.msgs[0].msg.request_context_id;
-                                this.consumer = res.msgs[0].msg.consumer;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
+                                this.requestContextId = res.msgs[0].msg.request_context_id || '--';
+                                this.consumer = res.msgs[0].msg.consumer || '--';
                                 break;
                             case 'kill_request_context':
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
-                                this.requestContextId = res.msgs[0].msg.request_context_id;
-                                this.consumer = res.msgs[0].msg.consumer;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
+                                this.requestContextId = res.msgs[0].msg.request_context_id || '--';
+                                this.consumer = res.msgs[0].msg.consumer || '--';
                                 break;
                             case 'update_request_context':
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
-                                this.requestContextId = res.msgs[0].msg.request_context_id;
-                                this.consumer = res.msgs[0].msg.consumer;
-                                this.provider = res.msgs[0].msg.providers;
-                                this.repeatedFrequency = res.msgs[0].msg.repeated_frequency;
-                                this.repeatedTotal = res.msgs[0].msg.repeated_total;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
+                                this.requestContextId = res.msgs[0].msg.request_context_id || '--';
+                                this.consumer = res.msgs[0].msg.consumer || '--';
+                                this.provider = res.msgs[0].msg.providers || '--';
+                                this.repeatedFrequency = res.msgs[0].msg.repeated_frequency || '--';
+                                this.repeatedTotal = res.msgs[0].msg.repeated_total || '--';
                                 if (res.msgs[0].msg.service_fee_cap && res.msgs[0].msg.service_fee_cap.length) {
-                                    this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}`;
+                                    this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}` || '--';
                                 }
-                                this.timeout = res.msgs[0].msg.timeout;
+                                this.timeout = res.msgs[0].msg.timeout || '--';
                                 break;
                             case 'update_service_binding':
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
-                                this.provider = res.msgs[0].msg.provider;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
+                                this.provider = res.msgs[0].msg.provider || '--';
                                 if (res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length) {
-                                    this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}`;
+                                    this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}` || '--';
                                 }
-                                this.owner = res.msgs[0].msg.owner;
-                                this.pricing = res.msgs[0].msg.pricing;
-                                this.qos = res.msgs[0].msg.qos;
+                                this.owner = res.msgs[0].msg.owner || '--';
+                                this.pricing = res.msgs[0].msg.pricing || '--';
+                                this.qos = res.msgs[0].msg.qos || '--';
                                 break;
                             case 'disable_service_binding':
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
-                                this.provider = res.msgs[0].msg.provider;
-                                this.owner = res.msgs[0].msg.owner;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
+                                this.provider = res.msgs[0].msg.provider || '--';
+                                this.owner = res.msgs[0].msg.owner || '--';
                                 break;
                             case 'enable_service_binding':
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
-                                this.provider = res.msgs[0].msg.provider;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
+                                this.provider = res.msgs[0].msg.provider || '--';
                                 if (res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length) {
-                                    this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}`;
+                                    this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}` || '--';
                                 }
-                                this.owner = res.msgs[0].msg.owner;
+                                this.owner = res.msgs[0].msg.owner || '--';
                                 break;
                             case 'refund_service_deposit':
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name;
-                                this.provider = res.msgs[0].msg.provider;
-                                this.owner = res.msgs[0].msg.owner;
+                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
+                                this.provider = res.msgs[0].msg.provider || '--';
+                                this.owner = res.msgs[0].msg.owner || '--';
                                 break;
                         }
                         this.relevanceTxList();
@@ -1244,6 +1253,8 @@
                         box-sizing: border-box;
                         padding: 0.25rem;
                         background: #fff;
+                        border-radius:0.05rem;
+                        border:1px solid #D7D7D7;
                         .tx_information_relevance_tx_title {
                             text-align: left;
                             font-size: 0.16rem;

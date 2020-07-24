@@ -4,6 +4,7 @@ export const ExplorerCN = {
 		success:'Success',
 		failed:'Failed',
 		allTxType:'所有交易类型',
+		second:'秒',
 	},
     element:{
 	    table:{
