@@ -483,10 +483,10 @@
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.serviceFeeCap')}}</span>
                                 <span>{{serviceFeeCap}}</span>
                             </p>
-                            <p>
+                            <!-- <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.superMode')}}</span>
                                 <span>{{superMode}}</span>
-                            </p>
+                            </p> -->
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.timeOut')}}</span>
                                 <span>{{timeout}}</span>
@@ -1241,6 +1241,8 @@
                         box-sizing: border-box;
                         padding: 0.25rem;
                         background: #fff;
+                        border-radius:0.05rem;
+                        border:1px solid #D7D7D7;
                         .tx_information_relevance_tx_title {
                             text-align: left;
                             font-size: 0.16rem;

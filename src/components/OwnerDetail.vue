@@ -137,12 +137,12 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="170px" :label="$t('ExplorerCN.addressDetail.pricing')">
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.pricing')">
 						<template slot-scope="scope">
 							<span>{{scope.row.pricing}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="150px" :label="$t('ExplorerCN.addressDetail.deposit')">
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.deposit')">
 						<template slot-scope="scope">
 							<span>{{scope.row.deposit}}</span>
 						</template>
@@ -473,7 +473,7 @@
                         this.consumerTxList = [];
                         for (let item of res.data){
                             let result = {
-                                serviceName:(item.msgs[0].msg.ex || {}).service_name || '',
+                                serviceName:item.msgs[0].msg.service_name || '--',
 								txHash: item.tx_hash,
 								blockHeight: item.height,
 								txType: item.type,
