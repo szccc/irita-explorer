@@ -250,6 +250,7 @@ export const ExplorerCN = {
 		consumerTitle:'服务调用-作为消费者',
 		providerTitle:'服务调用-作为提供者',
 		respondRecord:'响应记录',
+		timestamp: '交易时间',
 		assets: '资产列表',
 		denom: '报表类别',
 		name: '名称',
