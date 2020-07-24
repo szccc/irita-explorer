@@ -104,14 +104,14 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="200px" :label="$t('ExplorerCN.addressDetail.bindTime')">
+                    <el-table-column min-width="200px" :label="$t('ExplorerCN.addressDetail.timestamp')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
 				</el-table>
-				<div class="pagination_content" v-show="consumerTxCount > pageSize">
-					<m-pagination :page-size="pageSize"
+				<div class="pagination_content" v-show="consumerTxCount > consumerTxPageSize">
+					<m-pagination :page-size="consumerTxPageSize"
 					              :total="consumerTxCount"
 					              :page="consumerTxPageNum"
 					              :page-change="consumerTxPageChange">
@@ -227,8 +227,8 @@
 						</template>
 					</el-table-column>
 				</el-table>
-				<div class="pagination_content" v-show="respondRecordCount > pageSize">
-					<m-pagination :page-size="pageSize"
+				<div class="pagination_content" v-show="respondRecordCount > respondRecordPageSize">
+					<m-pagination :page-size="respondRecordPageSize"
 					              :total="respondRecordCount"
 					              :page="respondRecordPageNum"
 					              :page-change="respondRecordPageChange">
@@ -360,10 +360,12 @@
 				totalTxNumber:0,
 				providerTxList:[],
 				consumerTxPageNum:1,
+				consumerTxPageSize: 5,
 				consumerTxCount:0,
 				consumerTxList:[],
 				respondRecordList:[],
 				respondRecordPageNum:1,
+				respondRecordPageSize: 5,
 				respondRecordCount:0,
 				type:'',
                 status:'',
@@ -463,7 +465,7 @@
 			//服务调用-消费者
 			async getConsumerTxList(){
 			    try {
-                    const res = await getCallServiceWithAddress(this.$route.params.param, this.consumerTxPageNum, this.pageSize, true);
+                    const res = await getCallServiceWithAddress(this.$route.params.param, this.consumerTxPageNum, this.consumerTxPageSize, true);
                     if(res){
                         console.log('ConsumerTx======:',res);
                         this.consumerTxCount = res.count;
@@ -526,7 +528,7 @@
 			//响应记录
 			async getRspondRecordList(){
 			    try {
-                    const res = await getRespondServiceRecord('',this.$route.params.param, this.respondRecordPageNum, this.pageSize);
+                    const res = await getRespondServiceRecord('',this.$route.params.param, this.respondRecordPageNum, this.respondRecordPageSize);
                     if(res){
                         console.log('RspondRecordList======:',res);
                         this.respondRecordCount = res.count;
@@ -540,7 +542,7 @@
 			},
 			respondRecordPageChange(pageNum) {
 				this.respondRecordPageNum = pageNum;
-				this.getespondRecordList()
+				this.getRspondRecordList()
 			},
 			//服务调用-提供者
 			async getProviderTxList(){
