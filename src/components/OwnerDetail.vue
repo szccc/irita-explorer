@@ -141,12 +141,12 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="170px" :label="$t('ExplorerCN.addressDetail.pricing')">
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.pricing')">
 						<template slot-scope="scope">
 							<span>{{scope.row.pricing}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="150px" :label="$t('ExplorerCN.addressDetail.deposit')">
+					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.deposit')">
 						<template slot-scope="scope">
 							<span>{{scope.row.deposit}}</span>
 						</template>
@@ -163,7 +163,7 @@
 					</el-table-column>
 					<el-table-column min-width="200px" :label="$t('ExplorerCN.addressDetail.disabledTime')">
 						<template slot-scope="scope">
-							<span>{{scope.row.unbindTime}}</span>
+							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -171,9 +171,10 @@
 				<el-table :data="respondRecordList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
-							<el-tooltip class="item" effect="dark" :content="scope.row.serviceName" placement="top">
+							<el-tooltip v-if="scope.row.serviceName" class="item" effect="dark" :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</el-tooltip>
+							<span v-if="!scope.row.serviceName">--</span>
 						</template>
 					</el-table-column>
 					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="type"></el-table-column>
@@ -241,13 +242,13 @@
                     <span class="address_transaction_condition_count">
                         {{ totalTxNumber }} Txs
                     </span>
-                    <el-select v-model="type">
+                    <el-select v-model="type_temp">
                         <el-option v-for="(item, index) in txTypeOption"
                                    :key="index"
                                    :label="item.label"
                                    :value="item.value"></el-option>
                     </el-select>
-                    <el-select v-model="status">
+                    <el-select v-model="status_temp">
                         <el-option v-for="(item, index) in statusOpt"
                                    :key="index"
                                    :label="item.label"
@@ -369,6 +370,8 @@
 				respondRecordCount:0,
 				type:'',
                 status:'',
+                type_temp:'',
+                status_temp:'',
                 statusOpt : [
                     {
                         value : '',
@@ -472,7 +475,7 @@
                         this.consumerTxList = [];
                         for (let item of res.data){
                             let result = {
-                                serviceName:(item.msgs[0].msg.ex || {}).service_name || '',
+                                serviceName:item.msgs[0].msg.service_name || '--',
 								txHash: item.tx_hash,
 								blockHeight: item.height,
 								txType: item.type,
@@ -641,6 +644,8 @@
             	return this.$t('ExplorerCN.addressDetail.totalRespond').replace(/\$\{\%value\%\}/, count);
             },
             handleSearchClick(){
+            	this.type = this.type_temp;
+            	this.status = this.status_temp;
                 this.pageNum = 1;
                 this.getTxByAddress();
             },

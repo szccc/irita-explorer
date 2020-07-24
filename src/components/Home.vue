@@ -15,7 +15,7 @@
 					</li>
 					<li class="home_content_header_top_item_content">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerCN.home.avgBlockTime')}}</p>
-						<p class="home_content_header_top_center_content">{{ageTime}}</p>
+						<p class="home_content_header_top_center_content">{{`${ageTime} ${$t('ExplorerCN.common.second')}`}}</p>
 						<p class="home_content_header_top_footer_content">{{$t('ExplorerCN.home.last100Blocs')}}</p>
 					</li>
 				</ul>

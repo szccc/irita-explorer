@@ -16,3 +16,5 @@ export const cfg = {
         lcd: VUE_APP_LCD_ADDR,
     }
 };
+
+console.log(cfg);
