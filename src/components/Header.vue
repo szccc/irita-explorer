@@ -4,7 +4,7 @@
 			<div class="header_menu_content">
 				<div class="header_logo_img_content">
 					<router-link :to="`/home`">
-						<img src="../assets/csrb_logo.svg" alt="">
+						<img src="../assets/csrb_logo.png" alt="">
 					</router-link>
 				</div>
 				<div class="header_menu">
