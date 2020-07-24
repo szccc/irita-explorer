@@ -2,7 +2,7 @@
 	<div class="header_container">
 		<div class="header_content">
 			<div class="header_menu_content">
-				<div class="header_logo_img_content" @click="handleLogoClick">
+				<div class="header_logo_img_content">
 					<router-link :to="`/home`">
 						<img src="../assets/csrb_logo.png" alt="">
 					</router-link>
@@ -14,7 +14,7 @@
 							mode="horizontal"
 							@select="handleSelect"
 							background-color="#3264FD"
-							text-color="#fff"
+							text-color="#CBD8FE"
 							active-text-color="#fff">
 						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
 							<router-link :to="item.link">{{item.titel}}</router-link>
@@ -85,21 +85,31 @@
 			this.$Crypto.getCrypto('iris', 'testnet');
             this.setActiveIndex();
 		},
+        watch: {
+            $route: {
+                handler(val){
+                    this.setActiveIndex(val.path);
+                },
+                deep: true
+            }
+        },
 		methods: {
 			handleSelect(key, keyPath) {
 			},
 			onInputChange () {
 				this.getData()
 			},
-            setActiveIndex(){
-			    this.menuList.forEach((m, i)=>{
-			        if(window.location.hash.includes(m.link)){
-                        this.activeIndex2 = String(i+1);
-                    }
-                })
-            },
-            handleLogoClick(){
-                this.activeIndex2 = '-1'
+            setActiveIndex(hash = window.location.hash){
+			    if(this.menuList.every((m)=>!hash.includes(m.link))){
+                    this.activeIndex2 = '';
+                }else{
+                    this.menuList.forEach((m, i)=>{
+                        if(hash.includes(m.link)){
+                            this.activeIndex2 = String(i+1);
+                        }
+                    })
+                }
+
             },
 			clearSearchContent () {
 				this.searchInputValue = '';

@@ -89,10 +89,10 @@
                             <div v-if="scope.row.txType=='call_service'">
                                     <el-tooltip effect="dark"
                                                 v-if="(scope.row.provider || []).length === 1"
-								            	:content="provider[0]"
+								            	:content="scope.row.provider[0]"
 								            	placement="top">
-						            	<router-link :to="`/address/${provider[0]}`">
-                                        	{{formatAddress(provider[0])}}
+						            	<router-link :to="`/address/${scope.row.provider[0]}`">
+                                        	{{formatAddress(scope.row.provider[0])}}
                                     	</router-link>
 									</el-tooltip>
                                 <div class="service_tx_muti_to_container"
