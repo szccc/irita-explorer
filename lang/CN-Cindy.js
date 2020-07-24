@@ -66,9 +66,9 @@ export const ExplorerCN = {
 		txHash: '交易哈希',
 		block: '区块高度',
 		txType: '交易类型',
-		from: '发送方',
-		to: '接收方',
-		signer: '签名方',
+		from: '发送者',
+		to: '接收者',
+		signer: '签名者',
 		status: '交易状态',
 		timestamp: '交易时间',
 		requestId: '请求标识',
@@ -113,7 +113,7 @@ export const ExplorerCN = {
 		blockHeight: '区块高度：',
 		status: '交易状态：',
 		timestamp: '参考时间：',
-		signer: '签名方：',
+		signer: '签名者：',
 		memo: '备注：',
 		transactionMessage: '交易消息',
 		relevanceTx:'关联交易',
@@ -127,13 +127,13 @@ export const ExplorerCN = {
 		},
 		send:{
 			amount: '数量：',
-			from: '发送方：',
-			to: '接收方：',
+			from: '发送者：',
+			to: '接收者：',
 		},
 		callService: {
-			consumer: '消费服务方：',
+			consumer: '消费服务者：',
 			input: '输入内容：',
-			provider: '服务提供方：',
+			provider: '服务提供者：',
 			repeated: '是否重复调用：',
 			repeatedFrequency: '重复调用频率：',
 			repeatedTotal: '重复调用总数：',
@@ -154,22 +154,22 @@ export const ExplorerCN = {
 		pauseRequestContext:{//pauseRequestContext、startRequestContext、killRequestContext
 			serviceName:'服务名称：',
 			requestContextId:'请求标识：',
-			consumer:'消费服务方：',
+			consumer:'消费服务者：',
 		},
 		// startRequestContext:{
 		// 	serviceName:'服务名称：',
 		// 	requestContextId:'请求标识：',
-		// 	consumer:'消费服务方：',
+		// 	consumer:'消费服务者：',
 		// },
 		// killRequestContext:{
 		// 	serviceName:'服务名称：',
 		// 	requestContextId:'请求标识：',
-		// 	consumer:'消费服务方：',
+		// 	consumer:'消费服务者：',
 		// },
 		updateRequestContext:{
 			serviceName:'服务名称：',
 			requestContextId:'请求标识：',
-			consumer:'消费服务方：',
+			consumer:'消费服务者：',
 			repeatedFrequency: '重复调用频率：',
 			repeatedTotal: '重复调用总数：',
 			serviceFeeCap: '服务费用：',
@@ -201,22 +201,22 @@ export const ExplorerCN = {
 		// 	provider: '服务提供者：',
 		// },
 		burnNft:{
-			sender: '发送方：',
+			sender: '发送者：',
 			denom: '报表类别：',
 			id: '报表标识：'
 		},
 		transferNft: {
 			denom: '报表类别：',
 			id: '报表标识：',
-			recipient: '接收方：',
-			sender: '发送方：',
+			recipient: '接收者：',
+			sender: '发送者：',
 			data: '链上数据：',
 			uri: '链外链接：'
 		},
 		editNft:{
 			denom: '报表类别：',
 			id: '报表标识：',
-			sender: '发送方：',
+			sender: '发送者：',
 			data: '链上数据：',
 			uri: '链外链接：'
 		},
@@ -239,8 +239,8 @@ export const ExplorerCN = {
 		mintNft: {
 			denom: '报表类别：',
 			id: '报表标识：',
-			recipient: '接收方：',
-			sender: '发送方：',
+			recipient: '接收者：',
+			sender: '发送者：',
 			data: '链上数据：',
 			uri: '链外链接：'
 		}

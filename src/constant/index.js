@@ -1,6 +1,6 @@
 
 export const addrPrefix = {
-    accAddr:'csrb',
+    accAddr:'caa',
 }
 
 export const TX_TYPE = {

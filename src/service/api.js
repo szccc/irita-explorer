@@ -160,7 +160,7 @@ export function getTxDetail(hash){
     return get(url);
 }
 
-export function getAddressTxList(address, type, status, pageNum, pageSize){
+export function getAddressTxList(address, type, status, pageNum=1, pageSize=10){
     let url = `txs/addresses?pageNum=${pageNum}&pageSize=${pageSize}&address=${address}&type=${type}&status=${status}&useCount=true`;
     return get(url);
 }
