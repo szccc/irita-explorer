@@ -217,13 +217,14 @@
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.requestHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
-								<img class="status_icon"
+								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
                                             src="../assets/success.png"/>
-								<el-tooltip effect="dark"
+								<el-tooltip v-if="scope.row.requestHash && scope.row.requestHash != '--'" effect="dark"
 								            :content="scope.row.requestHash"
 								            placement="top">
 									<router-link :to="`/tx?txHash=${scope.row.requestHash}`">{{formatTxHash(scope.row.requestHash)}}</router-link>
 								</el-tooltip>
+								<span v-else>{{'--'}}</span>
 							</div>
 						</template>
 					</el-table-column>
@@ -406,6 +407,7 @@
 			}
 		},
 		mounted () {
+			document.documentElement.scrollTop = 0;
 			this.getOwnerDetail();
 			this.getAllTxType();
 			this.getTxByAddress();
@@ -578,6 +580,10 @@
                                     result.isAvailable = bind.available;
                                     result.pricing = JSON.parse(bind.pricing || '{}').price;
                                     result.qos = bind.qos;
+                                    if (bind.disabled_time) {
+                                    	let time = new Date(bind.disabled_time).getTime();
+                                    	result.unbindTime = time>0 ? Tools.getDisplayDate(time/1000) : '--';
+                                    }
                                 }
                             })
                             if (result.pricing && result.pricing.length) {

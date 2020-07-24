@@ -173,7 +173,8 @@
                         <div v-if="txType === 'bind_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.bindService.serviceName')}}</span>
-                                <span>{{defineName}}</span>
+                                <router-link v-if="defineName != '--'" :to="`/service?serviceName=${defineName}`">{{defineName}}</router-link>
+                                <span v-if="defineName == '--'"> -- </span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.bindService.pricing')}}</span>

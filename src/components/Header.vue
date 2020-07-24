@@ -154,7 +154,7 @@
 			},
 			async searchDelegator () {
                 try {
-                    const res = await getAddressTxList(this.searchInputValue, 1, 10);
+                    const res = await getAddressTxList(this.searchInputValue,'','', 1, 10);
                     if(res){
                         this.$router.push(`/address/${this.searchInputValue}`);
                         this.clearSearchContent();
