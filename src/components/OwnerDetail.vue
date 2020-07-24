@@ -242,13 +242,13 @@
                     <span class="address_transaction_condition_count">
                         {{ totalTxNumber }} Txs
                     </span>
-                    <el-select v-model="type">
+                    <el-select v-model="type_temp">
                         <el-option v-for="(item, index) in txTypeOption"
                                    :key="index"
                                    :label="item.label"
                                    :value="item.value"></el-option>
                     </el-select>
-                    <el-select v-model="status">
+                    <el-select v-model="status_temp">
                         <el-option v-for="(item, index) in statusOpt"
                                    :key="index"
                                    :label="item.label"
@@ -370,6 +370,8 @@
 				respondRecordCount:0,
 				type:'',
                 status:'',
+                type_temp:'',
+                status_temp:'',
                 statusOpt : [
                     {
                         value : '',
@@ -642,6 +644,8 @@
             	return this.$t('ExplorerCN.addressDetail.totalRespond').replace(/\$\{\%value\%\}/, count);
             },
             handleSearchClick(){
+            	this.type = this.type_temp;
+            	this.status = this.status_temp;
                 this.pageNum = 1;
                 this.getTxByAddress();
             },
