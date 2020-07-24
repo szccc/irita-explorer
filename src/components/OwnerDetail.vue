@@ -87,16 +87,20 @@
                             	</router-link>
 							</el-tooltip>
                             <div v-if="scope.row.txType=='call_service'">
-                                <p v-for="provider in getCallProviders(scope.row.provider)">
                                     <el-tooltip effect="dark"
-								            	:content="provider"
+                                                v-if="(scope.row.provider || []).length === 1"
+								            	:content="provider[0]"
 								            	placement="top">
-						            	<router-link :to="`/address/${provider}`">
-                                        	{{formatAddress(provider)}}
+						            	<router-link :to="`/address/${provider[0]}`">
+                                        	{{formatAddress(provider[0])}}
                                     	</router-link>
 									</el-tooltip>
-                                </p>
-                                <p v-if="scope.row.txType=='call_service' && (scope.row.provider || []).length > 2"> ... </p>
+                                <div class="service_tx_muti_to_container"
+                                     v-else>
+                                    <router-link :to="`/tx?txHash=${scope.row.txHash}`">
+                                        {{ scope.row.provider.length }} providers
+                                    </router-link>
+                                </div>
                             </div>
                         </template>
                     </el-table-column>
@@ -285,25 +289,20 @@
 					</el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
 						<template slot-scope="scope">
-							<div v-if="typeof scope.row.to == 'string'">
-                            	<el-tooltip class="item" effect="dark" :content="scope.row.to" placement="top">
-									<router-link  v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
-								</el-tooltip>
-								<span v-if="scope.row.to === '--'">--</span>
+                            <el-tooltip effect="dark"
+                                        v-if="typeof scope.row.to === 'string'"
+                                        :content="scope.row.to"
+                                        placement="top">
+                                <router-link :to="`/address/${scope.row.to}`">
+                                    {{formatAddress(scope.row.to)}}
+                                </router-link>
+                            </el-tooltip>
+                            <div class="service_tx_muti_to_container"
+                                 v-else>
+                                <router-link :to="`/tx?txHash=${scope.row.txHash}`">
+                                    {{ scope.row.to.length }} providers
+                                </router-link>
                             </div>
-                            <div v-else>
-                                <p v-for="to in getCallProviders(scope.row.to)">
-                                    <el-tooltip effect="dark"
-								            	:content="to"
-								            	placement="top">
-						            	<router-link :to="`/address/${to}`">
-                                        	{{formatAddress(to)}}
-                                    	</router-link>
-									</el-tooltip>
-                                </p>
-                                <p v-if="scope.row.txType=='call_service' && (scope.row.to || []).length > 2"> ... </p>
-                            </div>
-                            
 						</template>
 					</el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
