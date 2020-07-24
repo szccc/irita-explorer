@@ -58,9 +58,12 @@
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
                             <template slot-scope="scope">
                                 <span>
+                                    <el-tooltip :content="scope.row.provider">
                                     <router-link :to="`/address/${scope.row.provider}`">
                                         {{Tools.formatValidatorAddress(scope.row.provider)}}
                                     </router-link>
+                                </el-tooltip>
+
                                 </span>
                             </template>
                         </el-table-column>
@@ -157,9 +160,12 @@
                                 <img class="service_tx_status"
                                      v-else
                                      src="../assets/failed.png"/>
-                                <router-link :to="`tx?txHash=${scope.row.txHash}`">
-                                    {{formatTxHash(scope.row.txHash)}}
-                                </router-link>
+                                <el-tooltip :content="scope.row.txHash">
+                                    <router-link :to="`tx?txHash=${scope.row.txHash}`">
+                                        {{formatTxHash(scope.row.txHash)}}
+                                    </router-link>
+                                </el-tooltip>
+
                             </template>
                         </el-table-column>
                         <el-table-column min-width="180px" :label="$t('ExplorerCN.transactions.type')"
@@ -175,33 +181,33 @@
                         </el-table-column>
                         <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.from')">
                             <template slot-scope="scope">
-                                <router-link :to="`/address/${scope.row.from}`"
-                                             v-if="scope.row.from !== '--'">
-                                    {{formatAddress(scope.row.from)}}
-                                </router-link>
+
+                                <el-tooltip :content="scope.row.from"
+                                            v-if="scope.row.from !== '--'">
+                                    <router-link :to="`/address/${scope.row.from}`"
+                                                 v-if="scope.row.from !== '--'">
+                                        {{formatAddress(scope.row.from)}}
+                                    </router-link>
+                                </el-tooltip>
                                 <span v-else>--</span>
                             </template>
                         </el-table-column>
 
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
                             <template slot-scope="scope">
-                                <span v-if="scope.row.to === '--'">--</span>
-                                <div class="service_tx_to_container" v-else>
-                                    <router-link
+                                <el-tooltip effect="dark"
                                             v-if="typeof scope.row.to === 'string'"
-                                            :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}
+                                            :content="scope.row.to"
+                                            placement="top">
+                                    <router-link :to="`/address/${scope.row.to}`">
+                                        {{formatAddress(scope.row.to)}}
                                     </router-link>
-                                    <div class="service_tx_muti_to_container" v-else>
-                                        <router-link :to="`/address/${scope.row.to[0]}`">
-                                            {{formatAddress(scope.row.to[0])}}
-                                        </router-link>
-                                        <router-link :to="`/address/${scope.row.to[1]}`">
-                                            {{formatAddress(scope.row.to[1])}}
-                                        </router-link>
-                                        <router-link :to="`/tx?txHash=${scope.row.txHash}`">
-                                            ...
-                                        </router-link>
-                                    </div>
+                                </el-tooltip>
+                                <div class="service_tx_muti_to_container"
+                                     v-else>
+                                    <router-link :to="`/tx?txHash=${scope.row.txHash}`">
+                                        {{ scope.row.to.length }} providers
+                                    </router-link>
                                 </div>
                             </template>
                         </el-table-column>

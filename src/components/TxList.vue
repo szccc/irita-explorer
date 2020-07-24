@@ -90,23 +90,19 @@
                     </el-table-column>
                     <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
                         <template slot-scope="scope">
-                            <span v-if="scope.row.to === '--'">--</span>
-                            <div class="service_tx_to_container" v-else>
-                                <router-link
+                            <el-tooltip effect="dark"
                                         v-if="typeof scope.row.to === 'string'"
-                                        :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}
+                                        :content="scope.row.to"
+                                        placement="top">
+                                <router-link :to="`/address/${scope.row.to}`">
+                                    {{formatAddress(scope.row.to)}}
                                 </router-link>
-                                <div class="service_tx_muti_to_container" v-else>
-                                    <router-link :to="`/address/${scope.row.to[0]}`">
-                                        {{formatAddress(scope.row.to[0])}}
-                                    </router-link>
-                                    <router-link :to="`/address/${scope.row.to[1]}`">
-                                        {{formatAddress(scope.row.to[1])}}
-                                    </router-link>
-                                    <router-link :to="`/tx?txHash=${scope.row.txHash}`">
-                                        ...
-                                    </router-link>
-                                </div>
+                            </el-tooltip>
+                            <div class="service_tx_muti_to_container"
+                                 v-else>
+                                <router-link :to="`/tx?txHash=${scope.row.txHash}`">
+                                    {{ scope.row.to.length }} providers
+                                </router-link>
                             </div>
                         </template>
                     </el-table-column>
