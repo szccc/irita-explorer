@@ -135,7 +135,7 @@
 							margin: 0.3rem 0 0.1rem 0;
 						}
 					}
-                    @media screen and (min-width: 910px) and (max-width: 1280px){
+                    @media screen and (min-width: 910px){
                         .block_list_herder_top_content{
 
                             justify-content: space-between;
