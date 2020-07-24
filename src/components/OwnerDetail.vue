@@ -141,11 +141,16 @@
 							</div>
 						</template>
 					</el-table-column>
+					<!-- <el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.pricing')">
+						<template slot-scope="scope">
+							<span>{{scope.row.pricing}}</span>
+						</template>
+					</el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.deposit')">
 						<template slot-scope="scope">
 							<span>{{scope.row.deposit}}</span>
 						</template>
-					</el-table-column>
+					</el-table-column> -->
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.qos')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.qos} blocks`}}</span>

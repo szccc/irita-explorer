@@ -185,6 +185,10 @@
                                 </router-link>
                                 <span v-if="defineName == '--'"> -- </span>
                             </p>
+                            <!-- <p>
+                                <span>{{$t('ExplorerCN.transactionInformation.bindService.pricing')}}</span>
+                                <span>{{pricing}}</span>
+                            </p> -->
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.bindService.qos')}}</span>
                                 <span>{{qos}}</span>
@@ -494,10 +498,10 @@
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.repeatedTotal')}}</span>
                                 <span>{{repeatedTotal}}</span>
                             </p>
-                            <p>
+                            <!-- <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.serviceFeeCap')}}</span>
                                 <span>{{serviceFeeCap}}</span>
-                            </p>
+                            </p> -->
                             <!-- <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.superMode')}}</span>
                                 <span>{{superMode}}</span>
@@ -534,6 +538,10 @@
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
+                           <!--  <p>
+                                <span>{{$t('ExplorerCN.transactionInformation.updateServiceBinding.pricing')}}</span>
+                                <span>{{pricing}}</span>
+                            </p> -->
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.requestContextId')}}</span>
                                 <span>{{(requestContextId || '').toUpperCase()}}</span>
@@ -562,10 +570,10 @@
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.repeatedTotal')}}</span>
                                 <span>{{repeatedTotal}}</span>
                             </p>
-                            <p>
+                            <!-- <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.serviceFeeCap')}}</span>
                                 <span>{{serviceFeeCap}}</span>
-                            </p>
+                            </p> -->
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.timeOut')}}</span>
                                 <span>{{timeout}}</span>

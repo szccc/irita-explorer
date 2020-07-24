@@ -94,9 +94,12 @@
 
                             </template>
                         </el-table-column>
+                        <!-- <el-table-column min-width="120px"
+                                         :label="$t('ExplorerCN.serviceDetail.serviceBindings.pricing')"
+                                         prop="price"></el-table-column>
                         <el-table-column min-width="120px"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
-                                         prop="deposit"></el-table-column>
+                                         prop="deposit"></el-table-column> -->
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')"
                                          prop="qos"></el-table-column>
                         <el-table-column min-width="160px"
