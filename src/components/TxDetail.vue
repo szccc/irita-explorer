@@ -97,7 +97,7 @@
                             </p>
                             <p v-if="txType === 'call_service'">
                                 <span>Service Name:</span>
-                                <span>{{serviceName}}</span>
+                                <router-link :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
                             </p>
                             <p v-if="txType === 'call_service'">
                                 <span>Bind Chain ID:</span>
@@ -145,7 +145,7 @@
                         <div v-if="txType === 'define_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.defineService.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.defineService.description')}}</span>
@@ -425,7 +425,7 @@
                         <div v-if="txType === 'respond_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.respondService.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.respondService.requestId')}}</span>
@@ -447,7 +447,7 @@
                         <div v-if="txType === 'call_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.requestContextId')}}</span>
@@ -497,7 +497,7 @@
                                    txType === 'kill_request_context'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.pauseRequestContext.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.pauseRequestContext.requestContextId')}}</span>
@@ -511,7 +511,7 @@
                         <div v-if="txType === 'update_request_context'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.requestContextId')}}</span>
@@ -547,7 +547,7 @@
                         <div v-if="txType === 'update_service_binding'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateServiceBinding.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateServiceBinding.pricing')}}</span>
@@ -573,7 +573,7 @@
                         <div v-if="txType === 'disable_service_binding' || txType === 'refund_service_deposit'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.disableServiceBinding.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.disableServiceBinding.provider')}}</span>
@@ -587,7 +587,7 @@
                         <div v-if="txType === 'enable_service_binding'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.enableServiceBinding.serviceName')}}</span>
-                                <span>{{serviceName}}</span>
+                                <router-link :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.enableServiceBinding.deposit')}}</span>

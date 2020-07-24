@@ -163,7 +163,7 @@
 					</el-table-column>
 					<el-table-column min-width="200px" :label="$t('ExplorerCN.addressDetail.disabledTime')">
 						<template slot-scope="scope">
-							<span>{{scope.row.unbindTime}}</span>
+							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -171,9 +171,10 @@
 				<el-table :data="respondRecordList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
-							<el-tooltip class="item" effect="dark" :content="scope.row.serviceName" placement="top">
+							<el-tooltip v-if="scope.row.serviceName" class="item" effect="dark" :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</el-tooltip>
+							<span v-if="!scope.row.serviceName">--</span>
 						</template>
 					</el-table-column>
 					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="type"></el-table-column>
