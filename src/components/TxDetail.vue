@@ -3,7 +3,9 @@
         <div class="tx_detail_content_wrap">
             <div class="tx_detail_content">
                 <div class="tx_detail_title">
-                    <div class="tx_detail_title_first">{{`${$t('ExplorerCN.transactionInformation.transactionInformation')} |`}}</div>
+                    <div class="tx_detail_title_first">
+                        {{`${$t('ExplorerCN.transactionInformation.transactionInformation')} |`}}
+                    </div>
                     <div class="tx_detail_title_hash">{{txHash}}</div>
                 </div>
                 <div class="tx_information_content">
@@ -22,7 +24,8 @@
                     </p>
                     <p class="tx_information_list_item">
                         <span>{{$t('ExplorerCN.transactionInformation.signer')}}</span>
-                        <span style="word-break:break-all;"><router-link :to="`/address/${signer}`">{{signer}}</router-link></span>
+                        <span style="word-break:break-all;"><router-link
+                                :to="`/address/${signer}`">{{signer}}</router-link></span>
                     </p>
                     <p class="tx_information_list_item">
                         <span>{{$t('ExplorerCN.transactionInformation.memo')}}</span>
@@ -30,7 +33,7 @@
                     </p>
                 </div>
                 <div class="tx_information_tx_message_content">
-                    
+
                     <div class="tx_information_tx_content">
                         <div class="tx_information_tx_message_title">
                             {{$t('ExplorerCN.transactionInformation.transactionMessage')}}
@@ -97,7 +100,9 @@
                             </p>
                             <p v-if="txType === 'call_service'">
                                 <span>Service Name:</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
+                                    {{serviceName}}
+                                </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p v-if="txType === 'call_service'">
@@ -146,7 +151,9 @@
                         <div v-if="txType === 'define_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.defineService.serviceName')}}</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
+                                    {{serviceName}}
+                                </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
@@ -173,7 +180,9 @@
                         <div v-if="txType === 'bind_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.bindService.serviceName')}}</span>
-                                <router-link v-if="defineName != '--'" :to="`/service?serviceName=${defineName}`">{{defineName}}</router-link>
+                                <router-link v-if="defineName != '--'" :to="`/service?serviceName=${defineName}`">
+                                    {{defineName}}
+                                </router-link>
                                 <span v-if="defineName == '--'"> -- </span>
                             </p>
                             <p>
@@ -192,13 +201,14 @@
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.bindService.owner')}}</span>
                                 <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
-                            </p>                
+                            </p>
                         </div>
                         <div v-if="txType === 'create_record'" class="record_container">
                             <div class="record_content">
                                 <p class="record_name">Contents：</p>
                                 <div class="record_list_content">
-                                    <el-table :data="recordArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
+                                    <el-table :data="recordArray"
+                                              :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
                                         <el-table-column label="digest" prop="digest" width="300px"></el-table-column>
                                         <el-table-column label="digest algo" width="150px"
                                                          prop="digest_algo"></el-table-column>
@@ -424,7 +434,9 @@
                         <div v-if="txType === 'respond_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.respondService.serviceName')}}</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
+                                    {{serviceName}}
+                                </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
@@ -447,7 +459,9 @@
                         <div v-if="txType === 'call_service'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.serviceName')}}</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
+                                    {{serviceName}}
+                                </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
@@ -498,7 +512,9 @@
                                    txType === 'kill_request_context'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.pauseRequestContext.serviceName')}}</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
+                                    {{serviceName}}
+                                </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
@@ -513,7 +529,9 @@
                         <div v-if="txType === 'update_request_context'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.serviceName')}}</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
+                                    {{serviceName}}
+                                </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
@@ -526,9 +544,15 @@
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.provider')}}</span>
-                                <span style="display: flex;flex-direction: column"><router-link
-                                        v-for="(item,index) in provider" :key="index"
-                                        :to="`/address/${item}`">{{item}}</router-link></span>
+                                <span style="display: flex;flex-direction: column" v-if="provider.length > 0">
+                                    <router-link
+                                            v-for="(item,index) in provider"
+                                            :key="index"
+                                            :to="`/address/${item}`">
+                                        {{item}}
+                                    </router-link>
+                                </span>
+                                <span v-else>--</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.repeatedFrequency')}}</span>
@@ -550,7 +574,9 @@
                         <div v-if="txType === 'update_service_binding'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateServiceBinding.serviceName')}}</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
+                                    {{serviceName}}
+                                </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
@@ -573,7 +599,9 @@
                         <div v-if="txType === 'disable_service_binding' || txType === 'refund_service_deposit'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.disableServiceBinding.serviceName')}}</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
+                                    {{serviceName}}
+                                </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
@@ -588,7 +616,9 @@
                         <div v-if="txType === 'enable_service_binding'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.enableServiceBinding.serviceName')}}</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">{{serviceName}}</router-link>
+                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
+                                    {{serviceName}}
+                                </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
@@ -612,37 +642,45 @@
                             {{$t('ExplorerCN.transactionInformation.relevanceTx')}}
                         </div>
                         <div class="tx_information_relevance_tx_list_content">
-                            <el-table :data="relevanceTxs" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
+                            <el-table :data="relevanceTxs"
+                                      :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
                                 <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                                     <template slot-scope="scope">
-                                        <div class="tx_information_relevance_tx_list_content_hash" >
+                                        <div class="tx_information_relevance_tx_list_content_hash">
                                             <img class="service_tx_status"
-                                             :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+                                                 :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
                                             <el-tooltip :content="scope.row.txHash"
                                                         class="item"
                                                         placement="top"
                                                         effect="dark">
-                                                <router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}
+                                                <router-link :to="`tx?txHash=${scope.row.txHash}`">
+                                                    {{formatTxHash(scope.row.txHash)}}
                                                 </router-link>
                                             </el-tooltip>
                                         </div>
                                     </template>
                                 </el-table-column>
-                                <el-table-column min-width="120px" :label="$t('ExplorerCN.transactionInformation.txType')" prop="txType"></el-table-column>
-                                <el-table-column min-width="130px" :label="$t('ExplorerCN.transactionInformation.requestId')">
+                                <el-table-column min-width="120px"
+                                                 :label="$t('ExplorerCN.transactionInformation.txType')"
+                                                 prop="txType"></el-table-column>
+                                <el-table-column min-width="130px"
+                                                 :label="$t('ExplorerCN.transactionInformation.requestId')">
                                     <template slot-scope="scope">
                                         <span>{{formatAddress(scope.row.txType=='call_service'?scope.row.requestContextId:scope.row.requestId)}}</span>
                                     </template>
                                 </el-table-column>
                                 <el-table-column :label="$t('ExplorerCN.transactions.block')">
                                     <template slot-scope="scope">
-                                        <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
+                                        <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}
+                                        </router-link>
                                     </template>
                                 </el-table-column>
-                                <el-table-column min-width="120px" :label="$t('ExplorerCN.transactionInformation.provider')">
+                                <el-table-column min-width="120px"
+                                                 :label="$t('ExplorerCN.transactionInformation.provider')">
                                     <template slot-scope="scope">
-                                        <router-link  v-if="scope.row.txType=='respond_service'" :to="`/address/${scope.row.provider}`">
-                                                {{formatAddress(scope.row.provider)}}
+                                        <router-link v-if="scope.row.txType=='respond_service'"
+                                                     :to="`/address/${scope.row.provider}`">
+                                            {{formatAddress(scope.row.provider)}}
                                         </router-link>
                                         <div v-else>
                                             <el-tooltip effect="dark"
@@ -662,7 +700,8 @@
                                         </div>
                                     </template>
                                 </el-table-column>
-                                <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
+                                <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time"
+                                                 width="200px">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.time}}</span>
                                     </template>
@@ -688,7 +727,7 @@
 <script>
     import Tools from "../util/Tools";
     import MPagination from "./MPagination";
-    import {getTxDetail,getRelevanceTxList} from "../service/api";
+    import { getTxDetail, getRelevanceTxList } from "../service/api";
 
     export default {
         name : "TxDetail",
@@ -757,12 +796,12 @@
                 qos : '',
                 schemas : '',
                 requestContextId : '',
-                serviceFeeCap:'',
-                timeout:'',
-                relevanceTxs: [],
-                txCount: 0,
-                pageNum: 1,
-                pageSize: 10,
+                serviceFeeCap : '',
+                timeout : '',
+                relevanceTxs : [],
+                txCount : 0,
+                pageNum : 1,
+                pageSize : 10,
             }
         },
         mounted(){
@@ -845,7 +884,7 @@
                             case 'bind_service':
                                 this.defineName = res.msgs[0].msg.service_name || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
-                                if (res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length) {
+                                if(res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length){
                                     this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}` || '--';
                                 }
                                 this.owner = res.msgs[0].msg.owner || '--';
@@ -855,7 +894,7 @@
                             case 'send':
                                 this.from = res.msgs[0].msg.fromaddress || '--';
                                 this.to = res.msgs[0].msg.toaddress || '--';
-                                if (res.msgs[0].msg.amount && res.msgs[0].msg.amount.length) {
+                                if(res.msgs[0].msg.amount && res.msgs[0].msg.amount.length){
                                     this.amount = `${res.msgs[0].msg.amount[0].amount} ${res.msgs[0].msg.amount[0].denom}` || '--';
                                 }
                                 break;
@@ -873,15 +912,15 @@
                                 this.repeated = res.msgs[0].msg.repeated || '--';
                                 this.repeatedFrequency = res.msgs[0].msg.repeated_frequency || '--';
                                 this.repeatedTotal = res.msgs[0].msg.repeated_total || '--';
-                                if (res.msgs[0].msg.service_fee_cap && res.msgs[0].msg.service_fee_cap.length) {
+                                if(res.msgs[0].msg.service_fee_cap && res.msgs[0].msg.service_fee_cap.length){
                                     this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}` || '--';
                                 }
                                 this.serviceName = res.msgs[0].msg.service_name || '--';
                                 this.superMode = res.msgs[0].msg.super_mode || '--';
                                 this.timeout = res.msgs[0].msg.timeout || '--';
-                                res.events.forEach((item)=>{
-                                    (item.attributes || []).forEach((attr)=>{
-                                        if (attr.key == 'request_context_id') {
+                                res.events.forEach((item) =>{
+                                    (item.attributes || []).forEach((attr) =>{
+                                        if(attr.key == 'request_context_id'){
                                             this.requestContextId = attr.value || '--';
                                         }
                                     });
@@ -966,15 +1005,17 @@
                                 this.provider = res.msgs[0].msg.providers || '--';
                                 this.repeatedFrequency = res.msgs[0].msg.repeated_frequency || '--';
                                 this.repeatedTotal = res.msgs[0].msg.repeated_total || '--';
-                                if (res.msgs[0].msg.service_fee_cap && res.msgs[0].msg.service_fee_cap.length) {
+                                if(res.msgs[0].msg.service_fee_cap && res.msgs[0].msg.service_fee_cap.length){
                                     this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}` || '--';
+                                }else{
+                                    this.serviceFeeCap = '--'
                                 }
-                                this.timeout = res.msgs[0].msg.timeout || '--';
+                                this.timeout = (res.msgs[0].msg.timeout || res.msgs[0].msg.timeout === 0) ? res.msgs[0].msg.timeout : '--';
                                 break;
                             case 'update_service_binding':
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
-                                if (res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length) {
+                                if(res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length){
                                     this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}` || '--';
                                 }
                                 this.owner = res.msgs[0].msg.owner || '--';
@@ -989,7 +1030,7 @@
                             case 'enable_service_binding':
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
-                                if (res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length) {
+                                if(res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length){
                                     this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}` || '--';
                                 }
                                 this.owner = res.msgs[0].msg.owner || '--';
@@ -1002,7 +1043,7 @@
                         }
                         this.relevanceTxList();
                     }
-                }catch (e) {
+                } catch (e) {
                     console.error(e);
                     this.$message.error(this.$t('ExplorerCN.message.txInfoFailed'));
                 }
@@ -1030,49 +1071,49 @@
             },
             async relevanceTxList(){
                 let type = '';
-                switch(this.txType){
+                switch (this.txType){
                     case 'call_service':
-                    type = 'respond_service';
-                    break;
+                        type = 'respond_service';
+                        break;
                     case 'respond_service':
-                    type = 'call_service';
-                    break;
+                        type = 'call_service';
+                        break;
                 }
-                console.log(this.TxType,'///',type,'///',this.requestContextId);
-                if (type && type.length && this.requestContextId && this.requestContextId.length) {
-                    try{
+                console.log(this.TxType, '///', type, '///', this.requestContextId);
+                if(type && type.length && this.requestContextId && this.requestContextId.length){
+                    try {
                         const res = await getRelevanceTxList(type, this.requestContextId, this.pageNum, this.pageSize, true);
-                        if (res) {
+                        if(res){
                             this.txCount = res.count;
-                            this.relevanceTxs = res.data.map((tx)=>{
+                            this.relevanceTxs = res.data.map((tx) =>{
                                 let result = {
                                     status : tx.status,
                                     txHash : tx.tx_hash,
                                     txType : tx.type,
                                     blockHeight : tx.height,
-                                    time :Tools.getDisplayDate(tx.time),
+                                    time : Tools.getDisplayDate(tx.time),
                                 };
-                                switch(tx.type){
-                                        case 'call_service':
-                                            result.provider = tx.msgs[0].msg.providers;
-                                            tx.events.forEach((item)=>{
-                                                (item.attributes || []).forEach((attr)=>{
-                                                    if (attr.key == 'request_context_id') {
-                                                        result.requestContextId = attr.value;
-                                                    }
-                                                });
+                                switch (tx.type){
+                                    case 'call_service':
+                                        result.provider = tx.msgs[0].msg.providers;
+                                        tx.events.forEach((item) =>{
+                                            (item.attributes || []).forEach((attr) =>{
+                                                if(attr.key == 'request_context_id'){
+                                                    result.requestContextId = attr.value;
+                                                }
                                             });
+                                        });
                                         break;
-                                        case 'respond_service':
-                                            result.provider = tx.msgs[0].msg.provider;
-                                            result.requestId = tx.msgs[0].msg.request_id;
+                                    case 'respond_service':
+                                        result.provider = tx.msgs[0].msg.provider;
+                                        result.requestId = tx.msgs[0].msg.request_id;
                                         break;
-                                    }                                    
+                                }
                                 return result;
                             });
                         }
-                        console.log('=========:',this.relevanceTxs);
-                    }catch(e){
+                        console.log('=========:', this.relevanceTxs);
+                    } catch (e) {
                         console.error(e);
                     }
                 }
@@ -1086,7 +1127,7 @@
                 return Tools.formatValidatorAddress(address)
             },
             getCallProviders(providers){
-                if (providers && providers.length>2) {
+                if(providers && providers.length > 2){
                     return providers.slice(0, 2);
                 }
                 return providers;
@@ -1101,7 +1142,7 @@
     }
 
     .tx_detail_container {
-        padding:0 0.15rem;
+        padding: 0 0.15rem;
         .tx_detail_content_wrap {
             max-width: 12rem;
             margin: 0 auto;
@@ -1114,18 +1155,18 @@
                     line-height: 0.21rem;
                     margin: 0.3rem 0 0.15rem 0.25rem;
                     text-align: left;
-                    font-family:PingFangSC-Semibold,PingFang SC;
-                    font-weight:600;
-                    .tx_detail_title_first{
+                    font-family: PingFangSC-Semibold, PingFang SC;
+                    font-weight: 600;
+                    .tx_detail_title_first {
                         white-space: nowrap;
-                        margin-right:0.05rem;
+                        margin-right: 0.05rem;
                     }
-                    .tx_detail_title_hash{
-                        font-size:0.14rem;
-                        font-family:PingFangSC-Regular,PingFang SC;
-                        font-weight:400;
-                        color:#171D44;
-                        line-height:20px;
+                    .tx_detail_title_hash {
+                        font-size: 0.14rem;
+                        font-family: PingFangSC-Regular, PingFang SC;
+                        font-weight: 400;
+                        color: #171D44;
+                        line-height: 20px;
                         word-break: break-all;
                     }
                 }
@@ -1133,16 +1174,16 @@
                     box-sizing: border-box;
                     padding: 0.25rem;
                     background: #fff;
-                    text-align:left;
-                    border-radius:0.05rem;
-                    border:1px solid #D7D7D7;
-                    .tx_information_list_title{
-                        font-size:0.16rem;
-                        font-family:PingFangSC-Semibold,PingFang SC;
-                        font-weight:600;
+                    text-align: left;
+                    border-radius: 0.05rem;
+                    border: 1px solid #D7D7D7;
+                    .tx_information_list_title {
+                        font-size: 0.16rem;
+                        font-family: PingFangSC-Semibold, PingFang SC;
+                        font-weight: 600;
                         color: #171D44;
-                        line-height:22px;
-                        margin-bottom:0.48rem;
+                        line-height: 22px;
+                        margin-bottom: 0.48rem;
                     }
                     .tx_information_list_item {
                         display: flex;
@@ -1154,8 +1195,8 @@
                             color: #787C99;
                             font-size: 0.14rem;
                             line-height: 0.16rem;
-                            font-family:PingFangSC-Semibold,PingFang SC;
-                            font-weight:600;
+                            font-family: PingFangSC-Semibold, PingFang SC;
+                            font-weight: 600;
                         }
                         span:nth-of-type(2) {
                             text-align: left;
@@ -1175,15 +1216,15 @@
                         box-sizing: border-box;
                         padding: 0.25rem;
                         background: #fff;
-                        border-radius:0.05rem;
-                        border:1px solid #D7D7D7;
+                        border-radius: 0.05rem;
+                        border: 1px solid #D7D7D7;
                         .tx_information_tx_message_title {
                             text-align: left;
                             font-size: 0.16rem;
                             font-weight: bold;
-                            margin-bottom:0.48rem;
-                            font-family:PingFangSC-Semibold,PingFang SC;
-                            font-weight:600;
+                            margin-bottom: 0.48rem;
+                            font-family: PingFangSC-Semibold, PingFang SC;
+                            font-weight: 600;
                         }
                         .record_container {
                             display: flex;
@@ -1223,8 +1264,8 @@
                                 min-width: 1.5rem;
                                 text-align: left;
                                 font-size: 0.14rem;
-                                font-family:PingFangSC-Semibold,PingFang SC;
-                                font-weight:600;
+                                font-family: PingFangSC-Semibold, PingFang SC;
+                                font-weight: 600;
                             }
                             span:nth-of-type(2) {
                                 flex: 1;
@@ -1240,33 +1281,33 @@
                     }
 
                 }
-                .tx_information_relevance_tx{
+                .tx_information_relevance_tx {
                     margin: 0.48rem 0 0.1rem 0;
                     .tx_information_relevance_tx_content {
                         box-sizing: border-box;
                         padding: 0.25rem;
                         background: #fff;
-                        border-radius:0.05rem;
-                        border:1px solid #D7D7D7;
+                        border-radius: 0.05rem;
+                        border: 1px solid #D7D7D7;
                         .tx_information_relevance_tx_title {
                             text-align: left;
                             font-size: 0.16rem;
                             font-weight: bold;
-                            margin-bottom:0.48rem;
-                            font-family:PingFangSC-Semibold,PingFang SC;
-                            font-weight:600;
+                            margin-bottom: 0.48rem;
+                            font-family: PingFangSC-Semibold, PingFang SC;
+                            font-weight: 600;
                         }
-                        .tx_information_relevance_tx_list_content{
-                            .tx_information_relevance_tx_list_content_hash{
+                        .tx_information_relevance_tx_list_content {
+                            .tx_information_relevance_tx_list_content_hash {
                                 display: flex;
                                 align-items: center;
-                                .service_tx_status{
-                                    width:0.13rem;
-                                    height:0.13rem;
-                                    margin-right:0.05rem;
+                                .service_tx_status {
+                                    width: 0.13rem;
+                                    height: 0.13rem;
+                                    margin-right: 0.05rem;
                                 }
                             }
-                            
+
                         }
                         .pagination_content {
                             display: flex;
@@ -1282,47 +1323,47 @@
     @media screen and (max-width: 768px) {
         .tx_detail_container {
             .tx_detail_content_wrap {
-                
+
                 .tx_detail_content {
                     .tx_detail_title {
-                        
+
                     }
                     .tx_information_content {
-                        
+
                         .tx_information_list_item {
-                            
+
                             span:nth-of-type(1) {
                                 min-width: 1rem;
                             }
                             span:nth-of-type(2) {
-                                
+
                             }
                         }
                         .tx_information_list_item:last-child {
-                            
+
                         }
                     }
                     .tx_information_tx_message_content {
                         .tx_information_tx_message_title {
-                            
+
                         }
                         .tx_information_tx_content {
-                            
+
                             .record_container {
-                                
+
                                 .record_content {
-                                    
+
                                     .record_name {
                                         min-width: 1rem;
                                     }
                                     .record_list_content {
-                                        
+
                                         /deep/ .el-table {
-                                            
+
                                             tr {
-                                                
+
                                                 th {
-                                                    
+
                                                 }
                                             }
                                         }
@@ -1330,16 +1371,16 @@
                                 }
                             }
                             p {
-                                
+
                                 span:nth-of-type(1) {
                                     min-width: 1rem;
                                 }
                                 span:nth-of-type(2) {
-                                    
+
                                 }
                             }
                             p:last-child {
-                                
+
                             }
                         }
 
