@@ -237,7 +237,7 @@ export const ExplorerCN = {
         providerTitle : '服务调用-作为提供者',
         respondRecord : '响应记录',
         timestamp : '交易时间',
-        assets : '资产列表',
+        assets : '数据对象',
         denom : '报表类别',
         name : '名称',
         id : '报表标识',
