@@ -1035,9 +1035,9 @@
                                 if(res.msgs[0].msg.service_fee_cap && res.msgs[0].msg.service_fee_cap.length){
                                     this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}` || '--';
                                 }else{
-                                    this.serviceFeeCap = '--'
+                                    this.serviceFeeCap = '--';
                                 }
-                                this.timeout = (res.msgs[0].msg.timeout || res.msgs[0].msg.timeout === 0) ? res.msgs[0].msg.timeout : '--';
+                                this.timeout = (res.msgs[0].msg.timeout) ? res.msgs[0].msg.timeout : '--';
                                 break;
                             case 'update_service_binding':
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
