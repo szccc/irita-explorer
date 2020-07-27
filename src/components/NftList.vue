@@ -115,13 +115,11 @@
 				this.getNftsByFilter()
 			},
 			async getNftsByFilter(){
-				if (this.$Codec.Bech32.isBech32(addrPrefix.accAddr, this.input)) {
-					this.owner = this.input
-				} else if (this.$Codec.Bech32.isBech32(addrPrefix.accAddr, this.input)) {
-					this.owner = this.input
+				if (Tools.isBech32(this.input)) {
+					this.owner = this.input;
 				}
 				if(!this.owner){
-					this.tokenId =  this.input
+					this.tokenId =  this.input;
 				}
 				sessionStorage.setItem('selectDenom',this.denom)
 								

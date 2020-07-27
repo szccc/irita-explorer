@@ -1,5 +1,6 @@
 import moment from 'moment';
 import URLSearchParams from 'url-search-params';
+import bech32 from 'bech32';
 export default class Tools{
 	/**
 	 * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -92,6 +93,20 @@ export default class Tools{
             return params;
         }else {
             return {}
+        }
+    }
+
+    static isBech32(str) {
+        let allReg = new RegExp(/^[0-9a-zA-Z]*$/i);
+        if (!allReg.test(str)){
+            return false
+        }
+
+        try {
+        	bech32.decode(str);
+            return true
+        }catch (e) {
+            return false
         }
     }
 }
