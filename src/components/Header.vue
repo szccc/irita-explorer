@@ -82,7 +82,7 @@
 			};
 		},
 		mounted(){
-			this.$Crypto.getCrypto('iris', 'testnet');
+			// this.$Crypto.getCrypto('iris', 'testnet');
             this.setActiveIndex();
 		},
         watch: {
@@ -127,9 +127,7 @@
 				} else {
 					if (/^[A-F0-9]{64}$/.test(this.searchInputValue)) {
 						this.searchTx();
-					} else if (this.$Codec.Bech32.isBech32(addrPrefix.accAddr, this.searchInputValue)) {
-						this.searchDelegator();
-					} else if (this.$Codec.Bech32.isBech32(addrPrefix.accAddr, this.searchInputValue)) {
+					} else if (Tools.isBech32(this.searchInputValue)) {
 						this.searchDelegator();
 					} else if (/^\+?[1-9][0-9]*$/.test(this.searchInputValue)) {
 						this.searchBlock();
