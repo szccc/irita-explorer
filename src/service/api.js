@@ -114,7 +114,7 @@ export function getRelevanceTxList(type, contextId, pageNum, pageSize, useCount=
 }
 
 export function getTokenTxList(nftId, denom, pageNum, pageSize,){
-    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&nftId=${nftId}&denom=${denom}&useCount=true`;
+    let url = `txs/nfts?pageNum=${pageNum}&pageSize=${pageSize}&tokenId=${nftId}&denom=${denom}&useCount=true`;
     return get(url);
 }
 

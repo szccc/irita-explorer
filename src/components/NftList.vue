@@ -19,7 +19,7 @@
 				<el-table :data="denomArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column :label="$t('ExplorerCN.nftAsset.denom')" width="155px">
 						<template slot-scope="scope">
-							{{scope.row.denom}}
+							{{scope.row.denom_name}}
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.nftAsset.owner')" width="150px">
@@ -34,7 +34,7 @@
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.nftAsset.id')" width="200px">
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.id}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nft_name}}</router-link>
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.nftAsset.data')" width="450px" prop="tokenData"></el-table-column>
@@ -147,7 +147,7 @@
 					if(denomData){
 						let nftList = denomData.data.map(item => {
 							return {
-								label: item.name,
+								label: item.denom_name,
 								value: item.name
 							}
 						})

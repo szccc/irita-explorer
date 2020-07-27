@@ -146,8 +146,8 @@
 					if(nftDetail){
 						this.creator = (nftDetail.denomDetail || {}).creator;
 						this.schema = (nftDetail.denomDetail || {}).json_schema;
-						this.name = nftDetail.denom;
-						this.tokenID = nftDetail.id;
+						this.name = nftDetail.denom_name;
+						this.tokenID = nftDetail.nft_name;
 						// this.primaryKey = nftDetail.primary_key;
 						this.owner = nftDetail.owner;
 						this.tokenData = nftDetail.tokenData;

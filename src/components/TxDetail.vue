@@ -810,6 +810,8 @@
                 txCount : 0,
                 pageNum : 1,
                 pageSize : 10,
+                denomName:'',
+                nftName:'',
             }
         },
         mounted(){
@@ -837,6 +839,8 @@
                             case 'mint_nft':
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom || '--';
+                                this.nftName = res.msgs[0].msg.id || '--';
                                 this.recipient = res.msgs[0].msg.recipient || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.tokenData = res.msgs[0].msg.token_data || '--';
@@ -846,6 +850,8 @@
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom || '--';
+                                this.nftName = res.msgs[0].msg.id || '--';
                                 break;
                             case 'mint_token':
                                 this.amount = res.msgs[0].msg.amount || '--';
@@ -874,12 +880,16 @@
                                 this.from = res.msgs[0].msg.sender || '--';
                                 this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
+                                 this.denomName = res.msgs[0].msg.denom || '--';
+                                this.nftName = res.msgs[0].msg.id || '--';
                                 break;
                             case 'nft_edit':
                                 this.from = res.msgs[0].msg.sender || '--';
                                 this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.url = res.msgs[0].msg.token_uri || '--';
+                                 this.denomName = res.msgs[0].msg.denom || '--';
+                                this.nftName = res.msgs[0].msg.id || '--';
                                 break;
                             case 'define_service':
                                 this.serviceName = res.msgs[0].msg.name || '--';
@@ -912,6 +922,8 @@
                                 this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.url = res.msgs[0].msg.token_uri || '--';
+                                this.denomName = res.msgs[0].msg.denom || '--';
+                                this.nftName = res.msgs[0].msg.id || '--';
                                 break;
                             case 'call_service':
                                 this.consumer = res.msgs[0].msg.consumer || '--';
@@ -945,6 +957,8 @@
                                 this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.url = res.msgs[0].msg.token_uri || '--';
+                                this.denomName = res.msgs[0].msg.denom || '--';
+                                this.nftName = res.msgs[0].msg.id || '--';
                                 break;
                             case 'edit_token':
                                 this.symbol = res.msgs[0].msg.symbol || '--';
@@ -956,6 +970,8 @@
                             case 'transfer_nft':
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom || '--';
+                                this.nftName = res.msgs[0].msg.id || '--';
                                 this.recipient = res.msgs[0].msg.recipient || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.tokenData = res.msgs[0].msg.token_data || '--';
@@ -964,12 +980,15 @@
                             case 'edit_nft':
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom || '--';
+                                this.nftName = res.msgs[0].msg.id || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.tokenData = res.msgs[0].msg.token_data || '--';
                                 this.tokenUri = res.msgs[0].msg.token_uri || '--';
                                 break;
                             case 'issue_denom':
                                 this.denom = res.msgs[0].msg.denom || '--';
+                                this.denomName = res.msgs[0].msg.denom || '--';
                                 this.schema = res.msgs[0].msg.schema || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 break;
