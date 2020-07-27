@@ -48,10 +48,22 @@
 							</template>
 						</el-table-column>
 						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
-							<template slot-scope="scope">
-								<router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
-								<span v-if="scope.row.to === '--'">--</span>
-							</template>
+                                <template slot-scope="scope">
+                                    <el-tooltip effect="dark"
+                                                v-if="typeof scope.row.to === 'string'"
+                                                :content="scope.row.to"
+                                                placement="top">
+                                        <router-link :to="`/address/${scope.row.to}`">
+                                            {{formatAddress(scope.row.to)}}
+                                        </router-link>
+                                    </el-tooltip>
+                                    <div class="service_tx_muti_to_container"
+                                         v-else>
+                                        <router-link :to="`/tx?txHash=${scope.row.txHash}`">
+                                            {{ scope.row.to.length }} providers
+                                        </router-link>
+                                    </div>
+                                </template>
 						</el-table-column>
 						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
 							<template slot-scope="scope">
@@ -74,6 +86,7 @@
 	import { getBlockWithHeight, getLatestBlock } from '../service/api';
 	import Tools from "../util/Tools";
     import {getBlockTxList} from '../service/api';
+    import { TxHelper } from "../helper/TxHelper";
 	export default {
 		name: "BlockDetail",
 		data(){
@@ -157,12 +170,15 @@
                     if(res){
                         // console.log(res)
                         this.transactionArray = res.data.map((item) => {
+                            let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
+                            let from = (addrObj && addrObj.from) ? addrObj.from : '--',
+                                to = (addrObj && addrObj.to) ? addrObj.to : '--';
                             return {
                                 txHash: item.tx_hash,
                                 blockHeight: item.height,
                                 txType: item.type,
-                                from: item.from ? item.from : '--',
-                                to: item.to ? item.to : '--',
+                                from,
+                                to,
                                 signer: item.signer,
                                 status:item.status,
                                 time: Tools.getDisplayDate(item.time)
