@@ -85,7 +85,7 @@
                             </p>
                             <p v-if="txType === 'nft_burn' || txType === 'nft_mint' || txType === 'nft_edit' || txType === 'nft_transfer'">
                                 <span>Denom:</span>
-                                <span>{{denom}}</span>
+                                <span>{{denomName}}</span>
                             </p>
                             <p v-if="txType === 'nft_mint' || txType === 'nft_edit'">
                                 <span>URI:</span>
@@ -253,22 +253,22 @@
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.burnNft.denom')}}</span>
-                                <span>{{denom}}</span>
+                                <span>{{denomName}}</span>
                             </p>
 
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.burnNft.id')}}</span>
-                                <span>{{id}}</span>
+                                <span>{{nftName}}</span>
                             </p>
                         </div>
                         <div v-if="txType === 'mint_nft'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.mintNft.denom')}}</span>
-                                <span>{{denom}}</span>
+                                <span>{{denomName}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.mintNft.id')}}</span>
-                                <span>{{id}}</span>
+                                <span>{{nftName}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.mintNft.recipient')}}</span>
@@ -328,11 +328,11 @@
                         <div v-if="txType === 'transfer_nft'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.transferNft.denom')}}</span>
-                                <span>{{denom}}</span>
+                                <span>{{denomName}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.transferNft.id')}}</span>
-                                <span>{{id}}</span>
+                                <span>{{nftName}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.transferNft.recipient')}}</span>
@@ -354,11 +354,11 @@
                         <div v-if="txType === 'edit_nft'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.editNft.denom')}}</span>
-                                <span>{{denom}}</span>
+                                <span>{{denomName}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.editNft.id')}}</span>
-                                <span>{{id}}</span>
+                                <span>{{nftName}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.editNft.sender')}}</span>
@@ -376,7 +376,7 @@
                         <div v-if="txType === 'issue_denom'">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.issueDenom.denom')}}</span>
-                                <span>{{denom}}</span>
+                                <span>{{denomName}}</span>
                             </p>
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.issueDenom.schema')}}</span>
@@ -839,8 +839,8 @@
                             case 'mint_nft':
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
-                                this.denomName = res.msgs[0].msg.denom || '--';
-                                this.nftName = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom_name || '--';
+                                this.nftName = res.msgs[0].msg.nft_name || '--';
                                 this.recipient = res.msgs[0].msg.recipient || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.tokenData = res.msgs[0].msg.token_data || '--';
@@ -850,8 +850,8 @@
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
-                                this.denomName = res.msgs[0].msg.denom || '--';
-                                this.nftName = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom_name || '--';
+                                this.nftName = res.msgs[0].msg.nft_name || '--';
                                 break;
                             case 'mint_token':
                                 this.amount = res.msgs[0].msg.amount || '--';
@@ -880,16 +880,16 @@
                                 this.from = res.msgs[0].msg.sender || '--';
                                 this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
-                                 this.denomName = res.msgs[0].msg.denom || '--';
-                                this.nftName = res.msgs[0].msg.id || '--';
+                                 this.denomName = res.msgs[0].msg.denom_name || '--';
+                                this.nftName = res.msgs[0].msg.nft_name || '--';
                                 break;
                             case 'nft_edit':
                                 this.from = res.msgs[0].msg.sender || '--';
                                 this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.url = res.msgs[0].msg.token_uri || '--';
-                                 this.denomName = res.msgs[0].msg.denom || '--';
-                                this.nftName = res.msgs[0].msg.id || '--';
+                                 this.denomName = res.msgs[0].msg.denom_name || '--';
+                                this.nftName = res.msgs[0].msg.nft_name || '--';
                                 break;
                             case 'define_service':
                                 this.serviceName = res.msgs[0].msg.name || '--';
@@ -922,8 +922,8 @@
                                 this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.url = res.msgs[0].msg.token_uri || '--';
-                                this.denomName = res.msgs[0].msg.denom || '--';
-                                this.nftName = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom_name || '--';
+                                this.nftName = res.msgs[0].msg.nft_name || '--';
                                 break;
                             case 'call_service':
                                 this.consumer = res.msgs[0].msg.consumer || '--';
@@ -957,8 +957,8 @@
                                 this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.url = res.msgs[0].msg.token_uri || '--';
-                                this.denomName = res.msgs[0].msg.denom || '--';
-                                this.nftName = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom_name || '--';
+                                this.nftName = res.msgs[0].msg.nft_name || '--';
                                 break;
                             case 'edit_token':
                                 this.symbol = res.msgs[0].msg.symbol || '--';
@@ -970,8 +970,8 @@
                             case 'transfer_nft':
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
-                                this.denomName = res.msgs[0].msg.denom || '--';
-                                this.nftName = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom_name || '--';
+                                this.nftName = res.msgs[0].msg.nft_name || '--';
                                 this.recipient = res.msgs[0].msg.recipient || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.tokenData = res.msgs[0].msg.token_data || '--';
@@ -980,15 +980,15 @@
                             case 'edit_nft':
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
-                                this.denomName = res.msgs[0].msg.denom || '--';
-                                this.nftName = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.denom_name || '--';
+                                this.nftName = res.msgs[0].msg.nft_name || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.tokenData = res.msgs[0].msg.token_data || '--';
                                 this.tokenUri = res.msgs[0].msg.token_uri || '--';
                                 break;
                             case 'issue_denom':
                                 this.denom = res.msgs[0].msg.denom || '--';
-                                this.denomName = res.msgs[0].msg.denom || '--';
+                                this.denomName = res.msgs[0].msg.denom_name || '--';
                                 this.schema = res.msgs[0].msg.schema || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 break;

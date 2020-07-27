@@ -11,11 +11,11 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerCN.nftDetail.denom')}}</span>
-					<span>{{name}}</span>
+					<span>{{denomName}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerCN.nftDetail.id')}}</span>
-					<span>{{tokenID}}</span>
+					<span>{{nftName}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerCN.nftDetail.schema')}}</span>
@@ -131,7 +131,9 @@
 				tokenID:'',
 				primaryKey:'',
 				tokenData:'',
-				tokenUri:''
+				tokenUri:'',
+                denomName:'',
+                nftName:'',
 			}
 		},
         components: {MPagination},
@@ -146,8 +148,10 @@
 					if(nftDetail){
 						this.creator = (nftDetail.denomDetail || {}).creator;
 						this.schema = (nftDetail.denomDetail || {}).json_schema;
-						this.name = nftDetail.denom_name;
-						this.tokenID = nftDetail.nft_name;
+						this.name = nftDetail.denom;
+						this.tokenID = nftDetail.id;
+						this.denomName = nftDetail.denom_name;
+						this.nftName = nftDetail.nft_name;
 						// this.primaryKey = nftDetail.primary_key;
 						this.owner = nftDetail.owner;
 						this.tokenData = nftDetail.tokenData;
