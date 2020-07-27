@@ -8,7 +8,7 @@
 			<div class="address_asset_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
 				<el-table :data="assetArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column :label="$t('ExplorerCN.addressDetail.name')" width="150px" prop="denomName"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.addressDetail.denom')" width="150px" prop="denomName"></el-table-column>
 					<el-table-column :label="$t('ExplorerCN.addressDetail.id')" width="250px">
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nftName}}</router-link>
