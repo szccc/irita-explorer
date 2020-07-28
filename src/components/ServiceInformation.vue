@@ -72,7 +72,7 @@
                                 <span>
                                     <router-link
                                             :to="`service/respond/${$route.query.serviceName}/${scope.row.provider}`">
-                                        {{scope.row.respondTimes}} 次
+                                        {{`${scope.row.respondTimes} ${$t('ExplorerCN.unit.time')}`}} 
                                     </router-link>
                                 </span>
                             </template>
@@ -173,42 +173,38 @@
 
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.requestId')">
                             <template slot-scope="scope">
-                                <el-tooltip :content="scope.row.id" v-if="scope.row.id">
+                                <el-tooltip :content="scope.row.id" :disabled="!isValid(scope.row.id)">
                                     <span>{{formatAddress(scope.row.id)}}</span>
                                 </el-tooltip>
-                                <span v-else>--</span>
                             </template>
                         </el-table-column>
                         <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.from')">
                             <template slot-scope="scope">
 
                                 <el-tooltip :content="scope.row.from"
-                                            v-if="scope.row.from !== '--'">
-                                    <router-link :to="`/address/${scope.row.from}`"
-                                                 v-if="scope.row.from !== '--'">
+                                            :disabled="!isValid(scope.row.from)">
+                                    <router-link v-if="isValid(scope.row.from)" :to="`/address/${scope.row.from}`">
                                         {{formatAddress(scope.row.from)}}
                                     </router-link>
+                                    <span v-else>--</span>
                                 </el-tooltip>
-                                <span v-else>--</span>
                             </template>
                         </el-table-column>
 
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
                             <template slot-scope="scope">
-                                <el-tooltip effect="dark"
-                                            v-if="typeof scope.row.to === 'string'"
-                                            :content="scope.row.to"
-                                            placement="top">
-                                    <router-link :to="`/address/${scope.row.to}`">
+                                <el-tooltip :content="String(scope.row.to)"
+                                            placement="top"
+                                            :key="Math.random()"
+                                            :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
+                                    <router-link v-if="typeof scope.row.to=='string' && isValid(scope.row.to)" :to="`/address/${scope.row.to}`">
                                         {{formatAddress(scope.row.to)}}
                                     </router-link>
-                                </el-tooltip>
-                                <div class="service_tx_muti_to_container"
-                                     v-else>
-                                    <router-link :to="`/tx?txHash=${scope.row.txHash}`">
-                                        {{ scope.row.to.length }} providers
+                                    <router-link v-else-if="isValid(scope.row.to)" :to="`/tx?txHash=${scope.row.txHash}`">
+                                        {{ `${scope.row.to.length} ${$t('ExplorerCN.unit.providers')}`}}
                                     </router-link>
-                                </div>
+                                    <span v-else>{{'--'}}</span>
+                                </el-tooltip>
                             </template>
                         </el-table-column>
                         <el-table-column min-width="80px" :label="$t('ExplorerCN.transactions.block')">
@@ -313,6 +309,9 @@
                 this.txPageNum = pageNum;
                 this.getServiceTransaction();
             },
+            isValid(value){
+                return (!value || !value.length || value=="--") ? false : true;
+            },
             async getServiceInformation(){
                 const res = await getServiceDetail(this.$route.query.serviceName);
                 try {
@@ -351,7 +350,7 @@
                                         s.isAvailable = b.available ? 'True' : 'False';
                                         s.available = b.available;
                                         s.price = JSON.parse(b.pricing).price;
-                                        s.qos = `${b.qos} blocks`;
+                                        s.qos = `${b.qos} ${this.$t('ExplorerCN.unit.blocks')}`;
                                         s.deposit = deposit;
                                         s.disabledTime = b.available ? '--' : Tools.getFormatDate(b.disabled_time);
                                     }
@@ -388,7 +387,7 @@
 
                     this.transactionArray = res.data.map((item) =>{
                         let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
-                        let requestContextId = TxHelper.getContextId(item.msgs[0], item.events);
+                        let requestContextId = TxHelper.getContextId(item.msgs[0], item.events) || '--';
                         let from = (addrObj && addrObj.from) ? addrObj.from : '--',
                             to = (addrObj && addrObj.to) ? addrObj.to : '--';
                         return {

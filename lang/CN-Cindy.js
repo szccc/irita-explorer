@@ -13,7 +13,12 @@ export const ExplorerCN = {
         date:{
             select:'选择日期'
         }
-
+    },
+    unit:{
+        providers:'providers',
+        time:'次',
+        blocks:'blocks',
+        totalRespond:'共${%value%}条回复',
     },
     message:{
         txListFailed:'获取交易列表失败,请稍后重试',
@@ -243,7 +248,7 @@ export const ExplorerCN = {
         id: '数据标识',
         data: '链上数据',
         uri: '链外链接',
-        serviceType:'服务类型',
+        serviceType:'服务名称',
         respondTimes: '响应次数',
         available: '是否可用',
         deposit: '绑定押金',
@@ -257,8 +262,6 @@ export const ExplorerCN = {
         requestHash:'请求哈希',
         provider:'提供者',
         requestStatus:'请求状态',
-        time:'次',
-        totalRespond:'共${%value%}条回复',
     },
     nftDetail: {
         nftInformation: '数据对象详情',

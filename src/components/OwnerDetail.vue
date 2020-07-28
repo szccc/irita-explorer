@@ -130,7 +130,7 @@
 					</el-table-column>
 					<el-table-column min-width="100px" :label="$t('ExplorerCN.addressDetail.respondTimes')">
 						<template slot-scope="scope">
-							<router-link :to="`/service/respond/${scope.row.serviceName}/${address}`">{{`${scope.row.respond_times} ${$t('ExplorerCN.addressDetail.time')}`}}</router-link>
+							<router-link :to="`/service/respond/${scope.row.serviceName}/${address}`">{{`${scope.row.respond_times} ${$t('ExplorerCN.unit.time')}`}}</router-link>
 						</template>
 					</el-table-column>
 					<el-table-column min-width="100px" :label="$t('ExplorerCN.addressDetail.available')">
@@ -153,7 +153,7 @@
 					</el-table-column> -->
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.qos')">
 						<template slot-scope="scope">
-							<span>{{`${scope.row.qos} blocks`}}</span>
+							<span>{{`${scope.row.qos} ${$t('ExplorerCN.unit.blocks')}`}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column min-width="200px" :label="$t('ExplorerCN.addressDetail.bindTime')">
@@ -262,64 +262,7 @@
 	                    <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
                 </div>
-				<el-table :data="txList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
-						<template slot-scope="scope">
-							<div class="address_transaction_content_hash">
-								<img class="status_icon"
-                                             :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
-								<el-tooltip effect="dark"
-								            :content="scope.row.txHash"
-								            placement="top">
-									<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
-								</el-tooltip>
-							</div>
-						</template>
-					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.block')">
-						<template slot-scope="scope">
-							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
-						<template slot-scope="scope">
-							<el-tooltip class="item" effect="dark" :content="scope.row.from" placement="top">
-								<router-link :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
-							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
-						<template slot-scope="scope">
-                            <el-tooltip effect="dark"
-                                        v-if="typeof scope.row.to === 'string'"
-                                        :content="scope.row.to"
-                                        placement="top">
-                                <router-link :to="`/address/${scope.row.to}`">
-                                    {{formatAddress(scope.row.to)}}
-                                </router-link>
-                            </el-tooltip>
-                            <div class="service_tx_muti_to_container"
-                                 v-else>
-                                <router-link :to="`/tx?txHash=${scope.row.txHash}`">
-                                    {{ scope.row.to.length }} providers
-                                </router-link>
-                            </div>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
-						<template slot-scope="scope">
-							<el-tooltip class="item" effect="dark" :content="scope.row.signer" placement="top">
-								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
-							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
-						<template slot-scope="scope">
-							<span>{{scope.row.time}}</span>
-						</template>
-					</el-table-column>
-				</el-table>
+				<TxListComponent :txData="txList"></TxListComponent>
 				<div class="pagination_content" v-show="totalTxNumber > pageSize">
 					<m-pagination :page-size="pageSize"
 					              :total="totalTxNumber"
@@ -335,21 +278,23 @@
 </template>
 
 <script>
-	import { getNfts } from "../service/api"
-	import Tools from "../util/Tools"
+	import { getNfts } from "../service/api";
+	import Tools from "../util/Tools";
 	import MPagination from "./MPagination";
 	import {TxHelper} from "../helper/TxHelper";
-    import {getAddressTxList,
-    		getCallServiceWithAddress,
-			getRespondServiceWithAddress,
-			getRespondServiceRecord,
-			getServiceBindingByServiceName,
-			getServiceContextsByServiceName,
-			getAllServiceTxTypes} from "../service/api";
+	import TxListComponent from "./common/TxListComponent";
+  import {
+  	getAddressTxList,
+    getCallServiceWithAddress,
+		getRespondServiceWithAddress,
+		getRespondServiceRecord,
+		getServiceBindingByServiceName,
+		getServiceContextsByServiceName,
+		getAllServiceTxTypes} from "../service/api";
 
     export default {
 		name: "OwnerDetail",
-		components: {MPagination},
+		components: { MPagination, TxListComponent },
 		data() {
 			return{
 				Tools,
@@ -443,25 +388,12 @@
                     if(res){
                         console.log('addressTx======:',res);
                         this.totalTxNumber = res.count;
-                        this.txList = res.data.map(item => {
-                        	let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
-                            return{
-                                txHash: item.tx_hash,
-                                blockHeight: item.height,
-                                txType: item.type,
-                                from: addrObj.from || '--',
-                                to: addrObj.to || '--',
-                                signer: item.signer,
-                                status:item.status,
-                                time: Tools.getDisplayDate(item.time),
-                            }
-                        })
+                        this.txList = res.data;
                     }
                 }catch (e) {
                 	console.error(e);
                     this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
                 }
-
 			},
 			pageChange(pageNum) {
 				this.pageNum = pageNum;
@@ -647,7 +579,7 @@
 
             },
             getRespondCount(count){
-            	return this.$t('ExplorerCN.addressDetail.totalRespond').replace(/\$\{\%value\%\}/, count);
+            	return this.$t('ExplorerCN.unit.totalRespond').replace(/\$\{\%value\%\}/, count);
             },
             handleSearchClick(){
             	this.type = this.type_temp;
