@@ -36,7 +36,7 @@
 							<span>
 								<router-link
                                         :to="`service/respond/${service.serviceName}/${scope.row.provider}`">
-                                        {{scope.row.respondTimes}} 次
+                                        {{`${scope.row.respondTimes} ${$t('ExplorerCN.unit.time')}`}}
                                     </router-link>
 							</span>
 						</template>
@@ -117,7 +117,7 @@
                                             s.isAvailable = b.available ? 'True' : 'False';
                                             s.available = b.available;
                                             s.price = JSON.parse(b.pricing).price;
-                                            s.qos = `${b.qos} blocks`;
+                                            s.qos = `${b.qos} ${this.$t('ExplorerCN.unit.blocks')}`;
                                         }
                                     })
                                 })

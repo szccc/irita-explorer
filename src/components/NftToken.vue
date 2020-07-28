@@ -42,64 +42,7 @@
 			</div>
 			<div class="nft_token_list_content">
 				<div class="nft_token_list_title"> {{$t('ExplorerCN.nftDetail.nftTxs')}}</div>
-				<el-table :data="txListByToken" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
-						<template slot-scope="scope">
-							<div class="tx_transaction_content_hash">
-                  <img class="status_icon"
-                               :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
-                  <el-tooltip effect="dark"
-                              :content="scope.row.txHash"
-                              placement="top">
-                      <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
-                  </el-tooltip>
-              </div>
-						</template>
-					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.block')">
-						<template slot-scope="scope">
-							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
-						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.from"
-										class="item"
-										placement="top"
-										effect="dark">
-								<router-link v-if="scope.row.from !== '--'" :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
-							</el-tooltip>
-							<span v-if="scope.row.from === '--'">{{formatAddress(scope.row.from)}}</span>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.to')" >
-						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.to"
-										class="item"
-										placement="top"
-										effect="dark">
-								<router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
-							</el-tooltip>
-							<span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.signer')" >
-						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.signer"
-										class="item"
-										placement="top"
-										effect="dark">
-								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
-							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
-						<template slot-scope="scope">
-							<span>{{scope.row.time}}</span>
-						</template>
-					</el-table-column>
-				</el-table>
+				<TxListComponent :txData="txListByToken"></TxListComponent>
                 <div class="pagination_content">
                     <m-pagination :page-size="pageSize" :total="count" :page="pageNum" :page-change="pageChange"></m-pagination>
                 </div>
@@ -109,12 +52,13 @@
 </template>
 
 <script>
-	import { getNftDetail } from "../service/api"
+	import TxListComponent from "./common/TxListComponent";
+	import { getNftDetail, getTokenTxList } from "../service/api"
 	import Tools from "../util/Tools"
-	import {getTokenTxList} from '../service/api'
     import MPagination from "./MPagination";
 	export default {
 		name: "NftToken",
+		components:{ MPagination, TxListComponent },
 		data() {
 			return {
 				owner:'',
@@ -136,7 +80,6 @@
                 nftName:'',
 			}
 		},
-        components: {MPagination},
 		mounted () {
 			this.getTokenInformation();
 		},
@@ -171,18 +114,7 @@
                 const res = await getTokenTxList(this.tokenID,this.$route.query.denom,this.pageNum ,this.pageSize );
                 try {
                     // console.log(res)
-                    this.txListByToken = res.data.map((tx)=>{
-                        return {
-                            txHash : tx.tx_hash,
-                            blockHeight : tx.height,
-                            txType : tx.type,
-                            from : tx.from ? tx.from : '--',
-                            to : tx.to ? tx.to : '--',
-                            signer : tx.signer,
-                            status : tx.status,
-                            time :Tools.getDisplayDate(tx.time)
-                        }
-                    });
+                    this.txListByToken = res.data;
                     this.count = res.count;
                     // console.log(this.txListByToken)
                 }catch (e) {

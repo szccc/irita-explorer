@@ -24,71 +24,20 @@
 			</div>
 			<div class="block_transaction_content" v-if="transactionArray.length > 0">
 				<div class="block_transaction_title_content">{{$t('ExplorerCN.blockDetail.transactions')}}</div>
-				<div class="block_transaction_list_content">
-					<el-table :data="transactionArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
-							<template slot-scope="scope">
-								<div class="tx_transaction_content_hash">
-	                  <img class="status_icon"
-	                               :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
-	                  <el-tooltip effect="dark"
-	                              :content="scope.row.txHash"
-	                              placement="top">
-	                      <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
-	                  </el-tooltip>
-	              </div>
-							</template>
-						</el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.block')" prop="blockHeight"></el-table-column>
-						<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
-							<template slot-scope="scope">
-								<router-link v-if="scope.row.from !== '--'" :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
-								<span v-if="scope.row.from === '--'">--</span>
-							</template>
-						</el-table-column>
-						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
-                                <template slot-scope="scope">
-                                    <el-tooltip effect="dark"
-                                                v-if="typeof scope.row.to === 'string'"
-                                                :content="scope.row.to"
-                                                placement="top">
-                                        <router-link :to="`/address/${scope.row.to}`">
-                                            {{formatAddress(scope.row.to)}}
-                                        </router-link>
-                                    </el-tooltip>
-                                    <div class="service_tx_muti_to_container"
-                                         v-else>
-                                        <router-link :to="`/tx?txHash=${scope.row.txHash}`">
-                                            {{ scope.row.to.length }} providers
-                                        </router-link>
-                                    </div>
-                                </template>
-						</el-table-column>
-						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
-							<template slot-scope="scope">
-								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
-							</template>
-						</el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
-							<template slot-scope="scope">
-								<span>{{scope.row.time}}</span>
-							</template>
-						</el-table-column>
-					</el-table>
-				</div>
+				<TxListComponent :txData="transactionArray"></TxListComponent>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { getBlockWithHeight, getLatestBlock } from '../service/api';
+	import TxListComponent from "./common/TxListComponent";
+	import { getBlockWithHeight, getLatestBlock, getBlockTxList } from '../service/api';
 	import Tools from "../util/Tools";
-    import {getBlockTxList} from '../service/api';
-    import { TxHelper } from "../helper/TxHelper";
+  import { TxHelper } from "../helper/TxHelper";
 	export default {
 		name: "BlockDetail",
+		components:{ TxListComponent },
 		data(){
 			return {
 				blockHash: 0,
@@ -168,23 +117,7 @@
                 try {
                     const res = await getBlockTxList(this.$route.params.height);
                     if(res){
-                        // console.log(res)
-                        this.transactionArray = res.data.map((item) => {
-                            let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
-                            let from = (addrObj && addrObj.from) ? addrObj.from : '--',
-                                to = (addrObj && addrObj.to) ? addrObj.to : '--';
-                            return {
-                                txHash: item.tx_hash,
-                                blockHeight: item.height,
-                                txType: item.type,
-                                from,
-                                to,
-                                signer: item.signer,
-                                status:item.status,
-                                time: Tools.getDisplayDate(item.time)
-                            }
-                        })
-
+                        this.transactionArray = res.data;
                     }
                 }catch (e) {
                 		console.error(e);
