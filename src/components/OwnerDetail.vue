@@ -8,15 +8,10 @@
 			<div class="address_asset_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
 				<el-table :data="assetArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column :label="$t('ExplorerCN.addressDetail.denom')" width="150px">
+					<el-table-column :label="$t('ExplorerCN.addressDetail.denom')" width="150px" prop="denomName"></el-table-column>
+					<el-table-column :label="$t('ExplorerCN.addressDetail.id')" width="250px">
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.denom}}</router-link>
-						</template>
-					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.addressDetail.name')" width="150px" prop="name"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.addressDetail.id')" width="150px">
-						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.id}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nftName}}</router-link>
 						</template>
 					</el-table-column>
 					<el-table-column :label="$t('ExplorerCN.addressDetail.data')" width="350px" prop="tokenData"></el-table-column>
@@ -370,6 +365,8 @@
 							return{
 								denom: item.denom,
 								id: item.id,
+                                denomName:item.denom_name,
+                                nftName:item.nft_name,
 								name: item.denom,
 								owner: item.owner,
 								tokenData: item.tokenData,
