@@ -71,7 +71,7 @@
 <script>
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
-
+    import { TX_TYPE,TX_STATUS } from '../../constant';
     export default {
         name : "TxList",
         components : {},
@@ -82,7 +82,10 @@
             },
         },
         data(){
-            return {}
+            return {
+                TX_TYPE,
+                TX_STATUS
+            }
         },
         computed:{
             formatTxData(){

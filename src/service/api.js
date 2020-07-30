@@ -165,8 +165,8 @@ export function getAddressTxList(address, type, status, pageNum=1, pageSize=10){
     return get(url);
 }
 
-export function getDefineServiceTxList(pageNum, pageSize){
-    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=define_service&status=1`;
+export function getDefineServiceTxList(type, status, pageNum, pageSize){
+    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=${type}&status=${status}`;
     return get(url);
 }
 

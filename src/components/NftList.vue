@@ -63,12 +63,15 @@
 	import { getDenoms, getNfts } from "../service/api"
 	import {addrPrefix} from "../constant"
 	import Tools from "../util/Tools";
-	import MPagination from "./MPagination";
+	import MPagination from "./common/MPagination";
+	import { TX_TYPE,TX_STATUS } from '../constant';
 	export default {
 		name: "NftList",
 		components: {MPagination},
 		data () {
 			return {
+				TX_TYPE,
+				TX_STATUS,
 				nftList: [
 					{
 						value:'all',

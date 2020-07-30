@@ -23,12 +23,13 @@
 <script>
 
 	import Tools from '../util/Tools';
-
+    import { TX_TYPE,TX_STATUS } from '../constant';
 	export default {
 		name: "searchResult",
 		data() {
 			return {
-			
+			     TX_TYPE,
+                 TX_STATUS
 			}
 		},
 		

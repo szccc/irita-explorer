@@ -34,12 +34,15 @@
 	import TxListComponent from "./common/TxListComponent";
 	import { getBlockWithHeight, getLatestBlock, getBlockTxList } from '../service/api';
 	import Tools from "../util/Tools";
-  import { TxHelper } from "../helper/TxHelper";
+  	import { TxHelper } from "../helper/TxHelper";
+  	import { TX_TYPE,TX_STATUS } from '../constant';
 	export default {
 		name: "BlockDetail",
 		components:{ TxListComponent },
 		data(){
 			return {
+				TX_TYPE,
+				TX_STATUS,
 				blockHash: 0,
 				txNumber:0,
 				time:'',

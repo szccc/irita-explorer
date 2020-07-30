@@ -275,12 +275,13 @@
 <script>
 	import { getNfts } from "../service/api";
 	import Tools from "../util/Tools";
-	import MPagination from "./MPagination";
+	import MPagination from "./common/MPagination";
 	import {TxHelper} from "../helper/TxHelper";
 	import TxListComponent from "./common/TxListComponent";
-  import {
-  	getAddressTxList,
-    getCallServiceWithAddress,
+	import { TX_TYPE,TX_STATUS } from '../constant';
+  	import {
+  		getAddressTxList,
+    	getCallServiceWithAddress,
 		getRespondServiceWithAddress,
 		getRespondServiceRecord,
 		getServiceBindingByServiceName,
@@ -292,6 +293,8 @@
 		components: { MPagination, TxListComponent },
 		data() {
 			return{
+				TX_TYPE,
+				TX_STATUS,
 				Tools,
 				assetArray:[],
 				denomArray:[],

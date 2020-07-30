@@ -55,12 +55,15 @@
 	import TxListComponent from "./common/TxListComponent";
 	import { getNftDetail, getTokenTxList } from "../service/api"
 	import Tools from "../util/Tools"
-    import MPagination from "./MPagination";
+    import MPagination from "./common/MPagination";
+    import { TX_TYPE,TX_STATUS } from '../constant';
 	export default {
 		name: "NftToken",
 		components:{ MPagination, TxListComponent },
 		data() {
 			return {
+				TX_TYPE,
+				TX_STATUS,
 				owner:'',
 				Denom: '',
 				TokenID: '',
