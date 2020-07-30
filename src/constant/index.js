@@ -85,6 +85,25 @@ export const ValidatorStatus = {
 }
 
 export const ColumnMinWidth = {
-    
+    txHash:'',
+    blockHeight:'',
+    txType:'',
+    address:'',
+    time:'',
+    txn:'',
+    blockAge:'',
+    validatirName:'',
+    votingPower:'',
+    publickKey:'',
+    denom:'',
+    tokenId:'',
+    schema:'',
+    URI:'',
+    respondTimes:'',
+    available:'',
+    qos:'',
+    requestId:'',
+    state:'',
+    serviceName:'',
 }
 
