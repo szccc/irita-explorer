@@ -30,7 +30,7 @@
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="200" :label="$t('ExplorerCN.service.respondTimes')">
+					<el-table-column :min-width="180" :label="$t('ExplorerCN.service.respondTimes')">
 						<template slot-scope="scope">
 							<span>
 								<router-link
