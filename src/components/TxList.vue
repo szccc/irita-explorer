@@ -70,10 +70,11 @@
 
 <script>
     import Tools from "../util/Tools"
-    import MPagination from "./MPagination";
+    import MPagination from "./common/MPagination";
     import TxListComponent from "./common/TxListComponent";
     import {TxHelper} from "../helper/TxHelper";
     import {getAllTxTypes, getTxList} from '../service/api';
+    import { TX_TYPE,TX_STATUS } from '../constant';
 
     export default {
         name : "TxList",
@@ -82,6 +83,8 @@
             const {txType, status, beginTime, endTime, pageNum, pageSize} = Tools.urlParser();
 
             return {
+                TX_TYPE,
+                TX_STATUS,
                 transactionArray : [],
                 txCount : 0,
                 txTypeOption : [],

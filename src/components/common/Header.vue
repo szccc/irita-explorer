@@ -4,7 +4,7 @@
 			<div class="header_menu_content">
 				<div class="header_logo_img_content">
 					<router-link :to="`/home`">
-						<img src="../assets/csrb_logo.png" alt="">
+						<img src="../../assets/csrb_logo.png" alt="">
 					</router-link>
 				</div>
 				<div class="header_menu">
@@ -22,7 +22,7 @@
 					</el-menu>
 				</div>
 				<div class="header_mobile_menu" @click="featureShow=!featureShow">
-					<img class="menu_btn" src="../assets/menu.png" >
+					<img class="menu_btn" src="../../assets/menu.png" >
 				</div>
 			</div>
 			<div class="header_input_content">
@@ -47,9 +47,9 @@
 	</div>
 </template>
 <script>
-	import Tools from "../util/Tools";
-	import {addrPrefix} from "../constant"
-	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../service/api';
+	import Tools from "../../util/Tools";
+	import {addrPrefix} from "../../constant"
+	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../../service/api';
 	export default {
 		data() {
 			return {

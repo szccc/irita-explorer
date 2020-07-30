@@ -37,13 +37,16 @@
 
 <script>
 	import Tools from "../util/Tools"
-	import MPagination from "./MPagination";
+	import MPagination from "./common/MPagination";
 	import { getBlockList, getLatestBlock } from "../service/api";
+	import { TX_TYPE,TX_STATUS } from '../constant';
 	export default {
 		name: "BlockList",
 		components: {MPagination},
 		data() {
 			return {
+				TX_TYPE,
+				TX_STATUS,
 				pageNumber: 1,
 				pageSize: 20,
 				dataCount: 0,

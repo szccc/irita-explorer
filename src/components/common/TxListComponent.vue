@@ -5,7 +5,7 @@
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
                         <img class="status_icon"
-                                     :src="require(`../../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+                                     :src="require(`../../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
                         <el-tooltip :content="scope.row.txHash"
                                     placement="top"
                                     :disabled="!isValid(scope.row.txHash)">
@@ -71,7 +71,7 @@
 <script>
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
-
+    import { TX_TYPE,TX_STATUS } from '../../constant';
     export default {
         name : "TxList",
         components : {},
@@ -82,7 +82,10 @@
             },
         },
         data(){
-            return {}
+            return {
+                TX_TYPE,
+                TX_STATUS
+            }
         },
         computed:{
             formatTxData(){

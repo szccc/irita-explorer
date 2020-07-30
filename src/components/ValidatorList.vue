@@ -32,7 +32,9 @@
 <script>
 	import { getValidatorList } from "../service/api"
 	import Tools from "../util/Tools"
-	import MTabs from "./MTabs";
+	import MTabs from "./common/MTabs";
+	import { ValidatorStatus } from '../constant';
+	
 	export default {
 		name: "ValidatorList",
 		components: {MTabs},
@@ -44,17 +46,17 @@
 				status:'bonded',
 				validatorStatusTitleList:[
 					{
-						title:'共识中',
+						title:this.$t('ExplorerCN.validators.bonded'),
 						isActive: true,
 						name:'bonded'
 					},
 					// {
-					// 	title:'候选中',
+					// 	title:this.$t('ExplorerCN.validators.unbonding'),
 					// 	isActive: false,
 					// 	name:'unbonding'
 					// },
 					{
-						title:'待解禁',
+						title:this.$t('ExplorerCN.validators.unbonded'),
 						isActive: false,
 						name:'unbonded'
 					}
@@ -95,7 +97,7 @@
 			// },
 			async validatorListRequest(){
 				try {
-					let validatorsData = await getValidatorList(this.status=='unbonded', this.pageNumber, this.pageSize, true);
+					let validatorsData = await getValidatorList(this.status == ValidatorStatus.unbonded, this.pageNumber, this.pageSize, true);
 					if(validatorsData && validatorsData.data && validatorsData.data.length){
 						this.validatorList = validatorsData.data.map((item,index) => {
 							return {

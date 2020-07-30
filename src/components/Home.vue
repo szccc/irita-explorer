@@ -99,11 +99,14 @@
 	import Tools from "../util/Tools";
 	import { getStatistics, getBlockList } from "../service/api";
 	import {getTxList} from "../service/api";
+	import { TX_TYPE,TX_STATUS } from '../constant';
 
     export default {
 		name: "Home",
 		data () {
 			return {
+				TX_TYPE,
+				TX_STATUS,
 				block_height: 0,
 				transactionNumber: 0,
 				transactionTime:"",

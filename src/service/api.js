@@ -1,4 +1,5 @@
 import { HttpHelper } from '../helper/httpHelper';
+import { TX_STATUS } from '../constant'
 import moment from 'moment';
 
 function get(url){
@@ -143,7 +144,7 @@ export function getServiceTxList(type, status, serviceName,currentPageNum,pageSi
     if(type){
         url += `&type=${type}`;
     }
-    if(status || status === 0){
+    if(status==TX_STATUS.success || status === TX_STATUS.fail){
         url += `&status=${status}`;
     }
 
@@ -165,8 +166,8 @@ export function getAddressTxList(address, type, status, pageNum=1, pageSize=10){
     return get(url);
 }
 
-export function getDefineServiceTxList(pageNum, pageSize){
-    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=define_service&status=1`;
+export function getDefineServiceTxList(type, status, pageNum, pageSize){
+    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=${type}&status=${status}`;
     return get(url);
 }
 

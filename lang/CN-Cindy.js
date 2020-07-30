@@ -19,6 +19,7 @@ export const ExplorerCN = {
         time:'次',
         blocks:'blocks',
         totalRespond:'共${%value%}条回复',
+        Txs:'Txs',
     },
     message:{
         txListFailed:'获取交易列表失败,请稍后重试',
@@ -83,7 +84,10 @@ export const ExplorerCN = {
         name: '名称',
         operator: '操作地址',
         votingPower: '权重',
-        pubKey: '公钥'
+        pubKey: '公钥',
+        bonded:'共识中',
+        unbonding:'候选中',
+        unbonded:'待解禁',
     },
     nftAsset:{
         assets: '数据对象',
@@ -134,6 +138,9 @@ export const ExplorerCN = {
             amount: '数量：',
             from: '发送者：',
             to: '接收者：',
+        },
+        createRecord:{
+            contents:'内容：',
         },
         callService: {
             consumer: '消费服务者：',

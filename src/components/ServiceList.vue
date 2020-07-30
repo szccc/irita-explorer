@@ -62,7 +62,7 @@
 					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.time')" prop="bindTime"></el-table-column>
 				</el-table>
 			</div>
-			<div class="pagination_content" v-if="txCount > 5">
+			<div class="pagination_content" v-if="txCount > pageSize">
 				<m-pagination :page-size="pageSize"
 				              :total="txCount"
 				              :page="pageNum"
@@ -82,14 +82,16 @@
 
 <script>
 	import Tools from "../util/Tools"
-	import MPagination from "./MPagination";
+	import MPagination from "./common/MPagination";
     import {getAllServiceTxList, getServiceBindingByServiceName} from "../service/api";
-
+    import { TX_TYPE,TX_STATUS } from '../constant';
     export default {
 		name: "ServiceList",
 		components: {MPagination},
 		data() {
 			return {
+                TX_TYPE,
+                TX_STATUS,
 				pageNum: 1,
 				pageSize: 5,
 				serviceList:[],

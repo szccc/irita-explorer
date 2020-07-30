@@ -32,7 +32,7 @@
                     </p> -->
                     <p class="service_respond_record_text_content">
                         <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.qos')}}:</span>
-                        <span>{{qos}} blocks</span>
+                        <span>{{`${qos} ${$t('ExplorerCN.unit.blocks')}`}} </span>
                     </p>
                     <!-- <p class="service_respond_record_text_content">
                         <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.deposit')}}:</span>
@@ -75,7 +75,7 @@
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
-                                     v-if="scope.row.respondStatus === 1"
+                                     v-if="scope.row.respondStatus === TX_STATUS.success"
                                      src="../assets/success.png"/>
                                 <img class="service_tx_status"
                                      v-else
@@ -137,7 +137,7 @@
                         </el-table-column>
                     </el-table>
                 </div>
-                <div class="pagination_content" v-show="txCount > 10">
+                <div class="pagination_content" v-show="txCount > txPageSize">
                     <keep-alive>
                         <m-pagination :page-size="txPageSize"
                                       :total="txCount"
@@ -154,18 +154,20 @@
 
 <script>
     import Tools from "../util/Tools"
-    import MPagination from "./MPagination";
+    import MPagination from "./common/MPagination";
     import {
         getRespondServiceRecord,
         getServiceRespondInfo,
         getServiceBindingByServiceName,
     } from "../service/api";
-
+    import { TX_TYPE,TX_STATUS } from '../constant';
     export default {
         name : "ServiceInformation",
         components : {MPagination},
         data(){
             return {
+                TX_TYPE,
+                TX_STATUS,
                 txList : [],
                 txPageSize : 10,
                 txPageNum : 1,

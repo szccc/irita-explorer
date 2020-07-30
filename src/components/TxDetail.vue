@@ -42,113 +42,7 @@
                             <span>{{$t('ExplorerCN.transactionInformation.txType')}}</span>
                             <span>{{txType}}</span>
                         </p>
-                        <div v-if="txType !== 'call_service' &&
-						        txType !== 'service_response' &&
-						        txType !== 'define_service' &&
-						        txType !== 'bind_service' &&
-						        txType !== 'create_record' &&
-						        txType !== 'create_record' &&
-						        txType !== 'mint_token' &&
-						        txType !== 'burn_nft' &&
-						        txType !== 'mint_nft' &&
-						        txType !== 'transfer_token_owner' &&
-								txType !== 'edit_token' &&
-								txType !== 'transfer_nft' &&
-								txType !== 'edit_nft' &&
-								txType !== 'issue_denom' &&
-								txType !== 'issue_token' &&
-								txType !== 'send' &&
-								txType !== 'respond_service' &&
-								txType !== 'call_service' &&
-                                txType !== 'pause_request_context' &&
-                                txType !== 'start_request_context' &&
-                                txType !== 'kill_request_context' &&
-                                txType !== 'update_request_context' &&
-                                txType !== 'update_service_binding' &&
-                                txType !== 'disable_service_binding' &&
-                                txType !== 'enable_service_binding' &&
-                                txType !== 'refund_service_deposit'">
-                            <p v-if="txType !== 'call_service'">
-                                <span>Sender:</span>
-                                <span><router-link v-if="from !== '--'"
-                                                   :to="`/address/${from}`">{{from}}</router-link><span
-                                        v-if="from === '--'">{{from}}</span></span>
-                            </p>
-                            <p v-if="txType !== 'nft_edit' && txType !== 'nft_burn' && txType !== 'call_service' && txType !== 'burn_nft'">
-                                <span>Recipient:</span>
-                                <span><router-link v-if="to !== '--'" :to="`/address/${to}`">{{to}}</router-link><span
-                                        v-if="to === '--'">{{to}}</span></span>
-                            </p>
-                            <p v-if="txType === 'nft_burn' || txType === 'nft_mint' || txType === 'nft_edit' || txType === 'nft_transfer'">
-                                <span>ID:</span>
-                                <span>{{tokenId}}</span>
-                            </p>
-                            <p v-if="txType === 'nft_burn' || txType === 'nft_mint' || txType === 'nft_edit' || txType === 'nft_transfer'">
-                                <span>Denom:</span>
-                                <span>{{denomName}}</span>
-                            </p>
-                            <p v-if="txType === 'nft_mint' || txType === 'nft_edit'">
-                                <span>URI:</span>
-                                <span><a :href="url" target="_blank">{{url}}</a></span>
-                            </p>
-                        </div>
-
-                        <div v-if="txType !== 'call_service' || txType === 'service_response'">
-                            <p v-if="txType === 'call_service'">
-                                <span>Define Chain ID:</span>
-                                <span>{{defineChainId}}</span>
-                            </p>
-                            <p v-if="txType === 'call_service'">
-                                <span>Service Name:</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
-                                    {{serviceName}}
-                                </router-link>
-                                <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                            <p v-if="txType === 'call_service'">
-                                <span>Bind Chain ID:</span>
-                                <span>{{bindChainId}}</span>
-                            </p>
-                            <p v-if="txType === 'service_response' || txType === 'call_service'">
-                                <span>Request Chain ID:</span>
-                                <span>{{requestChainId}}</span>
-                            </p>
-                            <p v-if="txType === 'service_response'">
-                                <span>Request ID:</span>
-                                <span>{{(requestId || '').toUpperCase()}}</span>
-                            </p>
-                            <p v-if="txType === 'call_service'">
-                                <span>Method ID:</span>
-                                <span>{{methodId}}</span>
-                            </p>
-                            <!--<p v-if="txType === 'call_service' || txType === 'service_response'">
-                                <span>Provider:</span>
-                                <span style="display: flex;flex-direction: column">
-                                    <router-link  v-for="item in provider" :to="`/address/${item}`">{{item}}</router-link>
-                                </span>
-                            </p>-->
-                            <p v-if="txType === 'call_service'">
-                                <span>Consumer:</span>
-                                <span><router-link :to="`/address/${consumer}`">{{consumer}}</router-link></span>
-                            </p>
-                            <p v-if="txType === 'call_service'">
-                                <span>Input:</span>
-                                <span style="word-wrap: break-word;word-break:break-all;">{{input}}</span>
-                            </p>
-                            <p v-if="txType === 'service_response'">
-                                <span>Output:</span>
-                                <span style="word-wrap: break-word;word-break:break-all;">{{output}}</span>
-                            </p>
-                            <p v-if="txType === 'service_response'">
-                                <span>Error Message:</span>
-                                <span style="word-wrap: break-word;word-break:break-all;">{{errorMessage}}</span>
-                            </p>
-                            <p v-if="txType === 'call_service'">
-                                <span>Profiling:</span>
-                                <span>{{profiling}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === 'define_service'">
+                        <div v-if="txType === TX_TYPE.define_service">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.defineService.serviceName')}}</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -177,7 +71,7 @@
                                 <span>{{tags}}</span>
                             </p>
                         </div>
-                        <div v-if="txType === 'bind_service'">
+                        <div v-if="txType === TX_TYPE.bind_service">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.bindService.serviceName')}}</span>
                                 <router-link v-if="defineName != '--'" :to="`/service?serviceName=${defineName}`">
@@ -207,9 +101,9 @@
                                 <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
                             </p>
                         </div>
-                        <div v-if="txType === 'create_record'" class="record_container">
+                        <div v-if="txType === TX_TYPE.create_record" class="record_container">
                             <div class="record_content">
-                                <p class="record_name">Contents：</p>
+                                <p class="record_name">{{$t('ExplorerCN.transactionInformation.createRecord.contents')}}</p>
                                 <div class="record_list_content">
                                     <el-table :data="recordArray"
                                               :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
@@ -228,25 +122,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div v-if="txType === 'mint_token'">
-                            <p>
-                                <span>Amount:</span>
-                                <span>{{amount}}</span>
-                            </p>
-                            <p>
-                                <span>Owner:</span>
-                                <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>Symbol:</span>
-                                <span>{{symbol}}</span>
-                            </p>
-                            <p>
-                                <span>To:</span>
-                                <span>{{to || '--'}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === 'burn_nft'">
+                        <div v-if="txType === TX_TYPE.burn_nft">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.burnNft.sender')}}</span>
                                 <span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
@@ -261,7 +137,7 @@
                                 <span>{{nftName}}</span>
                             </p>
                         </div>
-                        <div v-if="txType === 'mint_nft'">
+                        <div v-if="txType === TX_TYPE.mint_nft">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.mintNft.denom')}}</span>
                                 <span>{{denomName}}</span>
@@ -288,44 +164,7 @@
                             </p>
 
                         </div>
-                        <div v-if="txType === 'transfer_token_owner'">
-                            <p>
-                                <span>Symbol:</span>
-                                <span>{{symbol}}</span>
-                            </p>
-                            <p>
-                                <span>Dst Owner:</span>
-                                <span><router-link :to="`/address/${dstOwner}`">{{dstOwner}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>Src Owner:</span>
-                                <span><router-link :to="`/address/${srcOwner}`">{{srcOwner}}</router-link></span>
-                            </p>
-                        </div>
-                        <div v-if="txType === 'edit_token'">
-                            <p>
-                                <span>Max Supply:</span>
-                                <span>{{maxSupply}}</span>
-                            </p>
-                            <p>
-                                <span>Min Table:</span>
-                                <span>{{minTable}}</span>
-                            </p>
-                            <p>
-                                <span>Name:</span>
-                                <span>{{name}}</span>
-                            </p>
-                            <p>
-                                <span>Owner:</span>
-                                <span><router-link :to="`/address/${owner}`">{{owner}}</router-link>  </span>
-                            </p>
-                            <p>
-                                <span>Symbol:</span>
-                                <span>{{symbol}}</span>
-                            </p>
-
-                        </div>
-                        <div v-if="txType === 'transfer_nft'">
+                        <div v-if="txType === TX_TYPE.transfer_nft">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.transferNft.denom')}}</span>
                                 <span>{{denomName}}</span>
@@ -351,7 +190,7 @@
                                 <span>{{tokenUri}}</span>
                             </p>
                         </div>
-                        <div v-if="txType === 'edit_nft'">
+                        <div v-if="txType === TX_TYPE.edit_nft">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.editNft.denom')}}</span>
                                 <span>{{denomName}}</span>
@@ -373,7 +212,7 @@
                                 <span>{{tokenUri}}</span>
                             </p>
                         </div>
-                        <div v-if="txType === 'issue_denom'">
+                        <div v-if="txType === TX_TYPE.issue_denom">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.issueDenom.denom')}}</span>
                                 <span>{{denomName}}</span>
@@ -387,41 +226,7 @@
                                 <span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
                             </p>
                         </div>
-                        <div v-if="txType === 'issue_token'">
-                            <p>
-                                <span>Initial Supply:</span>
-                                <span>{{initialSupply}}</span>
-                            </p>
-                            <p>
-                                <span>Max Supply:</span>
-                                <span>{{maxSupply}}</span>
-                            </p>
-                            <p>
-                                <span>Min Unit:</span>
-                                <span>{{minUnit}}</span>
-                            </p>
-                            <p>
-                                <span>MinTable:</span>
-                                <span>{{minTable}}</span>
-                            </p>
-                            <p>
-                                <span>Name:</span>
-                                <span>{{name}}</span>
-                            </p>
-                            <p>
-                                <span>owner:</span>
-                                <span>{{owner}}</span>
-                            </p>
-                            <p>
-                                <span>Scale:</span>
-                                <span>{{scale}}</span>
-                            </p>
-                            <p>
-                                <span>Symbol:</span>
-                                <span>{{symbol}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === 'send'">
+                        <div v-if="txType === TX_TYPE.send">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.send.amount')}}</span>
                                 <span>{{amount}}</span>
@@ -435,7 +240,7 @@
                                 <span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
                             </p>
                         </div>
-                        <div v-if="txType === 'respond_service'">
+                        <div v-if="txType === TX_TYPE.respond_service">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.respondService.serviceName')}}</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -460,7 +265,7 @@
                                 <span>{{output}}</span>
                             </p>
                         </div>
-                        <div v-if="txType === 'call_service'">
+                        <div v-if="txType === TX_TYPE.call_service">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.callService.serviceName')}}</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -511,9 +316,9 @@
                                 <span>{{timeout}}</span>
                             </p>
                         </div>
-                        <div v-if="txType === 'pause_request_context' || 
-                                   txType === 'start_request_context' || 
-                                   txType === 'kill_request_context'">
+                        <div v-if="txType === TX_TYPE.pause_request_context || 
+                                   txType === TX_TYPE.start_request_context || 
+                                   txType === TX_TYPE.kill_request_context">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.pauseRequestContext.serviceName')}}</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -530,7 +335,7 @@
                                 <span>{{consumer}}</span>
                             </p>
                         </div>
-                        <div v-if="txType === 'update_request_context'">
+                        <div v-if="txType === TX_TYPE.update_request_context">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateRequestContext.serviceName')}}</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -579,7 +384,7 @@
                                 <span>{{timeout}}</span>
                             </p>
                         </div>
-                        <div v-if="txType === 'update_service_binding'">
+                        <div v-if="txType === TX_TYPE.update_service_binding">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.updateServiceBinding.serviceName')}}</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -604,7 +409,7 @@
                                 <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
                             </p>
                         </div>
-                        <div v-if="txType === 'disable_service_binding' || txType === 'refund_service_deposit'">
+                        <div v-if="txType === TX_TYPE.disable_service_binding || txType === TX_TYPE.refund_service_deposit">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.disableServiceBinding.serviceName')}}</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -621,7 +426,7 @@
                                 <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
                             </p>
                         </div>
-                        <div v-if="txType === 'enable_service_binding'">
+                        <div v-if="txType === TX_TYPE.enable_service_binding">
                             <p>
                                 <span>{{$t('ExplorerCN.transactionInformation.enableServiceBinding.serviceName')}}</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
@@ -656,7 +461,7 @@
                                     <template slot-scope="scope">
                                         <div class="tx_information_relevance_tx_list_content_hash">
                                             <img class="service_tx_status"
-                                                 :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+                                                 :src="require(`../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
                                             <el-tooltip :content="scope.row.txHash"
                                                         class="item"
                                                         placement="top"
@@ -674,7 +479,7 @@
                                 <el-table-column min-width="130px"
                                                  :label="$t('ExplorerCN.transactionInformation.requestId')">
                                     <template slot-scope="scope">
-                                        <span>{{formatAddress(scope.row.txType=='call_service'?scope.row.requestContextId:scope.row.requestId)}}</span>
+                                        <span>{{formatAddress(scope.row.txType == TX_TYPE.call_service ? scope.row.requestContextId : scope.row.requestId)}}</span>
                                     </template>
                                 </el-table-column>
                                 <el-table-column :label="$t('ExplorerCN.transactions.block')">
@@ -686,7 +491,7 @@
                                 <el-table-column min-width="120px"
                                                  :label="$t('ExplorerCN.transactionInformation.provider')">
                                     <template slot-scope="scope">
-                                        <router-link v-if="scope.row.txType=='respond_service'"
+                                        <router-link v-if="scope.row.txType==TX_TYPE.respond_service"
                                                      :to="`/address/${scope.row.provider}`">
                                             {{formatAddress(scope.row.provider)}}
                                         </router-link>
@@ -734,14 +539,16 @@
 
 <script>
     import Tools from "../util/Tools";
-    import MPagination from "./MPagination";
+    import MPagination from "./common/MPagination";
     import { getTxDetail, getRelevanceTxList } from "../service/api";
-
+    import { TX_TYPE, TX_STATUS } from '../constant';
     export default {
         name : "TxDetail",
         components : {MPagination},
         data(){
             return {
+                TX_TYPE,
+                TX_STATUS,
                 txHash : '',
                 blockHeight : '',
                 status : '',
@@ -778,28 +585,20 @@
                 averageResponseTime : '',
                 usableTime : '',
                 recordArray : [],
-                //mint_token
                 amount : '',
                 owner : '',
                 symbol : '',
-                //burn-nft
                 id : '',
-                //mint-nft
                 tokenData : '',
                 recipient : '',
                 tokenUri : '',
-                //transfer_token_owner
                 dstOwner : '',
                 srcOwner : '',
-                //edit_token
                 minTable : '',
-                //issue_denom
                 schema : '',
-                // issue_token
                 initialSupply : '',
                 minUnit : '',
                 scale : '',
-                //bind_service
                 pricing : '',
                 qos : '',
                 schemas : '',
@@ -825,18 +624,18 @@
                         // console.log(res)
                         this.txHash = res.tx_hash || '--';
                         this.blockHeight = res.height || '--';
-                        this.status = res.status === 1 ? 'Success' : 'Failed';
+                        this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed';
                         this.timestamp = Tools.getDisplayDate(res.time) || '--';
                         this.signer = res.signer || '--';
                         this.memo = res.memo ? res.memo : '--';
                         this.txType = res.msgs[0].type || '--';
                         switch (this.txType){
-                            case 'transfer_token_owner':
-                                this.symbol = res.msgs[0].msg.symbol || '--';
-                                this.dstOwner = res.msgs[0].msg.dst_owner || '--';
-                                this.srcOwner = res.msgs[0].msg.src_owner || '--';
-                                break;
-                            case 'mint_nft':
+                            // case TX_TYPE.transfer_token_owner:
+                            //     this.symbol = res.msgs[0].msg.symbol || '--';
+                            //     this.dstOwner = res.msgs[0].msg.dst_owner || '--';
+                            //     this.srcOwner = res.msgs[0].msg.src_owner || '--';
+                            //     break;
+                            case TX_TYPE.mint_nft:
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
@@ -846,20 +645,20 @@
                                 this.tokenData = res.msgs[0].msg.token_data || '--';
                                 this.tokenUri = res.msgs[0].msg.token_uri || '--';
                                 break;
-                            case 'burn_nft':
+                            case TX_TYPE.burn_nft:
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
                                 this.nftName = res.msgs[0].msg.nft_name || '--';
                                 break;
-                            case 'mint_token':
-                                this.amount = res.msgs[0].msg.amount || '--';
-                                this.owner = res.msgs[0].msg.owner || '--';
-                                this.symbol = res.msgs[0].msg.symbol || '--';
-                                this.to = res.msgs[0].msg.to || '--';
-                                break;
-                            case 'create_record':
+                            // case TX_TYPE.mint_token:
+                            //     this.amount = res.msgs[0].msg.amount || '--';
+                            //     this.owner = res.msgs[0].msg.owner || '--';
+                            //     this.symbol = res.msgs[0].msg.symbol || '--';
+                            //     this.to = res.msgs[0].msg.to || '--';
+                            //     break;
+                            case TX_TYPE.create_record:
                                 this.recordArray = res.msgs[0].msg.contents.map(item =>{
                                     return {
                                         digest : item.digest ? item.digest : '--',
@@ -869,29 +668,7 @@
                                     }
                                 })
                                 break;
-                            case 'service_response':
-                                this.requestChainId = res.msgs[0].msg.req_chain_id || '--';
-                                this.provider = res.msgs[0].msg.provider || '--';
-                                this.output = res.msgs[0].msg.output || '--';
-                                this.errorMessage = res.msgs[0].msg.error_msg ? res.msgs[0].msg.error_msg : '--';
-                                this.requestId = res.msgs[0].msg.request_id;
-                                break;
-                            case 'nft_burn':
-                                this.from = res.msgs[0].msg.sender || '--';
-                                this.tokenId = res.msgs[0].msg.id || '--';
-                                this.denom = res.msgs[0].msg.denom || '--';
-                                 this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.nft_name || '--';
-                                break;
-                            case 'nft_edit':
-                                this.from = res.msgs[0].msg.sender || '--';
-                                this.tokenId = res.msgs[0].msg.id || '--';
-                                this.denom = res.msgs[0].msg.denom || '--';
-                                this.url = res.msgs[0].msg.token_uri || '--';
-                                 this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.nft_name || '--';
-                                break;
-                            case 'define_service':
+                            case TX_TYPE.define_service:
                                 this.serviceName = res.msgs[0].msg.name || '--';
                                 this.description = res.msgs[0].msg.description || '--';
                                 this.author = res.msgs[0].msg.author || '--';
@@ -899,7 +676,7 @@
                                 this.tags = res.msgs[0].msg.tags || '--';
                                 this.schemas = res.msgs[0].msg.schemas || '--';
                                 break;
-                            case 'bind_service':
+                            case TX_TYPE.bind_service:
                                 this.defineName = res.msgs[0].msg.service_name || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
                                 if(res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length){
@@ -909,23 +686,14 @@
                                 this.pricing = res.msgs[0].msg.pricing || '--';
                                 this.qos = res.msgs[0].msg.qos || '--';
                                 break;
-                            case 'send':
+                            case TX_TYPE.send:
                                 this.from = res.msgs[0].msg.fromaddress || '--';
                                 this.to = res.msgs[0].msg.toaddress || '--';
                                 if(res.msgs[0].msg.amount && res.msgs[0].msg.amount.length){
                                     this.amount = `${res.msgs[0].msg.amount[0].amount} ${res.msgs[0].msg.amount[0].denom}` || '--';
                                 }
                                 break;
-                            case 'nft_mint':
-                                this.from = res.msgs[0].msg.sender || '--';
-                                this.to = res.msgs[0].msg.sender || '--';
-                                this.tokenId = res.msgs[0].msg.id || '--';
-                                this.denom = res.msgs[0].msg.denom || '--';
-                                this.url = res.msgs[0].msg.token_uri || '--';
-                                this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.nft_name || '--';
-                                break;
-                            case 'call_service':
+                            case TX_TYPE.call_service:
                                 this.consumer = res.msgs[0].msg.consumer || '--';
                                 this.input = res.msgs[0].msg.input || '--';
                                 this.provider = res.msgs[0].msg.providers || '--';
@@ -945,29 +713,15 @@
                                         }
                                     });
                                 });
-                                // this.defineChainId = res.msgs[0].msg.def_chain_id;
-                                // this.bindChainId = res.msgs[0].msg.bind_chain_id;
-                                // this.requestChainId = res.msgs[0].msg.req_chain_id;
-                                // this.methodId = res.msgs[0].msg.method_id;
-                                // this.profiling = res.msgs[0].msg.profiling
                                 break;
-                            case 'nft_transfer':
-                                this.from = res.msgs[0].msg.sender || '--';
-                                this.to = res.msgs[0].msg.sender || '--';
-                                this.tokenId = res.msgs[0].msg.id || '--';
-                                this.denom = res.msgs[0].msg.denom || '--';
-                                this.url = res.msgs[0].msg.token_uri || '--';
-                                this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.nft_name || '--';
-                                break;
-                            case 'edit_token':
-                                this.symbol = res.msgs[0].msg.symbol || '--';
-                                this.name = res.msgs[0].msg.name || '--';
-                                this.owner = res.msgs[0].msg.owner || '--';
-                                this.minTable = res.msgs[0].msg.mintable || '--';
-                                this.maxSupply = res.msgs[0].msg.max_supply || '--';
-                                break;
-                            case 'transfer_nft':
+                            // case TX_TYPE.edit_token:
+                            //     this.symbol = res.msgs[0].msg.symbol || '--';
+                            //     this.name = res.msgs[0].msg.name || '--';
+                            //     this.owner = res.msgs[0].msg.owner || '--';
+                            //     this.minTable = res.msgs[0].msg.mintable || '--';
+                            //     this.maxSupply = res.msgs[0].msg.max_supply || '--';
+                            //     break;
+                            case TX_TYPE.transfer_nft:
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
@@ -977,7 +731,7 @@
                                 this.tokenData = res.msgs[0].msg.token_data || '--';
                                 this.tokenUri = res.msgs[0].msg.token_uri || '--';
                                 break;
-                            case 'edit_nft':
+                            case TX_TYPE.edit_nft:
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.id = res.msgs[0].msg.id || '--';
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
@@ -986,23 +740,23 @@
                                 this.tokenData = res.msgs[0].msg.token_data || '--';
                                 this.tokenUri = res.msgs[0].msg.token_uri || '--';
                                 break;
-                            case 'issue_denom':
+                            case TX_TYPE.issue_denom:
                                 this.denom = res.msgs[0].msg.denom || '--';
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
                                 this.schema = res.msgs[0].msg.schema || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 break;
-                            case 'issue_token':
-                                this.initialSupply = res.msgs[0].msg.initial_supply || '--';
-                                this.maxSupply = res.msgs[0].msg.max_supply || '--';
-                                this.minUnit = res.msgs[0].msg.min_unit || '--';
-                                this.minTable = res.msgs[0].msg.mintable || '--';
-                                this.name = res.msgs[0].msg.name || '--';
-                                this.owner = res.msgs[0].msg.owner || '--';
-                                this.scale = res.msgs[0].msg.scale || '--';
-                                this.symbol = res.msgs[0].msg.symbol || '--';
-                                break;
-                            case 'respond_service':
+                            // case TX_TYPE.issue_token:
+                            //     this.initialSupply = res.msgs[0].msg.initial_supply || '--';
+                            //     this.maxSupply = res.msgs[0].msg.max_supply || '--';
+                            //     this.minUnit = res.msgs[0].msg.min_unit || '--';
+                            //     this.minTable = res.msgs[0].msg.mintable || '--';
+                            //     this.name = res.msgs[0].msg.name || '--';
+                            //     this.owner = res.msgs[0].msg.owner || '--';
+                            //     this.scale = res.msgs[0].msg.scale || '--';
+                            //     this.symbol = res.msgs[0].msg.symbol || '--';
+                            //     break;
+                            case TX_TYPE.respond_service:
                                 this.output = res.msgs[0].msg.output || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
                                 this.requestId = res.msgs[0].msg.request_id || '--';
@@ -1010,22 +764,22 @@
                                 this.result = res.msgs[0].msg.result || '--';
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 break;
-                            case 'pause_request_context':
+                            case TX_TYPE.pause_request_context:
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.requestContextId = res.msgs[0].msg.request_context_id || '--';
                                 this.consumer = res.msgs[0].msg.consumer || '--';
                                 break;
-                            case 'start_request_context':
+                            case TX_TYPE.start_request_context:
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.requestContextId = res.msgs[0].msg.request_context_id || '--';
                                 this.consumer = res.msgs[0].msg.consumer || '--';
                                 break;
-                            case 'kill_request_context':
+                            case TX_TYPE.kill_request_context:
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.requestContextId = res.msgs[0].msg.request_context_id || '--';
                                 this.consumer = res.msgs[0].msg.consumer || '--';
                                 break;
-                            case 'update_request_context':
+                            case TX_TYPE.update_request_context:
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.requestContextId = res.msgs[0].msg.request_context_id || '--';
                                 this.consumer = res.msgs[0].msg.consumer || '--';
@@ -1039,7 +793,7 @@
                                 }
                                 this.timeout = (res.msgs[0].msg.timeout) ? res.msgs[0].msg.timeout : '--';
                                 break;
-                            case 'update_service_binding':
+                            case TX_TYPE.update_service_binding:
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
                                 if(res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length){
@@ -1049,12 +803,12 @@
                                 this.pricing = res.msgs[0].msg.pricing || '--';
                                 this.qos = res.msgs[0].msg.qos || '--';
                                 break;
-                            case 'disable_service_binding':
+                            case TX_TYPE.disable_service_binding:
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
                                 this.owner = res.msgs[0].msg.owner || '--';
                                 break;
-                            case 'enable_service_binding':
+                            case TX_TYPE.enable_service_binding:
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
                                 if(res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length){
@@ -1062,7 +816,7 @@
                                 }
                                 this.owner = res.msgs[0].msg.owner || '--';
                                 break;
-                            case 'refund_service_deposit':
+                            case TX_TYPE.refund_service_deposit:
                                 this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
                                 this.owner = res.msgs[0].msg.owner || '--';
@@ -1078,32 +832,16 @@
             pageChange(pageNum){
                 if(this.pageNum === pageNum) return;
                 this.pageNum = pageNum;
-
-                // const {txType, status, beginTime, endTime, pageSize} = Tools.urlParser();
-                // let url = `/#/txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
-                // if(txType){
-                //     url += `&txType=${txType}`;
-                // }
-                // if(status){
-                //     url += `&status=${status}`;
-                // }
-                // if(beginTime){
-                //     url += `&beginTime=${beginTime}`;
-                // }
-                // if(endTime){
-                //     url += `&endTime=${endTime}`;
-                // }
-                // history.pushState(null, null, url);
                 this.relevanceTxList();
             },
             async relevanceTxList(){
                 let type = '';
                 switch (this.txType){
-                    case 'call_service':
-                        type = 'respond_service';
+                    case TX_TYPE.call_service:
+                        type = TX_TYPE.respond_service;
                         break;
-                    case 'respond_service':
-                        type = 'call_service';
+                    case TX_TYPE.respond_service:
+                        type = TX_TYPE.call_service;
                         break;
                 }
                 console.log(this.TxType, '///', type, '///', this.requestContextId);
@@ -1121,7 +859,7 @@
                                     time : Tools.getDisplayDate(tx.time),
                                 };
                                 switch (tx.type){
-                                    case 'call_service':
+                                    case TX_TYPE.call_service:
                                         result.provider = tx.msgs[0].msg.providers;
                                         tx.events.forEach((item) =>{
                                             (item.attributes || []).forEach((attr) =>{
@@ -1131,7 +869,7 @@
                                             });
                                         });
                                         break;
-                                    case 'respond_service':
+                                    case TX_TYPE.respond_service:
                                         result.provider = tx.msgs[0].msg.provider;
                                         result.requestId = tx.msgs[0].msg.request_id;
                                         break;

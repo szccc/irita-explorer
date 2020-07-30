@@ -110,7 +110,7 @@
                                          prop="disabledTime"></el-table-column>
                     </el-table>
                 </div>
-                <div class="pagination_content" v-show="providerCount > 10">
+                <div class="pagination_content" v-show="providerCount > providerPageSize">
                     <m-pagination :page-size="providerPageSize"
                                   :total="providerCount"
                                   :page="providerPageNum"
@@ -126,7 +126,7 @@
                 </h3>
                 <div class="service_information_transaction_condition_container">
                     <span class="service_information_transaction_condition_count">
-                        {{ txCount }} Txs
+                        {{`${txCount} ${$t('ExplorerCN.unit.Txs')}`}}
                     </span>
                     <el-select v-model="type">
                         <el-option v-for="(item, index) in txTypeOption"
@@ -155,7 +155,7 @@
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
-                                     v-if="scope.row.status === 1"
+                                     v-if="scope.row.status === TX_STATUS.success"
                                      src="../assets/success.png"/>
                                 <img class="service_tx_status"
                                      v-else
@@ -217,7 +217,7 @@
                                          prop="timestamp"></el-table-column>
                     </el-table>
                 </div>
-                <div class="pagination_content" v-show="txCount > 10">
+                <div class="pagination_content" v-show="txCount > txPageSize">
                     <keep-alive>
                         <m-pagination :page-size="txPageSize"
                                       :total="txCount"
@@ -234,7 +234,8 @@
 
 <script>
     import Tools from "../util/Tools"
-    import MPagination from "./MPagination";
+    import MPagination from "./common/MPagination";
+    import { TX_TYPE,TX_STATUS } from '../constant';
     import {
         getAllServiceTxTypes,
         getServiceDetail,
@@ -249,6 +250,8 @@
         components : {MPagination},
         data(){
             return {
+                TX_TYPE,
+                TX_STATUS,
                 from : '',
                 chainId : '',
                 publisher : '',
