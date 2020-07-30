@@ -57,7 +57,7 @@
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<img class="status_icon"
-                                             :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+                                             :src="require(`../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
 								<el-tooltip :content="scope.row.txHash"
 								            placement="top">
 									<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
@@ -174,7 +174,7 @@
 						<template slot-scope="scope">
 							<div class="respond_transaction_content_hash">
 								<img class="status_icon"
-                                             :src="require(`../assets/${scope.row.respondStatus?'success.png':'failed.png'}`)"/>
+                                             :src="require(`../assets/${scope.row.respondStatus==TX_STATUS.success?'success.png':'failed.png'}`)"/>
 								<el-tooltip :content="scope.row.respondHash"
 								            placement="top">
 									<router-link :to="`/tx?txHash=${scope.row.respondHash}`">{{formatTxHash(scope.row.respondHash)}}</router-link>

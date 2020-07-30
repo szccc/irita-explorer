@@ -1,4 +1,5 @@
 import { HttpHelper } from '../helper/httpHelper';
+import { TX_STATUS } from '../constant'
 import moment from 'moment';
 
 function get(url){
@@ -143,7 +144,7 @@ export function getServiceTxList(type, status, serviceName,currentPageNum,pageSi
     if(type){
         url += `&type=${type}`;
     }
-    if(status || status === 0){
+    if(status==TX_STATUS.success || status === TX_STATUS.fail){
         url += `&status=${status}`;
     }
 

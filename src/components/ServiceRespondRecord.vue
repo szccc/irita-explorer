@@ -75,7 +75,7 @@
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
-                                     v-if="scope.row.respondStatus === 1"
+                                     v-if="scope.row.respondStatus === TX_STATUS.success"
                                      src="../assets/success.png"/>
                                 <img class="service_tx_status"
                                      v-else

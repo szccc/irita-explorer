@@ -74,8 +74,8 @@ export const TX_TYPE = {
 };
 
 export const TX_STATUS = {
-    SUCCESS : 1,
-    FAILED : 0,
+    success : 1,
+    fail : 0,
 }
 
 export const ValidatorStatus = {

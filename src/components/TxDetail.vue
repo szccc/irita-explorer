@@ -461,7 +461,7 @@
                                     <template slot-scope="scope">
                                         <div class="tx_information_relevance_tx_list_content_hash">
                                             <img class="service_tx_status"
-                                                 :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
+                                                 :src="require(`../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
                                             <el-tooltip :content="scope.row.txHash"
                                                         class="item"
                                                         placement="top"
@@ -624,7 +624,7 @@
                         // console.log(res)
                         this.txHash = res.tx_hash || '--';
                         this.blockHeight = res.height || '--';
-                        this.status = res.status === 1 ? 'Success' : 'Failed';
+                        this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed';
                         this.timestamp = Tools.getDisplayDate(res.time) || '--';
                         this.signer = res.signer || '--';
                         this.memo = res.memo ? res.memo : '--';

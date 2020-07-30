@@ -155,7 +155,7 @@
                         <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
-                                     v-if="scope.row.status === 1"
+                                     v-if="scope.row.status === TX_STATUS.success"
                                      src="../assets/success.png"/>
                                 <img class="service_tx_status"
                                      v-else
