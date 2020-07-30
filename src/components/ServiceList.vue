@@ -19,7 +19,7 @@
                 </div>
 
 				<el-table :data="service.bindList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column min-width="140px" :label="$t('ExplorerCN.service.provider')">
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.service.provider')">
 						<template slot-scope="scope">
 							<span>
                                 <el-tooltip :content="scope.row.provider">
@@ -27,11 +27,10 @@
                                         {{Tools.formatValidatorAddress(scope.row.provider)}}
                                     </router-link>
                                 </el-tooltip>
-
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="100px" :label="$t('ExplorerCN.service.respondTimes')">
+					<el-table-column :min-width="180" :label="$t('ExplorerCN.service.respondTimes')">
 						<template slot-scope="scope">
 							<span>
 								<router-link
@@ -41,8 +40,8 @@
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.service.isAvailable')">
-                        <<template slot-scope="scope">
+					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerCN.service.isAvailable')">
+                        <template slot-scope="scope">
                         <div class="service_information_available_container">
                             <img class="service_tx_status"
                                  v-if="scope.row.available"
@@ -51,15 +50,15 @@
                                  v-else
                                  src="../assets/false.png"/>
                             <span>
-                                        {{scope.row.isAvailable}}
-                                    </span>
+                                {{scope.row.isAvailable}}
+                            </span>
                         </div>
 
                     </template>
                     </el-table-column>
-                    <!-- <el-table-column min-width="120px" :label="$t('ExplorerCN.service.price')" prop="price"></el-table-column> -->
-					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.minBlock')" prop="qos"></el-table-column>
-					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.time')" prop="bindTime"></el-table-column>
+                    <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerCN.service.price')" prop="price"></el-table-column> -->
+					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerCN.service.minBlock')" prop="qos"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.service.time')" prop="bindTime"></el-table-column>
 				</el-table>
 			</div>
 			<div class="pagination_content" v-if="txCount > pageSize">
@@ -84,14 +83,13 @@
 	import Tools from "../util/Tools"
 	import MPagination from "./common/MPagination";
     import {getAllServiceTxList, getServiceBindingByServiceName} from "../service/api";
-    import { TX_TYPE,TX_STATUS } from '../constant';
+    import { ColumnMinWidth } from '../constant';
     export default {
 		name: "ServiceList",
 		components: {MPagination},
 		data() {
 			return {
-                TX_TYPE,
-                TX_STATUS,
+                ColumnMinWidth,
 				pageNum: 1,
 				pageSize: 5,
 				serviceList:[],

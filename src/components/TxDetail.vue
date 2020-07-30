@@ -107,8 +107,8 @@
                                 <div class="record_list_content">
                                     <el-table :data="recordArray"
                                               :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-                                        <el-table-column label="digest" prop="digest" width="300px"></el-table-column>
-                                        <el-table-column label="digest algo" width="150px"
+                                        <el-table-column width="300px" label="digest" prop="digest"></el-table-column>
+                                        <el-table-column width="150px" label="digest algo" 
                                                          prop="digest_algo"></el-table-column>
                                         <el-table-column label="uri" prop="uri">
                                             <template slot-scope="scope">
@@ -117,7 +117,7 @@
                                                 <span v-else>--</span>
                                             </template>
                                         </el-table-column>
-                                        <el-table-column label="meta" width="200px" prop="meta"></el-table-column>
+                                        <el-table-column width="200px" label="meta" prop="meta"></el-table-column>
                                     </el-table>
                                 </div>
                             </div>
@@ -457,7 +457,7 @@
                         <div class="tx_information_relevance_tx_list_content">
                             <el-table :data="relevanceTxs"
                                       :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-                                <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
+                                <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.transactions.txHash')">
                                     <template slot-scope="scope">
                                         <div class="tx_information_relevance_tx_list_content_hash">
                                             <img class="service_tx_status"
@@ -473,22 +473,22 @@
                                         </div>
                                     </template>
                                 </el-table-column>
-                                <el-table-column min-width="120px"
+                                <el-table-column :min-width="ColumnMinWidth.txType"
                                                  :label="$t('ExplorerCN.transactionInformation.txType')"
                                                  prop="txType"></el-table-column>
-                                <el-table-column min-width="130px"
+                                <el-table-column :min-width="ColumnMinWidth.requestId"
                                                  :label="$t('ExplorerCN.transactionInformation.requestId')">
                                     <template slot-scope="scope">
                                         <span>{{formatAddress(scope.row.txType == TX_TYPE.call_service ? scope.row.requestContextId : scope.row.requestId)}}</span>
                                     </template>
                                 </el-table-column>
-                                <el-table-column :label="$t('ExplorerCN.transactions.block')">
+                                <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.transactions.block')">
                                     <template slot-scope="scope">
                                         <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}
                                         </router-link>
                                     </template>
                                 </el-table-column>
-                                <el-table-column min-width="120px"
+                                <el-table-column :min-width="ColumnMinWidth.address"
                                                  :label="$t('ExplorerCN.transactionInformation.provider')">
                                     <template slot-scope="scope">
                                         <router-link v-if="scope.row.txType==TX_TYPE.respond_service"
@@ -513,8 +513,7 @@
                                         </div>
                                     </template>
                                 </el-table-column>
-                                <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time"
-                                                 width="200px">
+                                <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.transactions.timestamp')" prop="time">
                                     <template slot-scope="scope">
                                         <span>{{scope.row.time}}</span>
                                     </template>
@@ -541,7 +540,7 @@
     import Tools from "../util/Tools";
     import MPagination from "./common/MPagination";
     import { getTxDetail, getRelevanceTxList } from "../service/api";
-    import { TX_TYPE, TX_STATUS } from '../constant';
+    import { TX_TYPE, TX_STATUS,ColumnMinWidth } from '../constant';
     export default {
         name : "TxDetail",
         components : {MPagination},
@@ -549,6 +548,7 @@
             return {
                 TX_TYPE,
                 TX_STATUS,
+                ColumnMinWidth,
                 txHash : '',
                 blockHeight : '',
                 status : '',

@@ -1,7 +1,7 @@
 <template>
     <div class="tx_list_content">
         <el-table :data="formatTxData" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-            <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
+            <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.transactions.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
                         <img class="status_icon"
@@ -14,13 +14,13 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column :label="$t('ExplorerCN.transactions.block')">
+            <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.transactions.block')">
                 <template slot-scope="scope">
                     <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
                 </template>
             </el-table-column>
-            <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-            <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
+            <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.transactions.from')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.from"
                                 placement="top"
@@ -32,7 +32,7 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
+            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.transactions.to')">
                 <template slot-scope="scope">
                     <el-tooltip :content="String(scope.row.to)"
                                 placement="top"
@@ -48,7 +48,7 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
+            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.transactions.signer')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.signer"
                                 placement="top"
@@ -59,7 +59,7 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column min-width="200px" :label="$t('ExplorerCN.transactions.timestamp')" prop="time">
+            <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.transactions.timestamp')" prop="time">
                 <template slot-scope="scope">
                     <span>{{scope.row.time}}</span>
                 </template>
@@ -71,7 +71,7 @@
 <script>
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
-    import { TX_TYPE,TX_STATUS } from '../../constant';
+    import { TX_TYPE,TX_STATUS,ColumnMinWidth } from '../../constant';
     export default {
         name : "TxList",
         components : {},
@@ -84,7 +84,8 @@
         data(){
             return {
                 TX_TYPE,
-                TX_STATUS
+                TX_STATUS,
+                ColumnMinWidth
             }
         },
         computed:{

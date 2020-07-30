@@ -16,14 +16,14 @@
 					</div>
 					<div class="block_list_pagination_content">
 						<el-table :data="blockList" stripe :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-							<el-table-column :label="$t('ExplorerCN.block.block')">
+							<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.block.block')">
 								<template slot-scope="scope">
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 								</template>
 							</el-table-column>
-							<el-table-column prop="numTxs" :label="$t('ExplorerCN.block.transactions')"></el-table-column>
-							<el-table-column min-width="180px" prop="time" :label="$t('ExplorerCN.block.timestamp')"></el-table-column>
-							<el-table-column min-width="120px" prop="ageTime" :label="$t('ExplorerCN.block.age')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.txn" prop="numTxs" :label="$t('ExplorerCN.block.transactions')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.time" prop="time" :label="$t('ExplorerCN.block.timestamp')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerCN.block.age')"></el-table-column>
 						</el-table>
 					</div>
 					<div class="pagination_content">
@@ -39,14 +39,13 @@
 	import Tools from "../util/Tools"
 	import MPagination from "./common/MPagination";
 	import { getBlockList, getLatestBlock } from "../service/api";
-	import { TX_TYPE,TX_STATUS } from '../constant';
+	import { ColumnMinWidth } from '../constant';
 	export default {
 		name: "BlockList",
 		components: {MPagination},
 		data() {
 			return {
-				TX_TYPE,
-				TX_STATUS,
+				ColumnMinWidth,
 				pageNumber: 1,
 				pageSize: 20,
 				dataCount: 0,

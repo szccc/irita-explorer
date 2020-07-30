@@ -17,12 +17,12 @@
 			</div>
 			<div class="nef_list_table_container">
 				<el-table :data="denomArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column :label="$t('ExplorerCN.nftAsset.denom')" width="155px">
+					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.nftAsset.denom')">
 						<template slot-scope="scope">
 							{{scope.row.denom_name}}
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.owner')" width="150px">
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.nftAsset.owner')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.owner"
 										class="item"
@@ -32,13 +32,13 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.id')" width="200px">
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerCN.nftAsset.id')" >
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nft_name}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.data')" width="450px" prop="tokenData"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.uri')" prop="tokenUri">
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerCN.nftAsset.data')" prop="tokenData"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerCN.nftAsset.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
@@ -64,14 +64,13 @@
 	import {addrPrefix} from "../constant"
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
-	import { TX_TYPE,TX_STATUS } from '../constant';
+	import { ColumnMinWidth } from '../constant';
 	export default {
 		name: "NftList",
 		components: {MPagination},
 		data () {
 			return {
-				TX_TYPE,
-				TX_STATUS,
+				ColumnMinWidth,
 				nftList: [
 					{
 						value:'all',
