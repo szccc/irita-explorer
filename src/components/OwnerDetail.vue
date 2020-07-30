@@ -32,7 +32,7 @@
     					  >
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
-							<el-tooltip v-if="!scope.row.isChildren" class="item" effect="dark" :content="scope.row.serviceName" placement="top">
+							<el-tooltip v-if="!scope.row.isChildren"  :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</el-tooltip>
 							<span v-if="scope.row.isChildren && scope.row.index==0">{{getRespondCount(scope.row.count)}}</span>
@@ -58,8 +58,7 @@
 							<div class="address_transaction_content_hash">
 								<img class="status_icon"
                                              :src="require(`../assets/${scope.row.status?'success.png':'failed.png'}`)"/>
-								<el-tooltip effect="dark"
-								            :content="scope.row.txHash"
+								<el-tooltip :content="scope.row.txHash"
 								            placement="top">
 									<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
 								</el-tooltip>
@@ -73,17 +72,15 @@
                     </el-table-column>
                     <el-table-column min-width="120px" :label="$t('ExplorerCN.transactionInformation.provider')">
                         <template slot-scope="scope">
-                            <el-tooltip v-if="scope.row.txType=='respond_service'" 
-                            			effect="dark"
+                            <el-tooltip v-if="scope.row.txType==TX_TYPE.respond_service" 
 								        :content="scope.row.provider"
 								        placement="top">
 								<router-link   :to="`/address/${scope.row.provider}`">
                                 	{{formatAddress(scope.row.provider)}}
                             	</router-link>
 							</el-tooltip>
-                            <div v-if="scope.row.txType=='call_service'">
-                                    <el-tooltip effect="dark"
-                                                v-if="(scope.row.provider || []).length === 1"
+                            <div v-if="scope.row.txType==TX_TYPE.call_service">
+                                    <el-tooltip v-if="(scope.row.provider || []).length === 1"
 								            	:content="scope.row.provider[0]"
 								            	placement="top">
 						            	<router-link :to="`/address/${scope.row.provider[0]}`">
@@ -93,7 +90,7 @@
                                 <div class="service_tx_muti_to_container"
                                      v-else>
                                     <router-link :to="`/tx?txHash=${scope.row.txHash}`">
-                                        {{ scope.row.provider.length }} providers
+                                        {{ `${scope.row.provider.length} ${$t('ExplorerCN.unit.providers')}` }} 
                                     </router-link>
                                 </div>
                             </div>
@@ -118,7 +115,7 @@
 				<el-table :data="providerTxList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
-							<el-tooltip class="item" effect="dark" :content="scope.row.serviceName" placement="top">
+							<el-tooltip :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</el-tooltip>
 						</template>
@@ -166,7 +163,7 @@
 				<el-table :data="respondRecordList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
-							<el-tooltip v-if="scope.row.serviceName" class="item" effect="dark" :content="scope.row.serviceName" placement="top">
+							<el-tooltip v-if="scope.row.serviceName" :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</el-tooltip>
 							<span v-if="!scope.row.serviceName">--</span>
@@ -178,8 +175,7 @@
 							<div class="respond_transaction_content_hash">
 								<img class="status_icon"
                                              :src="require(`../assets/${scope.row.respondStatus?'success.png':'failed.png'}`)"/>
-								<el-tooltip effect="dark"
-								            :content="scope.row.respondHash"
+								<el-tooltip :content="scope.row.respondHash"
 								            placement="top">
 									<router-link :to="`/tx?txHash=${scope.row.respondHash}`">{{formatTxHash(scope.row.respondHash)}}</router-link>
 								</el-tooltip>
@@ -203,7 +199,7 @@
 					</el-table-column>
 					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.consumer')">
 						<template slot-scope="scope">
-							<el-tooltip class="item" effect="dark" :content="scope.row.consumer" placement="top">
+							<el-tooltip :content="scope.row.consumer" placement="top">
 								<router-link  v-if="scope.row.consumer && scope.row.consumer.length" :to="`/address/${scope.row.consumer}`">{{formatAddress(scope.row.consumer)}}</router-link>
 							</el-tooltip>
 							<span v-if="!scope.row.consumer">--</span>
@@ -214,7 +210,7 @@
 							<div class="address_transaction_content_hash">
 								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
                                             src="../assets/success.png"/>
-								<el-tooltip v-if="scope.row.requestHash && scope.row.requestHash != '--'" effect="dark"
+								<el-tooltip v-if="scope.row.requestHash && scope.row.requestHash != '--'" 
 								            :content="scope.row.requestHash"
 								            placement="top">
 									<router-link :to="`/tx?txHash=${scope.row.requestHash}`">{{formatTxHash(scope.row.requestHash)}}</router-link>
@@ -236,7 +232,7 @@
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.txRecord')}}</div>
 				<div class="address_transaction_condition_container">
                     <span class="address_transaction_condition_count">
-                        {{ totalTxNumber }} Txs
+                        {{ `${totalTxNumber} ${$t('ExplorerCN.unit.Txs')}` }}
                     </span>
                     <el-select v-model="type_temp">
                         <el-option v-for="(item, index) in txTypeOption"

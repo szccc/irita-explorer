@@ -78,6 +78,12 @@ export const TX_STATUS = {
     FAILED : 0,
 }
 
+export const ValidatorStatus = {
+    bonded:'bonded',
+    unbonding:'unbonding',
+    unbonded:'unbonded'
+}
+
 export const ColumnMinWidth = {
     
 }

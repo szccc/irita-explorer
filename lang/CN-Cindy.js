@@ -19,6 +19,7 @@ export const ExplorerCN = {
         time:'次',
         blocks:'blocks',
         totalRespond:'共${%value%}条回复',
+        Txs:'Txs',
     },
     message:{
         txListFailed:'获取交易列表失败,请稍后重试',

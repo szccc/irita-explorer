@@ -33,6 +33,8 @@
 	import { getValidatorList } from "../service/api"
 	import Tools from "../util/Tools"
 	import MTabs from "./common/MTabs";
+	import { ValidatorStatus } from '../constant';
+	
 	export default {
 		name: "ValidatorList",
 		components: {MTabs},
@@ -95,7 +97,7 @@
 			// },
 			async validatorListRequest(){
 				try {
-					let validatorsData = await getValidatorList(this.status=='unbonded', this.pageNumber, this.pageSize, true);
+					let validatorsData = await getValidatorList(this.status == ValidatorStatus.unbonded, this.pageNumber, this.pageSize, true);
 					if(validatorsData && validatorsData.data && validatorsData.data.length){
 						this.validatorList = validatorsData.data.map((item,index) => {
 							return {

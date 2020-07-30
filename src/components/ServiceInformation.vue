@@ -110,7 +110,7 @@
                                          prop="disabledTime"></el-table-column>
                     </el-table>
                 </div>
-                <div class="pagination_content" v-show="providerCount > 10">
+                <div class="pagination_content" v-show="providerCount > providerPageSize">
                     <m-pagination :page-size="providerPageSize"
                                   :total="providerCount"
                                   :page="providerPageNum"
@@ -126,7 +126,7 @@
                 </h3>
                 <div class="service_information_transaction_condition_container">
                     <span class="service_information_transaction_condition_count">
-                        {{ txCount }} Txs
+                        {{`${txCount} ${$t('ExplorerCN.unit.Txs')}`}}
                     </span>
                     <el-select v-model="type">
                         <el-option v-for="(item, index) in txTypeOption"
@@ -217,7 +217,7 @@
                                          prop="timestamp"></el-table-column>
                     </el-table>
                 </div>
-                <div class="pagination_content" v-show="txCount > 10">
+                <div class="pagination_content" v-show="txCount > txPageSize">
                     <keep-alive>
                         <m-pagination :page-size="txPageSize"
                                       :total="txCount"

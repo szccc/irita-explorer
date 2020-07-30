@@ -32,7 +32,7 @@
                     </p> -->
                     <p class="service_respond_record_text_content">
                         <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.qos')}}:</span>
-                        <span>{{qos}} blocks</span>
+                        <span>{{`${qos} ${$t('ExplorerCN.unit.blocks')}`}} </span>
                     </p>
                     <!-- <p class="service_respond_record_text_content">
                         <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.deposit')}}:</span>
@@ -137,7 +137,7 @@
                         </el-table-column>
                     </el-table>
                 </div>
-                <div class="pagination_content" v-show="txCount > 10">
+                <div class="pagination_content" v-show="txCount > txPageSize">
                     <keep-alive>
                         <m-pagination :page-size="txPageSize"
                                       :total="txCount"

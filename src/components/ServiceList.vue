@@ -62,7 +62,7 @@
 					<el-table-column min-width="180px" :label="$t('ExplorerCN.service.time')" prop="bindTime"></el-table-column>
 				</el-table>
 			</div>
-			<div class="pagination_content" v-if="txCount > 5">
+			<div class="pagination_content" v-if="txCount > pageSize">
 				<m-pagination :page-size="pageSize"
 				              :total="txCount"
 				              :page="pageNum"
