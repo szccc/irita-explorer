@@ -54,7 +54,7 @@
                     {{$t('ExplorerCN.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
                     <el-table :data="serviceList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-                        <el-table-column min-width="120px"
+                        <el-table-column :min-width="ColumnMinWidth.address"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
                             <template slot-scope="scope">
                                 <span>
@@ -67,7 +67,7 @@
                                 </span>
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.serviceDetail.serviceBindings.respondTimes')">
+                        <el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerCN.serviceDetail.serviceBindings.respondTimes')">
                             <template slot-scope="scope">
                                 <span>
                                     <router-link
@@ -77,7 +77,7 @@
                                 </span>
                             </template>
                         </el-table-column>
-                        <el-table-column min-width="100px"
+                        <el-table-column :min-width="ColumnMinWidth.available"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.available')">
                             <template slot-scope="scope">
                                 <div class="service_information_available_container">
@@ -94,18 +94,18 @@
 
                             </template>
                         </el-table-column>
-                        <!-- <el-table-column min-width="120px"
+                        <!-- <el-table-column :min-width="ColumnMinWidth.price"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.pricing')"
                                          prop="price"></el-table-column>
-                        <el-table-column min-width="120px"
+                        <el-table-column :min-width="ColumnMinWidth.deposit"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.deposit')"
                                          prop="deposit"></el-table-column> -->
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')"
+                        <el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerCN.serviceDetail.serviceBindings.qos')"
                                          prop="qos"></el-table-column>
-                        <el-table-column min-width="160px"
+                        <el-table-column :min-width="ColumnMinWidth.time"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.bindTime')"
                                          prop="bindTime"></el-table-column>
-                        <el-table-column min-width="160px"
+                        <el-table-column :min-width="ColumnMinWidth.time"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.disabledTime')"
                                          prop="disabledTime"></el-table-column>
                     </el-table>
@@ -152,7 +152,7 @@
 
                 <div class="service_information_transaction_table_content">
                     <el-table :data="transactionArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
+                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.transactions.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.status === TX_STATUS.success"
@@ -168,17 +168,17 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column min-width="180px" :label="$t('ExplorerCN.transactions.type')"
+                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.transactions.type')"
                                          prop="type"></el-table-column>
 
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.requestId')">
+                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.transactions.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip :content="scope.row.id" :disabled="!isValid(scope.row.id)">
                                     <span>{{formatAddress(scope.row.id)}}</span>
                                 </el-tooltip>
                             </template>
                         </el-table-column>
-                        <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.from')">
+                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.transactions.from')">
                             <template slot-scope="scope">
 
                                 <el-tooltip :content="scope.row.from"
@@ -191,7 +191,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
+                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.transactions.to')">
                             <template slot-scope="scope">
                                 <el-tooltip :content="String(scope.row.to)"
                                             placement="top"
@@ -207,13 +207,13 @@
                                 </el-tooltip>
                             </template>
                         </el-table-column>
-                        <el-table-column min-width="80px" :label="$t('ExplorerCN.transactions.block')">
+                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.transactions.block')">
                             <template slot-scope="scope">
                                 <router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
                             </template>
                         </el-table-column>
 
-                        <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" width="200px"
+                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.transactions.timestamp')" 
                                          prop="timestamp"></el-table-column>
                     </el-table>
                 </div>
@@ -235,7 +235,7 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./common/MPagination";
-    import { TX_TYPE,TX_STATUS } from '../constant';
+    import { TX_STATUS,ColumnMinWidth } from '../constant';
     import {
         getAllServiceTxTypes,
         getServiceDetail,
@@ -250,8 +250,8 @@
         components : {MPagination},
         data(){
             return {
-                TX_TYPE,
                 TX_STATUS,
+                ColumnMinWidth,
                 from : '',
                 chainId : '',
                 publisher : '',

@@ -72,7 +72,7 @@
                 </h3>
                 <div class="service_respond_record_transaction_table_content">
                     <el-table :data="txList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.respondHash')">
+                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.serviceDetail.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.respondStatus === TX_STATUS.success"
@@ -88,10 +88,10 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column :label="$t('ExplorerCN.transactions.type')" width="150px"
+                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.transactions.type')"
                                          prop="type"></el-table-column>
 
-                        <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.requestId')">
+                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.transactions.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip :content="scope.row.requestContextId"
                                             v-if="scope.row.requestContextId">
@@ -103,7 +103,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :label="$t('ExplorerCN.transactions.block')">
+                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.transactions.block')">
                             <template slot-scope="scope">
                                 <router-link :to="`/block/${scope.row.height}`">
                                     {{scope.row.height}}
@@ -111,9 +111,9 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" width="200px"
+                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.transactions.timestamp')" 
                                          prop="time"></el-table-column>
-                        <el-table-column min-width="120px" :label="$t('ExplorerCN.serviceDetail.consumer')">
+                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.serviceDetail.consumer')">
                             <template slot-scope="scope">
                                 <el-tooltip :content="scope.row.consumer">
                                     <router-link :to="`/address/${scope.row.consumer}`">{{formatAddress(scope.row.consumer)}}
@@ -122,7 +122,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column min-width="120px"
+                        <el-table-column :min-width="ColumnMinWidth.txHash"
                                          :label="$t('ExplorerCN.serviceDetail.requestHash')">
                                 <template slot-scope="scope">
                                     <img class="service_tx_status"
@@ -160,14 +160,14 @@
         getServiceRespondInfo,
         getServiceBindingByServiceName,
     } from "../service/api";
-    import { TX_TYPE,TX_STATUS } from '../constant';
+    import { TX_STATUS,ColumnMinWidth } from '../constant';
     export default {
         name : "ServiceInformation",
         components : {MPagination},
         data(){
             return {
-                TX_TYPE,
                 TX_STATUS,
+                ColumnMinWidth,
                 txList : [],
                 txPageSize : 10,
                 txPageNum : 1,

@@ -8,14 +8,14 @@
 			<div class="address_asset_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
 				<el-table :data="assetArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column :label="$t('ExplorerCN.addressDetail.denom')" width="150px" prop="denomName"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.addressDetail.id')" width="250px">
+					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.addressDetail.denom')"  prop="denomName"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerCN.addressDetail.id')" >
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nftName}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.addressDetail.data')" width="350px" prop="tokenData"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.addressDetail.uri')" prop="tokenUri">
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerCN.addressDetail.data')" prop="tokenData"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerCN.addressDetail.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :download="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
@@ -30,7 +30,7 @@
                           :empty-text="$t('ExplorerCN.element.table.emptyDescription')"
 						  :span-method="arraySpanMethod"
     					  >
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
+					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
 							<el-tooltip v-if="!scope.row.isChildren"  :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
@@ -38,8 +38,8 @@
 							<span v-if="scope.row.isChildren && scope.row.index==0">{{getRespondCount(scope.row.count)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-					<el-table-column min-width="100px" :label="$t('ExplorerCN.addressDetail.requestStatus')">
+					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.state" :label="$t('ExplorerCN.addressDetail.requestStatus')">
 						<template slot-scope="scope">
 							<div v-if="scope.row.state" class="consumer_transaction_content_available">
 								<span class="consumer_transaction_content_available_icon" :style="`background:${getBgColorWithState(scope.row.state)}`"></span>
@@ -48,12 +48,12 @@
 							<div v-else>--</div>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.block')">
+					<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.transactions.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.txHash')">
+					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.transactions.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<img class="status_icon"
@@ -65,12 +65,12 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.addressDetail.requestId')">
+					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.addressDetail.requestId')">
                         <template slot-scope="scope">
                             <span>{{formatAddress(scope.row.requestContextId)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="120px" :label="$t('ExplorerCN.transactionInformation.provider')">
+                    <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.transactionInformation.provider')">
                         <template slot-scope="scope">
                             <el-tooltip v-if="scope.row.txType==TX_TYPE.respond_service" 
 								        :content="scope.row.provider"
@@ -96,7 +96,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column min-width="200px" :label="$t('ExplorerCN.addressDetail.timestamp')">
+                    <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.addressDetail.timestamp')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
@@ -113,19 +113,19 @@
 			<div class="provider_transaction_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.providerTitle')}}</div>
 				<el-table :data="providerTxList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
+					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="100px" :label="$t('ExplorerCN.addressDetail.respondTimes')">
+					<el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerCN.addressDetail.respondTimes')">
 						<template slot-scope="scope">
 							<router-link :to="`/service/respond/${scope.row.serviceName}/${address}`">{{`${scope.row.respond_times} ${$t('ExplorerCN.unit.time')}`}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="100px" :label="$t('ExplorerCN.addressDetail.available')">
+					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerCN.addressDetail.available')">
 						<template slot-scope="scope">
 							<div class="provider_transaction_content_available">
 								<span class="provider_transaction_content_available_icon" :style="`background:${scope.row.isAvailable?'#B1E96E':'#C4C4C4'}`"></span>
@@ -133,27 +133,27 @@
 							</div>
 						</template>
 					</el-table-column>
-					<!-- <el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.pricing')">
+					<!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerCN.addressDetail.pricing')">
 						<template slot-scope="scope">
 							<span>{{scope.row.pricing}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.deposit')">
+					<el-table-column :min-width="ColumnMinWidth.deposit" :label="$t('ExplorerCN.addressDetail.deposit')">
 						<template slot-scope="scope">
 							<span>{{scope.row.deposit}}</span>
 						</template>
 					</el-table-column> -->
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.qos')">
+					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerCN.addressDetail.qos')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.qos} ${$t('ExplorerCN.unit.blocks')}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="200px" :label="$t('ExplorerCN.addressDetail.bindTime')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.addressDetail.bindTime')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="200px" :label="$t('ExplorerCN.addressDetail.disabledTime')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.addressDetail.disabledTime')">
 						<template slot-scope="scope">
 							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
@@ -161,7 +161,7 @@
 				</el-table>
 				<div class="content_title" style="margin-top:0.4rem">{{$t('ExplorerCN.addressDetail.respondRecord')}}</div>
 				<el-table :data="respondRecordList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.serviceType')">
+					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerCN.addressDetail.serviceType')">
 						<template slot-scope="scope">
 							<el-tooltip v-if="scope.row.serviceName" :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
@@ -169,8 +169,8 @@
 							<span v-if="!scope.row.serviceName">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="type"></el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.respondHash')">
+					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.transactions.txType')" prop="type"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.addressDetail.respondHash')">
 						<template slot-scope="scope">
 							<div class="respond_transaction_content_hash">
 								<img class="status_icon"
@@ -182,22 +182,22 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.addressDetail.requestId')">
+					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.addressDetail.requestId')">
                         <template slot-scope="scope">
                             <span>{{formatAddress(scope.row.requestContextId)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.block')">
+                    <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.transactions.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.height}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.transactions.timestamp')" prop="time">
 						<template slot-scope="scope">
 							<span>{{Tools.getDisplayDate(scope.row.time)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.consumer')">
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.addressDetail.consumer')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.consumer" placement="top">
 								<router-link  v-if="scope.row.consumer && scope.row.consumer.length" :to="`/address/${scope.row.consumer}`">{{formatAddress(scope.row.consumer)}}</router-link>
@@ -205,7 +205,7 @@
 							<span v-if="!scope.row.consumer">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.addressDetail.requestHash')">
+					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.addressDetail.requestHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
@@ -274,7 +274,7 @@
 	import MPagination from "./common/MPagination";
 	import {TxHelper} from "../helper/TxHelper";
 	import TxListComponent from "./common/TxListComponent";
-	import { TX_TYPE,TX_STATUS } from '../constant';
+	import { TX_TYPE,TX_STATUS,ColumnMinWidth } from '../constant';
   	import {
   		getAddressTxList,
     	getCallServiceWithAddress,
@@ -291,6 +291,7 @@
 			return{
 				TX_TYPE,
 				TX_STATUS,
+				ColumnMinWidth,
 				Tools,
 				assetArray:[],
 				denomArray:[],
