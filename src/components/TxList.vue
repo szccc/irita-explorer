@@ -38,7 +38,7 @@
                                         @change="getStartTime(beginTime)"
                                         :editable="false"
                                         value-format="yyyy-MM-dd"
-                                        :placeholder="$t('ExplorerCN.element.date.select')">
+                                        :placeholder="$t('ExplorerCN.common.selectDate')">
                         </el-date-picker>
                         <span class="joint_mark">~</span>
                         <el-date-picker type="date"
@@ -46,7 +46,7 @@
                                         value-format="yyyy-MM-dd"
                                         @change="getEndTime(endTime)"
                                         :editable="false"
-                                        :placeholder="$t('ExplorerCN.element.date.select')">
+                                        :placeholder="$t('ExplorerCN.common.selectDate')">
                         </el-date-picker>
                     </div>
                     <div class="tx_type_mobile_content">

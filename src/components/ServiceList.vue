@@ -18,8 +18,8 @@
                     </span>
                 </div>
 
-				<el-table :data="service.bindList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.service.provider')">
+				<el-table :data="service.bindList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.provider')">
 						<template slot-scope="scope">
 							<span>
                                 <el-tooltip placement="top" :content="scope.row.provider">
@@ -30,7 +30,7 @@
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="180" :label="$t('ExplorerCN.service.respondTimes')">
+					<el-table-column :min-width="180" :label="$t('ExplorerCN.table.respondTimes')">
 						<template slot-scope="scope">
 							<span>
 								<router-link
@@ -40,7 +40,7 @@
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerCN.service.isAvailable')">
+					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerCN.table.isAvailable')">
                         <template slot-scope="scope">
                         <div class="service_information_available_container">
                             <img class="service_tx_status"
@@ -56,9 +56,9 @@
 
                     </template>
                     </el-table-column>
-                    <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerCN.service.price')" prop="price"></el-table-column> -->
-					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerCN.service.minBlock')" prop="qos"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.service.time')" prop="bindTime"></el-table-column>
+                    <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerCN.table.price')" prop="price"></el-table-column> -->
+					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerCN.table.minBlock')" prop="qos"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.bindTime')" prop="bindTime"></el-table-column>
 				</el-table>
 			</div>
 			<div class="pagination_content" v-if="txCount > pageSize">
@@ -72,7 +72,7 @@
             <div class="service_list_empty_container" v-if="serviceList.length === 0">
                 <img src="../assets/empty.png" alt="" class="service_list_empty">
                 <span class="service_list_empty_description">
-                    {{ $t('ExplorerCN.element.table.emptyDescription') }}
+                    {{ $t('ExplorerCN.table.emptyDescription') }}
                 </span>
             </div>
 		</div>
