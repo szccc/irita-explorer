@@ -15,7 +15,7 @@
 					</li>
 					<li class="home_content_header_top_item_content" v-show="prodConfig.homeCard.avgBlockTime">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerCN.home.avgBlockTime')}}</p>
-						<p class="home_content_header_top_center_content">{{ageTime}}</p>
+						<p class="home_content_header_top_center_content">{{`${ageTime} ${$t('ExplorerCN.common.second')}`}}</p>
 						<p class="home_content_header_top_footer_content">{{$t('ExplorerCN.home.last100Blocs')}}</p>
 					</li>
 				</ul>
@@ -100,12 +100,15 @@
 	import prodConfig from "../productionConfig"
 	import { getStatistics, getBlockList } from "../service/api";
 	import {getTxList} from "../service/api";
+	import { TX_TYPE,TX_STATUS } from '../constant';
 
     export default {
 		name: "Home",
 		data () {
 			return {
 				prodConfig:prodConfig,
+				TX_TYPE,
+				TX_STATUS,
 				block_height: 0,
 				transactionNumber: 0,
 				transactionTime:"",
@@ -157,7 +160,7 @@
 						this.serverNumber = statistics.serviceCount;
 					}
 				}catch(err){
-
+					console.error(err);
 				}
 			},
 			async getLastBlocks(){
@@ -193,7 +196,7 @@
 							},1000)
 						}
 				}catch(err){
-
+					console.error(err);
 				}
 			},
 			async getTransaction(){
@@ -243,7 +246,7 @@
                         },1000)
                     }
                 }catch (e) {
-                    //this.$message.error('获取交易列表失败,请稍后重试');
+                    //this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
                     console.error(e);
                 }
 

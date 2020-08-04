@@ -4,7 +4,7 @@
 			<div class="header_menu_content">
 				<div class="header_logo_img_content">
 					<router-link :to="`/home`">
-						<img src="../assets/csrb_logo.svg" alt="">
+						<img src="../../assets/csrb_logo.png" alt="">
 					</router-link>
 				</div>
 				<div class="header_menu">
@@ -14,7 +14,7 @@
 							mode="horizontal"
 							@select="handleSelect"
 							background-color="#3264FD"
-							text-color="#fff"
+							text-color="#CBD8FE"
 							active-text-color="#fff">
 						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
 							<router-link :to="item.link">{{item.titel}}</router-link>
@@ -22,7 +22,7 @@
 					</el-menu>
 				</div>
 				<div class="header_mobile_menu" @click="featureShow=!featureShow">
-					<img class="menu_btn" src="../assets/menu.png" >
+					<img class="menu_btn" src="../../assets/menu.png" >
 				</div>
 			</div>
 			<div class="header_input_content" v-if="searchShow">
@@ -47,15 +47,15 @@
 	</div>
 </template>
 <script>
-	import Tools from "../util/Tools";
-	import constant from "../constant"
-	import prodConfig from "../productionConfig"
-	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../service/api';
+	import Tools from "../../util/Tools";
+	import {addrPrefix} from "../../constant";
+	import prodConfig from "../../productionConfig"
+	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../../service/api';
 	export default {
 		data() {
 			return {
 				activeIndex: '1',
-				activeIndex2: '1',
+				activeIndex2: '0',
 				searchInputValue: '',
 				featureShow:false,
 				menuList:[],
@@ -97,14 +97,35 @@
 			}
 		},
 		mounted(){
-			this.$Crypto.getCrypto('iris', 'testnet');
+			// this.$Crypto.getCrypto('iris', 'testnet');
+            this.setActiveIndex();
 		},
+        watch: {
+            $route: {
+                handler(val){
+                    this.setActiveIndex(val.path);
+                },
+                deep: true
+            }
+        },
 		methods: {
 			handleSelect(key, keyPath) {
 			},
 			onInputChange () {
 				this.getData()
 			},
+            setActiveIndex(hash = window.location.hash){
+			    if(this.menuList.every((m)=>!hash.includes(m.link))){
+                    this.activeIndex2 = '';
+                }else{
+                    this.menuList.forEach((m, i)=>{
+                        if(hash.includes(m.link)){
+                            this.activeIndex2 = String(i+1);
+                        }
+                    })
+                }
+
+            },
 			clearSearchContent () {
 				this.searchInputValue = '';
 			},
@@ -121,9 +142,7 @@
 				} else {
 					if (/^[A-F0-9]{64}$/.test(this.searchInputValue)) {
 						this.searchTx();
-					} else if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.searchInputValue)) {
-						this.searchDelegator();
-					} else if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.searchInputValue)) {
+					} else if (Tools.isBech32(this.searchInputValue)) {
 						this.searchDelegator();
 					} else if (/^\+?[1-9][0-9]*$/.test(this.searchInputValue)) {
 						this.searchBlock();
@@ -148,7 +167,7 @@
 			},
 			async searchDelegator () {
                 try {
-                    const res = await getAddressTxList(this.searchInputValue, 1, 10);
+                    const res = await getAddressTxList(this.searchInputValue,'','', 1, 10);
                     if(res){
                         this.$router.push(`/address/${this.searchInputValue}`);
                         this.clearSearchContent();

@@ -38,7 +38,7 @@
                                         @change="getStartTime(beginTime)"
                                         :editable="false"
                                         value-format="yyyy-MM-dd"
-                                        placeholder="Select Date">
+                                        :placeholder="$t('ExplorerCN.common.selectDate')">
                         </el-date-picker>
                         <span class="joint_mark">~</span>
                         <el-date-picker type="date"
@@ -46,7 +46,7 @@
                                         value-format="yyyy-MM-dd"
                                         @change="getEndTime(endTime)"
                                         :editable="false"
-                                        placeholder="Select Date">
+                                        :placeholder="$t('ExplorerCN.common.selectDate')">
                         </el-date-picker>
                     </div>
                     <div class="tx_type_mobile_content">
@@ -54,70 +54,7 @@
                         <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
             </div>
-            <div class="tx_list_content">
-                <el-table :data="transactionArray">
-                    <el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
-                        <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.txHash"
-                                        class="item"
-                                        placement="top"
-                                        effect="dark">
-                                <router-link :to="`tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}
-                                </router-link>
-                            </el-tooltip>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.block')">
-                        <template slot-scope="scope">
-                            <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-                    <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
-                        <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.from"
-                                        class="item"
-                                        placement="top"
-                                        effect="dark">
-                                <router-link v-if="scope.row.from !== '--'" :to="`/address/${scope.row.from}`">
-                                    {{formatAddress(scope.row.from)}}
-                                </router-link>
-                            </el-tooltip>
-                            <span v-if="scope.row.from === '--'">{{formatAddress(scope.row.from)}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
-                        <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.to"
-                                        class="item"
-                                        placement="top"
-                                        effect="dark">
-                                <router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">
-                                    {{formatAddress(scope.row.to)}}
-                                </router-link>
-                            </el-tooltip>
-                            <span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
-                        <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.signer"
-                                        class="item"
-                                        placement="top"
-                                        effect="dark">
-                                <router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}
-                                </router-link>
-                            </el-tooltip>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
-                    <el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
-                        <template slot-scope="scope">
-                            <span>{{scope.row.time}}</span>
-                        </template>
-                    </el-table-column>
-                </el-table>
-            </div>
+            <TxListComponent :txData="transactionArray"></TxListComponent>
             <div class="pagination_content">
                 <keep-alive>
                     <m-pagination :page-size="Number(pageSize)"
@@ -133,31 +70,36 @@
 
 <script>
     import Tools from "../util/Tools"
-    import MPagination from "./MPagination";
+    import MPagination from "./common/MPagination";
+    import TxListComponent from "./common/TxListComponent";
+    import {TxHelper} from "../helper/TxHelper";
     import {getAllTxTypes, getTxList} from '../service/api';
+    import { TX_TYPE,TX_STATUS } from '../constant';
 
     export default {
         name : "TxList",
-        components : {MPagination},
+        components : {MPagination, TxListComponent},
         data(){
             const {txType, status, beginTime, endTime, pageNum, pageSize} = Tools.urlParser();
 
             return {
+                TX_TYPE,
+                TX_STATUS,
                 transactionArray : [],
                 txCount : 0,
                 txTypeOption : [],
                 statusOpt : [
                     {
-                        value:'',
-                        label:'All Status'
+                        value : '',
+                        label : this.$t('ExplorerCN.common.allTxStatus')
                     },
                     {
-                        value:1,
-                        label:'Success'
+                        value : 1,
+                        label : this.$t('ExplorerCN.common.success')
                     },
                     {
-                        value:2,
-                        label:'Failed'
+                        value : 2,
+                        label : this.$t('ExplorerCN.common.failed')
                     }
                 ],
                 statusValue : status ? status : '',
@@ -221,25 +163,13 @@
 
                 try{
                     const res = await getTxList(params);
-
-                    this.transactionArray = res.data.map((tx)=>{
-                        return {
-                            txHash : tx.tx_hash,
-                            blockHeight : tx.height,
-                            txType : tx.type,
-                            from : tx.from ? tx.from : '--',
-                            to : tx.to ? tx.to : '--',
-                            signer : tx.signer,
-                            status : tx.status === 1 ? 'Success' : 'Failed',
-                            time :Tools.getDisplayDate(tx.time),
-                        }
-                    });
+                    this.transactionArray = res.data;
                     this.txCount = res.count;
                     this.pageNum = res.pageNum;
                     this.pageSize = res.pageSize;
-                    // console.log(this.transactionArray)
                 }catch (e) {
-                    this.$message.error('获取交易列表失败,请稍后重试');
+                    console.error(e);
+                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
                 }
 
 
@@ -250,17 +180,18 @@
                     const typeList = res.data.map((type)=>{
                         return {
                             value: type.typeName,
-                            item:type.typeName,
+                            label:type.typeName,
                         }
                     });
                     typeList.unshift({
                         value : '',
-                        label : 'All TxType',
+                        label : this.$t('ExplorerCN.common.allTxType'),
                         slot : 'allTxType'
                     });
                     this.txTypeOption = typeList;
                 }catch (e) {
-                    this.$message.error('获取交易类型失败,请稍后重试');
+                    console.error(e);
+                    // this.$message.error(this.$t('ExplorerCN.message.txTypeFailed'));
                 }
 
             },
@@ -407,9 +338,28 @@
         .tx_content_wrap {
             margin: 0 auto;
             box-sizing: border-box;
-
+            .service_tx_to_container{
+                .service_tx_muti_to_container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    .service_tx_muti_to_ellipsis {
+                        color: #3264FD;
+                    }
+                }
+            }
+            .service_tx_status {
+                position: relative;
+                top: 0.02rem;
+                left: -0.04rem;
+                width:0.13rem;
+                height:0.13rem;
+            }
             .tx_content_header_wrap {
-
+                .tx_transaction_content_hash{
+                    display: flex;
+                    align-items: center;
+                }
                 .total_tx_content {
                     height: 0.61rem;
                     line-height: 0.61rem;
@@ -510,6 +460,11 @@
                         }
                     }
                 //}
+            }
+            .status_icon{
+                width:0.13rem;
+                height:0.13rem;
+                margin-right:0.05rem;
             }
             .pagination_content {
                 display: flex;

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import URLSearchParams from 'url-search-params';
+import bech32 from 'bech32';
 export default class Tools{
 	/**
 	 * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -64,6 +65,11 @@ export default class Tools{
 	static getDisplayDate(timestamp, format = "YYYY-MM-DD HH:mm:ss"){
 	    return moment(timestamp*1000).utcOffset(+480).format(format);
     }
+    static getFormatDate(date, format = "YYYY-MM-DD HH:mm:ss"){
+	    return moment(date).utcOffset(+480).format(format);
+    }
+
+
 
     static getTimestamp(){
         return Math.floor(new Date().getTime() / 1000);
@@ -87,6 +93,20 @@ export default class Tools{
             return params;
         }else {
             return {}
+        }
+    }
+
+    static isBech32(str) {
+        let allReg = new RegExp(/^[0-9a-zA-Z]*$/i);
+        if (!allReg.test(str)){
+            return false
+        }
+
+        try {
+        	bech32.decode(str);
+            return true
+        }catch (e) {
+            return false
         }
     }
 }

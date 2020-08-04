@@ -15,15 +15,15 @@
 						</div>
 					</div>
 					<div class="block_list_pagination_content">
-						<el-table :data="blockList" stripe>
-							<el-table-column :label="$t('ExplorerCN.block.block')">
+						<el-table :data="blockList" stripe :empty-text="$t('ExplorerCN.table.emptyDescription')">
+							<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.block.block')">
 								<template slot-scope="scope">
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 								</template>
 							</el-table-column>
-							<el-table-column prop="numTxs" :label="$t('ExplorerCN.block.transactions')"></el-table-column>
-							<el-table-column min-width="180px" prop="time" :label="$t('ExplorerCN.block.timestamp')"></el-table-column>
-							<el-table-column min-width="120px" prop="ageTime" :label="$t('ExplorerCN.block.age')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.txn" prop="numTxs" :label="$t('ExplorerCN.block.transactions')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.time" prop="time" :label="$t('ExplorerCN.block.timestamp')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerCN.block.age')"></el-table-column>
 						</el-table>
 					</div>
 					<div class="pagination_content">
@@ -37,13 +37,15 @@
 
 <script>
 	import Tools from "../util/Tools"
-	import MPagination from "./MPagination";
+	import MPagination from "./common/MPagination";
 	import { getBlockList, getLatestBlock } from "../service/api";
+	import { ColumnMinWidth } from '../constant';
 	export default {
 		name: "BlockList",
 		components: {MPagination},
 		data() {
 			return {
+				ColumnMinWidth,
 				pageNumber: 1,
 				pageSize: 20,
 				dataCount: 0,
@@ -127,9 +129,7 @@
                     padding:0 0.15rem;
                     box-sizing:border-box;
 					.block_list_herder_top_content{
-						display: flex;
-						justify-content: space-between;
-						align-items: center;
+                        display: flex;
                         width:100%;
 						.pagination_content{
 							display: flex;
@@ -137,6 +137,24 @@
 							margin: 0.3rem 0 0.1rem 0;
 						}
 					}
+                    @media screen and (min-width: 910px){
+                        .block_list_herder_top_content{
+
+                            justify-content: space-between;
+                            align-items: center;
+                            .pagination_content{
+                                width:40%;
+                            }
+                        }
+                    }
+                    @media screen and (max-width: 910px){
+                        .block_list_herder_top_content{
+                            flex-direction:column;
+                            .pagination_content{
+                                width:100%;
+                            }
+                        }
+                    }
 					.block_list_pagination_content{
 
 
@@ -164,11 +182,14 @@
 					.block_list_current_height_content{
 						padding:0.3rem 0 0.1rem 0;
 						text-align: left;
+                        display:flex;
+                        align-items: center;
 						.block_list_current_height_title{
 							color: #22252A;
 							font-size: 0.18rem;
 							line-height: 0.21rem;
 							font-weight: bold;
+                            margin-right:0.1rem;
 						}
 						.block_list_current_height_number{
 							a{

@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <Header></Header>
-    <router-view class="content"/>
+    <router-view class="content" :key="$route.fullPath"/>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Header from "./components/Header"
-import Footer from "./components/Footer";
+import Header from "./components/common/Header"
+import Footer from "./components/common/Footer";
 export default {
   name: 'app',
   components:{Footer, Header},

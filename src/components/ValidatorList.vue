@@ -5,10 +5,10 @@
 				<m-tabs :data="validatorStatusTitleList" :chose="selectValidatorStatus"></m-tabs>
 			</div>
 			<div class="validator_table_list_content">
-				<el-table :data="validatorList">
-					<el-table-column label="#" prop="index" width="50px"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.validators.name')" prop="name" width="200px"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.validators.operator')" width="200px">
+				<el-table :data="validatorList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.No" label="#" prop="index" ></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.validatirName" :label="$t('ExplorerCN.validators.name')" prop="name"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.validators.operator')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.operator"
 							            placement="top"
@@ -21,8 +21,8 @@
 <!--					<el-table-column label="Identity" prop="identity"></el-table-column>-->
 <!--					<el-table-column label="Details" prop="detail"></el-table-column>-->
 <!--					<el-table-column label="Proposer Priority" prop="proposerPriority"></el-table-column>-->
-					<el-table-column :label="$t('ExplorerCN.validators.votingPower')" width="150px" prop="votingPower"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.validators.pubKey')" prop="pubKey" width="450px"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.votingPower" :label="$t('ExplorerCN.validators.votingPower')" prop="votingPower"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.publickKey" :label="$t('ExplorerCN.validators.pubKey')" prop="pubKey"></el-table-column>
 				</el-table>
 			</div>
 		</div>
@@ -32,29 +32,32 @@
 <script>
 	import { getValidatorList } from "../service/api"
 	import Tools from "../util/Tools"
-	import MTabs from "./MTabs";
+	import MTabs from "./common/MTabs";
+	import { ValidatorStatus,ColumnMinWidth } from '../constant';
+	
 	export default {
 		name: "ValidatorList",
 		components: {MTabs},
 		data(){
 			return {
+				ColumnMinWidth,
 				pageNumber:1,
 				pageSize: 100,
 				validatorList: [],
 				status:'bonded',
 				validatorStatusTitleList:[
 					{
-						title:'共识中',
+						title:this.$t('ExplorerCN.validators.bonded'),
 						isActive: true,
 						name:'bonded'
 					},
 					// {
-					// 	title:'候选中',
+					// 	title:this.$t('ExplorerCN.validators.unbonding'),
 					// 	isActive: false,
 					// 	name:'unbonding'
 					// },
 					{
-						title:'待解禁',
+						title:this.$t('ExplorerCN.validators.unbonded'),
 						isActive: false,
 						name:'unbonded'
 					}
@@ -95,7 +98,7 @@
 			// },
 			async validatorListRequest(){
 				try {
-					let validatorsData = await getValidatorList(this.status=='unbonded', this.pageNumber, this.pageSize, true);
+					let validatorsData = await getValidatorList(this.status == ValidatorStatus.unbonded, this.pageNumber, this.pageSize, true);
 					if(validatorsData && validatorsData.data && validatorsData.data.length){
 						this.validatorList = validatorsData.data.map((item,index) => {
 							return {

@@ -1,8 +1,10 @@
 import { HttpHelper } from '../helper/httpHelper';
+import { TX_STATUS } from '../constant'
 import moment from 'moment';
 
 function get(url){
 	return new Promise(async (res,rej)=>{
+        url = `/api/${url.replace(/^\//,'')}`;
 		try{
 			let data = await HttpHelper.get(url);
 			if(data && data.code == 0){
@@ -19,9 +21,10 @@ function get(url){
 }
 
 function getFromLcd(url){
+    url = `/lcd/${url.replace(/^\//,'')}`;
 	return new Promise(async (res,rej)=>{
 		try{
-			let data = await HttpHelper.getFromLcd(url);
+			let data = await HttpHelper.get(url);
 			if(data){
 				res(data);
 			}else{
@@ -82,6 +85,13 @@ export function getAllTxTypes(){
     return get(url);
 }
 
+export function getAllServiceTxTypes(){
+    let url = `txs/types/service`;
+    return get(url);
+}
+
+
+
 export function getTxList(params){
     const {txType, status, beginTime, endTime, pageNum, pageSize} = params;
     let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
@@ -101,8 +111,23 @@ export function getTxList(params){
     return get(url);
 }
 
+export function getRelevanceTxList(type, contextId, pageNum, pageSize, useCount=false){
+    let url = `txs/relevance?pageNum=${pageNum}&pageSize=${pageSize}&type=${type}&contextId=${contextId}&useCount=${useCount}`;
+    return get(url);
+}
+
 export function getTokenTxList(nftId, denom, pageNum, pageSize,){
-    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&nftId=${nftId}&denom=${denom}&useCount=true`;
+    let url = `txs/nfts?pageNum=${pageNum}&pageSize=${pageSize}&tokenId=${nftId}&denom=${denom}&useCount=true`;
+    return get(url);
+}
+
+export function getCallServiceWithAddress(consumerAddr, pageNum, pageSize, useCount=false){
+    let url = `txs/services/call-service?pageNum=${pageNum}&pageSize=${pageSize}&consumerAddr=${consumerAddr}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getRespondServiceWithAddress(providerAddr, pageNum, pageSize, useCount=false){
+    let url = `txs/services/respond-service?pageNum=${pageNum}&pageSize=${pageSize}&providerAddr=${providerAddr}&useCount=${useCount}`;
     return get(url);
 }
 
@@ -111,13 +136,20 @@ export function getServiceDetail(serviceName){
     return get(url);
 }
 
-export function getServiceBindingTxList(serviceName){
-    let url = `service/bindings/${serviceName}`;
-    return getFromLcd(url);
+export function getServiceBindingTxList(serviceName, pageNum, pageSize){
+    let url = `txs/services/providers?serviceName=${serviceName}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+    return get(url);
 }
 
-export function getServiceTxList(currentPageNum,pageSize,serviceName){
-    let url = `txs/services?pageNum=${currentPageNum}&pageSize=${pageSize}&serviceName=${serviceName}&useCount=true`;
+export function getServiceTxList(type, status, serviceName,currentPageNum,pageSize,){
+    let url = `txs/services/tx?pageNum=${currentPageNum}&pageSize=${pageSize}&serviceName=${serviceName}&useCount=true`;
+    if(type){
+        url += `&type=${type}`;
+    }
+    if(status==TX_STATUS.success || status === TX_STATUS.fail){
+        url += `&status=${status}`;
+    }
+
     return get(url);
 }
 
@@ -131,15 +163,53 @@ export function getTxDetail(hash){
     return get(url);
 }
 
-export function getAddressTxList(address, pageNum, pageSize){
-    let url = `txs/addresses?pageNum=${pageNum}&pageSize=${pageSize}&address=${address}&useCount=true`;
+export function getAddressTxList(address, type, status, pageNum=1, pageSize=10){
+    let url = `txs/addresses?pageNum=${pageNum}&pageSize=${pageSize}&address=${address}&type=${type}&status=${status}&useCount=true`;
     return get(url);
 }
 
-export function getDefineServiceTxList(pageNum, pageSize){
-    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=define_service&status=1`;
+export function getDefineServiceTxList(type, status, pageNum, pageSize){
+    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=${type}&status=${status}`;
     return get(url);
 }
+
+export function getAllServiceTxList(pageNum, pageSize){
+    let url = `txs/services?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+    return get(url);
+}
+
+export function getServiceRespondInfo(serviceName, provider){
+    let url = `txs/services/bind_info?serviceName=${serviceName}&provider=${provider}`;
+    return get(url);
+}
+
+
+
+export function getServiceBindingByServiceName(serviceName, provider){
+    let url = `service/bindings/${serviceName}`;
+    if(provider){
+        url += `/${provider}`;
+    }
+    return getFromLcd(url);
+}
+
+export function getServiceContextsByServiceName(requestContextId){
+    let url = `service/contexts/${requestContextId}`;
+    return getFromLcd(url);
+}
+
+export function getRespondServiceRecord(serviceName, provider, pageNum, pageSize){
+    let url = `txs/services/respond?serviceName=${serviceName}&provider=${provider}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+    return get(url);
+}
+
+
+
+
+
+
+
+
 
 
 

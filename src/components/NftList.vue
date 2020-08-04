@@ -16,13 +16,13 @@
 				</div>
 			</div>
 			<div class="nef_list_table_container">
-				<el-table :data="denomArray">
-					<el-table-column :label="$t('ExplorerCN.nftAsset.denom')" width="155px">
+				<el-table :data="denomArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.nftAsset.denom')">
 						<template slot-scope="scope">
-							{{scope.row.denom}}
+							{{scope.row.denom_name}}
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.owner')" width="150px">
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.nftAsset.owner')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.owner"
 										class="item"
@@ -32,13 +32,13 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.id')" width="200px">
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerCN.nftAsset.id')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.id}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nft_name}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.data')" width="450px" prop="tokenData"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.uri')" prop="tokenUri">
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerCN.nftAsset.data')" prop="tokenData"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerCN.nftAsset.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
@@ -61,14 +61,16 @@
 
 <script>
 	import { getDenoms, getNfts } from "../service/api"
-	import constant from "../constant"
+	import {addrPrefix} from "../constant"
 	import Tools from "../util/Tools";
-	import MPagination from "./MPagination";
+	import MPagination from "./common/MPagination";
+	import { ColumnMinWidth } from '../constant';
 	export default {
 		name: "NftList",
 		components: {MPagination},
 		data () {
 			return {
+				ColumnMinWidth,
 				nftList: [
 					{
 						value:'all',
@@ -115,13 +117,11 @@
 				this.getNftsByFilter()
 			},
 			async getNftsByFilter(){
-				if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.input)) {
-					this.owner = this.input
-				} else if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.input)) {
-					this.owner = this.input
+				if (Tools.isBech32(this.input)) {
+					this.owner = this.input;
 				}
 				if(!this.owner){
-					this.tokenId =  this.input
+					this.tokenId =  this.input;
 				}
 				sessionStorage.setItem('selectDenom',this.denom)
 								
@@ -149,7 +149,7 @@
 					if(denomData){
 						let nftList = denomData.data.map(item => {
 							return {
-								label: item.name,
+								label: item.denom_name,
 								value: item.name
 							}
 						})
