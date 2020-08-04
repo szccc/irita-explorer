@@ -5,14 +5,44 @@ export const ExplorerCN = {
         failed:'Failed',
         allTxType:'所有交易类型',
         second:'秒',
+        selectDate:'选择日期'
     },
-    element:{
-        table:{
-            emptyDescription:'- 暂时没有内容 -'
-        },
-        date:{
-            select:'选择日期'
-        }
+    table:{
+        emptyDescription:'- 暂时没有内容 -',
+        block: '区块高度',
+        transactions: '交易数量',
+        timestamp: '参考时间',
+        age: '参考块龄',
+        txHash: '交易哈希',
+        txType: '交易类型',
+        from: '发送者',
+        to: '接收者',
+        signer: '签名者',
+        txTimestamp: '交易时间',
+        requestId: '请求标识',
+        number:'#',
+        name: '名称',
+        operator: '操作地址',
+        votingPower: '权重',
+        pubKey: '公钥',
+        denom: '数据类别',
+        owner: '拥有者',
+        id: '数据标识',
+        data: '链上数据',
+        uri: '链外链接',
+        serviceName: '服务名称',
+        publisher: '提供者',
+        respondTimes:'响应次数',
+        isAvailable:'是否可用',
+        price:'单次调用价格',
+        minBlock:'最小响应时间',
+        time:'绑定时间',
+        disabledTime: '解绑时间',
+        respondHash:'响应哈希',
+        consumer:'消费者',
+        requestHash:'请求哈希',
+        provider:'提供者',
+        requestStatus:'请求状态',
     },
     unit:{
         providers:'providers',

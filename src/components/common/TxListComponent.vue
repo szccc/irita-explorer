@@ -1,6 +1,6 @@
 <template>
     <div class="tx_list_content">
-        <el-table :data="formatTxData" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
+        <el-table :data="formatTxData" :empty-text="$t('ExplorerCN.table.emptyDescription')">
             <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.transactions.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">

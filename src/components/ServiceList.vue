@@ -18,7 +18,7 @@
                     </span>
                 </div>
 
-				<el-table :data="service.bindList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
+				<el-table :data="service.bindList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.service.provider')">
 						<template slot-scope="scope">
 							<span>
@@ -72,7 +72,7 @@
             <div class="service_list_empty_container" v-if="serviceList.length === 0">
                 <img src="../assets/empty.png" alt="" class="service_list_empty">
                 <span class="service_list_empty_description">
-                    {{ $t('ExplorerCN.element.table.emptyDescription') }}
+                    {{ $t('ExplorerCN.table.emptyDescription') }}
                 </span>
             </div>
 		</div>

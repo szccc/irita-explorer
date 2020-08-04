@@ -53,7 +53,7 @@
                 <h3 class="service_information_binding_title">
                     {{$t('ExplorerCN.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
-                    <el-table :data="serviceList" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
+                    <el-table :data="serviceList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
                         <el-table-column :min-width="ColumnMinWidth.address"
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
                             <template slot-scope="scope">
@@ -151,7 +151,7 @@
                 </div>
 
                 <div class="service_information_transaction_table_content">
-                    <el-table :data="transactionArray" :empty-text="$t('ExplorerCN.element.table.emptyDescription')">
+                    <el-table :data="transactionArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
                         <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.transactions.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
