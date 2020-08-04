@@ -4,6 +4,7 @@ import moment from 'moment';
 
 function get(url){
 	return new Promise(async (res,rej)=>{
+        url = `/api/${url.replace(/^\//,'')}`;
 		try{
 			let data = await HttpHelper.get(url);
 			if(data && data.code == 0){
@@ -20,9 +21,10 @@ function get(url){
 }
 
 function getFromLcd(url){
+    url = `/lcd/${url.replace(/^\//,'')}`;
 	return new Promise(async (res,rej)=>{
 		try{
-			let data = await HttpHelper.getFromLcd(url);
+			let data = await HttpHelper.get(url);
 			if(data){
 				res(data);
 			}else{
