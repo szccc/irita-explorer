@@ -22,7 +22,7 @@
 					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.service.provider')">
 						<template slot-scope="scope">
 							<span>
-                                <el-tooltip :content="scope.row.provider">
+                                <el-tooltip placement="top" :content="scope.row.provider">
                                     <router-link :to="`/address/${scope.row.provider}`">
                                         {{Tools.formatValidatorAddress(scope.row.provider)}}
                                     </router-link>

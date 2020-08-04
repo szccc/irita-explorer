@@ -80,7 +80,7 @@
                                 <img class="service_tx_status"
                                      v-else
                                      src="../assets/failed.png"/>
-                                <el-tooltip :content="scope.row.respondHash">
+                                <el-tooltip placement="top" :content="scope.row.respondHash">
                                     <router-link :to="`/tx?txHash=${scope.row.respondHash}`">
                                         {{formatTxHash(scope.row.respondHash)}}
                                     </router-link>
@@ -93,7 +93,7 @@
 
                         <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.transactions.requestId')">
                             <template slot-scope="scope">
-                                <el-tooltip :content="scope.row.requestContextId"
+                                <el-tooltip placement="top" :content="scope.row.requestContextId"
                                             v-if="scope.row.requestContextId">
                                     <span>
                                         {{formatAddress(scope.row.requestContextId)}}
@@ -115,7 +115,7 @@
                                          prop="time"></el-table-column>
                         <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.serviceDetail.consumer')">
                             <template slot-scope="scope">
-                                <el-tooltip :content="scope.row.consumer">
+                                <el-tooltip placement="top" :content="scope.row.consumer">
                                     <router-link :to="`/address/${scope.row.consumer}`">{{formatAddress(scope.row.consumer)}}
                                     </router-link>
                                 </el-tooltip>
@@ -128,7 +128,7 @@
                                     <img class="service_tx_status"
                                          src="../assets/success.png"/>
 
-                                    <el-tooltip :content="scope.row.requestHash">
+                                    <el-tooltip placement="top" :content="scope.row.requestHash">
                                         <router-link :to="`/tx?txHash=${scope.row.requestHash}`">
                                             {{formatTxHash(scope.row.requestHash)}}
                                         </router-link>
