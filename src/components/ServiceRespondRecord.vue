@@ -23,7 +23,7 @@
                 </h3>
                 <div class="service_respond_record_content">
                     <p class="service_respond_record_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.available')}}:</span>
+                        <span>{{$t('ExplorerCN.table.isAvailable')}}:</span>
                         <span>{{isAvailable}}</span>
                     </p>
                     <!-- <p class="service_respond_record_text_content">
@@ -72,7 +72,7 @@
                 </h3>
                 <div class="service_respond_record_transaction_table_content">
                     <el-table :data="txList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.serviceDetail.respondHash')">
+                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.table.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.respondStatus === TX_STATUS.success"
@@ -88,10 +88,10 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.transactions.type')"
+                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.table.txType')"
                                          prop="type"></el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.transactions.requestId')">
+                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.table.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="scope.row.requestContextId"
                                             v-if="scope.row.requestContextId">
@@ -103,7 +103,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.transactions.block')">
+                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.table.block')">
                             <template slot-scope="scope">
                                 <router-link :to="`/block/${scope.row.height}`">
                                     {{scope.row.height}}
@@ -111,9 +111,9 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.transactions.timestamp')" 
+                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.timestamp')" 
                                          prop="time"></el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.serviceDetail.consumer')">
+                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.consumer')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="scope.row.consumer">
                                     <router-link :to="`/address/${scope.row.consumer}`">{{formatAddress(scope.row.consumer)}}
@@ -123,7 +123,7 @@
                         </el-table-column>
 
                         <el-table-column :min-width="ColumnMinWidth.txHash"
-                                         :label="$t('ExplorerCN.serviceDetail.requestHash')">
+                                         :label="$t('ExplorerCN.table.requestHash')">
                                 <template slot-scope="scope">
                                     <img class="service_tx_status"
                                          src="../assets/success.png"/>
