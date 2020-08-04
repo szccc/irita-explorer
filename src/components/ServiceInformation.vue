@@ -58,7 +58,7 @@
                                          :label="$t('ExplorerCN.serviceDetail.serviceBindings.provider')">
                             <template slot-scope="scope">
                                 <span>
-                                    <el-tooltip :content="scope.row.provider">
+                                    <el-tooltip placement="top" :content="scope.row.provider">
                                     <router-link :to="`/address/${scope.row.provider}`">
                                         {{Tools.formatValidatorAddress(scope.row.provider)}}
                                     </router-link>
@@ -160,7 +160,7 @@
                                 <img class="service_tx_status"
                                      v-else
                                      src="../assets/failed.png"/>
-                                <el-tooltip :content="scope.row.txHash">
+                                <el-tooltip placement="top" :content="scope.row.txHash">
                                     <router-link :to="`tx?txHash=${scope.row.txHash}`">
                                         {{formatTxHash(scope.row.txHash)}}
                                     </router-link>
@@ -173,7 +173,7 @@
 
                         <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.transactions.requestId')">
                             <template slot-scope="scope">
-                                <el-tooltip :content="scope.row.id" :disabled="!isValid(scope.row.id)">
+                                <el-tooltip placement="top" :content="scope.row.id" :disabled="!isValid(scope.row.id)">
                                     <span>{{formatAddress(scope.row.id)}}</span>
                                 </el-tooltip>
                             </template>
@@ -181,7 +181,7 @@
                         <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.transactions.from')">
                             <template slot-scope="scope">
 
-                                <el-tooltip :content="scope.row.from"
+                                <el-tooltip placement="top" :content="scope.row.from"
                                             :disabled="!isValid(scope.row.from)">
                                     <router-link v-if="isValid(scope.row.from)" :to="`/address/${scope.row.from}`">
                                         {{formatAddress(scope.row.from)}}
@@ -193,8 +193,7 @@
 
                         <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.transactions.to')">
                             <template slot-scope="scope">
-                                <el-tooltip :content="String(scope.row.to)"
-                                            placement="top"
+                                <el-tooltip placement="top" :content="String(scope.row.to)"
                                             :key="Math.random()"
                                             :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
                                     <router-link v-if="typeof scope.row.to=='string' && isValid(scope.row.to)" :to="`/address/${scope.row.to}`">
@@ -323,9 +322,9 @@
                         const {author, author_description, description, name, schemas, tags} = res.msgs[0].msg;
                         this.author = author;
                         this.authorDescription = author_description ? author_description : '--';
-                        this.description = description;
-                        this.name = name;
-                        this.schemas = schemas;
+                        this.description = description || '--';
+                        this.name = name || '--';;
+                        this.schemas = schemas || '--';;
                         this.tags = tags.length > 0 ? tags : '--';
                         this.hash = res.tx_hash;
                         this.height = res.height;
