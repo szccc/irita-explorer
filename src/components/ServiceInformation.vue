@@ -518,7 +518,7 @@
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
                 border-radius: 5px;
-                border: 1px solid rgba(215, 215, 215, 1);
+                border: 1px solid $bd_first_c;
                 .service_information_definition_title {
                     font-size: $s18;
                     color: $t_first_c;
@@ -562,7 +562,7 @@
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
                 border-radius: 5px;
-                border: 1px solid rgba(215, 215, 215, 1);
+                border: 1px solid $bd_first_c;
                 .service_information_binding_title {
                     font-size: $s18;
                     color: $t_first_c;
@@ -583,7 +583,7 @@
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 border-radius: 5px;
-                border: 1px solid rgba(215, 215, 215, 1);
+                border: 1px solid $bd_first_c;
                 .service_information_transaction_title {
                     font-size: $s18;
                     color: $t_first_c;
@@ -617,7 +617,7 @@
                                 }
                             }
                             .el-input__inner:focus {
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                             .el-input__suffix {
                                 .el-input__suffix-inner {
@@ -629,7 +629,7 @@
                         }
                         .is-focus {
                             .el-input__inner {
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                         }
 

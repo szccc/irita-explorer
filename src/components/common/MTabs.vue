@@ -51,7 +51,7 @@ export default {
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
-        border: 1px solid #d7dce0;
+        border: 1px solid $bd_second_c;
         background-color: $bg_white_c;
         &:nth-of-type(1) {
             border-right-width: 0;
@@ -66,7 +66,7 @@ export default {
     }
     .active {
         background-color: $bg_button_c;
-        border-color: #3264FD;
+        border-color: $bd_highlight_c;
         color: $t_white_c;
     }
 }

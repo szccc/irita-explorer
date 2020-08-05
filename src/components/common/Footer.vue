@@ -14,7 +14,7 @@
 
 <style scoped lang="scss">
 	.footer_container{
-		border-top: 0.01rem solid #E7E9EB;
+		border-top: 0.01rem solid $bd_second_c;
 		display: flex;
 		justify-content: center;
 		.footer_content{

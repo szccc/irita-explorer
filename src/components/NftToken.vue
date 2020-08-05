@@ -156,7 +156,7 @@
 			}
 			.nft_token_information_content{
 				box-sizing: border-box;
-				border: 0.01rem solid #E7E9EB;
+				border: 0.01rem solid $bd_second_c;
 				border-radius: 0.04rem;
 				background: $bg_white_c;
 				padding: 0.2rem;

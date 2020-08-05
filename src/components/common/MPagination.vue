@@ -152,7 +152,7 @@ export default {
     margin-right: 0.1rem;
 }
 .common_pagination_content{
-    border: 0.01rem solid #dee2e6;
+    border: 0.01rem solid $bd_second_c;
 }
 .page_number_content{
     padding: 0.05rem 0.05rem;
@@ -178,16 +178,16 @@ button {
 button:nth-child(1) {
     border-top-left-radius: 0.025rem;
     border-bottom-left-radius: 0.025rem;
-    border-right: 0.01rem solid #dee2e6;
+    border-right: 0.01rem solid $bd_second_c;
 }
 button:nth-of-type(2){
-    border-right: 0.01rem solid #dee2e6;
+    border-right: 0.01rem solid $bd_second_c;
 }
 button:nth-of-type(3){
-    border-left: 0.01rem solid #dee2e6;
+    border-left: 0.01rem solid $bd_second_c;
 }
 button:nth-last-child(1) {
-    border-left: 0.01rem solid #dee2e6;
+    border-left: 0.01rem solid $bd_second_c;
     border-top-right-radius: 0.025rem;
     border-bottom-right-radius: 0.025rem;
 }

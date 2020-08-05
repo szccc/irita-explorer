@@ -941,7 +941,7 @@
                     background: $bg_white_c;
                     text-align: left;
                     border-radius: 0.05rem;
-                    border: 1px solid #D7D7D7;
+                    border: 1px solid $bd_first_c;
                     .tx_information_list_title {
                         font-size: $s16;
                         font-family: PingFangSC-Semibold, PingFang SC;
@@ -982,7 +982,7 @@
                         padding: 0.25rem;
                         background: $bg_white_c;
                         border-radius: 0.05rem;
-                        border: 1px solid #D7D7D7;
+                        border: 1px solid $bd_first_c;
                         .tx_information_tx_message_title {
                             text-align: left;
                             font-size: $s16;
@@ -1053,7 +1053,7 @@
                         padding: 0.25rem;
                         background: $bg_white_c;
                         border-radius: 0.05rem;
-                        border: 1px solid #D7D7D7;
+                        border: 1px solid $bd_first_c;
                         .tx_information_relevance_tx_title {
                             text-align: left;
                             font-size: $s16;

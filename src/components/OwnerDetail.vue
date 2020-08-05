@@ -645,7 +645,7 @@
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
-				border:1px solid #D7D7D7;
+				border:1px solid $bd_first_c;
 			}
 
 			.consumer_transaction_content{
@@ -653,7 +653,7 @@
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
-				border:1px solid #D7D7D7;
+				border:1px solid $bd_first_c;
 				.consumer_transaction_content_hash{
 					display: flex;
                     align-items: center;
@@ -679,7 +679,7 @@
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
-				border:1px solid #D7D7D7;
+				border:1px solid $bd_first_c;
 				.respond_transaction_content_hash{
 					display: flex;
                     align-items: center;
@@ -706,7 +706,7 @@
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
-				border:1px solid #D7D7D7;
+				border:1px solid $bd_first_c;
 				.address_transaction_content_hash{
 					display: flex;
                     align-items: center;
@@ -737,7 +737,7 @@
                                 }
                             }
                             .el-input__inner:focus {
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                             .el-input__suffix {
                                 .el-input__suffix-inner {
@@ -749,7 +749,7 @@
                         }
                         .is-focus {
                             .el-input__inner {
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                         }
 

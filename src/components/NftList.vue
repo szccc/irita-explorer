@@ -183,7 +183,7 @@
                                 line-height: 0.32rem;
                             }
                             .el-input__inner:focus{
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                             .el-input__suffix{
                                 .el-input__suffix-inner{
@@ -234,7 +234,7 @@
                                 line-height: 0.32rem;
                             }
                             .el-input__inner:focus{
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                             .el-input__suffix{
                                 .el-input__suffix-inner{
@@ -324,7 +324,7 @@
 								}
 							}
 							.el-input__inner:focus{
-								border-color: #3264FD !important;
+								border-color: $bd_highlight_c !important;
 							}
 							.el-input__suffix{
 								.el-input__suffix-inner{
@@ -336,7 +336,7 @@
 						}
 						.is-focus{
 							.el-input__inner{
-								border-color: #3264FD !important;
+								border-color: $bd_highlight_c !important;
 							}
 						}
 
@@ -355,7 +355,7 @@
 								font-size: $s14 !important;
 							}
 							&:focus{
-								border-color: #3264FD;
+								border-color: $bd_highlight_c;
 							}
 						}
 						.el-input__prefix{
