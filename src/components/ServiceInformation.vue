@@ -508,7 +508,7 @@
                 margin: 0.42rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
-                font-size: 0.18rem;
+                font-size: $s18;
                 font-weight: 600;
                 color: #171D44;
             }
@@ -520,7 +520,7 @@
                 border-radius: 5px;
                 border: 1px solid rgba(215, 215, 215, 1);
                 .service_information_definition_title {
-                    font-size: 0.18rem;
+                    font-size: $s18;
                     color: #22252A;
                     font-weight: 600;
                     margin-bottom: 0.36rem;
@@ -534,7 +534,7 @@
                         justify-content: flex-start;
                         margin-bottom: 0.26rem;
                         span:nth-of-type(1) {
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.16rem;
                             color: #787C99;
                             min-width: 1.5rem;
@@ -542,7 +542,7 @@
                             font-weight: 600;
                         }
                         span:last-child {
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.16rem;
                             color: #171D44;
                             flex: 1;
@@ -564,7 +564,7 @@
                 border-radius: 5px;
                 border: 1px solid rgba(215, 215, 215, 1);
                 .service_information_binding_title {
-                    font-size: 0.18rem;
+                    font-size: $s18;
                     color: #22252A;
                     font-weight: 600;
                     margin-bottom: 0.36rem;
@@ -585,7 +585,7 @@
                 border-radius: 5px;
                 border: 1px solid rgba(215, 215, 215, 1);
                 .service_information_transaction_title {
-                    font-size: 0.18rem;
+                    font-size: $s18;
                     color: #22252A;
                     font-weight: 600;
                     margin-bottom: 0.36rem;
@@ -598,7 +598,7 @@
                     margin-bottom: 0.4rem;
                     align-items: center;
                     .service_information_transaction_condition_count {
-                        font-size: 0.14rem;
+                        font-size: $s14;
                         margin-right: 0.42rem;
                         font-weight: 600;
 
@@ -610,10 +610,10 @@
                             .el-input__inner {
                                 padding-left: 0.07rem;
                                 height: 0.32rem;
-                                font-size: 0.14rem !important;
+                                font-size: $s14 !important;
                                 line-height: 0.32rem;
                                 &::-webkit-input-placeholder {
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                 }
                             }
                             .el-input__inner:focus {
@@ -643,7 +643,7 @@
                             color: #fff;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.18rem;
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.2rem;
                         }
                         .reset_btn {
@@ -653,7 +653,7 @@
                             color: #fff;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.1rem;
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.2rem;
                         }
                     }

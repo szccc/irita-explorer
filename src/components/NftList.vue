@@ -201,7 +201,7 @@
                         .el-input__inner{
                             padding-left: 0.07rem;
                             height: 0.32rem;
-                            font-size: 0.14rem !important;
+                            font-size: $s14 !important;
                             line-height: 0.32rem;
                         }
                     }
@@ -251,7 +251,7 @@
                         .el-input__inner{
                             padding-left: 0.07rem;
                             height: 0.32rem;
-                            font-size: 0.14rem !important;
+                            font-size: $s14 !important;
                             line-height: 0.32rem;
                         }
                     }
@@ -272,9 +272,9 @@
 				.el-select{
 					/deep/ .el-input{
 						.el-input__inner{
-							font-size: 0.14rem !important;
+							font-size: $s14 !important;
 							&::-webkit-input-placeholder{
-								font-size: 0.14rem !important;
+								font-size: $s14 !important;
 							}
 						}
 					}
@@ -282,14 +282,14 @@
 
 				/deep/ .el-input{
 					.el-input__inner{
-						font-size: 0.14rem !important;
+						font-size: $s14 !important;
 						&::-webkit-input-placeholder{
-							font-size: 0.14rem !important;
+							font-size: $s14 !important;
 						}
 					}
 				}
 				.nft_list_header_title{
-					font-size: 0.18rem;
+					font-size: $s18;
 					color: #22252A;
 					line-height: 0.21rem;
 					text-align: left;
@@ -300,7 +300,7 @@
 					width: 100%;
 					height:0.5rem;
 					line-height: 0.5rem;
-					font-size: 0.14rem;
+					font-size: $s14;
 					color:#787C99;
 					text-align: left;
 					background: #fff;
@@ -317,10 +317,10 @@
 							.el-input__inner{
 								padding-left: 0.07rem;
 								height: 0.32rem;
-								font-size: 0.14rem !important;
+								font-size: $s14 !important;
 								line-height: 0.32rem;
 								&::-webkit-input-placeholder{
-									font-size: 0.14rem !important;
+									font-size: $s14 !important;
 								}
 							}
 							.el-input__inner:focus{
@@ -352,7 +352,7 @@
 							padding-right: 0;
 							line-height: 0.32rem;
 							&::-webkit-input-placeholder{
-								font-size: 0.14rem !important;
+								font-size: $s14 !important;
 							}
 							&:focus{
 								border-color: #3264FD;
@@ -377,7 +377,7 @@
 						cursor: pointer;
 						i{
 							padding: 0.08rem;
-							font-size: 0.14rem;
+							font-size: $s14;
 							line-height: 1;
 							display: inline-block;
 						}
@@ -389,7 +389,7 @@
 						color: #fff;
 						border-radius: 0.04rem;
 						padding: 0.05rem 0.18rem;
-						font-size: 0.14rem;
+						font-size: $s14;
 						line-height: 0.2rem;
 					}
 				}

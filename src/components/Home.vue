@@ -300,17 +300,17 @@
 						text-align: left;
 						box-sizing: border-box;
 						padding: 0.14rem;
-						font-size: 0.14rem;
+						font-size: $s14;
 						i{
 							color: #3264FD;
 							margin-right: 0.1rem;
 						}
 						.home_content_header_top_center_content{
-							font-size: 0.2rem;
+							font-size: $s20;
 							margin-top: 0.35rem;
 						}
 						.home_content_header_top_footer_content{
-							font-size: 0.1rem;
+							font-size: $s10;
 							color:#787C99;
 							margin-top: 0.1rem;
 						}
@@ -332,7 +332,7 @@
 						text-align: left;
 						box-sizing: border-box;
 						padding: 0.14rem;
-						font-size: 0.14rem;
+						font-size: $s14;
 						i{
 							color: #3264FD;
 							margin-right: 0.1rem;
@@ -340,7 +340,7 @@
 						.home_content_header_bottom_footer{
 							margin-top: 0.35rem;
 							color:#171D44;
-							font-size: 0.2rem;
+							font-size: $s20;
 							line-height: 0.23rem;
 							a{
 								color: #3264FD;
@@ -373,7 +373,7 @@
 							}
 							span{
 								color: #171D44;
-								font-size: 0.16rem;
+								font-size: $s16;
 								font-weight: bold;
 							}
 						}
@@ -388,7 +388,7 @@
 					.home_block_bottom_content{
 						margin-top: 0.24rem;
 						border-top: 0.01rem solid #F3F5F6;
-						font-size: 0.14rem;
+						font-size: $s14;
 						color: #787C99;
 						.home_block_list_item_content{
 							display: flex;
@@ -436,7 +436,7 @@
 							}
 							span{
 								color: #171D44;
-								font-size: 0.16rem;
+								font-size: $s16;
 								font-weight: bold;
 							}
 						}
@@ -451,7 +451,7 @@
 					.home_transaction_bottom_content{
 						margin-top: 0.24rem;
 						border-top: 0.01rem solid #F3F5F6;
-						font-size: 0.14rem;
+						font-size: $s14;
 						color: #787C99;
 						.home_transaction_list_item_content{
 							display: flex;
@@ -462,7 +462,7 @@
 								display: flex;
 								justify-content: space-between;
 								.home_transaction{
-									font-size: 0.14rem;
+									font-size: $s14;
 									color: #171D44;
 									font-weight: bold;
 									a{
@@ -555,7 +555,7 @@
 								}
 							}
 							.home_block_view_all{
-								font-size:0.16rem;
+								font-size: $s16;
 								a{
 
 								}

@@ -364,7 +364,7 @@
                     height: 0.61rem;
                     line-height: 0.61rem;
                     color: #22252A;
-                    font-size: 0.18rem;
+                    font-size: $s18;
                     font-weight: bold;
                     margin-right: 0.2rem;
                    //text-indent: 0.2rem;
@@ -383,10 +383,10 @@
                                 .el-input__inner {
                                     padding-left: 0.07rem;
                                     height: 0.32rem;
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                     line-height: 0.32rem;
                                     &::-webkit-input-placeholder {
-                                        font-size: 0.14rem !important;
+                                        font-size: $s14 !important;
                                     }
                                 }
                                 .el-input__inner:focus {
@@ -418,7 +418,7 @@
                                 padding-right: 0;
                                 line-height: 0.32rem;
                                 &::-webkit-input-placeholder {
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                 }
                                 &:focus {
                                     border-color: #3264FD;
@@ -443,7 +443,7 @@
                             cursor: pointer;
                             i {
                                 padding: 0.08rem;
-                                font-size: 0.14rem;
+                                font-size: $s14;
                                 line-height: 1;
                                 display: inline-block;
                             }
@@ -455,7 +455,7 @@
                             color: #fff;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.18rem;
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.2rem;
                         }
                     }

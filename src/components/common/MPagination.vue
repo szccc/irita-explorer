@@ -156,7 +156,7 @@ export default {
 }
 .page_number_content{
     padding: 0.05rem 0.05rem;
-    font-size: 0.14rem;
+    font-size: $s14;
     line-height: 1;
     background: #fff;
 }

@@ -622,7 +622,7 @@
 		        display: flex;
 		        justify-content: flex-start;
 		        color: #171D44;
-		        font-size: 0.18rem;
+		        font-size: $s18;
 		        line-height: 0.21rem;
 		        margin: 0.3rem 0 0.15rem 0.25rem;
 		        text-align: left;
@@ -633,7 +633,7 @@
 		            margin-right:0.05rem;
 		        }
 		        .address_content_title_address{
-		            font-size:0.16rem;
+		            font-size: $s16;
 		            font-family:ArialMT;
 		            font-weight:400;
 		            color:#171D44;
@@ -719,7 +719,7 @@
                     margin-bottom: 0.4rem;
                     align-items: center;
                     .address_transaction_condition_count {
-                        font-size: 0.14rem;
+                        font-size: $s14;
                         margin-right: 0.42rem;
                         font-weight: 600;
 
@@ -731,10 +731,10 @@
                             .el-input__inner {
                                 padding-left: 0.07rem;
                                 height: 0.32rem;
-                                font-size: 0.14rem !important;
+                                font-size: $s14 !important;
                                 line-height: 0.32rem;
                                 &::-webkit-input-placeholder {
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                 }
                             }
                             .el-input__inner:focus {
@@ -761,7 +761,7 @@
                         color: #fff;
                         border-radius: 0.04rem;
                         padding: 0.05rem 0.18rem;
-                        font-size: 0.14rem;
+                        font-size: $s14;
                         line-height: 0.2rem;
                     }
                     .address_transaction_condition_action{
@@ -774,7 +774,7 @@
 	                        cursor: pointer;
 	                        i {
 	                            padding: 0.08rem;
-	                            font-size: 0.14rem;
+	                            font-size: $s14;
 	                            line-height: 1;
 	                            display: inline-block;
 	                        }
@@ -793,7 +793,7 @@
 				color: #171D44;
 				margin-bottom: 0.4rem;
 				text-align: left;
-				font-size:0.16rem;
+				font-size: $s16;
 				font-family:PingFangSC-Semibold,PingFang SC;
 				font-weight:600;
 				line-height:22px;

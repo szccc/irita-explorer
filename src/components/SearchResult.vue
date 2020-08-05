@@ -52,13 +52,13 @@
            .search_result_title_content{
                margin: 0.3rem 0 0.1rem 0;
                span:nth-of-type(1){
-                   font-size: 0.18rem;
+                   font-size: $s18;
                    color: #22252A;
                    line-height: 0.21rem;
                }
                span:nth-of-type(2){
                    margin-left: 0.1rem;
-                   font-size: 0.18rem;
+                   font-size: $s18;
                    color: #22252A;
                    line-height: 0.21rem;
                }
@@ -75,10 +75,10 @@
                .result_title{
                    margin-top: 0.2rem;
                    color: #000;
-                   font-size: 0.18rem;
+                   font-size: $s18;
                }
                .try_info{
-                   font-size: 0.14rem;
+                   font-size: $s14;
                    color: #787C99;
                    margin-bottom: 0.44rem ;
                }
@@ -90,7 +90,7 @@
                    background: #3264FD;
                    border-radius: 0.05rem;
                    color: #fff;
-                   font-size: 0.14rem;
+                   font-size: $s14;
                    line-height: 0.36rem;
                    cursor: pointer;
                }

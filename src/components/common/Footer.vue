@@ -19,7 +19,7 @@
 		justify-content: center;
 		.footer_content{
 			padding: 0.15rem 0;
-			font-size: 0.12rem;
+			font-size: $s12;
 			color: #C0C4CC;
 			line-height: 0.14rem;
 		}

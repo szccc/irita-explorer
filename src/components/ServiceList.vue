@@ -187,7 +187,7 @@
                 }
                 .service_list_empty_description{
                     color:#B8B8B8;
-                    font-size:0.14rem;
+                    font-size: $s14;
 
                 }
             }
@@ -197,7 +197,7 @@
                 margin: 0.42rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
-                font-size: 0.18rem;
+                font-size: $s18;
                 font-weight: 600;
                 color: #171D44;
 			}
@@ -219,7 +219,7 @@
                     margin-bottom:0.4rem;
                     .service_list_service_name{
                         color:#3264FD;
-                        font-size:0.14rem;
+                        font-size: $s14;
                         cursor:pointer;
                         margin-right:0.15rem;
                     }

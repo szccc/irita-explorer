@@ -40,7 +40,7 @@ export default {
 .line_tab_container {
     width: auto;
     display: flex;
-    font-size: 14px;
+    font-size: $s14;
     text-align: center;
     cursor: pointer;
     height: 0.3rem;

@@ -175,34 +175,34 @@
 				padding-left: 0.2rem;
 				.block_height_content{
 					.information_value{
-						font-size: 0.22rem;
+						font-size: $s22;
 						color: #787C99;
 						margin: 0 0.07rem;
 					}
 					.flag_item_left {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						margin-right: 0.05rem;
 						cursor: pointer;
 						color: #3264FD !important;
 					}
 					.flag_item_left_disabled {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						margin-right: 0.05rem;
 						cursor: pointer;
 						color: #787C99;
 					}
 					.flag_item_right {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						margin-left: 0.05rem;
 						color:#3264FD;
 						cursor: pointer;
 					}
 					.flag_item_right_disabled {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						color: #787C99;
 						margin-left: 0.05rem;
 						cursor: pointer;
@@ -219,13 +219,13 @@
 					span:nth-of-type(1){
 						text-align: left;
 						color: #787C99;
-						font-size: 0.14rem;
+						font-size: $s14;
 						min-width: 1.5rem;
 					}
 					span:nth-of-type(2){
 						text-align: left;
 						color: #171D44;
-						font-size: 0.14rem;
+						font-size: $s14;
 						flex: 1;
 					}
 				}
@@ -235,7 +235,7 @@
 			}
 			.block_transaction_content{
 				.block_transaction_title_content{
-					font-size: 0.18rem;
+					font-size: $s18;
 					font-weight: bold;
 					margin: 0.3rem 0 0.1rem 0;
 					text-align: left;

@@ -264,17 +264,17 @@
 						background: transparent;
 						border: 0.01rem solid rgba(255,255,255,0);
 						color: #fff;
-						font-size: 0.14rem;
+						font-size: $s14;
 						text-indent: 0.1rem;
 					}
 					input::placeholder{
-						font-size: 0.14rem;
+						font-size: $s14;
 						color:rgba(255,255,255,0.5);
 					}
 					span {
 						right: 0.3rem;
 						height:0.3rem;
-						font-size: 0.2rem;
+						font-size: $s20;
 						padding: 0 0.1rem;
 						line-height: 0.3rem;
 						color: rgba(255,255,255,0.5);
@@ -290,7 +290,7 @@
 			.header_content_feature{
 				padding:0.05rem 0;
 		        color: #ffffff;
-		        font-size: 0.16rem;
+		        font-size: $s16;
 		        font-weight: bold;
 		        text-align:left;
 			}

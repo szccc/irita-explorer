@@ -186,14 +186,14 @@
                         align-items: center;
 						.block_list_current_height_title{
 							color: #22252A;
-							font-size: 0.18rem;
+							font-size: $s18;
 							line-height: 0.21rem;
 							font-weight: bold;
                             margin-right:0.1rem;
 						}
 						.block_list_current_height_number{
 							a{
-								font-size: 0.18rem;
+								font-size: $s18;
 								font-weight: bold;
 							}
 						}

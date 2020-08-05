@@ -147,7 +147,7 @@
 			max-width: 12rem;
 			margin: 0 auto;
 			.nft_token_title{
-				font-size: 0.18rem;
+				font-size: $s18;
 				color: #22252A;
 				font-weight: bold;
 				padding: 0.3rem 0 0.1rem 0;
@@ -166,12 +166,12 @@
 					display: flex;
 					span:nth-of-type(1){
 						min-width: 1.27rem;
-						font-size: 0.14rem;
+						font-size: $s14;
 						color: #787C99;
 						line-height: 0.16rem;
 					}
 					span:nth-of-type(2){
-						font-size: 0.14rem;
+						font-size: $s14;
 						color: #171D44;
 						flex: 1;
 						word-break:break-all;
@@ -183,7 +183,7 @@
 			}
 			.nft_token_list_content{
 				.nft_token_list_title{
-					font-size: 0.18rem;
+					font-size: $s18;
 					color: #22252A;
 					line-height: 0.21rem;
 					font-weight: bold;

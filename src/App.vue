@@ -42,11 +42,10 @@ export default {
   body{
     overflow-y: scroll;
     background: #F5F7FA;
-    font-size:16px !important;
+    font-size: $s16 !important;
   }
  html body{
    height: 100%;
-   font-size: 0.16px;
     .el-menu--horizontal{
       .el-menu {
         background: #fff !important;
