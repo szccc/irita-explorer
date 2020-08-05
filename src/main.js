@@ -8,15 +8,7 @@ import ElementUI from "element-ui"
 import 'element-ui/lib/theme-chalk/index.css'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
-// const  codec  = require("irisnet-crypto/util/codec.js") ;
-// const  crypto = require("irisnet-crypto");
 import VueI18n from 'vue-i18n'
-// Vue.prototype.$Codec = codec;
-// Vue.prototype.$Crypto = crypto;
-
-if (process.env.NODE_ENV === 'development') {
-	console.log('process.env=============:',process.env);
-}
 
 locale.use(lang);
 Vue.use(ElementUI)

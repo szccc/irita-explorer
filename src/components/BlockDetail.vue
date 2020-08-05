@@ -162,7 +162,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.block_detail_container{
 		padding: 0 0.15rem;
@@ -175,35 +175,35 @@
 				padding-left: 0.2rem;
 				.block_height_content{
 					.information_value{
-						font-size: 0.22rem;
-						color: #787C99;
+						font-size: $s22;
+						color: $t_second_c;
 						margin: 0 0.07rem;
 					}
 					.flag_item_left {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						margin-right: 0.05rem;
 						cursor: pointer;
-						color: #3264FD !important;
+						color: $t_link_c !important;
 					}
 					.flag_item_left_disabled {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						margin-right: 0.05rem;
 						cursor: pointer;
-						color: #787C99;
+						color: $t_second_c;
 					}
 					.flag_item_right {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						margin-left: 0.05rem;
-						color:#3264FD;
+						color: $t_link_c;
 						cursor: pointer;
 					}
 					.flag_item_right_disabled {
 						display: inline-block;
-						font-size: 0.2rem;
-						color: #787C99;
+						font-size: $s20;
+						color: $t_second_c;
 						margin-left: 0.05rem;
 						cursor: pointer;
 					}
@@ -212,20 +212,20 @@
 			.block_detail_content{
 				padding: 0.2rem;
 				box-sizing: border-box;
-				background: #fff;
+				background: $bg_white_c;
 				p{
 					display: flex;
 					margin-bottom: 0.16rem;
 					span:nth-of-type(1){
 						text-align: left;
-						color: #787C99;
-						font-size: 0.14rem;
+						color: $t_second_c;
+						font-size: $s14;
 						min-width: 1.5rem;
 					}
 					span:nth-of-type(2){
 						text-align: left;
-						color: #171D44;
-						font-size: 0.14rem;
+						color: $t_first_c;
+						font-size: $s14;
 						flex: 1;
 					}
 				}
@@ -235,7 +235,7 @@
 			}
 			.block_transaction_content{
 				.block_transaction_title_content{
-					font-size: 0.18rem;
+					font-size: $s18;
 					font-weight: bold;
 					margin: 0.3rem 0 0.1rem 0;
 					text-align: left;

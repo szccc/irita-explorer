@@ -903,7 +903,7 @@
 
 <style scoped lang="scss">
     a {
-        color: #3264FD !important;
+        color: $t_link_c !important;
     }
 
     .tx_detail_container {
@@ -915,8 +915,8 @@
                 .tx_detail_title {
                     display: flex;
                     justify-content: flex-start;
-                    color: #171D44;
-                    font-size: 0.18rem;
+                    color: $t_first_c;
+                    font-size: $s18;
                     line-height: 0.21rem;
                     margin: 0.3rem 0 0.15rem 0.25rem;
                     text-align: left;
@@ -927,10 +927,10 @@
                         margin-right: 0.05rem;
                     }
                     .tx_detail_title_hash {
-                        font-size: 0.14rem;
+                        font-size: $s14;
                         font-family: PingFangSC-Regular, PingFang SC;
                         font-weight: 400;
-                        color: #171D44;
+                        color: $t_first_c;
                         line-height: 20px;
                         word-break: break-all;
                     }
@@ -938,15 +938,15 @@
                 .tx_information_content {
                     box-sizing: border-box;
                     padding: 0.25rem;
-                    background: #fff;
+                    background: $bg_white_c;
                     text-align: left;
                     border-radius: 0.05rem;
-                    border: 1px solid #D7D7D7;
+                    border: 1px solid $bd_first_c;
                     .tx_information_list_title {
-                        font-size: 0.16rem;
+                        font-size: $s16;
                         font-family: PingFangSC-Semibold, PingFang SC;
                         font-weight: 600;
-                        color: #171D44;
+                        color: $t_first_c;
                         line-height: 22px;
                         margin-bottom: 0.48rem;
                     }
@@ -957,8 +957,8 @@
                         span:nth-of-type(1) {
                             text-align: left;
                             min-width: 1.5rem;
-                            color: #787C99;
-                            font-size: 0.14rem;
+                            color: $t_second_c;
+                            font-size: $s14;
                             line-height: 0.16rem;
                             font-family: PingFangSC-Semibold, PingFang SC;
                             font-weight: 600;
@@ -966,8 +966,8 @@
                         span:nth-of-type(2) {
                             text-align: left;
                             flex: 1;
-                            color: #171D44;
-                            font-size: 0.14rem;
+                            color: $t_first_c;
+                            font-size: $s14;
                             line-height: 0.16rem;
                         }
                     }
@@ -980,12 +980,12 @@
                     .tx_information_tx_content {
                         box-sizing: border-box;
                         padding: 0.25rem;
-                        background: #fff;
+                        background: $bg_white_c;
                         border-radius: 0.05rem;
-                        border: 1px solid #D7D7D7;
+                        border: 1px solid $bd_first_c;
                         .tx_information_tx_message_title {
                             text-align: left;
-                            font-size: 0.16rem;
+                            font-size: $s16;
                             font-weight: bold;
                             margin-bottom: 0.48rem;
                             font-family: PingFangSC-Semibold, PingFang SC;
@@ -998,23 +998,23 @@
                             .record_content {
                                 width: 100%;
                                 .record_name {
-                                    color: #787C99;
+                                    color: $t_second_c;
                                     min-width: 1.5rem;
                                     text-align: left;
-                                    font-size: 0.14rem;
+                                    font-size: $s14;
                                 }
                                 .record_list_content {
                                     flex: 1;
                                     width: 100%;
                                     box-sizing: border-box;
-                                    background: #F8F8F8;
+                                    background: $bg_cancel_c;
                                     border-radius: 0.05rem;
                                     /deep/ .el-table {
-                                        background: #F8F8F8;
+                                        background: $bg_cancel_c;
                                         tr {
-                                            background: #F8F8F8;
+                                            background: $bg_cancel_c;
                                             th {
-                                                background: #F8F8F8;
+                                                background: $bg_cancel_c;
                                             }
                                         }
                                     }
@@ -1025,18 +1025,18 @@
                             display: flex;
                             margin-bottom: 0.26rem;
                             span:nth-of-type(1) {
-                                color: #787C99;
+                                color: $t_second_c;
                                 min-width: 1.5rem;
                                 text-align: left;
-                                font-size: 0.14rem;
+                                font-size: $s14;
                                 font-family: PingFangSC-Semibold, PingFang SC;
                                 font-weight: 600;
                             }
                             span:nth-of-type(2) {
                                 flex: 1;
                                 text-align: left;
-                                font-size: 0.14rem;
-                                color: #171D44;
+                                font-size: $s14;
+                                color: $t_first_c;
                                 word-break: break-all;
                             }
                         }
@@ -1051,12 +1051,12 @@
                     .tx_information_relevance_tx_content {
                         box-sizing: border-box;
                         padding: 0.25rem;
-                        background: #fff;
+                        background: $bg_white_c;
                         border-radius: 0.05rem;
-                        border: 1px solid #D7D7D7;
+                        border: 1px solid $bd_first_c;
                         .tx_information_relevance_tx_title {
                             text-align: left;
-                            font-size: 0.16rem;
+                            font-size: $s16;
                             font-weight: bold;
                             margin-bottom: 0.48rem;
                             font-family: PingFangSC-Semibold, PingFang SC;

@@ -147,29 +147,29 @@ export default {
 
 <style lang="scss" scoped>
 .info {
-    color: #787C99;
+    color: $t_second_c;
     vertical-align: middle;
     margin-right: 0.1rem;
 }
 .common_pagination_content{
-    border: 0.01rem solid #dee2e6;
+    border: 0.01rem solid $bd_second_c;
 }
 .page_number_content{
     padding: 0.05rem 0.05rem;
-    font-size: 0.14rem;
+    font-size: $s14;
     line-height: 1;
-    background: #fff;
+    background: $bg_white_c;
 }
 button {
     outline: none;
     border: none;
     padding: 5px 7.5px;
-    color: #3264fd;
+    color: $t_link_c;
     line-height: 17px;
-    background-color: #ffffff;
+    background-color: $bg_white_c;
     cursor: pointer;
     &:hover {
-        background-color: #e9ecef;
+        background-color: $bg_highlight_c;
     }
     &:focus {
         outline: none;
@@ -178,24 +178,24 @@ button {
 button:nth-child(1) {
     border-top-left-radius: 0.025rem;
     border-bottom-left-radius: 0.025rem;
-    border-right: 0.01rem solid #dee2e6;
+    border-right: 0.01rem solid $bd_second_c;
 }
 button:nth-of-type(2){
-    border-right: 0.01rem solid #dee2e6;
+    border-right: 0.01rem solid $bd_second_c;
 }
 button:nth-of-type(3){
-    border-left: 0.01rem solid #dee2e6;
+    border-left: 0.01rem solid $bd_second_c;
 }
 button:nth-last-child(1) {
-    border-left: 0.01rem solid #dee2e6;
+    border-left: 0.01rem solid $bd_second_c;
     border-top-right-radius: 0.025rem;
     border-bottom-right-radius: 0.025rem;
 }
 button.no_disable {
     cursor: auto;
-    color: #c0c4cc;
+    color: $t_third_c;
     &:hover {
-        background-color: #ffffff;
+        background-color: $bg_white_c;
     }
 }
 </style>

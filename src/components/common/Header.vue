@@ -13,7 +13,7 @@
 							class="el-menu-demo"
 							mode="horizontal"
 							@select="handleSelect"
-							background-color="#3264FD"
+							background-color ="#3264FD"
 							text-color="#CBD8FE"
 							active-text-color="#fff">
 						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
@@ -205,7 +205,7 @@
 
 <style scoped lang="scss">
 	.header_container{
-		background: #3264FD;
+		background: $bg_main_c;
 		position: fixed;
 		top:0;
 		width: 100%;
@@ -234,7 +234,7 @@
 					display:block;
 					.el-menu-demo{
 						width: 100%;
-						background: #3264FD;
+						background: $bg_main_c;
 						.el-menu-item{
 							a{
 								display: inline-block;
@@ -261,38 +261,38 @@
 		}
 		.header_input_content{
 			flex: 1;
-			background: #3264FD;
+			background: $bg_main_c;
 			.search_input_container {
 				flex: 1;
-				background: #3264fd;
+				background: $bg_main_c;
 				z-index: 1;
 				.search_input_wrap {
 					max-width: 12.8rem;
 					margin: 0 auto;
 					display: flex;
 					align-items: center;
-					border: 0.01rem solid rgba(255,255,255,0.5);
+					border: 0.01rem solid $t_fourth_c;
 					border-radius: 0.06rem;
 					input {
 						width: 100%;
 						height: 0.3rem;
 						background: transparent;
-						border: 0.01rem solid rgba(255,255,255,0);
-						color: #fff;
-						font-size: 0.14rem;
+						border: 0.01rem solid transparent;
+						color: $t_white_c;
+						font-size: $s14;
 						text-indent: 0.1rem;
 					}
 					input::placeholder{
-						font-size: 0.14rem;
-						color:rgba(255,255,255,0.5);
+						font-size: $s14;
+						color: $t_fourth_c;
 					}
 					span {
 						right: 0.3rem;
 						height:0.3rem;
-						font-size: 0.2rem;
+						font-size: $s20;
 						padding: 0 0.1rem;
 						line-height: 0.3rem;
-						color: rgba(255,255,255,0.5);
+						color: $t_fourth_c;
 						cursor: pointer;
 					}
 				}
@@ -304,8 +304,8 @@
 			margin-top:0.1rem;
 			.header_content_feature{
 				padding:0.05rem 0;
-		        color: #ffffff;
-		        font-size: 0.16rem;
+		        color: $t_white_c;
+		        font-size: $s16;
 		        font-weight: bold;
 		        text-align:left;
 			}
