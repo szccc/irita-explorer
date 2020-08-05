@@ -666,7 +666,6 @@
                     	height:0.1rem;
                     	border-radius:50%;
                     	margin-right:0.1rem;
-                    	background:red;
                     }
 				}
 				.pagination_content{
@@ -757,7 +756,7 @@
                     }
                     .search_btn {
                         cursor: pointer;
-                        background: #3264FD;
+                        background: $bg_button_c;
                         color: $t_white_c;
                         border-radius: 0.04rem;
                         padding: 0.05rem 0.18rem;
@@ -767,7 +766,7 @@
                     .address_transaction_condition_action{
                     	display:flex;
                     	.reset_btn {
-	                        background: #3264FD;
+	                        background: $bg_button_c;
 	                        color: $t_white_c;
 	                        border-radius: 0.04rem;
 	                        margin-left: 0.1rem;

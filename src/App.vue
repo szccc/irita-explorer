@@ -41,16 +41,16 @@ export default {
   }
   body{
     overflow-y: scroll;
-    background: #F5F7FA;
+    background: $bg_cancel_c;
     font-size: $s16 !important;
   }
  html body{
    height: 100%;
     .el-menu--horizontal{
       .el-menu {
-        background: #fff !important;
+        background: $bg_white_c !important;
         .el-menu-item{
-          background: #fff !important;
+          background: $bg_white_c !important;
           a{
             color: $t_first_c;
           }

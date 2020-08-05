@@ -87,7 +87,7 @@
                    width: 1.58rem;
                    height: 0.36rem;
                    margin: 0 auto;
-                   background: #3264FD;
+                   background: $bg_button_c;
                    border-radius: 0.05rem;
                    color: $t_white_c;
                    font-size: $s14;

@@ -206,7 +206,7 @@
                 flex-direction:column;
                 margin-bottom:0.48rem;
                 padding:0.28rem 0.28rem 0.18rem 0.28rem;
-                background: #ffffff;
+                background: $bg_white_c;
                 border-radius:5px;
                 border:1px solid rgba(215,215,215,1);
                 .service_information_available_container{

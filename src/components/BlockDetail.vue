@@ -212,7 +212,7 @@
 			.block_detail_content{
 				padding: 0.2rem;
 				box-sizing: border-box;
-				background: #fff;
+				background: $bg_white_c;
 				p{
 					display: flex;
 					margin-bottom: 0.16rem;

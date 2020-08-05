@@ -938,7 +938,7 @@
                 .tx_information_content {
                     box-sizing: border-box;
                     padding: 0.25rem;
-                    background: #fff;
+                    background: $bg_white_c;
                     text-align: left;
                     border-radius: 0.05rem;
                     border: 1px solid #D7D7D7;
@@ -980,7 +980,7 @@
                     .tx_information_tx_content {
                         box-sizing: border-box;
                         padding: 0.25rem;
-                        background: #fff;
+                        background: $bg_white_c;
                         border-radius: 0.05rem;
                         border: 1px solid #D7D7D7;
                         .tx_information_tx_message_title {
@@ -1007,14 +1007,14 @@
                                     flex: 1;
                                     width: 100%;
                                     box-sizing: border-box;
-                                    background: #F8F8F8;
+                                    background: $bg_cancel_c;
                                     border-radius: 0.05rem;
                                     /deep/ .el-table {
-                                        background: #F8F8F8;
+                                        background: $bg_cancel_c;
                                         tr {
-                                            background: #F8F8F8;
+                                            background: $bg_cancel_c;
                                             th {
-                                                background: #F8F8F8;
+                                                background: $bg_cancel_c;
                                             }
                                         }
                                     }
@@ -1051,7 +1051,7 @@
                     .tx_information_relevance_tx_content {
                         box-sizing: border-box;
                         padding: 0.25rem;
-                        background: #fff;
+                        background: $bg_white_c;
                         border-radius: 0.05rem;
                         border: 1px solid #D7D7D7;
                         .tx_information_relevance_tx_title {

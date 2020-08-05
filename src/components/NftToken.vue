@@ -158,7 +158,7 @@
 				box-sizing: border-box;
 				border: 0.01rem solid #E7E9EB;
 				border-radius: 0.04rem;
-				background: #fff;
+				background: $bg_white_c;
 				padding: 0.2rem;
 				.nft_token_information_item{
 					text-align: left;

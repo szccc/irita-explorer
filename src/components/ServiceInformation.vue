@@ -513,7 +513,7 @@
                 color: $t_first_c;
             }
             .service_information_definition_content {
-                background: #ffffff;
+                background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
@@ -528,7 +528,7 @@
                 }
                 .service_information_content {
                     box-sizing: border-box;
-                    background: #fff;
+                    background: $bg_white_c;
                     .service_information_text_content {
                         display: flex;
                         justify-content: flex-start;
@@ -557,7 +557,7 @@
                 }
             }
             .service_information_bindings_content {
-                background: #ffffff;
+                background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
@@ -571,7 +571,7 @@
                     text-align: left;
                 }
                 .service_information_bindings_table_content {
-                    background: #fff;
+                    background: $bg_white_c;
                     .service_information_available_container {
                         display: flex;
                         align-items: center;
@@ -579,7 +579,7 @@
                 }
             }
             .service_information_transaction_content {
-                background: #ffffff;
+                background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 border-radius: 5px;
@@ -639,7 +639,7 @@
                         align-items: center;
                         .search_btn {
                             cursor: pointer;
-                            background: #3264FD;
+                            background: $bg_button_c;
                             color: $t_white_c;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.18rem;
@@ -648,7 +648,7 @@
                         }
                         .reset_btn {
                             cursor: pointer;
-                            background: #3264FD;
+                            background: $bg_button_c;
                             margin-left: 0.1rem;
                             color: $t_white_c;
                             border-radius: 0.04rem;
@@ -660,7 +660,7 @@
 
                 }
                 .service_information_transaction_table_content {
-                    background: #fff;
+                    background: $bg_white_c;
                     .service_tx_status {
                         position: relative;
                         top: 0.02rem;
@@ -684,7 +684,7 @@
                 display: flex;
                 justify-content: flex-end;
                 margin-top: 0.25rem;
-                //background: #ffffff;
+                //background: $bg_white_c;
             }
         }
     }

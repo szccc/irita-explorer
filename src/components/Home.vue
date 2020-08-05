@@ -296,7 +296,7 @@
 						margin-right: 0.2rem;
 						border-radius: 0.04rem;
 						border: 0.01rem solid rgba(231,233,235,1);
-						background: #fff;
+						background: $bg_white_c;
 						text-align: left;
 						box-sizing: border-box;
 						padding: 0.14rem;
@@ -328,7 +328,7 @@
 						flex: 1;
 						margin-right: 0.2rem;
 						border: 0.01rem solid rgba(231,233,235,1);
-						background: #fff;
+						background: $bg_white_c;
 						text-align: left;
 						box-sizing: border-box;
 						padding: 0.14rem;
@@ -360,11 +360,11 @@
 					margin-right: 0.2rem;
 					box-sizing: border-box;
 					padding: 0.27rem 0.25rem 0.18rem 0.25rem;
-					background: #fff;
+					background: $bg_white_c;
 					.home_block_top_content{
 						display: flex;
 						justify-content: space-between;
-						background: #fff;
+						background: $bg_white_c;
 						z-index: 2;
 						.home_block_top_title{
 							i{
@@ -425,7 +425,7 @@
 					flex: 1;
 					box-sizing: border-box;
 					padding: 0.27rem 0.25rem 0.18rem 0.25rem;
-					background: #fff;
+					background: $bg_white_c;
 					.home_transaction_top_content{
 						display: flex;
 						justify-content: space-between;

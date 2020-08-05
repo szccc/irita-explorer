@@ -303,7 +303,7 @@
 					font-size: $s14;
 					color: $t_second_c;
 					text-align: left;
-					background: #fff;
+					background: $bg_white_c;
 					text-indent: 0.2rem;
 				}
 				.tx_type_mobile_content{
@@ -370,7 +370,7 @@
 						margin: 0 0.08rem;
 					}
 					.reset_btn{
-						background: #3264FD;
+						background: $bg_button_c;
 						color: $t_white_c;
 						border-radius: 0.04rem;
 						margin-left: 0.1rem;
@@ -384,7 +384,7 @@
 					}
 					.search_btn{
 						cursor: pointer;
-						background: #3264FD;
+						background: $bg_button_c;
 						margin-left: 0.1rem;
 						color: $t_white_c;
 						border-radius: 0.04rem;
@@ -407,7 +407,7 @@
 				.nft_denom_list_item{
 					width: 100%;
 					text-align: left;
-					background: #fff;
+					background: $bg_white_c;
 					text-indent: 0.2rem;
 					margin-top: 0.1rem;
 					padding: 0.2rem 0;
@@ -434,10 +434,10 @@
 					padding: 0.2rem;
 					margin-top: 0.4rem;
 					/deep/ .el-table th {
-						background: #fafaff !important;
+						background: $bg_cancel_c !important;
 					}
 					/deep/ .el-table tr {
-						background: #fafaff !important;
+						background: $bg_cancel_c !important;
 					}
 				}
 				.hidden_footer_padding{

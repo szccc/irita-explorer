@@ -190,7 +190,7 @@
 
 <style scoped lang="scss">
 	.header_container{
-		background: #3264FD;
+		background: $bg_main_c;
 		position: fixed;
 		top:0;
 		width: 100%;
@@ -219,7 +219,7 @@
 					display:block;
 					.el-menu-demo{
 						width: 100%;
-						background: #3264FD;
+						background: $bg_main_c;
 						.el-menu-item{
 							a{
 								display: inline-block;
@@ -246,10 +246,10 @@
 		}
 		.header_input_content{
 			flex: 1;
-			background: #3264FD;
+			background: $bg_main_c;
 			.search_input_container {
 				flex: 1;
-				background: #3264fd;
+				background: $bg_main_c;
 				z-index: 1;
 				.search_input_wrap {
 					max-width: 12.8rem;

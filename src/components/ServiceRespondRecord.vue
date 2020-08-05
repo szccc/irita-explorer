@@ -335,7 +335,7 @@
 
             }
             .service_respond_record_definition_content {
-                background: #ffffff;
+                background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
@@ -350,7 +350,7 @@
                 }
                 .service_respond_record_content {
                     box-sizing: border-box;
-                    background: #fff;
+                    background: $bg_white_c;
                     .service_respond_record_text_content {
                         display: flex;
                         justify-content: flex-start;
@@ -379,7 +379,7 @@
                 }
             }
             .service_respond_record_transaction_content {
-                background: #ffffff;
+                background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 border-radius:5px;
@@ -436,7 +436,7 @@
                     }
                     .search_btn {
                         cursor: pointer;
-                        background: #3264FD;
+                        background: $bg_button_c;
                         color: $t_white_c;
                         border-radius: 0.04rem;
                         padding: 0.05rem 0.18rem;
@@ -445,7 +445,7 @@
                     }
                 }
                 .service_respond_record_transaction_table_content {
-                    background: #fff;
+                    background: $bg_white_c;
                     .service_tx_status {
                         position: relative;
                         top: 0.02rem;
@@ -469,7 +469,7 @@
                 display: flex;
                 justify-content: flex-end;
                 margin-top: 0.25rem;
-                //background: #ffffff;
+                //background: $bg_white_c;
             }
         }
     }

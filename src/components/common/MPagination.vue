@@ -158,7 +158,7 @@ export default {
     padding: 0.05rem 0.05rem;
     font-size: $s14;
     line-height: 1;
-    background: #fff;
+    background: $bg_white_c;
 }
 button {
     outline: none;
@@ -166,10 +166,10 @@ button {
     padding: 5px 7.5px;
     color: $t_link_c;
     line-height: 17px;
-    background-color: #ffffff;
+    background-color: $bg_white_c;
     cursor: pointer;
     &:hover {
-        background-color: #e9ecef;
+        background-color: $bg_highlight_c;
     }
     &:focus {
         outline: none;
@@ -195,7 +195,7 @@ button.no_disable {
     cursor: auto;
     color: $t_third_c;
     &:hover {
-        background-color: #ffffff;
+        background-color: $bg_white_c;
     }
 }
 </style>
