@@ -27,7 +27,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $t_first_c;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -52,10 +52,10 @@ export default {
         .el-menu-item{
           background: #fff !important;
           a{
-            color: #171D44;
+            color: $t_first_c;
           }
           a:hover{
-            color: #4E61E7 !important;
+            color: $t_link_c !important;
           }
         }
       }
@@ -80,7 +80,7 @@ export default {
     justify-content: space-between;
   }*/
   .el-select-dropdown__item.selected{
-    color:#3264fd !important;
+    color: $t_link_c !important;
   }
 
 </style>

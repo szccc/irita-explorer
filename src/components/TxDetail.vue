@@ -903,7 +903,7 @@
 
 <style scoped lang="scss">
     a {
-        color: #3264FD !important;
+        color: $t_link_c !important;
     }
 
     .tx_detail_container {
@@ -915,7 +915,7 @@
                 .tx_detail_title {
                     display: flex;
                     justify-content: flex-start;
-                    color: #171D44;
+                    color: $t_first_c;
                     font-size: $s18;
                     line-height: 0.21rem;
                     margin: 0.3rem 0 0.15rem 0.25rem;
@@ -930,7 +930,7 @@
                         font-size: $s14;
                         font-family: PingFangSC-Regular, PingFang SC;
                         font-weight: 400;
-                        color: #171D44;
+                        color: $t_first_c;
                         line-height: 20px;
                         word-break: break-all;
                     }
@@ -946,7 +946,7 @@
                         font-size: $s16;
                         font-family: PingFangSC-Semibold, PingFang SC;
                         font-weight: 600;
-                        color: #171D44;
+                        color: $t_first_c;
                         line-height: 22px;
                         margin-bottom: 0.48rem;
                     }
@@ -957,7 +957,7 @@
                         span:nth-of-type(1) {
                             text-align: left;
                             min-width: 1.5rem;
-                            color: #787C99;
+                            color: $t_second_c;
                             font-size: $s14;
                             line-height: 0.16rem;
                             font-family: PingFangSC-Semibold, PingFang SC;
@@ -966,7 +966,7 @@
                         span:nth-of-type(2) {
                             text-align: left;
                             flex: 1;
-                            color: #171D44;
+                            color: $t_first_c;
                             font-size: $s14;
                             line-height: 0.16rem;
                         }
@@ -998,7 +998,7 @@
                             .record_content {
                                 width: 100%;
                                 .record_name {
-                                    color: #787C99;
+                                    color: $t_second_c;
                                     min-width: 1.5rem;
                                     text-align: left;
                                     font-size: $s14;
@@ -1025,7 +1025,7 @@
                             display: flex;
                             margin-bottom: 0.26rem;
                             span:nth-of-type(1) {
-                                color: #787C99;
+                                color: $t_second_c;
                                 min-width: 1.5rem;
                                 text-align: left;
                                 font-size: $s14;
@@ -1036,7 +1036,7 @@
                                 flex: 1;
                                 text-align: left;
                                 font-size: $s14;
-                                color: #171D44;
+                                color: $t_first_c;
                                 word-break: break-all;
                             }
                         }

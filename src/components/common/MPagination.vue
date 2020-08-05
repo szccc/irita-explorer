@@ -147,7 +147,7 @@ export default {
 
 <style lang="scss" scoped>
 .info {
-    color: #787C99;
+    color: $t_second_c;
     vertical-align: middle;
     margin-right: 0.1rem;
 }
@@ -164,7 +164,7 @@ button {
     outline: none;
     border: none;
     padding: 5px 7.5px;
-    color: #3264fd;
+    color: $t_link_c;
     line-height: 17px;
     background-color: #ffffff;
     cursor: pointer;
@@ -193,7 +193,7 @@ button:nth-last-child(1) {
 }
 button.no_disable {
     cursor: auto;
-    color: #c0c4cc;
+    color: $t_third_c;
     &:hover {
         background-color: #ffffff;
     }

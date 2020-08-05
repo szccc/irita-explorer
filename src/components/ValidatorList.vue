@@ -159,7 +159,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.validator_list_container{
         width:100%;

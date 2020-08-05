@@ -106,7 +106,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.block_list_container{
 		/*margin-top: 0.61rem;*/
@@ -185,7 +185,7 @@
                         display:flex;
                         align-items: center;
 						.block_list_current_height_title{
-							color: #22252A;
+							color: $t_first_c;
 							font-size: $s18;
 							line-height: 0.21rem;
 							font-weight: bold;

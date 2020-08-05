@@ -128,7 +128,7 @@
 
 <style scoped lang="scss">
     a {
-        color: #3264FD !important;
+        color: $t_link_c !important;
     }
     .tx_list_content{
         .tx_transaction_content_hash{

@@ -165,7 +165,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.nft_list_container{
         @media screen and (min-width: 910px){
@@ -290,7 +290,7 @@
 				}
 				.nft_list_header_title{
 					font-size: $s18;
-					color: #22252A;
+					color: $t_first_c;
 					line-height: 0.21rem;
 					text-align: left;
 					//text-indent: 0.2rem;
@@ -301,7 +301,7 @@
 					height:0.5rem;
 					line-height: 0.5rem;
 					font-size: $s14;
-					color:#787C99;
+					color: $t_second_c;
 					text-align: left;
 					background: #fff;
 					text-indent: 0.2rem;
@@ -371,7 +371,7 @@
 					}
 					.reset_btn{
 						background: #3264FD;
-						color: #fff;
+						color: $t_white_c;
 						border-radius: 0.04rem;
 						margin-left: 0.1rem;
 						cursor: pointer;
@@ -386,7 +386,7 @@
 						cursor: pointer;
 						background: #3264FD;
 						margin-left: 0.1rem;
-						color: #fff;
+						color: $t_white_c;
 						border-radius: 0.04rem;
 						padding: 0.05rem 0.18rem;
 						font-size: $s14;

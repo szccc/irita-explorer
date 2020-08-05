@@ -296,7 +296,7 @@
 
 <style scoped lang="scss">
     a {
-        color: #3264FD !important;
+        color: $t_link_c !important;
     }
 
     .tx_content_container {
@@ -344,7 +344,7 @@
                     flex-direction: column;
                     align-items: flex-start;
                     .service_tx_muti_to_ellipsis {
-                        color: #3264FD;
+                        color: $t_link_c;
                     }
                 }
             }
@@ -363,7 +363,7 @@
                 .total_tx_content {
                     height: 0.61rem;
                     line-height: 0.61rem;
-                    color: #22252A;
+                    color: $t_first_c;
                     font-size: $s18;
                     font-weight: bold;
                     margin-right: 0.2rem;
@@ -437,7 +437,7 @@
                         }
                         .reset_btn {
                             background: #3264FD;
-                            color: #fff;
+                            color: $t_white_c;
                             border-radius: 0.04rem;
                             margin-left: 0.1rem;
                             cursor: pointer;
@@ -452,7 +452,7 @@
                             cursor: pointer;
                             background: #3264FD;
                             margin-left: 0.1rem;
-                            color: #fff;
+                            color: $t_white_c;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.18rem;
                             font-size: $s14;

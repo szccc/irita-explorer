@@ -53,13 +53,13 @@
                margin: 0.3rem 0 0.1rem 0;
                span:nth-of-type(1){
                    font-size: $s18;
-                   color: #22252A;
+                   color: $t_first_c;
                    line-height: 0.21rem;
                }
                span:nth-of-type(2){
                    margin-left: 0.1rem;
                    font-size: $s18;
-                   color: #22252A;
+                   color: $t_first_c;
                    line-height: 0.21rem;
                }
            
@@ -74,12 +74,12 @@
                flex-direction: column;
                .result_title{
                    margin-top: 0.2rem;
-                   color: #000;
+                   color: $t_first_c;
                    font-size: $s18;
                }
                .try_info{
                    font-size: $s14;
-                   color: #787C99;
+                   color: $t_second_c;
                    margin-bottom: 0.44rem ;
                }
                .back_home_btn{
@@ -89,7 +89,7 @@
                    margin: 0 auto;
                    background: #3264FD;
                    border-radius: 0.05rem;
-                   color: #fff;
+                   color: $t_white_c;
                    font-size: $s14;
                    line-height: 0.36rem;
                    cursor: pointer;

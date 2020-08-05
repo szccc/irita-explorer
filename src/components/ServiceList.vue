@@ -152,7 +152,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.service_list_container_content{
         @media screen and (min-width: 910px){
@@ -186,7 +186,7 @@
                     margin-bottom:0.18rem;
                 }
                 .service_list_empty_description{
-                    color:#B8B8B8;
+                    color: $t_second_c;
                     font-size: $s14;
 
                 }
@@ -199,7 +199,7 @@
                 box-sizing: border-box;
                 font-size: $s18;
                 font-weight: 600;
-                color: #171D44;
+                color: $t_first_c;
 			}
             .service_list_content{
                 display:flex;
@@ -218,7 +218,7 @@
                     justify-content: flex-start;
                     margin-bottom:0.4rem;
                     .service_list_service_name{
-                        color:#3264FD;
+                        color: $t_link_c;
                         font-size: $s14;
                         cursor:pointer;
                         margin-right:0.15rem;

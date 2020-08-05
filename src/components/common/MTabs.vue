@@ -67,7 +67,7 @@ export default {
     .active {
         background-color: #3264FD;
         border-color: #3264FD;
-        color: #ffffff;
+        color: $t_white_c;
     }
 }
 </style>

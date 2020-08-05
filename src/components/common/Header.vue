@@ -13,7 +13,7 @@
 							class="el-menu-demo"
 							mode="horizontal"
 							@select="handleSelect"
-							background-color="#3264FD"
+							background-color ="#3264FD"
 							text-color="#CBD8FE"
 							active-text-color="#fff">
 						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
@@ -256,20 +256,20 @@
 					margin: 0 auto;
 					display: flex;
 					align-items: center;
-					border: 0.01rem solid rgba(255,255,255,0.5);
+					border: 0.01rem solid $t_fourth_c;
 					border-radius: 0.06rem;
 					input {
 						width: 100%;
 						height: 0.3rem;
 						background: transparent;
 						border: 0.01rem solid rgba(255,255,255,0);
-						color: #fff;
+						color: $t_white_c;
 						font-size: $s14;
 						text-indent: 0.1rem;
 					}
 					input::placeholder{
 						font-size: $s14;
-						color:rgba(255,255,255,0.5);
+						color: $t_fourth_c;
 					}
 					span {
 						right: 0.3rem;
@@ -277,7 +277,7 @@
 						font-size: $s20;
 						padding: 0 0.1rem;
 						line-height: 0.3rem;
-						color: rgba(255,255,255,0.5);
+						color: $t_fourth_c;
 						cursor: pointer;
 					}
 				}
@@ -289,7 +289,7 @@
 			margin-top:0.1rem;
 			.header_content_feature{
 				padding:0.05rem 0;
-		        color: #ffffff;
+		        color: $t_white_c;
 		        font-size: $s16;
 		        font-weight: bold;
 		        text-align:left;

@@ -162,7 +162,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.block_detail_container{
 		padding: 0 0.15rem;
@@ -176,7 +176,7 @@
 				.block_height_content{
 					.information_value{
 						font-size: $s22;
-						color: #787C99;
+						color: $t_second_c;
 						margin: 0 0.07rem;
 					}
 					.flag_item_left {
@@ -184,26 +184,26 @@
 						font-size: $s20;
 						margin-right: 0.05rem;
 						cursor: pointer;
-						color: #3264FD !important;
+						color: $t_link_c !important;
 					}
 					.flag_item_left_disabled {
 						display: inline-block;
 						font-size: $s20;
 						margin-right: 0.05rem;
 						cursor: pointer;
-						color: #787C99;
+						color: $t_second_c;
 					}
 					.flag_item_right {
 						display: inline-block;
 						font-size: $s20;
 						margin-left: 0.05rem;
-						color:#3264FD;
+						color: $t_link_c;
 						cursor: pointer;
 					}
 					.flag_item_right_disabled {
 						display: inline-block;
 						font-size: $s20;
-						color: #787C99;
+						color: $t_second_c;
 						margin-left: 0.05rem;
 						cursor: pointer;
 					}
@@ -218,13 +218,13 @@
 					margin-bottom: 0.16rem;
 					span:nth-of-type(1){
 						text-align: left;
-						color: #787C99;
+						color: $t_second_c;
 						font-size: $s14;
 						min-width: 1.5rem;
 					}
 					span:nth-of-type(2){
 						text-align: left;
-						color: #171D44;
+						color: $t_first_c;
 						font-size: $s14;
 						flex: 1;
 					}

@@ -20,7 +20,7 @@
 		.footer_content{
 			padding: 0.15rem 0;
 			font-size: $s12;
-			color: #C0C4CC;
+			color: $t_third_c;
 			line-height: 0.14rem;
 		}
 	}

@@ -611,7 +611,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.address_container_content{
 		padding:0 0.15rem;
@@ -621,7 +621,7 @@
 			.address_content_title {
 		        display: flex;
 		        justify-content: flex-start;
-		        color: #171D44;
+		        color: $t_first_c;
 		        font-size: $s18;
 		        line-height: 0.21rem;
 		        margin: 0.3rem 0 0.15rem 0.25rem;
@@ -636,7 +636,7 @@
 		            font-size: $s16;
 		            font-family:ArialMT;
 		            font-weight:400;
-		            color:#171D44;
+		            color: $t_first_c;
 		            line-height:20px;
 		            word-break: break-all;
 		        }
@@ -758,7 +758,7 @@
                     .search_btn {
                         cursor: pointer;
                         background: #3264FD;
-                        color: #fff;
+                        color: $t_white_c;
                         border-radius: 0.04rem;
                         padding: 0.05rem 0.18rem;
                         font-size: $s14;
@@ -768,7 +768,7 @@
                     	display:flex;
                     	.reset_btn {
 	                        background: #3264FD;
-	                        color: #fff;
+	                        color: $t_white_c;
 	                        border-radius: 0.04rem;
 	                        margin-left: 0.1rem;
 	                        cursor: pointer;
@@ -790,7 +790,7 @@
 			}
 			
 			.content_title{
-				color: #171D44;
+				color: $t_first_c;
 				margin-bottom: 0.4rem;
 				text-align: left;
 				font-size: $s16;
