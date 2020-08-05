@@ -1,6 +1,4 @@
-// import { cfg } from '../config';
 import axios from 'axios';
-
 
 export class HttpHelper {
 

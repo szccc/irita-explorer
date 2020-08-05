@@ -152,7 +152,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.service_list_container_content{
         @media screen and (min-width: 910px){
@@ -186,8 +186,8 @@
                     margin-bottom:0.18rem;
                 }
                 .service_list_empty_description{
-                    color:#B8B8B8;
-                    font-size:0.14rem;
+                    color: $t_second_c;
+                    font-size: $s14;
 
                 }
             }
@@ -197,16 +197,16 @@
                 margin: 0.42rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
-                font-size: 0.18rem;
+                font-size: $s18;
                 font-weight: 600;
-                color: #171D44;
+                color: $t_first_c;
 			}
             .service_list_content{
                 display:flex;
                 flex-direction:column;
                 margin-bottom:0.48rem;
                 padding:0.28rem 0.28rem 0.18rem 0.28rem;
-                background: #ffffff;
+                background: $bg_white_c;
                 border-radius:5px;
                 border:1px solid rgba(215,215,215,1);
                 .service_information_available_container{
@@ -218,8 +218,8 @@
                     justify-content: flex-start;
                     margin-bottom:0.4rem;
                     .service_list_service_name{
-                        color:#3264FD;
-                        font-size:0.14rem;
+                        color: $t_link_c;
+                        font-size: $s14;
                         cursor:pointer;
                         margin-right:0.15rem;
                     }

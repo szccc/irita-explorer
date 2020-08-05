@@ -296,7 +296,7 @@
 
 <style scoped lang="scss">
     a {
-        color: #3264FD !important;
+        color: $t_link_c !important;
     }
 
     .tx_content_container {
@@ -344,7 +344,7 @@
                     flex-direction: column;
                     align-items: flex-start;
                     .service_tx_muti_to_ellipsis {
-                        color: #3264FD;
+                        color: $t_link_c;
                     }
                 }
             }
@@ -363,8 +363,8 @@
                 .total_tx_content {
                     height: 0.61rem;
                     line-height: 0.61rem;
-                    color: #22252A;
-                    font-size: 0.18rem;
+                    color: $t_first_c;
+                    font-size: $s18;
                     font-weight: bold;
                     margin-right: 0.2rem;
                    //text-indent: 0.2rem;
@@ -383,14 +383,14 @@
                                 .el-input__inner {
                                     padding-left: 0.07rem;
                                     height: 0.32rem;
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                     line-height: 0.32rem;
                                     &::-webkit-input-placeholder {
-                                        font-size: 0.14rem !important;
+                                        font-size: $s14 !important;
                                     }
                                 }
                                 .el-input__inner:focus {
-                                    border-color: #3264FD !important;
+                                    border-color: $bd_highlight_c !important;
                                 }
                                 .el-input__suffix {
                                     .el-input__suffix-inner {
@@ -402,7 +402,7 @@
                             }
                             .is-focus {
                                 .el-input__inner {
-                                    border-color: #3264FD !important;
+                                    border-color: $bd_highlight_c !important;
                                 }
                             }
 
@@ -418,10 +418,10 @@
                                 padding-right: 0;
                                 line-height: 0.32rem;
                                 &::-webkit-input-placeholder {
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                 }
                                 &:focus {
-                                    border-color: #3264FD;
+                                    border-color: $bd_highlight_c;
                                 }
                             }
                             .el-input__prefix {
@@ -436,26 +436,26 @@
                             margin: 0 0.08rem;
                         }
                         .reset_btn {
-                            background: #3264FD;
-                            color: #fff;
+                            background: $bg_button_c;
+                            color: $t_white_c;
                             border-radius: 0.04rem;
                             margin-left: 0.1rem;
                             cursor: pointer;
                             i {
                                 padding: 0.08rem;
-                                font-size: 0.14rem;
+                                font-size: $s14;
                                 line-height: 1;
                                 display: inline-block;
                             }
                         }
                         .search_btn {
                             cursor: pointer;
-                            background: #3264FD;
+                            background: $bg_button_c;
                             margin-left: 0.1rem;
-                            color: #fff;
+                            color: $t_white_c;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.18rem;
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.2rem;
                         }
                     }

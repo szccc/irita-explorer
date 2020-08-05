@@ -159,7 +159,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.validator_list_container{
         width:100%;
@@ -182,7 +182,7 @@
 			margin: 0 auto;
             box-sizing: border-box;
 			.validator_table_list_content{
-				background: #fff;
+				background: $bg_white_c;
 				margin-top: 0.1rem;
 			}
 		}

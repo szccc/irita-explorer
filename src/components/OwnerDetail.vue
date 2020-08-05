@@ -611,7 +611,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.address_container_content{
 		padding:0 0.15rem;
@@ -621,8 +621,8 @@
 			.address_content_title {
 		        display: flex;
 		        justify-content: flex-start;
-		        color: #171D44;
-		        font-size: 0.18rem;
+		        color: $t_first_c;
+		        font-size: $s18;
 		        line-height: 0.21rem;
 		        margin: 0.3rem 0 0.15rem 0.25rem;
 		        text-align: left;
@@ -633,27 +633,27 @@
 		            margin-right:0.05rem;
 		        }
 		        .address_content_title_address{
-		            font-size:0.16rem;
+		            font-size: $s16;
 		            font-family:ArialMT;
 		            font-weight:400;
-		            color:#171D44;
+		            color: $t_first_c;
 		            line-height:20px;
 		            word-break: break-all;
 		        }
 		    }
 			.address_asset_content{
-				background:white;
+				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
-				border:1px solid #D7D7D7;
+				border:1px solid $bd_first_c;
 			}
 
 			.consumer_transaction_content{
 				margin-top: 0.48rem;
-				background:white;
+				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
-				border:1px solid #D7D7D7;
+				border:1px solid $bd_first_c;
 				.consumer_transaction_content_hash{
 					display: flex;
                     align-items: center;
@@ -666,7 +666,6 @@
                     	height:0.1rem;
                     	border-radius:50%;
                     	margin-right:0.1rem;
-                    	background:red;
                     }
 				}
 				.pagination_content{
@@ -677,10 +676,10 @@
 			}
 			.provider_transaction_content{
 				margin-top: 0.48rem;
-				background:white;
+				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
-				border:1px solid #D7D7D7;
+				border:1px solid $bd_first_c;
 				.respond_transaction_content_hash{
 					display: flex;
                     align-items: center;
@@ -704,10 +703,10 @@
 
 			.address_transaction_content{
 				margin-top: 0.48rem;
-				background:white;
+				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
-				border:1px solid #D7D7D7;
+				border:1px solid $bd_first_c;
 				.address_transaction_content_hash{
 					display: flex;
                     align-items: center;
@@ -719,7 +718,7 @@
                     margin-bottom: 0.4rem;
                     align-items: center;
                     .address_transaction_condition_count {
-                        font-size: 0.14rem;
+                        font-size: $s14;
                         margin-right: 0.42rem;
                         font-weight: 600;
 
@@ -731,14 +730,14 @@
                             .el-input__inner {
                                 padding-left: 0.07rem;
                                 height: 0.32rem;
-                                font-size: 0.14rem !important;
+                                font-size: $s14 !important;
                                 line-height: 0.32rem;
                                 &::-webkit-input-placeholder {
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                 }
                             }
                             .el-input__inner:focus {
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                             .el-input__suffix {
                                 .el-input__suffix-inner {
@@ -750,31 +749,31 @@
                         }
                         .is-focus {
                             .el-input__inner {
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                         }
 
                     }
                     .search_btn {
                         cursor: pointer;
-                        background: #3264FD;
-                        color: #fff;
+                        background: $bg_button_c;
+                        color: $t_white_c;
                         border-radius: 0.04rem;
                         padding: 0.05rem 0.18rem;
-                        font-size: 0.14rem;
+                        font-size: $s14;
                         line-height: 0.2rem;
                     }
                     .address_transaction_condition_action{
                     	display:flex;
                     	.reset_btn {
-	                        background: #3264FD;
-	                        color: #fff;
+	                        background: $bg_button_c;
+	                        color: $t_white_c;
 	                        border-radius: 0.04rem;
 	                        margin-left: 0.1rem;
 	                        cursor: pointer;
 	                        i {
 	                            padding: 0.08rem;
-	                            font-size: 0.14rem;
+	                            font-size: $s14;
 	                            line-height: 1;
 	                            display: inline-block;
 	                        }
@@ -790,10 +789,10 @@
 			}
 			
 			.content_title{
-				color: #171D44;
+				color: $t_first_c;
 				margin-bottom: 0.4rem;
 				text-align: left;
-				font-size:0.16rem;
+				font-size: $s16;
 				font-family:PingFangSC-Semibold,PingFang SC;
 				font-weight:600;
 				line-height:22px;

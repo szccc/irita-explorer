@@ -454,7 +454,7 @@
 
 <style scoped lang="scss">
     a {
-        color: #3264FD !important;
+        color: $t_link_c !important;
     }
 
     @media screen and (min-width: 910px){
@@ -508,43 +508,43 @@
                 margin: 0.42rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
-                font-size: 0.18rem;
+                font-size: $s18;
                 font-weight: 600;
-                color: #171D44;
+                color: $t_first_c;
             }
             .service_information_definition_content {
-                background: #ffffff;
+                background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
                 border-radius: 5px;
-                border: 1px solid rgba(215, 215, 215, 1);
+                border: 1px solid $bd_first_c;
                 .service_information_definition_title {
-                    font-size: 0.18rem;
-                    color: #22252A;
+                    font-size: $s18;
+                    color: $t_first_c;
                     font-weight: 600;
                     margin-bottom: 0.36rem;
                     text-align: left;
                 }
                 .service_information_content {
                     box-sizing: border-box;
-                    background: #fff;
+                    background: $bg_white_c;
                     .service_information_text_content {
                         display: flex;
                         justify-content: flex-start;
                         margin-bottom: 0.26rem;
                         span:nth-of-type(1) {
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.16rem;
-                            color: #787C99;
+                            color: $t_second_c;
                             min-width: 1.5rem;
                             text-align: left;
                             font-weight: 600;
                         }
                         span:last-child {
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.16rem;
-                            color: #171D44;
+                            color: $t_first_c;
                             flex: 1;
                             text-align: left;
                             word-break: break-all;
@@ -557,21 +557,21 @@
                 }
             }
             .service_information_bindings_content {
-                background: #ffffff;
+                background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
                 border-radius: 5px;
-                border: 1px solid rgba(215, 215, 215, 1);
+                border: 1px solid $bd_first_c;
                 .service_information_binding_title {
-                    font-size: 0.18rem;
-                    color: #22252A;
+                    font-size: $s18;
+                    color: $t_first_c;
                     font-weight: 600;
                     margin-bottom: 0.36rem;
                     text-align: left;
                 }
                 .service_information_bindings_table_content {
-                    background: #fff;
+                    background: $bg_white_c;
                     .service_information_available_container {
                         display: flex;
                         align-items: center;
@@ -579,14 +579,14 @@
                 }
             }
             .service_information_transaction_content {
-                background: #ffffff;
+                background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 border-radius: 5px;
-                border: 1px solid rgba(215, 215, 215, 1);
+                border: 1px solid $bd_first_c;
                 .service_information_transaction_title {
-                    font-size: 0.18rem;
-                    color: #22252A;
+                    font-size: $s18;
+                    color: $t_first_c;
                     font-weight: 600;
                     margin-bottom: 0.36rem;
                     text-align: left;
@@ -598,7 +598,7 @@
                     margin-bottom: 0.4rem;
                     align-items: center;
                     .service_information_transaction_condition_count {
-                        font-size: 0.14rem;
+                        font-size: $s14;
                         margin-right: 0.42rem;
                         font-weight: 600;
 
@@ -610,14 +610,14 @@
                             .el-input__inner {
                                 padding-left: 0.07rem;
                                 height: 0.32rem;
-                                font-size: 0.14rem !important;
+                                font-size: $s14 !important;
                                 line-height: 0.32rem;
                                 &::-webkit-input-placeholder {
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                 }
                             }
                             .el-input__inner:focus {
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                             .el-input__suffix {
                                 .el-input__suffix-inner {
@@ -629,7 +629,7 @@
                         }
                         .is-focus {
                             .el-input__inner {
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                         }
 
@@ -639,28 +639,28 @@
                         align-items: center;
                         .search_btn {
                             cursor: pointer;
-                            background: #3264FD;
-                            color: #fff;
+                            background: $bg_button_c;
+                            color: $t_white_c;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.18rem;
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.2rem;
                         }
                         .reset_btn {
                             cursor: pointer;
-                            background: #3264FD;
+                            background: $bg_button_c;
                             margin-left: 0.1rem;
-                            color: #fff;
+                            color: $t_white_c;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.1rem;
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.2rem;
                         }
                     }
 
                 }
                 .service_information_transaction_table_content {
-                    background: #fff;
+                    background: $bg_white_c;
                     .service_tx_status {
                         position: relative;
                         top: 0.02rem;
@@ -674,7 +674,7 @@
                             flex-direction: column;
                             align-items: flex-start;
                             .service_tx_muti_to_ellipsis {
-                                color: #3264FD;
+                                color: $t_link_c;
                             }
                         }
                     }
@@ -684,7 +684,7 @@
                 display: flex;
                 justify-content: flex-end;
                 margin-top: 0.25rem;
-                //background: #ffffff;
+                //background: $bg_white_c;
             }
         }
     }

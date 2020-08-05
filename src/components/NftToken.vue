@@ -139,7 +139,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.nft_token_container{
 		padding:0 0.15rem;
@@ -147,8 +147,8 @@
 			max-width: 12rem;
 			margin: 0 auto;
 			.nft_token_title{
-				font-size: 0.18rem;
-				color: #22252A;
+				font-size: $s18;
+				color: $t_first_c;
 				font-weight: bold;
 				padding: 0.3rem 0 0.1rem 0;
 				text-align: left;
@@ -156,9 +156,9 @@
 			}
 			.nft_token_information_content{
 				box-sizing: border-box;
-				border: 0.01rem solid #E7E9EB;
+				border: 0.01rem solid $bd_second_c;
 				border-radius: 0.04rem;
-				background: #fff;
+				background: $bg_white_c;
 				padding: 0.2rem;
 				.nft_token_information_item{
 					text-align: left;
@@ -166,13 +166,13 @@
 					display: flex;
 					span:nth-of-type(1){
 						min-width: 1.27rem;
-						font-size: 0.14rem;
-						color: #787C99;
+						font-size: $s14;
+						color: $t_second_c;
 						line-height: 0.16rem;
 					}
 					span:nth-of-type(2){
-						font-size: 0.14rem;
-						color: #171D44;
+						font-size: $s14;
+						color: $t_first_c;
 						flex: 1;
 						word-break:break-all;
 					}
@@ -183,8 +183,8 @@
 			}
 			.nft_token_list_content{
 				.nft_token_list_title{
-					font-size: 0.18rem;
-					color: #22252A;
+					font-size: $s18;
+					color: $t_first_c;
 					line-height: 0.21rem;
 					font-weight: bold;
 					text-align: left;
