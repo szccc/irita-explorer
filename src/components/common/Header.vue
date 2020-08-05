@@ -262,7 +262,7 @@
 						width: 100%;
 						height: 0.3rem;
 						background: transparent;
-						border: 0.01rem solid rgba(255,255,255,0);
+						border: 0.01rem solid transparent;
 						color: $t_white_c;
 						font-size: $s14;
 						text-indent: 0.1rem;

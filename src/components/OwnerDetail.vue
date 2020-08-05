@@ -642,7 +642,7 @@
 		        }
 		    }
 			.address_asset_content{
-				background:white;
+				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
 				border:1px solid #D7D7D7;
@@ -650,7 +650,7 @@
 
 			.consumer_transaction_content{
 				margin-top: 0.48rem;
-				background:white;
+				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
 				border:1px solid #D7D7D7;
@@ -676,7 +676,7 @@
 			}
 			.provider_transaction_content{
 				margin-top: 0.48rem;
-				background:white;
+				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
 				border:1px solid #D7D7D7;
@@ -703,7 +703,7 @@
 
 			.address_transaction_content{
 				margin-top: 0.48rem;
-				background:white;
+				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
 				border:1px solid #D7D7D7;
