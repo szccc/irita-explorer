@@ -16,14 +16,14 @@
 					</div>
 					<div class="block_list_pagination_content">
 						<el-table :data="blockList" stripe :empty-text="$t('ExplorerCN.table.emptyDescription')">
-							<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.block.block')">
+							<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.table.block')">
 								<template slot-scope="scope">
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 								</template>
 							</el-table-column>
-							<el-table-column :min-width="ColumnMinWidth.txn" prop="numTxs" :label="$t('ExplorerCN.block.transactions')"></el-table-column>
-							<el-table-column :min-width="ColumnMinWidth.time" prop="time" :label="$t('ExplorerCN.block.timestamp')"></el-table-column>
-							<el-table-column :min-width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerCN.block.age')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.txn" prop="numTxs" :label="$t('ExplorerCN.table.transactions')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.time" prop="time" :label="$t('ExplorerCN.table.timestamp')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerCN.table.age')"></el-table-column>
 						</el-table>
 					</div>
 					<div class="pagination_content">
