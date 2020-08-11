@@ -40,7 +40,7 @@ export default {
 .line_tab_container {
     width: auto;
     display: flex;
-    font-size: 14px;
+    font-size: $s14;
     text-align: center;
     cursor: pointer;
     height: 0.3rem;
@@ -51,8 +51,8 @@ export default {
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
-        border: 1px solid #d7dce0;
-        background-color: #ffffff;
+        border: 1px solid $bd_second_c;
+        background-color: $bg_white_c;
         &:nth-of-type(1) {
             border-right-width: 0;
             border-top-left-radius: 1px;
@@ -65,9 +65,9 @@ export default {
         }
     }
     .active {
-        background-color: #3264FD;
-        border-color: #3264FD;
-        color: #ffffff;
+        background-color: $bg_button_c;
+        border-color: $bd_highlight_c;
+        color: $t_white_c;
     }
 }
 </style>

@@ -31,6 +31,11 @@ const router = new Router({
 			path:'/address/:param',
 			component: () => import('@/components/OwnerDetail.vue')
 		},
+        {
+			path:'/service/respond/:serviceName/:provider',
+			component: () => import('@/components/ServiceRespondRecord.vue')
+		},
+
 		{
 			path:'/nft/token',
 			component: () => import('@/components/NftToken.vue')

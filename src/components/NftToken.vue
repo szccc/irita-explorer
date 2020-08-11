@@ -11,11 +11,11 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerCN.nftDetail.denom')}}</span>
-					<span>{{name}}</span>
+					<span>{{denomName}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerCN.nftDetail.id')}}</span>
-					<span>{{tokenID}}</span>
+					<span>{{nftName}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerCN.nftDetail.schema')}}</span>
@@ -42,62 +42,7 @@
 			</div>
 			<div class="nft_token_list_content">
 				<div class="nft_token_list_title"> {{$t('ExplorerCN.nftDetail.nftTxs')}}</div>
-				<el-table :data="txListByToken">
-					<el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
-						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.txHash"
-										class="item"
-										placement="top"
-										effect="dark">
-								<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
-							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.block')">
-						<template slot-scope="scope">
-							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-					<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
-						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.from"
-										class="item"
-										placement="top"
-										effect="dark">
-								<router-link v-if="scope.row.from !== '--'" :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
-							</el-tooltip>
-							<span v-if="scope.row.from === '--'">{{formatAddress(scope.row.from)}}</span>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.to')" >
-						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.to"
-										class="item"
-										placement="top"
-										effect="dark">
-								<router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
-							</el-tooltip>
-							<span v-if="scope.row.to === '--'">{{formatAddress(scope.row.to)}}</span>
-						</template>
-					</el-table-column>
-					<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.signer')" >
-						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.signer"
-										class="item"
-										placement="top"
-										effect="dark">
-								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
-							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
-						<template slot-scope="scope">
-							<span>{{scope.row.time}}</span>
-						</template>
-					</el-table-column>
-				</el-table>
+				<TxListComponent :txData="txListByToken"></TxListComponent>
                 <div class="pagination_content">
                     <m-pagination :page-size="pageSize" :total="count" :page="pageNum" :page-change="pageChange"></m-pagination>
                 </div>
@@ -107,14 +52,18 @@
 </template>
 
 <script>
-	import { getNftDetail } from "../service/api"
+	import TxListComponent from "./common/TxListComponent";
+	import { getNftDetail, getTokenTxList } from "../service/api"
 	import Tools from "../util/Tools"
-	import {getTokenTxList} from '../service/api'
-    import MPagination from "./MPagination";
+    import MPagination from "./common/MPagination";
+    import { TX_TYPE,TX_STATUS } from '../constant';
 	export default {
 		name: "NftToken",
+		components:{ MPagination, TxListComponent },
 		data() {
 			return {
+				TX_TYPE,
+				TX_STATUS,
 				owner:'',
 				Denom: '',
 				TokenID: '',
@@ -129,10 +78,11 @@
 				tokenID:'',
 				primaryKey:'',
 				tokenData:'',
-				tokenUri:''
+				tokenUri:'',
+                denomName:'',
+                nftName:'',
 			}
 		},
-        components: {MPagination},
 		mounted () {
 			this.getTokenInformation();
 		},
@@ -146,6 +96,8 @@
 						this.schema = (nftDetail.denomDetail || {}).json_schema;
 						this.name = nftDetail.denom;
 						this.tokenID = nftDetail.id;
+						this.denomName = nftDetail.denom_name;
+						this.nftName = nftDetail.nft_name;
 						// this.primaryKey = nftDetail.primary_key;
 						this.owner = nftDetail.owner;
 						this.tokenData = nftDetail.tokenData;
@@ -165,22 +117,12 @@
                 const res = await getTokenTxList(this.tokenID,this.$route.query.denom,this.pageNum ,this.pageSize );
                 try {
                     // console.log(res)
-                    this.txListByToken = res.data.map((tx)=>{
-                        return {
-                            txHash : tx.tx_hash,
-                            blockHeight : tx.height,
-                            txType : tx.type,
-                            from : tx.from ? tx.from : '--',
-                            to : tx.to ? tx.to : '--',
-                            signer : tx.signer,
-                            status : tx.status === 1 ? 'Success' : 'Failed',
-                            time :Tools.getDisplayDate(tx.time)
-                        }
-                    });
+                    this.txListByToken = res.data;
                     this.count = res.count;
                     // console.log(this.txListByToken)
                 }catch (e) {
-                    this.$message.error('获取交易列表失败,请稍后重试');
+                		console.error(e);
+                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
                 }
 			},
 			formatTxHash(TxHash){
@@ -197,7 +139,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.nft_token_container{
 		padding:0 0.15rem;
@@ -205,8 +147,8 @@
 			max-width: 12rem;
 			margin: 0 auto;
 			.nft_token_title{
-				font-size: 0.18rem;
-				color: #22252A;
+				font-size: $s18;
+				color: $t_first_c;
 				font-weight: bold;
 				padding: 0.3rem 0 0.1rem 0;
 				text-align: left;
@@ -214,9 +156,9 @@
 			}
 			.nft_token_information_content{
 				box-sizing: border-box;
-				border: 0.01rem solid #E7E9EB;
+				border: 0.01rem solid $bd_second_c;
 				border-radius: 0.04rem;
-				background: #fff;
+				background: $bg_white_c;
 				padding: 0.2rem;
 				.nft_token_information_item{
 					text-align: left;
@@ -224,13 +166,13 @@
 					display: flex;
 					span:nth-of-type(1){
 						min-width: 1.27rem;
-						font-size: 0.14rem;
-						color: #787C99;
+						font-size: $s14;
+						color: $t_second_c;
 						line-height: 0.16rem;
 					}
 					span:nth-of-type(2){
-						font-size: 0.14rem;
-						color: #171D44;
+						font-size: $s14;
+						color: $t_first_c;
 						flex: 1;
 						word-break:break-all;
 					}
@@ -241,21 +183,29 @@
 			}
 			.nft_token_list_content{
 				.nft_token_list_title{
-					font-size: 0.18rem;
-					color: #22252A;
+					font-size: $s18;
+					color: $t_first_c;
 					line-height: 0.21rem;
 					font-weight: bold;
 					text-align: left;
 					text-indent: 0.2rem;
 					margin: 0.3rem 0 0.1rem 0;
 				}
-                .pagination_content{
-                    display: flex;
-                    justify-content: flex-end;
-                    margin: 0.3rem 0 0.1rem 0;
-                }
+        .pagination_content{
+            display: flex;
+            justify-content: flex-end;
+            margin: 0.3rem 0 0.1rem 0;
+        }
+        .tx_transaction_content_hash{
+            display: flex;
+            align-items: center;
+        }
 			}
-			
+			.status_icon{
+	        width:0.13rem;
+	        height:0.13rem;
+	        margin-right:0.05rem;
+	    }
 		}
 	}
 

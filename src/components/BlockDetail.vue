@@ -24,53 +24,25 @@
 			</div>
 			<div class="block_transaction_content" v-if="transactionArray.length > 0">
 				<div class="block_transaction_title_content">{{$t('ExplorerCN.blockDetail.transactions')}}</div>
-				<div class="block_transaction_list_content">
-					<el-table :data="transactionArray">
-						<el-table-column min-width="100px" :label="$t('ExplorerCN.transactions.txHash')">
-							<template slot-scope="scope">
-								<router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
-							</template>
-						</el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.block')" prop="blockHeight"></el-table-column>
-						<el-table-column min-width="130px" :label="$t('ExplorerCN.transactions.txType')" prop="txType"></el-table-column>
-						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.from')">
-							<template slot-scope="scope">
-								<router-link v-if="scope.row.from !== '--'" :to="`/address/${scope.row.from}`">{{formatAddress(scope.row.from)}}</router-link>
-								<span v-if="scope.row.from === '--'">--</span>
-							</template>
-						</el-table-column>
-						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.to')">
-							<template slot-scope="scope">
-								<router-link v-if="scope.row.to !== '--'" :to="`/address/${scope.row.to}`">{{formatAddress(scope.row.to)}}</router-link>
-								<span v-if="scope.row.to === '--'">--</span>
-							</template>
-						</el-table-column>
-						<el-table-column min-width="120px" :label="$t('ExplorerCN.transactions.signer')">
-							<template slot-scope="scope">
-								<router-link :to="`/address/${scope.row.signer}`">{{formatAddress(scope.row.signer)}}</router-link>
-							</template>
-						</el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.status')" prop="status"></el-table-column>
-						<el-table-column :label="$t('ExplorerCN.transactions.timestamp')" prop="time" width="200px">
-							<template slot-scope="scope">
-								<span>{{scope.row.time}}</span>
-							</template>
-						</el-table-column>
-					</el-table>
-				</div>
+				<TxListComponent :txData="transactionArray"></TxListComponent>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { getBlockWithHeight, getLatestBlock } from '../service/api';
+	import TxListComponent from "./common/TxListComponent";
+	import { getBlockWithHeight, getLatestBlock, getBlockTxList } from '../service/api';
 	import Tools from "../util/Tools";
-    import {getBlockTxList} from '../service/api';
+  	import { TxHelper } from "../helper/TxHelper";
+  	import { TX_TYPE,TX_STATUS } from '../constant';
 	export default {
 		name: "BlockDetail",
+		components:{ TxListComponent },
 		data(){
 			return {
+				TX_TYPE,
+				TX_STATUS,
 				blockHash: 0,
 				txNumber:0,
 				time:'',
@@ -148,23 +120,11 @@
                 try {
                     const res = await getBlockTxList(this.$route.params.height);
                     if(res){
-                        // console.log(res)
-                        this.transactionArray = res.data.map((item) => {
-                            return {
-                                txHash: item.tx_hash,
-                                blockHeight: item.height,
-                                txType: item.type,
-                                from: item.from ? item.from : '--',
-                                to: item.to ? item.to : '--',
-                                signer: item.signer,
-                                status:item.status === 1 ? 'Success' : 'Failed',
-                                time: Tools.getDisplayDate(item.time)
-                            }
-                        })
-
+                        this.transactionArray = res.data;
                     }
                 }catch (e) {
-                    this.$message.error('获取交易列表失败,请稍后重试');
+                		console.error(e);
+                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
                 }
 			},
 			skipNext(num) {
@@ -202,7 +162,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.block_detail_container{
 		padding: 0 0.15rem;
@@ -215,35 +175,35 @@
 				padding-left: 0.2rem;
 				.block_height_content{
 					.information_value{
-						font-size: 0.22rem;
-						color: #787C99;
+						font-size: $s22;
+						color: $t_second_c;
 						margin: 0 0.07rem;
 					}
 					.flag_item_left {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						margin-right: 0.05rem;
 						cursor: pointer;
-						color: #3264FD !important;
+						color: $t_link_c !important;
 					}
 					.flag_item_left_disabled {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						margin-right: 0.05rem;
 						cursor: pointer;
-						color: #787C99;
+						color: $t_second_c;
 					}
 					.flag_item_right {
 						display: inline-block;
-						font-size: 0.2rem;
+						font-size: $s20;
 						margin-left: 0.05rem;
-						color:#3264FD;
+						color: $t_link_c;
 						cursor: pointer;
 					}
 					.flag_item_right_disabled {
 						display: inline-block;
-						font-size: 0.2rem;
-						color: #787C99;
+						font-size: $s20;
+						color: $t_second_c;
 						margin-left: 0.05rem;
 						cursor: pointer;
 					}
@@ -252,20 +212,20 @@
 			.block_detail_content{
 				padding: 0.2rem;
 				box-sizing: border-box;
-				background: #fff;
+				background: $bg_white_c;
 				p{
 					display: flex;
 					margin-bottom: 0.16rem;
 					span:nth-of-type(1){
 						text-align: left;
-						color: #787C99;
-						font-size: 0.14rem;
+						color: $t_second_c;
+						font-size: $s14;
 						min-width: 1.5rem;
 					}
 					span:nth-of-type(2){
 						text-align: left;
-						color: #171D44;
-						font-size: 0.14rem;
+						color: $t_first_c;
+						font-size: $s14;
 						flex: 1;
 					}
 				}
@@ -275,13 +235,22 @@
 			}
 			.block_transaction_content{
 				.block_transaction_title_content{
-					font-size: 0.18rem;
+					font-size: $s18;
 					font-weight: bold;
 					margin: 0.3rem 0 0.1rem 0;
 					text-align: left;
 					text-indent: 0.2rem;
 				}
+				.tx_transaction_content_hash{
+            display: flex;
+            align-items: center;
+        }
 			}
+			.status_icon{
+	        width:0.13rem;
+	        height:0.13rem;
+	        margin-right:0.05rem;
+	    }
 		}
 	}
 

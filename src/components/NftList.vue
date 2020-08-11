@@ -16,13 +16,13 @@
 				</div>
 			</div>
 			<div class="nef_list_table_container">
-				<el-table :data="denomArray">
-					<el-table-column :label="$t('ExplorerCN.nftAsset.denom')" width="155px">
+				<el-table :data="denomArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.table.denom')">
 						<template slot-scope="scope">
-							{{scope.row.denom}}
+							{{scope.row.denom_name}}
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.owner')" width="150px">
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.owner')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.owner"
 										class="item"
@@ -32,13 +32,13 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.id')" width="200px">
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerCN.table.id')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.id}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nft_name}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.data')" width="450px" prop="tokenData"></el-table-column>
-					<el-table-column :label="$t('ExplorerCN.nftAsset.uri')" prop="tokenUri">
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerCN.table.data')" prop="tokenData"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerCN.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
@@ -61,14 +61,16 @@
 
 <script>
 	import { getDenoms, getNfts } from "../service/api"
-	import constant from "../constant"
+	import {addrPrefix} from "../constant"
 	import Tools from "../util/Tools";
-	import MPagination from "./MPagination";
+	import MPagination from "./common/MPagination";
+	import { ColumnMinWidth } from '../constant';
 	export default {
 		name: "NftList",
 		components: {MPagination},
 		data () {
 			return {
+				ColumnMinWidth,
 				nftList: [
 					{
 						value:'all',
@@ -115,13 +117,11 @@
 				this.getNftsByFilter()
 			},
 			async getNftsByFilter(){
-				if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.input)) {
-					this.owner = this.input
-				} else if (this.$Codec.Bech32.isBech32(constant.addrPrefix.accAddr, this.input)) {
-					this.owner = this.input
+				if (Tools.isBech32(this.input)) {
+					this.owner = this.input;
 				}
 				if(!this.owner){
-					this.tokenId =  this.input
+					this.tokenId =  this.input;
 				}
 				sessionStorage.setItem('selectDenom',this.denom)
 								
@@ -149,7 +149,7 @@
 					if(denomData){
 						let nftList = denomData.data.map(item => {
 							return {
-								label: item.name,
+								label: item.denom_name,
 								value: item.name
 							}
 						})
@@ -165,7 +165,7 @@
 
 <style scoped lang="scss">
 	a{
-		color: #3264FD !important;
+		color: $t_link_c !important;
 	}
 	.nft_list_container{
         @media screen and (min-width: 910px){
@@ -183,7 +183,7 @@
                                 line-height: 0.32rem;
                             }
                             .el-input__inner:focus{
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                             .el-input__suffix{
                                 .el-input__suffix-inner{
@@ -201,7 +201,7 @@
                         .el-input__inner{
                             padding-left: 0.07rem;
                             height: 0.32rem;
-                            font-size: 0.14rem !important;
+                            font-size: $s14 !important;
                             line-height: 0.32rem;
                         }
                     }
@@ -234,7 +234,7 @@
                                 line-height: 0.32rem;
                             }
                             .el-input__inner:focus{
-                                border-color: #3264FD !important;
+                                border-color: $bd_highlight_c !important;
                             }
                             .el-input__suffix{
                                 .el-input__suffix-inner{
@@ -251,7 +251,7 @@
                         .el-input__inner{
                             padding-left: 0.07rem;
                             height: 0.32rem;
-                            font-size: 0.14rem !important;
+                            font-size: $s14 !important;
                             line-height: 0.32rem;
                         }
                     }
@@ -272,9 +272,9 @@
 				.el-select{
 					/deep/ .el-input{
 						.el-input__inner{
-							font-size: 0.14rem !important;
+							font-size: $s14 !important;
 							&::-webkit-input-placeholder{
-								font-size: 0.14rem !important;
+								font-size: $s14 !important;
 							}
 						}
 					}
@@ -282,15 +282,15 @@
 
 				/deep/ .el-input{
 					.el-input__inner{
-						font-size: 0.14rem !important;
+						font-size: $s14 !important;
 						&::-webkit-input-placeholder{
-							font-size: 0.14rem !important;
+							font-size: $s14 !important;
 						}
 					}
 				}
 				.nft_list_header_title{
-					font-size: 0.18rem;
-					color: #22252A;
+					font-size: $s18;
+					color: $t_first_c;
 					line-height: 0.21rem;
 					text-align: left;
 					//text-indent: 0.2rem;
@@ -300,10 +300,10 @@
 					width: 100%;
 					height:0.5rem;
 					line-height: 0.5rem;
-					font-size: 0.14rem;
-					color:#787C99;
+					font-size: $s14;
+					color: $t_second_c;
 					text-align: left;
-					background: #fff;
+					background: $bg_white_c;
 					text-indent: 0.2rem;
 				}
 				.tx_type_mobile_content{
@@ -317,14 +317,14 @@
 							.el-input__inner{
 								padding-left: 0.07rem;
 								height: 0.32rem;
-								font-size: 0.14rem !important;
+								font-size: $s14 !important;
 								line-height: 0.32rem;
 								&::-webkit-input-placeholder{
-									font-size: 0.14rem !important;
+									font-size: $s14 !important;
 								}
 							}
 							.el-input__inner:focus{
-								border-color: #3264FD !important;
+								border-color: $bd_highlight_c !important;
 							}
 							.el-input__suffix{
 								.el-input__suffix-inner{
@@ -336,7 +336,7 @@
 						}
 						.is-focus{
 							.el-input__inner{
-								border-color: #3264FD !important;
+								border-color: $bd_highlight_c !important;
 							}
 						}
 
@@ -352,10 +352,10 @@
 							padding-right: 0;
 							line-height: 0.32rem;
 							&::-webkit-input-placeholder{
-								font-size: 0.14rem !important;
+								font-size: $s14 !important;
 							}
 							&:focus{
-								border-color: #3264FD;
+								border-color: $bd_highlight_c;
 							}
 						}
 						.el-input__prefix{
@@ -370,26 +370,26 @@
 						margin: 0 0.08rem;
 					}
 					.reset_btn{
-						background: #3264FD;
-						color: #fff;
+						background: $bg_button_c;
+						color: $t_white_c;
 						border-radius: 0.04rem;
 						margin-left: 0.1rem;
 						cursor: pointer;
 						i{
 							padding: 0.08rem;
-							font-size: 0.14rem;
+							font-size: $s14;
 							line-height: 1;
 							display: inline-block;
 						}
 					}
 					.search_btn{
 						cursor: pointer;
-						background: #3264FD;
+						background: $bg_button_c;
 						margin-left: 0.1rem;
-						color: #fff;
+						color: $t_white_c;
 						border-radius: 0.04rem;
 						padding: 0.05rem 0.18rem;
-						font-size: 0.14rem;
+						font-size: $s14;
 						line-height: 0.2rem;
 					}
 				}
@@ -407,7 +407,7 @@
 				.nft_denom_list_item{
 					width: 100%;
 					text-align: left;
-					background: #fff;
+					background: $bg_white_c;
 					text-indent: 0.2rem;
 					margin-top: 0.1rem;
 					padding: 0.2rem 0;
@@ -434,10 +434,10 @@
 					padding: 0.2rem;
 					margin-top: 0.4rem;
 					/deep/ .el-table th {
-						background: #fafaff !important;
+						background: $bg_cancel_c !important;
 					}
 					/deep/ .el-table tr {
-						background: #fafaff !important;
+						background: $bg_cancel_c !important;
 					}
 				}
 				.hidden_footer_padding{

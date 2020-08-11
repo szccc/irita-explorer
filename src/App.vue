@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <Header></Header>
-    <router-view class="content"/>
+    <router-view class="content" :key="$route.fullPath"/>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-import Header from "./components/Header"
-import Footer from "./components/Footer";
+import Header from "./components/common/Header"
+import Footer from "./components/common/Footer";
 export default {
   name: 'app',
   components:{Footer, Header},
@@ -27,7 +27,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: $t_first_c;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -41,22 +41,21 @@ export default {
   }
   body{
     overflow-y: scroll;
-    background: #F5F7FA;
-    font-size:16px !important;
+    background: $bg_cancel_c;
+    font-size: $s16 !important;
   }
  html body{
    height: 100%;
-   font-size: 0.16px;
     .el-menu--horizontal{
       .el-menu {
-        background: #fff !important;
+        background: $bg_white_c !important;
         .el-menu-item{
-          background: #fff !important;
+          background: $bg_white_c !important;
           a{
-            color: #171D44;
+            color: $t_first_c;
           }
           a:hover{
-            color: #4E61E7 !important;
+            color: $t_link_c !important;
           }
         }
       }
@@ -81,7 +80,7 @@ export default {
     justify-content: space-between;
   }*/
   .el-select-dropdown__item.selected{
-    color:#3264fd !important;
+    color: $t_link_c !important;
   }
 
 </style>
