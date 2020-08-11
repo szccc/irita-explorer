@@ -19,8 +19,8 @@
 						<p class="home_content_header_top_footer_content">{{$t('ExplorerCN.home.last100Blocs')}}</p>
 					</li>
 				</ul>
-				<ul class="home_content_header_bottom_content" v-show="prodConfig.homeCard.validatorCount">
-					<li class="home_content_header_bottom_item_content">
+				<ul class="home_content_header_bottom_content" >
+					<li class="home_content_header_bottom_item_content" v-show="prodConfig.homeCard.validatorCount">
 						<p class="home_content_header_bottom_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerCN.home.validators')}}</p>
 						<p class="home_content_header_bottom_footer">{{validatorNumber}}</p>
 					</li>
@@ -291,10 +291,9 @@
 				.home_content_header_top_content{
 					display: flex;
 					margin-top: 0.2rem;
-					height: 1.3rem;
 					.home_content_header_top_item_content{
 						flex: 1;
-						max-width:32%;
+						max-width:31.5%;
 						margin:0 0.1rem;
 						border-radius: 0.04rem;
 						border: 0.01rem solid $bd_second_c;
@@ -318,19 +317,18 @@
 						}
 					}
 					.home_content_header_top_item_content:first-child{
-						margin-left: 0;
+						// margin-left: 0;
 					}
 					.home_content_header_top_item_content:last-child{
-						margin-right: 0;
+						// margin-right: 0;
 					}
 				}
 				.home_content_header_bottom_content{
 					display: flex;
 					margin-top: 0.2rem;
-					height: 1rem;
 					.home_content_header_bottom_item_content{
 						flex: 1;
-						max-width:32%;
+						max-width:31.5%;
 						margin:0 0.1rem;
 						border: 0.01rem solid $bd_second_c;
 						background: $bg_white_c;
@@ -353,10 +351,10 @@
 						}
 					}
 					.home_content_header_bottom_item_content:first-child{
-						margin-left: 0;
+						// margin-left: 0;
 					}
 					.home_content_header_bottom_item_content:last-child{
-						margin-right: 0;
+						// margin-right: 0;
 					}
 				}
 			}
