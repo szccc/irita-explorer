@@ -203,7 +203,9 @@ export function getRespondServiceRecord(serviceName, provider, pageNum, pageSize
     return get(url);
 }
 
-
+export function getNodeInfo(){
+    return getFromLcd('node_info');
+}
 
 
 
