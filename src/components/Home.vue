@@ -303,7 +303,7 @@
 						padding: 0.14rem;
 						font-size: $s14;
 						i{
-							color: $t_link_c;
+							color: $theme_c;
 							margin-right: 0.1rem;
 						}
 						.home_content_header_top_center_content{
@@ -337,7 +337,7 @@
 						padding: 0.14rem;
 						font-size: $s14;
 						i{
-							color: $t_link_c;
+							color: $theme_c;
 							margin-right: 0.1rem;
 						}
 						.home_content_header_bottom_footer{
@@ -374,7 +374,7 @@
 						z-index: 2;
 						.home_block_top_title{
 							i{
-								color: $t_second_c;
+								color: $theme_c;
 								margin-right: 0.1rem;
 							}
 							span{
@@ -437,7 +437,7 @@
 						justify-content: space-between;
 						.home_transaction_top_title{
 							i{
-								color: $t_second_c;
+								color: $theme_c;
 								margin-right: 0.1rem;
 							}
 							span{

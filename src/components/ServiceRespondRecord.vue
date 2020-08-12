@@ -417,7 +417,7 @@
                                 }
                             }
                             .el-input__inner:focus {
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                             .el-input__suffix {
                                 .el-input__suffix-inner {
@@ -429,7 +429,7 @@
                         }
                         .is-focus {
                             .el-input__inner {
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                         }
 

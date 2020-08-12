@@ -190,8 +190,9 @@
                             line-height: 0.32rem;
                         }
                         .el-input__inner:focus{
-                            border-color: $bd_highlight_c !important;
+                            border-color: $theme_c !important;
                         }
+
                         .el-input__suffix{
                             .el-input__suffix-inner{
                                 .el-input__icon{
@@ -209,6 +210,9 @@
                         height: 0.32rem;
                         font-size: $s14 !important;
                         line-height: 0.32rem;
+                    }
+                    .el-input__inner:focus{
+                        border-color: $theme_c !important;
                     }
                 }
                 .tx_type_mobile_content{
@@ -238,7 +242,7 @@
                             line-height: 0.32rem;
                         }
                         .el-input__inner:focus{
-                            border-color: $bd_highlight_c !important;
+                            border-color: $theme_c !important;
                         }
                         .el-input__suffix{
                             .el-input__suffix-inner{
@@ -257,6 +261,9 @@
                         height: 0.32rem;
                         font-size: $s14 !important;
                         line-height: 0.32rem;
+                    }
+                    .el-input__inner:focus{
+                        border-color: $theme_c !important;
                     }
                 }
                 .tx_type_mobile_content{
@@ -305,6 +312,9 @@
                                 font-size: $s14 !important;
                             }
                         }
+                        .el-input__inner:focus{
+                            border-color: $theme_c !important;
+                        }
                     }
                 }
 
@@ -314,6 +324,9 @@
                         &::-webkit-input-placeholder{
                             font-size: $s14 !important;
                         }
+                    }
+                    .el-input__inner:focus{
+                        border-color: $theme_c !important;
                     }
                 }
                 .nft_list_header_title{
@@ -351,7 +364,7 @@
                                 }
                             }
                             .el-input__inner:focus{
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                             .el-input__suffix{
                                 .el-input__suffix-inner{
@@ -363,7 +376,7 @@
                         }
                         .is-focus{
                             .el-input__inner{
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                         }
 
@@ -382,7 +395,7 @@
                                 font-size: $s14 !important;
                             }
                             &:focus{
-                                border-color: $bd_highlight_c;
+                                border-color: $theme_c;
                             }
                         }
                         .el-input__prefix{

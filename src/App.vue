@@ -80,7 +80,7 @@ export default {
     justify-content: space-between;
   }*/
   .el-select-dropdown__item.selected{
-    color: $t_link_c !important;
+    color: $theme_c !important;
   }
 
 </style>
