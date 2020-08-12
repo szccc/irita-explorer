@@ -398,7 +398,7 @@
                     }
                     .reset_btn{
                         background: $bg_button_c;
-                        color: $t_white_c;
+                        color: $t_button_c;
                         border-radius: 0.04rem;
                         margin-left: 0.1rem;
                         cursor: pointer;
@@ -413,7 +413,7 @@
                         cursor: pointer;
                         background: $bg_button_c;
                         margin-left: 0.1rem;
-                        color: $t_white_c;
+                        color: $t_button_c;
                         border-radius: 0.04rem;
                         padding: 0.05rem 0.18rem;
                         font-size: $s14;

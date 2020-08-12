@@ -1,13 +1,13 @@
 <template>
 	<div class="footer_container" 
-	  	 :style="`color:${prodConfig.footer.color || 'rgba(255,255,255,0.5)'}`">
+	  	 :style="`color:${(prodConfig.footer || {}).color || 'rgba(255,255,255,0.5)'}`">
 		<div class="footer_content_top" 
-		     :style="`background:${prodConfig.footer.bgColor_top || '#363A3D'}`">
+		     :style="`background:${(prodConfig.footer || {}).bgColor_top || '#363A3D'}`">
 			<img class="footer_content_top_icon" src="../../assets/footer_logo.png" alt="">
 		</div>
 		<div class="footer_content_bottom" 
-			 :style="`background:${prodConfig.footer.bgColor_bottom || '#000000'}`">
-			<p>{{prodConfig.footer.copyright}}</p>
+			 :style="`background:${(prodConfig.footer || {}).bgColor_bottom || '#000000'}`">
+			<p>{{(prodConfig.footer || {}).copyright}}</p>
 			<p>{{chainId}}</p>
 			<p>{{version}}</p>
 		</div>

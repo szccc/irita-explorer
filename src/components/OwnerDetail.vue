@@ -5,7 +5,7 @@
 	          <div class="address_content_title_first">{{`${$t('ExplorerCN.addressDetail.addressDetail')} |`}}</div>
 	          <div class="address_content_title_address">{{address}}</div>
 	      	</div>
-			<div class="address_asset_content" v-show="prodConfig.funcConfig.asset">
+			<div class="address_asset_content" v-show="(prodConfig.funcConfig || {}).asset">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
 				<el-table :data="assetArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.table.denom')"  prop="denomName"></el-table-column>
