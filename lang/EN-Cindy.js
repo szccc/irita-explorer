@@ -64,11 +64,11 @@ export const ExplorerCN = {
         providerServiceListFailed:'获取提供者服务调用列表失败,请稍后重试'
     },
     Navigation:{
-        block: 'block',
-        transactions: 'tx',
-        validators: 'validators',
-        nftAsset: 'nftAsset',
-        service: 'service',
+        block: '区块浏览',
+        transactions: '交易浏览',
+        validators: '共识节点',
+        nftAsset: '数据对象',
+        service: '服务浏览',
         searchPlaceHolder: '请输入地址/交易哈希/区块高度进行搜索'
     },
     home:{

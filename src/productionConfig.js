@@ -8,13 +8,13 @@
 
 let config = {
 	lang:'CN', 								//国际化 CN / EN
-	"title":"",								//浏览器标签标题
+	"title":"ggggg",								//浏览器标签标题
 	"logo":{
 		"title":"CSChain-Bond",				//logo标题
 		"subTitle":"债券应用链浏览器",			//logo副标题
 	},
 	"nav":{
-		"color":"",						//nav文字颜色
+		"color":"red",						//nav文字颜色
 		"activeTextColor":"",			//nav文字高亮颜色
 		"bgColor":""					//nav背景颜色 上半部分
 	},
@@ -42,7 +42,11 @@ let config = {
 	},
 	"text":{
 		"color":{				//预设字体颜色
-			"common":"",
+			"first": "#171D44",  					//一级文字色
+			"second": "#787C99",					//二级文字色
+			"third": "#C0C4CC",						//三级文字色
+			"fourth": "rgba(255,255,255,0.5)",		//四级文字色
+			"link": "#3264fd",						//链接文字色
 		}
 	},
 	button:{
@@ -54,4 +58,5 @@ let config = {
 		}
 	}
 }
-export default config;
+module.exports = config;
+// export default config;
