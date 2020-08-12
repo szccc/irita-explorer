@@ -25,7 +25,7 @@
                     </span>
                 </div>
 
-				<el-table :data="service.bindList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+				<el-table class="table" :data="service.bindList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.provider')">
 						<template slot-scope="scope">
 							<span>

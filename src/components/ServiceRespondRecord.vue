@@ -71,7 +71,7 @@
                     {{$t('ExplorerCN.serviceDetail.txRecord')}}
                 </h3>
                 <div class="service_respond_record_transaction_table_content">
-                    <el-table :data="txList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+                    <el-table class="table" :data="txList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
                         <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.table.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"

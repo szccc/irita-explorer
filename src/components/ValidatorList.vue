@@ -5,7 +5,7 @@
 				<m-tabs :data="validatorStatusTitleList" :chose="selectValidatorStatus"></m-tabs>
 			</div>
 			<div class="validator_table_list_content">
-				<el-table :data="validatorList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+				<el-table class="table" :data="validatorList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.No" :label="$t('ExplorerCN.table.number')" prop="index" ></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.validatirName" :label="$t('ExplorerCN.table.name')" prop="name"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.operator')">
