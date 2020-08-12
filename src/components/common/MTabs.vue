@@ -66,8 +66,8 @@ export default {
     }
     .active {
         background-color: $bg_button_c;
-        border-color: $bd_highlight_c;
-        color: $t_white_c;
+        border-color: $bg_button_c;
+        color: $t_button_c;
     }
 }
 </style>

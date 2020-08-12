@@ -3,35 +3,35 @@
 		<div class="home_content_wrap">
 			<div class="home_content_header_content">
 				<ul class="home_content_header_top_content">
-					<li class="home_content_header_top_item_content" v-show="prodConfig.homeCard.lestBlock">
+					<li class="home_content_header_top_item_content" v-show="(prodConfig.homeCard || {}).lestBlock">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>{{$t('ExplorerCN.home.blockHeight')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`block/${block_height}`">{{block_height}}</router-link></p>
 						<p class="home_content_header_top_footer_content"></p>
 					</li>
-					<li class="home_content_header_top_item_content" v-show="prodConfig.homeCard.txCount">
+					<li class="home_content_header_top_item_content" v-show="(prodConfig.homeCard || {}).txCount">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconTransactions"></i>{{$t('ExplorerCN.home.transactions')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`/txs`">{{transactionNumber}}</router-link></p>
 						<p class="home_content_header_top_footer_content">{{transactionTime}}</p>
 					</li>
-					<li class="home_content_header_top_item_content" v-show="prodConfig.homeCard.avgBlockTime">
+					<li class="home_content_header_top_item_content" v-show="(prodConfig.homeCard || {}).avgBlockTime">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerCN.home.avgBlockTime')}}</p>
 						<p class="home_content_header_top_center_content">{{`${ageTime} ${$t('ExplorerCN.unit.second')}`}}</p>
 						<p class="home_content_header_top_footer_content">{{$t('ExplorerCN.home.last100Blocs')}}</p>
 					</li>
 				</ul>
 				<ul class="home_content_header_bottom_content" >
-					<li class="home_content_header_bottom_item_content" v-show="prodConfig.homeCard.validatorCount">
+					<li class="home_content_header_bottom_item_content" v-show="(prodConfig.homeCard || {}).validatorCount">
 						<p class="home_content_header_bottom_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerCN.home.validators')}}</p>
 						<p class="home_content_header_bottom_footer">{{validatorNumber}}</p>
 					</li>
-					<li class="home_content_header_bottom_item_content" v-show="prodConfig.homeCard.serviceCount">
+					<li class="home_content_header_bottom_item_content" v-show="(prodConfig.homeCard || {}).serviceCount">
 						<p class="home_content_header_bottom_title"><i class="iconfont iconservice"></i>{{$t('ExplorerCN.home.services')}}</p>
 						<p class="home_content_header_bottom_footer">
 							<router-link v-if="serverNumber" :to="`/services`">{{serverNumber}}</router-link>
 							<span v-else >--</span>
 						</p>
 					</li>
-					<li class="home_content_header_bottom_item_content" v-show="prodConfig.homeCard.assetCount">
+					<li class="home_content_header_bottom_item_content" v-show="(prodConfig.homeCard || {}).assetCount">
 						<p class="home_content_header_bottom_title"><i class="iconfont iconAssets"></i>{{$t('ExplorerCN.home.assets')}}</p>
 						<p class="home_content_header_bottom_footer"><router-link :to="`/nftAsset`">{{assetsNumber}}</router-link></p>
 					</li>
@@ -303,7 +303,7 @@
 						padding: 0.14rem;
 						font-size: $s14;
 						i{
-							color: $t_link_c;
+							color: $theme_c;
 							margin-right: 0.1rem;
 						}
 						.home_content_header_top_center_content{
@@ -337,7 +337,7 @@
 						padding: 0.14rem;
 						font-size: $s14;
 						i{
-							color: $t_link_c;
+							color: $theme_c;
 							margin-right: 0.1rem;
 						}
 						.home_content_header_bottom_footer{
@@ -374,7 +374,7 @@
 						z-index: 2;
 						.home_block_top_title{
 							i{
-								color: $t_second_c;
+								color: $theme_c;
 								margin-right: 0.1rem;
 							}
 							span{
@@ -387,7 +387,7 @@
 							a{
 								color: $t_link_c;
 							}
-							border-bottom: 0.01rem solid $bd_highlight_c;
+							border-bottom: 0.01rem solid $t_link_c;
 							
 						}
 					}
@@ -437,7 +437,7 @@
 						justify-content: space-between;
 						.home_transaction_top_title{
 							i{
-								color: $t_second_c;
+								color: $theme_c;
 								margin-right: 0.1rem;
 							}
 							span{
@@ -450,7 +450,7 @@
 							a{
 								color: $t_link_c;
 							}
-							border-bottom: 0.01rem solid $bd_highlight_c;
+							border-bottom: 0.01rem solid $t_link_c;
 							
 						}
 					}

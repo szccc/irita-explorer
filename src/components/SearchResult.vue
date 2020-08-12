@@ -89,7 +89,7 @@
                    margin: 0 auto;
                    background: $bg_button_c;
                    border-radius: 0.05rem;
-                   color: $t_white_c;
+                   color: $t_button_c;
                    font-size: $s14;
                    line-height: 0.36rem;
                    cursor: pointer;

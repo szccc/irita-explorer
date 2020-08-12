@@ -5,9 +5,9 @@
 	          <div class="address_content_title_first">{{`${$t('ExplorerCN.addressDetail.addressDetail')} |`}}</div>
 	          <div class="address_content_title_address">{{address}}</div>
 	      	</div>
-			<div class="address_asset_content" v-show="prodConfig.funcConfig.asset">
+			<div class="address_asset_content" v-show="(prodConfig.funcConfig || {}).asset">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
-				<el-table :data="assetArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.table.denom')"  prop="denomName"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerCN.table.id')" >
 						<template slot-scope="scope">
@@ -25,7 +25,7 @@
 			</div>
 			<div class="consumer_transaction_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.consumerTitle')}}</div>
-				<el-table :data="consumerTxList"
+				<el-table class="table" :data="consumerTxList"
 						  row-key="txHash"
                           :empty-text="$t('ExplorerCN.table.emptyDescription')"
 						  :span-method="arraySpanMethod"
@@ -112,7 +112,7 @@
 			</div>
 			<div class="provider_transaction_content">
 				<div class="content_title">{{$t('ExplorerCN.addressDetail.providerTitle')}}</div>
-				<el-table :data="providerTxList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+				<el-table class="table" :data="providerTxList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerCN.table.serviceName')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.serviceName" placement="top">
@@ -160,7 +160,7 @@
 					</el-table-column>
 				</el-table>
 				<div class="content_title" style="margin-top:0.4rem">{{$t('ExplorerCN.addressDetail.respondRecord')}}</div>
-				<el-table :data="respondRecordList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+				<el-table class="table" :data="respondRecordList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerCN.table.serviceName')">
 						<template slot-scope="scope">
 							<el-tooltip v-if="scope.row.serviceName" :content="scope.row.serviceName" placement="top">
@@ -740,7 +740,7 @@
                                 }
                             }
                             .el-input__inner:focus {
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                             .el-input__suffix {
                                 .el-input__suffix-inner {
@@ -752,7 +752,7 @@
                         }
                         .is-focus {
                             .el-input__inner {
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                         }
 
@@ -760,7 +760,7 @@
                     .search_btn {
                         cursor: pointer;
                         background: $bg_button_c;
-                        color: $t_white_c;
+                        color: $t_button_c;
                         border-radius: 0.04rem;
                         padding: 0.05rem 0.18rem;
                         font-size: $s14;
@@ -770,7 +770,7 @@
                     	display:flex;
                     	.reset_btn {
 	                        background: $bg_button_c;
-	                        color: $t_white_c;
+	                        color: $t_button_c;
 	                        border-radius: 0.04rem;
 	                        margin-left: 0.1rem;
 	                        cursor: pointer;
