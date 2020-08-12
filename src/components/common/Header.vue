@@ -1,11 +1,13 @@
 <template>
-	<div class="header_container">
+	<div class="header_container" :style="`background-color:${prodConfig.nav.bgColor || ''}`">
 		<div class="header_content">
 			<div class="header_menu_content">
-				<div class="header_logo_img_content">
-					<router-link :to="`/home`">
-						<img src="../../assets/csrb_logo.png" alt="">
-					</router-link>
+				<div class="header_logo_content" @click="logoClick">
+					<img class="header_logo_content_icon" src="../../assets/logo.png" alt="">
+					<div :style="`color:${prodConfig.nav.color || ''}`">
+						<p>{{prodConfig.logo.title}}</p>
+						<p>{{prodConfig.logo.subTitle}}</p>
+					</div>
 				</div>
 				<div class="header_menu">
 					<el-menu
@@ -13,9 +15,9 @@
 							class="el-menu-demo"
 							mode="horizontal"
 							@select="handleSelect"
-							background-color ="#3264FD"
-							text-color="#CBD8FE"
-							active-text-color="#fff">
+							:background-color ="prodConfig.nav.bgColor || '#3264FD'"
+							:text-color="prodConfig.nav.color || '#CBD8FE'"
+							:active-text-color="prodConfig.nav.activeTextColor || '#fff'">
 						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
 							<router-link :to="item.link">{{item.title}}</router-link>
 						</el-menu-item>
@@ -25,21 +27,27 @@
 					<img class="menu_btn" src="../../assets/menu.png" >
 				</div>
 			</div>
-			<div class="header_input_content" v-if="searchShow">
-				<div class="search_input_container">
+			<div class="header_input_content" :style="`background-color:${prodConfig.nav.bgColor || ''}`" v-if="searchShow">
+				<div class="search_input_container" :style="`background-color:${prodConfig.nav.bgColor || ''}`">
 					<div class="search_input_wrap">
 						<input type="text"
 						       class="search_input"
+						       :style="`color:${prodConfig.nav.color || ''}`"
 						       :placeholder="$t('ExplorerCN.Navigation.searchPlaceHolder')"
 						       v-model.trim="searchInputValue"
 						       @keyup.enter="onInputChange">
-						<span @click="getData(searchInputValue)" class="iconfont iconsousuo"></span>
+						<span @click="getData(searchInputValue)" 
+							  class="iconfont iconsousuo"
+							  :style="`color:${prodConfig.nav.color || ''}`"></span>
 					</div>
 				</div>
 			</div>
 			<div class="use_feature_mobile"
                  v-if="featureShow">
-                <div v-for="(item,idx) in menuList" class="header_content_feature" @click="mobileMenuDidClick(item,idx)" >
+                <div v-for="(item,idx) in menuList" 
+                     class="header_content_feature"
+                     :style="`color:${prodConfig.nav.color || ''}`"
+                     @click="mobileMenuDidClick(item,idx)" >
                 	{{item.title}}
                 </div>
             </div>
@@ -49,11 +57,12 @@
 <script>
 	import Tools from "../../util/Tools";
 	import {addrPrefix} from "../../constant";
-	import prodConfig from "../../productionConfig"
+	import prodConfig from "../../productionConfig";
 	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../../service/api';
 	export default {
 		data() {
 			return {
+				prodConfig,
 				activeIndex: '1',
 				activeIndex2: '0',
 				searchInputValue: '',
@@ -114,6 +123,9 @@
 			onInputChange () {
 				this.getData()
 			},
+			logoClick(){
+				this.$router.push(`/home`);
+			},
             setActiveIndex(hash = window.location.hash){
 			    if(this.menuList.every((m)=>!hash.includes(m.link))){
                     this.activeIndex2 = '';
@@ -124,7 +136,6 @@
                         }
                     })
                 }
-
             },
 			clearSearchContent () {
 				this.searchInputValue = '';
@@ -222,11 +233,27 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				.header_logo_img_content{
-					padding-right: 0.2rem;
-					img{
+				.header_logo_content{
+					display:flex;
+					align-items:center;
+					cursor: pointer;
+					margin-right: 0.2rem;
+					height:0.6rem;
+					font-size:$s12;
+					font-family:PingFangSC-Regular,PingFang SC;
+					color:$t_white_c;
+					text-align: left;
+					line-height:1.3;
+					.header_logo_content_icon{
 						height: 0.3rem;
-						padding-top: 0.04rem;
+						width: 0.28rem;
+						margin-right:0.12rem;
+					}
+					.header_logo_content_title{
+						
+					}
+					.header_logo_content_subTitle{
+						
 					}
 				}
 				
@@ -303,6 +330,7 @@
 			width:100%;
 			margin-top:0.1rem;
 			.header_content_feature{
+				cursor: pointer;
 				padding:0.05rem 0;
 		        color: $t_white_c;
 		        font-size: $s16;

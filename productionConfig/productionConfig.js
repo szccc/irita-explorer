@@ -7,19 +7,25 @@
 	"105":"搜索"(始终排在末尾)}*/
 
 let config = {
-	"title":"",//浏览器标签标题
-	"logoTitle":"",//logo标题
-	"logoSubTitle":"",//logo副标题
+	lang:'CN', 								//国际化 CN / EN
+	"title":"",								//浏览器标签标题
+	"logo":{
+		"title":"CSChain-Bond",				//logo标题
+		"subTitle":"债券应用链浏览器",			//logo副标题
+	},
 	"nav":{
-		"color":"",//nav文字颜色
-		"bgColor":""//nav背景颜色
+		"color":"",						//nav文字颜色
+		"activeTextColor":"",			//nav文字高亮颜色
+		"bgColor":""					//nav背景颜色 上半部分
 	},
 	"footer":{
-		"color":"",//nav背景颜色
-		"bgColor":"",//nav背景颜色
+		"color":"rgba(255,255,255,0.5)",	//nav背景颜色
+		"bgColor_top":"#363A3D",			//nav背景颜色 上半部分
+		"bgColor_bottom":"#000000",			//nav背景颜色 下半部分
+		"copyright":"copyright © 2020 边界智能",
 	},
-	"navFuncList":["100","101","102","103","104","105"],//导航栏功能列表
-	"homeCard":{//首页卡片配置
+	"navFuncList":["100","101","102","103","104","105"],	//导航栏功能列表
+	"homeCard":{				//首页卡片配置
 		"lestBlock":true,
 		"txCount":true,
 		"avgBlockTime":true,
@@ -27,21 +33,25 @@ let config = {
 		"serviceCount":true,
 		"assetCount":true,
 	},
-	"funcConfig":{//模块支持 
+	"funcConfig":{				//模块支持 
 		"block":true,
 		"tx":true,
 		"validator":true,
 		"asset":true,
 		"service":true
 	},
-	"textColors":{//预设字体颜色
-		"common":"",
+	"text":{
+		"color":{				//预设字体颜色
+			"common":"",
+		}
 	},
-	"bottonColor":{//预设按钮字体颜色
-		"common":"",
-	},
-	"bottonBgColor":{//预设按钮背景颜色
-		"common":"",
+	button:{
+		"color":{				//预设按钮字体颜色
+			"common":"",
+		},
+		"bgColor":{				//预设按钮背景颜色
+			"common":"",
+		}
 	}
 }
 export default config;
