@@ -5,8 +5,8 @@
 				<div class="header_logo_content" @click="logoClick">
 					<img class="header_logo_content_icon" src="../../assets/logo.png" alt="">
 					<div :style="`color:${(prodConfig.nav || {}).color || ''}`">
-						<p>{{(prodConfig.logo || {}).title}}</p>
-						<p>{{(prodConfig.logo || {}).subTitle}}</p>
+						<p>{{(prodConfig.logo || {}).title || 'CSChain-Bond'}}</p>
+						<p>{{(prodConfig.logo || {}).subTitle || '债券应用链浏览器'}}</p>
 					</div>
 				</div>
 				<div class="header_menu">
@@ -320,6 +320,7 @@
 						padding: 0 0.1rem;
 						line-height: 0.3rem;
 						cursor: pointer;
+						color: $t_fourth_c;
 					}
 				}
 			}

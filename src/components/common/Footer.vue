@@ -7,7 +7,7 @@
 		</div>
 		<div class="footer_content_bottom" 
 			 :style="`background:${(prodConfig.footer || {}).bgColor_bottom || '#000000'}`">
-			<p>{{(prodConfig.footer || {}).copyright}}</p>
+			<p>{{(prodConfig.footer || {}).copyright || 'copyright © 2020 边界智能'}}</p>
 			<p>{{chainId}}</p>
 			<p>{{version}}</p>
 		</div>
