@@ -11,7 +11,7 @@
 				</el-select>
 				<el-input v-model="input" :placeholder="$t('ExplorerCN.nftAsset.placeHolder')"></el-input>
 				<div class="tx_type_mobile_content">
-					<div class="search_btn" @click="getNftsByFilter">{{$t('ExplorerCN.nftAsset.search')}}</div>
+					<div class="search_btn" @click="handleSearchClick">{{$t('ExplorerCN.nftAsset.search')}}</div>
 					<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
 				</div>
 			</div>
@@ -19,7 +19,7 @@
 				<el-table :data="denomArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.table.denom')">
 						<template slot-scope="scope">
-							{{scope.row.denom_name}}
+							{{scope.row.denom_name || scope.row.denom_id}}
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.owner')" >
@@ -34,7 +34,7 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerCN.table.id')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nft_name}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_name}}</router-link>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerCN.table.data')" prop="tokenData"></el-table-column>
@@ -116,6 +116,10 @@
 				// }
 				this.getNftsByFilter()
 			},
+            handleSearchClick(){
+                this.currentPageNum = 1;
+			    this.getNftsByFilter();
+            },
 			async getNftsByFilter(){
 				if (Tools.isBech32(this.input)) {
 					this.owner = this.input;
@@ -124,7 +128,6 @@
 					this.tokenId =  this.input;
 				}
 				sessionStorage.setItem('selectDenom',this.denom)
-								
 				try {
 					let nftData = await getNfts(this.denom, this.tokenId, this.owner, this.currentPageNum, this.pageSize, true);
 					if(nftData && nftData.data){
@@ -149,10 +152,10 @@
 					if(denomData){
 						let nftList = denomData.data.map(item => {
 							return {
-								label: item.denom_name,
-								value: item.name
+								label: item.name || item.denom_id,
+								value: item.denom_id
 							}
-						})
+						});
 						this.nftList = this.nftList.concat(nftList)
 					}
 					}catch (e) {

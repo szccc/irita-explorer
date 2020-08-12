@@ -19,7 +19,7 @@
 							:text-color="prodConfig.nav.color || '#CBD8FE'"
 							:active-text-color="prodConfig.nav.activeTextColor || '#fff'">
 						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
-							<router-link :to="item.link">{{item.titel}}</router-link>
+							<router-link :to="item.link">{{item.title}}</router-link>
 						</el-menu-item>
 					</el-menu>
 				</div>
@@ -48,7 +48,7 @@
                      class="header_content_feature"
                      :style="`color:${prodConfig.nav.color || ''}`"
                      @click="mobileMenuDidClick(item,idx)" >
-                	{{item.titel}}
+                	{{item.title}}
                 </div>
             </div>
 		</div>
@@ -74,23 +74,23 @@
 		beforeMount(){
 			let funcs = {
 				'100':{
-					titel:this.$t('ExplorerCN.Navigation.block'),
+					title:this.$t('ExplorerCN.Navigation.block'),
 					link:'/blocks',
 				},
 				'101':{
-					titel:this.$t('ExplorerCN.Navigation.transactions'),
+					title:this.$t('ExplorerCN.Navigation.transactions'),
 					link:'/txs',
 				},
 				'102':{
-					titel:this.$t('ExplorerCN.Navigation.validators'),
+					title:this.$t('ExplorerCN.Navigation.validators'),
 					link:'/validators',
 				},
 				'103':{
-					titel:this.$t('ExplorerCN.Navigation.nftAsset'),
+					title:this.$t('ExplorerCN.Navigation.nftAsset'),
 					link:'/nftAsset',
 				},
 				'104':{
-					titel:this.$t('ExplorerCN.Navigation.service'),
+					title:this.$t('ExplorerCN.Navigation.service'),
 					link:'/services',
 				}
 			};

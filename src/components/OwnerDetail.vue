@@ -362,12 +362,13 @@
 			async getOwnerDetail(){
 				try {				
 					let nftData = await getNfts('', '', this.$route.params.param, 1, 1000, true);
+					console.log('----',nftData)
 					if(nftData && nftData.data ){
 						this.assetArray = nftData.data.map(item => {
 							return{
 								denom: item.denom,
 								id: item.id,
-                                denomName:item.denom_name,
+                                denomName:item.denom_name || item.denom_id,
                                 nftName:item.nft_name,
 								name: item.denom,
 								owner: item.owner,
