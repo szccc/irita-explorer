@@ -90,12 +90,13 @@
 			async getTokenInformation(){
 				try {
 					let nftDetail = await getNftDetail(this.$route.query.denom, this.$route.query.tokenId);
+					console.log('----',nftDetail)
 
 					if(nftDetail){
 						this.creator = (nftDetail.denomDetail || {}).creator;
 						this.schema = (nftDetail.denomDetail || {}).json_schema;
 						this.name = nftDetail.denom;
-						this.tokenID = nftDetail.id;
+						this.tokenID = nftDetail.nft_id;
 						this.denomName = nftDetail.denom_name;
 						this.nftName = nftDetail.nft_name;
 						// this.primaryKey = nftDetail.primary_key;

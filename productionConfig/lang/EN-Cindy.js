@@ -113,6 +113,7 @@ export const ExplorerCN = {
         description: '描述',
         status: '服务状态',
         list:'服务列表',
+        placeHolder:'搜索服务名称或描述',
     },
     transactionInformation:{
         transactionInformation: '交易详情',
