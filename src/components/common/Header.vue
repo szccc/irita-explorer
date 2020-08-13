@@ -18,9 +18,38 @@
 							:background-color ="prodConfig.nav.bgColor || '#3264FD'"
 							:text-color="prodConfig.nav.color || '#CBD8FE'"
 							:active-text-color="prodConfig.nav.activeTextColor || '#fff'">
-						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
+						<el-menu-item v-for="(item,index) in menuList"
+                                      v-show="!item.children"
+                                      :index="String(index+1)"
+                                      :key="index">
 							<router-link :to="item.link">{{item.title}}</router-link>
 						</el-menu-item>
+
+
+                        <el-submenu v-for="(item,index) in multiMenuList"
+                                    v-show="item.children"
+                                    :index="String(index+10)"
+                                    :key="(index+10)">
+                            <template slot="title">
+                                {{ item.title }}
+                            </template>
+                            <el-menu-item :index="`${index+1}-${subIndex+1}`"
+                                          v-show="!subItem.children"
+                                          :key="(subIndex)"
+                                          v-for="(subItem, subIndex) in item.children">
+                                <router-link :to="subItem.link">
+                                    {{subItem.title}}
+                                </router-link>
+                            </el-menu-item>
+                            <!--<el-submenu index="2-4">
+                                <template slot="title">选项4</template>
+                                <el-menu-item index="2-4-1">选项1</el-menu-item>
+                                <el-menu-item index="2-4-2">选项2</el-menu-item>
+                                <el-menu-item index="2-4-3">选项3</el-menu-item>
+                            </el-submenu>-->
+                        </el-submenu>
+                        
+                        
 					</el-menu>
 				</div>
 				<div class="header_mobile_menu" @click="featureShow=!featureShow">
@@ -44,10 +73,10 @@
 			</div>
 			<div class="use_feature_mobile"
                  v-if="featureShow">
-                <div v-for="(item,idx) in menuList" 
+                <div v-for="(item,index) in mobileMenuList"
                      class="header_content_feature"
                      :style="`color:${prodConfig.nav.color || ''}`"
-                     @click="mobileMenuDidClick(item,idx)" >
+                     @click="mobileMenuDidClick(item,index)" >
                 	{{item.title}}
                 </div>
             </div>
@@ -68,6 +97,8 @@
 				searchInputValue: '',
 				featureShow:false,
 				menuList:[],
+				multiMenuList:[],
+				mobileMenuList:[],
 				searchShow:false,
 			};
 		},
@@ -87,7 +118,17 @@
 				},
 				'103':{
 					title:this.$t('ExplorerCN.Navigation.nftAsset'),
-					link:'/nftAsset',
+                    children:[
+                        {
+                            title:this.$t('ExplorerCN.Navigation.nftAsset'),
+                            link:'/nftAsset',
+                        },
+                        {
+                            title:this.$t('ExplorerCN.Navigation.denoms'),
+                            link:'/denoms',
+                        },
+
+                    ]
 				},
 				'104':{
 					title:this.$t('ExplorerCN.Navigation.service'),
@@ -97,7 +138,24 @@
 			if (prodConfig.navFuncList && prodConfig.navFuncList.length) {
 				prodConfig.navFuncList.forEach((item)=>{
 					if (funcs[item]) {
-						this.menuList.push(funcs[item]);
+					    if(funcs[item].children){
+                            this.multiMenuList.push(funcs[item]);
+                            const conversion = (tab)=>{
+                                if(Array.isArray(tab)){
+                                    tab.forEach((t)=>{
+                                        if(!t.children){
+                                            this.mobileMenuList.push(t);
+                                        }else{
+                                            conversion(t.children);
+                                        }
+                                    })
+                                }
+                            };
+                            conversion(funcs[item].children)
+                        }else{
+                            this.menuList.push(funcs[item]);
+                            this.mobileMenuList.push(funcs[item]);
+                        }
 					}
 					if (item == '105') {
 						this.searchShow = true;
@@ -266,7 +324,8 @@
 							a{
 								display: inline-block;
 								width: 100%;
-								height: 100%;
+								//height: 100%;
+                                height:0.6rem;
 							}
 						}
 					}

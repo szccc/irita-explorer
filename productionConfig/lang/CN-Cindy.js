@@ -114,6 +114,7 @@ export const ExplorerCN = {
         status: '服务状态',
         list:'服务列表',
         placeHolder:'搜索服务名称或描述',
+        serviceCount:'个服务',
     },
     transactionInformation:{
         transactionInformation: '交易详情',

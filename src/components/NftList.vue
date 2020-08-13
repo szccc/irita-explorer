@@ -3,13 +3,15 @@
 		<div class="nft_list_content_wrap">
 			<div class="nft_list_header_content">
 				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerCN.nftAsset.assets')}}</h3>
-				<el-select v-model="value" :change="filterTokenIdByDenom(value)">
+				<el-select v-model="denom" >
 					<el-option v-for="(item, index) in nftList"
 							   :key="index"
 							   :label="item.label"
 							   :value="item.value"></el-option>
 				</el-select>
-				<el-input v-model="input" :placeholder="$t('ExplorerCN.nftAsset.placeHolder')"></el-input>
+				<el-input v-model="input"
+                          @change="handleSearchClick"
+                          :placeholder="$t('ExplorerCN.nftAsset.placeHolder')"></el-input>
 				<div class="tx_type_mobile_content">
 					<div class="search_btn" @click="handleSearchClick">{{$t('ExplorerCN.nftAsset.search')}}</div>
 					<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
@@ -61,7 +63,6 @@
 
 <script>
 	import { getDenoms, getNfts } from "../service/api"
-	import {addrPrefix} from "../constant"
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
 	import { ColumnMinWidth } from '../constant';
@@ -69,17 +70,20 @@
 		name: "NftList",
 		components: {MPagination},
 		data () {
+            let denom = '';
+		    if(this.$store.state.tempDenomId){
+                denom = this.$store.state.tempDenomId;
+            }
 			return {
 				ColumnMinWidth,
 				nftList: [
 					{
-						value:'all',
+						value:'',
 						label:'All',
 					}
 				],
 				denomArray:[],
-				value:'all',
-				denom: "",
+				denom,
 				currentPageNum: 1,
 				pageSize: 20,
 				tokenId: '',
@@ -90,20 +94,15 @@
 		},
 		mounted(){
 			this.getNftList();
-			this.getNftsByFilter()
+			this.getNftsByFilter();
+            if(this.$store.state.tempDenomId){
+                this.$store.commit('SET_TEMP_DENOM_ID','');
+            }
 		},
 		methods:{
-			filterTokenIdByDenom(value){
-				if(value === 'all'){
-					this.denom = ''
-				}else {
-					this.denom = value;
-				}
-			},
 			resetFilterCondition(){
 				this.input = '';
 				this.denom = '';
-				this.value = 'all';
 				this.currentPageNum = 1;
 				this.tokenId = '';
 				this.owner = '';
@@ -127,7 +126,6 @@
 				if(!this.owner){
 					this.tokenId =  this.input;
 				}
-				sessionStorage.setItem('selectDenom',this.denom)
 				try {
 					let nftData = await getNfts(this.denom, this.tokenId, this.owner, this.currentPageNum, this.pageSize, true);
 					if(nftData && nftData.data){
@@ -148,12 +146,12 @@
 			},
 			async getNftList(){
 				try {
-					let denomData = await getDenoms();
+					let denomData = await getDenoms(null, null, null, true);
 					if(denomData){
 						let nftList = denomData.data.map(item => {
 							return {
-								label: item.name || item.denom_id,
-								value: item.denom_id
+								label: item.denomName || item.denomId,
+								value: item.denomId
 							}
 						});
 						this.nftList = this.nftList.concat(nftList)
