@@ -50,8 +50,16 @@ export function getBlockList(pageNum, pageSize, useCount=false){
 	return get(url);
 }
 
-export function getDenoms(){
+export function getDenoms(pageNum, pageSize,denomNameOrId, needAll){
 	let url = `denoms`;
+	if(needAll){
+	    url += `?needAll=true`;
+    }else{
+	    url += `?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+	    if(denomNameOrId){
+	        url += `&denomNameOrId=${denomNameOrId}`;
+        }
+    }
 	return get(url);
 }
 

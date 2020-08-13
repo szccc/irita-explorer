@@ -2,10 +2,12 @@
 	<div class="service_list_container_content">
 		<div class="service_list_content_wrap">
 			<div class="service_list_title">
-                {{$t('ExplorerLang.service.services')}}
+                {{ txCount }} {{$t('ExplorerLang.service.services')}}
             </div>
             <div class="nft_list_header_content">
-                <el-input v-model="iptVal" :placeholder="$t('ExplorerLang.service.placeHolder')"></el-input>
+                <el-input v-model="iptVal"
+                          @change="handleSearchClick"
+                          :placeholder="$t('ExplorerLang.service.placeHolder')"></el-input>
                 <div class="tx_type_mobile_content">
                     <div class="search_btn" @click="handleSearchClick">{{$t('ExplorerLang.nftAsset.search')}}</div>
                     <div class="reset_btn" @click="reset"><i class="iconfont iconzhongzhi"></i></div>
@@ -173,7 +175,7 @@
 	.service_list_container_content{
         @media screen and (min-width: 910px){
             .service_list_title{
-                padding-left: 0.27rem;
+                //padding-left: 0.27rem;
             }
             .service_list_content_wrap{
                 max-width: 12rem;

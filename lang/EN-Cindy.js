@@ -104,6 +104,7 @@ export const ExplorerLang = {
         description: 'Description',
         status: 'Status',
         placeHolder:'Search by iService Name or Description',
+        serviceCount:' Services',
     },
     transactionInformation:{
         transactionInformation: 'Transaction Details',

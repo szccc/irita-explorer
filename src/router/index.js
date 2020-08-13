@@ -27,6 +27,11 @@ const router = new Router({
 			path:'/nftAsset',
 			component: () => import('@/components/NftList.vue')
 		},
+        {
+			path:'/denoms',
+			component: () => import('@/components/DenomList.vue')
+		},
+
 		{
 			path:'/address/:param',
 			component: () => import('@/components/OwnerDetail.vue')
