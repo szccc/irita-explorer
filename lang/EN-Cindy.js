@@ -52,16 +52,7 @@ export const ExplorerLang = {
         second:'Second',
     },
     message:{
-        txListFailed:'Failed to get data, please try again later',
-        txTypeFailed:'Failed to get data, please try again later',
-        serviceInfoFailed:'Failed to get data, please try again later',
-        serviceBindFailed:'Failed to get data, please try again later',
-        serviceListFailed:'Failed to get data, please try again later',
-        serviceTxListFailed:'Failed to get data, please try again later',
-        txInfoFailed:'Failed to get data, please try again later',
-        callServiceListFailed:'Failed to get data, please try again later',
-        respondRecordFailed:'Failed to get data, please try again later',
-        providerServiceListFailed:'Failed to get data, please try again later',
+        requestFailed:'Failed to get data, please try again later',
     },
     Navigation:{
         block: 'Blockchain',

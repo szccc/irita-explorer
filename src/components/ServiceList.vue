@@ -139,7 +139,7 @@
                     }
                 }catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.serviceTxListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 			},
 			formatTxHash(TxHash){

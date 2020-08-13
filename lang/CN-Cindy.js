@@ -52,16 +52,7 @@ export const ExplorerLang = {
         second:'秒',
     },
     message:{
-        txListFailed:'数据获取失败,请稍后重试',
-        txTypeFailed:'数据获取失败,请稍后重试',
-        serviceInfoFailed:'数据获取失败,请稍后重试',
-        serviceBindFailed:'数据获取失败,请稍后重试',
-        serviceListFailed:'数据获取失败,请稍后重试',
-        serviceTxListFailed:'数据获取失败,请稍后重试',
-        txInfoFailed:'数据获取失败,请稍后重试',
-        callServiceListFailed:'数据获取失败,请稍后重试',
-        respondRecordFailed:'数据获取失败,请稍后重试',
-        providerServiceListFailed:'数据获取失败,请稍后重试',
+        requestFailed:'数据获取失败,请稍后重试',
     },
     Navigation:{
         block: '区块浏览',

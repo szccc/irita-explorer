@@ -246,7 +246,7 @@
                         },1000)
                     }
                 }catch (e) {
-                    //this.$message.error(this.$t('ExplorerLang.message.txListFailed'));
+                    //this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                     console.error(e);
                 }
 

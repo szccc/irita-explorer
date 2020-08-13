@@ -169,7 +169,7 @@
                     this.pageSize = res.pageSize;
                 }catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.txListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
 
@@ -191,7 +191,7 @@
                     this.txTypeOption = typeList;
                 }catch (e) {
                     console.error(e);
-                    // this.$message.error(this.$t('ExplorerLang.message.txTypeFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
             },

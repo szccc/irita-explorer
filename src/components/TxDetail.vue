@@ -642,8 +642,8 @@
                                 this.nftName = res.msgs[0].msg.nft_name || '--';
                                 this.recipient = res.msgs[0].msg.recipient || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
-                                this.tokenData = res.msgs[0].msg.token_data || '--';
-                                this.tokenUri = res.msgs[0].msg.token_uri || '--';
+                                this.tokenData = res.msgs[0].msg.data || '--';
+                                this.tokenUri = res.msgs[0].msg.uri || '--';
                                 break;
                             case TX_TYPE.burn_nft:
                                 this.sender = res.msgs[0].msg.sender || '--';
@@ -728,8 +728,8 @@
                                 this.nftName = res.msgs[0].msg.nft_name || '--';
                                 this.recipient = res.msgs[0].msg.recipient || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
-                                this.tokenData = res.msgs[0].msg.token_data || '--';
-                                this.tokenUri = res.msgs[0].msg.token_uri || '--';
+                                this.tokenData = res.msgs[0].msg.data || '--';
+                                this.tokenUri = res.msgs[0].msg.uri || '--';
                                 break;
                             case TX_TYPE.edit_nft:
                                 this.denom = res.msgs[0].msg.denom || '--';
@@ -737,8 +737,8 @@
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
                                 this.nftName = res.msgs[0].msg.nft_name || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
-                                this.tokenData = res.msgs[0].msg.token_data || '--';
-                                this.tokenUri = res.msgs[0].msg.token_uri || '--';
+                                this.tokenData = res.msgs[0].msg.data || '--';
+                                this.tokenUri = res.msgs[0].msg.uri || '--';
                                 break;
                             case TX_TYPE.issue_denom:
                                 this.denom = res.msgs[0].msg.denom || '--';
@@ -826,7 +826,7 @@
                     }
                 } catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.txInfoFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
             },
             pageChange(pageNum){

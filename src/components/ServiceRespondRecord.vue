@@ -218,7 +218,7 @@
 
                 } catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.serviceInfoFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
             },
 
@@ -248,7 +248,7 @@
                     this.txPageSize = Number(res.pageSize);
                 } catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.txListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
             },

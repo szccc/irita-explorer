@@ -123,7 +123,7 @@
                     // console.log(this.txListByToken)
                 }catch (e) {
                 		console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.txListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 			},
 			formatTxHash(TxHash){

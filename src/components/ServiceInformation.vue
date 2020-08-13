@@ -333,7 +333,7 @@
 
                 } catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.serviceInfoFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
             },
             async getServiceBindingList(){
@@ -367,7 +367,7 @@
                     }
                 } catch (e) {
                     console.error(e)
-                    this.$message.error(this.$t('ExplorerLang.message.serviceBindFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
 
@@ -410,7 +410,7 @@
                     this.txPageSize = Number(res.pageSize);
                 } catch (e) {
                     console.error(e)
-                    this.$message.error(this.$t('ExplorerLang.message.serviceListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
             },
             async getAllTxType(){
@@ -424,7 +424,7 @@
                     });
                 } catch (e) {
                     console.error(e);
-                    // this.$message.error(this.$t('ExplorerLang.message.txTypeFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
             },

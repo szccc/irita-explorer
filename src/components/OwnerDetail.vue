@@ -392,7 +392,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.txListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 			},
 			pageChange(pageNum) {
@@ -454,7 +454,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.callServiceListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
 			},
@@ -473,7 +473,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.respondRecordFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
 			},
@@ -526,7 +526,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.providerServiceListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
 			},
@@ -604,7 +604,7 @@
                     });
                 } catch (e) {
                     console.error(e);
-                    // this.$message.error(this.$t('ExplorerLang.message.txTypeFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
             },
