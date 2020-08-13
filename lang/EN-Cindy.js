@@ -42,6 +42,10 @@ export const ExplorerLang = {
         requestHash:'Request Hash',
         requestStatus:'Request Status',
         deposit: 'Deposit',
+        createHash:'创建哈希',
+        nftCount:'数据对象',
+        creator:'创建者',
+        createTime:'创建时间',
     },
     unit:{
         providers:'providers',
@@ -59,7 +63,7 @@ export const ExplorerLang = {
         transactions: 'Transactions',
         validators: 'Validators',
         nftAsset: 'NFT',
-        denoms: '数据类别',
+        denoms: 'Denom',
         service: 'iService',
         searchPlaceHolder: 'Search by Address / Txhash / Block / HashLock',
     },
@@ -103,13 +107,6 @@ export const ExplorerLang = {
         title: '数据类别',
         search: '搜索',
         placeHolder: '搜索数据类别',
-        table:{
-            denom:'数据类别',
-            hash:'创建哈希',
-            nftCount:'数据对象',
-            creator:'创建者',
-            time:'创建时间',
-        }
     },
     service: {
         services: 'iService List',

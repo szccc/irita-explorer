@@ -42,6 +42,10 @@ export const ExplorerLang = {
         requestHash:'请求哈希',
         requestStatus:'请求状态',
         deposit: '绑定押金',
+        createHash:'创建哈希',
+        nftCount:'数据对象',
+        creator:'创建者',
+        createTime:'创建时间',
     },
     unit:{
         providers:'providers',
@@ -103,13 +107,6 @@ export const ExplorerLang = {
         title: '数据类别',
         search: '搜索',
         placeHolder: '搜索数据类别',
-        table:{
-            denom:'数据类别',
-            hash:'创建哈希',
-            nftCount:'数据对象',
-            creator:'创建者',
-            time:'创建时间',
-        }
     },
     service: {
         services: '服务列表',
