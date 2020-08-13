@@ -18,38 +18,25 @@
                             :background-color ="(prodConfig.nav || {}).bgColor || '#3264FD'"
                             :text-color="(prodConfig.nav || {}).color || '#CBD8FE'"
                             :active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'">
-						<el-menu-item v-for="(item,index) in menuList"
-                                      v-show="!item.children"
-                                      :index="String(index+1)"
-                                      :key="index">
-							<router-link :to="item.link">{{item.title}}</router-link>
-						</el-menu-item>
-
-
-                        <el-submenu v-for="(item,index) in multiMenuList"
-                                    v-show="item.children"
-                                    :index="String(index+10)"
-                                    :key="(index+10)">
-                            <template slot="title">
-                                {{ item.title }}
-                            </template>
-                            <el-menu-item :index="`${index+1}-${subIndex+1}`"
-                                          v-show="!subItem.children"
-                                          :key="(subIndex)"
-                                          v-for="(subItem, subIndex) in item.children">
-                                <router-link :to="subItem.link">
-                                    {{subItem.title}}
-                                </router-link>
-                            </el-menu-item>
-                            <!--<el-submenu index="2-4">
-                                <template slot="title">选项4</template>
-                                <el-menu-item index="2-4-1">选项1</el-menu-item>
-                                <el-menu-item index="2-4-2">选项2</el-menu-item>
-                                <el-menu-item index="2-4-3">选项3</el-menu-item>
-                            </el-submenu>-->
-                        </el-submenu>
-                        
-                        
+						<component v-for="(item,index) in menuList"
+								   :is="item.children ? 'el-submenu':'el-menu-item'" 
+                                   :index="String(index+1)"
+                                   :key="index">
+							<router-link v-if="!item.children" :to="item.link">{{item.title}}</router-link>
+							<template v-else>
+								<template slot="title">
+	                                {{ item.title }}
+	                            </template>
+	                            <el-menu-item :index="`${index+1}-${subIndex+1}`"
+	                                          v-show="!subItem.children"
+	                                          :key="(subIndex)"
+	                                          v-for="(subItem, subIndex) in item.children">
+	                                <router-link :to="subItem.link">
+	                                    {{subItem.title}}
+	                                </router-link>
+	                            </el-menu-item>
+							</template>
+						</component>
 					</el-menu>
 				</div>
 				<div class="header_mobile_menu" @click="featureShow=!featureShow">
@@ -138,24 +125,8 @@
 			if (prodConfig.navFuncList && prodConfig.navFuncList.length) {
 				prodConfig.navFuncList.forEach((item)=>{
 					if (funcs[item]) {
-					    if(funcs[item].children){
-                            this.multiMenuList.push(funcs[item]);
-                            const conversion = (tab)=>{
-                                if(Array.isArray(tab)){
-                                    tab.forEach((t)=>{
-                                        if(!t.children){
-                                            this.mobileMenuList.push(t);
-                                        }else{
-                                            conversion(t.children);
-                                        }
-                                    })
-                                }
-                            };
-                            conversion(funcs[item].children)
-                        }else{
                             this.menuList.push(funcs[item]);
                             this.mobileMenuList.push(funcs[item]);
-                        }
 					}
 					if (item == '105') {
 						this.searchShow = true;
