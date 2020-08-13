@@ -2,13 +2,13 @@
     <div class="denom_list_container">
         <div class="denom_list_content_wrap">
             <div class="denom_list_header_content">
-                <h3 class="denom_list_header_title">{{count}} {{$t('ExplorerCN.denom.title')}}</h3>
+                <h3 class="denom_list_header_title">{{count}} {{$t('ExplorerLang.denom.title')}}</h3>
                 <el-input v-model="input"
                           @change="handleSearchClick"
-                          :placeholder="$t('ExplorerCN.denom.placeHolder')"></el-input>
+                          :placeholder="$t('ExplorerLang.denom.placeHolder')"></el-input>
                 <div class="tx_type_mobile_content">
                     <div class="search_btn" @click="handleSearchClick">
-                        {{$t('ExplorerCN.denom.search')}}
+                        {{$t('ExplorerLang.denom.search')}}
                     </div>
                     <div class="reset_btn" @click="reset">
                         <i class="iconfont iconzhongzhi"></i>
@@ -16,14 +16,14 @@
                 </div>
             </div>
             <div class="nef_list_table_container">
-                <el-table :data="denomList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-                    <el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.denom.table.denom')">
+                <el-table :data="denomList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                    <el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.denom.table.denom')">
                         <template slot-scope="scope">
                             {{scope.row.denomName}}
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.txHash"
-                                     :label="$t('ExplorerCN.denom.table.hash')" >
+                                     :label="$t('ExplorerLang.denom.table.hash')" >
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.hash"
                                         class="item"
@@ -37,7 +37,7 @@
                     </el-table-column>
                     <el-table-column
                             :min-width="ColumnMinWidth.No"
-                            :label="$t('ExplorerCN.denom.table.nftCount')">
+                            :label="$t('ExplorerLang.denom.table.nftCount')">
                         <template slot-scope="scope">
                             <a @click="handleNftCountClick(scope.row.denomId)">
                                 {{scope.row.nftCount}}
@@ -45,7 +45,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.address"
-                                     :label="$t('ExplorerCN.denom.table.creator')" >
+                                     :label="$t('ExplorerLang.denom.table.creator')" >
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.sender"
                                         class="item"
@@ -58,7 +58,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.time"
-                                     :label="$t('ExplorerCN.denom.table.time')"
+                                     :label="$t('ExplorerLang.denom.table.time')"
                                      prop="time"></el-table-column>
                 </el-table>
             </div>

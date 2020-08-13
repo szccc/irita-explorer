@@ -1,7 +1,7 @@
 <template>
     <div class="tx_list_content">
-        <el-table class="table" :data="formatTxData" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-            <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.table.txHash')">
+        <el-table class="table" :data="formatTxData" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+            <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
                         <img class="status_icon"
@@ -14,13 +14,13 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.table.block')">
+            <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
                 <template slot-scope="scope">
                     <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.table.txType')" prop="txType"></el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.from')">
+            <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')" prop="txType"></el-table-column>
+            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.from"
                                 placement="top"
@@ -32,7 +32,7 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.to')">
+            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
                 <template slot-scope="scope">
                     <el-tooltip :content="String(scope.row.to)"
                                 placement="top"
@@ -42,13 +42,13 @@
                             {{formatAddress(scope.row.to)}}
                         </router-link>
                         <router-link v-else-if="isValid(scope.row.to)" :to="`/tx?txHash=${scope.row.txHash}`">
-                            {{ `${scope.row.to.length} ${$t('ExplorerCN.unit.providers')}`}}
+                            {{ `${scope.row.to.length} ${$t('ExplorerLang.unit.providers')}`}}
                         </router-link>
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.signer')">
+            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.signer')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.signer"
                                 placement="top"
@@ -59,7 +59,7 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.timestamp')" prop="time">
+            <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
                 <template slot-scope="scope">
                     <span>{{scope.row.time}}</span>
                 </template>
