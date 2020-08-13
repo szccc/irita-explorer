@@ -17,13 +17,13 @@
             </div>
             <div class="nef_list_table_container">
                 <el-table :data="denomList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                    <el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.denom.table.denom')">
+                    <el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')">
                         <template slot-scope="scope">
                             {{scope.row.denomName}}
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.txHash"
-                                     :label="$t('ExplorerLang.denom.table.hash')" >
+                                     :label="$t('ExplorerLang.table.createHash')" >
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.hash"
                                         class="item"
@@ -37,7 +37,7 @@
                     </el-table-column>
                     <el-table-column
                             :min-width="ColumnMinWidth.No"
-                            :label="$t('ExplorerLang.denom.table.nftCount')">
+                            :label="$t('ExplorerLang.table.nftCount')">
                         <template slot-scope="scope">
                             <a @click="handleNftCountClick(scope.row.denomId)">
                                 {{scope.row.nftCount}}
@@ -45,7 +45,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.address"
-                                     :label="$t('ExplorerLang.denom.table.creator')" >
+                                     :label="$t('ExplorerLang.table.creator')" >
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.sender"
                                         class="item"
@@ -58,7 +58,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.time"
-                                     :label="$t('ExplorerLang.denom.table.time')"
+                                     :label="$t('ExplorerLang.table.createTime')"
                                      prop="time"></el-table-column>
                 </el-table>
             </div>
