@@ -164,7 +164,7 @@ button {
     outline: none;
     border: none;
     padding: 5px 7.5px;
-    color: $t_link_c;
+    color: $theme_c;
     line-height: 17px;
     background-color: $bg_white_c;
     cursor: pointer;

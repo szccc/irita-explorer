@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div class="nef_list_table_container">
-				<el-table :data="denomArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+				<el-table class="table" :data="denomArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.table.denom')">
 						<template slot-scope="scope">
 							{{scope.row.denom_name || scope.row.denom_id}}
@@ -184,7 +184,7 @@
                                 line-height: 0.32rem;
                             }
                             .el-input__inner:focus{
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                             .el-input__suffix{
                                 .el-input__suffix-inner{
@@ -205,6 +205,9 @@
                             font-size: $s14 !important;
                             line-height: 0.32rem;
                         }
+                        .el-input__inner:focus{
+	                        border-color: $theme_c !important;
+	                    }
                     }
                     .tx_type_mobile_content{
                         align-items: center;
@@ -235,7 +238,7 @@
                                 line-height: 0.32rem;
                             }
                             .el-input__inner:focus{
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                             .el-input__suffix{
                                 .el-input__suffix-inner{
@@ -255,6 +258,9 @@
                             font-size: $s14 !important;
                             line-height: 0.32rem;
                         }
+                        .el-input__inner:focus{
+	                        border-color: $theme_c !important;
+	                    }
                     }
                     .tx_type_mobile_content{
                         justify-content: flex-end;
@@ -278,6 +284,9 @@
 								font-size: $s14 !important;
 							}
 						}
+						.el-input__inner:focus{
+	                        border-color: $theme_c !important;
+	                    }
 					}
 				}
 
@@ -325,7 +334,7 @@
 								}
 							}
 							.el-input__inner:focus{
-								border-color: $bd_highlight_c !important;
+								border-color: $theme_c !important;
 							}
 							.el-input__suffix{
 								.el-input__suffix-inner{
@@ -337,7 +346,7 @@
 						}
 						.is-focus{
 							.el-input__inner{
-								border-color: $bd_highlight_c !important;
+								border-color: $theme_c !important;
 							}
 						}
 
@@ -356,7 +365,7 @@
 								font-size: $s14 !important;
 							}
 							&:focus{
-								border-color: $bd_highlight_c;
+								border-color: $theme_c;
 							}
 						}
 						.el-input__prefix{
@@ -372,7 +381,7 @@
 					}
 					.reset_btn{
 						background: $bg_button_c;
-						color: $t_white_c;
+						color: $t_button_c;
 						border-radius: 0.04rem;
 						margin-left: 0.1rem;
 						cursor: pointer;
@@ -387,7 +396,7 @@
 						cursor: pointer;
 						background: $bg_button_c;
 						margin-left: 0.1rem;
-						color: $t_white_c;
+						color: $t_button_c;
 						border-radius: 0.04rem;
 						padding: 0.05rem 0.18rem;
 						font-size: $s14;

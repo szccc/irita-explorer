@@ -53,7 +53,7 @@
                 <h3 class="service_information_binding_title">
                     {{$t('ExplorerCN.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
-                    <el-table :data="serviceList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+                    <el-table class="table" :data="serviceList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
                         <el-table-column :min-width="ColumnMinWidth.address"
                                          :label="$t('ExplorerCN.table.provider')">
                             <template slot-scope="scope">
@@ -151,7 +151,7 @@
                 </div>
 
                 <div class="service_information_transaction_table_content">
-                    <el-table :data="transactionArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+                    <el-table class="table" :data="transactionArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
                         <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.table.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
@@ -617,7 +617,7 @@
                                 }
                             }
                             .el-input__inner:focus {
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                             .el-input__suffix {
                                 .el-input__suffix-inner {
@@ -629,7 +629,7 @@
                         }
                         .is-focus {
                             .el-input__inner {
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                         }
 
@@ -640,7 +640,7 @@
                         .search_btn {
                             cursor: pointer;
                             background: $bg_button_c;
-                            color: $t_white_c;
+                            color: $t_button_c;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.18rem;
                             font-size: $s14;
@@ -650,7 +650,7 @@
                             cursor: pointer;
                             background: $bg_button_c;
                             margin-left: 0.1rem;
-                            color: $t_white_c;
+                            color: $t_button_c;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.1rem;
                             font-size: $s14;

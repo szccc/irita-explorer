@@ -1,12 +1,12 @@
 <template>
-	<div class="header_container" :style="`background-color:${prodConfig.nav.bgColor || ''}`">
+	<div class="header_container" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`">
 		<div class="header_content">
 			<div class="header_menu_content">
 				<div class="header_logo_content" @click="logoClick">
 					<img class="header_logo_content_icon" src="../../assets/logo.png" alt="">
-					<div :style="`color:${prodConfig.nav.color || ''}`">
-						<p>{{prodConfig.logo.title}}</p>
-						<p>{{prodConfig.logo.subTitle}}</p>
+					<div :style="`color:${(prodConfig.nav || {}).color || ''}`">
+						<p>{{(prodConfig.logo || {}).title || 'CSChain-Bond'}}</p>
+						<p>{{(prodConfig.logo || {}).subTitle || '债券应用链浏览器'}}</p>
 					</div>
 				</div>
 				<div class="header_menu">
@@ -15,6 +15,7 @@
 							class="el-menu-demo"
 							mode="horizontal"
 							@select="handleSelect"
+<<<<<<< HEAD
 							:background-color ="prodConfig.nav.bgColor || '#3264FD'"
 							:text-color="prodConfig.nav.color || '#CBD8FE'"
 							:active-text-color="prodConfig.nav.activeTextColor || '#fff'">
@@ -22,6 +23,12 @@
                                       v-show="!item.children"
                                       :index="String(index+1)"
                                       :key="index">
+=======
+							:background-color ="(prodConfig.nav || {}).bgColor || '#3264FD'"
+							:text-color="(prodConfig.nav || {}).color || '#CBD8FE'"
+							:active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'">
+						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
+>>>>>>> upstream/feature/productization
 							<router-link :to="item.link">{{item.title}}</router-link>
 						</el-menu-item>
 
@@ -56,18 +63,18 @@
 					<img class="menu_btn" src="../../assets/menu.png" >
 				</div>
 			</div>
-			<div class="header_input_content" :style="`background-color:${prodConfig.nav.bgColor || ''}`" v-if="searchShow">
-				<div class="search_input_container" :style="`background-color:${prodConfig.nav.bgColor || ''}`">
+			<div class="header_input_content" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`" v-if="searchShow">
+				<div class="search_input_container" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`">
 					<div class="search_input_wrap">
 						<input type="text"
 						       class="search_input"
-						       :style="`color:${prodConfig.nav.color || ''}`"
+						       :style="`color:${(prodConfig.nav || {}).color || ''}`"
 						       :placeholder="$t('ExplorerCN.Navigation.searchPlaceHolder')"
 						       v-model.trim="searchInputValue"
 						       @keyup.enter="onInputChange">
 						<span @click="getData(searchInputValue)" 
 							  class="iconfont iconsousuo"
-							  :style="`color:${prodConfig.nav.color || ''}`"></span>
+							  :style="`color:${(prodConfig.nav || {}).color || ''}`"></span>
 					</div>
 				</div>
 			</div>
@@ -75,8 +82,8 @@
                  v-if="featureShow">
                 <div v-for="(item,index) in mobileMenuList"
                      class="header_content_feature"
-                     :style="`color:${prodConfig.nav.color || ''}`"
-                     @click="mobileMenuDidClick(item,index)" >
+                     :style="`color:${(prodConfig.nav || {}).color || ''}`"
+                     @click="mobileMenuDidClick(item,idx)" >
                 	{{item.title}}
                 </div>
             </div>
@@ -378,8 +385,8 @@
 						font-size: $s20;
 						padding: 0 0.1rem;
 						line-height: 0.3rem;
-						color: $t_fourth_c;
 						cursor: pointer;
+						color: $t_fourth_c;
 					}
 				}
 			}

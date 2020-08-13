@@ -390,7 +390,7 @@
                                     }
                                 }
                                 .el-input__inner:focus {
-                                    border-color: $bd_highlight_c !important;
+                                    border-color: $theme_c !important;
                                 }
                                 .el-input__suffix {
                                     .el-input__suffix-inner {
@@ -402,9 +402,10 @@
                             }
                             .is-focus {
                                 .el-input__inner {
-                                    border-color: $bd_highlight_c !important;
+                                    border-color: $theme_c !important;
                                 }
                             }
+
 
                         }
                         /deep/ .el-date-editor {
@@ -421,7 +422,7 @@
                                     font-size: $s14 !important;
                                 }
                                 &:focus {
-                                    border-color: $bd_highlight_c;
+                                    border-color: $theme_c;
                                 }
                             }
                             .el-input__prefix {
@@ -437,7 +438,7 @@
                         }
                         .reset_btn {
                             background: $bg_button_c;
-                            color: $t_white_c;
+                            color: $t_button_c;
                             border-radius: 0.04rem;
                             margin-left: 0.1rem;
                             cursor: pointer;
@@ -452,7 +453,7 @@
                             cursor: pointer;
                             background: $bg_button_c;
                             margin-left: 0.1rem;
-                            color: $t_white_c;
+                            color: $t_button_c;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.18rem;
                             font-size: $s14;
