@@ -1,39 +1,39 @@
 <template>
 	<div class="nft_token_container">
 		<div class="nft_token_content_wrap">
-			<div class="nft_token_title">{{$t('ExplorerCN.nftDetail.nftInformation')}}</div>
+			<div class="nft_token_title">{{$t('ExplorerLang.nftDetail.nftInformation')}}</div>
 			<div class="nft_token_information_content">
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerCN.nftDetail.owner')}}</span>
+					<span>{{$t('ExplorerLang.nftDetail.owner')}}</span>
 					<span>
 						<router-link :to="`/address/${owner}`">{{owner}}</router-link>
 					</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerCN.nftDetail.denom')}}</span>
+					<span>{{$t('ExplorerLang.nftDetail.denom')}}</span>
 					<span>{{denomName}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerCN.nftDetail.id')}}</span>
+					<span>{{$t('ExplorerLang.nftDetail.id')}}</span>
 					<span>{{nftName}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerCN.nftDetail.schema')}}</span>
+					<span>{{$t('ExplorerLang.nftDetail.schema')}}</span>
 					<span>{{schema}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerCN.nftDetail.data')}}</span>
+					<span>{{$t('ExplorerLang.nftDetail.data')}}</span>
 					<span>{{tokenData}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerCN.nftDetail.creator')}}</span>
+					<span>{{$t('ExplorerLang.nftDetail.creator')}}</span>
 					<span>{{creator}}</span>
 				</div>
 				
 				
 				
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerCN.nftDetail.uri')}}</span>
+					<span>{{$t('ExplorerLang.nftDetail.uri')}}</span>
 					<span v-if="tokenUri && tokenUri !== '--'">
 						<a :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					</span>
@@ -41,7 +41,7 @@
 				</div>
 			</div>
 			<div class="nft_token_list_content">
-				<div class="nft_token_list_title"> {{$t('ExplorerCN.nftDetail.nftTxs')}}</div>
+				<div class="nft_token_list_title"> {{$t('ExplorerLang.nftDetail.nftTxs')}}</div>
 				<TxListComponent :txData="txListByToken"></TxListComponent>
                 <div class="pagination_content">
                     <m-pagination :page-size="pageSize" :total="count" :page="pageNum" :page-change="pageChange"></m-pagination>
@@ -123,7 +123,7 @@
                     // console.log(this.txListByToken)
                 }catch (e) {
                 		console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 			},
 			formatTxHash(TxHash){
