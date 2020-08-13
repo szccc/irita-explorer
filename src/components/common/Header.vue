@@ -15,20 +15,13 @@
 							class="el-menu-demo"
 							mode="horizontal"
 							@select="handleSelect"
-<<<<<<< HEAD
-							:background-color ="prodConfig.nav.bgColor || '#3264FD'"
-							:text-color="prodConfig.nav.color || '#CBD8FE'"
-							:active-text-color="prodConfig.nav.activeTextColor || '#fff'">
+                            :background-color ="(prodConfig.nav || {}).bgColor || '#3264FD'"
+                            :text-color="(prodConfig.nav || {}).color || '#CBD8FE'"
+                            :active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'">
 						<el-menu-item v-for="(item,index) in menuList"
                                       v-show="!item.children"
                                       :index="String(index+1)"
                                       :key="index">
-=======
-							:background-color ="(prodConfig.nav || {}).bgColor || '#3264FD'"
-							:text-color="(prodConfig.nav || {}).color || '#CBD8FE'"
-							:active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'">
-						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
->>>>>>> upstream/feature/productization
 							<router-link :to="item.link">{{item.title}}</router-link>
 						</el-menu-item>
 

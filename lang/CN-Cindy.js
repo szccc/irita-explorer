@@ -68,7 +68,6 @@ export const ExplorerCN = {
         transactions: '交易浏览',
         validators: '共识节点',
         nftAsset: '数据对象',
-        denoms: '数据类别',
         service: '服务浏览',
         searchPlaceHolder: '请输入地址/交易哈希/区块高度进行搜索'
     },
@@ -107,18 +106,6 @@ export const ExplorerCN = {
         assets: '数据对象',
         search: '搜索',
         placeHolder: '搜索数据标识'
-    },
-    denom:{
-        title: '数据类别',
-        search: '搜索',
-        placeHolder: '搜索数据类别',
-        table:{
-            denom:'数据类别',
-            hash:'创建哈希',
-            nftCount:'数据对象',
-            creator:'创建者',
-            time:'创建时间',
-        }
     },
     service: {
         services: '服务列表',
