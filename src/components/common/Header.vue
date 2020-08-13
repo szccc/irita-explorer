@@ -33,7 +33,7 @@
 						<input type="text"
 						       class="search_input"
 						       :style="`color:${(prodConfig.nav || {}).color || ''}`"
-						       :placeholder="$t('ExplorerCN.Navigation.searchPlaceHolder')"
+						       :placeholder="$t('ExplorerLang.Navigation.searchPlaceHolder')"
 						       v-model.trim="searchInputValue"
 						       @keyup.enter="onInputChange">
 						<span @click="getData(searchInputValue)" 
@@ -74,23 +74,23 @@
 		beforeMount(){
 			let funcs = {
 				'100':{
-					title:this.$t('ExplorerCN.Navigation.block'),
+					title:this.$t('ExplorerLang.Navigation.block'),
 					link:'/blocks',
 				},
 				'101':{
-					title:this.$t('ExplorerCN.Navigation.transactions'),
+					title:this.$t('ExplorerLang.Navigation.transactions'),
 					link:'/txs',
 				},
 				'102':{
-					title:this.$t('ExplorerCN.Navigation.validators'),
+					title:this.$t('ExplorerLang.Navigation.validators'),
 					link:'/validators',
 				},
 				'103':{
-					title:this.$t('ExplorerCN.Navigation.nftAsset'),
+					title:this.$t('ExplorerLang.Navigation.nftAsset'),
 					link:'/nftAsset',
 				},
 				'104':{
-					title:this.$t('ExplorerCN.Navigation.service'),
+					title:this.$t('ExplorerLang.Navigation.service'),
 					link:'/services',
 				}
 			};

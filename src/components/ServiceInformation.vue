@@ -2,36 +2,36 @@
     <div class="service_information_container">
         <div class="service_information_content_wrap">
             <p class="service_information_title">
-                {{$t('ExplorerCN.serviceDetail.serviceDefinition')}}
+                {{$t('ExplorerLang.serviceDetail.serviceDefinition')}}
                 {{$route.query.serviceName}}
             </p>
             <div class="service_information_definition_content">
                 <h3 class="service_information_definition_title">
-                    {{$t('ExplorerCN.serviceDetail.primary')}}
+                    {{$t('ExplorerLang.serviceDetail.primary')}}
                 </h3>
                 <div class="service_information_content">
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.description')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.description')}}</span>
                         <span>{{description}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.author')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.author')}}</span>
                         <span>{{author}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.authorDescription')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.authorDescription')}}</span>
                         <span>{{authorDescription}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.schema')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.schema')}}</span>
                         <span>{{schemas}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.tags')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.tags')}}</span>
                         <span>{{tags}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.hash')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.hash')}}</span>
                         <span>
                              <router-link :to="`tx?txHash=${hash}`">
                                 {{hash}}
@@ -39,11 +39,11 @@
                         </span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.height')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.height')}}</span>
                         <span>{{height}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.time')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.time')}}</span>
                         <span>{{time}}</span>
                     </p>
 
@@ -51,11 +51,11 @@
             </div>
             <div class="service_information_bindings_content">
                 <h3 class="service_information_binding_title">
-                    {{$t('ExplorerCN.serviceDetail.serviceBindings.providers')}}</h3>
+                    {{$t('ExplorerLang.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
-                    <el-table class="table" :data="serviceList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
+                    <el-table class="table" :data="serviceList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                         <el-table-column :min-width="ColumnMinWidth.address"
-                                         :label="$t('ExplorerCN.table.provider')">
+                                         :label="$t('ExplorerLang.table.provider')">
                             <template slot-scope="scope">
                                 <span>
                                     <el-tooltip placement="top" :content="scope.row.provider">
@@ -67,18 +67,18 @@
                                 </span>
                             </template>
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerCN.table.respondTimes')">
+                        <el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerLang.table.respondTimes')">
                             <template slot-scope="scope">
                                 <span>
                                     <router-link
                                             :to="`service/respond/${$route.query.serviceName}/${scope.row.provider}`">
-                                        {{`${scope.row.respondTimes} ${$t('ExplorerCN.unit.time')}`}} 
+                                        {{`${scope.row.respondTimes} ${$t('ExplorerLang.unit.time')}`}} 
                                     </router-link>
                                 </span>
                             </template>
                         </el-table-column>
                         <el-table-column :min-width="ColumnMinWidth.available"
-                                         :label="$t('ExplorerCN.table.isAvailable')">
+                                         :label="$t('ExplorerLang.table.isAvailable')">
                             <template slot-scope="scope">
                                 <div class="service_information_available_container">
                                     <img class="service_tx_status"
@@ -95,18 +95,18 @@
                             </template>
                         </el-table-column>
                         <!-- <el-table-column :min-width="ColumnMinWidth.price"
-                                         :label="$t('ExplorerCN.table.price')"
+                                         :label="$t('ExplorerLang.table.price')"
                                          prop="price"></el-table-column>
                         <el-table-column :min-width="ColumnMinWidth.deposit"
-                                         :label="$t('ExplorerCN.table.deposit')"
+                                         :label="$t('ExplorerLang.table.deposit')"
                                          prop="deposit"></el-table-column> -->
-                        <el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerCN.table.minBlock')"
+                        <el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerLang.table.minBlock')"
                                          prop="qos"></el-table-column>
                         <el-table-column :min-width="ColumnMinWidth.time"
-                                         :label="$t('ExplorerCN.table.bindTime')"
+                                         :label="$t('ExplorerLang.table.bindTime')"
                                          prop="bindTime"></el-table-column>
                         <el-table-column :min-width="ColumnMinWidth.time"
-                                         :label="$t('ExplorerCN.table.disabledTime')"
+                                         :label="$t('ExplorerLang.table.disabledTime')"
                                          prop="disabledTime"></el-table-column>
                     </el-table>
                 </div>
@@ -122,11 +122,11 @@
 
             <div class="service_information_transaction_content">
                 <h3 class="service_information_transaction_title">
-                    {{$t('ExplorerCN.serviceDetail.serviceTransactions')}}
+                    {{$t('ExplorerLang.serviceDetail.serviceTransactions')}}
                 </h3>
                 <div class="service_information_transaction_condition_container">
                     <span class="service_information_transaction_condition_count">
-                        {{`${txCount} ${$t('ExplorerCN.unit.Txs')}`}}
+                        {{`${txCount} ${$t('ExplorerLang.unit.Txs')}`}}
                     </span>
                     <el-select v-model="type">
                         <el-option v-for="(item, index) in txTypeOption"
@@ -142,7 +142,7 @@
                     </el-select>
                     <div class="tx_type_mobile_content">
                         <div class="search_btn" @click="handleSearchClick">
-                            {{$t('ExplorerCN.transactions.search')}}
+                            {{$t('ExplorerLang.transactions.search')}}
                         </div>
                         <div class="reset_btn" @click="resetFilterCondition">
                             <i class="iconfont iconzhongzhi"></i>
@@ -151,8 +151,8 @@
                 </div>
 
                 <div class="service_information_transaction_table_content">
-                    <el-table class="table" :data="transactionArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.table.txHash')">
+                    <el-table class="table" :data="transactionArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.status === TX_STATUS.success"
@@ -168,17 +168,17 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.table.txType')"
+                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
                                          prop="type"></el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.table.requestId')">
+                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="scope.row.id" :disabled="!isValid(scope.row.id)">
                                     <span>{{formatAddress(scope.row.id)}}</span>
                                 </el-tooltip>
                             </template>
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.from')">
+                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                             <template slot-scope="scope">
 
                                 <el-tooltip placement="top" :content="scope.row.from"
@@ -191,7 +191,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.to')">
+                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="String(scope.row.to)"
                                             :key="Math.random()"
@@ -200,19 +200,19 @@
                                         {{formatAddress(scope.row.to)}}
                                     </router-link>
                                     <router-link v-else-if="isValid(scope.row.to)" :to="`/tx?txHash=${scope.row.txHash}`">
-                                        {{ `${scope.row.to.length} ${$t('ExplorerCN.unit.providers')}`}}
+                                        {{ `${scope.row.to.length} ${$t('ExplorerLang.unit.providers')}`}}
                                     </router-link>
                                     <span v-else>{{'--'}}</span>
                                 </el-tooltip>
                             </template>
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.table.block')">
+                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
                             <template slot-scope="scope">
                                 <router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.timestamp')" 
+                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" 
                                          prop="timestamp"></el-table-column>
                     </el-table>
                 </div>
@@ -280,21 +280,21 @@
                 statusOpt : [
                     {
                         value : '',
-                        label : this.$t('ExplorerCN.common.allTxStatus')
+                        label : this.$t('ExplorerLang.common.allTxStatus')
                     },
                     {
                         value : 1,
-                        label : this.$t('ExplorerCN.common.success')
+                        label : this.$t('ExplorerLang.common.success')
                     },
                     {
                         value : 0,
-                        label : this.$t('ExplorerCN.common.failed')
+                        label : this.$t('ExplorerLang.common.failed')
                     }
                 ],
                 txTypeOption : [
                     {
                         value : '',
-                        label : this.$t('ExplorerCN.common.allTxType')
+                        label : this.$t('ExplorerLang.common.allTxType')
                     },
                 ],
 
@@ -333,7 +333,7 @@
 
                 } catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.serviceInfoFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.serviceInfoFailed'));
                 }
             },
             async getServiceBindingList(){
@@ -352,7 +352,7 @@
                                         s.isAvailable = b.available ? 'True' : 'False';
                                         s.available = b.available;
                                         s.price = JSON.parse(b.pricing).price;
-                                        s.qos = `${b.qos} ${this.$t('ExplorerCN.unit.blocks')}`;
+                                        s.qos = `${b.qos} ${this.$t('ExplorerLang.unit.blocks')}`;
                                         s.deposit = deposit;
                                         s.disabledTime = b.available ? '--' : Tools.getFormatDate(b.disabled_time);
                                     }
@@ -367,7 +367,7 @@
                     }
                 } catch (e) {
                     console.error(e)
-                    this.$message.error(this.$t('ExplorerCN.message.serviceBindFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.serviceBindFailed'));
                 }
 
 
@@ -410,7 +410,7 @@
                     this.txPageSize = Number(res.pageSize);
                 } catch (e) {
                     console.error(e)
-                    this.$message.error(this.$t('ExplorerCN.message.serviceListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.serviceListFailed'));
                 }
             },
             async getAllTxType(){
@@ -424,7 +424,7 @@
                     });
                 } catch (e) {
                     console.error(e);
-                    // this.$message.error(this.$t('ExplorerCN.message.txTypeFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.txTypeFailed'));
                 }
 
             },

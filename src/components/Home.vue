@@ -4,35 +4,35 @@
 			<div class="home_content_header_content">
 				<ul class="home_content_header_top_content">
 					<li class="home_content_header_top_item_content" v-show="(prodConfig.homeCard || {}).lestBlock">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>{{$t('ExplorerCN.home.blockHeight')}}</p>
+						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>{{$t('ExplorerLang.home.blockHeight')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`block/${block_height}`">{{block_height}}</router-link></p>
 						<p class="home_content_header_top_footer_content"></p>
 					</li>
 					<li class="home_content_header_top_item_content" v-show="(prodConfig.homeCard || {}).txCount">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconTransactions"></i>{{$t('ExplorerCN.home.transactions')}}</p>
+						<p class="home_content_header_top_item_title"><i class="iconfont iconTransactions"></i>{{$t('ExplorerLang.home.transactions')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`/txs`">{{transactionNumber}}</router-link></p>
 						<p class="home_content_header_top_footer_content">{{transactionTime}}</p>
 					</li>
 					<li class="home_content_header_top_item_content" v-show="(prodConfig.homeCard || {}).avgBlockTime">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerCN.home.avgBlockTime')}}</p>
-						<p class="home_content_header_top_center_content">{{`${ageTime} ${$t('ExplorerCN.unit.second')}`}}</p>
-						<p class="home_content_header_top_footer_content">{{$t('ExplorerCN.home.last100Blocs')}}</p>
+						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerLang.home.avgBlockTime')}}</p>
+						<p class="home_content_header_top_center_content">{{`${ageTime} ${$t('ExplorerLang.unit.second')}`}}</p>
+						<p class="home_content_header_top_footer_content">{{$t('ExplorerLang.home.last100Blocs')}}</p>
 					</li>
 				</ul>
 				<ul class="home_content_header_bottom_content" >
 					<li class="home_content_header_bottom_item_content" v-show="(prodConfig.homeCard || {}).validatorCount">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerCN.home.validators')}}</p>
+						<p class="home_content_header_bottom_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerLang.home.validators')}}</p>
 						<p class="home_content_header_bottom_footer">{{validatorNumber}}</p>
 					</li>
 					<li class="home_content_header_bottom_item_content" v-show="(prodConfig.homeCard || {}).serviceCount">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconservice"></i>{{$t('ExplorerCN.home.services')}}</p>
+						<p class="home_content_header_bottom_title"><i class="iconfont iconservice"></i>{{$t('ExplorerLang.home.services')}}</p>
 						<p class="home_content_header_bottom_footer">
 							<router-link v-if="serverNumber" :to="`/services`">{{serverNumber}}</router-link>
 							<span v-else >--</span>
 						</p>
 					</li>
 					<li class="home_content_header_bottom_item_content" v-show="(prodConfig.homeCard || {}).assetCount">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconAssets"></i>{{$t('ExplorerCN.home.assets')}}</p>
+						<p class="home_content_header_bottom_title"><i class="iconfont iconAssets"></i>{{$t('ExplorerLang.home.assets')}}</p>
 						<p class="home_content_header_bottom_footer"><router-link :to="`/nftAsset`">{{assetsNumber}}</router-link></p>
 					</li>
 				</ul>
@@ -42,10 +42,10 @@
 					<div class="home_block_top_content">
 						<div class="home_block_top_title">
 							<i class="iconfont iconBlocks"></i>
-							<span>{{$t('ExplorerCN.home.blocks')}}</span>
+							<span>{{$t('ExplorerLang.home.blocks')}}</span>
 						</div>
 						<div class="home_block_view_all">
-							<router-link :to="`/blocks`">{{$t('ExplorerCN.home.viewAll')}}</router-link>
+							<router-link :to="`/blocks`">{{$t('ExplorerLang.home.viewAll')}}</router-link>
 						</div>
 					</div>
 					<ul class="home_block_bottom_content">
@@ -69,10 +69,10 @@
 					<div class="home_transaction_top_content">
 						<div class="home_transaction_top_title">
 							<i class="iconfont iconTransactions"></i>
-							<span>{{$t('ExplorerCN.home.listTransactions')}}</span>
+							<span>{{$t('ExplorerLang.home.listTransactions')}}</span>
 						</div>
 						<div class="home_transaction_view_all">
-							<router-link :to="`/txs`">{{$t('ExplorerCN.home.viewAll')}}</router-link>
+							<router-link :to="`/txs`">{{$t('ExplorerLang.home.viewAll')}}</router-link>
 						</div>
 					</div>
 					<ul class="home_transaction_bottom_content">
@@ -246,7 +246,7 @@
                         },1000)
                     }
                 }catch (e) {
-                    //this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
+                    //this.$message.error(this.$t('ExplorerLang.message.txListFailed'));
                     console.error(e);
                 }
 

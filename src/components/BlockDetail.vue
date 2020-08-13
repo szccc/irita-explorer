@@ -10,20 +10,20 @@
 			</div>
 			<div class="block_detail_content">
 				<p>
-					<span>{{$t('ExplorerCN.blockDetail.blockHash')}}</span>
+					<span>{{$t('ExplorerLang.blockDetail.blockHash')}}</span>
 					<span style="word-break: break-all;">{{blockHash}}</span>
 				</p>
 				<p>
-					<span>{{$t('ExplorerCN.blockDetail.transaction')}}</span>
+					<span>{{$t('ExplorerLang.blockDetail.transaction')}}</span>
 					<span>{{txNumber}}</span>
 				</p>
 				<p>
-					<span>{{$t('ExplorerCN.blockDetail.timestamp')}}</span>
+					<span>{{$t('ExplorerLang.blockDetail.timestamp')}}</span>
 					<span>{{time}}</span>
 				</p>
 			</div>
 			<div class="block_transaction_content" v-if="transactionArray.length > 0">
-				<div class="block_transaction_title_content">{{$t('ExplorerCN.blockDetail.transactions')}}</div>
+				<div class="block_transaction_title_content">{{$t('ExplorerLang.blockDetail.transactions')}}</div>
 				<TxListComponent :txData="transactionArray"></TxListComponent>
 			</div>
 		</div>
@@ -124,7 +124,7 @@
                     }
                 }catch (e) {
                 		console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.txListFailed'));
                 }
 			},
 			skipNext(num) {

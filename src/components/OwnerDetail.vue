@@ -2,20 +2,20 @@
 	<div class="address_container_content">
 		<div class="address_content_wrap">
 			<div class="address_content_title">
-	          <div class="address_content_title_first">{{`${$t('ExplorerCN.addressDetail.addressDetail')} |`}}</div>
+	          <div class="address_content_title_first">{{`${$t('ExplorerLang.addressDetail.addressDetail')} |`}}</div>
 	          <div class="address_content_title_address">{{address}}</div>
 	      	</div>
 			<div class="address_asset_content" v-show="(prodConfig.funcConfig || {}).asset">
-				<div class="content_title">{{$t('ExplorerCN.addressDetail.assets')}}</div>
-				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.table.denom')"  prop="denomName"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerCN.table.id')" >
+				<div class="content_title">{{$t('ExplorerLang.addressDetail.assets')}}</div>
+				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.id')" >
 						<template slot-scope="scope">
 							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nftName}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerCN.table.data')" prop="tokenData"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerCN.table.uri')" prop="tokenUri">
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :download="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
@@ -24,13 +24,13 @@
 				</el-table>
 			</div>
 			<div class="consumer_transaction_content">
-				<div class="content_title">{{$t('ExplorerCN.addressDetail.consumerTitle')}}</div>
+				<div class="content_title">{{$t('ExplorerLang.addressDetail.consumerTitle')}}</div>
 				<el-table class="table" :data="consumerTxList"
 						  row-key="txHash"
-                          :empty-text="$t('ExplorerCN.table.emptyDescription')"
+                          :empty-text="$t('ExplorerLang.table.emptyDescription')"
 						  :span-method="arraySpanMethod"
     					  >
-					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerCN.table.serviceName')">
+					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerLang.table.serviceName')">
 						<template slot-scope="scope">
 							<el-tooltip v-if="!scope.row.isChildren"  :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
@@ -38,8 +38,8 @@
 							<span v-if="scope.row.isChildren && scope.row.index==0">{{getRespondCount(scope.row.count)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.table.txType')" prop="txType"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.state" :label="$t('ExplorerCN.table.requestStatus')">
+					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')" prop="txType"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.state" :label="$t('ExplorerLang.table.requestStatus')">
 						<template slot-scope="scope">
 							<div v-if="scope.row.state" class="consumer_transaction_content_available">
 								<span class="consumer_transaction_content_available_icon" :style="`background:${getBgColorWithState(scope.row.state)}`"></span>
@@ -48,12 +48,12 @@
 							<div v-else>--</div>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.table.block')">
+					<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.table.txHash')">
+					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<img class="status_icon"
@@ -65,12 +65,12 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.table.requestId')">
+					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
                         <template slot-scope="scope">
                             <span>{{formatAddress(scope.row.requestContextId)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.provider')">
+                    <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
                         <template slot-scope="scope">
                             <el-tooltip v-if="scope.row.txType==TX_TYPE.respond_service" 
 								        :content="scope.row.provider"
@@ -90,13 +90,13 @@
                                 <div class="service_tx_muti_to_container"
                                      v-else>
                                     <router-link :to="`/tx?txHash=${scope.row.txHash}`">
-                                        {{ `${scope.row.provider.length} ${$t('ExplorerCN.unit.providers')}` }} 
+                                        {{ `${scope.row.provider.length} ${$t('ExplorerLang.unit.providers')}` }} 
                                     </router-link>
                                 </div>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.timestamp')">
+                    <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
@@ -111,21 +111,21 @@
 				</div>
 			</div>
 			<div class="provider_transaction_content">
-				<div class="content_title">{{$t('ExplorerCN.addressDetail.providerTitle')}}</div>
-				<el-table class="table" :data="providerTxList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerCN.table.serviceName')">
+				<div class="content_title">{{$t('ExplorerLang.addressDetail.providerTitle')}}</div>
+				<el-table class="table" :data="providerTxList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerLang.table.serviceName')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerCN.table.respondTimes')">
+					<el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerLang.table.respondTimes')">
 						<template slot-scope="scope">
-							<router-link :to="`/service/respond/${scope.row.serviceName}/${address}`">{{`${scope.row.respond_times} ${$t('ExplorerCN.unit.time')}`}}</router-link>
+							<router-link :to="`/service/respond/${scope.row.serviceName}/${address}`">{{`${scope.row.respond_times} ${$t('ExplorerLang.unit.time')}`}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerCN.table.isAvailable')">
+					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerLang.table.isAvailable')">
 						<template slot-scope="scope">
 							<div class="provider_transaction_content_available">
 								<span class="provider_transaction_content_available_icon" :style="`background:${scope.row.isAvailable?'#B1E96E':'#C4C4C4'}`"></span>
@@ -133,35 +133,35 @@
 							</div>
 						</template>
 					</el-table-column>
-					<!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerCN.table.price')">
+					<!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerLang.table.price')">
 						<template slot-scope="scope">
 							<span>{{scope.row.pricing}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.deposit" :label="$t('ExplorerCN.table.deposit')">
+					<el-table-column :min-width="ColumnMinWidth.deposit" :label="$t('ExplorerLang.table.deposit')">
 						<template slot-scope="scope">
 							<span>{{scope.row.deposit}}</span>
 						</template>
 					</el-table-column> -->
-					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerCN.table.minBlock')">
+					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerLang.table.minBlock')">
 						<template slot-scope="scope">
-							<span>{{`${scope.row.qos} ${$t('ExplorerCN.unit.blocks')}`}}</span>
+							<span>{{`${scope.row.qos} ${$t('ExplorerLang.unit.blocks')}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.bindTime')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.bindTime')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.disabledTime')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
 						<template slot-scope="scope">
 							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
 					</el-table-column>
 				</el-table>
-				<div class="content_title" style="margin-top:0.4rem">{{$t('ExplorerCN.addressDetail.respondRecord')}}</div>
-				<el-table class="table" :data="respondRecordList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerCN.table.serviceName')">
+				<div class="content_title" style="margin-top:0.4rem">{{$t('ExplorerLang.addressDetail.respondRecord')}}</div>
+				<el-table class="table" :data="respondRecordList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerLang.table.serviceName')">
 						<template slot-scope="scope">
 							<el-tooltip v-if="scope.row.serviceName" :content="scope.row.serviceName" placement="top">
 								<router-link :to="`/service?serviceName=${scope.row.serviceName}`">{{scope.row.serviceName}}</router-link>
@@ -169,8 +169,8 @@
 							<span v-if="!scope.row.serviceName">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.table.txType')" prop="type"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.table.respondHash')">
+					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')" prop="type"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.respondHash')">
 						<template slot-scope="scope">
 							<div class="respond_transaction_content_hash">
 								<img class="status_icon"
@@ -182,22 +182,22 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.table.requestId')">
+					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
                         <template slot-scope="scope">
                             <span>{{formatAddress(scope.row.requestContextId)}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.table.block')">
+                    <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.height}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.timestamp')" prop="time">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
 						<template slot-scope="scope">
 							<span>{{Tools.getDisplayDate(scope.row.time)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.consumer')">
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.consumer')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.consumer" placement="top">
 								<router-link  v-if="scope.row.consumer && scope.row.consumer.length" :to="`/address/${scope.row.consumer}`">{{formatAddress(scope.row.consumer)}}</router-link>
@@ -205,7 +205,7 @@
 							<span v-if="!scope.row.consumer">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.table.requestHash')">
+					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.requestHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
@@ -229,10 +229,10 @@
 				</div>
 			</div>
 			<div class="address_transaction_content">
-				<div class="content_title">{{$t('ExplorerCN.addressDetail.txRecord')}}</div>
+				<div class="content_title">{{$t('ExplorerLang.addressDetail.txRecord')}}</div>
 				<div class="address_transaction_condition_container">
                     <span class="address_transaction_condition_count">
-                        {{ `${totalTxNumber} ${$t('ExplorerCN.unit.Txs')}` }}
+                        {{ `${totalTxNumber} ${$t('ExplorerLang.unit.Txs')}` }}
                     </span>
                     <el-select v-model="type_temp">
                         <el-option v-for="(item, index) in txTypeOption"
@@ -248,7 +248,7 @@
                     </el-select>
                     <div class="address_transaction_condition_action">
                     	<div class="search_btn" @click="handleSearchClick">
-	                        {{$t('ExplorerCN.transactions.search')}}
+	                        {{$t('ExplorerLang.transactions.search')}}
 	                    </div>
 	                    <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
@@ -318,21 +318,21 @@
                 statusOpt : [
                     {
                         value : '',
-                        label : this.$t('ExplorerCN.common.allTxStatus')
+                        label : this.$t('ExplorerLang.common.allTxStatus')
                     },
                     {
                         value : 1,
-                        label : this.$t('ExplorerCN.common.success')
+                        label : this.$t('ExplorerLang.common.success')
                     },
                     {
                         value : 2,
-                        label : this.$t('ExplorerCN.common.failed')
+                        label : this.$t('ExplorerLang.common.failed')
                     }
                 ],
                 txTypeOption : [
                     {
                         value : '',
-                        label : this.$t('ExplorerCN.common.allTxType')
+                        label : this.$t('ExplorerLang.common.allTxType')
                     },
                 ],
 			}
@@ -392,7 +392,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.txListFailed'));
                 }
 			},
 			pageChange(pageNum) {
@@ -454,7 +454,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.callServiceListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.callServiceListFailed'));
                 }
 
 			},
@@ -473,7 +473,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.respondRecordFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.respondRecordFailed'));
                 }
 
 			},
@@ -526,7 +526,7 @@
                     }
                 }catch (e) {
                 	console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.providerServiceListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.providerServiceListFailed'));
                 }
 
 			},
@@ -579,7 +579,7 @@
 
             },
             getRespondCount(count){
-            	return this.$t('ExplorerCN.unit.totalRespond').replace(/\$\{\%value\%\}/, count);
+            	return this.$t('ExplorerLang.unit.totalRespond').replace(/\$\{\%value\%\}/, count);
             },
             handleSearchClick(){
             	this.type = this.type_temp;
@@ -604,7 +604,7 @@
                     });
                 } catch (e) {
                     console.error(e);
-                    // this.$message.error(this.$t('ExplorerCN.message.txTypeFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.txTypeFailed'));
                 }
 
             },

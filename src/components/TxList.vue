@@ -2,7 +2,7 @@
     <div class="tx_content_container">
         <div class="tx_content_wrap">
             <div class="tx_content_header_wrap">
-                <div class="total_tx_content">{{txCount}} {{$t('ExplorerCN.transactions.txs')}}</div>
+                <div class="total_tx_content">{{txCount}} {{$t('ExplorerLang.transactions.txs')}}</div>
                     <div class="tx_type_mobile_content">
                         <!--<el-select v-model="value" filterable :change="filterTxByTxType(value)">
                             <el-option v-for="(item, index) in txTypeOption"
@@ -38,7 +38,7 @@
                                         @change="getStartTime(beginTime)"
                                         :editable="false"
                                         value-format="yyyy-MM-dd"
-                                        :placeholder="$t('ExplorerCN.common.selectDate')">
+                                        :placeholder="$t('ExplorerLang.common.selectDate')">
                         </el-date-picker>
                         <span class="joint_mark">~</span>
                         <el-date-picker type="date"
@@ -46,11 +46,11 @@
                                         value-format="yyyy-MM-dd"
                                         @change="getEndTime(endTime)"
                                         :editable="false"
-                                        :placeholder="$t('ExplorerCN.common.selectDate')">
+                                        :placeholder="$t('ExplorerLang.common.selectDate')">
                         </el-date-picker>
                     </div>
                     <div class="tx_type_mobile_content">
-                        <div class="search_btn" @click="getFilterTxs">{{$t('ExplorerCN.transactions.search')}}</div>
+                        <div class="search_btn" @click="getFilterTxs">{{$t('ExplorerLang.transactions.search')}}</div>
                         <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
             </div>
@@ -91,15 +91,15 @@
                 statusOpt : [
                     {
                         value : '',
-                        label : this.$t('ExplorerCN.common.allTxStatus')
+                        label : this.$t('ExplorerLang.common.allTxStatus')
                     },
                     {
                         value : 1,
-                        label : this.$t('ExplorerCN.common.success')
+                        label : this.$t('ExplorerLang.common.success')
                     },
                     {
                         value : 2,
-                        label : this.$t('ExplorerCN.common.failed')
+                        label : this.$t('ExplorerLang.common.failed')
                     }
                 ],
                 statusValue : status ? status : '',
@@ -169,7 +169,7 @@
                     this.pageSize = res.pageSize;
                 }catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.txListFailed'));
                 }
 
 
@@ -185,13 +185,13 @@
                     });
                     typeList.unshift({
                         value : '',
-                        label : this.$t('ExplorerCN.common.allTxType'),
+                        label : this.$t('ExplorerLang.common.allTxType'),
                         slot : 'allTxType'
                     });
                     this.txTypeOption = typeList;
                 }catch (e) {
                     console.error(e);
-                    // this.$message.error(this.$t('ExplorerCN.message.txTypeFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.txTypeFailed'));
                 }
 
             },

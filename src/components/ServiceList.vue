@@ -2,12 +2,12 @@
 	<div class="service_list_container_content">
 		<div class="service_list_content_wrap">
 			<div class="service_list_title">
-                {{$t('ExplorerCN.service.services')}}
+                {{$t('ExplorerLang.service.services')}}
             </div>
             <div class="nft_list_header_content">
-                <el-input v-model="iptVal" :placeholder="$t('ExplorerCN.service.placeHolder')"></el-input>
+                <el-input v-model="iptVal" :placeholder="$t('ExplorerLang.service.placeHolder')"></el-input>
                 <div class="tx_type_mobile_content">
-                    <div class="search_btn" @click="handleSearchClick">{{$t('ExplorerCN.nftAsset.search')}}</div>
+                    <div class="search_btn" @click="handleSearchClick">{{$t('ExplorerLang.nftAsset.search')}}</div>
                     <div class="reset_btn" @click="reset"><i class="iconfont iconzhongzhi"></i></div>
                 </div>
             </div>
@@ -25,8 +25,8 @@
                     </span>
                 </div>
 
-				<el-table class="table" :data="service.bindList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.provider')">
+				<el-table class="table" :data="service.bindList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
 						<template slot-scope="scope">
 							<span>
                                 <el-tooltip placement="top" :content="scope.row.provider">
@@ -37,17 +37,17 @@
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="180" :label="$t('ExplorerCN.table.respondTimes')">
+					<el-table-column :min-width="180" :label="$t('ExplorerLang.table.respondTimes')">
 						<template slot-scope="scope">
 							<span>
 								<router-link
                                         :to="`service/respond/${service.serviceName}/${scope.row.provider}`">
-                                        {{`${scope.row.respondTimes} ${$t('ExplorerCN.unit.time')}`}}
+                                        {{`${scope.row.respondTimes} ${$t('ExplorerLang.unit.time')}`}}
                                     </router-link>
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerCN.table.isAvailable')">
+					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerLang.table.isAvailable')">
                         <template slot-scope="scope">
                         <div class="service_information_available_container">
                             <img class="service_tx_status"
@@ -63,9 +63,9 @@
 
                     </template>
                     </el-table-column>
-                    <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerCN.table.price')" prop="price"></el-table-column> -->
-					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerCN.table.minBlock')" prop="qos"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.bindTime')" prop="bindTime"></el-table-column>
+                    <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerLang.table.price')" prop="price"></el-table-column> -->
+					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerLang.table.minBlock')" prop="qos"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.bindTime')" prop="bindTime"></el-table-column>
 				</el-table>
 			</div>
 			<div class="pagination_content" v-if="txCount > pageSize">
@@ -79,7 +79,7 @@
             <div class="service_list_empty_container" v-if="serviceList.length === 0">
                 <img src="../assets/empty.png" alt="" class="service_list_empty">
                 <span class="service_list_empty_description">
-                    {{ $t('ExplorerCN.table.emptyDescription') }}
+                    {{ $t('ExplorerLang.table.emptyDescription') }}
                 </span>
             </div>
 		</div>
@@ -125,7 +125,7 @@
                                             s.isAvailable = b.available ? 'True' : 'False';
                                             s.available = b.available;
                                             s.price = JSON.parse(b.pricing).price;
-                                            s.qos = `${b.qos} ${this.$t('ExplorerCN.unit.blocks')}`;
+                                            s.qos = `${b.qos} ${this.$t('ExplorerLang.unit.blocks')}`;
                                         }
                                     })
                                 })
@@ -139,7 +139,7 @@
                     }
                 }catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.serviceTxListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.serviceTxListFailed'));
                 }
 			},
 			formatTxHash(TxHash){
