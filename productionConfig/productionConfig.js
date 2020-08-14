@@ -1,85 +1,85 @@
 /*导航栏功能映射{
-	"100":"区块浏览",
-	"101":"交易浏览",
-	"102":"共识节点",
-	"103":"NFT资产",
-	"104":"服务浏览",
-	"105":"搜索"(始终排在末尾)}*/
-
+    "100":"区块浏览",
+    "101":"交易浏览",
+    "102":"共识节点",
+    "103":"NFT资产",
+    "104":"服务浏览",
+    "105":"搜索"(始终排在末尾)}*/
+ 
 let config = {
-	//国际化 CN / EN
-	lang:'EN',
-	//浏览器标签标题
-	title:'',
-	//主题色 作用于非直接干预的文字、背景、边框颜色(如输入框边框高亮、首页卡片图标等) 优先级较低
-	themeColor:'',
-	logo:{
-		//logo标题
-		title:'',
-		//logo副标题
-		subTitle:'',
-	},
-	nav:{
-		//nav文字颜色
-		color:'',
-		//nav文字高亮颜色
-		activeTextColor:'',
-		//nav背景颜色 上半部分
-		bgColor:''
-	},
-	footer:{
-		//页脚文字背景颜色
-		color:'',
-		//页脚背景颜色 上半部分
-		bgColor_top:'',
-		//页脚背景颜色 下半部分	
-		bgColor_bottom:'',
-		//页脚版权信息	
-		copyright:'copyright © 2020 边界智能',
-	},
-	//导航栏功能列表 详见 导航栏功能映射
-	navFuncList:['100','101','102','103','104','105'],
-	//首页卡片配置
-	homeCard:{
-		lestBlock:true,
-		txCount:true,
-		avgBlockTime:true,
-		validatorCount:true,
-		serviceCount:true,
-		assetCount:true,
-	},
-	//模块支持
-	funcConfig:{
-		block:true,
-		tx:true,
-		validator:true,
-		asset:true,
-		service:true
-	},
-	text:{
-		//预设字体颜色
-		color:{	
-			//一级文字色
-			first: '',
-			//二级文字色
-			second: '',
-			//三级文字色
-			third: '',
-			//四级文字色
-			fourth: '',
-			//链接文字色
-			link: '',
-		}
-	},
-	button:{
-		//预设按钮字体颜色
-		color:{
-			common:'',
-		},
-		//预设按钮背景颜色
-		bgColor:{
-			common:'',
-		}
-	}
+    //国际化 CN / EN
+    lang:'CN',
+    //浏览器标签标题
+    title:'',
+    //主题色 作用于非直接干预的文字、背景、边框颜色(如输入框边框高亮、首页卡片图标等) 优先级较低
+    themeColor:'',
+    logo:{
+        //logo标题
+        title:'',
+        //logo副标题
+        subTitle:'',
+    },
+    nav:{
+        //nav文字颜色
+        color:'',
+        //nav文字高亮颜色
+        activeTextColor:'',
+        //nav背景颜色 上半部分
+        bgColor:''
+    },
+    footer:{
+        //页脚文字背景颜色
+        color:'',
+        //页脚背景颜色 上半部分
+        bgColor_top:'',
+        //页脚背景颜色 下半部分  
+        bgColor_bottom:'',
+        //页脚版权信息   
+        copyright:'copyright © 2020 边界智能',
+    },
+    //导航栏功能列表 详见 导航栏功能映射
+    navFuncList:['100','101','102','103','104','105'],
+    //首页卡片配置
+    homeCard:{
+        lestBlock:true,
+        txCount:true,
+        avgBlockTime:true,
+        validatorCount:true,
+        serviceCount:true,
+        assetCount:true,
+    },
+    //模块支持
+    funcConfig:{
+        block:true,
+        tx:true,
+        validator:true,
+        asset:true,
+        service:true
+    },
+    text:{
+        //预设字体颜色
+        color:{
+            //一级文字色
+            first: '',
+            //二级文字色
+            second: '',
+            //三级文字色
+            third: '',
+            //四级文字色
+            fourth: '',
+            //链接文字色
+            link: '',
+        }
+    },
+    button:{
+        //预设按钮字体颜色
+        color:{
+            common:'',
+        },
+        //预设按钮背景颜色
+        bgColor:{
+            common:'',
+        }
+    }
 }
 module.exports = config;
