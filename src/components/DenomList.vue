@@ -273,7 +273,7 @@
                 }
             }
             .nef_list_table_container{
-                margin-top: 0.05rem;
+                //margin-top: 0.05rem;
                 a{
                     cursor:pointer;
                 }
