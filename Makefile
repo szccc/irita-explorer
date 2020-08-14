@@ -21,8 +21,6 @@ production_replace:
 	cp ./productionConfig/images/* ./src/assets; \
 	
 production_params:
-	git checkout HEAD public/index.html && \
-	git checkout HEAD src/style/productization.scss && \
 	cp ./productionConfig/productionConfig.js ./src && \
 	node build-params.js
 
