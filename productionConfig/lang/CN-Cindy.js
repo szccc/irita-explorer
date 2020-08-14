@@ -5,6 +5,8 @@ export const ExplorerLang = {
         failed:'失败',
         allTxType:'所有交易类型',
         selectDate:'选择日期',
+        copied:'已复制',
+        copyFailed:'复制失败',
     },
     table:{
         emptyDescription:'- 暂时没有内容 -',
