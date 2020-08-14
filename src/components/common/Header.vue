@@ -62,6 +62,7 @@
                  v-if="featureShow">
                 <div v-for="(item,index) in menuList"
                      class="mobile_tab_item_wrap"
+                     :key="String(index)"
                      :style="`color:${(prodConfig.nav || {}).color || ''}`">
                     <span class="mobile_tab_item"
                           @click="mobileMenuDidClick(item, index, false)"
@@ -72,13 +73,20 @@
                         <span class="mobile_tab_item mobile_tab_item_has_children"
                               @click="handleParentTitleClick(index)">
                             {{item.title}}
-                            <i class="iconfont iconwangluoqiehuanjiantou"
-                               :class="expandingList.includes(index) ? 'up_style' : 'down_style'"> </i>
+                            <img src="../../assets/expanding.svg"
+                                 v-show="!expandingList.includes(index)"
+                                 class="mobile_tab_item_icon">
+                            <img src="../../assets/retract.svg"
+                                 v-show="expandingList.includes(index)"
+                                 class="mobile_tab_item_icon">
+
+
                         </span>
                         <transition name="fade">
                             <div class="mobile_tab_item_sub_children_container"
                                  v-show="expandingList.includes(index)">
                                 <span class="mobile_tab_item mobile_tab_item_child"
+                                      :key="String(subIndex+10)"
                                       @click="mobileMenuDidClick(child, subIndex, true)"
                                       v-for="(child, subIndex) in item.children">
                                     {{ child.title }}
@@ -410,7 +418,14 @@
                     display:flex;
                     flex-direction:column;
                     .mobile_tab_item_has_children{
-
+                        position:relative;
+                        .mobile_tab_item_icon{
+                            position:absolute;
+                            right:0;
+                            width:0.17rem;
+                            height:0.08rem;
+                            top:0.12rem;
+                        }
                     }
                     .mobile_tab_item_sub_children_container{
                         background: rgb(40,80,202);
