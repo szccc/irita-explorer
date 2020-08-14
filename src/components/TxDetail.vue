@@ -128,22 +128,37 @@
                                 <span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denom')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{denom}}</span>
+                            </p>
+                            <p>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
                                 <span>{{denomName}}</span>
                             </p>
-
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.id')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}</span>
+                                <span>{{tokenId}}</span>
+                            </p>
+                            <p>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}</span>
                                 <span>{{nftName}}</span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.mint_nft">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denom')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{denom}}</span>
+                            </p>
+                            <p>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
                                 <span>{{denomName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.id')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}</span>
+                                <span>{{tokenId}}</span>
+                            </p>
+                            <p>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}</span>
                                 <span>{{nftName}}</span>
                             </p>
                             <p>
@@ -166,11 +181,19 @@
                         </div>
                         <div v-if="txType === TX_TYPE.transfer_nft">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denom')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{denom}}</span>
+                            </p>
+                            <p>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
                                 <span>{{denomName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.id')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}</span>
+                                <span>{{tokenId}}</span>
+                            </p>
+                            <p>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}</span>
                                 <span>{{nftName}}</span>
                             </p>
                             <p>
@@ -192,11 +215,19 @@
                         </div>
                         <div v-if="txType === TX_TYPE.edit_nft">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denom')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{denom}}</span>
+                            </p>
+                            <p>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
                                 <span>{{denomName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.id')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}</span>
+                                <span>{{tokenId}}</span>
+                            </p>
+                            <p>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}</span>
                                 <span>{{nftName}}</span>
                             </p>
                             <p>
@@ -214,7 +245,11 @@
                         </div>
                         <div v-if="txType === TX_TYPE.issue_denom">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denom')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{denom}}</span>
+                            </p>
+                            <p>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
                                 <span>{{denomName}}</span>
                             </p>
                             <p>
@@ -609,6 +644,7 @@
                 txCount : 0,
                 pageNum : 1,
                 pageSize : 10,
+
                 denomName:'',
                 nftName:'',
             }
@@ -630,16 +666,11 @@
                         this.memo = res.memo ? res.memo : '--';
                         this.txType = res.msgs[0].type || '--';
                         switch (this.txType){
-                            // case TX_TYPE.transfer_token_owner:
-                            //     this.symbol = res.msgs[0].msg.symbol || '--';
-                            //     this.dstOwner = res.msgs[0].msg.dst_owner || '--';
-                            //     this.srcOwner = res.msgs[0].msg.src_owner || '--';
-                            //     break;
                             case TX_TYPE.mint_nft:
                                 this.denom = res.msgs[0].msg.denom || '--';
-                                this.id = res.msgs[0].msg.id || '--';
+                                this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.nft_name || '--';
+                                this.nftName = res.msgs[0].msg.name || '--';
                                 this.recipient = res.msgs[0].msg.recipient || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.tokenData = res.msgs[0].msg.data || '--';
@@ -648,16 +679,10 @@
                             case TX_TYPE.burn_nft:
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.denom = res.msgs[0].msg.denom || '--';
-                                this.id = res.msgs[0].msg.id || '--';
+                                this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
                                 this.nftName = res.msgs[0].msg.nft_name || '--';
                                 break;
-                            // case TX_TYPE.mint_token:
-                            //     this.amount = res.msgs[0].msg.amount || '--';
-                            //     this.owner = res.msgs[0].msg.owner || '--';
-                            //     this.symbol = res.msgs[0].msg.symbol || '--';
-                            //     this.to = res.msgs[0].msg.to || '--';
-                            //     break;
                             case TX_TYPE.create_record:
                                 this.recordArray = res.msgs[0].msg.contents.map(item =>{
                                     return {
@@ -714,18 +739,11 @@
                                     });
                                 });
                                 break;
-                            // case TX_TYPE.edit_token:
-                            //     this.symbol = res.msgs[0].msg.symbol || '--';
-                            //     this.name = res.msgs[0].msg.name || '--';
-                            //     this.owner = res.msgs[0].msg.owner || '--';
-                            //     this.minTable = res.msgs[0].msg.mintable || '--';
-                            //     this.maxSupply = res.msgs[0].msg.max_supply || '--';
-                            //     break;
                             case TX_TYPE.transfer_nft:
                                 this.denom = res.msgs[0].msg.denom || '--';
-                                this.id = res.msgs[0].msg.id || '--';
+                                this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.nft_name || '--';
+                                this.nftName = res.msgs[0].msg.name || '--';
                                 this.recipient = res.msgs[0].msg.recipient || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.tokenData = res.msgs[0].msg.data || '--';
@@ -733,29 +751,19 @@
                                 break;
                             case TX_TYPE.edit_nft:
                                 this.denom = res.msgs[0].msg.denom || '--';
-                                this.id = res.msgs[0].msg.id || '--';
+                                this.tokenId = res.msgs[0].msg.id || '--';
                                 this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.nft_name || '--';
+                                this.nftName = res.msgs[0].msg.name || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 this.tokenData = res.msgs[0].msg.data || '--';
                                 this.tokenUri = res.msgs[0].msg.uri || '--';
                                 break;
                             case TX_TYPE.issue_denom:
-                                this.denom = res.msgs[0].msg.denom || '--';
-                                this.denomName = res.msgs[0].msg.denom_name || '--';
+                                this.denom = res.msgs[0].msg.id || '--';
+                                this.denomName = res.msgs[0].msg.name || '--';
                                 this.schema = res.msgs[0].msg.schema || '--';
                                 this.sender = res.msgs[0].msg.sender || '--';
                                 break;
-                            // case TX_TYPE.issue_token:
-                            //     this.initialSupply = res.msgs[0].msg.initial_supply || '--';
-                            //     this.maxSupply = res.msgs[0].msg.max_supply || '--';
-                            //     this.minUnit = res.msgs[0].msg.min_unit || '--';
-                            //     this.minTable = res.msgs[0].msg.mintable || '--';
-                            //     this.name = res.msgs[0].msg.name || '--';
-                            //     this.owner = res.msgs[0].msg.owner || '--';
-                            //     this.scale = res.msgs[0].msg.scale || '--';
-                            //     this.symbol = res.msgs[0].msg.symbol || '--';
-                            //     break;
                             case TX_TYPE.respond_service:
                                 this.output = res.msgs[0].msg.output || '--';
                                 this.provider = res.msgs[0].msg.provider || '--';
