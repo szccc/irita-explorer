@@ -275,7 +275,7 @@
 					line-height:1.3;
 					.header_logo_content_icon{
 						height: 0.3rem;
-						width: 0.28rem;
+						width: 0.3rem;
 						margin-right:0.12rem;
 					}
 					.header_logo_content_title{
