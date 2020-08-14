@@ -19,7 +19,7 @@
                             :text-color="(prodConfig.nav || {}).color || '#CBD8FE'"
                             :active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'">
 						<component v-for="(item,index) in menuList"
-								   :is="item.children ? 'el-submenu':'el-menu-item'" 
+								   :is="item.children ? 'el-submenu':'el-menu-item'"
                                    :index="String(index+1)"
                                    :key="index">
 							<router-link v-if="!item.children" :to="item.link">{{item.title}}</router-link>
@@ -52,7 +52,7 @@
 						       :placeholder="$t('ExplorerLang.Navigation.searchPlaceHolder')"
 						       v-model.trim="searchInputValue"
 						       @keyup.enter="onInputChange">
-						<span @click="getData(searchInputValue)" 
+						<span @click="getData(searchInputValue)"
 							  class="iconfont iconsousuo"
 							  :style="`color:${(prodConfig.nav || {}).color || ''}`"></span>
 					</div>
@@ -60,11 +60,40 @@
 			</div>
 			<div class="use_feature_mobile"
                  v-if="featureShow">
-                <div v-for="(item,index) in mobileMenuList"
-                     class="header_content_feature"
-                     :style="`color:${(prodConfig.nav || {}).color || ''}`"
-                     @click="mobileMenuDidClick(item,idx)" >
-                	{{item.title}}
+                <div v-for="(item,index) in menuList"
+                     class="mobile_tab_item_wrap"
+                     :key="String(index)"
+                     :style="`color:${(prodConfig.nav || {}).color || ''}`">
+                    <span class="mobile_tab_item"
+                          @click="mobileMenuDidClick(item, index, false)"
+                          v-if="!item.children">
+                        {{item.title}}
+                    </span>
+                	<div class="mobile_tab_item_children_container" v-else>
+                        <span class="mobile_tab_item mobile_tab_item_has_children"
+                              @click="handleParentTitleClick(index)">
+                            {{item.title}}
+                            <img src="../../assets/expanding.svg"
+                                 v-show="!expandingList.includes(index)"
+                                 class="mobile_tab_item_icon">
+                            <img src="../../assets/retract.svg"
+                                 v-show="expandingList.includes(index)"
+                                 class="mobile_tab_item_icon">
+
+
+                        </span>
+                        <transition name="fade">
+                            <div class="mobile_tab_item_sub_children_container"
+                                 v-show="expandingList.includes(index)">
+                                <span class="mobile_tab_item mobile_tab_item_child"
+                                      :key="String(subIndex+10)"
+                                      @click="mobileMenuDidClick(child, subIndex, true)"
+                                      v-for="(child, subIndex) in item.children">
+                                    {{ child.title }}
+                                </span>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
             </div>
 		</div>
@@ -84,9 +113,8 @@
 				searchInputValue: '',
 				featureShow:false,
 				menuList:[],
-				multiMenuList:[],
-				mobileMenuList:[],
 				searchShow:false,
+                expandingList:[],
 			};
 		},
 		beforeMount(){
@@ -126,7 +154,6 @@
 				prodConfig.navFuncList.forEach((item)=>{
 					if (funcs[item]) {
                             this.menuList.push(funcs[item]);
-                            this.mobileMenuList.push(funcs[item]);
 					}
 					if (item == '105') {
 						this.searchShow = true;
@@ -149,6 +176,13 @@
 		methods: {
 			handleSelect(key, keyPath) {
 			},
+            handleParentTitleClick(index){
+                if(this.expandingList.includes(index)){
+                    this.expandingList.splice(this.expandingList.findIndex((i)=>i === index),1);
+                }else{
+                    this.expandingList.push(index);
+                }
+            },
 			onInputChange () {
 				this.getData()
 			},
@@ -173,6 +207,7 @@
 				this.$router.push(item.link)
 				this.activeIndex2 = String(index+1);
 				this.featureShow = false;
+                this.expandingList = [];
 
 			},
 			getData(){
@@ -279,13 +314,13 @@
 						margin-right:0.12rem;
 					}
 					.header_logo_content_title{
-						
+
 					}
 					.header_logo_content_subTitle{
-						
+
 					}
 				}
-				
+
 				.header_menu{
 					display:block;
 					.el-menu-demo{
@@ -314,7 +349,7 @@
 		            }
 				}
 			}
-			
+
 		}
 		.header_input_content{
 			flex: 1;
@@ -359,13 +394,52 @@
 			display:none;
 			width:100%;
 			margin-top:0.1rem;
-			.header_content_feature{
-				cursor: pointer;
+			.mobile_tab_item_wrap{
+				/*cursor: pointer;
 				padding:0.05rem 0;
 		        color: $t_white_c;
 		        font-size: $s16;
 		        font-weight: bold;
-		        text-align:left;
+		        text-align:left;*/
+                display:flex;
+                flex-direction:column;
+                .mobile_tab_item{
+                    color: $t_white_c;
+                    font-size: $s16;
+                    font-weight: bold;
+                    text-align:left;
+                    padding:0.05rem 0;
+                    width:100%;
+                    box-sizing: border-box;
+                }
+                .mobile_tab_item_children_container{
+                    width:100%;
+                    box-sizing: border-box;
+                    display:flex;
+                    flex-direction:column;
+                    .mobile_tab_item_has_children{
+                        position:relative;
+                        .mobile_tab_item_icon{
+                            position:absolute;
+                            right:0;
+                            width:0.17rem;
+                            height:0.08rem;
+                            top:0.12rem;
+                        }
+                    }
+                    .mobile_tab_item_sub_children_container{
+                        background: rgb(40,80,202);
+                        width:100vw;
+                        position:relative;
+                        left:-0.15rem;
+                        display:flex;
+                        flex-direction:column;
+                        .mobile_tab_item_child{
+                            text-indent: 0.35rem;
+                        }
+                    }
+
+                }
 			}
 		}
 	}
@@ -378,7 +452,7 @@
 				flex-direction:column;
 				.header_menu_content{
 					width:100%;
-					
+
 					.header_menu{
 						display:none;
 					}
@@ -386,7 +460,7 @@
 						display:block;
 					}
 				}
-				
+
 			}
 			.header_input_content{
 				width:100%;
@@ -401,13 +475,13 @@
 	}
 
 	@media screen and (max-width: 768px) {
-		
+
 	}
 
 	@media screen and (max-width: 375px) {
-		
+
 	}
 
 
-	
+
 </style>
