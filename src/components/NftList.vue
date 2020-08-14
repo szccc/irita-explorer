@@ -274,7 +274,7 @@
 			margin: 0 auto;
 			.nft_list_header_content{
 				width: 100%;
-				margin: 0.3rem 0 0 0;
+				margin: 0.3rem 0 0.1rem 0;
 
 				.el-select{
 					/deep/ .el-input{
@@ -405,7 +405,7 @@
 				}
 			}
 			.nef_list_table_container{
-				margin-top: 0.05rem;
+				//margin-top: 0.05rem;
 			}
 			.pagination_content{
 				display: flex;

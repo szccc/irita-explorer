@@ -172,6 +172,7 @@
 	a{
 		color: $t_link_c !important;
 	}
+
 	.service_list_container_content{
         @media screen and (min-width: 910px){
             .service_list_title{
@@ -277,6 +278,11 @@
         }
 		.service_list_content_wrap{
 			margin: 0 auto;
+            /deep/.el-table{
+                .cell{
+                    padding-left:0 !important;
+                }
+            }
             .service_list_empty_container{
                 display:flex;
                 flex-direction:column;
