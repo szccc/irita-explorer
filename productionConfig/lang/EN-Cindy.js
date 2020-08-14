@@ -5,6 +5,8 @@ export const ExplorerLang = {
         failed:'Failed',
         allTxType:'All TxType',
         selectDate:'Select Date',
+        copied:'Copied',
+        copyFailed:'Failed',
     },
     table:{
         emptyDescription:'- No Data -',

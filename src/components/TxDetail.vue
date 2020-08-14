@@ -7,6 +7,7 @@
                         {{`${$t('ExplorerLang.transactionInformation.transactionInformation')} |`}}
                     </div>
                     <div class="tx_detail_title_hash">{{txHash}}</div>
+                    <MClip :text="txHash"></MClip>
                 </div>
                 <div class="tx_information_content">
                     <p class="tx_information_list_title">{{$t('ExplorerLang.transactionInformation.baseInfo')}}</p>
@@ -574,11 +575,12 @@
 <script>
     import Tools from "../util/Tools";
     import MPagination from "./common/MPagination";
+    import MClip from "./common/MClip.vue";
     import { getTxDetail, getRelevanceTxList } from "../service/api";
     import { TX_TYPE, TX_STATUS,ColumnMinWidth } from '../constant';
     export default {
         name : "TxDetail",
-        components : {MPagination},
+        components : {MPagination, MClip},
         data(){
             return {
                 TX_TYPE,
@@ -939,8 +941,9 @@
                         font-family: PingFangSC-Regular, PingFang SC;
                         font-weight: 400;
                         color: $t_first_c;
-                        line-height: 20px;
+                        line-height: 0.2rem;
                         word-break: break-all;
+                        margin-right:0.05rem;
                     }
                 }
                 .tx_information_content {
