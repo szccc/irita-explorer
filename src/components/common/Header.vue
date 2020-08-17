@@ -3,7 +3,7 @@
 		<div class="header_content">
 			<div class="header_menu_content">
 				<div class="header_logo_content" @click="logoClick">
-					<img class="header_logo_content_icon" src="../../assets/logo.png" alt="">
+					<img class="header_logo_content_icon" v-if="logoImg.length" :src="logoImg" alt="">
 					<div :style="`color:${(prodConfig.nav || {}).color || ''}`">
 						<p>{{(prodConfig.logo || {}).title || 'CSChain-Bond'}}</p>
 						<p>{{(prodConfig.logo || {}).subTitle || '债券应用链浏览器'}}</p>
@@ -114,8 +114,14 @@
 				featureShow:false,
 				menuList:[],
 				searchShow:false,
-                expandingList:[],
-			};
+                expandingList:[],			};
+		},
+		computed:{
+			logoImg(){
+				let img = '';
+				try {img = require('../../assets/logo.png');}catch(e){}
+				return img;
+			}
 		},
 		beforeMount(){
 			let funcs = {

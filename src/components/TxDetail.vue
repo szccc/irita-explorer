@@ -12,24 +12,24 @@
                 <div class="tx_information_content">
                     <p class="tx_information_list_title">{{$t('ExplorerLang.transactionInformation.baseInfo')}}</p>
                     <p class="tx_information_list_item">
-                        <span>{{$t('ExplorerLang.transactionInformation.blockHeight')}}</span>
+                        <span>{{$t('ExplorerLang.transactionInformation.blockHeight')}}：</span>
                         <span><router-link :to="`/block/${blockHeight}`">{{blockHeight}}</router-link></span>
                     </p>
                     <p class="tx_information_list_item">
-                        <span>{{$t('ExplorerLang.transactionInformation.status')}}</span>
+                        <span>{{$t('ExplorerLang.transactionInformation.status')}}：</span>
                         <span>{{status}}</span>
                     </p>
                     <p class="tx_information_list_item">
-                        <span>{{$t('ExplorerLang.transactionInformation.timestamp')}}</span>
+                        <span>{{$t('ExplorerLang.transactionInformation.timestamp')}}：</span>
                         <span>{{timestamp}}</span>
                     </p>
                     <p class="tx_information_list_item">
-                        <span>{{$t('ExplorerLang.transactionInformation.signer')}}</span>
+                        <span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
                         <span style="word-break:break-all;"><router-link
                                 :to="`/address/${signer}`">{{signer}}</router-link></span>
                     </p>
                     <p class="tx_information_list_item">
-                        <span>{{$t('ExplorerLang.transactionInformation.memo')}}</span>
+                        <span>{{$t('ExplorerLang.transactionInformation.memo')}}：</span>
                         <span>{{memo}}</span>
                     </p>
                 </div>
@@ -40,71 +40,71 @@
                             {{$t('ExplorerLang.transactionInformation.transactionMessage')}}
                         </div>
                         <p>
-                            <span>{{$t('ExplorerLang.transactionInformation.txType')}}</span>
+                            <span>{{$t('ExplorerLang.transactionInformation.txType')}}：</span>
                             <span>{{txType}}</span>
                         </p>
                         <div v-if="txType === TX_TYPE.define_service">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
                                     {{serviceName}}
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.description')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.defineService.description')}}：</span>
                                 <span>{{description}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
                                 <span>{{schemas}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
                                 <span><router-link :to="`/address/${author}`">{{author}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.authorDescription')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.defineService.authorDescription')}}：</span>
                                 <span>{{authorDescription}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.tags')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.defineService.tags')}}：</span>
                                 <span>{{tags}}</span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.bind_service">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
                                 <router-link v-if="defineName != '--'" :to="`/service?serviceName=${defineName}`">
                                     {{defineName}}
                                 </router-link>
                                 <span v-if="defineName == '--'"> -- </span>
                             </p>
                             <!-- <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.pricing')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.pricing')}}：</span>
                                 <span>{{pricing}}</span>
                             </p> -->
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.qos')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.qos')}}：</span>
                                 <span>{{qos}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.deposit')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.deposit')}}：</span>
                                 <span>{{deposit}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
                                 <span><router-link v-for="(item,index) in provider" :key="index"
                                                    :to="`/address/${item}`">{{item}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
                                 <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.create_record" class="record_container">
                             <div class="record_content">
-                                <p class="record_name">{{$t('ExplorerLang.transactionInformation.createRecord.contents')}}</p>
+                                <p class="record_name">{{$t('ExplorerLang.transactionInformation.createRecord.contents')}}：</p>
                                 <div class="record_list_content">
                                     <el-table class="table" :data="recordArray"
                                               :empty-text="$t('ExplorerLang.table.emptyDescription')">
@@ -125,230 +125,230 @@
                         </div>
                         <div v-if="txType === TX_TYPE.burn_nft">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
                                 <span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
                                 <span>{{denom}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
                                 <span>{{denomName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}：</span>
                                 <span>{{tokenId}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}：</span>
                                 <span>{{nftName}}</span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.mint_nft">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
                                 <span>{{denom}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
                                 <span>{{denomName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}：</span>
                                 <span>{{tokenId}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}：</span>
                                 <span>{{nftName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.to')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.to')}}：</span>
                                 <span><router-link :to="`/address/${recipient}`">{{recipient}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
                                 <span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.data')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
                                 <span>{{tokenData}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.uri')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
                                 <span>{{tokenUri}}</span>
                             </p>
 
                         </div>
                         <div v-if="txType === TX_TYPE.transfer_nft">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
                                 <span>{{denom}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
                                 <span>{{denomName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}：</span>
                                 <span>{{tokenId}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}：</span>
                                 <span>{{nftName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.to')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.to')}}：</span>
                                 <span><router-link :to="`/address/${recipient}`">{{recipient}}</router-link> </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
                                 <span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.data')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
                                 <span>{{tokenData}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.uri')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
                                 <span>{{tokenUri}}</span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.edit_nft">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
                                 <span>{{denom}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
                                 <span>{{denomName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}：</span>
                                 <span>{{tokenId}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}：</span>
                                 <span>{{nftName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
                                 <span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.data')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
                                 <span>{{tokenData}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.uri')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
                                 <span>{{tokenUri}}</span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.issue_denom">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
                                 <span>{{denom}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
                                 <span>{{denomName}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
                                 <span>{{schema}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
                                 <span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.send">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.send.amount')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.send.amount')}}：</span>
                                 <span>{{amount}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
                                 <span><router-link :to="`/address/${from}`">{{from}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.to')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.to')}}：</span>
                                 <span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.respond_service">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
                                     {{serviceName}}
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.respondService.requestId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.respondService.requestId')}}：</span>
                                 <span>{{(requestId || '').toUpperCase()}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
                                 <span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.respondService.result')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.respondService.result')}}：</span>
                                 <span>{{result}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.respondService.output')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.respondService.output')}}：</span>
                                 <span>{{output}}</span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.call_service">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
                                     {{serviceName}}
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
                                 <span>{{(requestContextId || '').toUpperCase()}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.consumer')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.consumer')}}：</span>
                                 <span>{{consumer}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.callService.input')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.callService.input')}}：</span>
                                 <span>{{input}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
                                 <span style="display: flex;flex-direction: column"><router-link
                                         v-for="(item,index) in provider" :key="index"
                                         :to="`/address/${item}`">{{item}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.callService.repeated')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.callService.repeated')}}：</span>
                                 <span>{{repeated}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.repeatedFrequency')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.repeatedFrequency')}}：</span>
                                 <span>{{repeatedFrequency}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
                                 <span>{{repeatedTotal}}</span>
                             </p>
                             <!-- <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
                                 <span>{{serviceFeeCap}}</span>
                             </p> -->
                             <!-- <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.callService.superMode')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.callService.superMode')}}：</span>
                                 <span>{{superMode}}</span>
                             </p> -->
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.timeOut')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.timeOut')}}：</span>
                                 <span>{{timeout}}</span>
                             </p>
                         </div>
@@ -356,43 +356,43 @@
                                    txType === TX_TYPE.start_request_context || 
                                    txType === TX_TYPE.kill_request_context">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
                                     {{serviceName}}
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
                                 <span>{{(requestContextId || '').toUpperCase()}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.consumer')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.consumer')}}：</span>
                                 <span>{{consumer}}</span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.update_request_context">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
                                     {{serviceName}}
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                            <!--  <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.pricing')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.pricing')}}：</span>
                                 <span>{{pricing}}</span>
                             </p> -->
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
                                 <span>{{(requestContextId || '').toUpperCase()}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.consumer')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.consumer')}}：</span>
                                 <span>{{consumer}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
                                 <span style="display: flex;flex-direction: column" v-if="provider.length > 0">
                                     <router-link
                                             v-for="(item,index) in provider"
@@ -404,82 +404,82 @@
                                 <span v-else>--</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.repeatedFrequency')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.repeatedFrequency')}}：</span>
                                 <span>{{repeatedFrequency}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
                                 <span>{{repeatedTotal}}</span>
                             </p>
                             <!-- <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
                                 <span>{{serviceFeeCap}}</span>
                             </p> -->
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.timeOut')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.timeOut')}}：</span>
                                 <span>{{timeout}}</span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.update_service_binding">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
                                     {{serviceName}}
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.qos')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.qos')}}：</span>
                                 <span>{{qos}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.deposit')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.deposit')}}：</span>
                                 <span>{{deposit}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
                                 <span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
                                 <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.disable_service_binding || txType === TX_TYPE.refund_service_deposit">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
                                     {{serviceName}}
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
                                 <span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
                                 <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
                             </p>
                         </div>
                         <div v-if="txType === TX_TYPE.enable_service_binding">
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
                                 <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
                                     {{serviceName}}
                                 </router-link>
                                 <span v-if="serviceName == '--'"> -- </span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.deposit')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.deposit')}}：</span>
                                 <span>{{deposit}}</span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
                                 <span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
                             </p>
                             <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}</span>
+                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
                                 <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
                             </p>
                         </div>
@@ -966,6 +966,7 @@
                         justify-content: flex-start;
                         margin-bottom: 0.26rem;
                         span:nth-of-type(1) {
+                            margin-right:0.15rem;
                             text-align: left;
                             min-width: 1.5rem;
                             color: $t_second_c;

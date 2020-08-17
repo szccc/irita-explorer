@@ -11,27 +11,27 @@
                 </h3>
                 <div class="service_information_content">
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerLang.serviceDetail.description')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.description')}}：</span>
                         <span>{{description}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerLang.serviceDetail.author')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.author')}}：</span>
                         <span>{{author}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerLang.serviceDetail.authorDescription')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.authorDescription')}}：</span>
                         <span>{{authorDescription}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerLang.serviceDetail.schema')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.schema')}}：</span>
                         <span>{{schemas}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerLang.serviceDetail.tags')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.tags')}}：</span>
                         <span>{{tags}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerLang.serviceDetail.hash')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.hash')}}：</span>
                         <span>
                              <router-link :to="`tx?txHash=${hash}`">
                                 {{hash}}
@@ -39,11 +39,11 @@
                         </span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerLang.serviceDetail.height')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.height')}}：</span>
                         <span>{{height}}</span>
                     </p>
                     <p class="service_information_text_content">
-                        <span>{{$t('ExplorerLang.serviceDetail.time')}}</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.time')}}：</span>
                         <span>{{time}}</span>
                     </p>
 
@@ -534,6 +534,7 @@
                         justify-content: flex-start;
                         margin-bottom: 0.26rem;
                         span:nth-of-type(1) {
+                            margin-right:0.15rem;
                             font-size: $s14;
                             line-height: 0.16rem;
                             color: $t_second_c;
