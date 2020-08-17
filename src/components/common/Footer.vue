@@ -1,9 +1,10 @@
 <template>
 	<div class="footer_container" 
 	  	 :style="`color:${(prodConfig.footer || {}).color || 'rgba(255,255,255,0.5)'}`">
-		<div class="footer_content_top" 
+		<div class="footer_content_top"
+			 v-if="logoImg.length"
 		     :style="`background:${(prodConfig.footer || {}).bgColor_top || '#363A3D'}`">
-			<img class="footer_content_top_icon" src="../../assets/footer_logo.png" alt="">
+			<img class="footer_content_top_icon" :src="logoImg" alt="">
 		</div>
 		<div class="footer_content_bottom" 
 			 :style="`background:${(prodConfig.footer || {}).bgColor_bottom || '#000000'}`">
@@ -25,6 +26,13 @@
 				chainId:'',
 				version:''
 			};
+		},
+		computed:{
+			logoImg(){
+				let img = '';
+				try {img = require('../../assets/footer_logo.png');}catch(e){}
+				return img;
+			}
 		},
 		mounted(){
 			this.nodeInfo();
