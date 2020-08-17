@@ -1,12 +1,13 @@
 export const ExplorerLang = {
     common:{
-        allTxStatus:'所有交易状态',
+        allTxStatus:'全部交易状态',
         success:'成功',
         failed:'失败',
-        allTxType:'所有交易类型',
+        allTxType:'全部交易类型',
         selectDate:'选择日期',
         copied:'已复制',
         copyFailed:'复制失败',
+        all:'全部',
     },
     table:{
         emptyDescription:'- 暂时没有内容 -',
@@ -80,6 +81,8 @@ export const ExplorerLang = {
         blocks: '最近区块',
         viewAll: '查看全部',
         listTransactions: '最近交易',
+        tx:'交易#',
+        txn:'交易数量'
     },
     block:{
         currentHeight: '当前区块',

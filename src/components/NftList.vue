@@ -79,7 +79,7 @@
 				nftList: [
 					{
 						value:'',
-						label:'All',
+						label:this.$t('ExplorerLang.common.all'),
 					}
 				],
 				denomArray:[],

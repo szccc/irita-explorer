@@ -57,7 +57,7 @@
 									<span class="home_age_time"> {{item.blockAgeTime}}</span>
 								</p>
 								<p class="home_tx_time_content">
-									<span class="home_tx">Txn: <span>{{item.txNumber}}</span></span>
+									<span class="home_tx">{{$t('ExplorerLang.home.txn')}}: <span>{{item.txNumber}}</span></span>
 									<span class="home_time">{{item.time}}</span>
 								</p>
 							</li>
@@ -79,7 +79,7 @@
 						<li class="home_transaction_list_item_content" v-for="item in latestTransaction">
 							<p class="home_transaction_time_content">
 								<span class="home_transaction" >
-									TX#<router-link :to="`/tx?txHash=${item.hash}`">{{`${item.hash.substr(0,16)}...`}}</router-link>
+									{{$t('ExplorerLang.home.tx')}}<router-link :to="`/tx?txHash=${item.hash}`">{{`${item.hash.substr(0,16)}...`}}</router-link>
 								</span>
 								<span class="home_age_time">{{item.txAgeTime}}</span>
 							</p>
