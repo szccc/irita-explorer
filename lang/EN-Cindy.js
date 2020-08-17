@@ -7,6 +7,7 @@ export const ExplorerLang = {
         selectDate:'Select Date',
         copied:'Copied',
         copyFailed:'Failed',
+        all:'All',
     },
     table:{
         emptyDescription:'- No Data -',
@@ -80,6 +81,8 @@ export const ExplorerLang = {
         blocks: 'Blocks',
         viewAll: 'View All',
         listTransactions: 'Transactions',
+        tx:'TX#',
+        txn:'Txn'
     },
     block:{
         currentHeight: 'Current Height',
