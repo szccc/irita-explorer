@@ -118,7 +118,7 @@ export const ExplorerLang = {
         from: '创建者',
         description: '描述',
         status: '服务状态',
-        placeHolder:'搜索服务名称或描述',
+        placeHolder:'搜索服务类型或描述',
         serviceCount:'个服务',
     },
     transactionInformation:{
