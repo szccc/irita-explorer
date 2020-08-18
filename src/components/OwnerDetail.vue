@@ -23,7 +23,7 @@
 					</el-table-column>
 				</el-table>
 			</div>
-			<div class="consumer_transaction_content">
+			<div class="consumer_transaction_content" v-show="(prodConfig.funcConfig || {}).service">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.consumerTitle')}}</div>
 				<el-table class="table" :data="consumerTxList"
 						  row-key="txHash"
@@ -110,7 +110,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="provider_transaction_content">
+			<div class="provider_transaction_content" v-show="(prodConfig.funcConfig || {}).service">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.providerTitle')}}</div>
 				<el-table class="table" :data="providerTxList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerLang.table.serviceName')">
