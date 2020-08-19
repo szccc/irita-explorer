@@ -3,36 +3,36 @@
 		<div class="home_content_wrap">
 			<div class="home_content_header_content">
 				<ul class="home_content_header_top_content">
-					<li class="home_content_header_top_item_content">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>{{$t('ExplorerCN.home.blockHeight')}}</p>
+					<li class="home_content_header_top_item_content" v-show="(prodConfig.homeCard || {}).lestBlock">
+						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>{{$t('ExplorerLang.home.blockHeight')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`block/${block_height}`">{{block_height}}</router-link></p>
 						<p class="home_content_header_top_footer_content"></p>
 					</li>
-					<li class="home_content_header_top_item_content">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconTransactions"></i>{{$t('ExplorerCN.home.transactions')}}</p>
+					<li class="home_content_header_top_item_content" v-show="(prodConfig.homeCard || {}).txCount">
+						<p class="home_content_header_top_item_title"><i class="iconfont iconTransactions"></i>{{$t('ExplorerLang.home.transactions')}}</p>
 						<p class="home_content_header_top_center_content"><router-link :to="`/txs`">{{transactionNumber}}</router-link></p>
 						<p class="home_content_header_top_footer_content">{{transactionTime}}</p>
 					</li>
-					<li class="home_content_header_top_item_content">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerCN.home.avgBlockTime')}}</p>
-						<p class="home_content_header_top_center_content">{{`${ageTime} ${$t('ExplorerCN.unit.second')}`}}</p>
-						<p class="home_content_header_top_footer_content">{{$t('ExplorerCN.home.last100Blocs')}}</p>
+					<li class="home_content_header_top_item_content" v-show="(prodConfig.homeCard || {}).avgBlockTime">
+						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerLang.home.avgBlockTime')}}</p>
+						<p class="home_content_header_top_center_content">{{`${ageTime} ${$t('ExplorerLang.unit.second')}`}}</p>
+						<p class="home_content_header_top_footer_content">{{$t('ExplorerLang.home.last100Blocs')}}</p>
 					</li>
 				</ul>
-				<ul class="home_content_header_bottom_content">
-					<li class="home_content_header_bottom_item_content">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerCN.home.validators')}}</p>
+				<ul class="home_content_header_bottom_content" >
+					<li class="home_content_header_bottom_item_content" v-show="(prodConfig.homeCard || {}).validatorCount">
+						<p class="home_content_header_bottom_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerLang.home.validators')}}</p>
 						<p class="home_content_header_bottom_footer">{{validatorNumber}}</p>
 					</li>
-					<li class="home_content_header_bottom_item_content">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconservice"></i>{{$t('ExplorerCN.home.services')}}</p>
+					<li class="home_content_header_bottom_item_content" v-show="(prodConfig.homeCard || {}).serviceCount">
+						<p class="home_content_header_bottom_title"><i class="iconfont iconservice"></i>{{$t('ExplorerLang.home.services')}}</p>
 						<p class="home_content_header_bottom_footer">
 							<router-link v-if="serverNumber" :to="`/services`">{{serverNumber}}</router-link>
 							<span v-else >--</span>
 						</p>
 					</li>
-					<li class="home_content_header_bottom_item_content">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconAssets"></i>{{$t('ExplorerCN.home.assets')}}</p>
+					<li class="home_content_header_bottom_item_content" v-show="(prodConfig.homeCard || {}).assetCount">
+						<p class="home_content_header_bottom_title"><i class="iconfont iconAssets"></i>{{$t('ExplorerLang.home.assets')}}</p>
 						<p class="home_content_header_bottom_footer"><router-link :to="`/nftAsset`">{{assetsNumber}}</router-link></p>
 					</li>
 				</ul>
@@ -42,10 +42,10 @@
 					<div class="home_block_top_content">
 						<div class="home_block_top_title">
 							<i class="iconfont iconBlocks"></i>
-							<span>{{$t('ExplorerCN.home.blocks')}}</span>
+							<span>{{$t('ExplorerLang.home.blocks')}}</span>
 						</div>
 						<div class="home_block_view_all">
-							<router-link :to="`/blocks`">{{$t('ExplorerCN.home.viewAll')}}</router-link>
+							<router-link :to="`/blocks`">{{$t('ExplorerLang.home.viewAll')}}</router-link>
 						</div>
 					</div>
 					<ul class="home_block_bottom_content">
@@ -57,7 +57,7 @@
 									<span class="home_age_time"> {{item.blockAgeTime}}</span>
 								</p>
 								<p class="home_tx_time_content">
-									<span class="home_tx">Txn: <span>{{item.txNumber}}</span></span>
+									<span class="home_tx">{{$t('ExplorerLang.home.txn')}}: <span>{{item.txNumber}}</span></span>
 									<span class="home_time">{{item.time}}</span>
 								</p>
 							</li>
@@ -69,17 +69,17 @@
 					<div class="home_transaction_top_content">
 						<div class="home_transaction_top_title">
 							<i class="iconfont iconTransactions"></i>
-							<span>{{$t('ExplorerCN.home.listTransactions')}}</span>
+							<span>{{$t('ExplorerLang.home.listTransactions')}}</span>
 						</div>
 						<div class="home_transaction_view_all">
-							<router-link :to="`/txs`">{{$t('ExplorerCN.home.viewAll')}}</router-link>
+							<router-link :to="`/txs`">{{$t('ExplorerLang.home.viewAll')}}</router-link>
 						</div>
 					</div>
 					<ul class="home_transaction_bottom_content">
 						<li class="home_transaction_list_item_content" v-for="item in latestTransaction">
 							<p class="home_transaction_time_content">
 								<span class="home_transaction" >
-									TX#<router-link :to="`/tx?txHash=${item.hash}`">{{`${item.hash.substr(0,16)}...`}}</router-link>
+									{{$t('ExplorerLang.home.tx')}}<router-link :to="`/tx?txHash=${item.hash}`">{{`${item.hash.substr(0,16)}...`}}</router-link>
 								</span>
 								<span class="home_age_time">{{item.txAgeTime}}</span>
 							</p>
@@ -97,6 +97,7 @@
 
 <script>
 	import Tools from "../util/Tools";
+	import prodConfig from "../productionConfig"
 	import { getStatistics, getBlockList } from "../service/api";
 	import {getTxList} from "../service/api";
 	import { TX_TYPE,TX_STATUS } from '../constant';
@@ -105,6 +106,7 @@
 		name: "Home",
 		data () {
 			return {
+				prodConfig:prodConfig,
 				TX_TYPE,
 				TX_STATUS,
 				block_height: 0,
@@ -244,7 +246,7 @@
                         },1000)
                     }
                 }catch (e) {
-                    //this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
+                    //this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                     console.error(e);
                 }
 
@@ -288,12 +290,11 @@
 				flex-direction: column;
 				.home_content_header_top_content{
 					display: flex;
-					justify-content: space-between;
 					margin-top: 0.2rem;
-					height: 1.3rem;
 					.home_content_header_top_item_content{
 						flex: 1;
-						margin-right: 0.2rem;
+						max-width:31.5%;
+						margin:0 0.1rem;
 						border-radius: 0.04rem;
 						border: 0.01rem solid $bd_second_c;
 						background: $bg_white_c;
@@ -302,7 +303,7 @@
 						padding: 0.14rem;
 						font-size: $s14;
 						i{
-							color: $t_link_c;
+							color: $theme_c;
 							margin-right: 0.1rem;
 						}
 						.home_content_header_top_center_content{
@@ -315,18 +316,20 @@
 							margin-top: 0.1rem;
 						}
 					}
+					.home_content_header_top_item_content:first-child{
+						// margin-left: 0;
+					}
 					.home_content_header_top_item_content:last-child{
-						margin-right: 0;
+						// margin-right: 0;
 					}
 				}
 				.home_content_header_bottom_content{
 					display: flex;
-					justify-content: space-between;
 					margin-top: 0.2rem;
-					height: 1rem;
 					.home_content_header_bottom_item_content{
 						flex: 1;
-						margin-right: 0.2rem;
+						max-width:31.5%;
+						margin:0 0.1rem;
 						border: 0.01rem solid $bd_second_c;
 						background: $bg_white_c;
 						text-align: left;
@@ -334,7 +337,7 @@
 						padding: 0.14rem;
 						font-size: $s14;
 						i{
-							color: $t_link_c;
+							color: $theme_c;
 							margin-right: 0.1rem;
 						}
 						.home_content_header_bottom_footer{
@@ -347,8 +350,11 @@
 							}
 						}
 					}
+					.home_content_header_bottom_item_content:first-child{
+						// margin-left: 0;
+					}
 					.home_content_header_bottom_item_content:last-child{
-						margin-right: 0;
+						// margin-right: 0;
 					}
 				}
 			}
@@ -368,7 +374,7 @@
 						z-index: 2;
 						.home_block_top_title{
 							i{
-								color: $t_second_c;
+								color: $theme_c;
 								margin-right: 0.1rem;
 							}
 							span{
@@ -381,7 +387,7 @@
 							a{
 								color: $t_link_c;
 							}
-							border-bottom: 0.01rem solid $bd_highlight_c;
+							border-bottom: 0.01rem solid $t_link_c;
 							
 						}
 					}
@@ -431,7 +437,7 @@
 						justify-content: space-between;
 						.home_transaction_top_title{
 							i{
-								color: $t_second_c;
+								color: $theme_c;
 								margin-right: 0.1rem;
 							}
 							span{
@@ -444,7 +450,7 @@
 							a{
 								color: $t_link_c;
 							}
-							border-bottom: 0.01rem solid $bd_highlight_c;
+							border-bottom: 0.01rem solid $t_link_c;
 							
 						}
 					}
@@ -512,6 +518,7 @@
 						height:auto;
 						.home_content_header_top_item_content{
 							width:100%;
+							max-width:100%;
 							padding: 0.14rem;
 							margin:0.05rem 0;
 							.home_content_header_top_center_content{
@@ -529,6 +536,7 @@
 						flex-direction:column;
 						.home_content_header_bottom_item_content{
 							width:100%;
+							max-width:100%;
 							padding: 0.14rem;
 							margin:0.05rem 0;
 							.home_content_header_bottom_footer{

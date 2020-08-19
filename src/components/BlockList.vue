@@ -5,7 +5,7 @@
 				<div class="block_list_header_content">
 					<div class="block_list_herder_top_content">
 						<div class="block_list_current_height_content">
-							<span class="block_list_current_height_title">{{$t('ExplorerCN.block.currentHeight')}}</span>
+							<span class="block_list_current_height_title">{{$t('ExplorerLang.block.currentHeight')}}</span>
 							<span class="block_list_current_height_number">
 							<router-link :to="`/block/${latestBlockHeight}`">{{latestBlockHeight}}</router-link>
 						</span>
@@ -15,15 +15,15 @@
 						</div>
 					</div>
 					<div class="block_list_pagination_content">
-						<el-table :data="blockList" stripe :empty-text="$t('ExplorerCN.table.emptyDescription')">
-							<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.table.block')">
+						<el-table class="table"  :data="blockList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
+							<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
 								<template slot-scope="scope">
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 								</template>
 							</el-table-column>
-							<el-table-column :min-width="ColumnMinWidth.txn" prop="numTxs" :label="$t('ExplorerCN.table.transactions')"></el-table-column>
-							<el-table-column :min-width="ColumnMinWidth.time" prop="time" :label="$t('ExplorerCN.table.timestamp')"></el-table-column>
-							<el-table-column :min-width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerCN.table.age')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.txn" prop="numTxs" :label="$t('ExplorerLang.table.transactions')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.time" prop="time" :label="$t('ExplorerLang.table.timestamp')"></el-table-column>
+							<el-table-column :min-width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerLang.table.age')"></el-table-column>
 						</el-table>
 					</div>
 					<div class="pagination_content">

@@ -50,18 +50,26 @@ export function getBlockList(pageNum, pageSize, useCount=false){
 	return get(url);
 }
 
-export function getDenoms(){
+export function getDenoms(pageNum, pageSize,denomNameOrId, needAll){
 	let url = `denoms`;
+	if(needAll){
+	    url += `?needAll=true`;
+    }else{
+	    url += `?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+	    if(denomNameOrId){
+	        url += `&denomNameOrId=${denomNameOrId}`;
+        }
+    }
 	return get(url);
 }
 
 export function getNfts(denom, nftId, owner, pageNum, pageSize, useCount=false){
-	let url = `nfts?pageNum=${pageNum||''}&pageSize=${pageSize||''}&useCount=${useCount}&denom=${denom||''}&nftId=${nftId||''}&owner=${owner||''}`;
+	let url = `nfts?pageNum=${pageNum||''}&pageSize=${pageSize||''}&useCount=${useCount}&denomId=${denom||''}&nftId=${nftId||''}&owner=${owner||''}`;
 	return get(url);
 }
 
 export function getNftDetail(denom, nftId){
-	let url = `nfts/details?denom=${denom}&nftId=${nftId}`;
+	let url = `nfts/details?denomId=${denom}&nftId=${nftId}`;
 	return get(url);
 }
 
@@ -117,7 +125,7 @@ export function getRelevanceTxList(type, contextId, pageNum, pageSize, useCount=
 }
 
 export function getTokenTxList(nftId, denom, pageNum, pageSize,){
-    let url = `txs/nfts?pageNum=${pageNum}&pageSize=${pageSize}&tokenId=${nftId}&denom=${denom}&useCount=true`;
+    let url = `txs/nfts?pageNum=${pageNum}&pageSize=${pageSize}&tokenId=${nftId}&denomId=${denom}&useCount=true`;
     return get(url);
 }
 
@@ -173,8 +181,11 @@ export function getDefineServiceTxList(type, status, pageNum, pageSize){
     return get(url);
 }
 
-export function getAllServiceTxList(pageNum, pageSize){
+export function getAllServiceTxList(pageNum, pageSize, iptVal){
     let url = `txs/services?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
+    if(iptVal){
+        url += `&nameOrDescription=${iptVal}`;
+    }
     return get(url);
 }
 
@@ -203,7 +214,9 @@ export function getRespondServiceRecord(serviceName, provider, pageNum, pageSize
     return get(url);
 }
 
-
+export function getNodeInfo(){
+    return getFromLcd('node_info');
+}
 
 
 

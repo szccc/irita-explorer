@@ -5,10 +5,10 @@
 				<m-tabs :data="validatorStatusTitleList" :chose="selectValidatorStatus"></m-tabs>
 			</div>
 			<div class="validator_table_list_content">
-				<el-table :data="validatorList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.No" :label="$t('ExplorerCN.table.number')" prop="index" ></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.validatirName" :label="$t('ExplorerCN.table.name')" prop="name"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.operator')">
+				<el-table class="table" :data="validatorList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')" prop="index" ></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.validatirName" :label="$t('ExplorerLang.table.name')" prop="name"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.operator"
 							            placement="top"
@@ -21,8 +21,8 @@
 <!--					<el-table-column label="Identity" prop="identity"></el-table-column>-->
 <!--					<el-table-column label="Details" prop="detail"></el-table-column>-->
 <!--					<el-table-column label="Proposer Priority" prop="proposerPriority"></el-table-column>-->
-					<el-table-column :min-width="ColumnMinWidth.votingPower" :label="$t('ExplorerCN.table.votingPower')" prop="votingPower"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.publickKey" :label="$t('ExplorerCN.table.pubKey')" prop="pubKey"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.votingPower" :label="$t('ExplorerLang.table.votingPower')" prop="votingPower"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.publickKey" :label="$t('ExplorerLang.table.pubKey')" prop="pubKey"></el-table-column>
 				</el-table>
 			</div>
 		</div>
@@ -47,17 +47,17 @@
 				status:'bonded',
 				validatorStatusTitleList:[
 					{
-						title:this.$t('ExplorerCN.validators.bonded'),
+						title:this.$t('ExplorerLang.validators.bonded'),
 						isActive: true,
 						name:'bonded'
 					},
 					// {
-					// 	title:this.$t('ExplorerCN.validators.unbonding'),
+					// 	title:this.$t('ExplorerLang.validators.unbonding'),
 					// 	isActive: false,
 					// 	name:'unbonding'
 					// },
 					{
-						title:this.$t('ExplorerCN.validators.unbonded'),
+						title:this.$t('ExplorerLang.validators.unbonded'),
 						isActive: false,
 						name:'unbonded'
 					}

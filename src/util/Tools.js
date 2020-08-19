@@ -30,7 +30,7 @@ export default class Tools{
 	/**
 	 * 格式化hash
 	 * */
-	static formatTxHash(txHash){
+	static formatTxHash(txHash = ''){
 		return `${txHash.substring(0,3)}...${txHash.substring(txHash.length - 3)}`
 	}
 

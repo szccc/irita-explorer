@@ -1,11 +1,13 @@
 <template>
-	<div class="header_container">
+	<div class="header_container" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`">
 		<div class="header_content">
 			<div class="header_menu_content">
-				<div class="header_logo_img_content">
-					<router-link :to="`/home`">
-						<img src="../../assets/csrb_logo.png" alt="">
-					</router-link>
+				<div class="header_logo_content" @click="logoClick">
+					<img class="header_logo_content_icon" v-if="logoImg.length" :src="logoImg" alt="">
+					<div :style="`color:${(prodConfig.nav || {}).color || ''}`">
+						<p>{{(prodConfig.logo || {}).title || 'CSChain-Bond'}}</p>
+						<p>{{(prodConfig.logo || {}).subTitle || '债券应用链浏览器'}}</p>
+					</div>
 				</div>
 				<div class="header_menu">
 					<el-menu
@@ -13,34 +15,85 @@
 							class="el-menu-demo"
 							mode="horizontal"
 							@select="handleSelect"
-							background-color ="#3264FD"
-							text-color="#CBD8FE"
-							active-text-color="#fff">
-						<el-menu-item v-for="(item,idx) in menuList" :index="String(idx+1)" :key="idx">
-							<router-link :to="item.link">{{item.titel}}</router-link>
-						</el-menu-item>
+                            :background-color ="(prodConfig.nav || {}).bgColor || '#3264FD'"
+                            :text-color="(prodConfig.nav || {}).color || '#CBD8FE'"
+                            :active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'">
+						<component v-for="(item,index) in menuList"
+								   :is="item.children ? 'el-submenu':'el-menu-item'"
+                                   :index="String(index+1)"
+                                   :key="index">
+							<router-link v-if="!item.children" :to="item.link">{{item.title}}</router-link>
+							<template v-else>
+								<template slot="title">
+	                                {{ item.title }}
+	                            </template>
+	                            <el-menu-item :index="`${index+1}-${subIndex+1}`"
+	                                          v-show="!subItem.children"
+	                                          :key="(subIndex)"
+	                                          v-for="(subItem, subIndex) in item.children">
+	                                <router-link :to="subItem.link">
+	                                    {{subItem.title}}
+	                                </router-link>
+	                            </el-menu-item>
+							</template>
+						</component>
 					</el-menu>
 				</div>
 				<div class="header_mobile_menu" @click="featureShow=!featureShow">
 					<img class="menu_btn" src="../../assets/menu.png" >
 				</div>
 			</div>
-			<div class="header_input_content">
-				<div class="search_input_container">
+			<div class="header_input_content" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`" v-if="searchShow">
+				<div class="search_input_container" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`">
 					<div class="search_input_wrap">
 						<input type="text"
 						       class="search_input"
-						       :placeholder="$t('ExplorerCN.Navigation.searchPlaceHolder')"
+						       :style="`color:${(prodConfig.nav || {}).color || ''}`"
+						       :placeholder="$t('ExplorerLang.Navigation.searchPlaceHolder')"
 						       v-model.trim="searchInputValue"
 						       @keyup.enter="onInputChange">
-						<span @click="getData(searchInputValue)" class="iconfont iconsousuo"></span>
+						<span @click="getData(searchInputValue)"
+							  class="iconfont iconsousuo"
+							  :style="`color:${(prodConfig.nav || {}).color || ''}`"></span>
 					</div>
 				</div>
 			</div>
 			<div class="use_feature_mobile"
                  v-if="featureShow">
-                <div v-for="(item,idx) in menuList" class="header_content_feature" @click="mobileMenuDidClick(item,idx)" >
-                	{{item.titel}}
+                <div v-for="(item,index) in menuList"
+                     class="mobile_tab_item_wrap"
+                     :key="String(index)"
+                     :style="`color:${(prodConfig.nav || {}).color || ''}`">
+                    <span class="mobile_tab_item"
+                          @click="mobileMenuDidClick(item, index, false)"
+                          v-if="!item.children">
+                        {{item.title}}
+                    </span>
+                	<div class="mobile_tab_item_children_container" v-else>
+                        <span class="mobile_tab_item mobile_tab_item_has_children"
+                              @click="handleParentTitleClick(index)">
+                            {{item.title}}
+                            <img src="../../assets/expanding.svg"
+                                 v-show="!expandingList.includes(index)"
+                                 class="mobile_tab_item_icon">
+                            <img src="../../assets/retract.svg"
+                                 v-show="expandingList.includes(index)"
+                                 class="mobile_tab_item_icon">
+
+
+                        </span>
+                        <transition name="fade">
+                            <div class="mobile_tab_item_sub_children_container"
+                                 v-show="expandingList.includes(index)">
+                                <span class="mobile_tab_item mobile_tab_item_child"
+                                      :key="String(subIndex+10)"
+                                      @click="mobileMenuDidClick(child, subIndex, true)"
+                                      v-for="(child, subIndex) in item.children">
+                                    {{ child.title }}
+                                </span>
+                            </div>
+                        </transition>
+                    </div>
                 </div>
             </div>
 		</div>
@@ -48,38 +101,71 @@
 </template>
 <script>
 	import Tools from "../../util/Tools";
-	import {addrPrefix} from "../../constant"
+	import {addrPrefix} from "../../constant";
+	import prodConfig from "../../productionConfig";
 	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../../service/api';
 	export default {
 		data() {
 			return {
+				prodConfig,
 				activeIndex: '1',
 				activeIndex2: '0',
 				searchInputValue: '',
 				featureShow:false,
-				menuList:[
-					{
-						titel:this.$t('ExplorerCN.Navigation.block'),
-						link:'/blocks',
-					},
-					{
-						titel:this.$t('ExplorerCN.Navigation.transactions'),
-						link:'/txs',
-					},
-					{
-						titel:this.$t('ExplorerCN.Navigation.validators'),
-						link:'/validators',
-					},
-					{
-						titel:this.$t('ExplorerCN.Navigation.nftAsset'),
-						link:'/nftAsset',
-					},
-					{
-						titel:this.$t('ExplorerCN.Navigation.service'),
-						link:'/services',
-					}
-				]
+				menuList:[],
+				searchShow:false,
+                expandingList:[],			};
+		},
+		computed:{
+			logoImg(){
+				let img = '';
+				try {img = require('../../assets/logo.png');}catch(e){}
+				return img;
+			}
+		},
+		beforeMount(){
+			let funcs = {
+				'100':{
+					title:this.$t('ExplorerLang.Navigation.block'),
+					link:'/blocks',
+				},
+				'101':{
+					title:this.$t('ExplorerLang.Navigation.transactions'),
+					link:'/txs',
+				},
+				'102':{
+					title:this.$t('ExplorerLang.Navigation.validators'),
+					link:'/validators',
+				},
+				'103':{
+					title:this.$t('ExplorerLang.Navigation.nftAsset'),
+                    children:[
+                        {
+                            title:this.$t('ExplorerLang.Navigation.nftAsset'),
+                            link:'/nftAsset',
+                        },
+                        {
+                            title:this.$t('ExplorerLang.Navigation.denoms'),
+                            link:'/denoms',
+                        },
+
+                    ]
+				},
+				'104':{
+					title:this.$t('ExplorerLang.Navigation.service'),
+					link:'/services',
+				}
 			};
+			if (prodConfig.navFuncList && prodConfig.navFuncList.length) {
+				prodConfig.navFuncList.forEach((item)=>{
+					if (funcs[item]) {
+                            this.menuList.push(funcs[item]);
+					}
+					if (item == '105') {
+						this.searchShow = true;
+					}
+				});
+			}
 		},
 		mounted(){
 			// this.$Crypto.getCrypto('iris', 'testnet');
@@ -96,8 +182,18 @@
 		methods: {
 			handleSelect(key, keyPath) {
 			},
+            handleParentTitleClick(index){
+                if(this.expandingList.includes(index)){
+                    this.expandingList.splice(this.expandingList.findIndex((i)=>i === index),1);
+                }else{
+                    this.expandingList.push(index);
+                }
+            },
 			onInputChange () {
 				this.getData()
+			},
+			logoClick(){
+				this.$router.push(`/home`);
 			},
             setActiveIndex(hash = window.location.hash){
 			    if(this.menuList.every((m)=>!hash.includes(m.link))){
@@ -109,7 +205,6 @@
                         }
                     })
                 }
-
             },
 			clearSearchContent () {
 				this.searchInputValue = '';
@@ -118,6 +213,7 @@
 				this.$router.push(item.link)
 				this.activeIndex2 = String(index+1);
 				this.featureShow = false;
+                this.expandingList = [];
 
 			},
 			getData(){
@@ -207,14 +303,30 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				.header_logo_img_content{
-					padding-right: 0.2rem;
-					img{
+				.header_logo_content{
+					display:flex;
+					align-items:center;
+					cursor: pointer;
+					margin-right: 0.2rem;
+					height:0.6rem;
+					font-size:$s12;
+					font-family:PingFangSC-Regular,PingFang SC;
+					color:$t_white_c;
+					text-align: left;
+					line-height:1.3;
+					.header_logo_content_icon{
 						height: 0.3rem;
-						padding-top: 0.04rem;
+						width: 0.3rem;
+						margin-right:0.12rem;
+					}
+					.header_logo_content_title{
+
+					}
+					.header_logo_content_subTitle{
+
 					}
 				}
-				
+
 				.header_menu{
 					display:block;
 					.el-menu-demo{
@@ -224,9 +336,18 @@
 							a{
 								display: inline-block;
 								width: 100%;
-								height: 100%;
+								//height: 100%;
+                                height:0.6rem;
 							}
 						}
+						/deep/.el-submenu{
+							.el-submenu__title{
+								.el-submenu__icon-arrow{
+									color:inherit !important;
+								}
+							}
+						}
+						
 					}
 				}
 				.header_mobile_menu{
@@ -242,7 +363,7 @@
 		            }
 				}
 			}
-			
+
 		}
 		.header_input_content{
 			flex: 1;
@@ -277,8 +398,8 @@
 						font-size: $s20;
 						padding: 0 0.1rem;
 						line-height: 0.3rem;
-						color: $t_fourth_c;
 						cursor: pointer;
+						color: $t_fourth_c;
 					}
 				}
 			}
@@ -287,12 +408,48 @@
 			display:none;
 			width:100%;
 			margin-top:0.1rem;
-			.header_content_feature{
-				padding:0.05rem 0;
-		        color: $t_white_c;
-		        font-size: $s16;
-		        font-weight: bold;
-		        text-align:left;
+			.mobile_tab_item_wrap{
+                display:flex;
+                color: $t_white_c;
+                flex-direction:column;
+                .mobile_tab_item{
+                	cursor: pointer;
+                    color: inherit;
+                    font-size: $s16;
+                    font-weight: bold;
+                    text-align:left;
+                    padding:0.05rem 0;
+                    width:100%;
+                    box-sizing: border-box;
+                }
+                .mobile_tab_item_children_container{
+                    width:100%;
+                    box-sizing: border-box;
+                    display:flex;
+                    flex-direction:column;
+                    .mobile_tab_item_has_children{
+                        position:relative;
+                        .mobile_tab_item_icon{
+                            position:absolute;
+                            right:0;
+                            width:0.17rem;
+                            height:0.08rem;
+                            top:0.12rem;
+                        }
+                    }
+                    .mobile_tab_item_sub_children_container{
+                        background: rgba(0,0,0,0.3);
+                        width:100vw;
+                        position:relative;
+                        left:-0.15rem;
+                        display:flex;
+                        flex-direction:column;
+                        .mobile_tab_item_child{
+                            text-indent: 0.35rem;
+                        }
+                    }
+
+                }
 			}
 		}
 	}
@@ -305,7 +462,7 @@
 				flex-direction:column;
 				.header_menu_content{
 					width:100%;
-					
+
 					.header_menu{
 						display:none;
 					}
@@ -313,7 +470,7 @@
 						display:block;
 					}
 				}
-				
+
 			}
 			.header_input_content{
 				width:100%;
@@ -328,13 +485,13 @@
 	}
 
 	@media screen and (max-width: 768px) {
-		
+
 	}
 
 	@media screen and (max-width: 375px) {
-		
+
 	}
 
 
-	
+
 </style>

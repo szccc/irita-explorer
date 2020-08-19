@@ -2,13 +2,13 @@
     <div class="service_respond_record_container">
         <div class="service_respond_record_content_wrap">
             <p class="service_respond_record_title">
-                {{$t('ExplorerCN.serviceDetail.respondRecord')}}
+                {{$t('ExplorerLang.serviceDetail.respondRecord')}}
                 {{$route.params.serviceName}}
                 <span class="service_respond_record_spread">
                     |
                 </span>
                 <span class="service_respond_record_provider">
-                    {{$t('ExplorerCN.serviceDetail.provider')}}
+                    {{$t('ExplorerLang.serviceDetail.provider')}}
                 </span>
                 <span class="service_respond_record_provider_content">
                     <router-link :to="`/address/${$route.params.provider}`">
@@ -19,27 +19,27 @@
             </p>
             <div class="service_respond_record_definition_content">
                 <h3 class="service_respond_record_definition_title">
-                    {{$t('ExplorerCN.serviceDetail.primary')}}
+                    {{$t('ExplorerLang.serviceDetail.primary')}}
                 </h3>
                 <div class="service_respond_record_content">
                     <p class="service_respond_record_text_content">
-                        <span>{{$t('ExplorerCN.table.isAvailable')}}:</span>
+                        <span>{{$t('ExplorerLang.table.isAvailable')}}:</span>
                         <span>{{isAvailable}}</span>
                     </p>
                     <!-- <p class="service_respond_record_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.pricing')}}:</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.pricing')}}:</span>
                         <span>{{price}}</span>
                     </p> -->
                     <p class="service_respond_record_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.qos')}}:</span>
-                        <span>{{`${qos} ${$t('ExplorerCN.unit.blocks')}`}} </span>
+                        <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.qos')}}:</span>
+                        <span>{{`${qos} ${$t('ExplorerLang.unit.blocks')}`}} </span>
                     </p>
                     <!-- <p class="service_respond_record_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.deposit')}}:</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.deposit')}}:</span>
                         <span>{{deposit}}</span>
                     </p> -->
                     <p class="service_respond_record_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.hash')}}:</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.hash')}}:</span>
                         <span>
                              <router-link :to="`/tx?txHash=${hash}`">
                                 {{hash}}
@@ -47,7 +47,7 @@
                         </span>
                     </p>
                     <p class="service_respond_record_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.owner')}}:</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.owner')}}:</span>
                         <span>
                             <router-link :to="`/address/${owner}`">
                                 {{owner}}
@@ -55,12 +55,12 @@
                         </span>
                     </p>
                     <p class="service_respond_record_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.bindTime')}}:</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.bindTime')}}:</span>
                         <span>{{bindTime}}</span>
                     </p>
 
                     <p class="service_respond_record_text_content">
-                        <span>{{$t('ExplorerCN.serviceDetail.serviceBindings.disabledTime')}}:</span>
+                        <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.disabledTime')}}:</span>
                         <span>{{disabledTime}}</span>
                     </p>
 
@@ -68,11 +68,11 @@
             </div>
             <div class="service_respond_record_transaction_content">
                 <h3 class="service_respond_record_transaction_title">
-                    {{$t('ExplorerCN.serviceDetail.txRecord')}}
+                    {{$t('ExplorerLang.serviceDetail.txRecord')}}
                 </h3>
                 <div class="service_respond_record_transaction_table_content">
-                    <el-table :data="txList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerCN.table.respondHash')">
+                    <el-table class="table" :data="txList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.respondStatus === TX_STATUS.success"
@@ -88,10 +88,10 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerCN.table.txType')"
+                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
                                          prop="type"></el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerCN.table.requestId')">
+                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="scope.row.requestContextId"
                                             v-if="scope.row.requestContextId">
@@ -103,7 +103,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerCN.table.block')">
+                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
                             <template slot-scope="scope">
                                 <router-link :to="`/block/${scope.row.height}`">
                                     {{scope.row.height}}
@@ -111,9 +111,9 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.timestamp')" 
+                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" 
                                          prop="time"></el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.consumer')">
+                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.consumer')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="scope.row.consumer">
                                     <router-link :to="`/address/${scope.row.consumer}`">{{formatAddress(scope.row.consumer)}}
@@ -123,7 +123,7 @@
                         </el-table-column>
 
                         <el-table-column :min-width="ColumnMinWidth.txHash"
-                                         :label="$t('ExplorerCN.table.requestHash')">
+                                         :label="$t('ExplorerLang.table.requestHash')">
                                 <template slot-scope="scope">
                                     <img class="service_tx_status"
                                          src="../assets/success.png"/>
@@ -218,7 +218,7 @@
 
                 } catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.serviceInfoFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
             },
 
@@ -248,7 +248,7 @@
                     this.txPageSize = Number(res.pageSize);
                 } catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.txListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
             },
@@ -417,7 +417,7 @@
                                 }
                             }
                             .el-input__inner:focus {
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                             .el-input__suffix {
                                 .el-input__suffix-inner {
@@ -429,7 +429,7 @@
                         }
                         .is-focus {
                             .el-input__inner {
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                         }
 
@@ -437,7 +437,7 @@
                     .search_btn {
                         cursor: pointer;
                         background: $bg_button_c;
-                        color: $t_white_c;
+                        color: $t_button_c;
                         border-radius: 0.04rem;
                         padding: 0.05rem 0.18rem;
                         font-size: $s14;

@@ -2,27 +2,29 @@
 	<div class="nft_list_container">
 		<div class="nft_list_content_wrap">
 			<div class="nft_list_header_content">
-				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerCN.nftAsset.assets')}}</h3>
-				<el-select v-model="value" :change="filterTokenIdByDenom(value)">
+				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerLang.nftAsset.assets')}}</h3>
+				<el-select v-model="denom" >
 					<el-option v-for="(item, index) in nftList"
 							   :key="index"
 							   :label="item.label"
 							   :value="item.value"></el-option>
 				</el-select>
-				<el-input v-model="input" :placeholder="$t('ExplorerCN.nftAsset.placeHolder')"></el-input>
+				<el-input v-model="input"
+                          @change="handleSearchClick"
+                          :placeholder="$t('ExplorerLang.nftAsset.placeHolder')"></el-input>
 				<div class="tx_type_mobile_content">
-					<div class="search_btn" @click="getNftsByFilter">{{$t('ExplorerCN.nftAsset.search')}}</div>
+					<div class="search_btn" @click="handleSearchClick">{{$t('ExplorerLang.nftAsset.search')}}</div>
 					<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
 				</div>
 			</div>
 			<div class="nef_list_table_container">
-				<el-table :data="denomArray" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerCN.table.denom')">
+				<el-table class="table" :data="denomArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')">
 						<template slot-scope="scope">
-							{{scope.row.denom_name}}
+							{{scope.row.denom_name || scope.row.denom_id}}
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.owner')" >
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.owner')" >
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.owner"
 										class="item"
@@ -32,13 +34,13 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerCN.table.id')" >
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.id')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nft_name}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_name}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerCN.table.data')" prop="tokenData"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerCN.table.uri')" prop="tokenUri">
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
@@ -61,7 +63,6 @@
 
 <script>
 	import { getDenoms, getNfts } from "../service/api"
-	import {addrPrefix} from "../constant"
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
 	import { ColumnMinWidth } from '../constant';
@@ -69,17 +70,20 @@
 		name: "NftList",
 		components: {MPagination},
 		data () {
+            let denom = '';
+		    if(this.$store.state.tempDenomId){
+                denom = this.$store.state.tempDenomId;
+            }
 			return {
 				ColumnMinWidth,
 				nftList: [
 					{
-						value:'all',
-						label:'All',
+						value:'',
+						label:this.$t('ExplorerLang.common.all'),
 					}
 				],
 				denomArray:[],
-				value:'all',
-				denom: "",
+				denom,
 				currentPageNum: 1,
 				pageSize: 20,
 				tokenId: '',
@@ -90,20 +94,15 @@
 		},
 		mounted(){
 			this.getNftList();
-			this.getNftsByFilter()
+			this.getNftsByFilter();
+            if(this.$store.state.tempDenomId){
+                this.$store.commit('SET_TEMP_DENOM_ID','');
+            }
 		},
 		methods:{
-			filterTokenIdByDenom(value){
-				if(value === 'all'){
-					this.denom = ''
-				}else {
-					this.denom = value;
-				}
-			},
 			resetFilterCondition(){
 				this.input = '';
 				this.denom = '';
-				this.value = 'all';
 				this.currentPageNum = 1;
 				this.tokenId = '';
 				this.owner = '';
@@ -116,6 +115,10 @@
 				// }
 				this.getNftsByFilter()
 			},
+            handleSearchClick(){
+                this.currentPageNum = 1;
+			    this.getNftsByFilter();
+            },
 			async getNftsByFilter(){
 				if (Tools.isBech32(this.input)) {
 					this.owner = this.input;
@@ -123,8 +126,6 @@
 				if(!this.owner){
 					this.tokenId =  this.input;
 				}
-				sessionStorage.setItem('selectDenom',this.denom)
-								
 				try {
 					let nftData = await getNfts(this.denom, this.tokenId, this.owner, this.currentPageNum, this.pageSize, true);
 					if(nftData && nftData.data){
@@ -145,14 +146,14 @@
 			},
 			async getNftList(){
 				try {
-					let denomData = await getDenoms();
+					let denomData = await getDenoms(null, null, null, true);
 					if(denomData){
 						let nftList = denomData.data.map(item => {
 							return {
-								label: item.denom_name,
-								value: item.name
+								label: item.denomName || item.denomId,
+								value: item.denomId
 							}
-						})
+						});
 						this.nftList = this.nftList.concat(nftList)
 					}
 					}catch (e) {
@@ -183,7 +184,7 @@
                                 line-height: 0.32rem;
                             }
                             .el-input__inner:focus{
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                             .el-input__suffix{
                                 .el-input__suffix-inner{
@@ -204,6 +205,9 @@
                             font-size: $s14 !important;
                             line-height: 0.32rem;
                         }
+                        .el-input__inner:focus{
+	                        border-color: $theme_c !important;
+	                    }
                     }
                     .tx_type_mobile_content{
                         align-items: center;
@@ -234,7 +238,7 @@
                                 line-height: 0.32rem;
                             }
                             .el-input__inner:focus{
-                                border-color: $bd_highlight_c !important;
+                                border-color: $theme_c !important;
                             }
                             .el-input__suffix{
                                 .el-input__suffix-inner{
@@ -254,6 +258,9 @@
                             font-size: $s14 !important;
                             line-height: 0.32rem;
                         }
+                        .el-input__inner:focus{
+	                        border-color: $theme_c !important;
+	                    }
                     }
                     .tx_type_mobile_content{
                         justify-content: flex-end;
@@ -267,7 +274,7 @@
 			margin: 0 auto;
 			.nft_list_header_content{
 				width: 100%;
-				margin: 0.3rem 0 0 0;
+				margin: 0.3rem 0 0.1rem 0;
 
 				.el-select{
 					/deep/ .el-input{
@@ -277,6 +284,9 @@
 								font-size: $s14 !important;
 							}
 						}
+						.el-input__inner:focus{
+	                        border-color: $theme_c !important;
+	                    }
 					}
 				}
 
@@ -324,7 +334,7 @@
 								}
 							}
 							.el-input__inner:focus{
-								border-color: $bd_highlight_c !important;
+								border-color: $theme_c !important;
 							}
 							.el-input__suffix{
 								.el-input__suffix-inner{
@@ -336,7 +346,7 @@
 						}
 						.is-focus{
 							.el-input__inner{
-								border-color: $bd_highlight_c !important;
+								border-color: $theme_c !important;
 							}
 						}
 
@@ -355,7 +365,7 @@
 								font-size: $s14 !important;
 							}
 							&:focus{
-								border-color: $bd_highlight_c;
+								border-color: $theme_c;
 							}
 						}
 						.el-input__prefix{
@@ -371,7 +381,7 @@
 					}
 					.reset_btn{
 						background: $bg_button_c;
-						color: $t_white_c;
+						color: $t_button_c;
 						border-radius: 0.04rem;
 						margin-left: 0.1rem;
 						cursor: pointer;
@@ -386,7 +396,7 @@
 						cursor: pointer;
 						background: $bg_button_c;
 						margin-left: 0.1rem;
-						color: $t_white_c;
+						color: $t_button_c;
 						border-radius: 0.04rem;
 						padding: 0.05rem 0.18rem;
 						font-size: $s14;
@@ -395,7 +405,7 @@
 				}
 			}
 			.nef_list_table_container{
-				margin-top: 0.05rem;
+				//margin-top: 0.05rem;
 			}
 			.pagination_content{
 				display: flex;

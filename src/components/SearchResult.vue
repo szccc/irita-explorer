@@ -2,17 +2,17 @@
     <div class="search_result_detail_wrap">
         <div class="search_result_title_wrap">
             <div class="search_result_title_content">
-                <span>{{$t('ExplorerCN.searchResult.title')}}</span>
+                <span>{{$t('ExplorerLang.searchResult.title')}}</span>
                 <span>{{Object.keys(this.$route.query)[0]}}</span>
             </div>
             <div class="result_content_container">
                 <div class="result_img">
                     <img src="../assets/resultless.png" alt="">
                 </div>
-                <p class="result_title">{{$t('ExplorerCN.searchResult.resultTitle')}}</p>
-                <p class="try_info">{{$t('ExplorerCN.searchResult.searchTip')}}</p>
+                <p class="result_title">{{$t('ExplorerLang.searchResult.resultTitle')}}</p>
+                <p class="try_info">{{$t('ExplorerLang.searchResult.searchTip')}}</p>
                 <div class="back_home_btn" @click="backHome">
-                    <span>{{$t('ExplorerCN.searchResult.backHome')}}</span>
+                    <span>{{$t('ExplorerLang.searchResult.backHome')}}</span>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@
                    margin: 0 auto;
                    background: $bg_button_c;
                    border-radius: 0.05rem;
-                   color: $t_white_c;
+                   color: $t_button_c;
                    font-size: $s14;
                    line-height: 0.36rem;
                    cursor: pointer;

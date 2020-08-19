@@ -2,7 +2,16 @@
 	<div class="service_list_container_content">
 		<div class="service_list_content_wrap">
 			<div class="service_list_title">
-                {{$t('ExplorerCN.service.services')}}
+                {{ txCount }} {{$t('ExplorerLang.service.services')}}
+            </div>
+            <div class="nft_list_header_content">
+                <el-input v-model="iptVal"
+                          @change="handleSearchClick"
+                          :placeholder="$t('ExplorerLang.service.placeHolder')"></el-input>
+                <div class="tx_type_mobile_content">
+                    <div class="search_btn" @click="handleSearchClick">{{$t('ExplorerLang.nftAsset.search')}}</div>
+                    <div class="reset_btn" @click="reset"><i class="iconfont iconzhongzhi"></i></div>
+                </div>
             </div>
 			<div class="service_list_content" v-for="service in serviceList">
                 <div class="service_list_top">
@@ -18,8 +27,8 @@
                     </span>
                 </div>
 
-				<el-table :data="service.bindList" :empty-text="$t('ExplorerCN.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerCN.table.provider')">
+				<el-table class="table" :data="service.bindList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
 						<template slot-scope="scope">
 							<span>
                                 <el-tooltip placement="top" :content="scope.row.provider">
@@ -30,17 +39,17 @@
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="180" :label="$t('ExplorerCN.table.respondTimes')">
+					<el-table-column :min-width="180" :label="$t('ExplorerLang.table.respondTimes')">
 						<template slot-scope="scope">
 							<span>
 								<router-link
                                         :to="`service/respond/${service.serviceName}/${scope.row.provider}`">
-                                        {{`${scope.row.respondTimes} ${$t('ExplorerCN.unit.time')}`}}
+                                        {{`${scope.row.respondTimes} ${$t('ExplorerLang.unit.time')}`}}
                                     </router-link>
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerCN.table.isAvailable')">
+					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerLang.table.isAvailable')">
                         <template slot-scope="scope">
                         <div class="service_information_available_container">
                             <img class="service_tx_status"
@@ -56,9 +65,9 @@
 
                     </template>
                     </el-table-column>
-                    <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerCN.table.price')" prop="price"></el-table-column> -->
-					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerCN.table.minBlock')" prop="qos"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerCN.table.bindTime')" prop="bindTime"></el-table-column>
+                    <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerLang.table.price')" prop="price"></el-table-column> -->
+					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerLang.table.minBlock')" prop="qos"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.bindTime')" prop="bindTime"></el-table-column>
 				</el-table>
 			</div>
 			<div class="pagination_content" v-if="txCount > pageSize">
@@ -72,7 +81,7 @@
             <div class="service_list_empty_container" v-if="serviceList.length === 0">
                 <img src="../assets/empty.png" alt="" class="service_list_empty">
                 <span class="service_list_empty_description">
-                    {{ $t('ExplorerCN.table.emptyDescription') }}
+                    {{ $t('ExplorerLang.table.emptyDescription') }}
                 </span>
             </div>
 		</div>
@@ -95,6 +104,7 @@
 				serviceList:[],
 				txCount:0,
                 Tools,
+                iptVal:'',
 			}
 		},
 		mounted () {
@@ -103,7 +113,7 @@
 		methods:{
 			async getServiceList(){
                 try {
-                    let serviceList = await getAllServiceTxList(this.pageNum,this.pageSize);
+                    let serviceList = await getAllServiceTxList(this.pageNum,this.pageSize, this.iptVal);
                     if(serviceList && serviceList.data){
                         console.log(serviceList)
                         for(let service of serviceList.data){
@@ -117,7 +127,7 @@
                                             s.isAvailable = b.available ? 'True' : 'False';
                                             s.available = b.available;
                                             s.price = JSON.parse(b.pricing).price;
-                                            s.qos = `${b.qos} ${this.$t('ExplorerCN.unit.blocks')}`;
+                                            s.qos = `${b.qos} ${this.$t('ExplorerLang.unit.blocks')}`;
                                         }
                                     })
                                 })
@@ -131,7 +141,7 @@
                     }
                 }catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerCN.message.serviceTxListFailed'));
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 			},
 			formatTxHash(TxHash){
@@ -145,7 +155,15 @@
 			pageChange(pageNum) {
 				this.pageNum = pageNum;
 				this.getServiceList();
-			}
+			},
+            handleSearchClick(){
+                this.pageNum = 1;
+                this.getServiceList();
+            },
+            reset(){
+                this.iptVal = '';
+                this.handleSearchClick();
+            }
 		}
 	}
 </script>
@@ -154,13 +172,55 @@
 	a{
 		color: $t_link_c !important;
 	}
+
 	.service_list_container_content{
         @media screen and (min-width: 910px){
             .service_list_title{
-                padding-left: 0.27rem;
+                //padding-left: 0.27rem;
             }
             .service_list_content_wrap{
                 max-width: 12rem;
+            }
+            .nft_list_header_content{
+                display: flex;
+                align-items: center;
+                .el-select{
+                    /deep/ .el-input{
+                        width: 1.8rem;
+                        .el-input__inner{
+                            padding-left: 0.07rem;
+                            height: 0.32rem;
+                            line-height: 0.32rem;
+                        }
+                        .el-input__inner:focus{
+                            border-color: $theme_c !important;
+                        }
+
+                        .el-input__suffix{
+                            .el-input__suffix-inner{
+                                .el-input__icon{
+                                    line-height: 0.32rem;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                /deep/ .el-input{
+                    max-width: 3.5rem;
+                    .el-input__inner{
+                        padding-left: 0.07rem;
+                        height: 0.32rem;
+                        font-size: $s14 !important;
+                        line-height: 0.32rem;
+                    }
+                    .el-input__inner:focus{
+                        border-color: $theme_c !important;
+                    }
+                }
+                .tx_type_mobile_content{
+                    align-items: center;
+                }
             }
 
         }
@@ -171,10 +231,58 @@
                 box-sizing: border-box;
 
             }
+            .nft_list_header_content{
+                display: flex;
+                flex-direction:column;
+                justify-content: flex-start;
+                .el-select{
+                    margin-bottom:0.1rem;
+                    /deep/ .el-input{
+                        //width: 1.8rem;
+                        .el-input__inner{
+                            padding-left: 0.07rem;
+                            height: 0.32rem;
+                            line-height: 0.32rem;
+                        }
+                        .el-input__inner:focus{
+                            border-color: $theme_c !important;
+                        }
+                        .el-input__suffix{
+                            .el-input__suffix-inner{
+                                .el-input__icon{
+                                    line-height: 0.32rem;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                /deep/ .el-input{
+                    margin-bottom:0.1rem;
+                    .el-input__inner{
+                        padding-left: 0.07rem;
+                        height: 0.32rem;
+                        font-size: $s14 !important;
+                        line-height: 0.32rem;
+                    }
+                    .el-input__inner:focus{
+                        border-color: $theme_c !important;
+                    }
+                }
+                .tx_type_mobile_content{
+                    justify-content: flex-end;
+                    margin-bottom:0.1rem;
+                }
+            }
 
         }
 		.service_list_content_wrap{
 			margin: 0 auto;
+            /deep/.el-table{
+                .cell{
+                    padding-left:0 !important;
+                }
+            }
             .service_list_empty_container{
                 display:flex;
                 flex-direction:column;
@@ -201,6 +309,139 @@
                 font-weight: 600;
                 color: $t_first_c;
 			}
+            .nft_list_header_content{
+                width: 100%;
+                margin: 0.3rem 0 0.1rem 0;
+                .el-select{
+                    /deep/ .el-input{
+                        .el-input__inner{
+                            font-size: $s14 !important;
+                            &::-webkit-input-placeholder{
+                                font-size: $s14 !important;
+                            }
+                        }
+                        .el-input__inner:focus{
+                            border-color: $theme_c !important;
+                        }
+                    }
+                }
+
+                /deep/ .el-input{
+                    .el-input__inner{
+                        font-size: $s14 !important;
+                        &::-webkit-input-placeholder{
+                            font-size: $s14 !important;
+                        }
+                    }
+                    .el-input__inner:focus{
+                        border-color: $theme_c !important;
+                    }
+                }
+                .nft_list_header_title{
+                    font-size: $s18;
+                    color: $t_first_c;
+                    line-height: 0.21rem;
+                    text-align: left;
+                    //text-indent: 0.2rem;
+                }
+                .nft_denom_content{
+                    margin-top: 0.1rem;
+                    width: 100%;
+                    height:0.5rem;
+                    line-height: 0.5rem;
+                    font-size: $s14;
+                    color: $t_second_c;
+                    text-align: left;
+                    background: $bg_white_c;
+                    text-indent: 0.2rem;
+                }
+                .tx_type_mobile_content{
+                    display: flex;
+
+
+                    /deep/.el-select{
+                        width: 1.3rem;
+                        .el-input{
+                            .el-input__inner{
+                                padding-left: 0.07rem;
+                                height: 0.32rem;
+                                font-size: $s14 !important;
+                                line-height: 0.32rem;
+                                &::-webkit-input-placeholder{
+                                    font-size: $s14 !important;
+                                }
+                            }
+                            .el-input__inner:focus{
+                                border-color: $theme_c !important;
+                            }
+                            .el-input__suffix{
+                                .el-input__suffix-inner{
+                                    .el-input__icon{
+                                        line-height: 0.32rem;
+                                    }
+                                }
+                            }
+                        }
+                        .is-focus{
+                            .el-input__inner{
+                                border-color: $theme_c !important;
+                            }
+                        }
+
+                    }
+                    /deep/.el-date-editor{
+                        width: 1.3rem;
+                        .el-icon-circle-close{
+                            display: none !important;
+                        }
+                        .el-input__inner{
+                            height:0.32rem;
+                            padding-left: 0.07rem;
+                            padding-right: 0;
+                            line-height: 0.32rem;
+                            &::-webkit-input-placeholder{
+                                font-size: $s14 !important;
+                            }
+                            &:focus{
+                                border-color: $theme_c;
+                            }
+                        }
+                        .el-input__prefix{
+                            right: 5px;
+                            left: 1rem;
+                            .el-input__icon{
+                                line-height: 0.32rem;
+                            }
+                        }
+                    }
+                    .joint_mark{
+                        margin: 0 0.08rem;
+                    }
+                    .reset_btn{
+                        background: $bg_button_c;
+                        color: $t_button_c;
+                        border-radius: 0.04rem;
+                        margin-left: 0.1rem;
+                        cursor: pointer;
+                        i{
+                            padding: 0.08rem;
+                            font-size: $s14;
+                            line-height: 1;
+                            display: inline-block;
+                        }
+                    }
+                    .search_btn{
+                        cursor: pointer;
+                        background: $bg_button_c;
+                        margin-left: 0.1rem;
+                        color: $t_button_c;
+                        border-radius: 0.04rem;
+                        padding: 0.05rem 0.18rem;
+                        font-size: $s14;
+                        line-height: 0.2rem;
+                    }
+                }
+            }
             .service_list_content{
                 display:flex;
                 flex-direction:column;

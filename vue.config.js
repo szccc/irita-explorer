@@ -7,7 +7,7 @@ module.exports = {
     devServer: {
         proxy: {
           '/api':{
-             	target:'http://10.1.4.248:4003',
+             	target:'http://localhost:3000',
             	secure:false,
             	pathRewrite:{'^/api': '/'}
           },
@@ -26,7 +26,7 @@ module.exports = {
     css: {
         loaderOptions: {
             'sass': {
-                prependData: `@import "@/style/variable.scss";`
+                prependData: `@import "@/style/variable.scss";@import "@/style/productization.scss";`
             }
         }
     }
