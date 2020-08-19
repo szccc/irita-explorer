@@ -2,9 +2,10 @@
     "100":"区块浏览",
     "101":"交易浏览",
     "102":"共识节点",
-    "103":"NFT资产",
-    "104":"服务浏览",
-    "105":"搜索"(始终排在末尾)}*/
+    "103":"数据对象",
+    "104":"数据类别",
+    "105":"服务浏览",
+    "1000":"搜索"(始终排在末尾)}*/
  
 let config = {
     //国际化 CN / EN
@@ -37,8 +38,8 @@ let config = {
         //页脚版权信息   
         copyright:'copyright © 2020 边界智能',
     },
-    //导航栏功能列表 详见 导航栏功能映射
-    navFuncList:['100','101','102','103','104','105'],
+    //导航栏功能列表 详见 导航栏功能映射 注：title为配置文案暂不支持国际化
+    navFuncList:['100','101','102',{title:'数据对象',children:['103','104']},'105','1000'],
     //首页卡片配置
     homeCard:{
         lestBlock:true,
@@ -47,14 +48,6 @@ let config = {
         validatorCount:true,
         serviceCount:true,
         assetCount:true,
-    },
-    //模块支持
-    funcConfig:{
-        block:true,
-        tx:true,
-        validator:true,
-        asset:true,
-        service:true
     },
     text:{
         //预设字体颜色
