@@ -110,3 +110,29 @@ export const ColumnMinWidth = {
     deposit:'120'
 }
 
+export const ModuleMap = {
+    '100':{
+        title:'ExplorerLang.Navigation.block',
+        link:'/blocks',
+    },
+    '101':{
+        title:'ExplorerLang.Navigation.transactions',
+        link:'/txs',
+    },
+    '102':{
+        title:'ExplorerLang.Navigation.validators',
+        link:'/validators',
+    },
+    '103':{
+        title:'ExplorerLang.Navigation.nftAsset',
+        link:'/nftAsset',
+    },
+    '104':{
+        title:'ExplorerLang.Navigation.denoms',
+        link:'/denoms',
+    },
+    '105':{
+        title:'ExplorerLang.Navigation.service',
+        link:'/services',
+    }
+};
