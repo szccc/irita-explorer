@@ -22,17 +22,16 @@
 								   :is="item.children ? 'el-submenu':'el-menu-item'"
                                    :index="String(index+1)"
                                    :key="index">
-							<router-link v-if="!item.children" :to="item.link">{{item.title}}</router-link>
+							<router-link v-if="!item.children" :to="item.link">{{$t(item.title)}}</router-link>
 							<template v-else>
 								<template slot="title">
 	                                {{ item.title }}
 	                            </template>
 	                            <el-menu-item :index="`${index+1}-${subIndex+1}`"
-	                                          v-show="!subItem.children"
 	                                          :key="(subIndex)"
 	                                          v-for="(subItem, subIndex) in item.children">
 	                                <router-link :to="subItem.link">
-	                                    {{subItem.title}}
+	                                    {{$t(subItem.title)}}
 	                                </router-link>
 	                            </el-menu-item>
 							</template>
@@ -67,7 +66,7 @@
                     <span class="mobile_tab_item"
                           @click="mobileMenuDidClick(item, index, false)"
                           v-if="!item.children">
-                        {{item.title}}
+                        {{$t(item.title)}}
                     </span>
                 	<div class="mobile_tab_item_children_container" v-else>
                         <span class="mobile_tab_item mobile_tab_item_has_children"
@@ -89,7 +88,7 @@
                                       :key="String(subIndex+10)"
                                       @click="mobileMenuDidClick(child, subIndex, true)"
                                       v-for="(child, subIndex) in item.children">
-                                    {{ child.title }}
+                                    {{ $t(child.title) }}
                                 </span>
                             </div>
                         </transition>
@@ -101,7 +100,7 @@
 </template>
 <script>
 	import Tools from "../../util/Tools";
-	import {addrPrefix} from "../../constant";
+	import {addrPrefix, ModuleMap} from "../../constant";
 	import prodConfig from "../../productionConfig";
 	import { getBlockWithHeight,getTxDetail,getAddressTxList } from '../../service/api';
 	export default {
@@ -114,7 +113,8 @@
 				featureShow:false,
 				menuList:[],
 				searchShow:false,
-                expandingList:[],			};
+                expandingList:[],
+            };
 		},
 		computed:{
 			logoImg(){
@@ -124,48 +124,7 @@
 			}
 		},
 		beforeMount(){
-			let funcs = {
-				'100':{
-					title:this.$t('ExplorerLang.Navigation.block'),
-					link:'/blocks',
-				},
-				'101':{
-					title:this.$t('ExplorerLang.Navigation.transactions'),
-					link:'/txs',
-				},
-				'102':{
-					title:this.$t('ExplorerLang.Navigation.validators'),
-					link:'/validators',
-				},
-				'103':{
-					title:this.$t('ExplorerLang.Navigation.nftAsset'),
-                    children:[
-                        {
-                            title:this.$t('ExplorerLang.Navigation.nftAsset'),
-                            link:'/nftAsset',
-                        },
-                        {
-                            title:this.$t('ExplorerLang.Navigation.denoms'),
-                            link:'/denoms',
-                        },
-
-                    ]
-				},
-				'104':{
-					title:this.$t('ExplorerLang.Navigation.service'),
-					link:'/services',
-				}
-			};
-			if (prodConfig.navFuncList && prodConfig.navFuncList.length) {
-				prodConfig.navFuncList.forEach((item)=>{
-					if (funcs[item]) {
-                            this.menuList.push(funcs[item]);
-					}
-					if (item == '105') {
-						this.searchShow = true;
-					}
-				});
-			}
+			this.menuList = this.loadModules(prodConfig.navFuncList);
 		},
 		mounted(){
 			// this.$Crypto.getCrypto('iris', 'testnet');
@@ -180,6 +139,24 @@
             }
         },
 		methods: {
+			loadModules(funcList){
+				let menuList = [];
+				if (funcList && funcList.length) {
+					funcList.forEach((item)=>{
+						if (item.children && item.children.length) {
+							let submenu = {title:item.title};
+							submenu.children = this.loadModules(item.children);
+							menuList.push(submenu);
+						}else if(ModuleMap[item]){
+							menuList.push(ModuleMap[item]);
+						}
+						if (item == '1000') {
+							this.searchShow = true;
+						}
+					});
+				}
+				return menuList;
+			},
 			handleSelect(key, keyPath) {
 			},
             handleParentTitleClick(index){

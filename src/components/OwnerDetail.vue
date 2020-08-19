@@ -5,7 +5,7 @@
 	          <div class="address_content_title_first">{{`${$t('ExplorerLang.addressDetail.addressDetail')} |`}}</div>
 	          <div class="address_content_title_address">{{address}}</div>
 	      	</div>
-			<div class="address_asset_content" v-show="(prodConfig.funcConfig || {}).asset">
+			<div class="address_asset_content" v-show="moduleSupport('103', prodConfig.navFuncList)">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.assets')}}</div>
 				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
@@ -23,7 +23,7 @@
 					</el-table-column>
 				</el-table>
 			</div>
-			<div class="consumer_transaction_content" v-show="(prodConfig.funcConfig || {}).service">
+			<div class="consumer_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList)">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.consumerTitle')}}</div>
 				<el-table class="table" :data="consumerTxList"
 						  row-key="txHash"
@@ -110,7 +110,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="provider_transaction_content" v-show="(prodConfig.funcConfig || {}).service">
+			<div class="provider_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList)">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.providerTitle')}}</div>
 				<el-table class="table" :data="providerTxList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.serviceName" :label="$t('ExplorerLang.table.serviceName')">
@@ -273,6 +273,7 @@
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
 	import {TxHelper} from "../helper/TxHelper";
+	import {moduleSupport} from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
 	import { TX_TYPE,TX_STATUS,ColumnMinWidth } from '../constant';
@@ -294,6 +295,7 @@
 				TX_STATUS,
 				ColumnMinWidth,
 				prodConfig,
+				moduleSupport,
 				Tools,
 				assetArray:[],
 				denomArray:[],
