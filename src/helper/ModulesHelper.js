@@ -3,7 +3,7 @@ export const moduleSupport = function m(moduleId, navFuncList){
         navFuncList.length && 
         moduleId) {
         for(let item of navFuncList){
-            if (String(item) == String(moduleId)) {
+            if (String(item.id) == String(moduleId)) {
                 return true;
             }else if(item.children && item.children.length){
                 if (m(moduleId, item.children)) {return true;}
