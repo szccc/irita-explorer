@@ -8,16 +8,16 @@
     "1000":"搜索"(始终排在末尾)}*/
  
 let config = {
-    //国际化 CN / EN
+    //国际化 CN / EN 默认CN
     lang:'CN',
-    //浏览器标签标题
-    title:'',
+    //浏览器标签标题 必填
+    title:'CSChain Explorer',
     //主题色 作用于非直接干预的文字、背景、边框颜色(如输入框边框高亮、首页卡片图标等) 优先级较低
     themeColor:'',
     logo:{
-        //logo标题
+        //logo标题 必填
         title:'',
-        //logo副标题
+        //logo副标题 必填
         subTitle:'',
     },
     nav:{
@@ -35,7 +35,7 @@ let config = {
         bgColor_top:'',
         //页脚背景颜色 下半部分  
         bgColor_bottom:'',
-        //页脚版权信息   
+        //页脚版权信息   必填
         copyright:'copyright © 2020 边界智能',
     },
     //导航栏功能列表 详见 导航栏功能映射 注：title为配置文案暂不支持国际化

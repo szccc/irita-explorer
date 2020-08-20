@@ -36,7 +36,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                            :min-width="ColumnMinWidth.No"
+                            :min-width="ColumnMinWidth.nftCount"
                             :label="$t('ExplorerLang.table.nftCount')">
                         <template slot-scope="scope">
                             <a @click="handleNftCountClick(scope.row.denomId)">
