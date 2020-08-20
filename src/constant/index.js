@@ -112,27 +112,27 @@ export const ColumnMinWidth = {
 
 export const ModuleMap = {
     '100':{
-        title:'ExplorerLang.Navigation.block',
+        title:'区块浏览',
         link:'/blocks',
     },
     '101':{
-        title:'ExplorerLang.Navigation.transactions',
+        title:'交易浏览',
         link:'/txs',
     },
     '102':{
-        title:'ExplorerLang.Navigation.validators',
+        title:'共识节点',
         link:'/validators',
     },
     '103':{
-        title:'ExplorerLang.Navigation.nftAsset',
+        title:'数据对象',
         link:'/nftAsset',
     },
     '104':{
-        title:'ExplorerLang.Navigation.denoms',
+        title:'数据类别',
         link:'/denoms',
     },
     '105':{
-        title:'ExplorerLang.Navigation.service',
+        title:'服务浏览',
         link:'/services',
     }
 };

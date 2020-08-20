@@ -22,7 +22,7 @@
 								   :is="item.children ? 'el-submenu':'el-menu-item'"
                                    :index="String(index+1)"
                                    :key="index">
-							<router-link v-if="!item.children" :to="item.link">{{$t(item.title)}}</router-link>
+							<router-link v-if="!item.children" :to="item.link">{{item.title}}</router-link>
 							<template v-else>
 								<template slot="title">
 	                                {{ item.title }}
@@ -31,7 +31,7 @@
 	                                          :key="(subIndex)"
 	                                          v-for="(subItem, subIndex) in item.children">
 	                                <router-link :to="subItem.link">
-	                                    {{$t(subItem.title)}}
+	                                    {{subItem.title}}
 	                                </router-link>
 	                            </el-menu-item>
 							</template>
@@ -66,7 +66,7 @@
                     <span class="mobile_tab_item"
                           @click="mobileMenuDidClick(item, index, false)"
                           v-if="!item.children">
-                        {{$t(item.title)}}
+                        {{item.title}}
                     </span>
                 	<div class="mobile_tab_item_children_container" v-else>
                         <span class="mobile_tab_item mobile_tab_item_has_children"
@@ -88,7 +88,7 @@
                                       :key="String(subIndex+10)"
                                       @click="mobileMenuDidClick(child, subIndex, true)"
                                       v-for="(child, subIndex) in item.children">
-                                    {{ $t(child.title) }}
+                                    {{ child.title }}
                                 </span>
                             </div>
                         </transition>
@@ -147,8 +147,12 @@
 							let submenu = {title:item.title};
 							submenu.children = this.loadModules(item.children);
 							menuList.push(submenu);
-						}else if(ModuleMap[item]){
-							menuList.push(ModuleMap[item]);
+						}else if(ModuleMap[item.id]){
+							let menu = ModuleMap[item.id];
+							if (item.title) {
+								menu.title = item.title;
+							}
+							menuList.push(menu);
 						}
 						if (item == '1000') {
 							this.searchShow = true;
