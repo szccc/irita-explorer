@@ -107,7 +107,8 @@ export const ColumnMinWidth = {
     serviceName:'120',
     No:'50',
     price:'120',
-    deposit:'120'
+    deposit:'120',
+    nftCount:'100',
 }
 
 export const ModuleMap = {

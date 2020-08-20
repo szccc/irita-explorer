@@ -4,7 +4,7 @@ let fs = require('fs');
 let prodConfig =  require("./src/productionConfig"); 
 
 let textColor = (prodConfig.text || {}).color || {};
-let title = prodConfig.title || 'CSChain Explorer',
+let title = prodConfig.title || '',
     theme_color = prodConfig.themeColor || '#3264fd';
     text_color_first = textColor.first || '#171D44',
     text_color_second = textColor.second || '#787C99',
