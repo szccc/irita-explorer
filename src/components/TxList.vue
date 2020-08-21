@@ -303,7 +303,7 @@
         width:100%;
         @media screen and (min-width: 910px){
             .tx_content_wrap{
-                max-width: 12rem;
+                max-width: 12.3rem;
                 .tx_content_header_wrap{
                     display: flex;
                     justify-content: flex-start;
@@ -314,7 +314,6 @@
         @media screen and (max-width: 910px){
             .tx_content_wrap{
                 width:100%;
-                padding:0 0.15rem;
                 .tx_content_header_wrap{
                     display: flex;
                     flex-direction:column;
@@ -338,6 +337,7 @@
         .tx_content_wrap {
             margin: 0 auto;
             box-sizing: border-box;
+            padding:0 0.15rem;
             .service_tx_to_container{
                 .service_tx_muti_to_container {
                     display: flex;
@@ -356,6 +356,7 @@
                 height:0.13rem;
             }
             .tx_content_header_wrap {
+                padding-top:0.15rem;
                 .tx_transaction_content_hash{
                     display: flex;
                     align-items: center;

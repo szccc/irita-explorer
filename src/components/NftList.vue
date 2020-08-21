@@ -272,10 +272,10 @@
         }
 		.nft_list_content_wrap{
 			margin: 0 auto;
+			padding:0 0.15rem;
 			.nft_list_header_content{
 				width: 100%;
 				margin: 0.3rem 0 0.1rem 0;
-
 				.el-select{
 					/deep/ .el-input{
 						.el-input__inner{

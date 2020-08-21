@@ -457,38 +457,19 @@
         color: $t_link_c !important;
     }
 
-    @media screen and (min-width: 910px){
-        .service_information_transaction_condition_container{
-            max-width: 12rem;
-            .service_information_title {
-                padding-left: 0.27rem;
-            }
-            .tx_content_header_wrap{
-                display: flex;
-                justify-content: flex-start;
-            }
-        }
-
-    }
     @media screen and (max-width: 910px){
         .service_information_content_wrap{
             width:100%;
             padding:0 0.15rem;
             box-sizing: border-box;
             .service_information_transaction_condition_container{
-                display: flex;
-                flex-direction:column;
-                align-items: flex-start;
-
-                .tx_type_mobile_content{
-                    margin-bottom:0.1rem;
-                    &:last-child{
-                        width:100%;
-                        justify-content: flex-end;
-                        .search_btn{
-                            margin-left:0;
-                        }
-                    }
+                .service_information_transaction_condition_count {
+                    
+                }
+                /deep/ .el-select {
+                    
+                }
+                .search_btn {
 
                 }
             }
@@ -505,7 +486,7 @@
             flex-direction: column;
             .service_information_title {
                 text-align: left;
-                margin: 0.42rem 0 0.15rem 0;
+                margin: 0.3rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
                 font-size: $s18;

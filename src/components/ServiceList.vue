@@ -278,6 +278,7 @@
         }
 		.service_list_content_wrap{
 			margin: 0 auto;
+            padding:0 0.15rem;
             /deep/.el-table{
                 .cell{
                     padding-left:0 !important;
@@ -302,7 +303,7 @@
 
 			.service_list_title{
                 text-align: left;
-                margin: 0.42rem 0 0.15rem 0;
+                margin: 0.3rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
                 font-size: $s18;
