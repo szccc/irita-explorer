@@ -28,6 +28,7 @@ export const ExplorerLang = {
         votingPower: 'Voting Power',
         pubKey: 'PubKey',
         denom: 'Denom',
+        denomId: 'Denom Id',
         owner: 'Owner',
         id: 'NFT Id',
         data: 'Data',
@@ -111,7 +112,7 @@ export const ExplorerLang = {
     denom:{
         title: 'Denom',
         search: 'Search',
-        placeHolder: 'Search by Denom',
+        placeHolder: 'Search by Denom Name or Denom ID',
     },
     service: {
         services: 'iService List',

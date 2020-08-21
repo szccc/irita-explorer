@@ -16,9 +16,9 @@ let config = {
     themeColor:'',
     logo:{
         //logo标题 必填
-        title:'',
+        title:'CSChain-Bond',
         //logo副标题 必填
-        subTitle:'',
+        subTitle:'债券应用链浏览器',
     },
     nav:{
         //nav文字颜色

@@ -6,8 +6,8 @@
                 <span>{{Object.keys(this.$route.query)[0]}}</span>
             </div>
             <div class="result_content_container">
-                <div class="result_img">
-                    <img src="../assets/resultless.png" alt="">
+                <div>
+                    <img class="result_img" src="../assets/resultless.png" alt="">
                 </div>
                 <p class="result_title">{{$t('ExplorerLang.searchResult.resultTitle')}}</p>
                 <p class="try_info">{{$t('ExplorerLang.searchResult.searchTip')}}</p>
@@ -65,13 +65,17 @@
            
            }
            .result_content_container{
-               margin-top: 2rem;
+               margin: 1.5rem 0 0.5rem 0;
                flex: 1;
                height: 100%;
                display: flex;
                justify-content: center;
                align-items: center;
                flex-direction: column;
+               .result_img{
+                    width:1.65rem;
+                    height:1.75rem;
+               }
                .result_title{
                    margin-top: 0.2rem;
                    color: $t_first_c;

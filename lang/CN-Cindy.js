@@ -28,6 +28,7 @@ export const ExplorerLang = {
         votingPower: '权重',
         pubKey: '公钥',
         denom: '数据类别',
+        denomId: '数据类别标识',
         owner: '拥有者',
         id: '数据标识',
         data: '链上数据',
@@ -111,7 +112,7 @@ export const ExplorerLang = {
     denom:{
         title: '数据类别',
         search: '搜索',
-        placeHolder: '搜索数据类别',
+        placeHolder: '搜索数据类别或数据类别标识',
     },
     service: {
         services: '服务列表',
