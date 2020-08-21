@@ -290,7 +290,7 @@
 				flex-direction: column;
 				.home_content_header_top_content{
 					display: flex;
-					margin-top: 0.2rem;
+					margin-top: 0.3rem;
 					.home_content_header_top_item_content{
 						flex: 1;
 						max-width:31.5%;
@@ -384,6 +384,7 @@
 							}
 						}
 						.home_block_view_all{
+							font-size: $s14;
 							a{
 								color: $t_link_c;
 							}
@@ -447,6 +448,7 @@
 							}
 						}
 						.home_transaction_view_all{
+							font-size:$s14;
 							a{
 								color: $t_link_c;
 							}
@@ -563,7 +565,6 @@
 								}
 							}
 							.home_block_view_all{
-								font-size: $s16;
 								a{
 
 								}

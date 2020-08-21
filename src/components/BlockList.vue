@@ -112,12 +112,12 @@
 		/*margin-top: 0.61rem;*/
         @media screen and (min-width: 910px){
             .block_list_content_wrap{
-                max-width: 12rem;
+                max-width: 12.3rem;
             }
         }
         @media screen and (max-width: 910px){
             .block_list_content_wrap{
-                width:100%;
+                // width:100%;
             }
         }
 		.block_list_content_wrap{
@@ -141,7 +141,7 @@
                         .block_list_herder_top_content{
 
                             justify-content: space-between;
-                            align-items: center;
+                            // align-items: center;
                             .pagination_content{
                                 width:40%;
                             }
