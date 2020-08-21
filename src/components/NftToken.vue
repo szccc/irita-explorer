@@ -151,7 +151,7 @@
 				font-size: $s18;
 				color: $t_first_c;
 				font-weight: bold;
-				padding: 0.3rem 0 0.1rem 0;
+				margin: 0.3rem 0 0.1rem 0;
 				text-align: left;
 				text-indent: 0.2rem;
 			}

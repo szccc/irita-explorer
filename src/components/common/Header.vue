@@ -310,6 +310,8 @@
 
 				.header_menu{
 					display:block;
+					position:relative;
+					bottom:1px;
 					.el-menu-demo{
 						width: 100%;
 						background: $bg_main_c;
@@ -317,7 +319,7 @@
 							a{
 								display: inline-block;
 								width: 100%;
-								//height: 100%;
+								// height: 100%;
                                 height:0.6rem;
 							}
 						}
@@ -330,12 +332,15 @@
 						}
 						
 					}
+					.el-menu.el-menu--horizontal{
+						border-bottom: solid 0px;
+					}
 				}
 				.header_mobile_menu{
 					display:none;
 					.menu_btn {
-		                width: 0.25rem;
-		                height: 0.25rem;
+		                width: 0.2rem;
+		                height: 0.2rem;
 		                top: 0.26rem;
 		                right: 0.1rem;
 		                img {
@@ -397,7 +402,7 @@
                 	cursor: pointer;
                     color: inherit;
                     font-size: $s16;
-                    font-weight: bold;
+                    font-family:PingFangSC-Regular,PingFang SC;
                     text-align:left;
                     padding:0.05rem 0;
                     width:100%;

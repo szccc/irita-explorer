@@ -315,7 +315,7 @@
             flex-direction: column;
             .service_respond_record_title {
                 text-align: left;
-                margin: 0.42rem 0 0.15rem 0;
+                margin: 0.3rem 0 0.15rem 0;
                 width: 100%;
                 box-sizing: border-box;
                 font-size: $s18;
