@@ -22,6 +22,11 @@
                             {{scope.row.denomName}}
                         </template>
                     </el-table-column>
+                    <el-table-column :min-width="ColumnMinWidth.denomId" :label="$t('ExplorerLang.table.denomId')" >
+                        <template slot-scope="scope">
+                            {{scope.row.denomId}}
+                        </template>
+                    </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.txHash"
                                      :label="$t('ExplorerLang.table.createHash')" >
                         <template slot-scope="scope">
