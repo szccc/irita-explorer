@@ -39,449 +39,9 @@
                         <div class="tx_information_tx_message_title">
                             {{$t('ExplorerLang.transactionInformation.transactionMessage')}}
                         </div>
-                        <p>
-                            <span>{{$t('ExplorerLang.transactionInformation.txType')}}：</span>
-                            <span>{{txType}}</span>
-                        </p>
-                        <div v-if="txType === TX_TYPE.define_service">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
-                                    {{serviceName}}
-                                </router-link>
-                                <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.description')}}：</span>
-                                <span>{{description}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
-                                <span>{{schemas}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
-                                <span><router-link :to="`/address/${author}`">{{author}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.authorDescription')}}：</span>
-                                <span>{{authorDescription}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.defineService.tags')}}：</span>
-                                <span>{{tags}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.bind_service">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
-                                <router-link v-if="defineName != '--'" :to="`/service?serviceName=${defineName}`">
-                                    {{defineName}}
-                                </router-link>
-                                <span v-if="defineName == '--'"> -- </span>
-                            </p>
-                            <!-- <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.pricing')}}：</span>
-                                <span>{{pricing}}</span>
-                            </p> -->
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.qos')}}：</span>
-                                <span>{{qos}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.deposit')}}：</span>
-                                <span>{{deposit}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-                                <span><router-link v-for="(item,index) in provider" :key="index"
-                                                   :to="`/address/${item}`">{{item}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
-                                <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.create_record" class="record_container">
-                            <div class="record_content">
-                                <p class="record_name">{{$t('ExplorerLang.transactionInformation.createRecord.contents')}}：</p>
-                                <div class="record_list_content">
-                                    <el-table class="table" :data="recordArray"
-                                              :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                                        <el-table-column width="300px" label="digest" prop="digest"></el-table-column>
-                                        <el-table-column width="150px" label="digest algo" 
-                                                         prop="digest_algo"></el-table-column>
-                                        <el-table-column label="uri" prop="uri">
-                                            <template slot-scope="scope">
-                                                <a v-if="scope.row.uri && scope.row.uri !== '--'"
-                                                   :download="scope.row.uri" :href="scope.row.uri" target="_blank">{{scope.row.uri}}</a>
-                                                <span v-else>--</span>
-                                            </template>
-                                        </el-table-column>
-                                        <el-table-column width="200px" label="meta" prop="meta"></el-table-column>
-                                    </el-table>
-                                </div>
-                            </div>
-                        </div>
-                        <div v-if="txType === TX_TYPE.burn_nft">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-                                <span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
-                                <span>{{denom}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
-                                <span>{{denomName}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}：</span>
-                                <span>{{tokenId}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}：</span>
-                                <span>{{nftName}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.mint_nft">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
-                                <span>{{denom}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
-                                <span>{{denomName}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}：</span>
-                                <span>{{tokenId}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}：</span>
-                                <span>{{nftName}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.to')}}：</span>
-                                <span><router-link :to="`/address/${recipient}`">{{recipient}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-                                <span><router-link :to="`/address/${sender}`">{{sender}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-                                <span>{{tokenData}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
-                                <span>{{tokenUri}}</span>
-                            </p>
-
-                        </div>
-                        <div v-if="txType === TX_TYPE.transfer_nft">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
-                                <span>{{denom}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
-                                <span>{{denomName}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}：</span>
-                                <span>{{tokenId}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}：</span>
-                                <span>{{nftName}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.to')}}：</span>
-                                <span><router-link :to="`/address/${recipient}`">{{recipient}}</router-link> </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-                                <span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-                                <span>{{tokenData}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
-                                <span>{{tokenUri}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.edit_nft">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
-                                <span>{{denom}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
-                                <span>{{denomName}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftId')}}：</span>
-                                <span>{{tokenId}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.nftName')}}：</span>
-                                <span>{{nftName}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-                                <span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-                                <span>{{tokenData}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
-                                <span>{{tokenUri}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.issue_denom">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
-                                <span>{{denom}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
-                                <span>{{denomName}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
-                                <span>{{schema}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
-                                <span><router-link :to="`/address/${sender}`">{{sender}}</router-link>  </span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.send">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.send.amount')}}：</span>
-                                <span>{{amount}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-                                <span><router-link :to="`/address/${from}`">{{from}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.to')}}：</span>
-                                <span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.respond_service">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
-                                    {{serviceName}}
-                                </router-link>
-                                <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.respondService.requestId')}}：</span>
-                                <span>{{(requestId || '').toUpperCase()}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-                                <span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.respondService.result')}}：</span>
-                                <span>{{result}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.respondService.output')}}：</span>
-                                <span>{{output}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.call_service">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
-                                    {{serviceName}}
-                                </router-link>
-                                <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
-                                <span>{{(requestContextId || '').toUpperCase()}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.consumer')}}：</span>
-                                <span>{{consumer}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.callService.input')}}：</span>
-                                <span>{{input}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-                                <span style="display: flex;flex-direction: column"><router-link
-                                        v-for="(item,index) in provider" :key="index"
-                                        :to="`/address/${item}`">{{item}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.callService.repeated')}}：</span>
-                                <span>{{repeated}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.repeatedFrequency')}}：</span>
-                                <span>{{repeatedFrequency}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
-                                <span>{{repeatedTotal}}</span>
-                            </p>
-                            <!-- <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
-                                <span>{{serviceFeeCap}}</span>
-                            </p> -->
-                            <!-- <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.callService.superMode')}}：</span>
-                                <span>{{superMode}}</span>
-                            </p> -->
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.timeOut')}}：</span>
-                                <span>{{timeout}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.pause_request_context || 
-                                   txType === TX_TYPE.start_request_context || 
-                                   txType === TX_TYPE.kill_request_context">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
-                                    {{serviceName}}
-                                </router-link>
-                                <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
-                                <span>{{(requestContextId || '').toUpperCase()}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.consumer')}}：</span>
-                                <span>{{consumer}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.update_request_context">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
-                                    {{serviceName}}
-                                </router-link>
-                                <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                           <!--  <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.pricing')}}：</span>
-                                <span>{{pricing}}</span>
-                            </p> -->
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
-                                <span>{{(requestContextId || '').toUpperCase()}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.consumer')}}：</span>
-                                <span>{{consumer}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-                                <span style="display: flex;flex-direction: column" v-if="provider.length > 0">
-                                    <router-link
-                                            v-for="(item,index) in provider"
-                                            :key="index"
-                                            :to="`/address/${item}`">
-                                        {{item}}
-                                    </router-link>
-                                </span>
-                                <span v-else>--</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.repeatedFrequency')}}：</span>
-                                <span>{{repeatedFrequency}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
-                                <span>{{repeatedTotal}}</span>
-                            </p>
-                            <!-- <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
-                                <span>{{serviceFeeCap}}</span>
-                            </p> -->
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.timeOut')}}：</span>
-                                <span>{{timeout}}</span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.update_service_binding">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
-                                    {{serviceName}}
-                                </router-link>
-                                <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.qos')}}：</span>
-                                <span>{{qos}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.deposit')}}：</span>
-                                <span>{{deposit}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-                                <span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
-                                <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.disable_service_binding || txType === TX_TYPE.refund_service_deposit">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
-                                    {{serviceName}}
-                                </router-link>
-                                <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-                                <span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
-                                <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
-                            </p>
-                        </div>
-                        <div v-if="txType === TX_TYPE.enable_service_binding">
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
-                                <router-link v-if="serviceName != '--'" :to="`/service?serviceName=${serviceName}`">
-                                    {{serviceName}}
-                                </router-link>
-                                <span v-if="serviceName == '--'"> -- </span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.deposit')}}：</span>
-                                <span>{{deposit}}</span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-                                <span><router-link :to="`/address/${provider}`">{{provider}}</router-link></span>
-                            </p>
-                            <p>
-                                <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
-                                <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
-                            </p>
+                        <div v-for="(item, index) in messages" :key="index">
+                            <TxMessage :msg= "item" :events="events"/>
+                            <div class="tx_information_tx_message_line" v-if="messages.length>1 && index != messages.length-1"></div>
                         </div>
                     </div>
                 </div>
@@ -576,11 +136,12 @@
     import Tools from "../util/Tools";
     import MPagination from "./common/MPagination";
     import MClip from "./common/MClip.vue";
+    import TxMessage from "./common/TxMessage.vue";
     import { getTxDetail, getRelevanceTxList } from "../service/api";
     import { TX_TYPE, TX_STATUS,ColumnMinWidth } from '../constant';
     export default {
         name : "TxDetail",
-        components : {MPagination, MClip},
+        components : {MPagination, MClip, TxMessage},
         data(){
             return {
                 TX_TYPE,
@@ -593,62 +154,13 @@
                 signer : '',
                 memo : '',
                 txType : '',
-                from : '',
-                to : '',
-                tokenId : '',
-                denom : '',
-                url : '',
-                requestId : '',
-                defineChainId : '',
-                serviceName : '',
-                bindChainId : '',
-                requestChainId : '',
-                methodId : '',
-                provider : '',
-                consumer : '',
-                input : '',
-                profiling : '',
-                output : '',
-                errorMessage : '',
-                chainId : '',
-                description : '',
-                author : '',
-                authorDescription : '',
-                idlContent : '',
-                defineName : '',
-                bindingType : '',
-                deposit : '',
-                price : '',
-                averageResponseTime : '',
-                usableTime : '',
-                recordArray : [],
-                amount : '',
-                owner : '',
-                symbol : '',
-                id : '',
-                tokenData : '',
-                recipient : '',
-                tokenUri : '',
-                dstOwner : '',
-                srcOwner : '',
-                minTable : '',
-                schema : '',
-                initialSupply : '',
-                minUnit : '',
-                scale : '',
-                pricing : '',
-                qos : '',
-                schemas : '',
                 requestContextId : '',
-                serviceFeeCap : '',
-                timeout : '',
                 relevanceTxs : [],
                 txCount : 0,
                 pageNum : 1,
                 pageSize : 10,
-
-                denomName:'',
-                nftName:'',
+                messages:[],
+                events:[],
             }
         },
         mounted(){
@@ -659,6 +171,8 @@
                 try {
                     const res = await getTxDetail(this.$route.query.txHash);
                     if(res){
+                        this.messages = res.msgs;
+                        this.events = res.events;
                         // console.log(res)
                         this.txHash = res.tx_hash || '--';
                         this.blockHeight = res.height || '--';
@@ -668,71 +182,13 @@
                         this.memo = res.memo ? res.memo : '--';
                         this.txType = res.msgs[0].type || '--';
                         switch (this.txType){
-                            case TX_TYPE.mint_nft:
-                                this.denom = res.msgs[0].msg.denom || '--';
-                                this.tokenId = res.msgs[0].msg.id || '--';
-                                this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.name || '--';
-                                this.recipient = res.msgs[0].msg.recipient || '--';
-                                this.sender = res.msgs[0].msg.sender || '--';
-                                this.tokenData = res.msgs[0].msg.data || '--';
-                                this.tokenUri = res.msgs[0].msg.uri || '--';
-                                break;
-                            case TX_TYPE.burn_nft:
-                                this.sender = res.msgs[0].msg.sender || '--';
-                                this.denom = res.msgs[0].msg.denom || '--';
-                                this.tokenId = res.msgs[0].msg.id || '--';
-                                this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.nft_name || '--';
-                                break;
-                            case TX_TYPE.create_record:
-                                this.recordArray = res.msgs[0].msg.contents.map(item =>{
-                                    return {
-                                        digest : item.digest ? item.digest : '--',
-                                        digest_algo : item.digest_algo ? item.digest_algo : '--',
-                                        uri : item.uri ? item.uri : '--',
-                                        meta : item.meta ? item.meta : "--",
-                                    }
-                                })
-                                break;
-                            case TX_TYPE.define_service:
-                                this.serviceName = res.msgs[0].msg.name || '--';
-                                this.description = res.msgs[0].msg.description || '--';
-                                this.author = res.msgs[0].msg.author || '--';
-                                this.authorDescription = res.msgs[0].msg.author_description || '--';
-                                this.tags = res.msgs[0].msg.tags || '--';
-                                this.schemas = res.msgs[0].msg.schemas || '--';
-                                break;
-                            case TX_TYPE.bind_service:
-                                this.defineName = res.msgs[0].msg.service_name || '--';
-                                this.provider = res.msgs[0].msg.provider || '--';
-                                if(res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length){
-                                    this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}` || '--';
-                                }
-                                this.owner = res.msgs[0].msg.owner || '--';
-                                this.pricing = res.msgs[0].msg.pricing || '--';
-                                this.qos = res.msgs[0].msg.qos || '--';
-                                break;
-                            case TX_TYPE.send:
-                                this.from = res.msgs[0].msg.fromaddress || '--';
-                                this.to = res.msgs[0].msg.toaddress || '--';
-                                if(res.msgs[0].msg.amount && res.msgs[0].msg.amount.length){
-                                    this.amount = `${res.msgs[0].msg.amount[0].amount} ${res.msgs[0].msg.amount[0].denom}` || '--';
-                                }
-                                break;
+                            case TX_TYPE.mint_nft:break;
+                            case TX_TYPE.burn_nft:break;
+                            case TX_TYPE.create_record:break;
+                            case TX_TYPE.define_service:break;
+                            case TX_TYPE.bind_service:break;
+                            case TX_TYPE.send:break;
                             case TX_TYPE.call_service:
-                                this.consumer = res.msgs[0].msg.consumer || '--';
-                                this.input = res.msgs[0].msg.input || '--';
-                                this.provider = res.msgs[0].msg.providers || '--';
-                                this.repeated = res.msgs[0].msg.repeated || '--';
-                                this.repeatedFrequency = res.msgs[0].msg.repeated_frequency || '--';
-                                this.repeatedTotal = res.msgs[0].msg.repeated_total || '--';
-                                if(res.msgs[0].msg.service_fee_cap && res.msgs[0].msg.service_fee_cap.length){
-                                    this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}` || '--';
-                                }
-                                this.serviceName = res.msgs[0].msg.service_name || '--';
-                                this.superMode = res.msgs[0].msg.super_mode || '--';
-                                this.timeout = res.msgs[0].msg.timeout || '--';
                                 res.events.forEach((item) =>{
                                     (item.attributes || []).forEach((attr) =>{
                                         if(attr.key == 'request_context_id'){
@@ -741,96 +197,21 @@
                                     });
                                 });
                                 break;
-                            case TX_TYPE.transfer_nft:
-                                this.denom = res.msgs[0].msg.denom || '--';
-                                this.tokenId = res.msgs[0].msg.id || '--';
-                                this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.name || '--';
-                                this.recipient = res.msgs[0].msg.recipient || '--';
-                                this.sender = res.msgs[0].msg.sender || '--';
-                                this.tokenData = res.msgs[0].msg.data || '--';
-                                this.tokenUri = res.msgs[0].msg.uri || '--';
-                                break;
-                            case TX_TYPE.edit_nft:
-                                this.denom = res.msgs[0].msg.denom || '--';
-                                this.tokenId = res.msgs[0].msg.id || '--';
-                                this.denomName = res.msgs[0].msg.denom_name || '--';
-                                this.nftName = res.msgs[0].msg.name || '--';
-                                this.sender = res.msgs[0].msg.sender || '--';
-                                this.tokenData = res.msgs[0].msg.data || '--';
-                                this.tokenUri = res.msgs[0].msg.uri || '--';
-                                break;
-                            case TX_TYPE.issue_denom:
-                                this.denom = res.msgs[0].msg.id || '--';
-                                this.denomName = res.msgs[0].msg.name || '--';
-                                this.schema = res.msgs[0].msg.schema || '--';
-                                this.sender = res.msgs[0].msg.sender || '--';
-                                break;
+                            case TX_TYPE.transfer_nft:break;
+                            case TX_TYPE.edit_nft:break;
+                            case TX_TYPE.issue_denom:break;
                             case TX_TYPE.respond_service:
-                                this.output = res.msgs[0].msg.output || '--';
-                                this.provider = res.msgs[0].msg.provider || '--';
-                                this.requestId = res.msgs[0].msg.request_id || '--';
                                 this.requestContextId = (res.msgs[0].msg.ex || {}).request_context_id || '--';
-                                this.result = res.msgs[0].msg.result || '--';
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
-                                break;
-                            case TX_TYPE.pause_request_context:
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
-                                this.requestContextId = res.msgs[0].msg.request_context_id || '--';
-                                this.consumer = res.msgs[0].msg.consumer || '--';
-                                break;
-                            case TX_TYPE.start_request_context:
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
-                                this.requestContextId = res.msgs[0].msg.request_context_id || '--';
-                                this.consumer = res.msgs[0].msg.consumer || '--';
-                                break;
-                            case TX_TYPE.kill_request_context:
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
-                                this.requestContextId = res.msgs[0].msg.request_context_id || '--';
-                                this.consumer = res.msgs[0].msg.consumer || '--';
-                                break;
-                            case TX_TYPE.update_request_context:
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
-                                this.requestContextId = res.msgs[0].msg.request_context_id || '--';
-                                this.consumer = res.msgs[0].msg.consumer || '--';
-                                this.provider = res.msgs[0].msg.providers || '--';
-                                this.repeatedFrequency = res.msgs[0].msg.repeated_frequency || '--';
-                                this.repeatedTotal = res.msgs[0].msg.repeated_total || '--';
-                                if(res.msgs[0].msg.service_fee_cap && res.msgs[0].msg.service_fee_cap.length){
-                                    this.serviceFeeCap = `${res.msgs[0].msg.service_fee_cap[0].amount} ${res.msgs[0].msg.service_fee_cap[0].denom}` || '--';
-                                }else{
-                                    this.serviceFeeCap = '--';
-                                }
-                                this.timeout = (res.msgs[0].msg.timeout) ? res.msgs[0].msg.timeout : '--';
-                                break;
-                            case TX_TYPE.update_service_binding:
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
-                                this.provider = res.msgs[0].msg.provider || '--';
-                                if(res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length){
-                                    this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}` || '--';
-                                }
-                                this.owner = res.msgs[0].msg.owner || '--';
-                                this.pricing = res.msgs[0].msg.pricing || '--';
-                                this.qos = res.msgs[0].msg.qos || '--';
-                                break;
-                            case TX_TYPE.disable_service_binding:
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
-                                this.provider = res.msgs[0].msg.provider || '--';
-                                this.owner = res.msgs[0].msg.owner || '--';
-                                break;
-                            case TX_TYPE.enable_service_binding:
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
-                                this.provider = res.msgs[0].msg.provider || '--';
-                                if(res.msgs[0].msg.deposit && res.msgs[0].msg.deposit.length){
-                                    this.deposit = `${res.msgs[0].msg.deposit[0].amount} ${res.msgs[0].msg.deposit[0].denom}` || '--';
-                                }
-                                this.owner = res.msgs[0].msg.owner || '--';
-                                break;
-                            case TX_TYPE.refund_service_deposit:
-                                this.serviceName = (res.msgs[0].msg.ex || {}).service_name || '--';
-                                this.provider = res.msgs[0].msg.provider || '--';
-                                this.owner = res.msgs[0].msg.owner || '--';
-                                break;
+                            break;
+                            case TX_TYPE.pause_request_context:break;
+                            case TX_TYPE.start_request_context:break;
+                            case TX_TYPE.kill_request_context:break;
+                            case TX_TYPE.update_request_context:break;
+                            case TX_TYPE.update_service_binding: break;
+                            case TX_TYPE.disable_service_binding:break;
+                            case TX_TYPE.enable_service_binding:break;
+                            case TX_TYPE.refund_service_deposit:break;
+                            case TX_TYPE.recv_packet: break;
                         }
                         this.relevanceTxList();
                     }
@@ -999,61 +380,12 @@
                             text-align: left;
                             font-size: $s16;
                             font-weight: bold;
-                            margin-bottom: 0.48rem;
                             font-family: PingFangSC-Semibold, PingFang SC;
                             font-weight: 600;
                         }
-                        .record_container {
-                            display: flex;
-                            width: 100%;
-                            max-width: 12rem;
-                            .record_content {
-                                width: 100%;
-                                .record_name {
-                                    color: $t_second_c;
-                                    min-width: 1.5rem;
-                                    text-align: left;
-                                    font-size: $s14;
-                                }
-                                .record_list_content {
-                                    flex: 1;
-                                    width: 100%;
-                                    box-sizing: border-box;
-                                    background: $bg_cancel_c;
-                                    border-radius: 0.05rem;
-                                    /deep/ .el-table {
-                                        background: $bg_cancel_c;
-                                        tr {
-                                            background: $bg_cancel_c;
-                                            th {
-                                                background: $bg_cancel_c;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        p {
-                            display: flex;
-                            margin-bottom: 0.26rem;
-                            span:nth-of-type(1) {
-                                color: $t_second_c;
-                                min-width: 1.5rem;
-                                text-align: left;
-                                font-size: $s14;
-                                font-family: PingFangSC-Semibold, PingFang SC;
-                                font-weight: 600;
-                            }
-                            span:nth-of-type(2) {
-                                flex: 1;
-                                text-align: left;
-                                font-size: $s14;
-                                color: $t_first_c;
-                                word-break: break-all;
-                            }
-                        }
-                        p:last-child {
-                            margin-bottom: 0;
+                        .tx_information_tx_message_line{
+                            height:0.01rem;
+                            background:$bd_first_c;
                         }
                     }
 
@@ -1124,43 +456,6 @@
                         .tx_information_tx_message_title {
 
                         }
-                        .tx_information_tx_content {
-
-                            .record_container {
-
-                                .record_content {
-
-                                    .record_name {
-                                        min-width: 1rem;
-                                    }
-                                    .record_list_content {
-
-                                        /deep/ .el-table {
-
-                                            tr {
-
-                                                th {
-
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            p {
-
-                                span:nth-of-type(1) {
-                                    min-width: 1rem;
-                                }
-                                span:nth-of-type(2) {
-
-                                }
-                            }
-                            p:last-child {
-
-                            }
-                        }
-
                     }
                 }
             }

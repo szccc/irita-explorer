@@ -267,6 +267,7 @@
 
 <style scoped lang="scss">
 	.header_container{
+		
 		background: $bg_main_c;
 		position: fixed;
 		top:0;
@@ -335,6 +336,7 @@
 					.el-menu.el-menu--horizontal{
 						border-bottom: solid 0px;
 					}
+					
 				}
 				.header_mobile_menu{
 					display:none;
@@ -401,7 +403,7 @@
                 .mobile_tab_item{
                 	cursor: pointer;
                     color: inherit;
-                    font-size: $s16;
+                    font-size: $s14;
                     font-family:PingFangSC-Regular,PingFang SC;
                     text-align:left;
                     padding:0.05rem 0;

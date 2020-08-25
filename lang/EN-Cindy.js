@@ -181,6 +181,15 @@ export const ExplorerLang = {
             authorDescription: 'Author Description',
             schemas:'Schemas',
         },
+        recvPacket:{
+            packet:'Packet',
+            proof:'Proof',
+            proofHeight:'Proof Height',
+            proofPath:'Proof Path',
+            proofData:'Proof Data',
+            clientID:'Client ID',
+            module:'Module',
+        }
     },
     addressDetail: {
         addressDetail:'Address Details',

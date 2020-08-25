@@ -181,6 +181,15 @@ export const ExplorerLang = {
             authorDescription: '创建者简介',
             schemas:'接口规范',
         },
+        recvPacket:{
+            packet:'跨链数据包',
+            proof:'证明信息',
+            proofHeight:'证明高度',
+            proofPath:'证明路径',
+            proofData:'证明数据',
+            clientID:'客户端ID',
+            module:'模块',
+        }
     },
     addressDetail: {
         addressDetail:'地址详情',
