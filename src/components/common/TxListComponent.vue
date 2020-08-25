@@ -19,7 +19,17 @@
                     <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')" prop="txType"></el-table-column>
+            <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
+                <template slot-scope="scope">
+                    <span>{{scope.row.txType}}</span>
+                    <span v-show="Number(scope.row.message) > 1">{{$t('ExplorerLang.table.ellipsis')}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
+                <template slot-scope="scope">
+                    <span>{{scope.row.msgCount}} {{$t('ExplorerLang.table.msgCountUnit')}}</span>
+                </template>
+            </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.from"
@@ -97,11 +107,12 @@
                     return {
                         txHash : tx.tx_hash,
                         blockHeight : tx.height,
-                        txType : tx.type,
+                        txType :tx.msgs.length > 1 ? tx.msgs[0].type  : tx.type,
                         from,
                         to,
                         signer : tx.signer,
                         status : tx.status,
+                        msgCount : tx.msgs.length,
                         time :Tools.getDisplayDate(tx.time),
                     }
                 });
