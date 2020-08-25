@@ -10,6 +10,8 @@ export const ExplorerLang = {
         all:'全部',
     },
     table:{
+        ellipsis:' ,...',
+        msgCountUnit:'条',
         emptyDescription:'- 暂时没有内容 -',
         block: '区块高度',
         transactions: '交易数量',
@@ -17,6 +19,7 @@ export const ExplorerLang = {
         age: '参考块龄',
         txHash: '交易哈希',
         txType: '交易类型',
+        message:'交易消息',
         from: '发送者',
         to: '接收者',
         signer: '签名者',
