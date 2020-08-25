@@ -10,8 +10,6 @@ export const ExplorerLang = {
         all:'All',
     },
     table:{
-        ellipsis:' ,...',
-        msgCountUnit:'',
         emptyDescription:'- No Data -',
         block: 'Block',
         transactions: 'Transactions',
@@ -55,6 +53,8 @@ export const ExplorerLang = {
         createTime:'Timestamp',
     },
     unit:{
+        ellipsis:' ,...',
+        msgCountUnit:'',
         providers:'providers',
         time:'Time',
         blocks:'Blocks',

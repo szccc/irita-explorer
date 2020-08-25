@@ -10,8 +10,6 @@ export const ExplorerLang = {
         all:'全部',
     },
     table:{
-        ellipsis:' ,...',
-        msgCountUnit:'条',
         emptyDescription:'- 暂时没有内容 -',
         block: '区块高度',
         transactions: '交易数量',
@@ -55,6 +53,8 @@ export const ExplorerLang = {
         createTime:'创建时间',
     },
     unit:{
+        ellipsis:' ,...',
+        msgCountUnit:'条',
         providers:'providers',
         time:'次',
         blocks:'blocks',
