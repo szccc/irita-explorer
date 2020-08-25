@@ -10,8 +10,6 @@ export const ExplorerLang = {
         all:'All',
     },
     table:{
-        ellipsis:' ,...',
-        msgCountUnit:'',
         emptyDescription:'- No Data -',
         block: 'Block',
         transactions: 'Transactions',
@@ -19,7 +17,6 @@ export const ExplorerLang = {
         age: 'Age',
         txHash: 'TxHash',
         txType: 'TxType',
-        message:'Message',
         from: 'From',
         to: 'To',
         signer: 'Signer',

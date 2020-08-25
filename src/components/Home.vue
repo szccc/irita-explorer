@@ -293,8 +293,8 @@
 					margin-top: 0.3rem;
 					.home_content_header_top_item_content{
 						flex: 1;
-						max-width:32.3%;
-						margin:0 0.2rem 0 0;
+						max-width:31.5%;
+						margin:0 0.1rem;
 						border-radius: 0.04rem;
 						border: 0.01rem solid $bd_second_c;
 						background: $bg_white_c;
@@ -320,7 +320,7 @@
 						// margin-left: 0;
 					}
 					.home_content_header_top_item_content:last-child{
-						margin-right: 0;
+						// margin-right: 0;
 					}
 				}
 				.home_content_header_bottom_content{
@@ -328,9 +328,8 @@
 					margin-top: 0.2rem;
 					.home_content_header_bottom_item_content{
 						flex: 1;
-						max-width:32.3%;
-						margin:0 0.2rem 0 0;
-						border-radius: 0.04rem;
+						max-width:31.5%;
+						margin:0 0.1rem;
 						border: 0.01rem solid $bd_second_c;
 						background: $bg_white_c;
 						text-align: left;
@@ -355,7 +354,7 @@
 						// margin-left: 0;
 					}
 					.home_content_header_bottom_item_content:last-child{
-						margin-right: 0;
+						// margin-right: 0;
 					}
 				}
 			}
@@ -530,7 +529,7 @@
 						}
 						
 						.home_content_header_top_item_content:last-child{
-						
+							
 						}
 					}
 					.home_content_header_bottom_content{
@@ -548,7 +547,7 @@
 						}
 						
 						.home_content_header_bottom_item_content:last-child{
-						
+							
 						}
 					}
 				}
@@ -559,10 +558,10 @@
 						.home_block_top_content{
 							.home_block_top_title{
 								i{
-								
+									
 								}
 								span{
-								
+									
 								}
 							}
 							.home_block_view_all{
@@ -579,7 +578,7 @@
 									
 									.home_block{
 										a{
-										
+											
 										}
 									}
 								}
@@ -587,13 +586,13 @@
 									
 									.home_tx{
 										span{
-										
+											
 										}
 									}
 								}
 							}
 							.animation{
-							
+								
 							}
 						}
 						
@@ -604,15 +603,15 @@
 							
 							.home_transaction_top_title{
 								i{
-								
+									
 								}
 								span{
-								
+									
 								}
 							}
 							.home_transaction_view_all{
 								a{
-								
+									
 								}
 								
 								
@@ -627,12 +626,12 @@
 									.home_transaction{
 										
 										a{
-										
+											
 										}
 									}
 								}
 								.home_tx_type_content{
-								
+									
 								}
 							}
 						}
