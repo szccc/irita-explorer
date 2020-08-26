@@ -27,7 +27,7 @@
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
                 <template slot-scope="scope">
-                    <span>{{scope.row.msgCount}} {{$t('ExplorerLang.table.msgCountUnit')}}</span>
+                    <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
