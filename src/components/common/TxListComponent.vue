@@ -22,7 +22,7 @@
             <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
                 <template slot-scope="scope">
                     <span>{{scope.row.txType}}</span>
-                    <span v-show="Number(scope.row.message) > 1">{{$t('ExplorerLang.table.ellipsis')}}</span>
+                    <span v-show="Number(scope.row.msgCount) > 1">{{$t('ExplorerLang.unit.ellipsis')}}</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
