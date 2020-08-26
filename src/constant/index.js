@@ -116,6 +116,14 @@ export const ColumnMinWidth = {
     price:'120',
     deposit:'120',
     nftCount:'100',
+    identity:'155',
+    idPubKey:'155',
+    pubKeyAlgo:'120',
+    certificate:'200',
+    credentials:'200',
+
+
+
 }
 
 export const ModuleMap = {
@@ -142,5 +150,9 @@ export const ModuleMap = {
     '105':{
         title:'服务浏览',
         link:'/services',
+    },
+    '106':{
+        title:'身份ID',
+        link:'/identities',
     }
 };

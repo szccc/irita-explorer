@@ -51,6 +51,11 @@ export const ExplorerLang = {
         nftCount:'数据对象',
         creator:'创建者',
         createTime:'创建时间',
+        identity:'身份ID',
+        idPubkey:'身份公钥',
+        pubKeyAlgo:'公钥算法',
+        certificate:'证书',
+        credentials:'身份凭证'
     },
     unit:{
         ellipsis:' ,...',
@@ -116,6 +121,11 @@ export const ExplorerLang = {
         title: '数据类别',
         search: '搜索',
         placeHolder: '搜索数据类别或数据类别标识',
+    },
+    identity:{
+        title: '身份ID',
+        search: '搜索',
+        placeHolder: '搜索身份ID',
     },
     service: {
         services: '服务列表',

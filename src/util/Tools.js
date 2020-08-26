@@ -38,10 +38,17 @@ export default class Tools{
 	 * 格式化地址
 	 */
 	static formatValidatorAddress(address){
-		if (address && address.length > 11) {
-			return `${address.substring(0,3)}...${address.substring(address.length - 8)}`
-		}else if(address && address.length < 11){
-			return address
+		return Tools.format38(address);
+	}
+
+	/**
+	 * 前三后八格式
+	 */
+	static format38(str){
+		if (str && str.length > 11) {
+			return `${str.substring(0,3)}...${str.substring(str.length - 8)}`
+		}else if(str && str.length < 11){
+			return str
 		}
 		return '';
 	}
@@ -108,5 +115,9 @@ export default class Tools{
         }catch (e) {
             return false
         }
+    }
+
+    static isValid(value){
+        return (!value || !value.length || value == '--') ? false : true;
     }
 }

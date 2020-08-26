@@ -217,7 +217,10 @@ export function getRespondServiceRecord(serviceName, provider, pageNum, pageSize
 export function getNodeInfo(){
     return getFromLcd('node_info');
 }
-
+export function getIdentities(identity, pageNum, pageSize){
+    let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&identity=${identity}`;
+    return get(url);
+}
 
 
 
