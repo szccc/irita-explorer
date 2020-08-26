@@ -17,6 +17,7 @@ export const ExplorerLang = {
         age: '参考块龄',
         txHash: '交易哈希',
         txType: '交易类型',
+        message:'交易消息',
         from: '发送者',
         to: '接收者',
         signer: '签名者',
@@ -52,6 +53,8 @@ export const ExplorerLang = {
         createTime:'创建时间',
     },
     unit:{
+        ellipsis:' ,...',
+        msgCountUnit:'条',
         providers:'providers',
         time:'次',
         blocks:'blocks',

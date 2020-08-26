@@ -17,6 +17,7 @@ export const ExplorerLang = {
         age: 'Age',
         txHash: 'TxHash',
         txType: 'TxType',
+        message:'Message',
         from: 'From',
         to: 'To',
         signer: 'Signer',
@@ -52,6 +53,8 @@ export const ExplorerLang = {
         createTime:'Timestamp',
     },
     unit:{
+        ellipsis:' ,...',
+        msgCountUnit:'',
         providers:'providers',
         time:'Time',
         blocks:'Blocks',
