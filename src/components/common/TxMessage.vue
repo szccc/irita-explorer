@@ -478,6 +478,32 @@
                 <span><router-link :to="`/address/${signer}`">{{signer}}</router-link></span>
             </p>
         </div>
+        <div v-if="txType === TX_TYPE.create_identity || txType === TX_TYPE.update_identity">
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.identity.id')}}：</span>
+                <span>{{id}}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.identity.pubkey')}}：</span>
+                <span>{{pubkey}}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.identity.pubKeyAlgo')}}：</span>
+                <span>{{pubKeyAlgo}}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.identity.certificate')}}：</span>
+                <span>{{certificate}}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.identity.credentials')}}：</span>
+                <span>{{credentials}}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
+                <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
+            </p>
+        </div>
     </div>
 </template>
 
@@ -538,7 +564,6 @@
                 amount : '',
                 owner : '',
                 // symbol : '',
-                // id : '',
                 tokenData : '',
                 recipient : '',
                 tokenUri : '',
@@ -564,11 +589,16 @@
                 proofData:'',
                 clientID:'',
                 module:'',
+                id:'',
+                pubkey:'',
+                certificate:'',
+                credentials:'',
+                pubKeyAlgo:''
             }
         },
         computed:{
             hide(){
-                let types = [TX_TYPE.create_client,TX_TYPE.update_client,TX_TYPE.create_identity,TX_TYPE.update_identity];
+                let types = [TX_TYPE.create_client,TX_TYPE.update_client];
                 return !types.some((item)=>item==this.txType);
             }
         },
@@ -755,6 +785,15 @@
                                 this.clientID = msg.client_id || '--';
                                 this.module = msg.module || '--';
                                 this.signer = msg.signer || '--';
+                                break;
+                            case TX_TYPE.create_identity:
+                            case TX_TYPE.update_identity:
+                                this.id = msg.id || '--';
+                                this.pubkey = msg.pubkey || '--';
+                                this.certificate = msg.certificate || '--';
+                                this.credentials = msg.credentials || '--';
+                                this.pubKeyAlgo = msg.algorithm || '--';
+                                this.owner = msg.owner || '--';
                                 break;
                         }
                     }

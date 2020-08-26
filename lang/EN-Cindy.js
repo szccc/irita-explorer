@@ -189,6 +189,13 @@ export const ExplorerLang = {
             proofData:'Proof Data',
             clientID:'Client ID',
             module:'Module',
+        },
+        identity:{
+            id:'ID',
+            pubkey:'Pubkey',
+            certificate:'Certificate',
+            credentials:'Credentials',
+            pubKeyAlgo:'PubKey Algo'
         }
     },
     addressDetail: {
