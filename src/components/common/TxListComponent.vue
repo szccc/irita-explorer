@@ -32,7 +32,7 @@
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
-                    <el-tooltip :content="scope.row.from"
+                    <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
                         <router-link v-if="isValid(scope.row.from)" :to="`/address/${scope.row.from}`">
@@ -40,11 +40,12 @@
                         </router-link>
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
+                    <span v-show="Number(scope.row.msgCount) > 1">--</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
                 <template slot-scope="scope">
-                    <el-tooltip :content="String(scope.row.to)"
+                    <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="String(scope.row.to)"
                                 placement="top"
                                 :key="Math.random()"
                                 :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
@@ -56,6 +57,7 @@
                         </router-link>
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
+                    <span v-show="Number(scope.row.msgCount) > 1"> --</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.signer')">
