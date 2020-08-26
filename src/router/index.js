@@ -31,7 +31,10 @@ const router = new Router({
 			path:'/denoms',
 			component: () => import('@/components/DenomList.vue')
 		},
-
+		{
+			path:'/identities',
+			component: () => import('@/components/IdentityList.vue')
+		},
 		{
 			path:'/address/:param',
 			component: () => import('@/components/OwnerDetail.vue')

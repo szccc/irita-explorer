@@ -51,6 +51,11 @@ export const ExplorerLang = {
         nftCount:'NFT',
         creator:'Creator',
         createTime:'Timestamp',
+        identity:'ID',
+        idPubkey:'Pubkey',
+        pubKeyAlgo:'PubKey Algo',
+        certificate:'Certificate',
+        credentials:'Credentials'
     },
     unit:{
         ellipsis:' ,...',
@@ -116,6 +121,11 @@ export const ExplorerLang = {
         title: 'Denom',
         search: 'Search',
         placeHolder: 'Search by Denom Name or Denom ID',
+    },
+    identity:{
+        title: 'ID',
+        search: 'Search',
+        placeHolder: 'Search by ID',
     },
     service: {
         services: 'iService List',
