@@ -192,6 +192,13 @@ export const ExplorerLang = {
             proofData:'证明数据',
             clientID:'客户端ID',
             module:'模块',
+        },
+        identity:{
+            id:'身份ID',
+            pubkey:'身份公钥',
+            certificate:'证书',
+            credentials:'身份凭证',
+            pubKeyAlgo:'公钥算法'
         }
     },
     addressDetail: {
