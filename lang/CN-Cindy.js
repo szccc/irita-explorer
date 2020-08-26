@@ -55,7 +55,7 @@ export const ExplorerLang = {
         idPubkey:'身份公钥',
         pubKeyAlgo:'公钥算法',
         certificate:'证书',
-        credentials:'身份凭证'
+        credentials:'身份凭证',
     },
     unit:{
         ellipsis:' ,...',
@@ -209,6 +209,10 @@ export const ExplorerLang = {
             certificate:'证书',
             credentials:'身份凭证',
             pubKeyAlgo:'公钥算法'
+        },
+        client:{
+            clientID:'客户端ID',
+            header:'区块头',
         }
     },
     addressDetail: {

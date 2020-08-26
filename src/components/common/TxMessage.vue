@@ -504,6 +504,20 @@
                 <span><router-link :to="`/address/${owner}`">{{owner}}</router-link></span>
             </p>
         </div>
+        <div v-if="txType === TX_TYPE.create_client || txType === TX_TYPE.update_client">
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.client.clientID')}}：</span>
+                <span>{{clientID}}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
+                <span>{{header}}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+                <span><router-link :to="`/address/${signer}`">{{signer}}</router-link></span>
+            </p>
+        </div>
     </div>
 </template>
 
@@ -593,12 +607,13 @@
                 pubkey:'',
                 certificate:'',
                 credentials:'',
-                pubKeyAlgo:''
+                pubKeyAlgo:'',
+                header:'',
             }
         },
         computed:{
             hide(){
-                let types = [TX_TYPE.create_client,TX_TYPE.update_client];
+                let types = [];
                 return !types.some((item)=>item==this.txType);
             }
         },
@@ -794,6 +809,12 @@
                                 this.credentials = msg.credentials || '--';
                                 this.pubKeyAlgo = msg.algorithm || '--';
                                 this.owner = msg.owner || '--';
+                                break;
+                            case TX_TYPE.create_client:
+                            case TX_TYPE.update_client:
+                                this.clientID = msg.client_id || '--';
+                                this.header = JSON.stringify(msg.header || {}) || '--';
+                                this.signer = msg.signer || '--';
                                 break;
                         }
                     }

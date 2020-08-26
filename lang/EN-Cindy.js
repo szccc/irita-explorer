@@ -209,6 +209,10 @@ export const ExplorerLang = {
             certificate:'Certificate',
             credentials:'Credentials',
             pubKeyAlgo:'PubKey Algo'
+        },
+        client:{
+            clientID:'Client ID',
+            header:'Header',
         }
     },
     addressDetail: {
