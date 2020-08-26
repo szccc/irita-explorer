@@ -19,10 +19,20 @@
                     <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')" prop="txType"></el-table-column>
+            <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
+                <template slot-scope="scope">
+                    <span>{{scope.row.txType}}</span>
+                    <span v-show="Number(scope.row.msgCount) > 1">{{$t('ExplorerLang.unit.ellipsis')}}</span>
+                </template>
+            </el-table-column>
+            <el-table-column :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
+                <template slot-scope="scope">
+                    <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
+                </template>
+            </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
-                    <el-tooltip :content="scope.row.from"
+                    <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
                         <router-link v-if="isValid(scope.row.from)" :to="`/address/${scope.row.from}`">
@@ -30,11 +40,12 @@
                         </router-link>
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
+                    <span v-show="Number(scope.row.msgCount) > 1">--</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
                 <template slot-scope="scope">
-                    <el-tooltip :content="String(scope.row.to)"
+                    <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="String(scope.row.to)"
                                 placement="top"
                                 :key="Math.random()"
                                 :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
@@ -46,6 +57,7 @@
                         </router-link>
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
+                    <span v-show="Number(scope.row.msgCount) > 1"> --</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.signer')">
@@ -97,11 +109,12 @@
                     return {
                         txHash : tx.tx_hash,
                         blockHeight : tx.height,
-                        txType : tx.type,
+                        txType :tx.msgs.length > 1 ? tx.msgs[0].type  : tx.type,
                         from,
                         to,
                         signer : tx.signer,
                         status : tx.status,
+                        msgCount : tx.msgs.length,
                         time :Tools.getDisplayDate(tx.time),
                     }
                 });
