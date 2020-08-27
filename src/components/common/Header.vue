@@ -285,6 +285,7 @@
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
+				margin-right: 0.2rem;
 				.header_logo_content{
 					display:flex;
 					align-items:center;
