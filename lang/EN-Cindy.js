@@ -125,7 +125,7 @@ export const ExplorerLang = {
     identity:{
         title: 'Identity',
         search: 'Search',
-        placeHolder: 'Search by ID',
+        placeHolder: 'Search by ID / Owner',
     },
     service: {
         services: 'iService List',
