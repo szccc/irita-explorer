@@ -218,7 +218,7 @@ export function getNodeInfo(){
     return getFromLcd('node_info');
 }
 export function getIdentities(identity, pageNum, pageSize){
-    let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&identity=${identity}`;
+    let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
     return get(url);
 }
 

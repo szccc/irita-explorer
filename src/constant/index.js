@@ -82,7 +82,7 @@ export const TX_TYPE = {
 export const TX_STATUS = {
     success : 1,
     fail : 0,
-}
+} 
 
 export const ValidatorStatus = {
     bonded:'bonded',
@@ -116,8 +116,8 @@ export const ColumnMinWidth = {
     price:'120',
     deposit:'120',
     nftCount:'100',
-    identity:'155',
-    idPubKey:'155',
+    identity:'200',
+    idPubKey:'200',
     pubKeyAlgo:'120',
     certificate:'200',
     credentials:'200',
