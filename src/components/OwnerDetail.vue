@@ -272,11 +272,11 @@
 	import { getNfts } from "../service/api";
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
-	import {TxHelper} from "../helper/TxHelper";
-	import {moduleSupport} from "../helper/ModulesHelper";
+	import { TxHelper } from "../helper/TxHelper";
+	import { moduleSupport } from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
-	import { TX_TYPE,TX_STATUS,ColumnMinWidth } from '../constant';
+	import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant';
   	import {
   		getAddressTxList,
     	getCallServiceWithAddress,
@@ -284,7 +284,7 @@
 		getRespondServiceRecord,
 		getServiceBindingByServiceName,
 		getServiceContextsByServiceName,
-		getAllServiceTxTypes} from "../service/api";
+		getAllTxTypes} from "../service/api";
 
     export default {
 		name: "OwnerDetail",
@@ -597,7 +597,7 @@
             },
             async getAllTxType(){
                 try {
-                    const res = await getAllServiceTxTypes();
+                    const res = await getAllTxTypes();
                     res.data.forEach((type) =>{
                         this.txTypeOption.push({
                             value : type.typeName,

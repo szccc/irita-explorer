@@ -116,11 +116,11 @@ export const ColumnMinWidth = {
     price:'120',
     deposit:'120',
     nftCount:'100',
-    identity:'200',
-    idPubKey:'200',
+    identity:'220',
+    idPubKey:'220',
     pubKeyAlgo:'120',
-    certificate:'200',
-    credentials:'200',
+    certificate:'220',
+    credentials:'220',
 
 
 

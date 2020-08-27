@@ -123,7 +123,7 @@ export const ExplorerLang = {
         placeHolder: '搜索数据类别或数据类别标识',
     },
     identity:{
-        title: '身份ID',
+        title: '身份列表',
         search: '搜索',
         placeHolder: '搜索身份ID',
     },
