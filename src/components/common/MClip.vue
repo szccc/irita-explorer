@@ -111,7 +111,7 @@ export default {
     position: relative;
     display: inline;
     padding-left: 0.02rem;
-    z-index: 10;
+    z-index: 9;
     cursor: pointer;
     img {
         width: 0.11rem;

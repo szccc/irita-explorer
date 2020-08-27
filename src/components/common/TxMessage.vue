@@ -70,7 +70,7 @@
                     <el-table class="table" :data="recordArray"
                               :empty-text="$t('ExplorerLang.table.emptyDescription')">
                         <el-table-column width="300px" label="digest" prop="digest"></el-table-column>
-                        <el-table-column width="150px" label="digest algo" 
+                        <el-table-column width="150px" label="digest algo"
                                          prop="digest_algo"></el-table-column>
                         <el-table-column label="uri" prop="uri">
                             <template slot-scope="scope">
@@ -313,8 +313,8 @@
                 <span>{{timeout}}</span>
             </p>
         </div>
-        <div v-if="txType === TX_TYPE.pause_request_context || 
-                   txType === TX_TYPE.start_request_context || 
+        <div v-if="txType === TX_TYPE.pause_request_context ||
+                   txType === TX_TYPE.start_request_context ||
                    txType === TX_TYPE.kill_request_context">
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.serviceName')}}：</span>
@@ -806,7 +806,7 @@
                                 this.id = msg.id || '--';
                                 this.pubkey = msg.pubkey || '--';
                                 this.certificate = msg.certificate || '--';
-                                this.credentials = msg.credentials || '--';
+                                this.credentials = msg.credentials && msg.credentials !== '[do-not-modify]' ? msg.credentials : '--';
                                 this.pubKeyAlgo = msg.algorithm || '--';
                                 this.owner = msg.owner || '--';
                                 break;
