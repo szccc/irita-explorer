@@ -23,7 +23,7 @@
                                         placement="top"
                                         effect="dark"
                                         :disabled="!Tools.isValid(scope.row.id)">
-                                <span>{{formatIdentity(scope.row.id)}}</span>(scope.row.id)
+                                <span>{{formatStr20(scope.row.id)}}</span>(scope.row.id)
                             </el-tooltip>
                         </template>
                     </el-table-column>
@@ -46,13 +46,8 @@
                                         placement="top"
                                         effect="dark"
                                         :disabled="!Tools.isValid(scope.row.pubkeys)">
-                                <span>{{formatPubKey(scope.row.pubkeys)}}</span>
+                                <span>{{formatStr20(scope.row.pubkeys)}}</span>
                             </el-tooltip>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.pubKeyAlgo" :label="$t('ExplorerLang.table.pubKeyAlgo')">
-                        <template slot-scope="scope">
-                            {{scope.row.algorithm}}
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.certificate" :label="$t('ExplorerLang.table.certificate')">
@@ -71,7 +66,7 @@
                                         placement="top"
                                         effect="dark"
                                         :disabled="!Tools.isValid(scope.row.credentials)">
-                                        <span>{{formatStr20(scope.row.credentials)}}</span>
+                                        <a :href="formatUrl(scope.row.credentials)" target="_blank">{{formatStr20(scope.row.credentials)}}</a>
                             </el-tooltip>
                         </template>
                     </el-table-column>
@@ -173,6 +168,12 @@
                 }
                 return str || '';
             },
+            formatUrl(url){
+                if (!(/^http:\/\/|^https:\/\//).test(url)) {
+                    return `http://${url}`;
+                }
+                return url;
+            }
 
         }
     }
