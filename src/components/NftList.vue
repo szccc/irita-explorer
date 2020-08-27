@@ -36,7 +36,7 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.id')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_name}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_name || scope.row.denom_id}}</router-link>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData"></el-table-column>
