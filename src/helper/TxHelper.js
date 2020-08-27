@@ -84,6 +84,12 @@ export class TxHelper {
                 res.from = msg.sender;
                 res.to = msg.recipient;
                 break;
+            case TX_TYPE.create_identity:
+                res.to = msg.owner;
+                break;
+            case TX_TYPE.update_identity:
+                res.to = msg.owner;
+                break;
         }
         return res;
     }
