@@ -11,7 +11,7 @@
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.id')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom}&&tokenId=${scope.row.id}`">{{scope.row.nftName}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{scope.row.nftName || formatAddress(scope.row.id)}}</router-link>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData"></el-table-column>
@@ -368,14 +368,14 @@
 					if(nftData && nftData.data ){
 						this.assetArray = nftData.data.map(item => {
 							return{
-								denom: item.denom,
-								id: item.id,
+								id: item.nft_id,
                                 denomName:item.denom_name || item.denom_id,
+                                denomId: item.denom_id,
                                 nftName:item.nft_name,
-								name: item.denom,
 								owner: item.owner,
 								tokenData: item.tokenData,
 								tokenUri: item.tokenUri,
+
 							}
 						})
 					}
