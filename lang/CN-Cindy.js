@@ -125,7 +125,7 @@ export const ExplorerLang = {
     identity:{
         title: '身份',
         search: '搜索',
-        placeHolder: '搜索身份ID',
+        placeHolder: '搜索身份ID/拥有者',
     },
     service: {
         services: '服务',
