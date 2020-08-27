@@ -66,7 +66,8 @@
                                         placement="top"
                                         effect="dark"
                                         :disabled="!Tools.isValid(scope.row.credentials)">
-                                        <a :href="formatUrl(scope.row.credentials)" target="_blank">{{formatStr20(scope.row.credentials)}}</a>
+                                        <a v-if="Tools.isValid(scope.row.credentials)" :href="formatUrl(scope.row.credentials)" target="_blank">{{formatStr20(scope.row.credentials)}}</a>
+                                        <span v-else>{{formatStr20(scope.row.credentials)}}</span>
                             </el-tooltip>
                         </template>
                     </el-table-column>
@@ -133,7 +134,7 @@
                                 owner : item.owner || '--',
                                 pubkeys : pubkey.pubkey || '--',
                                 certificates : (item.certificates || [])[0] || '--',
-                                credentials : item.credentials || '--',
+                                credentials : (item.credentials && item.credentials!='[do-not-modify]') ? item.credentials : '--',
                                 algorithm: pubkey.algorithm || '--',
                             }
                         });
@@ -152,15 +153,6 @@
             },
             formatAddress(address){
                 return Tools.formatValidatorAddress(address)
-            },
-            formatIdentity(identity){
-                return Tools.format38(identity)
-            },
-            formatPubKey(pubkey){
-                return Tools.format38(pubkey)
-            },
-            formatTxHash(hash){
-                return Tools.formatTxHash(hash)
             },
             formatStr20(str){
                 if (str && str.length > 20) {

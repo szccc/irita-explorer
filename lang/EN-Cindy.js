@@ -123,7 +123,7 @@ export const ExplorerLang = {
         placeHolder: 'Search by Denom Name or Denom ID',
     },
     identity:{
-        title: 'ID',
+        title: 'Identity',
         search: 'Search',
         placeHolder: 'Search by ID',
     },
