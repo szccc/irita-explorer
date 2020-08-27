@@ -30,7 +30,8 @@
                     <el-table-column :min-width="ColumnMinWidth.txHash"
                                      :label="$t('ExplorerLang.table.createHash')" >
                         <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.hash"
+                            <el-tooltip v-if="scope.row.hash !== ''"
+                                        :content="scope.row.hash"
                                         class="item"
                                         placement="top"
                                         effect="dark">
@@ -38,6 +39,7 @@
                                     {{formatTxHash(scope.row.hash)}}
                                 </router-link>
                             </el-tooltip>
+                            <span v-if="scope.row.hash === ''">...</span>
                         </template>
                     </el-table-column>
                     <el-table-column

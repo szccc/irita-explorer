@@ -11,15 +11,15 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.denom')}}：</span>
-					<span>{{denomName}}</span>
+					<span>{{denomName || denomId}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.id')}}：</span>
-					<span>{{nftName}}</span>
+					<span>{{nftName || denomId}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.schema')}}：</span>
-					<span>{{schema}}</span>
+					<span>{{schema || '--'}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.data')}}：</span>
@@ -81,6 +81,7 @@
 				tokenUri:'',
                 denomName:'',
                 nftName:'',
+				denomId:''
 			}
 		},
 		mounted () {
@@ -98,12 +99,13 @@
 						this.name = nftDetail.denom;
 						this.tokenID = nftDetail.nft_id;
 						this.denomName = nftDetail.denom_name;
+						this.denomId = nftDetail.denom_id;
 						this.nftName = nftDetail.nft_name;
 						// this.primaryKey = nftDetail.primary_key;
 						this.owner = nftDetail.owner;
 						this.tokenData = nftDetail.tokenData;
 						this.tokenUri = nftDetail.tokenUri;
-							
+						
 						this.getTokenTx()
 					}
 				}catch (e) {
@@ -216,7 +218,7 @@
 			.nft_token_content_wrap{
 				
 				.nft_token_title{
-					
+				
 				}
 				.nft_token_information_content{
 					
@@ -226,19 +228,19 @@
 							min-width: 1rem;
 						}
 						span:nth-of-type(2){
-							
+						
 						}
 					}
 					.nft_token_information_item:last-child{
-						
+					
 					}
 				}
 				.nft_token_list_content{
 					.nft_token_list_title{
-						
+					
 					}
 	                .pagination_content{
-	                    
+	                
 	                }
 				}
 				
