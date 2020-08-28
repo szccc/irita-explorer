@@ -1,8 +1,18 @@
-FROM node:10.4.1-alpine
+FROM node:14.4.0-alpine3.12 AS builder
+WORKDIR /app
+COPY . .
+RUN apk add make git && npm i cnpm -g  && make setup && make setup_and_build
 
-COPY explorer /app/explorer
-COPY backend /app/backend
+FROM nginx:1.19-alpine
+RUN echo -e 'server {\n\
+	root /usr/share/nginx/html;\n\
+    location /api/ {\n\
+		proxy_pass http://$BACKEND/;\n\
+    }\n\
+    location /lcd/ {\n\
+		proxy_pass http://$LCD/;\n\
+    }\n\
+}' > /nginx.template
 
-RUN apk add --no-cache git && cd /app/explorer && npm install cnpm -g && cnpm install && cd /app/backend && npm install pm2 -g && npm install && npm run tag 
-
-CMD cd /app/explorer && npm run serve && cd /app/backend && pm2 start ./bin/www
+COPY --from=builder /app/dist/ /usr/share/nginx/html/
+CMD sh -c "envsubst < /nginx.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"
