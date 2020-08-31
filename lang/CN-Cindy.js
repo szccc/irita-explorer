@@ -8,6 +8,8 @@ export const ExplorerLang = {
         copied:'已复制',
         copyFailed:'复制失败',
         all:'全部',
+        more:'展开',
+        fewer:'收起',
     },
     table:{
         emptyDescription:'- 暂时没有内容 -',

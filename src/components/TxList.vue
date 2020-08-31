@@ -90,7 +90,7 @@
                 txTypeOption : [],
                 statusOpt : [
                     {
-                        value : '',
+                        value : 0,
                         label : this.$t('ExplorerLang.common.allTxStatus')
                     },
                     {
@@ -121,7 +121,7 @@
         },
         methods : {
             getFilterTxs(){
-                this.statusValue = Number(this.statusValue);
+                this.statusValue = Number(this.statusValue || 0);
                 this.pageNum = 1;
                 let url = `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`;
                 if(this.txType){
