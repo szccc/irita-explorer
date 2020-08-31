@@ -590,6 +590,8 @@
                 this.getTxByAddress();
             },
             resetFilterCondition(){
+            	this.type_temp = '';
+            	this.status_temp = '';
                 this.type = '';
 				this.status = '';
                 this.pageNum = 1;
