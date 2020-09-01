@@ -118,9 +118,11 @@ export const ColumnMinWidth = {
     nftCount:'100',
     identity:'220',
     idPubKey:'220',
-    pubKeyAlgo:'120',
-    certificate:'220',
-    credentials:'220',
+    idPubKeyFull:'650',
+    pubKeyAlgo: '120',
+    certificate: '220',
+    certificateFull: '650',
+    credentials: '220',
 
 
 

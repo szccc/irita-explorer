@@ -57,7 +57,8 @@ export const ExplorerLang = {
         idPubkey:'Pubkey',
         pubKeyAlgo:'PubKey Algo',
         certificate:'Certificate',
-        credentials:'Credentials'
+        credentials:'Credentials',
+        updateTime:'更新时间'
     },
     unit:{
         ellipsis:' ,...',
@@ -124,10 +125,21 @@ export const ExplorerLang = {
         search: 'Search',
         placeHolder: 'Search by Denom Name or Denom ID',
     },
-    identity:{
+    identityList:{
         title: 'Identity',
         search: 'Search',
         placeHolder: 'Search by ID / Owner',
+    },
+    identityDetail:{
+        title: '身份详情',
+        baseInfo: '基本信息',
+        credentialsInfo: '凭证信息',
+        txRecord: '交易记录',
+        owner: '拥有者',
+        credentials: '身份凭证',
+        createTxHash: '创建交易',
+        createHeight: '创建区块',
+        createTime: '创建时间',
     },
     service: {
         services: 'iService List',
@@ -196,6 +208,13 @@ export const ExplorerLang = {
             authorDescription: 'Author Description',
             schemas:'Schemas',
         },
+        identity:{
+            id:'ID',
+            pubkey:'Pubkey',
+            certificate:'Certificate',
+            credentials:'Credentials',
+            pubKeyAlgo:'PubKey Algo'
+        },
         recvPacket:{
             packet:'Packet',
             proof:'Proof',
@@ -204,13 +223,6 @@ export const ExplorerLang = {
             proofData:'Proof Data',
             clientID:'Client ID',
             module:'Module',
-        },
-        identity:{
-            id:'ID',
-            pubkey:'Pubkey',
-            certificate:'Certificate',
-            credentials:'Credentials',
-            pubKeyAlgo:'PubKey Algo'
         },
         client:{
             clientID:'Client ID',
@@ -224,6 +236,7 @@ export const ExplorerLang = {
         providerTitle:'iService-As Provider',
         respondRecord:'Respond Record',
         assets: 'NFT',
+        identities:'身份列表'
     },
     nftDetail: {
         nftInformation:'NFT Details',

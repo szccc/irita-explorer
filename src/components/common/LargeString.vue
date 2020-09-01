@@ -1,6 +1,6 @@
 <template>
-    <span class="tx_message_content_largeStr">
-        <span>
+    <span :class="`tx_message_content_largeStr ${mode=='cell'?'flex-row':'flex-colum'}`">
+        <span :style="`width:${textWidth || 'auto'}`">
             {{text_f}}
         </span>
         <span class="tx_message_content_largeStr_btn" v-if="showDescBtn(text)" @click="btnDidClick">
@@ -21,8 +21,18 @@
             maxLength:{
                 type:Number,
                 required:false,
-                default:180,
-            }
+                default:200,
+            },
+            mode:{//nomal or cell
+                type:String,
+                required:false,
+                default:'nomal'
+            },
+            textWidth:{//nomal or cell
+                type:String,
+                required:false,
+                default:''
+            },
         },
         data(){
             return {
@@ -56,17 +66,29 @@
 
 <style scoped lang="scss">
     .tx_message_content_largeStr{
+        font-size: $s14;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: $t_first_c;
+        word-break: break-all;
+    }
+    .flex-row{
+        display:flex;
+        flex:1;
+    }
+    .flex-colum{
         display:flex;
         flex:1;
         flex-direction:column;
-        word-break: break-all;
-        .tx_message_content_largeStr_btn{
+    }
+    .tx_message_content_largeStr_btn{
             cursor:pointer;
             color:$t_link_c;
             align-self:flex-end;
             font-size: $s14;
             font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
+            margin-left:0.4rem;
+            white-space: nowrap;
         }
-    }
 </style>

@@ -18,7 +18,7 @@
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
-                <span>{{schemas}}</span>
+                <LargeString :text="schemas"/>
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
@@ -133,7 +133,7 @@
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-                <span>{{tokenData}}</span>
+                <LargeString :text="tokenData"/>
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -168,7 +168,7 @@
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-                <span>{{tokenData}}</span>
+                <LargeString :text="tokenData"/>
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -198,7 +198,7 @@
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-                <span>{{tokenData}}</span>
+                <LargeString :text="tokenData"/>
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -216,7 +216,7 @@
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
-                <span>{{schema}}</span>
+                <LargeString :text="schema" />
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>

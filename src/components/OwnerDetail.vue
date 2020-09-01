@@ -5,7 +5,7 @@
 	          <div class="address_content_title_first">{{`${$t('ExplorerLang.addressDetail.addressDetail')} |`}}</div>
 	          <div class="address_content_title_address">{{address}}</div>
 	      	</div>
-			<div class="address_asset_content" v-show="moduleSupport('103', prodConfig.navFuncList)">
+			<div class="address_content" v-show="moduleSupport('103', prodConfig.navFuncList)">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.assets')}}</div>
 				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
@@ -14,13 +14,41 @@
 							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{scope.row.nftName || formatAddress(scope.row.id)}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
+						<!-- <template slot-scope="scope">
+							<LargeString :text="scope.row.tokenData" :maxLength="Number(50)" mode="cell" textWidth="300px"/>
+						</template> -->
+					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :download="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
+				</el-table>
+			</div>
+			<div class="address_content" v-show="moduleSupport('106', prodConfig.navFuncList)">
+				<div class="content_title">{{$t('ExplorerLang.addressDetail.identities')}}</div>
+				<el-table class="table" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.identity" :label="$t('ExplorerLang.table.identity')">
+						<template slot-scope="scope">
+							<router-link :to="`/identity/${scope.row.id}`">{{scope.row.id}}</router-link>
+						</template>
+					</el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+		                <template slot-scope="scope">
+		                    <el-tooltip :content="scope.row.txHash"
+	                                    placement="top"
+	                                    :disabled="!Tools.isValid(scope.row.txHash)">
+	                            <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+	                        </el-tooltip>
+		                </template>
+		            </el-table-column>
+		            <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
+		                <template slot-scope="scope">
+		                    <span>{{scope.row.time}}</span>
+		                </template>
+		            </el-table-column>
 				</el-table>
 			</div>
 			<div class="consumer_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList)">
@@ -96,7 +124,7 @@
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
+                    <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
@@ -153,7 +181,7 @@
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
+					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
 						<template slot-scope="scope">
 							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
@@ -269,26 +297,28 @@
 </template>
 
 <script>
-	import { getNfts } from "../service/api";
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
 	import { TxHelper } from "../helper/TxHelper";
 	import { moduleSupport } from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
-	import prodConfig from "../productionConfig"
+	import prodConfig from "../productionConfig";
 	import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant';
+	import LargeString from './common/LargeString';
   	import {
+  		getNfts,
   		getAddressTxList,
     	getCallServiceWithAddress,
 		getRespondServiceWithAddress,
 		getRespondServiceRecord,
 		getServiceBindingByServiceName,
 		getServiceContextsByServiceName,
-		getAllTxTypes} from "../service/api";
+		getAllTxTypes,
+		getIdentityListByAddress} from "../service/api";
 
     export default {
 		name: "OwnerDetail",
-		components: { MPagination, TxListComponent },
+		components: { MPagination, TxListComponent, LargeString },
 		data() {
 			return{
 				TX_TYPE,
@@ -313,6 +343,7 @@
 				respondRecordPageNum:1,
 				respondRecordPageSize: 5,
 				respondRecordCount:0,
+				identityList:[],
 				type:'',
                 status:'',
                 type_temp:'',
@@ -354,6 +385,7 @@
 			document.documentElement.scrollTop = 0;
 			this.getOwnerDetail();
 			this.getAllTxType();
+			this.getIdentityList();
 			this.getTxByAddress();
 			this.getConsumerTxList();
 			this.getRspondRecordList();
@@ -382,6 +414,15 @@
 				}catch (e) {
 					console.error(e)
 				}
+			},
+			//身份id列表
+			async getIdentityList(){
+				// getIdentityListByAddress
+				this.identityList = [{
+					id:'404C4AA9E54439557C428BCA931444B4',
+					txHash:'A879B06D8E841A25BEF266FA65116718753A69A4729A11EBA9D3183172BD47C3' || '--',
+                    time: Tools.getDisplayDate(1598595881) || '--'
+				}];
 			},
 			//地址相关交易记录
 			async getTxByAddress(){
@@ -648,15 +689,16 @@
 		            word-break: break-all;
 		        }
 		    }
-			.address_asset_content{
+			.address_content{
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
 				border:1px solid $bd_first_c;
+				margin-bottom:0.48rem;
 			}
 
 			.consumer_transaction_content{
-				margin-top: 0.48rem;
+				margin-bottom:0.48rem;
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
@@ -682,7 +724,7 @@
 				}
 			}
 			.provider_transaction_content{
-				margin-top: 0.48rem;
+				margin-bottom:0.48rem;
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
@@ -709,7 +751,6 @@
 			}
 
 			.address_transaction_content{
-				margin-top: 0.48rem;
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
@@ -822,7 +863,7 @@
 			        .address_content_title_address{
 			        }
 			    }
-				.address_asset_content{
+				.address_content{
 				}
 				.consumer_transaction_content{
 					.consumer_transaction_content_hash{

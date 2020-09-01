@@ -222,7 +222,30 @@ export function getIdentities(identity, pageNum, pageSize){
     return get(url);
 }
 
+export function getIdentityDetail(identity){
+    // let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
+    // return get(url);
+}
 
+export function getPubkeyListByIdentity(identity, pageNum, pageSize, useCount){
+    // let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
+    // return get(url);
+}
+
+export function getCertificateListByIdentity(identity, pageNum, pageSize, useCount){
+    // let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
+    // return get(url);
+}
+
+export function getTxListByIdentity(identity, pageNum, pageSize, useCount){
+    // let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
+    // return get(url);
+}
+
+export function getIdentityListByAddress(address, pageNum, pageSize, useCount){
+    // let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
+    // return get(url);
+}
 
 
 
