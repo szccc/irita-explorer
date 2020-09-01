@@ -189,7 +189,7 @@
                 certificateListCount:0,
                 txList:[],
                 txListPageNum:1,
-                txListPageSize: 5,
+                txListPageSize: 10,
                 txListCount:0,
                 
             }
