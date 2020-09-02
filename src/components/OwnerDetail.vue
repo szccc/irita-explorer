@@ -26,6 +26,13 @@
 						</template>
 					</el-table-column>
 				</el-table>
+				<div class="pagination_content" v-show="assetCount > assetPageSize">
+					<m-pagination :page-size="assetPageSize"
+					              :total="assetCount"
+					              :page="assetPageNum"
+					              :page-change="assetPageChange">
+					</m-pagination>
+				</div>
 			</div>
 			<div class="address_content" v-show="moduleSupport('106', prodConfig.navFuncList)">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.identities')}}</div>
@@ -50,6 +57,13 @@
 		                </template>
 		            </el-table-column>
 				</el-table>
+				<div class="pagination_content" v-show="identityCount > identityPageSize">
+					<m-pagination :page-size="identityPageSize"
+					              :total="identityCount"
+					              :page="identityPageNum"
+					              :page-change="identityPageChange">
+					</m-pagination>
+				</div>
 			</div>
 			<div class="consumer_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList)">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.consumerTitle')}}</div>
@@ -328,6 +342,9 @@
 				moduleSupport,
 				Tools,
 				assetArray:[],
+				assetPageNum:1,
+				assetPageSize: 5,
+				assetCount:0,
 				denomArray:[],
 				address:'',
 				pageNum: 1,
@@ -344,6 +361,9 @@
 				respondRecordPageSize: 5,
 				respondRecordCount:0,
 				identityList:[],
+				identityPageNum:1,
+				identityPageSize: 5,
+				identityCount:0,
 				type:'',
                 status:'',
                 type_temp:'',
@@ -373,7 +393,7 @@
 		watch:{
 			$route(){
 				this.address = this.$route.params.param;
-				this.getOwnerDetail();
+				this.getAssetList();
 				this.getTxByAddress();
 				this.getConsumerTxList();
 				this.getRspondRecordList();
@@ -383,7 +403,7 @@
 		},
 		mounted () {
 			document.documentElement.scrollTop = 0;
-			this.getOwnerDetail();
+			this.getAssetList();
 			this.getAllTxType();
 			this.getIdentityList();
 			this.getTxByAddress();
@@ -393,11 +413,15 @@
 			this.address = this.$route.params.param
 		},
 		methods:{
-			async getOwnerDetail(){
+			assetPageChange(pageNum){
+				this.assetPageNum = pageNum;
+				this.getAssetList()
+			},
+			async getAssetList(){
 				try {				
-					let nftData = await getNfts('', '', this.$route.params.param, 1, 1000, true);
-					console.log('----',nftData)
+					let nftData = await getNfts('', '', this.$route.params.param, this.assetPageNum, this.assetPageSize, true);
 					if(nftData && nftData.data ){
+						this.assetCount = nftData.count;
 						this.assetArray = nftData.data.map(item => {
 							return{
 								id: item.nft_id,
@@ -416,13 +440,27 @@
 				}
 			},
 			//身份id列表
+			identityPageChange(pageNum){
+				this.identityPageNum = pageNum;
+				this.getIdentityList()
+			},
 			async getIdentityList(){
-				// getIdentityListByAddress
-				this.identityList = [{
-					id:'404C4AA9E54439557C428BCA931444B4',
-					txHash:'A879B06D8E841A25BEF266FA65116718753A69A4729A11EBA9D3183172BD47C3' || '--',
-                    time: Tools.getDisplayDate(1598595881) || '--'
-				}];
+				try {
+                    const res = await getIdentityListByAddress(this.$route.params.param, this.identityPageNum, this.identityPageSize, true);
+                    if(res){
+                        this.identityCount = res.count;
+                        this.identityList = res.data.map((item)=>{
+                        	return {
+                        		id:item.id,
+								txHash:item.update_tx_hash || '--',
+			                    time: Tools.getDisplayDate(item.update_block_time) || '--'
+                        	}
+                        });
+                    }
+                }catch (e) {
+                	console.error(e);
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+                }
 			},
 			//地址相关交易记录
 			async getTxByAddress(){
@@ -717,11 +755,6 @@
                     	margin-right:0.1rem;
                     }
 				}
-				.pagination_content{
-					margin: 0.2rem 0 0.2rem 0;
-					display: flex;
-					justify-content: flex-end;
-				}
 			}
 			.provider_transaction_content{
 				margin-bottom:0.48rem;
@@ -742,11 +775,6 @@
                     	border-radius:50%;
                     	margin-right:0.1rem;
                     }
-				}
-				.pagination_content{
-					margin: 0.2rem 0 0.2rem 0;
-					display: flex;
-					justify-content: flex-end;
 				}
 			}
 
@@ -829,11 +857,6 @@
                     }
                     
                 }
-                .pagination_content{
-					margin: 0.2rem 0 0.2rem 0;
-					display: flex;
-					justify-content: flex-end;
-				}
 			}
 			
 			.content_title{
@@ -851,6 +874,12 @@
                 height:0.13rem;
                 margin-right:0.05rem;
             }
+
+            .pagination_content{
+				margin: 0.2rem 0 0.2rem 0;
+				display: flex;
+				justify-content: flex-end;
+			}
 		}
 	}
 
@@ -872,8 +901,6 @@
 	                    .consumer_transaction_content_available_icon{
 	                    }
 					}
-					.pagination_content{
-					}
 				}
 				.provider_transaction_content{
 					.respond_transaction_content_hash{
@@ -881,8 +908,6 @@
 					.provider_transaction_content_available{
 	                    .provider_transaction_content_available_icon{
 	                    }
-					}
-					.pagination_content{
 					}
 				}
 
@@ -922,13 +947,13 @@
 	                        }
 	                    }
 	                }
-	                .pagination_content{
-					}
 				}
 				.content_title{
 				}
 				.status_icon{
 	            }
+	            .pagination_content{
+				}
 			}
 		}
 	}

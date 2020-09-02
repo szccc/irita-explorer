@@ -126,6 +126,7 @@
                                 </router-link>
                                 <span v-else>{{'--'}}</span>
                             </el-tooltip>
+                            <span v-else>{{'--'}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
@@ -155,6 +156,7 @@
     import Tools from "../util/Tools";
     import MPagination from "./common/MPagination";
     import MClip from "./common/MClip.vue";
+    import {TxHelper} from "../helper/TxHelper";
     import TxListComponent from "./common/TxListComponent";
     import { getTxDetail, 
             getRelevanceTxList, 
@@ -203,15 +205,14 @@
         methods : {
             async getIdentityDetail(){
                 try {
-                    this.owner = 'iaa1ze43pja24lk5mafu42lq7wnpjkjnszk742jtah';
-                    this.credentials = 'www.baidu.com';
-                    this.createTxHash = 'A879B06D8E841A25BEF266FA65116718753A69A4729A11EBA9D3183172BD47C3';
-                    this.createHeight = '64119';
-                    this.createTime = Tools.getDisplayDate('1598595881');
-                    // const res = await getIdentityDetail(this.id);
-                    // if(res){
-                        
-                    // }
+                    const res = await getIdentityDetail(this.id);
+                    if(res){
+                        this.owner = res.owner || '';
+                        this.credentials = res.credentials || '--';
+                        this.createTxHash = res.create_tx_hash || '--';
+                        this.createHeight = res.create_block_height || '--';
+                        this.createTime = Tools.getDisplayDate(res.create_block_time);
+                    }
                 } catch (e) {
                     console.error(e);
                     this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
@@ -234,65 +235,60 @@
             },
             async getPubkeyList(){
                 try {
-                    this.pubkeyList = [{
-                        pubkey: 'cMAnBkMQswCQYDVQQKDAJiajELMAkGA1UE CwwCY',
-                        pubKeyAlgo: 'ED25519',
-                        txHash: 'BA7965368E16B9E93786562D533853DB525A4B9644219ADA41BA3D987EF82D50',
-                        time: Tools.getDisplayDate('1598595875'),
-                    }];
-                    // const res = await getPubkeyListByIdentity(this.id, this.pubkeyListPageNum, this.pubkeyListPageSize, true);
-                    // if(res){
-                    //     this.pubkeyListCount = res.count;
-                    //     this.pubkeyList = res.data.map((tx) =>{
-                    //         let result = {
-                    //         };
-                    //         return result;
-                    //     });
-                    // }
+                    const res = await getPubkeyListByIdentity(this.id, this.pubkeyListPageNum, this.pubkeyListPageSize, true);
+                    if(res){
+                        this.pubkeyListCount = res.count;
+                        this.pubkeyList = res.data.map((item) =>{
+                            let result = {
+                                pubkey: (item.pubkey || {}).pubkey || '',
+                                pubKeyAlgo: (item.pubkey || {}).algorithm || '',
+                                txHash: item.hash || '',
+                                time: Tools.getDisplayDate(item.time),
+                            };
+                            return result;
+                        });
+                    }
                 } catch (e) {
                     console.error(e);
                 }
             },
             async getCertificateList(){
                 try {
-                    this.certificateList = [{
-                        certificate: '-----BEGIN CERTIFICATE----- MIIDTDCCAjQCCQDvRoz+e/HRpDANBgkqhkiG9w0BAQsFADBoMQswCQYDVQQGEwJj bjELMAkGA1UECAwCc2gxCzAJBgNVBAcMAnBkMQswCQYDVQQKDAJiajELMAkGA1UE CwwCYmoxCzAJBgNVBAMMAmJqMRgwFgYJKoZIhvcNAQkBFgliakBiai5jb20wHhcN MjAwNjEwMDkzNjMxWhcNMjAwNzEwMDkzNjMxWjBoMQswCQYDVQQGEwJjbjELMAkG A1UECAwCc2gxCzAJBgNVBAcMAnBkMQswCQYDVQQKDAJiajELMAkGA1UECwwCYmox CzAJBgNVBAMMAmJqMRgwFgYJKoZIhvcNAQkBFgliakBiai5jb20wggEiMA0GCSqG SIb3DQEBAQUAA4IBDwAwggEKAoIBAQDUEifXes1/CXEjdH8SeSS+1x+ZlhktI8i8 9ncMeOr5oI1Mc7Kd7v85i0hrmjjZzUrHQy0Sdt2ltQjo6dtkq3wDsL4OgIqGO75z OwG4EB0A1sJ/YTSX+fmWwy5ys19A2O5sTZOJEw3VFgiZHv1TZEiY+GVtpZ5Dti/1 t5ZzNTF+M0rpbICTxLh1GSpdhJs95yci1A8zqmPzPETVkxJwVCOg54WfpRQAiBqM DKLjVXALuvlDDxVhB0u7kuvKAydZdV/pDs73HuY2srCOiDij3iVS01Ln02JNeMK8 IG9xRSw2eaSDp+fa1jtUXMDMmVNHCJqpQaFv0/1oN/ehUXb/DTMHAgMBAAEwDQYJ KoZIhvcNAQELBQADggEBAKij8eUTcs+AJFPnzc3aolVZEApwvLum58WRjmoev44A 1528F4dXF7vJhIbqdOvEBy0YNQhNuNUs+JiHIFwuVvhNuAXDgXJNsvymx8fn0E5U C90iTCiV9WhlL93S6fSelDj65sgD4Gw8Q4bBbNa/SRCu4+oBNS9BPjpcbrGllph9 7AkCGBiaabVLqGNyZJEKZpRQ3kOqdQzHYT/eHRC3hcO/KGf0vCOUTgEhHuYavMy/ JZOeFg1owNP2nZ8cD2TwDKS+T+T1rAG1ovnVp/PV7lbH1o8Kn2rwtj1S42O824Gr 2NyVhhdZkLI/uEX9mdmcFPB+oV6iiPnqEh/r2wswFgw= -----END CERTIFICATE-----',
-                        txHash: 'BA7965368E16B9E93786562D533853DB525A4B9644219ADA41BA3D987EF82D50',
-                        time: Tools.getDisplayDate('1598595875'),
-                    }];
-                    // const res = await getCertificateListByIdentity(this.id, this.certificateListPageNum, this.certificateListPageSize, true);
-                    // if(res){
-                    //     this.certificateListCount = res.count;
-                    //     this.certificateList = res.data.map((tx) =>{
-                    //         let result = {
-                    //         };
-                    //         return result;
-                    //     });
-                    // }
+                    const res = await getCertificateListByIdentity(this.id, this.certificateListPageNum, this.certificateListPageSize, true);
+                    if(res){
+                        this.certificateListCount = res.count;
+                        this.certificateList = res.data.map((item) =>{
+                            let result = {
+                                certificate: item.certificate || '--',
+                                txHash: item.hash || '--',
+                                time: Tools.getDisplayDate(item.time),
+                            };
+                            return result;
+                        });
+                    }
                 } catch (e) {
                     console.error(e);
                 }
             },
             async getTxList(){
                 try {
-                    this.txList = [{
-                        txHash: 'BA7965368E16B9E93786562D533853DB525A4B9644219ADA41BA3D987EF82D50',
-                        txType: 'create_identity',
-                        from: 'iaa1c6n6xxz6qs2s60f9dzmnw2zwqjv04kah4sjv64',
-                        blockHeight: '62312',
-                        time: Tools.getDisplayDate('1598595875'),
-                        msgCount:1,
-                        status:1
-                    }];
-                    // const res = await getTxListByIdentity(this.id, this.txListPageNum, this.txListPageSize, true);
-                    // if(res){
-                    //     this.txListCount = res.count;
-                    //     this.txList = res.data.map((tx) =>{
-                    //         let result = {
-                    //         };
-                    //         return result;
-                    //     });
-                    // }
+                    this.txList = [];
+                    const res = await getTxListByIdentity(this.id, this.txListPageNum, this.txListPageSize, true);
+                    if(res){
+                        this.txListCount = res.count;
+                        this.txList = res.data.map((item) =>{
+                            let result = {
+                                txHash: item.tx_hash || '',
+                                txType: item.type || '',
+                                from: TxHelper.getFromAndToAddressFromMsg((item.msgs || [])[0]).from,
+                                blockHeight: item.height,
+                                time: Tools.getDisplayDate(item.time),
+                                msgCount:(item.msgs || []).length,
+                                status:item.status
+                            };
+                            return result;
+                        });
+                    }
                 } catch (e) {
                     console.error(e);
                 }
@@ -376,6 +372,7 @@
                         color: $t_first_c;
                         font-size: $s14;
                         line-height: 0.16rem;
+                        word-break: break-all;
                     }
                 }
                 .identity_information_list_item:last-child {
