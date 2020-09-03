@@ -58,7 +58,7 @@ export const ExplorerLang = {
         pubKeyAlgo:'PubKey Algo',
         certificate:'Certificate',
         credentials:'Credentials',
-        updateTime:'更新时间'
+        updateTime:'Timestamp'
     },
     unit:{
         ellipsis:' ,...',
@@ -131,15 +131,15 @@ export const ExplorerLang = {
         placeHolder: 'Search by ID / Owner',
     },
     identityDetail:{
-        title: '身份详情',
-        baseInfo: '基本信息',
-        credentialsInfo: '凭证信息',
-        txRecord: '交易记录',
-        owner: '拥有者',
-        credentials: '身份凭证',
-        createTxHash: '创建交易',
-        createHeight: '创建区块',
-        createTime: '创建时间',
+        title: 'Identity Details',
+        baseInfo: 'Base Info',
+        credentialsInfo: 'Credentials Info',
+        txRecord: 'Txs',
+        owner: 'Owner',
+        credentials: 'Credentials',
+        createTxHash: 'Created TxHash',
+        createHeight: 'Block',
+        createTime: 'Timestamp',
     },
     service: {
         services: 'iService List',
