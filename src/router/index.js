@@ -36,6 +36,10 @@ const router = new Router({
 			component: () => import('@/components/IdentityList.vue')
 		},
 		{
+			path:'/identity/:id',
+			component: () => import('@/components/IdentityDetail.vue')
+		},
+		{
 			path:'/address/:param',
 			component: () => import('@/components/OwnerDetail.vue')
 		},

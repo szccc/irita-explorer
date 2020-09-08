@@ -38,9 +38,6 @@
 						</component>
 					</el-menu>
 				</div>
-				<div class="header_mobile_menu" @click="featureShow=!featureShow">
-					<img class="menu_btn" src="../../assets/menu.png" >
-				</div>
 			</div>
 			<div class="header_input_content" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`" v-if="searchShow">
 				<div class="search_input_container" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`">
@@ -54,6 +51,9 @@
 						<span @click="getData(searchInputValue)"
 							  class="iconfont iconsousuo"
 							  :style="`color:${(prodConfig.nav || {}).color || ''}`"></span>
+					</div>
+					<div class="header_mobile_menu" @click="featureShow=!featureShow">
+						<img class="menu_btn" src="../../assets/menu.png" >
 					</div>
 				</div>
 			</div>
@@ -78,8 +78,6 @@
                             <img src="../../assets/retract.svg"
                                  v-show="expandingList.includes(index)"
                                  class="mobile_tab_item_icon">
-
-
                         </span>
                         <transition name="fade">
                             <div class="mobile_tab_item_sub_children_container"
@@ -339,18 +337,6 @@
 					}
 					
 				}
-				.header_mobile_menu{
-					display:none;
-					.menu_btn {
-		                width: 0.2rem;
-		                height: 0.2rem;
-		                top: 0.26rem;
-		                right: 0.1rem;
-		                img {
-		                    width: 100%;
-		                }
-		            }
-				}
 			}
 
 		}
@@ -358,13 +344,16 @@
 			flex: 1;
 			background: $bg_main_c;
 			.search_input_container {
+				display: flex;
 				flex: 1;
 				background: $bg_main_c;
 				z-index: 1;
+				align-items:center;
 				.search_input_wrap {
 					max-width: 12.8rem;
 					margin: 0 auto;
 					display: flex;
+					flex:1;
 					align-items: center;
 					border: 0.01rem solid $t_fourth_c;
 					border-radius: 0.06rem;
@@ -390,6 +379,19 @@
 						cursor: pointer;
 						color: $t_fourth_c;
 					}
+				}
+				.header_mobile_menu{
+					display:none;
+					margin-left:0.2rem;
+					.menu_btn {
+		                width: 0.22rem;
+		                height: 0.22rem;
+		                // top: 0.26rem;
+		                // right: 0.1rem;
+		                img {
+		                    width: 100%;
+		                }
+		            }
 				}
 			}
 		}
@@ -451,12 +453,9 @@
 				flex-direction:column;
 				.header_menu_content{
 					width:100%;
-
+					margin:0;
 					.header_menu{
 						display:none;
-					}
-					.header_mobile_menu{
-						display:block;
 					}
 				}
 
@@ -465,6 +464,9 @@
 				width:100%;
 				.search_input_container {
 					margin-top:0.05rem;
+					.header_mobile_menu{
+						display:block;
+					}
 				}
 			}
 			.use_feature_mobile{

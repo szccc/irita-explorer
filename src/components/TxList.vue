@@ -26,7 +26,7 @@
                         </el-select>-->
                         <el-select v-model="statusValue">
                             <el-option v-for="(item, index) in statusOpt"
-                                       :key="index"
+                                       :key="item.value"
                                        :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>
@@ -90,7 +90,7 @@
                 txTypeOption : [],
                 statusOpt : [
                     {
-                        value : '',
+                        value : 0,
                         label : this.$t('ExplorerLang.common.allTxStatus')
                     },
                     {
@@ -121,6 +121,7 @@
         },
         methods : {
             getFilterTxs(){
+                this.statusValue = Number(this.statusValue || 0);
                 this.pageNum = 1;
                 let url = `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`;
                 if(this.txType){
