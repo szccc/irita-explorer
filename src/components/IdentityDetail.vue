@@ -16,7 +16,8 @@
                 </p>
                 <p class="identity_information_list_item">
                     <span>{{$t('ExplorerLang.identityDetail.credentials')}}：</span>
-                    <a :href="formatUrl(credentials)" target="_blank">{{credentials}}</a>
+                    <a v-if="credentials !=='[do-not-modify]'" :href="formatUrl(credentials)" target="_blank">{{credentials}}</a>
+                    <span v-else>{{credentials}}</span>
                 </p>
                 <p class="identity_information_list_item">
                     <span>{{$t('ExplorerLang.identityDetail.createTxHash')}}：</span>
@@ -30,7 +31,7 @@
                     <span>{{$t('ExplorerLang.identityDetail.createTime')}}：</span>
                     <span>{{createTime}}</span>
                 </p>
-            </div>  
+            </div>
             <div class="identity_detail_bg">
                 <div class="content_title">{{$t('ExplorerLang.identityDetail.credentialsInfo')}}</div>
                 <el-table class="table" :data="pubkeyList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
@@ -82,7 +83,7 @@
                     </el-table-column>
                     <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
                         <template slot-scope="scope">
-                            <span>{{Tools.getDisplayDate(scope.row.time)}}</span>
+                            <span>{{scope.row.time}}</span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -93,7 +94,7 @@
                                   :page-change="certificatePageChange">
                     </m-pagination>
                 </div>
-            </div>   
+            </div>
             <div class="identity_detail_bg">
                 <div class="content_title">{{$t('ExplorerLang.identityDetail.txRecord')}}</div>
                 <el-table class="table" :data="txList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
@@ -147,7 +148,7 @@
                                   :page-change="txPageChange">
                     </m-pagination>
                 </div>
-            </div>           
+            </div>
         </div>
     </div>
 </template>
@@ -158,8 +159,8 @@
     import MClip from "./common/MClip.vue";
     import {TxHelper} from "../helper/TxHelper";
     import TxListComponent from "./common/TxListComponent";
-    import { getTxDetail, 
-            getRelevanceTxList, 
+    import { getTxDetail,
+            getRelevanceTxList,
             getIdentityDetail,
             getPubkeyListByIdentity,
             getCertificateListByIdentity,
@@ -378,14 +379,14 @@
                 .identity_information_list_item:last-child {
                     margin-bottom: 0;
                 }
-            }  
+            }
             .identity_detail_bg{
                 margin-top:0.48rem;
                 background: $bg_white_c;
                 padding:0.25rem;
                 border-radius:0.05rem;
                 border:1px solid $bd_first_c;
-            }            
+            }
             .content_title{
                 color: $t_first_c;
                 margin-bottom: 0.4rem;
@@ -415,10 +416,10 @@
                 .identity_detail_title {
                     
                     .identity_detail_title_first {
-                        
+                    
                     }
                     .identity_detail_title_hash {
-                       
+                    
                     }
                 }
                 .identity_information_content {
@@ -429,23 +430,23 @@
                             min-width: 1rem;
                         }
                         span:nth-of-type(2) {
-                            
+                        
                         }
                     }
                     .identity_information_list_item:last-child {
                     }
-                }  
+                }
                 .identity_detail_bg{
-                    
-                }            
+                
+                }
                 .content_title{
-                    
+                
                 }
                 .pagination_content{
-                    
+                
                 }
                 .status_icon{
-                    
+                
                 }
             }
         }
