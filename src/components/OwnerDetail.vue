@@ -114,7 +114,7 @@
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
                         <template slot-scope="scope">
-                            <el-tooltip v-if="scope.row.txType==TX_TYPE.respond_service" 
+                            <el-tooltip v-if="scope.row.txType==TX_TYPE.respond_service"
 								        :content="scope.row.provider"
 								        placement="top">
 								<router-link   :to="`/address/${scope.row.provider}`">
@@ -132,7 +132,7 @@
                                 <div class="service_tx_muti_to_container"
                                      v-else>
                                     <router-link :to="`/tx?txHash=${scope.row.txHash}`">
-                                        {{ `${scope.row.provider.length} ${$t('ExplorerLang.unit.providers')}` }} 
+                                        {{ `${scope.row.provider.length} ${$t('ExplorerLang.unit.providers')}` }}
                                     </router-link>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@
 							<div class="address_transaction_content_hash">
 								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
                                             src="../assets/success.png"/>
-								<el-tooltip v-if="scope.row.requestHash && scope.row.requestHash != '--'" 
+								<el-tooltip v-if="scope.row.requestHash && scope.row.requestHash != '--'"
 								            :content="scope.row.requestHash"
 								            placement="top">
 									<router-link :to="`/tx?txHash=${scope.row.requestHash}`">{{formatTxHash(scope.row.requestHash)}}</router-link>
@@ -418,7 +418,7 @@
 				this.getAssetList()
 			},
 			async getAssetList(){
-				try {				
+				try {
 					let nftData = await getNfts('', '', this.$route.params.param, this.assetPageNum, this.assetPageSize, true);
 					if(nftData && nftData.data ){
 						this.assetCount = nftData.count;
@@ -451,7 +451,7 @@
                         this.identityCount = res.count;
                         this.identityList = res.data.map((item)=>{
                         	return {
-                        		id:item.id,
+                        		id:item.identities_id,
 								txHash:item.update_tx_hash || '--',
 			                    time: Tools.getDisplayDate(item.update_block_time) || '--'
                         	}
@@ -529,7 +529,7 @@
 										status:r.status,
 	                        		};
 	                        		this.consumerTxList.push(respondResult);
-	                        	});	 
+	                        	});
 	                        }
                         }
                     }
