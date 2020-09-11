@@ -113,14 +113,14 @@
                         this.identityList = res.data.map((item)=>{
                             let pubkey = (item.pubkeys || [])[0] || {};
                             return {
-                                id : item.id || '--',
+                                id : item.identities_id || '--',
                                 owner : item.owner || '--',
                                 pubkeys : pubkey.pubkey || '--',
                                 certificates : (item.certificates || [])[0] || '--',
                                 credentials : (item.credentials && item.credentials!='[do-not-modify]') ? item.credentials : '--',
                                 algorithm: pubkey.algorithm || '--',
-                                txHash:'A879B06D8E841A25BEF266FA65116718753A69A4729A11EBA9D3183172BD47C3' || '--',
-                                time: Tools.getDisplayDate(1598595881) || '--'
+                                txHash: item.update_tx_hash || '--',
+                                time: Tools.getDisplayDate(item.update_block_time) || '--'
                             }
                         });
                         this.count = res.count;
