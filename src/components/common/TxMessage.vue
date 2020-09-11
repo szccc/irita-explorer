@@ -524,6 +524,7 @@
 
 <script>
     import { TX_TYPE } from '../../constant';
+    import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
     export default {
         name : "txMessage",
@@ -802,11 +803,12 @@
                                 break;
                             case TX_TYPE.create_identity:
                             case TX_TYPE.update_identity:
+                                let pubkey = msg.pubkey || {};
                                 this.id = msg.id || '--';
-                                this.pubkey = msg.pubkey || '--';
+                                this.pubkey = pubkey.pubkey || '--';
                                 this.certificate = msg.certificate || '--';
                                 this.credentials = msg.credentials && msg.credentials !== '[do-not-modify]' ? msg.credentials : '--';
-                                this.pubKeyAlgo = msg.algorithm || '--';
+                                this.pubKeyAlgo = TxHelper.getPubKeyAlgorithm(pubkey.algorithm) || '--';
                                 this.owner = msg.owner || '--';
                                 break;
                             case TX_TYPE.create_client:

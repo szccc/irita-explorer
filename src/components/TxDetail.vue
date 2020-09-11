@@ -6,8 +6,11 @@
                     <div class="tx_detail_title_first">
                         {{`${$t('ExplorerLang.transactionInformation.transactionInformation')} |`}}
                     </div>
-                    <div class="tx_detail_title_hash">{{txHash}}</div>
-                    <MClip :text="txHash"></MClip>
+                    <div class="tx_detail_title_hash">
+                        {{txHash}}
+                        <MClip :text="txHash"></MClip>
+                    </div>
+                    
                 </div>
                 <div class="tx_information_content">
                     <p class="tx_information_list_title">{{$t('ExplorerLang.transactionInformation.baseInfo')}}</p>

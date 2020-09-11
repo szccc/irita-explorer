@@ -1,4 +1,4 @@
-import { TX_TYPE } from "../constant";
+import { TX_TYPE, PubKeyAlgorithm } from "../constant";
 
 
 export class TxHelper {
@@ -151,4 +151,8 @@ export class TxHelper {
         return requestContextId;
     }
 
+
+    static getPubKeyAlgorithm(algorithm){
+        return PubKeyAlgorithm[String(algorithm)] || PubKeyAlgorithm['0'];
+    }
 }
