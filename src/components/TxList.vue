@@ -150,7 +150,7 @@
                 this.beginTime = '';
                 this.endTime = '';
                 this.txType = '';
-                this.statusValue = '';
+                this.statusValue = 0;
                 this.txStatus = '';
                 this.beginTime = '';
                 this.endTime = '';
