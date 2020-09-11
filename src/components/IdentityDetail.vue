@@ -5,8 +5,10 @@
                 <div class="identity_detail_title_first">
                     {{`${$t('ExplorerLang.identityDetail.title')} |`}}
                 </div>
-                <div class="identity_detail_title_hash">{{id}}</div>
-                <MClip :text="id"></MClip>
+                <div class="identity_detail_title_hash">
+                    {{id}}
+                    <MClip :text="id"></MClip>
+                </div>
             </div>
             <div class="identity_information_content">
                 <p class="content_title">{{$t('ExplorerLang.identityDetail.baseInfo')}}</p>
