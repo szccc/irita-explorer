@@ -380,12 +380,40 @@
                     margin-bottom: 0;
                 }
             }
-            .identity_detail_bg{
+            /deep/ .identity_detail_bg{
                 margin-top:0.48rem;
                 background: $bg_white_c;
                 padding:0.25rem;
                 border-radius:0.05rem;
                 border:1px solid $bd_first_c;
+                .el-table{
+                    .el-table__header-wrapper{
+                        .el-table__header{
+                            .has-gutter{
+                                tr{
+                                    th:first-child{
+                                        .cell{
+                                            padding-left: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .el-table__body-wrapper{
+                        .el-table__body{
+                            tbody{
+                                .el-table__row{
+                                    td:first-child{
+                                        .cell{
+                                            padding-left: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
             .content_title{
                 color: $t_first_c;

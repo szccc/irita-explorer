@@ -265,7 +265,7 @@
                     }
                 }
             }
-            .nef_list_table_container{
+            /deep/ .nef_list_table_container{
                 background: $bg_white_c;
                 border-radius: 0.05rem;
                 border: 0.01rem solid $bd_first_c;
@@ -278,6 +278,34 @@
                     display: flex;
                     justify-content: flex-end;
                     margin: 0.1rem 0 0.2rem 0;
+                }
+                .el-table{
+                    .el-table__header-wrapper{
+                        .el-table__header{
+                            .has-gutter{
+                                tr{
+                                    th:first-child{
+                                        .cell{
+                                            padding-left: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .el-table__body-wrapper{
+                        .el-table__body{
+                            tbody{
+                                .el-table__row{
+                                    td:first-child{
+                                        .cell{
+                                            padding-left: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

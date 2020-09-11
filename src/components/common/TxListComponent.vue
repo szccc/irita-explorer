@@ -112,7 +112,7 @@
                         txType :tx.msgs.length > 1 ? tx.msgs[0].type  : tx.type,
                         from,
                         to,
-                        signer : tx.signer,
+                        signer : tx.signers[0],
                         status : tx.status,
                         msgCount : tx.msgs.length,
                         time :Tools.getDisplayDate(tx.time),
