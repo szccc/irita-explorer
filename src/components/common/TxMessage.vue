@@ -481,7 +481,7 @@
         <div v-if="txType === TX_TYPE.create_identity || txType === TX_TYPE.update_identity">
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.identity.id')}}：</span>
-                <span>{{id}}</span>
+                <router-link :to="`/identity/${id}`">{{id}}</router-link>
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.identity.pubkey')}}：</span>
@@ -497,7 +497,8 @@
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.identity.credentials')}}：</span>
-                <span>{{credentials}}</span>
+                <span v-if="credentials === '--'">{{credentials}}</span>
+                <a v-else href="credentials" target="_blank">{{credentials}}</a>
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
