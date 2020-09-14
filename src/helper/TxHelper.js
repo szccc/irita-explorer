@@ -153,6 +153,6 @@ export class TxHelper {
 
 
     static getPubKeyAlgorithm(algorithm){
-        return PubKeyAlgorithm[String(algorithm)] || PubKeyAlgorithm['0'];
+        return PubKeyAlgorithm[String(algorithm)] ;
     }
 }
