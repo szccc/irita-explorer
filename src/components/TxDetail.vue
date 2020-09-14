@@ -359,7 +359,6 @@
                         margin-bottom: 0.26rem;
                         .err_msg_content{
                             cursor: pointer;
-                            color: #f78989;
                             i{
                                 display: inline-block;
                                 margin-left: 0.03rem;
