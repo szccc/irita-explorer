@@ -20,7 +20,14 @@
                     </p>
                     <p class="tx_information_list_item">
                         <span>{{$t('ExplorerLang.transactionInformation.status')}}：</span>
-                        <span>{{status}}</span>
+                        <span>
+                            {{status}}
+                            <span class="err_msg_content" v-show="status === 'Failed'">
+                                <el-tooltip hide-after="0" placement="top" :content="errorLog">
+                                    <i class="iconfont iconhelp"></i>
+                                </el-tooltip>
+                            </span>
+                        </span>
                     </p>
                     <p class="tx_information_list_item">
                         <span>{{$t('ExplorerLang.transactionInformation.timestamp')}}：</span>
@@ -164,6 +171,7 @@
                 pageSize : 10,
                 messages:[],
                 events:[],
+                errorLog:''
             }
         },
         mounted(){
@@ -174,6 +182,7 @@
                 try {
                     const res = await getTxDetail(this.$route.query.txHash);
                     if(res){
+                        this.errorLog = res.log
                         this.messages = res.msgs;
                         this.events = res.events;
                         // console.log(res)
@@ -322,7 +331,6 @@
                     }
                     .tx_detail_title_hash {
                         font-size: $s14;
-                        font-family: PingFangSC-Regular, PingFang SC;
                         font-weight: 400;
                         color: $t_first_c;
                         line-height: 0.2rem;
@@ -349,6 +357,17 @@
                         display: flex;
                         justify-content: flex-start;
                         margin-bottom: 0.26rem;
+                        .err_msg_content{
+                            cursor: pointer;
+                            color: #f78989;
+                            i{
+                                display: inline-block;
+                                margin-left: 0.03rem;
+                                font-size: $s14;
+                                font-weight: lighter;
+    
+                            }
+                        }
                         span:nth-of-type(1) {
                             margin-right:0.15rem;
                             text-align: left;
@@ -443,7 +462,11 @@
                     .tx_information_content {
 
                         .tx_information_list_item {
-
+                            .err_msg_content{
+                                i{
+                                    max-width: 3.75rem;
+                                }
+                            }
                             span:nth-of-type(1) {
                                 min-width: 1rem;
                             }

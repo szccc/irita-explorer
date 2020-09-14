@@ -340,7 +340,6 @@
                 }
                 .identity_detail_title_hash {
                     font-size: $s14;
-                    font-family: PingFangSC-Regular, PingFang SC;
                     font-weight: 400;
                     color: $t_first_c;
                     line-height: 0.2rem;

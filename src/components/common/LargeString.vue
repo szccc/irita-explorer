@@ -67,7 +67,6 @@
 <style scoped lang="scss">
     .tx_message_content_largeStr{
         font-size: $s14;
-        font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         color: $t_first_c;
         word-break: break-all;
@@ -86,7 +85,6 @@
             color:$t_link_c;
             align-self:flex-end;
             font-size: $s14;
-            font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 400;
             margin-left:0.4rem;
             white-space: nowrap;

@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17162256",
+      "name": "帮助",
+      "font_class": "help",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "16560718",
+      "name": "展开",
+      "font_class": "zhankai",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "16560719",
+      "name": "收起",
+      "font_class": "shouqi",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
       "icon_id": "13491806",
       "name": "service",
       "font_class": "service",
