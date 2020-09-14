@@ -181,7 +181,7 @@
                         this.blockHeight = res.height || '--';
                         this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed';
                         this.timestamp = Tools.getDisplayDate(res.time) || '--';
-                        this.signer = res.signer || '--';
+                        this.signer = res.signers[0] || '--';
                         this.memo = res.memo ? res.memo : '--';
                         this.txType = res.msgs[0].type || '--';
                         switch (this.txType){
