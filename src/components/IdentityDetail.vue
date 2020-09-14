@@ -359,6 +359,10 @@
                     display: flex;
                     justify-content: flex-start;
                     margin-bottom: 0.26rem;
+                    a{
+                        font-size: 0.14rem;
+                        line-height: 1;
+                    }
                     span:nth-of-type(1) {
                         margin-right:0.15rem;
                         text-align: left;
