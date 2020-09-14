@@ -498,7 +498,7 @@
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.identity.credentials')}}：</span>
                 <span v-if="credentials === '--'">{{credentials}}</span>
-                <a v-else href="credentials" target="_blank">{{credentials}}</a>
+                <a v-else :href="credentials" target="_blank">{{credentials}}</a>
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
