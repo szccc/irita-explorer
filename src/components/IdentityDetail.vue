@@ -39,7 +39,7 @@
                 <el-table class="table" :data="pubkeyList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.idPubKeyFull" :label="$t('ExplorerLang.table.idPubkey')">
                         <template slot-scope="scope">
-                            <span>{{scope.row.pubkey}}</span>
+                            <LargeString :text="scope.row.pubkey" mode="cell" textWidth="698px" :maxLength="Number(75)"/>
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.pubKeyAlgo" :label="$t('ExplorerLang.table.pubKeyAlgo')">
