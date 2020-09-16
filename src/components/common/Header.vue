@@ -445,7 +445,7 @@
 
 	@media screen and (max-width: 1000px) {
 		.header_container{
-			position: static;
+			position: absolute;
 			.header_content{
 				padding:0.1rem 0.15rem;
 				flex-direction:column;

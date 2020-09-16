@@ -277,7 +277,7 @@
 </script>
 
 <style scoped lang="scss">
-	a{
+	a {
 		color: $t_link_c !important;
 	}
 	.home_container{

@@ -69,7 +69,7 @@ export default {
 
   @media screen and (max-width: 1000px) {
     .content{
-      margin-top: 0rem;
+      margin-top: 1.21rem;
     }
   }
 /*  {
