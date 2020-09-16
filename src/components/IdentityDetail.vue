@@ -18,7 +18,7 @@
                 </p>
                 <p class="identity_information_list_item">
                     <span>{{$t('ExplorerLang.identityDetail.credentials')}}：</span>
-                    <a v-if="credentials !=='[do-not-modify]'" :href="formatUrl(credentials)" target="_blank">{{credentials}}</a>
+                    <a v-if="credentials !=='[do-not-modify]' && credentials !=='--'" :href="formatUrl(credentials)" target="_blank">{{credentials}}</a>
                     <span v-else>{{credentials}}</span>
                 </p>
                 <p class="identity_information_list_item">
