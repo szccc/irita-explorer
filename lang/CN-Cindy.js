@@ -31,7 +31,7 @@ export const ExplorerLang = {
         denom: '数据类别',
         denomId: '数据类别标识',
         owner: '拥有者',
-        id: '数据标识',
+        id: '数据对象标识',
         data: '链上数据',
         uri: '链外链接',
         serviceName: '服务类型',
@@ -115,7 +115,7 @@ export const ExplorerLang = {
     nftAsset:{
         assets: '数据对象',
         search: '搜索',
-        placeHolder: '搜索数据标识',
+        placeHolder: '搜索数据对象标识',
     },
     denom:{
         title: '数据类别',
@@ -227,7 +227,7 @@ export const ExplorerLang = {
         nftInformation: '数据对象详情',
         owner: '拥有者',
         denom: '数据类别',
-        id: '数据标识',
+        id: '数据对象标识',
         schema: '上链结构',
         data: '链上数据',
         creator: '创建者',

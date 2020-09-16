@@ -37,7 +37,9 @@ let config = {
         //页脚背景颜色 下半部分  
         bgColor_bottom:'',
         //页脚版权信息   必填
-        copyright:'copyright © 2020 边界智能',
+        copyright: 'copyright © 2020 边界智能',
+        chainIdShow: true,
+        versionShow: true
     },
     //导航栏功能列表 详见 导航栏功能映射 注：title为配置文案暂不支持国际化
     navFuncList:[
