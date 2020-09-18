@@ -6,6 +6,9 @@
     "104":"数据类别",
     "105":"服务浏览",
     "106":"身份ID",
+    "107":"Vaildators",
+    "108":"Delegation Txs",
+    "109":"Validation Txs",
     "1000":"搜索"(始终排在末尾)}*/
  
 let config = {
@@ -54,7 +57,15 @@ let config = {
             ]
         },
         {title:'服务浏览',id:'105'},
-        {title:'身份ID',id:'106'},
+        {title: '身份ID',id: '106' },
+        {
+            title:'staking',
+            children:[
+                {title:'Vaildators',id:'107'},
+                {title:'Delegation Txs',id:'108'},
+                {title:'Validation Txs',id:'109'}
+            ]
+        },
         '1000'
     ],
     //首页卡片配置

@@ -11,6 +11,7 @@ import locale from 'element-ui/lib/locale';
 import VueI18n from 'vue-i18n';
 import prodConfig from "./productionConfig";
 
+
 locale.use(lang);
 Vue.use(ElementUI)
 Vue.use(VueI18n)

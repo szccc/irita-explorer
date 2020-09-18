@@ -72,6 +72,13 @@ const router = new Router({
 		{
 			path: '/searchResult', component: () => import('@/components/SearchResult.vue'),
 		},
+		{
+			path: '/staking', component: () => import('@/components/Staking/Staking.vue'),
+		},
+		{
+			path: '/staking/:param',
+			component: () => import('@/components/Staking/ValidatorDetail.vue'),
+		},
 	]
 })
 export default router

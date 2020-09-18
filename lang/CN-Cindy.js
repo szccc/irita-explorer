@@ -55,7 +55,17 @@ export const ExplorerLang = {
         idPubkey:'身份公钥',
         pubKeyAlgo:'公钥算法',
         certificate:'证书',
-        credentials:'身份凭证',
+        credentials: '身份凭证',
+        // 新增
+        moniker: 'Moniker',
+        operator: 'Operator',
+        commission: 'Commission',
+        bonded_tokens: 'Bonded_Tokens',
+        voting_power: 'Voting_Power',
+        uptime: 'Uptime',
+        self_bonded: 'Self-Bonded',
+        delegators: 'Delegators',
+        bond_height: 'Bond_Height'
     },
     unit:{
         ellipsis:' ,...',
@@ -268,4 +278,13 @@ export const ExplorerLang = {
         resultTitle: '搜索结果为空',
         searchTip: '尝试搜索交易哈希或区块高度',
     },
+    // 新增
+    staking: {
+        title: 'Validator List',
+        status:{
+            active:'Active',
+            candidate:'Candidate',
+            jailed:'Jailed',
+        },
+    }
 }

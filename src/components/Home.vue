@@ -249,7 +249,6 @@
                     //this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                     console.error(e);
                 }
-
 			},
 			showBlockFadeinAnimation (blockList) {
 				let storedLastBlockHeight = sessionStorage.getItem('lastBlockHeight') ? sessionStorage.getItem('lastBlockHeight') : '';

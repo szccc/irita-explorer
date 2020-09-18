@@ -154,5 +154,18 @@ export const ModuleMap = {
     '106':{
         title:'身份ID',
         link:'/identities',
+    },
+    '107':{
+        title:'Vaildators',
+        link:'/staking',
+    },
+    '108':{
+        title:'Delegation Txs',
+        link:'/txs/delegation',
+    },
+    '109':{
+        title:'Validation Txs',
+        link:'/txs/validation',
     }
 };
+export const CHAINNAME = 'iris';
