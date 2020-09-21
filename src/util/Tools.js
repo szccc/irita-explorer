@@ -2,6 +2,7 @@ import moment from 'moment'
 import BigNumber from 'bignumber.js'
 import URLSearchParams from 'url-search-params'
 import bech32 from 'bech32'
+import moveDecimal  from "move-decimal-point";
 export default class Tools {
   /**
    * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -183,4 +184,31 @@ export default class Tools {
   static format2UTC(originTime) {
     return `${originTime.substr(0, 4)}/${originTime.substr(5, 2)}/${originTime.substr(8, 2)} ${originTime.substr(11, 8)}+UTC`
   }
+  /**
+   * 格式化数字类型是string的数字并让小数点左移18位 (本质是移动小数点的位置)
+   *
+   */
+  static numberMoveDecimal(number) {
+    let leftLength = -18
+    if (number.toString().indexOf('e') !== -1 || number.toString().indexOf('E') !== -1) {
+      if (number.toString().indexOf('e') !== -1) {
+        return moveDecimal(new BigNumber(number).toFixed().toString(), leftLength)
+      } else {
+        return moveDecimal(new BigNumber(number).toFixed().toString() + '.', leftLength)
+      }
+    } else {
+      if (number.toString().indexOf('e') !== -1) {
+        return moveDecimal(number.toString(), leftLength)
+      } else {
+        return moveDecimal(number.toString() + '.', leftLength)
+      }
+    }
+  }
+  static formatDenom(denom){
+		if(denom.toLowerCase() === "iris-atto" || denom.toLowerCase() === "iris"){
+			return "IRIS"
+		}else {
+			return denom
+		}
+	}
 }

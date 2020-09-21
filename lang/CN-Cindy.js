@@ -286,5 +286,12 @@ export const ExplorerLang = {
             candidate:'Candidate',
             jailed:'Jailed',
         },
+        validatorDetail: {
+            title:'Validator Details'
+        },
+        validatorInformation: {
+            validatorTip: 'The validator has no more information',
+            operatorAddressTip: 'The address you used to Create a Validator , Delegate or Withdraw DelegatorReward, etc.'
+        }
     }
 }
