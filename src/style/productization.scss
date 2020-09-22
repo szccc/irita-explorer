@@ -1,8 +1,8 @@
 // theme
-$theme_c:#3264fd;							//主题色
+$theme_c:#3264fd;							//主题色 var(--bgColor)
 
 // text-color
-$t_first_c: #171D44;  					//一级文字色
+$t_first_c: #171D44;  					//一级文字色 var(--titleColor)
 $t_second_c: #787C99;					//二级文字色
 $t_third_c: #C0C4CC;					//三级文字色
 $t_fourth_c: rgba(255,255,255,0.5);					//四级文字色

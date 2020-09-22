@@ -179,7 +179,49 @@ CHAINID.QA = 'rainbow-qa'
 CHAINID.DEV = 'rainbow-dev'
 CHAINID.GOZTESTNET = 'goz-testnet'
 
+const TxType = {};
+TxType.TRANSFER = 'Transfer';
+TxType.BURN = 'Burn';
+TxType.SETMEMOREGEXP = 'SetMemoRegexp';
+TxType.CREATEVALIDATOR ='CreateValidator';
+TxType.EDITVALIDATOR = 'EditValidator';
+TxType.UNJAIL = 'Unjail';
+TxType.DELEGATE = 'Delegate';
+TxType.BEGINREDELEGATE = 'BeginRedelegate';
+TxType.SETWITHDRAWADDRESS = 'SetWithdrawAddress';
+TxType.BEGINUNBONDING = 'BeginUnbonding';
+TxType.WITHDRAWDELEGATORREWARD = 'WithdrawDelegatorReward';
+TxType.WITHDRAWDELEGATORREWARDSALL = 'WithdrawDelegatorRewardsAll';
+TxType.WITHDRAWVALIDATORREWARDSALL = 'WithdrawValidatorRewardsAll';
+TxType.SUBMITPROPOSAL = 'SubmitProposal';
+TxType.DEPOSIT = 'Deposit';
+TxType.VOTE = 'Vote';
+TxType.ISSUETOKEN = 'IssueToken';
+TxType.EDITTOKEN = 'EditToken';
+TxType.MINTTOKEN = 'MintToken';
+TxType.TRANSFERTOKENOWNER = 'TransferTokenOwner';
+TxType.CREATEGATEWAY = 'CreateGateway';
+TxType.EDITGATEWAY = 'EditGateway';
+TxType.TRANSFERGATEWAYOWNER = 'TransferGatewayOwner';
+TxType.REQUESTRAND = 'RequestRand';
+TxType.ADDPROFILER = 'AddProfiler';
+TxType.ADDTRUSTEE = 'AddTrustee';
+TxType.DELETEPROFIKER = 'DeleteProfiler';
+TxType.DELETETRUSTEE = 'DeleteTrustee';
+TxType.CLAIMHTLC = 'ClaimHTLC';
+TxType.CREATEHTLC = 'CreateHTLC';
+TxType.REFUNDHTLC = 'RefundHTLC';
+TxType.ADDLIQUIDITY = 'AddLiquidity';
+TxType.REMOVELIQUIDITY = 'RemoveLiquidity';
+TxType.SWAPORDER = 'SwapOrder';
+TxType.TRANSFERS = 'Transfers';
+TxType.WITHDRAWADDRESS = 'WithdrawAddress';
+TxType.STAKES = 'Stakes';
+TxType.GOVERNANCE = 'Governance';
+TxType.DECLARATIONS = 'Declarations';
+
 export default {
   Denom,
   CHAINID,
+  TxType
 }
