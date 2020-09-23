@@ -17,12 +17,12 @@
                   <el-table-column prop="address" label="Address" width="130">
                     <template v-slot:default="{ row }">
                       <el-tooltip :content="`${row.address}`">
-                        <router-link style="font-family: Consolas,Menlo;" :to="'address/' + row.address" :style="{ color: '$theme_c !important' }">{{ formatAddress(row.address) }}</router-link>
+                        <router-link style="font-family: Consolas,Menlo;" :to="'/address/' + row.address" :style="{ color: '$theme_c !important' }">{{ formatAddress(row.address) }}</router-link>
                       </el-tooltip>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="amount" label="Amount" min-width="180"> </el-table-column>
-                  <el-table-column prop="shares" label="Shares" min-width="208"> </el-table-column>
+                  <el-table-column prop="amount" label="Amount" align="right" min-width="180"> </el-table-column>
+                  <el-table-column prop="shares" label="Shares" align="left" min-width="208"> </el-table-column>
                   <el-table-column prop="block" label="Block" width="110">
                     <template v-slot:default="{ row }">
                       <router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
@@ -40,12 +40,12 @@
                   <el-table-column prop="address" label="Address" width="130">
                     <template v-slot:default="{ row }">
                       <el-tooltip :content="`${row.address}`">
-                        <router-link style="font-family: Consolas,Menlo;" :to="'address/' + row.address" :style="{ color: '$theme_c !important' }">{{ formatAddress(row.address) }}</router-link>
+                        <router-link style="font-family: Consolas,Menlo;" :to="'/address/' + row.address" :style="{ color: '$theme_c !important' }">{{ formatAddress(row.address) }}</router-link>
                       </el-tooltip>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="amount" label="Amount" min-width="180"> </el-table-column>
-                  <el-table-column prop="block" label="Block" min-width="118">
+                  <el-table-column prop="amount" label="Amount" align="right" min-width="180"> </el-table-column>
+                  <el-table-column prop="block" label="Block" align="left" min-width="118">
                     <template v-slot:default="{ row }">
                       <router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
                     </template>
@@ -88,8 +88,8 @@
                     <span class="no_skip" v-show="/^[0]\d*$/.test(row.From) || row.From === '--'">--</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Amount" label="Amount" width="140"> </el-table-column>
-                <el-table-column label="To" width="159">
+                <el-table-column prop="Amount" label="Amount" align="right" width="140"> </el-table-column>
+                <el-table-column label="To" align="left" width="159">
                   <template v-slot:default="{ row }">
                     <span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
                       <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
@@ -308,7 +308,7 @@ export default {
       for (let it of res.Data) {
         it.Tx_Hash = it.Hash
         if(it.self_bond.length > 0) {
-          it.self_bonded = it.self_bond[0].amount/1000000000000000000 + '.00 IRIS'
+          it.self_bonded = (it.self_bond[0].amount/1000000000000000000).toFixed(2) + ' IRIS'
         } else {
           it.self_bonded = '--'
         }
@@ -399,14 +399,6 @@ a {
           }
           /deep/ .el-table th.is-leaf {
             border-bottom: 0.01rem solid $theme_c !important;
-          }
-          /deep/ .el-table_1_column_2,
-          /deep/.el-table_2_column_6 {
-            text-align: right;
-          }
-          /deep/ .el-table_1_column_3,
-          /deep/.el-table_2_column_7 {
-            text-align: left;
           }
         }
       }

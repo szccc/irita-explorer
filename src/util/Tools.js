@@ -710,4 +710,85 @@ export default class Tools {
   static formatAccountCoinsAmount(coinsAmount) {
     return (coinsAmount = /[0-9]+[.]?[0-9]*/.exec(coinsAmount))
   }
+  /**
+   *   formatAmount
+   *   param Object or array
+   *   return string
+   *   fixedNumber: nonzero
+   * */
+  static formatAmount2(param, fixedNumber) {
+    let amount, amountDenom, amountNumber, amountRadixNumber
+    if (param instanceof Array) {
+      amount = param[0].amount
+      amountDenom = param[0].denom
+    } else if (param instanceof Object) {
+      amount = param.amount
+      amountDenom = param.denom
+    }
+    if (amount.toString().indexOf('e') !== -1 || amount.toString().indexOf('E') !== -1) {
+      if (amount.toString().indexOf('.') !== -1) {
+        amountNumber = new BigNumber(amount).toFixed().toString()
+      } else {
+        amountNumber = new BigNumber(amount).toFixed().toString() + '.'
+      }
+      amountRadixNumber = Tools.amountRadix(amountDenom)
+    } else {
+      if (amount.toString().indexOf('.') !== -1) {
+        amountNumber = amount.toString()
+      } else {
+        amountNumber = amount.toString() + '.'
+      }
+      amountRadixNumber = Tools.amountRadix(amountDenom)
+    }
+    if (amountDenom) {
+      return `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(amountNumber, Number(amountRadixNumber) * -1)).toFormat(), fixedNumber)} ${Constant.RADIXDENOM.IRIS.toLocaleUpperCase()}`
+    } else {
+      return `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(amountNumber, Number(amountRadixNumber) * -1)).toFormat(), fixedNumber)} SHARES`
+    }
+  }
+  /**
+   *   Amount iris Radix
+   *   param string
+   *   return Radix length
+   * */
+  static amountRadix(param) {
+    let diffValue = 1,
+      defaultValue = 18
+    if (param) {
+      //radix number length need to minus 1;
+      switch (param) {
+        case Constant.RADIXDENOM.IRISATTO:
+          return Constant.RADIXDENOM.IRISATTONUMBER.length - diffValue
+          break
+        case Constant.RADIXDENOM.IRISMILLI:
+          return Constant.RADIXDENOM.IRISMILLINUMBER.length - diffValue
+          break
+        case Constant.RADIXDENOM.IRISMICRO:
+          return Constant.RADIXDENOM.IRISMICRONUMBER.length - diffValue
+          break
+        case Constant.RADIXDENOM.IRISNANO:
+          return Constant.RADIXDENOM.IRISNANONUMBER.length - diffValue
+          break
+        case Constant.RADIXDENOM.IRISPICO:
+          return Constant.RADIXDENOM.IRISPICONUMBER.length - diffValue
+          break
+        case Constant.RADIXDENOM.IRISFEMTO:
+          return Constant.RADIXDENOM.IRISFEMTONUMBER.length - diffValue
+          break
+        case Constant.RADIXDENOM.IRIS:
+          return Constant.RADIXDENOM.IRISNUMBER.length - diffValue
+          break
+        default:
+          return defaultValue
+      }
+    } else {
+      return defaultValue
+    }
+  }
+  static firstWordLowerCase(str) {
+    return str.toLowerCase().replace(/(\s|^)[a-z]/g, function(char) {
+      return char.toLocaleLowerCase()
+    })
+  }
+  
 }
