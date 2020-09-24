@@ -30,6 +30,9 @@ const router = new Router({
 			component: () => import('@/components/TxList.vue')
 		},
 		{
+			path: '/txs/:txType', component: () => import('@/components/TxListPage.vue'),
+		},
+		{
 			path:'/nftAsset',
 			component: () => import('@/components/NftList.vue')
 		},

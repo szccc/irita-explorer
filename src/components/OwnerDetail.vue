@@ -1477,7 +1477,7 @@
 				text-align: left;
 				display: flex;
 				.address_information_delegator_rewards_content{
-					flex: 1;
+					width: calc(50% - 0.1rem);
                     margin-right: 0.2rem;
                     .address_information_detail_option{
                         padding: 0 0 0.1rem 0.2rem;
@@ -1525,7 +1525,7 @@
                     }
                 }
                 .address_information_detail_container{
-					flex: 1;
+					width: calc(50% - 0.1rem);
                     .address_information_redelegation_title{
 						width: 100%;
                         font-size: 0.18rem;
@@ -1695,6 +1695,7 @@
                     flex-direction: column;
                     margin: 0 0.1rem;
                     .address_information_delegator_rewards_content{
+						width: 100%;
                         margin-right: 0;
                         .address_information_detail_option{
                             padding-left: 0;
@@ -1706,6 +1707,7 @@
                         }
                     }
                     .address_information_detail_container{
+						width: 100%;
                         .address_information_redelegation_title{
                             padding: 0.2rem 0;
                         }

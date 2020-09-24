@@ -790,5 +790,106 @@ export default class Tools {
       return char.toLocaleLowerCase()
     })
   }
+  	/**
+	 * 判断当前是移动端还是pc端
+	 */
+	static currentDeviceIsPersonComputer(){
+		const userAgentInfo = navigator.userAgent;
+		const Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+		let flag = true;
+		for (let i = 0; i < Agents.length; i++) {
+			if (userAgentInfo.includes(Agents[i]) > 0) {
+				flag = false;
+				break;
+			}
+		}
+		return flag;
+  }
+  /**
+	 * 格式化数字（除以10的18次方）
+	 * */
+	static formaNumberAboutGasPrice(num){
+		return new BigNumber(num).div(1000000000).toNumber();
+  }
+
+  static convertScientificNotation2Number(num){
+		return new BigNumber(num).toFixed();
+  }
   
+  /**
+   * 格式化fee
+   * */
+  static formatFee(Fee){
+      if(Fee.amount && Fee.denom){
+          return `${Tools.formatStringToFixedNumber(String(Tools.formatNumber(Fee.amount)),4)} ${Tools.formatDenom(Fee.denom).toUpperCase()}`;
+      }
+  }
+
+      /**
+     * 格式化交易详情页的amount
+     * */
+    static formatAmountOfTxDetail(amount){
+      let [amountNumber,tokenName,moreAmountsNumber] = ['--','--',[]];
+      if(amount instanceof Array && amount.length > 0) {
+          if(amount.length !== 1){
+              moreAmountsNumber = amount.map( (item) => {
+                  if(item.denom === Constant.Denom.IRISATTO){
+                      return {
+                          denom : Constant.Denom.IRIS.toLocaleUpperCase(),
+                          amount: String(Tools.numberMoveDecimal(item.amount))
+                      }
+                  }else {
+                      return {
+                          denom : item.denom.toLocaleUpperCase(),
+                          amount: Tools.FormatScientificNotationToNumber(item.amount)
+                      }
+                  }
+              })
+          }else {
+              if (amount[0].denom && amount[0].amount && amount[0].denom === Constant.Denom.IRISATTO || amount[0].amount == 0) {
+                  amountNumber = amount[0].amount > 0 ? String(Tools.numberMoveDecimal(amount[0].amount)) : Number(amount[0].amount).toFixed(2);
+                  tokenName = Constant.Denom.IRIS.toLocaleUpperCase();
+              } else if (amount[0].denom && amount[0].amount && amount[0].denom !== Constant.Denom.IRISATTO) {
+                  amountNumber = amount[0].amount;
+                  tokenName = amount[0].denom.toLocaleUpperCase();
+              } else {
+                  amountNumber = Tools.formatStringToFixedNumber(Tools.FormatScientificNotationToNumber(amount[0].amount), 2);
+                  if (amount[0].denom === Constant.Denom.IRISATTO) {
+                      tokenName = Constant.Denom.IRIS.toLocaleUpperCase();
+                  } else {
+                      tokenName = amount[0].denom ? amount[0].denom.toLocaleUpperCase() : '--';
+
+                  }
+              }
+          }
+      }else if(amount.amount && Object.keys(amount.amount).includes('amount') && Object.keys(amount.amount).includes('denom')){
+          if(amount.denom === Constant.Denom.IRISATTO){
+              amountNumber =String(Tools.numberMoveDecimal(amount.amount));
+              tokenName = Constant.Denom.IRIS.toLocaleUpperCase();
+          }else if(amount.denom !== Constant.Denom.IRISATTO){
+              amountNumber = amount.amount
+              tokenName = amount.denom.toLocaleUpperCase()
+          }else if(!amount.denom){
+              amountNumber = amount.amount
+              tokenName = ''
+          }
+      }else if(amount&& Object.keys(amount).includes('amount') && Object.keys(amount).includes('denom')){
+          if(amount.denom === Constant.Denom.IRISATTO){
+              amountNumber = String(Tools.numberMoveDecimal(amount.amount));
+              tokenName = Constant.Denom.IRIS.toLocaleUpperCase();
+          }else if(amount.denom !== Constant.Denom.IRISATTO){
+              amountNumber = amount.amount
+              tokenName = amount.denom.toLocaleUpperCase()
+          }else if(!amount.denom){
+              amountNumber = amount.amount
+              tokenName = ''
+          }
+      }
+      // console.log(amountNumber,tokenName,"amount information")
+      return {amountNumber,tokenName,moreAmountsNumber}
+  }
+
+  static formatPercentage(number){
+    return new BigNumber(number).multipliedBy(100)
+  }
 }

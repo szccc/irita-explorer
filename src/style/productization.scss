@@ -11,3 +11,7 @@ $t_button_c: white;				//通用按钮文字色
 
 // background-color
 $bg_button_c: #3264FD;
+
+:root {
+    --bgColor:  #{$theme_c};
+}
