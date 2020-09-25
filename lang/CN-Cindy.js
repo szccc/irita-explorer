@@ -280,12 +280,15 @@ export const ExplorerLang = {
     },
     // 新增
     staking: {
+        // 标题
         title: 'Validator List',
+        // 切换栏
         status:{
             active:'Active',
             candidate:'Candidate',
             jailed:'Jailed',
         },
+        // 验证人详情
         validatorDetail: {
             title:'Validator Details'
         },

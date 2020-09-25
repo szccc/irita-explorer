@@ -9,7 +9,7 @@
         <m-tabs class="staking_m_tabs" :data="stakingStatusTitleList" :chose="selectStakingStatus"></m-tabs>
       </div>
       <div class="staking_table_list_content">
-        <el-table class="sort_table" :data="tableData" :default-sort="{ prop: 'votingPower', order: 'descending' }">
+        <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData" :default-sort="{ prop: 'votingPower', order: 'descending' }">
           <el-table-column type="index" width="45" label="#"></el-table-column>
           <el-table-column prop="moniker" width="195" :label="$t('ExplorerLang.table.moniker')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
