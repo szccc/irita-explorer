@@ -59,9 +59,10 @@ let config = {
     homeCard:{
         lestBlock:true,
         txCount:true,
-        avgBlockTime:true,
         validatorCount:true,
-        serviceCount:false,
+        avgBlockTime:true,
+        serviceCount:true,
+        DenomCount:true,
         assetCount:true,
         identityCount:true,
     },

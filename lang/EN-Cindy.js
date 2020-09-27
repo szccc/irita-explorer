@@ -89,6 +89,7 @@ export const ExplorerLang = {
         last100Blocs: 'Last 100 Blocks',
         validators: 'Validators',
         services: 'iService',
+        denoms:'Denom',
         assets: 'NFT',
         identities: 'Identities',
         blocks: 'Blocks',
