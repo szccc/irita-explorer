@@ -90,6 +90,7 @@ export const ExplorerLang = {
         validators: 'Validators',
         services: 'iService',
         assets: 'NFT',
+        identities: 'Identities',
         blocks: 'Blocks',
         viewAll: 'View All',
         listTransactions: 'Transactions',

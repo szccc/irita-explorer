@@ -90,6 +90,7 @@ export const ExplorerLang = {
         validators: '共识节点数',
         services: '服务数量',
         assets: '数据对象',
+        identities: '身份ID',
         blocks: '最近区块',
         viewAll: '查看全部',
         listTransactions: '最近交易',
