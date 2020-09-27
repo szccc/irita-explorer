@@ -18,7 +18,7 @@
                 </p>
                 <p class="identity_information_list_item">
                     <span>{{$t('ExplorerLang.identityDetail.credentials')}}：</span>
-                    <a v-if="credentials !=='[do-not-modify]'" :href="formatUrl(credentials)" target="_blank">{{credentials}}</a>
+                    <a v-if="credentials !=='[do-not-modify]' && credentials !=='--'" :href="formatUrl(credentials)" target="_blank">{{credentials}}</a>
                     <span v-else>{{credentials}}</span>
                 </p>
                 <p class="identity_information_list_item">
@@ -39,7 +39,7 @@
                 <el-table class="table" :data="pubkeyList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.idPubKeyFull" :label="$t('ExplorerLang.table.idPubkey')">
                         <template slot-scope="scope">
-                            <span>{{scope.row.pubkey}}</span>
+                            <LargeString :text="scope.row.pubkey" mode="cell" textWidth="698px" :maxLength="Number(75)"/>
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.pubKeyAlgo" :label="$t('ExplorerLang.table.pubKeyAlgo')">
@@ -99,50 +99,7 @@
             </div>
             <div class="identity_detail_bg">
                 <div class="content_title">{{$t('ExplorerLang.identityDetail.txRecord')}}</div>
-                <el-table class="table" :data="txList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                    <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
-                        <template slot-scope="scope">
-                            <div class="tx_transaction_content_hash">
-                                <img class="status_icon"
-                                             :src="require(`../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
-                                <el-tooltip :content="scope.row.txHash"
-                                            placement="top"
-                                            :disabled="!Tools.isValid(scope.row.txHash)">
-                                    <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
-                                </el-tooltip>
-                            </div>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
-                        <template slot-scope="scope">
-                            <span>{{scope.row.txType}}</span>
-                            <span v-show="Number(scope.row.msgCount) > 1">{{$t('ExplorerLang.unit.ellipsis')}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
-                        <template slot-scope="scope">
-                            <el-tooltip v-if="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
-                                        placement="top"
-                                        :disabled="!Tools.isValid(scope.row.from)">
-                                <router-link v-if="Tools.isValid(scope.row.from)" :to="`/address/${scope.row.from}`">
-                                    {{formatAddress(scope.row.from)}}
-                                </router-link>
-                                <span v-else>{{'--'}}</span>
-                            </el-tooltip>
-                            <span v-else>{{'--'}}</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
-                        <template slot-scope="scope">
-                            <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
-                        <template slot-scope="scope">
-                            <span>{{scope.row.time}}</span>
-                        </template>
-                    </el-table-column>
-                </el-table>
+                <TxListComponent :txData="txList"></TxListComponent>
                 <div class="pagination_content" v-if="txListCount > txListPageSize">
                     <m-pagination :page-size="txListPageSize"
                                   :total="txListCount"
@@ -279,18 +236,7 @@
                     const res = await getTxListByIdentity(this.id, this.txListPageNum, this.txListPageSize, true);
                     if(res){
                         this.txListCount = res.count;
-                        this.txList = res.data.map((item) =>{
-                            let result = {
-                                txHash: item.tx_hash || '',
-                                txType: item.type || '',
-                                from: TxHelper.getFromAndToAddressFromMsg((item.msgs || [])[0]).from,
-                                blockHeight: item.height,
-                                time: Tools.getDisplayDate(item.time),
-                                msgCount:(item.msgs || []).length,
-                                status:item.status
-                            };
-                            return result;
-                        });
+                        this.txList = res.data;
                     }
                 } catch (e) {
                     console.error(e);
@@ -340,7 +286,6 @@
                 }
                 .identity_detail_title_hash {
                     font-size: $s14;
-                    font-family: PingFangSC-Regular, PingFang SC;
                     font-weight: 400;
                     color: $t_first_c;
                     line-height: 0.2rem;
@@ -359,6 +304,10 @@
                     display: flex;
                     justify-content: flex-start;
                     margin-bottom: 0.26rem;
+                    a{
+                        font-size: 0.14rem;
+                        line-height: 1;
+                    }
                     span:nth-of-type(1) {
                         margin-right:0.15rem;
                         text-align: left;
