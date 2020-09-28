@@ -508,8 +508,8 @@
 	                            });
 	                        });
 	                        let context = await getServiceContextsByServiceName(result.requestContextId || '');
-	                        if (context && context.result && context.result.value) {
-	                        	result.state = context.result.value.state;
+	                        if (context && context.result) {
+	                        	result.state = context.result.state;
 	                        }
                             this.consumerTxList.push(result);
                             if (item.respond && item.respond.length) {

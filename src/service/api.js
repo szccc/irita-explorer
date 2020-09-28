@@ -196,17 +196,25 @@ export function getServiceRespondInfo(serviceName, provider){
 
 
 
-export function getServiceBindingByServiceName(serviceName, provider){
+export async function getServiceBindingByServiceName(serviceName, provider){
     let url = `service/bindings/${serviceName}`;
     if(provider){
         url += `/${provider}`;
     }
-    return getFromLcd(url);
+    let res = await getFromLcd(url);
+    if (res && res.result && res.result.value) {
+        res.result = res.result.value;
+    } 
+    return res;
 }
 
-export function getServiceContextsByServiceName(requestContextId){
+export async function getServiceContextsByServiceName(requestContextId){
     let url = `service/contexts/${requestContextId}`;
-    return getFromLcd(url);
+    let res = await getFromLcd(url);
+    if (res && res.result && res.result.value) {
+        res.result = res.result.value;
+    }
+    return res;
 }
 
 export function getRespondServiceRecord(serviceName, provider, pageNum, pageSize){

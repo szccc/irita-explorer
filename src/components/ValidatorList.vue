@@ -8,7 +8,7 @@
 				<el-table class="table" :data="validatorList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')" prop="index" ></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.validatirName" :label="$t('ExplorerLang.table.name')" prop="name"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
+					<el-table-column :min-width="ColumnMinWidth.address" v-if="operatorShow" :label="$t('ExplorerLang.table.operator')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.operator"
 							            placement="top"
@@ -44,6 +44,7 @@
 				pageNumber:1,
 				pageSize: 100,
 				validatorList: [],
+				operatorShow:false,
 				status:'bonded',
 				validatorStatusTitleList:[
 					{
@@ -101,6 +102,9 @@
 					let validatorsData = await getValidatorList(this.status == ValidatorStatus.unbonded, this.pageNumber, this.pageSize, true);
 					if(validatorsData && validatorsData.data && validatorsData.data.length){
 						this.validatorList = validatorsData.data.map((item,index) => {
+							if (item.operator && item.operator.length) {
+								this.operatorShow = true;
+							}
 							return {
 								index:index + 1,
 								name: item.name,
