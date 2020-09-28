@@ -181,10 +181,6 @@
                 <span>{{denom}}</span>
             </p>
             <p>
-                <span>{{$t('ExplorerLang.transactionInformation.denomName')}}：</span>
-                <span>{{denomName}}</span>
-            </p>
-            <p>
                 <span>{{$t('ExplorerLang.transactionInformation.nftId')}}：</span>
                 <span>{{tokenId}}</span>
             </p>

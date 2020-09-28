@@ -28,7 +28,7 @@
                 required:false,
                 default:'nomal'
             },
-            textWidth:{//nomal or cell
+            textWidth:{
                 type:String,
                 required:false,
                 default:''
