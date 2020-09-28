@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17473004",
+      "name": " 数据类别",
+      "font_class": "shujuleibie",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
       "icon_id": "17454331",
       "name": "网络切换箭头",
       "font_class": "wangluoqiehuanjiantou",

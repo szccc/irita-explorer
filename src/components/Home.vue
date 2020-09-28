@@ -30,9 +30,7 @@
 						<p class="home_content_header_bottom_footer"><router-link :to="`/nftAsset`">{{assetsNumber}}</router-link></p>
 					</li>
 					<li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).DenomCount">
-						<p class="home_content_header_bottom_title">
-						<img style="width:0.15rem;height:0.15rem;margin-right:0.05rem" src="../assets/shujuleibie.svg" alt="" />
-						{{$t('ExplorerLang.home.denoms')}}</p>
+						<p class="home_content_header_bottom_title"><i class="iconfont iconshujuleibie"></i>{{$t('ExplorerLang.home.denoms')}}</p>
 						<p class="home_content_header_bottom_footer"><router-link :to="`/denoms`">{{denomNumber}}</router-link></p>
 					</li>
 					<li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).serviceCount">
