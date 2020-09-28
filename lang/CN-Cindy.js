@@ -91,7 +91,7 @@ export const ExplorerLang = {
         services: '服务数量',
         denoms:'数据类别数量',
         assets: '数据对象数量',
-        identities: '身份 ID数量',
+        identities: '身份 ID 数量',
         blocks: '最近区块',
         viewAll: '查看全部',
         listTransactions: '最近交易',
