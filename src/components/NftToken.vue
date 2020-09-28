@@ -27,11 +27,10 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.creator')}}：</span>
-					<span>{{creator}}</span>
+					<span>
+						<router-link :to="`/address/${creator}`">{{creator}}</router-link>
+					</span>
 				</div>
-				
-				
-				
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.uri')}}：</span>
 					<span v-if="tokenUri && tokenUri !== '--'">
