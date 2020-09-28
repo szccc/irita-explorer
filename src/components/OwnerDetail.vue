@@ -15,9 +15,9 @@
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
-						<!-- <template slot-scope="scope">
-							<LargeString :text="scope.row.tokenData" :maxLength="Number(50)" mode="cell" textWidth="300px"/>
-						</template> -->
+						<template slot-scope="scope">
+							<LargeString :text="scope.row.tokenData" :maxLength="Number(50)" mode="cell" textWidth="400px"/>
+						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
