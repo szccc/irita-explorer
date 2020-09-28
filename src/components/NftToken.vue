@@ -100,14 +100,14 @@
 						this.creator = (nftDetail.denomDetail || {}).creator;
 						this.schema = (nftDetail.denomDetail || {}).json_schema;
 						this.name = nftDetail.denom;
-						this.tokenID = nftDetail.nft_id;
+						this.tokenID = nftDetail.nft_id || '--';
 						this.denomName = nftDetail.denom_name;
 						this.denomId = nftDetail.denom_id;
-						this.nftName = nftDetail.nft_name;
+						this.nftName = nftDetail.nft_name || '--';
 						// this.primaryKey = nftDetail.primary_key;
 						this.owner = nftDetail.owner;
-						this.tokenData = nftDetail.tokenData;
-						this.tokenUri = nftDetail.tokenUri;
+						this.tokenData = nftDetail.tokenData || '--';;
+						this.tokenUri = nftDetail.tokenUri || '--';;
 						
 						this.getTokenTx()
 					}
