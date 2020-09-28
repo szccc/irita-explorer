@@ -16,7 +16,9 @@
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.author')}}：</span>
-                        <span>{{author}}</span>
+                        <span>
+                            <router-link :to="`/address/${author}`">{{author}}</router-link>
+                        </span>
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.authorDescription')}}：</span>
@@ -40,7 +42,9 @@
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.height')}}：</span>
-                        <span>{{height}}</span>
+                        <span>
+                            <router-link :to="`/block/${height}`">{{height}}</router-link>
+                        </span>
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.time')}}：</span>

@@ -14,8 +14,12 @@
 					<span>{{denomName || denomId}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerLang.nftDetail.id')}}：</span>
-					<span>{{nftName || tokenID}}</span>
+					<span>{{$t('ExplorerLang.nftDetail.tokenName')}}：</span>
+					<span>{{nftName}}</span>
+				</div>
+				<div class="nft_token_information_item">
+					<span>{{$t('ExplorerLang.nftDetail.tokenId')}}：</span>
+					<span>{{tokenID}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.schema')}}：</span>

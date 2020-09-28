@@ -21,8 +21,11 @@
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
                 <template slot-scope="scope">
-                    <span>{{scope.row.txType}}</span>
-                    <span v-show="Number(scope.row.msgCount) > 1">{{$t('ExplorerLang.unit.ellipsis')}}</span>
+                    <el-tooltip :content="scope.row.txType.join(',')"
+                                placement="top"
+                                :disabled="scope.row.txType.length <= 1">
+                        <span>{{getDisplayTxType(scope.row.txType) }}</span>
+                    </el-tooltip>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
@@ -109,7 +112,7 @@
                     return {
                         txHash : tx.tx_hash,
                         blockHeight : tx.height,
-                        txType :tx.msgs.length > 1 ? tx.msgs[0].type  : tx.type,
+                        txType :(tx.msgs || []).map(item=>item.type),
                         from,
                         to,
                         signer : tx.signers[0],
@@ -126,6 +129,13 @@
         methods : {
             isValid(value){
                 return (!value || !value.length || value == '--') ? false : true;
+            },
+            getDisplayTxType(types=[]){
+                let type = types[0] || '';
+                if (type && types.length > 1) {
+                    type += this.$t('ExplorerLang.unit.ellipsis');
+                }
+                return type;
             },
             formatTxHash(TxHash){
                 if(TxHash){
