@@ -1,3 +1,16 @@
+import Vue from 'vue'
+import VueI18n from 'vue-i18n'
+import prodConfig from "../productionConfig.js";
+Vue.use(VueI18n)
+
+const i18n = new VueI18n({
+  locale:prodConfig.lang == 'EN' ? 'EN' : 'CN',
+  messages: {
+    "CN" : require('../../lang/CN-Cindy'),
+    "EN" : require('../../lang/EN-Cindy')
+  }
+})
+
 export const addrPrefix = {
   accAddr: 'caa',
 }
@@ -178,6 +191,8 @@ CHAINID.NYANCAT = 'nyancat'
 CHAINID.QA = 'rainbow-qa'
 CHAINID.DEV = 'rainbow-dev'
 CHAINID.GOZTESTNET = 'goz-testnet'
+CHAINID.BIFROST = 'bifrost'
+
 
 const TxType = {};
 TxType.TRANSFER = 'Transfer';
@@ -259,26 +274,26 @@ export const pageTitleConfig  = {
 }
 
 const TRANSACTIONMESSAGENAME = {};
-TRANSACTIONMESSAGENAME.TXTYPE = 'TxType :';
-TRANSACTIONMESSAGENAME.FROM = 'From :';
-TRANSACTIONMESSAGENAME.AMOUNT = 'Amount :';
-TRANSACTIONMESSAGENAME.TO = 'To :';
+TRANSACTIONMESSAGENAME.TXTYPE = i18n.t('ExplorerLang.transactionInformation.transactionMessage.TxType');
+TRANSACTIONMESSAGENAME.FROM = i18n.t('ExplorerLang.transactionInformation.transactionMessage.from');
+TRANSACTIONMESSAGENAME.AMOUNT = i18n.t('ExplorerLang.transactionInformation.transactionMessage.amount');
+TRANSACTIONMESSAGENAME.TO = i18n.t('ExplorerLang.transactionInformation.transactionMessage.to');
 TRANSACTIONMESSAGENAME.OWNER = 'Owner :';
 TRANSACTIONMESSAGENAME.MEMOREGEXP = 'MemoRegexp :';
-TRANSACTIONMESSAGENAME.OPERATORADDRESS = 'Operator Address :';
-TRANSACTIONMESSAGENAME.MONIKER = 'Moniker :';
-TRANSACTIONMESSAGENAME.IDENTITY = 'Identity :';
-TRANSACTIONMESSAGENAME.SELFBONDED = 'Self-Bonded :';
-TRANSACTIONMESSAGENAME.OWNERADDRESS = 'Owner Address :';
-TRANSACTIONMESSAGENAME.CONSENSUSPUBKEY = 'Consensus Pubkey :';
-TRANSACTIONMESSAGENAME.COMMISSIONRATE = 'Commission Rate :';
-TRANSACTIONMESSAGENAME.WEBSITE = 'Website :';
-TRANSACTIONMESSAGENAME.DETAILS = 'Details :';
-TRANSACTIONMESSAGENAME.SHARES = 'Shares :';
-TRANSACTIONMESSAGENAME.TOSHARES = 'Shares : ';//此处有空格
-TRANSACTIONMESSAGENAME.ENDTIME = 'End Time :';
-TRANSACTIONMESSAGENAME.NEWADDRESS = 'Withdraw Address:';
-TRANSACTIONMESSAGENAME.ORIGINALADDRESS = 'Delegator Address :';
+TRANSACTIONMESSAGENAME.OPERATORADDRESS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress');
+TRANSACTIONMESSAGENAME.MONIKER = i18n.t('ExplorerLang.transactionInformation.transactionMessage.moniker');
+TRANSACTIONMESSAGENAME.IDENTITY = i18n.t('ExplorerLang.transactionInformation.transactionMessage.identity');
+TRANSACTIONMESSAGENAME.SELFBONDED = i18n.t('ExplorerLang.transactionInformation.transactionMessage.selfBonded');
+TRANSACTIONMESSAGENAME.OWNERADDRESS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.ownerAddress');
+TRANSACTIONMESSAGENAME.CONSENSUSPUBKEY = i18n.t('ExplorerLang.transactionInformation.transactionMessage.consensusPubkey');
+TRANSACTIONMESSAGENAME.COMMISSIONRATE = i18n.t('ExplorerLang.transactionInformation.transactionMessage.commissionRate');
+TRANSACTIONMESSAGENAME.WEBSITE = i18n.t('ExplorerLang.transactionInformation.transactionMessage.website');
+TRANSACTIONMESSAGENAME.DETAILS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.details');
+TRANSACTIONMESSAGENAME.SHARES = i18n.t('ExplorerLang.transactionInformation.transactionMessage.shares');
+TRANSACTIONMESSAGENAME.TOSHARES = i18n.t('ExplorerLang.transactionInformation.transactionMessage.toShares');//'Shares : ' 此处有空格
+TRANSACTIONMESSAGENAME.ENDTIME = i18n.t('ExplorerLang.transactionInformation.transactionMessage.endTime');
+TRANSACTIONMESSAGENAME.NEWADDRESS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.withdrawAddress');
+TRANSACTIONMESSAGENAME.ORIGINALADDRESS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.delegatorAddress');
 TRANSACTIONMESSAGENAME.PROPOSER = 'Proposer :';
 TRANSACTIONMESSAGENAME.TITLE = 'Title :';
 TRANSACTIONMESSAGENAME.INITIALDEPOSIT = 'Initial Deposit :';
@@ -344,10 +359,18 @@ TRANSACTIONMESSAGENAME.MINTOKEN = 'Min Token :';
 TRANSACTIONMESSAGENAME.WITHDRAWLIQUIDITY = 'Withdraw Liquidity :';
 TRANSACTIONMESSAGENAME.MINIRISAMT = 'Min IRIS Amount :';
 
+const ENVCONFIG = {};
+ENVCONFIG.DEV = 'dev';
+ENVCONFIG.QA = 'qa';
+ENVCONFIG.STAGE = 'stage';
+ENVCONFIG.TESTNET = 'testnet';
+ENVCONFIG.MAINNET = 'mainnet';
+
 export default {
   Denom,
   CHAINID,
   TxType,
   RADIXDENOM,
-  TRANSACTIONMESSAGENAME
+  TRANSACTIONMESSAGENAME,
+  ENVCONFIG
 }

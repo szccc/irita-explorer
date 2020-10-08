@@ -114,23 +114,23 @@
         <!-- 复用部分 -->
         <div class="tx_detail_common_information_content_wrap" v-if="moduleSupport('107', prodConfig.navFuncList)">
             <!-- 标题 -->
-            <div class="tx_detail_header_title">Transaction Information</div>
+            <div class="tx_detail_header_title">{{ $t('ExplorerLang.transactionInformation.transactionInformations.title') }}</div>
             <!-- 表格内容 -->
             <div class="tx_detail_common_information_wrap">
                 <ul class="tx_detail_common_information_content">
                     <li class="tx_detail_common_information_item">
-                        <span class="tx_detail_common_information_item_name">Block :</span>
+                        <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.block') }} :</span>
                         <div class="tx_detail_common_information_item_value skip_route">
                             <router-link :to="`/block/${blockValue}`">{{blockValue}}</router-link>
                         </div>
                     </li>
                     <!-- Status  -->
                     <li class="tx_detail_common_information_item">
-                        <span class="tx_detail_common_information_item_name">Status :</span>
+                        <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.status') }} :</span>
                         <div class="tx_detail_common_information_item_value" style="display: flex">
                             <span :style="{color: statusValue === 'Failed' ? '#fa8593' : ''}">{{statusValue}}</span>
                             <div v-if="statusValue === 'Failed'" class="log_content_container">
-                                <i class="el-icon-question" style="margin-left: 0.03rem;"></i>
+                                <i class="iconfont iconyiwen" style="margin-left: 0.03rem;"></i>
                                 <div class="tip_content" :class="failTipStyle ? 'overstep_style' :''" :style="{left:`${-((logContentWidth / 2) - 6) / 100}rem`}">
                                     <span class="log_content"  ref="logContent">{{log}}</span>
                                 </div>
@@ -138,16 +138,16 @@
                         </div>
                     </li>
                     <li class="tx_detail_common_information_item">
-                        <span class="tx_detail_common_information_item_name">Timestamp :</span>
+                        <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.timestamp') }} :</span>
                         <div class="tx_detail_common_information_item_value">{{timestampValue}}</div>
                     </li>
                     <li class="tx_detail_common_information_item">
-                        <span class="tx_detail_common_information_item_name">Fee  :</span>
+                        <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.fee') }}  :</span>
                         <div class="tx_detail_common_information_item_value">{{feeValue}}</div>
                     </li>
                     <!-- Gas Used -->
                     <li class="tx_detail_common_information_item">
-                        <span class="tx_detail_common_information_item_name">Gas Used :</span>
+                        <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.gasUsed') }} :</span>
                         <div class="tx_detail_common_information_item_value gas_container">
                             <span>{{gasUsedValue}}</span>
                             <div class="gas_content_container" style="margin-left: 0.03rem;">
@@ -165,23 +165,24 @@
                     </li>
                     <!-- Signer -->
                     <li class="tx_detail_common_information_item">
-                        <span class="tx_detail_common_information_item_name">Signer :</span>
+                        <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.signer') }} :</span>
                         <div class="tx_detail_common_information_item_value skip_route iconProfiler_content">
                             <router-link :to="`/address/${signerValue}`">{{signerValue}}</router-link>
                             <span class="address_information_address_status_profiler" v-if="isProfiler">Profiler</span>
                         </div>
                     </li>
                     <li class="tx_detail_common_information_item">
-                        <span class="tx_detail_common_information_item_name">Memo :</span>
+                        <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.memo') }} :</span>
                         <div class="tx_detail_common_information_item_value">{{memoValue}}</div>
                     </li>
                 </ul>
             </div>
             <!-- 交易消息 -->
-            <div class="tx_detail_message_content_title">Transaction Message or Result</div>
+            <div class="tx_detail_message_content_title">{{ $t('ExplorerLang.transactionInformation.transactionMessage.title') }}</div>
             <div class="tx_detail_message_information_content">
                 <ul class="tx_detail_message_information">
                     <li class="tx_detail_message_information_item" v-for="(item,key) in messageList" :key="key">
+                        <!-- 左侧的信息 -->
                         <span class="tx_detail_message_information_name" v-if="key !=='tooltip'">{{key}}</span>
                         <div>
                             <div class="tx_detail_message_information_value" :class="key !== 'Commission Rate :'? 'hide_rate_tip' : ''" v-for="(value,index) in item" :key="index">
@@ -578,10 +579,12 @@ export default {
                 this.memoValue = res.memo ? res.memo : '--';
                 this.fromMoniker =  fromInformation.length > 1 ? fromInformation.length : fromInformation.length === 1 ? fromInformation[0].moniker :'';
                 this.toMoniker = toInformation.length > 1 ? toInformation.length : toInformation.length === 1 ? toInformation[0].moniker :'';
+                console.log('转换前',res)
                 this.messageList = formatMessage.switchTxType(res);
                 if(this.messageList.tooltip){
                     this.flShowRateToolTip = true
                 }
+                console.log('转换后',this.messageList)
             }
         }catch (e) {
             console.error(e)
@@ -795,7 +798,7 @@ a {
                         }
                         .log_content_container{
                             position: relative;
-                            .el-icon-question{
+                            .iconyiwen{
                                 padding-left: 0.05rem;
                                 font-size: 0.14rem;
                                 color: #fa8593;

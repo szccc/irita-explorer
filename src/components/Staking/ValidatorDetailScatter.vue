@@ -13,7 +13,7 @@
 			<!-- 提示信息 右侧 -->
 			<p class="other_chart_tip">
 				<span class="other_chart_color_block"></span>
-				<span>Other Validator</span>
+				<span>{{ $t('ExplorerLang.validatorDetail.commissionInfo.scatter.otherValidator') }}</span>
 			</p>
 		</div>
 	</div>
@@ -24,6 +24,7 @@
 	import Tools from "../../util/Tools.js"
 	import Constant from "../../constant/index.js"
 	import bigNumber from "bignumber.js"
+	import { getValidatorCommissionInfoApi } from "@/service/api" 
 	var echarts = require('echarts/lib/echarts');
 	require('echarts/lib/component/legend');
 	require('echarts/lib/component/tooltip');
@@ -109,18 +110,18 @@
 						backgroundColor: '#222',
 						borderColor: '#777',
 						borderWidth: 1,
-						formatter: function (obj) {
+						formatter:  (obj) => {
 							let value = obj.value;
 							return `<div>
 										<p>${value[2]}</p>
-										<p>Commission Rate:${value[0]}%</p>
-										<p>Bonded Tokens:<br/>${new bigNumber(value[1]).toFormat()} IRIS</p>
+										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.commissionRate')}:${value[0]}%</p>
+										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.bondedTokens')}:<br/>${new bigNumber(value[1]).toFormat()} IRIS</p>
 										</div>`
 						}
 					},
 					xAxis: {
 						type: 'value',
-						name:'Commission Rate(%)',
+						name:this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.xAxis'),
 						nameLocation:'end',
 						nameGap: 6,
 						nameTextStyle: {
@@ -138,7 +139,7 @@
 					},
 					yAxis: {
 						type: 'value',
-						name:'Bonded_Token(IRIS)',
+						name:this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.yAxis'),
 						nameLocation: 'end',
 						nameGap: 20,
 						nameTextStyle: {
@@ -200,11 +201,11 @@
 			},
 			async getValidatorCommissionInfo(){
 				try {
-					const {data:res} = await axios.get('https://www.irisplorer.io/api/stake/commission_info')
-					if(res && res.commission_data && res.commission_data.length > 0){
+					const res = await getValidatorCommissionInfoApi()
+					if(res && res.data && res.data.length > 0){
 						let copyData = JSON.parse(JSON.stringify(this.jailedData));
-						res.commission_data.push(copyData);
-						let allValidatorBondedTokenArr = res.commission_data;
+						res.data.push(copyData);
+						let allValidatorBondedTokenArr = res.data;
 						this.currentValidatorBondedTokenArr = [];
 						this.otherValidatorBondedTokenArr = [];
 						allValidatorBondedTokenArr.forEach( item => {
@@ -223,34 +224,6 @@
 				}catch (e) {
 					console.error(e)
 				}
-				
-				// Service.commonInterface({validatorScatterList:{
-				// 		validatorAddr:this.$route.params.param
-				// 	}},(res) => {
-				// 	try {
-				// 		if(res && res.commission_data && res.commission_data.length > 0){
-				// 			let copyData = JSON.parse(JSON.stringify(this.jailedData));
-				// 			res.commission_data.push(copyData);
-				// 			let allValidatorBondedTokenArr = res.commission_data;
-				// 			this.currentValidatorBondedTokenArr = [];
-				// 			this.otherValidatorBondedTokenArr = [];
-				// 			allValidatorBondedTokenArr.forEach( item => {
-				// 				item.formatCommissionRote = (Number(item.commission_rate) * 100).toFixed(0);
-				// 				item.formatBondedToken = Tools.subStrings(item.bonded_tokens,6)
-				// 				if(item.operator_address === this.$route.params.param){
-				// 					this.currentMoniker = item.moniker;
-				// 					this.currentValidatorBondedTokenArr.push([item.formatCommissionRote,item.formatBondedToken,item.moniker]);
-				// 				}else {
-				// 					this.otherValidatorBondedTokenArr.push([item.formatCommissionRote,item.formatBondedToken,item.moniker]);
-									
-				// 				}
-				// 			});
-				// 			this.initCharts();
-				// 		}
-				// 	}catch (e) {
-				// 		console.error(e)
-				// 	}
-				// })
 			}
 		}
 	}

@@ -35,7 +35,8 @@
           </el-menu>
         </div>
         <div class="header_mobile_menu" @click="featureShow = !featureShow">
-          <img class="menu_btn" src="../../assets/menu.png" />
+          <span v-if="netWorkArray.length !== 0" style="color:white;font-size: 0.12rem;font-family: PingFangSC-Regular, PingFang SC">{{netWorkArray[0].netWorkSelectOption}}</span>
+          <!-- <img class="menu_btn" src="../../assets/menu.png" /> -->
         </div>
       </div>
       <div class="header_input_content" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`" v-if="searchShow">
@@ -44,8 +45,24 @@
             <input type="text" class="search_input" :style="`color:${(prodConfig.nav || {}).color || ''}`" :placeholder="$t('ExplorerLang.Navigation.searchPlaceHolder')" v-model.trim="searchInputValue" @keyup.enter="onInputChange" />
             <span @click="getData(searchInputValue)" class="iconfont iconsousuo" :style="`color:${(prodConfig.nav || {}).color || ''}`"></span>
           </div>
+          <div class="header_mobile_menu" @click="featureShow = !featureShow">
+            <img class="menu_btn" src="../../assets/menu.png" />
+          </div>
         </div>
       </div>
+      <div v-show="moduleSupport('110', prodConfig.navFuncList)" class="header_network_container" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
+          <span style="color: #fff">
+              <i style="font-size: 0.24rem;padding-right: 0.02rem;" class="iconfont iconiris"></i>
+              <i style="font-size: 0.08rem" class="iconfont iconwangluoqiehuanjiantou"></i>
+          </span>
+          <ul class="network_list_container" v-show="flShowNetworkLogo && netWorkArray.length !== 0" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
+              <li class="network_list_item"
+                  v-for="item in netWorkArray"
+                  :key="item.chain_id"
+                  @click="windowOpenUrl(item.host)"><i :class="item.icon"></i>{{item.netWorkSelectOption}}</li>
+          </ul>
+      </div>
+      
       <div class="use_feature_mobile" v-if="featureShow">
         <div v-for="(item, index) in menuList" class="mobile_tab_item_wrap" :key="String(index)" :style="`color:${(prodConfig.nav || {}).color || ''}`">
           <span class="mobile_tab_item" @click="mobileMenuDidClick(item, index, false)" v-if="!item.children">
@@ -66,18 +83,38 @@
             </transition>
           </div>
         </div>
+        <div v-show="moduleSupport('110', prodConfig.navFuncList)" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">
+              
+              <div class="mobile_tab_item_children_container" >
+                  <span class="mobile_tab_item mobile_tab_item_has_children" @click="flShowNetWork">
+                    Network
+                    <img src="../../assets/expanding.svg" v-show="!flShowNetWorkMenu" class="mobile_tab_item_icon" />
+                    <img src="../../assets/retract.svg" v-show="flShowNetWorkMenu" class="mobile_tab_item_icon" />
+                  </span>
+                  <transition name="fade">
+                    <ul class="mobile_tab_item_sub_children_container" v-show="flShowNetWorkMenu && netWorkArray.length !== 0">
+                        <li class="mobile_tab_item mobile_tab_item_child" v-for="item in netWorkArray" :key="item.chain_id">
+                            <a style="color:white;" :href="item.host">{{item.netWorkSelectOption}}</a>
+                        </li>
+                    </ul>
+                  </transition>
+              </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
 import Tools from '../../util/Tools'
-import { addrPrefix, ModuleMap } from '../../constant'
+import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList } from '../../service/api'
+import { moduleSupport } from "@/helper/ModulesHelper"
+import axios from 'axios'
 export default {
   data() {
     return {
+      moduleSupport,
       prodConfig,
       activeIndex: '1',
       activeIndex2: '0',
@@ -86,6 +123,10 @@ export default {
       menuList: [],
       searchShow: false,
       expandingList: [],
+      flShowNetworkLogo:false,
+      netWorkArray:[],
+      currentNetworkClass:'',
+      flShowNetWorkMenu:false,
     }
   },
   computed: {
@@ -99,6 +140,9 @@ export default {
   },
   beforeMount() {
     this.menuList = this.loadModules(prodConfig.navFuncList)
+  },
+  created() {
+    this.getConfig()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
@@ -234,6 +278,73 @@ export default {
       this.$router.push(`/searchResult?${this.searchInputValue}`)
       this.searchInputValue = ''
     },
+    showNetWorkLogo(){
+				this.flShowNetworkLogo = true;
+    },
+		hideNetWorkLogo(){
+				this.flShowNetworkLogo = false;
+    },
+    async getConfig () {
+        const { data: res } = await axios.get(`https://www.irisplorer.io/api/config`)
+        this.handleConfigs(res.configs)
+				// Service.commonInterface({headerConfig:{}},(res) => {
+				// 	try {
+				// 		sessionStorage.setItem('skinEnvInformation',JSON.stringify(res));
+        //                 if(res.cur_env === constant.ENVCONFIG.TESTNET || res.cur_env === constant.ENVCONFIG.MAINNET){
+        //                     this.$store.commit('hideTestSkinStyle',false)
+        //                 }
+				// 		this.flShowLogo = true;
+				// 		this.toggleTestnetLogo(res);
+				// 		this.setCurrentSelectOption(res.cur_env, res.chain_id, res.configs);
+				// 		this.setEnvConfig(res);
+				// 		this.handleConfigs(res.configs);
+        //                 this.setNetWorkLogo();
+        //                 this.flShowHeaderNetwork = true;
+				// 		this.chainId = `${res.chain_id.toUpperCase()} ${res.cur_env.toUpperCase()}`;
+				// 		res.configs.forEach(item => {
+				// 			if (res.cur_env === item.env && res.chain_id === item.chain_id) {
+				// 				if (item.show_faucet && item.show_faucet === 1) {
+				// 					this.flShowFaucet = true;
+				// 					sessionStorage.setItem("Show_faucet", JSON.stringify(1))
+				// 				} else {
+				// 					this.flShowFaucet = false;
+				// 					sessionStorage.setItem("Show_faucet", JSON.stringify(0))
+				// 				}
+				// 			}
+				// 		})
+				// 	}catch (e) {
+				// 		console.error(e);
+				// 		this.explorerLogo = require("../../assets/logo.png")
+				// 	}
+        // });
+    },
+    handleConfigs (configs) {
+				this.netWorkArray = configs.map(item => {
+					if(item.network_name === constant.CHAINID.IRISHUB){
+              item.icon = 'iconfont iconiris'
+          }else if(item.network_name === constant.CHAINID.FUXI){
+              item.icon = 'iconfont iconfuxi1'
+          }else if(item.network_name === constant.CHAINID.NYANCAT){
+              item.icon = 'iconfont iconcaihongmao'
+          }else if(item.network_name === constant.CHAINID.GOZTESTNET){
+              item.icon = 'iconfont iconGOZ'
+          } else if (item.network_name === constant.CHAINID.BIFROST) {
+              item.icon = 'iconfont iconBI-01'
+          }
+					item.netWorkSelectOption = `${Tools.firstWordUpperCase(item.env)} ${item.chain_id.toLocaleUpperCase()}`;
+					return item
+        });
+				this.netWorkArray = this.netWorkArray.filter(item => {
+					return item.env !== constant.ENVCONFIG.DEV && item.env !== constant.ENVCONFIG.QA && item.env !== constant.ENVCONFIG.STAGE
+        });
+        // console.log(this.netWorkArray)
+    },
+    windowOpenUrl (url) {
+				window.open(url)
+    },
+    flShowNetWork() {
+      this.flShowNetWorkMenu = !this.flShowNetWorkMenu
+    }
   },
 }
 </script>
@@ -359,11 +470,59 @@ export default {
         }
       }
     }
+    .header_mobile_menu {
+      display: none;
+      .menu_btn {
+          width: 0.2rem;
+          height: 0.2rem;
+          top: 0.26rem;
+          right: 0.1rem;
+          img {
+            width: 100%;
+          }
+        }
+    }
+  }
+  .header_network_container{
+      position: relative;
+      height:0.6rem;
+      line-height: 0.6rem;
+      padding-left: 0.2rem;
+      .network_list_container{
+          background: #fff;
+          box-shadow: 0 0.02rem 0.1rem 0 rgba(3,16,114,0.15);
+          width: auto;
+          position: absolute;
+          right: 0;
+          top: 0.6rem;
+          z-index: 2;
+          text-align: right;
+          .network_list_item{
+              height: 0.4rem;
+              line-height: 0.4rem;
+              white-space: nowrap;
+              padding: 0 0.2rem;
+              cursor: pointer;
+              font-size: 0.14rem;
+              display: flex;
+              &:hover{
+                  background: #F6F7FF;
+              }
+              i{
+                  font-size: 0.18rem;
+                  color: var(--titleColor);
+                  padding-right: 0.2rem;
+              }
+          }
+          .network_list_item:last-child{
+              padding-bottom: 0.05rem;
+          }
+      }
   }
   .use_feature_mobile {
     display: none;
     width: 100%;
-    margin-top: 0.1rem;
+    // margin-top: 0.1rem;
     .mobile_tab_item_wrap {
       display: flex;
       color: $t_white_c;
@@ -401,7 +560,7 @@ export default {
           display: flex;
           flex-direction: column;
           .mobile_tab_item_child {
-            text-indent: 0.35rem;
+            text-indent: 0.15rem;
           }
         }
       }
@@ -413,11 +572,13 @@ export default {
   .header_container {
     position: absolute;
     .header_content {
-      padding: 0.1rem 0.15rem;
+      padding: 0.1rem 0.15rem 0rem 0.15rem;
       flex-direction: column;
       .header_menu_content {
         width: 100%;
-
+        .header_logo_content {
+          margin-left: 0.1rem;
+        }
         .header_menu {
           display: none;
         }
@@ -428,9 +589,24 @@ export default {
     }
     .header_input_content {
       width: 100%;
+      padding-bottom: 0.1rem;
       .search_input_container {
         margin-top: 0.05rem;
+        display: flex;
+        .search_input_wrap {
+          flex: 1;
+        }
+        .header_mobile_menu {
+          display: block;
+          padding: 0.1rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
+    }
+    .header_network_container {
+      display: none;
     }
     .use_feature_mobile {
       display: block;

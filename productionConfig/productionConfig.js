@@ -59,13 +59,14 @@ let config = {
     { title: '服务浏览', id: '105' },
     { title: '身份ID', id: '106' },
     {
-      title: 'staking',
+      title: 'Staking',
       children: [
         { title: 'Vaildators', id: '107' },
         { title: 'Delegation Txs', id: '108' },
         { title: 'Validation Txs', id: '109' },
       ],
     },
+    { title: 'Network', id: '110' },
     '1000',
   ],
   //首页卡片配置
@@ -102,5 +103,10 @@ let config = {
       common: '',
     },
   },
+  unit: {
+    maxUnit: 'iris',
+    minUnit: 'uiris',
+    conversionRatio: 1000000
+  }
 }
 module.exports = config

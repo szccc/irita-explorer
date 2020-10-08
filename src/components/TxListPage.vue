@@ -1,8 +1,8 @@
 <template>
     <div class="transaction_list_page_container">
         <div class="title_container">
-            <span>Delegation Txs List</span>
-            <span>{{ count }} Txs</span>
+            <span>{{$t('ExplorerLang.transactions.delegationTxsList')}}</span>
+            <span>{{ count }} {{$t('ExplorerLang.transactions.txs')}}</span>
         </div>
         <div class="transaction_list_title_wrap">
             <div class="transaction_list_title_content">
@@ -30,7 +30,7 @@
                                          :picker-options="PickerOptions"
                                          :editable="false"
                                          value-format="yyyy-MM-dd"
-                                         placeholder="Select Date">
+                                         :placeholder="$t('ExplorerLang.common.selectDate')">
                         </el-date-picker>
                         <span class="joint_mark">~</span>
                         <el-date-picker  type="date"
@@ -39,16 +39,16 @@
                                          value-format="yyyy-MM-dd"
                                          @change="getEndTime(endTime)"
                                          :editable="false"
-                                         placeholder="Select Date">
+                                         :placeholder="$t('ExplorerLang.common.selectDate')">
                         </el-date-picker>
                         <div class="tooltip_content">
                             <el-tooltip content="Date selection range from the first block to the latest block.">
-                                <i class="el-icon-question"></i>
+                                <i class="iconfont iconyiwen"></i>
                             </el-tooltip>
                         </div>
                     </div>
                     <div class="reset_search_content">
-                        <div class="tx_search_btn" @click="getFilterTxs">Search</div>
+                        <div class="tx_search_btn" @click="getFilterTxs">{{$t('ExplorerLang.transactions.search')}}</div>
                         <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
                 </div>
@@ -96,7 +96,7 @@
 				txTypeListArray:[
 					{
 						value:'allTxType',
-						label:'All TxType',
+						label: this.$t('ExplorerLang.common.allTxType'),
 						slot:'allTXType'
 					}
                 ],
@@ -121,16 +121,16 @@
 		mounted(){
                 let statusArray = [
                 {
-                    value:'allStatus',
-                    label:'All Status'
+                    value: 'allStatus',
+                    label: this.$t('ExplorerLang.common.allTxStatus')
                 },
                 {
                     value:'success',
-                    label:'Success'
+                    label: this.$t('ExplorerLang.common.success')
                 },
                 {
                     value:'fail',
-                    label:'Failed'
+                    label: this.$t('ExplorerLang.common.failed')
                 }
             ]
             statusArray.forEach( item => {
@@ -279,7 +279,7 @@
                         this.txTypeListArray = [
                             {
                                 value:'allTxType',
-                                label:'All TxType',
+                                label: this.$t('ExplorerLang.common.allTxType'),
                                 slot:'allTXType'
                             }
                         ];
@@ -519,6 +519,7 @@
         padding: 0.04rem 0 0.2rem 0;
         margin: 0 auto;
         .transaction_list_table_content{
+            text-align: left;
             // border: 1px solid #dee2e6;
             .table_list_content{
                 width: 100%;

@@ -3,7 +3,7 @@
     <div class="vaildtor_detail_container">
       <div class="vaildtor_detail_content">
         <div class="vaildtor_detail_title_container">
-          <span>{{ $t('ExplorerLang.staking.validatorDetail.title') }}</span>
+          <span>{{ $t('ExplorerLang.validatorDetail.title') }}</span>
         </div>
         <validator-information :validationInformation="validationInformation" :validatorStatus="validatorStatus"></validator-information>
         <validator-commission-information :validationCommissionInfo="validationInformation"></validator-commission-information>
@@ -11,46 +11,47 @@
           <div class="delegations_container">
             <!-- Delegations -->
             <div class="one_table_container">
-              <p class="validator_information_content_title">Delegations</p>
+              <p class="validator_information_content_title">{{ $t('ExplorerLang.validatorDetail.delegationsTitle') }}</p>
               <div class="delegations_table_container">
-                <el-table :data="delegations.items" style="width: 100%">
-                  <el-table-column prop="address" label="Address" width="130">
+                <el-table :data="delegations.items" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                  <el-table-column prop="address" :label="$t('ExplorerLang.table.address')" width="130">
                     <template v-slot:default="{ row }">
                       <el-tooltip :content="`${row.address}`">
                         <router-link style="font-family: Consolas,Menlo;" :to="'/address/' + row.address" :style="{ color: '$theme_c !important' }">{{ formatAddress(row.address) }}</router-link>
                       </el-tooltip>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="amount" label="Amount" align="right" min-width="180"> </el-table-column>
-                  <el-table-column prop="shares" label="Shares" align="left" min-width="208"> </el-table-column>
-                  <el-table-column prop="block" label="Block" width="110">
+                  <el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')" align="right" min-width="175"> </el-table-column>
+                  <el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left" min-width="213"> </el-table-column>
+                  <!-- 待处理 -->
+                  <!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" width="110">
                     <template v-slot:default="{ row }">
                       <router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
                     </template>
-                  </el-table-column>
+                  </el-table-column> -->
                 </el-table>
               </div>
               <m-pagination v-if="delegations.total > pageSize" :page-size="pageSize" :total="delegations.total" :page-change="pageChange('getDelegations')"></m-pagination>
             </div>
             <!-- Unbonding Delegations -->
             <div class="second_table_container">
-              <p class="validator_information_content_title">Unbonding Delegations</p>
+              <p class="validator_information_content_title">{{ $t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}</p>
               <div class="delegations_table_container">
-                <el-table :data="unbondingDelegations.items" style="width: 100%">
-                  <el-table-column prop="address" label="Address" width="130">
+                <el-table :data="unbondingDelegations.items" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                  <el-table-column prop="address" :label="$t('ExplorerLang.table.address')" width="130">
                     <template v-slot:default="{ row }">
                       <el-tooltip :content="`${row.address}`">
                         <router-link style="font-family: Consolas,Menlo;" :to="'/address/' + row.address" :style="{ color: '$theme_c !important' }">{{ formatAddress(row.address) }}</router-link>
                       </el-tooltip>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="amount" label="Amount" align="right" min-width="180"> </el-table-column>
-                  <el-table-column prop="block" label="Block" align="left" min-width="118">
+                  <el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')" align="right" min-width="180"> </el-table-column>
+                  <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" align="left" min-width="118">
                     <template v-slot:default="{ row }">
                       <router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
                     </template>
                   </el-table-column>
-                  <el-table-column prop="end_time" label="End Time" width="200"> </el-table-column>
+                  <el-table-column prop="end_time" :label="$t('ExplorerLang.table.endTime')" width="200"> </el-table-column>
                 </el-table>
               </div>
               <m-pagination v-if="unbondingDelegations.total > pageSize" :page-size="pageSize" :total="unbondingDelegations.total" :page-change="pageChange('getUnbondingDelegations')"></m-pagination>
@@ -60,22 +61,22 @@
         <!-- Delegation Txs -->
         <div class="delegations_txs_wrap">
           <div class="delegations_txs_container">
-            <p class="validator_information_content_title">Delegation Txs</p>
+            <p class="validator_information_content_title">{{ $t('ExplorerLang.validatorDetail.delegationsTxsTitle') }}</p>
             <div class="delegations_txs_table_container">
-              <el-table :data="delegationTxs.items" style="width: 100%">
-                <el-table-column prop="Tx_Hash" label="TXHash" width="90">
+              <el-table :data="delegationTxs.items" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                <el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="90">
                   <template v-slot:default="{ row }">
                     <el-tooltip :content="`${row.Tx_Hash}`" style="font-family: Consolas,Menlo">
                       <router-link style="font-family: Consolas,Menlo;" :to="`/tx?txHash=${row.Tx_Hash}`" :style="{ color: '$theme_c !important' }">{{ formatTxHash(row.Tx_Hash) }}</router-link>
                     </el-tooltip>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Block" label="Block" width="74">
+                <el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" width="76">
                   <template v-slot:default="{ row }">
                     <router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.Block" :style="{ color: '$theme_c !important' }">{{ row.Block }}</router-link>
                   </template>
                 </el-table-column>
-                <el-table-column prop="From" label="From" width="159">
+                <el-table-column prop="From" :label="$t('ExplorerLang.table.from')" width="159">
                   <template v-slot:default="{ row }">
                     <span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
                       <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
@@ -88,8 +89,8 @@
                     <span class="no_skip" v-show="/^[0]\d*$/.test(row.From) || row.From === '--'">--</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Amount" label="Amount" align="right" width="140"> </el-table-column>
-                <el-table-column label="To" align="left" width="159">
+                <el-table-column prop="Amount" :label="$t('ExplorerLang.table.amount')" align="right" width="140"> </el-table-column>
+                <el-table-column prop="To" :label="$t('ExplorerLang.table.to')" align="left" width="159">
                   <template v-slot:default="{ row }">
                     <span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
                       <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
@@ -103,15 +104,15 @@
                     <span class="no_skip" v-show="/^[0]\d*$/.test(row.To) || row.To === '--'">--</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Tx_Type" label="TxType" show-overflow-tooltip> </el-table-column>
-                <el-table-column prop="Tx_Fee" label="Fee" width="110"> </el-table-column>
-                <el-table-column prop="Tx_Signer" label="Signer" width="121">
+                <el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" width="110"> </el-table-column>
+                <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" width="121">
                   <template v-slot:default="{ row }">
                     <router-link :to="`/address/${row.Tx_Signer}`" class="link_style justify">{{ formatAddress(row.Tx_Signer) }}</router-link>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Tx_Status" label="Status" width="73"> </el-table-column>
-                <el-table-column prop="Timestamp" label="Timestamp" width="186"> </el-table-column>
+                <el-table-column prop="Tx_Status" :label="$t('ExplorerLang.table.status')" width="73"> </el-table-column>
+                <el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')" width="186"> </el-table-column>
               </el-table>
             </div>
             <m-pagination v-if="delegationTxs.total > pageSize" :page-size="pageSize" :total="delegationTxs.total" :page-change="pageChange('getDelegationTxs')"></m-pagination>
@@ -120,28 +121,28 @@
         <!-- Validation Txs -->
         <div class="validation_txs_wrap">
           <div class="validation_txs_container">
-            <p class="validator_information_content_title">Validation Txs</p>
+            <p class="validator_information_content_title">{{ $t('ExplorerLang.validatorDetail.validationTxsTitle') }}</p>
             <div class="validation_txs_table_container">
-              <el-table :data="validationTxs.items" style="width: 100%">
-                <el-table-column prop="Tx_Hash" label="TXHash" width="90">
+              <el-table :data="validationTxs.items" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                <el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="90">
                   <template v-slot:default="{ row }">
                     <el-tooltip :content="`${row.Tx_Hash}`" style="font-family: Consolas,Menlo">
                       <router-link style="font-family: Consolas,Menlo;" :to="`/tx?txHash=${row.Tx_Hash}`" :style="{ color: '$theme_c !important' }">{{ formatTxHash(row.Tx_Hash) }}</router-link>
                     </el-tooltip>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Block" label="Block" width="74">
+                <el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" width="76">
                   <template v-slot:default="{ row }">
                     <router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.Block" :style="{ color: '$theme_c !important' }">{{ row.Block }}</router-link>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Moniker" label="Moniker" width="159">
+                <el-table-column prop="Moniker" :label="$t('ExplorerLang.table.name')" width="159">
                   <template v-slot:default="{ row }">
                     <span style="cursor:pointer;" v-if="row.OperatorAddr === $route.params.param">{{ row.Moniker }}</span>
                     <router-link v-else :to="`/address/${row.OperatorAddr}`" class="link_style justify">{{ formatMoniker(row.Moniker) }}</router-link>
                   </template>
                 </el-table-column>
-                <el-table-column prop="OperatorAddr" label="Operator" width="140">
+                <el-table-column prop="OperatorAddr" :label="$t('ExplorerLang.table.operator')" width="140">
                   <template v-slot:default="{ row }">
                     <span v-if="/^[1-9]\d*$/.test(row.OperatorAddr)" class="skip_route">
                       <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.OperatorAddr }} Validators</router-link>
@@ -155,20 +156,20 @@
                     <span class="no_skip" v-show="/^[0]\d*$/.test(row.OperatorAddr) || row.OperatorAddr === '--'">--</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Self-Bonded" label="Self-Bonded" width="159">
+                <el-table-column prop="Self-Bonded" :label="$t('ExplorerLang.table.selfBonded')" width="159">
                   <template v-slot:default="{ row }">
                     <span>{{ row.Self_Bonded }}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Tx_Type" label="TxType" show-overflow-tooltip> </el-table-column>
-                <el-table-column prop="Tx_Fee" label="Fee" width="110"> </el-table-column>
-                <el-table-column prop="Tx_Signer" label="Signer" width="121">
+                <el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" show-overflow-tooltip> </el-table-column>
+                <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" width="110"> </el-table-column>
+                <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" width="121">
                   <template v-slot:default="{ row }">
                     <router-link :to="`/address/${row.Tx_Signer}`" class="link_style justify">{{ formatAddress(row.Tx_Signer) }}</router-link>
                   </template>
                 </el-table-column>
-                <el-table-column prop="Tx_Status" label="Status" width="73"> </el-table-column>
-                <el-table-column prop="Timestamp" label="Timestamp" width="186"> </el-table-column>
+                <el-table-column prop="Tx_Status" :label="$t('ExplorerLang.table.status')" width="73"> </el-table-column>
+                <el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')" width="186"> </el-table-column>
               </el-table>
             </div>
             <m-pagination v-if="validationTxs.total > pageSize" :page-size="pageSize" :total="validationTxs.total" :page-change="pageChange('getValidationTxs')"></m-pagination>
@@ -185,6 +186,9 @@ import ValidatorCommissionInformation from './ValidatorCommissionInformation'
 import MPagination from '../common/MPagination'
 import Tools from '../../util/Tools.js'
 import Constants from '../../constant/index.js'
+import { getValidatorsInfoApi,getValidatorsDelegationsApi,getUnbondingDelegationsApi,getDelegationTxsApi,getValidationTxsApi } from "@/service/api"
+import { TxHelper } from '../../helper/TxHelper.js'
+// 待删 
 import axios from 'axios'
 export default {
   name: '',
@@ -246,43 +250,33 @@ export default {
       return num
     },
     async getValidatorsInfo() {
-      const { data: res } = await axios.get(`https://www.irisplorer.io/api/stake/validators/${this.$route.params.param}`)
+      let res = await getValidatorsInfoApi(this.$route.params.param)
       this.validationInformation = res
-      this.validatorStatus = res.status
+      this.validatorStatus = Tools.firstWordUpperCase(res.status) 
     },
     async getDelegations(page = 1) {
-      const { data: res } = await axios.get(`https://www.irisplorer.io/api/stake/validators/${this.$route.params.param}/delegations?page=${page}&size=${this.pageSize}`)
-      this.delegations.total = res.total
+      const res = await getValidatorsDelegationsApi(this.$route.params.param,page,this.pageSize,true)
+      // const { data: res } = await axios.get(`https://www.irisplorer.io/api/stake/validators/${this.$route.params.param}/delegations?page=${page}&size=${this.pageSize}`)
+      this.delegations.total = res.count
       this.delegations.items = []
-      res.items.forEach(item => {
-        if (String(Tools.FormatScientificNotationToNumber(item.amount)).length > 18) {
-          item.amount = `${String(Tools.FormatScientificNotationToNumber(item.amount)).split('.')[0]}.${String(Tools.FormatScientificNotationToNumber(item.amount))
-            .split('.')[1]
-            .substring(0, 18)}`
-        }
-        item.amount = this.$options.filters.amountFromat(item.amount, Constants.Denom.IRIS.toUpperCase(), 2)
+      res.data.forEach(item => {
+        item.amount = Tools.formatUnit(item.amount) + ' IRIS'
         let selfShares = Tools.formatPriceToFixed(item.self_shares, 4)
         let shares = `${selfShares} (${this.formatPerNumber((Number(item.self_shares) / Number(item.total_shares)) * 100)}%)`
         this.delegations.items.push({
           address: item.address,
           amount: item.amount,
           shares,
-          block: item.block,
+          // block: item.block,
         })
       })
     },
     async getUnbondingDelegations(page = 1) {
-      const { data: res } = await axios.get(`https://www.irisplorer.io/api/stake/validators/${this.$route.params.param}/unbonding-delegations?page=${page}&size=${this.pageSize}`)
-      // console.log(res)
-      this.unbondingDelegations.total = res.total
+      const res = await getUnbondingDelegationsApi(this.$route.params.param,page,this.pageSize,true)
+      this.unbondingDelegations.total = res.count
       this.unbondingDelegations.items = []
-      res.items.forEach(item => {
-        let u = item.amount.match(/[a-zA-Z]+/g, '')[0]
-        item.amount = u
-          ? `${Number(item.amount.replace(u, ''))
-              .toFixed(2)
-              .toString()} ${u.toUpperCase()}`
-          : item.amount
+      res.data.forEach(item => {
+        item.amount= Number(item.amount).toFixed(2)
         item.until = Tools.format2UTC(item.until)
         this.unbondingDelegations.items.push({
           address: item.address,
@@ -292,28 +286,75 @@ export default {
         })
       })
     },
+    // 需调整 
     async getDelegationTxs(page = 1) {
-      const { data: res } = await axios.get(`https://www.irisplorer.io/api/txs/stake/${page}/${this.pageSize}?address=${this.$route.params.param}`)
-      this.delegationTxs.total = res.Count
-      for (let it of res.Data) {
-        it.Tx_Hash = it.Hash
-      }
-      this.delegationTxs.items = Tools.formatTxList(res.Data, 'delegations')
+      // 这里是假地址
+      const res = await getDelegationTxsApi('iaa1j7dgxaflz32kvaucv66a0x92lp846sv2ur2ak6',page,this.pageSize)
+      // console.log(res)
+      this.delegationTxs.total = res.count
+      res.data.forEach( item => {
+        const formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs)
+        //TODO:duanjie 待处理
+        const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
+        const status = item.status === 1 ?  'Success' : 'Fail'
+        const time = Tools.getFormatTimestamp(item.time)
+        this.delegationTxs.items.push({
+          Tx_Hash: item.tx_hash,
+          Block: item.height,
+          From: formTO.from,
+          Amount: fee,
+          To: formTO.to,
+          Tx_Type: Tools.firstWordUpperCase(item.type),
+          Tx_Fee: '--' ,
+          Tx_Signer: item.signers[0] ? item.signers[0] : '--',
+          Tx_Status: status,
+          Timestamp: time,
+        })
+      })
+
+      // const { data: res } = await axios.get(`https://www.irisplorer.io/api/txs/stake/${page}/${this.pageSize}?address=${this.$route.params.param}`)
+      // this.delegationTxs.total = res.Count
+      // for (let it of res.Data) {
+      //   it.Tx_Hash = it.Hash
+      // }
+      // this.delegationTxs.items = Tools.formatTxList(res.Data, 'delegations')
       // console.log(res)
       // console.log(this.delegationTxs.items)
     },
+    // 需调整
     async getValidationTxs(page = 1) {
-      const { data: res } = await axios.get(`https://www.irisplorer.io/api/txs/declaration/${page}/${this.pageSize}?address=${this.$route.params.param}`)
-      this.validationTxs.total = res.Count
-      for (let it of res.Data) {
-        it.Tx_Hash = it.Hash
-        if(it.self_bond.length > 0) {
-          it.self_bonded = (it.self_bond[0].amount/1000000000000000000).toFixed(2) + ' IRIS'
-        } else {
-          it.self_bonded = '--'
-        }
-      }
-      this.validationTxs.items = Tools.formatTxList(res.Data, 'validations')
+      const res = await getValidationTxsApi('',page,this.pageSize)
+      console.log(res)
+      this.validationTxs.total = res.count
+      res.data.forEach( item => {
+        const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
+        const status = item.status === 1 ?  'Success' : 'Fail'
+        const time = Tools.getFormatTimestamp(item.time)
+        this.validationTxs.items.push({
+          Tx_Hash: item.tx_hash,
+          Block:item.height,
+          Moniker: '--',
+          OperatorAddr: '--',
+          'Self-Bonded': '--',
+          'Tx_Type': '--',
+          'Tx_Fee':fee,
+          'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
+          'Tx_Status': status,
+          Timestamp: time,
+        })
+      })
+
+      // const { data: res } = await axios.get(`https://www.irisplorer.io/api/txs/declaration/${page}/${this.pageSize}?address=${this.$route.params.param}`)
+      // this.validationTxs.total = res.Count
+      // for (let it of res.Data) {
+      //   it.Tx_Hash = it.Hash
+      //   if(it.self_bond.length > 0) {
+      //     it.self_bonded = (it.self_bond[0].amount/1000000000000000000).toFixed(2) + ' IRIS'
+      //   } else {
+      //     it.self_bonded = '--'
+      //   }
+      // }
+      // this.validationTxs.items = Tools.formatTxList(res.Data, 'validations')
     },
     formatAddress(address) {
       return Tools.formatValidatorAddress(address)

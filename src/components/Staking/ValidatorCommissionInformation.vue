@@ -2,14 +2,14 @@
 	<div class="validator_commission_information_container">
 		<!-- 标题 -->
 		<p class="validator_commission_information_title">
-			<span>Commission Info</span>
+			<span>{{ $t('ExplorerLang.validatorDetail.commissionInfo.title') }}</span>
 		</p>
 		<div class="validator_commission_information_wrap">
 			<div class="validator_commission_information_content">
 				<!-- 左侧散点图 -->
 				<div class="validator_commission_information_scatter_content">
 					<!-- 散点图标题 -->
-					<p class="validator_commission_information_scatter_title">Commission Rate & Bonded Tokens Distribution</p>
+					<p class="validator_commission_information_scatter_title">{{ $t('ExplorerLang.validatorDetail.commissionInfo.scatter.title') }}</p>
 					<!-- 散点图 -->
 					<validator-detail-scatter :jailedData="jailedData" :validatorStatus="validatorStatus"></validator-detail-scatter>
 				</div>
@@ -39,7 +39,7 @@
 	import Constants from "../../constant/index.js";
 	import Tools from "../../util/Tools.js";
 	import ValidatorDetailScatter from "./ValidatorDetailScatter";
-	import axios from 'axios'
+	import { getValidatorRewardsApi } from "@/service/api"
 	export default {
 		name: "ValidatorCommissionInformation",
 		components: {ValidatorDetailScatter},
@@ -57,7 +57,8 @@
 				irisTokenMaxFixedNumber:18,
 				bondedAndCommissionArr:[
 					{
-						label:'Commission Rate:',
+						// label:'Commission Rate:',
+						label: this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.commissionRate'),
 						dataName:'commission_rate',
 						value:'',
 						flShowSelectIcon:false,
@@ -67,7 +68,7 @@
 						]
 					},
 					{
-						label:'Bonded Tokens:',
+						label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.bondedTokens'),
 						dataName:'bonded_tokens',
 						value:'',
 						flShowSelectIcon:true,
@@ -77,8 +78,8 @@
 						]
 					},
 					{
-						label:'Delegators:',
-						dataName:'delegator_count',
+						label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.delegators'),
+						dataName:'delegator_num',
 						flShowSelectIcon:false,
 						flShowChildren:false,
 						value:'',
@@ -87,7 +88,7 @@
 						]
 					},
 					{
-						label:'Total Shares:',
+						label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.totalShares'),
 						dataName:'delegator_shares',
 						flShowSelectIcon:false,
 						flShowChildren:false,
@@ -97,7 +98,7 @@
 						]
 					},
 					{
-						label:'Commission Rewards:',
+						label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.commissionRewards'),
 						dataName:'commissionRewards',
 						flShowSelectIcon:false,
 						flShowChildren:false,
@@ -107,7 +108,7 @@
 						]
 					},
 					{
-						label:'Commission Rate Range:',
+						label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.commissionRateRange'),
 						dataName:'commissionRateRange',
 						flShowSelectIcon:true,
 						flShowChildren:false,
@@ -140,36 +141,35 @@
 				this.jailedData.commission_rate = dataInfomation.commission_rate;
 				this.jailedData.operator_address = dataInfomation.operator_addr;
 				this.jailedData.moniker = dataInfomation.description.moniker;
-				this.validatorStatus = dataInfomation.status;
+				this.validatorStatus = Tools.firstWordUpperCase(dataInfomation.status);
 				this.bondedAndCommissionArr.forEach( item => {
 					if(item.label === 'Commission Rate Range:'){
 						item.value = `0 ~ ${Number(dataInfomation.commission_max_rate) * 100} %`;
 						item.children.push({
 							label:'Max Change Rate Everytime:',
-							value: `0 ~ ${Number(dataInfomation.commision_max_change_rate) * 100} %`
+							value: `0 ~ ${Number(dataInfomation.commission_max_change_rate) * 100} %`
 						})
 					}else if(item.label === 'Bonded Tokens:'){
 						item.value =`${this.$options.filters.amountFromat(dataInfomation.bonded_tokens, Constants.Denom.IRIS.toUpperCase(), this.irisTokenFixedNumber)}`;
+						let self_bond = Tools.formatUnit(dataInfomation.self_bond)
+						let bonded_stake = dataInfomation.bonded_tokens - self_bond
 						let selfBonded = {
 							label:'Self-Bonded:',
-							value: `${this.$options.filters.amountFromat(
-								dataInfomation.self_bonded, Constants.Denom.IRIS.toUpperCase(),
-								this.irisTokenFixedNumber)}
-								(${this.formatPerNumber((dataInfomation.self_bonded / Number(dataInfomation.bonded_tokens)) * 100)} %)`
+							value: `
+							${this.$options.filters.amountFromat(self_bond, Constants.Denom.IRIS.toUpperCase(),this.irisTokenFixedNumber)}
+								(${this.formatPerNumber((self_bond / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						let delegatorBonded = {
 							label:'Delegator Bonded:',
 							value:`${this.$options.filters.amountFromat(
-								dataInfomation.bonded_stake, Constants.Denom.IRIS.toUpperCase(), this.irisTokenFixedNumber)}
-								 (${this.formatPerNumber((Number(dataInfomation.bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
+								bonded_stake, Constants.Denom.IRIS.toUpperCase(), this.irisTokenFixedNumber)}
+								 (${this.formatPerNumber((Number(bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						item.children.unshift(selfBonded,delegatorBonded)
 					}else if(item.label === 'Total Shares:'){
 						item.value = `${this.$options.filters.amountFromat(dataInfomation.delegator_shares, "", this.irisTokenFixedNumber)}`
 					}else if(item.label === 'Commission Rate:'){
-						item.value = dataInfomation.commission_update !== "0001-01-01 00:00:00 +0000 UTC"
-							? dataInfomation.status === 'active' ? `${this.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} % (${Tools.format2UTC(dataInfomation.commission_update).substr(0,10)} Updated)` : `${this.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
-							: `${this.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
+						item.value = `${this.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
 					}else {
 						item.value = dataInfomation[item.dataName]
 					}
@@ -190,54 +190,24 @@
 			},
 			async getValidatorRewards() {
 				try {
-					const { data } = await axios(`https://www.irisplorer.io/api/stake/validators/${this.$route.params.param}/commission-rewards`)
-					if (data) {
-						if (Array.isArray(data) && data[0]) {
-							this.bondedAndCommissionArr.map(item => {
-								if(item.label === 'Commission Rewards:'){
-									return item.value = this.$options.filters.amountFromat(data[0],"",this.irisTokenFixedNumber) || '--'
-								}
-							})
-						}else {
-							this.bondedAndCommissionArr.map(item => {
-								if(item.label === 'Commission Rewards:'){
-									return item.value = '--'
-								}
-							})
-						}
+					let data = await getValidatorRewardsApi(this.$route.params.param)
+					let commission = data.val_commission.commission[0]
+					if(commission) {
+						this.bondedAndCommissionArr.map(item => {
+							if(item.label === 'Commission Rewards:'){
+								return item.value = Tools.formatUnit(commission) + ' IRIS' || '--'
+							}
+						})
+					} else {
+						this.bondedAndCommissionArr.map(item => {
+							if(item.label === 'Commission Rewards:'){
+								return item.value = '--'
+							}
+						})
 					}
 				} catch (e) {
-					console.error(e)
+					console.log(e)
 				}
-
-				// Service.commonInterface(
-				// 	{
-				// 		validatorCommissionRewards: {
-				// 			validatorAddr: this.$route.params.param
-				// 		}
-				// 	},
-				// 	data => {
-				// 		try {
-				// 			if (data) {
-				// 				if (Array.isArray(data) && data[0]) {
-				// 					this.bondedAndCommissionArr.map(item => {
-				// 						if(item.label === 'Commission Rewards:'){
-				// 							return item.value = this.$options.filters.amountFromat(data[0],"",this.irisTokenFixedNumber) || '--'
-				// 						}
-				// 					})
-				// 				}else {
-				// 					this.bondedAndCommissionArr.map(item => {
-				// 						if(item.label === 'Commission Rewards:'){
-				// 							return item.value = '--'
-				// 						}
-				// 					})
-				// 				}
-				// 			}
-				// 		} catch (e) {
-				// 			console.error(e)
-				// 		}
-				// 	}
-				// );
 			}
 		}
 	}

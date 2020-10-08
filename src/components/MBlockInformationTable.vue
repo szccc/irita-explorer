@@ -31,28 +31,28 @@
 			return {
 				fields:[
                     {
-	                    title: '#',
+	                    title: this.$t('ExplorerLang.table.number'),
 	                    key: 'index',
                     },
 					{
-						title:'Moniker',
+						title: this.$t('ExplorerLang.table.name'),
 						slot:'moniker',
 					},
 					{
-						title:'Operator',
+						title: this.$t('ExplorerLang.table.operator'),
 						slot:'OperatorAddress',
 						tooltip: true
 					},
 					{
-						title:'Consensus Address',
+						title: this.$t('ExplorerLang.table.consensusAddress'),
 						key:'Consensus'
 					},
 					{
-						title:'Proposer Priority',
+						title: this.$t('ExplorerLang.table.proposerPriority'),
 						key:'ProposerPriority'
 					},
 					{
-						title:'Voting Power',
+						title:this.$t('ExplorerLang.table.votingPower'),
 						key:'VotingPower'
 					}
                 ]

@@ -27,33 +27,33 @@
 				</template>
 				<template v-else>
 					<div class="block_information_item">
-                        <span>Block Hash:</span>
+                        <span>{{$t('ExplorerLang.blockDetail.blockHash')}}</span>
                         <span>{{blockHashValue}}</span>
                     </div>
                     <div class="block_information_item">
-                        <span>Proposer:</span>
+                        <span>{{$t('ExplorerLang.blockDetail.proposer')}}</span>
                         <span v-if="proposerAddress !== ''&& proposerAddress !== '--'"><router-link class="common_link_style" :to="`/staking/${proposerAddress}`">{{proposerValue}}</router-link></span>
                         <span v-if="proposerAddress === '' && proposerValue">{{proposerValue}}</span>
                         <span v-if="proposerAddress === '--'">--</span>
                     </div>
                     <div class="block_information_item">
-                        <span>Validators:</span>
+                        <span>{{$t('ExplorerLang.blockDetail.validators')}}</span>
                         <span>{{validatorValue}}</span>
                     </div>
                     <div class="block_information_item">
-                        <span>Voting Power:</span>
+                        <span>{{$t('ExplorerLang.blockDetail.votingPower')}}</span>
                         <span>{{votingPowerValue}}</span>
                     </div>
                     <div class="block_information_item">
-                        <span>Transactions:</span>
+                        <span>{{$t('ExplorerLang.blockDetail.transaction')}}</span>
                         <span>{{transactionsValue}}</span>
                     </div>
                     <div class="block_information_item">
-                        <span>Inflation:</span>
+                        <span>{{$t('ExplorerLang.blockDetail.inflation')}}</span>
                         <span>{{inflationValue}}</span>
                     </div>
                     <div class="block_information_item">
-                        <span>Timestamp:</span>
+                        <span>{{$t('ExplorerLang.blockDetail.timestamp')}}</span>
                         <span v-if="timestampValue">{{timestampValue}}</span>
                         <span v-if="!timestampValue">--</span>
                     </div>
@@ -66,9 +66,9 @@
 			</div>
 			<!-- Validator Set 表格 -->
             <div class="block_validator_set_container">
-                <div class="block_validator_set_title">Validator Set</div>
+                <div class="block_validator_set_title">{{$t('ExplorerLang.blockDetail.validatorSet')}}</div>
                 <div class="block_validator_set_content">
-                    <m-bloc-k-information-table :items="validatorSetList" :showNoData="flValidatorNoData" :min-width="tableMinWidth"></m-bloc-k-information-table>
+                    <m-block-information-table :items="validatorSetList" :showNoData="flValidatorNoData" :min-width="tableMinWidth"></m-block-information-table>
                     <div v-show="flValidatorNoData" class="no_data_show">
                         <img src="../assets/no_data.svg" alt="">
                     </div>
@@ -93,12 +93,12 @@
 	import { TX_TYPE,TX_STATUS } from '../constant';
 	import { moduleSupport } from "../helper/ModulesHelper";
 	import prodConfig from "../productionConfig"
-	import MBlocKInformationTable from "./MBlockInformationTable";
+	import MBlockInformationTable from "./MBlockInformationTable";
 	import MPagination from "./common/MPagination";
 	import axios from 'axios'
 	export default {
 		name: "BlockDetail",
-		components:{ TxListComponent,MBlocKInformationTable,MPagination },
+		components:{ TxListComponent,MBlockInformationTable,MPagination },
 		data(){
 			return {
 				moduleSupport,

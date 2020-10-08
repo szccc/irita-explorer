@@ -9,17 +9,17 @@
 						<!-- 信息展示 -->
 						<ul class="address_information_content">
 							<li class="address_information_item">
-								<span class="address_information_label">Address:</span>
+								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.address') }}:</span>
 								<p>
 									<span>{{address}}<m-clip :text="address" style="margin-left: 0.09rem"></m-clip><span class="profiler_content" v-if="isProfiler">Profiler</span></span>
 								</p>
 							</li>
 							<li class="address_information_item">
-								<span class="address_information_label">Token:</span>
+								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
 								<span class="address_information_value">IRIS</span>
 							</li>
 							<li class="address_information_item">
-								<span class="address_information_label">Total Amount:</span>
+								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
 								<span class="address_information_value">{{totalAmount || 0}}</span>
 							</li>
 						</ul>
@@ -45,8 +45,8 @@
 				</div>
 				<div class="address_information_asset_list_container" v-if="otherTokenList.length !== 0">
 					<div class="address_information_asset_header_content">
-						<span>Token</span>
-						<span>Balance</span>
+						<span>{{ $t('ExplorerLang.addressInformation.content.token') }}</span>
+						<span>{{ $t('ExplorerLang.addressInformation.content.balance') }}</span>
 					</div>
 					<ul class="address_information_asset_list_content">
 						<li class="address_information_asset_list_item" v-for="(item,index) in otherTokenList" :key="index">
@@ -87,22 +87,22 @@
 				assetInformation:'',
 				assetConstitute:[
 					{
-						label:'Balance',
+						label:this.$t('ExplorerLang.addressInformation.content.balance'),
 						value:'',
 						color: '$theme_c'
 					},
 					{
-						label:'Delegated',
+						label:this.$t('ExplorerLang.addressInformation.content.delegated'),
 						value:'',
 						color:'#FFA300'
 					},
 					{
-						label:'UnBonding',
+						label:this.$t('ExplorerLang.addressInformation.content.unBonding'),
 						value:'',
 						color:'#67E523'
 					},
 					{
-						label:'Rewards',
+						label:this.$t('ExplorerLang.addressInformation.content.rewards'),
 						value:'',
 						color:'#8E66FF'
 					},

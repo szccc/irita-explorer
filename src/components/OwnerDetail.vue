@@ -236,12 +236,12 @@
 						<!-- Delegations -->
 						<div class="one_table_container">
 							<p class="validator_information_content_title">
-								Delegations
+								{{ $t('ExplorerLang.validatorDetail.delegationsTitle') }}
 								<span class="address_information_delegation_value" v-show="totalDelegatorValue">{{totalDelegatorValue}}</span>
 							</p>
 							<div class="delegations_table_container">
-								<el-table empty-text="~ No Delegations ~" :data="delegationsItems" style="width: 100%">
-									<el-table-column prop="address" label="Address" min-width="150">
+								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="delegationsItems" style="width: 100%">
+									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')" min-width="150">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link v-if="row.moniker" class="address_link" :to="`/staking/${row.address}`">{{formatMoniker(row.moniker)}}</router-link>
@@ -249,9 +249,9 @@
 											</el-tooltip>
 										</template>
 									</el-table-column>
-									<el-table-column prop="amount" label="Amount" align="right" min-width="180"> </el-table-column>
-									<el-table-column prop="shares" label="Shares" align="left" min-width="150"> </el-table-column>
-									<el-table-column prop="block" label="Block" min-width="100">
+									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')" align="right" min-width="180"> </el-table-column>
+									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left" min-width="150"> </el-table-column>
+									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
 										<template v-slot:default="{ row }">
 										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
 										</template>
@@ -263,25 +263,25 @@
 						<!-- Unbonding Delegations -->
 						<div class="second_table_container">
 							<p class="validator_information_content_title">
-								Unbonding Delegations
+								{{ $t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}
 								<span class="address_information_unbonding_delegation_value" v-show="totalUnBondingDelegatorValue">{{totalUnBondingDelegatorValue}}</span>
 							</p>
 							<div class="delegations_table_container">
-								<el-table empty-text="~ No Unbonding Delegations ~" :data="unBondingDelegationsItems" style="width: 100%">
-									<el-table-column prop="address" label="Address" width="130">
+								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="unBondingDelegationsItems" style="width: 100%">
+									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')" width="130">
 										<template v-slot:default="{ row }">
 										<el-tooltip :content="`${row.address}`">
 											<router-link style="font-family: Consolas,Menlo;" :to="'address/' + row.address" :style="{ color: '$theme_c !important' }">{{ formatAddress(row.address) }}</router-link>
 										</el-tooltip>
 										</template>
 									</el-table-column>
-									<el-table-column prop="amount" label="Amount" min-width="150"> </el-table-column>
-									<el-table-column prop="block" label="Block" min-width="118">
+									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')" min-width="150"> </el-table-column>
+									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="118">
 										<template v-slot:default="{ row }">
 										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
 										</template>
 									</el-table-column>
-									<el-table-column prop="end_time" label="End Time" width="180"> </el-table-column>
+									<el-table-column prop="end_time" :label="$t('ExplorerLang.table.endTime')" width="180"> </el-table-column>
 								</el-table>
 							</div>
 							<m-pagination v-if="flUnBondingDelegationNextPage" :page-size="tablePageSize" :total="unBondingDelegationCountNum" :page="unBondingDelegationCurrentPage" :page-change="unBondingDelegationPageChange"></m-pagination>
@@ -289,22 +289,22 @@
 					</div>
 				</div>
 				<!-- Delegator Rewards 标题 -->
-				<div class="address_information_redelegation_header_title">Delegator Rewards
+				<div class="address_information_redelegation_header_title">{{ $t('ExplorerLang.addressInformation.delegatorRewards.title') }}
 					<span class="address_information_redelegation_rewards_value" v-show="totalDelegatorRewardValue">{{totalDelegatorRewardValue}}</span>
 				</div>
 				<div class="address_information_redelegation_tx_container">
 					<div class="address_information_delegator_rewards_content">
 						<!-- Withdraw To: -->
 						<div class="address_information_detail_option">
-							<span class="address_information_detail_option_name">Withdraw To:</span>
+							<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.delegatorRewards.withdrawTo') }}:</span>
 							<span class="address_information_detail_option_value">
 								<router-link :to="`/address/${withdrewToAddress}`">{{withdrewToAddress}}</router-link></span>
 						</div>
 						<!-- Delegator Rewards 的表格 -->
 						<div class="address_information_list_content">
 							<div>
-								<el-table empty-text="~ No Delegator Rewards ~" :data="rewardsItems" style="width: 100%">
-									<el-table-column prop="address" label="Address" align="left" min-width="294">
+								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="rewardsItems" style="width: 100%">
+									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')" align="left" min-width="294">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link v-if="row.moniker" class="address_link" :to="`/staking/${row.address}`">{{formatMoniker(row.moniker)}}</router-link>
@@ -312,7 +312,7 @@
 											</el-tooltip>
 										</template>
 									</el-table-column>
-									<el-table-column prop="amount" label="Amount" align="right" min-width="294"></el-table-column>
+									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')" align="right" min-width="294"></el-table-column>
 								</el-table>
 							</div>
 						</div>
@@ -331,25 +331,25 @@
 					<!-- Validator Rewards -->
 					<div class="address_information_detail_container" :class="OperatorAddress !== '--' ? '' :'hide_style'" :style="{visibility:OperatorAddress && OperatorAddress !== '--' ? 'visible':'hidden'}">
 						<!-- 标题 -->
-						<div class="address_information_redelegation_title">Validator Rewards
+						<div class="address_information_redelegation_title">{{ $t('ExplorerLang.addressInformation.validatorRewards.title') }}
 							<span class="address_information_validator_rewards_value" v-show="totalValidatorRewards">{{totalValidatorRewards}}</span>
 						</div>
 						<!-- 需展示的数据 -->
 						<ul class="address_information_detail_content">
 							<li class="address_information_detail_option">
-								<span class="address_information_detail_option_name">Validator Moniker:</span>
+								<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.validatorRewards.validatorMoniker') }}:</span>
 								<div class="validator_status_content">
 									<span class="address_information_detail_option_value">
 										<router-link v-show="OperatorAddress !== '--' && validatorMoniker !== '--'" :to="`/staking/${OperatorAddress}`">{{validatorMoniker}}</router-link>
 										<span v-show="OperatorAddress === '--' || validatorMoniker === '--'">{{validatorMoniker}}</span>
 									</span>
-									<span class="address_information_address_status_active" v-if="validatorStatus === 'Active'">Active</span>
-									<span class="address_information_address_status_candidate" v-if="validatorStatus === 'Candidate'">Candidate</span>
-									<span class="address_information_address_status_jailed" v-if="validatorStatus === 'Jailed'">Jailed</span>
+									<span class="address_information_address_status_active" v-if="validatorStatus === 'Active'">{{ $t('ExplorerLang.staking.status.active') }}</span>
+									<span class="address_information_address_status_candidate" v-if="validatorStatus === 'Candidate'">{{ $t('ExplorerLang.staking.status.candidate') }}</span>
+									<span class="address_information_address_status_jailed" v-if="validatorStatus === 'Jailed'">{{ $t('ExplorerLang.staking.status.jailed') }}</span>
 								</div>
 							</li>
 							<li class="address_information_detail_option" style="margin-top: 0.05rem">
-								<span class="address_information_detail_option_name">Operator Address:</span>
+								<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.validatorRewards.operatorAddress') }}:</span>
 								<span class="address_information_detail_option_value">
 									<router-link v-show="OperatorAddress !== '--'" :to="`/staking/${OperatorAddress}`">{{OperatorAddress}}</router-link>
 									<span v-show="OperatorAddress === '--'" >{{OperatorAddress}}</span>
@@ -421,6 +421,7 @@
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
 	import Constant from '../constant'
+	import { getAddressInformationApi,getDelegationListApi } from "@/service/api";
     export default {
 		name: "OwnerDetail",
 		components: { MPagination, TxListComponent,AddressInformationComponent },
@@ -795,13 +796,16 @@
                 }
 			},
 			async getAddressInformation(){
-				const { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.address}`) 
+				// const { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}`)
 				try {
+					let res = await getAddressInformationApi(this.$route.params.param)
+					// console.log(res)
 					if(res){
 						let arrayIndexOneData;
+						// 后续调整这里的代码
 						if(res.amount){
 							res.amount.forEach( item => {
-								if(item.denom === 'iris-atto'){
+								if(item.denom === 'uiris'){
 									arrayIndexOneData = item
 								}
 							});
@@ -810,8 +814,10 @@
 							this.assetList = res.amount;
 						}
 						this.validatorMoniker = res.moniker ? res.moniker : '--';
+						// 接口没有返回数据
 						this.OperatorAddress = res.operator_address ? res.operator_address : '--';
 						this.validatorStatus = res.status;
+						// 接口没有返回数据
 						this.withdrewToAddress = res.withdrawAddress ? res.withdrawAddress : '--';
 						this.isProfiler = res.isProfiler;
 						this.getAssetList()
@@ -819,6 +825,7 @@
 				}catch (e) {
 					console.error(e)
 				}
+
                 // Server.commonInterface({addressInformation:{
 		        //         address:this.$route.params.param
                 //     }},(res) => {
@@ -849,7 +856,7 @@
             },
             getAssetList(){
                 this.assetsItems = this.assetList.map( item => {
-	            	if(item.denom === 'iris-atto'){
+	            	if(item.denom === 'uiris'){
 			            return {
 				            token: Tools.formatDenom(item.denom),
 				            balance: item.amount ? Tools.formatAmount2(item,this.fixedNumber): 0,
@@ -889,10 +896,9 @@
                 }
 	            return newArray
             },
-			async getDelegationList(){
-				const { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.address}/delegations`)
-				console.log(res)
+			async getDelegationList(){	
 				try {
+					const {data:res} = await getDelegationListApi(this.$route.params.param)
 					if(res && res.length > 0){
 						let copyResult = JSON.parse(JSON.stringify(res));
 						this.delegationPageNationArrayData = this.pageNation(copyResult);
@@ -925,44 +931,6 @@
 				}catch (e) {
 					console.error(e)
 				}
-				
-	            // Server.commonInterface({delegationList:{
-	            // 	    address: this.$route.params.param
-                //     }},(res) => {
-		        //     try {
-		        //     	if(res && res.length > 0){
-				//             let copyResult = JSON.parse(JSON.stringify(res));
-				//             this.delegationPageNationArrayData = this.pageNation(copyResult);
-				//             if(res.length > this.pageSize){
-				// 	            this.flDelegationNextPage = true;
-                //             }else {
-				// 	            this.flDelegationNextPage = false;
-                //             }
-				//             this.delegationCountNum = res.length;
-				//             this.delegationPageChange(this.delegationCurrentPage);
-				//             if(res.length > 0){
-                //                 res.forEach( item => {
-                //                     if(item.amount && item.amount.amount){
-                //                         if(item.amount.amount.toString().indexOf('.') !== -1){
-                //                             let splitNumber = item.amount.amount.toString().split('.')[1].substr(0,2);
-                //                             item.amount.amount =  Number(`${item.amount.amount.toString().split('.')[0]}.${splitNumber}`) * 100
-                //                         }else {
-                //                             item.amount.amount = item.amount.amount * 100
-                //                         }
-                //                     }
-                //                 });
-                //                 this.totalDelegator = res.reduce( (total,item) => {
-                //                     return Number(item.amount.amount) + Number(total)
-				// 	            },0)
-                //             }
-                //             this.totalDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
-                //         }else {
-				//             this.delegationsItems = []
-                //         }
-		        //     }catch (e) {
-			    //         console.error(e)
-		        //     }
-	            // })
             },
             async getUnBondingDelegationList(){
 				const { data:res } =  await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}/unbonding_delegations`)

@@ -28,23 +28,23 @@
 					<!-- details 详情 -->
 					<p class="validation_information_details" v-if="details">{{details}}</p>
 					<!-- 没有网站、身份、详情，则显示没有信息 -->
-					<p class="validation_information_no_more" v-if="!website && !identity && !details">~ {{$t('ExplorerLang.staking.validatorInformation.validatorTip')}} ~</p>
+					<p class="validation_information_no_more" v-if="!website && !identity && !details">~ {{$t('ExplorerLang.validatorDetail.validatorInformation.validatorTip')}} ~</p>
 				</div>
 				<!-- 右侧详细信息 -->
 				<div class="validation_information_asset_information_content">
 					<!-- 根据validatorStatus显示验证人的状态 -->
 					<div class="validation_information_status_content">
-						<span class="status_btn" v-if="validatorStatus === 'Active'">Active</span>
+						<span class="status_btn" v-if="validatorStatus === 'Active'">{{$t('ExplorerLang.staking.status.active')}}</span>
 						<span
 								class="status_btn"
 								style="background-color: #3DA87E;"
 								v-if="validatorStatus === 'Candidate'"
-						>Candidate</span>
+						>{{$t('ExplorerLang.staking.status.candidate')}}</span>
 						<span
 								class="status_btn"
 								style="background-color: #FA7373;"
 								v-if="validatorStatus === 'Jailed'"
-						>Jailed</span>
+						>{{$t('ExplorerLang.staking.status.jailed')}}</span>
 					</div>
 					<!-- 展示详细的数据 -->
 					<ul class="validation_information_list_content">
@@ -55,7 +55,7 @@
 								<!-- 标题 -->
 								<span>{{item.label}}</span>
 								<!-- 判断是否需要显示提示符号 -->
-								<el-tooltip v-if="item.isToolTip" class="tip_content" :content="$t('ExplorerLang.staking.validatorInformation.operatorAddressTip')">
+								<el-tooltip v-if="item.isToolTip" class="tip_content" :content="$t('ExplorerLang.validatorDetail.validatorInformation.operatorAddressTip')">
 									<span class="el-icon-warning-outline"></span>
 								</el-tooltip>
 							</div>
@@ -90,39 +90,12 @@
 <script>
 	import MClip from "../common/MClip.vue";
 	import Tools from "../../util/Tools.js";
+	import { getValidatorWithdrawAddrApi } from "@/service/api"
 	import axios from "../../axios/index.js";
 	export default {
 		name: "ValidationInformation",
 		components: {MClip},
 		props:{
-			// https://www.irisplorer.io/api/stake/validators/iva1543nj4z07vjqztvu3358fr2z2hcp0qtmceank5 这个接口拿到的数据
-			// {
-			// "total_power": 780315466,
-			// "self_power": 83033858,
-			// "status": "Active",
-			// "bonded_tokens": "83033857.7678013329966332980000000000",
-			// "self_bonded": "0.999699999999352290",
-			// "bonded_stake": "83033856.768101332997281008",
-			// "delegator_shares": "83058775.4004752735399909333337001100",
-			// "delegator_count": 188,
-			// "commission_rate": "0.0200000000",
-			// "commission_update": "2020-07-28 19:38:32.857 +0800 CST",
-			// "commission_max_rate": "1.0000000000",
-			// "commision_max_change_rate": "1.0000000000",
-			// "bond_height": "6932060",
-			// "unbond_height": "",
-			// "jailed_until": "",
-			// "missed_blocks_count": "1",
-			// "operator_addr": "iva1543nj4z07vjqztvu3358fr2z2hcp0qtmceank5",
-			// "owner_addr": "iaa1543nj4z07vjqztvu3358fr2z2hcp0qtmdghutn",
-			// "consensus_addr": "icp1zcjduepq9e2rwwe0jznnw26w50tr3t4axuyurs29mrfm4w9dqr8xks0ysyequeamlj",
-			// "description": {
-			// "moniker": "Binance Validator"
-			// },
-			// "icons": "",
-			// "uptime": 0.9999711,
-			// "stats_blocks_window": "34560"
-			// }
 			// 验证人的信息 赋值给 组件自身的数据informationData
 			validationInformation:{
 				type: Object
@@ -156,7 +129,8 @@
 				validationAssetInfoArr:[
 					{
 						// 标题
-						label:'Operator Address:',
+						// label:'Operator Address:',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.operatorAddress'),
 						// 数据名称，可通过这个来获取value
 						dataName:'operator_addr',
 						// 右侧渲染的数据
@@ -171,7 +145,7 @@
 						flAddressLink:true,
 					},
 					{
-						label:'Owner Address:',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.ownerAddress'),
 						dataName:'owner_addr',
 						value:'',
 						isToolTip:false,
@@ -179,7 +153,7 @@
 						flAddressLink:false,
 					},
 					{
-						label:'Withdraw Address:',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.withdrawAddress'),
 						dataName:'address',
 						value:'',
 						isToolTip:false,
@@ -187,7 +161,7 @@
 						flAddressLink:false,
 					},
 					{
-						label:'Voting Power:',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.votingPower'),
 						dataName:'self_power',
 						value:'',
 						isToolTip:false,
@@ -195,7 +169,7 @@
 						flAddressLink:false,
 					},
 					{
-						label:'Uptime:',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.uptime'),
 						dataName:'uptime',
 						value:'',
 						isToolTip:false,
@@ -203,7 +177,7 @@
 						flAddressLink:false,
 					},
 					{
-						label:'Missed Blocks:',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.missedBlocks'),
 						dataName:'missed_blocks_count',
 						value:'',
 						isToolTip:false,
@@ -211,7 +185,7 @@
 						flAddressLink:false,
 					},
 					{
-						label:'Bond Height:',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.bondHeight'),
 						dataName:'bond_height',
 						value:'',
 						isToolTip:false,
@@ -219,7 +193,7 @@
 						flAddressLink:false,
 					},
 					{
-						label:'Unbonding Height:',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.unbondingHeight'),
 						dataName:'unbond_height',
 						value:'',
 						isToolTip:false,
@@ -227,15 +201,15 @@
 						flAddressLink:false,
 					},
 					{
-						label:'Consensus Pubkey:',
-						dataName:'consensus_addr',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.consensusPubkey'),
+						dataName:'consensus_pubkey',
 						value:'',
 						isToolTip:false,
 						isCopyIcon:true,
 						flAddressLink:true,
 					},
 					{
-						label:'Jailed Until:',
+						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.jailedUntil'),
 						dataName:'jailed_until',
 						value:'',
 						isToolTip:false,
@@ -246,15 +220,24 @@
 			}
 		},
 		watch:{
+			// validationInformation: {
+			// 	handler: () => {
+			// 		this.informationData = this.validationInformation;
+			// 		// 处理后台返回的数据
+			// 		this.handlePropsData()
+			// 	},
+			// 	deep: true,
+			// 	// immediate: true
+			// }
 			validationInformation(){
 				this.informationData = this.validationInformation;
 				// 处理后台返回的数据
 				this.handlePropsData()
+				this.getValidatorWithdrawAddr()
 			}
 		},
 		mounted () {
 			this.informationData = this.validationInformation;
-			this.getValidatorWithdrawAddr()
 		},
 		methods:{
 			// 图片地址错误 处理的方法
@@ -299,7 +282,7 @@
 						if(item.dataName === 'uptime'){
 							item.value = Tools.FormatUptime(information[item.dataName]);
 						}else if(item.dataName === 'self_power') {
-							item.value = information.status === "Active"
+							item.value = information.status === "active"
 								? `${information.self_power} (${this.formatPerNumber((information.self_power / information.total_power) * 100)} %)`
 								: "";
 						}else if(item.dataName === 'missed_blocks_count'){
@@ -322,7 +305,7 @@
 					window.open(url);
 				}
 			},
-			// 处理identity，拿到keyBaseName数据
+			// 通过identity，拿到keyBaseName数据
 			getKeyBaseName(identity) {
 				let url = `https://keybase.io/_/api/1.0/user/lookup.json?fields=basics&key_suffix=${identity}`;
 				if (identity) {
@@ -337,42 +320,21 @@
 			},
 			// 处理地址
 			formatAddress (address) {
-				return Tools.formatValidatorAddress(address);
+				return Tools.formatValidatorAddress(address)
 			},
-			getValidatorWithdrawAddr() {
-				// https://www.irisplorer.io/api/stake/validators/iva1543nj4z07vjqztvu3358fr2z2hcp0qtmceank5/withdraw-addr
-				let url = `https://www.irisplorer.io/api/stake/validators/${this.$route.params.param}/withdraw-addr`;
+			async getValidatorWithdrawAddr() {
 				try {
-					axios.http(url).then(res => {
-						if (res) {
-								this.validationAssetInfoArr.forEach( item => {
-									if(item.dataName === 'address')
-									item.value = res[item.dataName];
-								})
+					let res = await getValidatorWithdrawAddrApi(this.validationInformation.owner_addr)
+					if (res.address) {
+						this.validationAssetInfoArr.forEach( item => {
+							if(item.dataName === 'address') {
+								item.value = res[item.dataName]
 							}
-					})
-				}  catch (e) {
+						})
+					}
+				} catch (e) {
 					console.error(e)
 				}
-				// Service.commonInterface(
-				// 	{
-				// 		validatorWithdrawAddr: {
-				// 			validatorAddr: this.$route.params.param
-				// 		}
-				// 	},
-				// 	(data) => {
-				// 		try {
-				// 			if (data) {
-				// 				this.validationAssetInfoArr.forEach( item => {
-				// 					if(item.dataName === 'address')
-				// 					item.value = data[item.dataName];
-				// 				})
-				// 			}
-				// 		} catch (e) {
-				// 			console.error(e)
-				// 		}
-				// 	}
-				// );
 			},
 			// 处理Voting Power:中的value值
 			formatPerNumber(num) {

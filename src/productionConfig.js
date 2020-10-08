@@ -13,7 +13,8 @@
  
 let config = {
     //国际化 CN / EN 默认CN
-    lang:'CN',
+    //暂时用英文，需要调整回去
+    lang:'EN',
     //浏览器标签标题 必填
     title:'CSChain Explorer',
     //主题色 作用于非直接干预的文字、背景、边框颜色(如输入框边框高亮、首页卡片图标等) 优先级较低
@@ -59,13 +60,14 @@ let config = {
         {title:'服务浏览',id:'105'},
         {title: '身份ID',id: '106' },
         {
-            title:'staking',
+            title:'Staking',
             children:[
                 {title:'Vaildators',id:'107'},
                 {title:'Delegation Txs',id:'108'},
                 {title:'Validation Txs',id:'109'}
             ]
         },
+        { title: 'Network', id: '110'},
         '1000'
     ],
     //首页卡片配置
@@ -101,6 +103,11 @@ let config = {
         bgColor:{
             common:'',
         }
+    },
+    unit: {
+        maxUnit: 'iris',
+        minUnit: 'uiris',
+        conversionRatio: 1000000
     }
 }
 module.exports = config;
