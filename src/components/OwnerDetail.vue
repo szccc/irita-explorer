@@ -418,7 +418,7 @@
 		getServiceContextsByServiceName,
 		getAllTxTypes,
 		getAddressInformationApi,getDelegationListApi,getUnBondingDelegationListApi,
-		getRewardsItemsApi
+		getRewardsItemsApi,getValidatorRewardsApi
 		} from "@/service/api";
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
@@ -951,7 +951,6 @@
 							}
 						});
 						let copyResult = JSON.parse(JSON.stringify(res));
-						this.totalValidatorRewards = res.commission_rewards ? Tools.formatAmount2(res.commission_rewards,this.fixedNumber) : 0;
 						this.allRewardsValue = res.total ? Tools.formatAmount2(res.total,this.fixedNumber) : 0;
 						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.rewards);
 						if(res.rewards.length > this.pageSize){
@@ -981,6 +980,22 @@
 					}
 				}catch (e) {
 					console.error(e)
+				}
+				this.getValidatorRewards()
+				// this.totalValidatorRewards = res.commission_rewards ? Tools.formatAmount2(res.commission_rewards,this.fixedNumber) : 0;
+			},
+			async getValidatorRewards() {
+				try {
+					// 需要用iva的地址发请求
+					// let data = await getValidatorRewardsApi(this.$route.params.param)
+					let commission = data.val_commission.commission[0]
+					if(commission) {
+						this.totalValidatorRewards = Tools.formatUnit(commission).toFixed(2) + ' IRIS' || '--'
+					} else {
+						this.totalValidatorRewards = '--'
+					}
+				} catch (e) {
+					console.log(e)
 				}
 			},
 	        delegationPageChange(pageNum){

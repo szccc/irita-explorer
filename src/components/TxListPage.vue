@@ -78,6 +78,8 @@
 	import MTxListPageTable from "./MTxListPageTable";
 	import MPagination from "./common/MPagination";
     import { pageTitleConfig } from "../constant";
+    import { TxHelper } from '@/helper/TxHelper.js'
+    import { getTypeStakingApi,getTypeDeclarationApi,getDelegationTxsApi,getValidationTxsApi } from "@/service/api";
 	export default {
 		name: "TransactionListPage",
 		components: { MPagination, MTxListPageTable},
@@ -266,7 +268,18 @@
 	            this.getAllTxType();
             },
 			async getAllTxType(){
-                const { data:res } = await axios.get(`https://www.irisplorer.io/api/tx_types/${this.type}`)
+                let res=[];
+                if (this.type === 'stake') {
+                    const {data} = await getTypeStakingApi()
+                    data.forEach( item => {
+                        res.push(item.typeName)
+                    })
+                } else if(this.type === 'declaration') {
+                    const {data} = await getTypeDeclarationApi()
+                    data.forEach( item => {
+                        res.push(item.typeName)
+                    })
+                }
                 try {
                     if(res){
                         let typeArray;
@@ -288,32 +301,6 @@
                 }catch (e) {
                     console.error(e)
                 }
-
-				// Service.commonInterface({allTxType:{
-				// 		type: this.type
-				// 	}},(res) => {
-				// 	try {
-				// 		if(res){
-				// 			let typeArray;
-				// 			typeArray = res.map(item => {
-				// 				return {
-				// 					value : item,
-				// 					label : item
-				// 				}
-				// 			});
-                //             this.txTypeListArray = [
-                //                 {
-                //                     value:'allTxType',
-                //                     label:'All TxType',
-                //                     slot:'allTXType'
-                //                 }
-                //             ];
-				// 			this.txTypeListArray = this.txTypeListArray.concat(typeArray)
-				// 		}
-				// 	}catch (e) {
-				// 		console.error(e)
-				// 	}
-				// })
 			},
 			async getTxListByFilterCondition(){
                 let urlParams = this.getParamsByUrlHash(), param = {};
@@ -321,59 +308,69 @@
 				param.pageNumber = this.currentPageNum;
 				param.pageSize = this.pageSize;
 				param.txType = urlParams.txType ? urlParams.txType: '';
-				param.status = urlParams.txStatus ? urlParams.txStatus: '';
+                // param.status = urlParams.txStatus ? urlParams.txStatus: '';
+                if(urlParams.txStatus) {
+                    if(urlParams.txStatus === 'success') {
+                        param.status = 1
+                    } else if(urlParams.txStatus === 'fail') {
+                        param.status = 2
+                    }
+                } else {
+                    param.status = ''
+                }
 				param.beginTime = urlParams.filterStartTime ? urlParams.filterStartTime: '';
                 param.endTime =  urlParams.filterEndTime ? urlParams.filterEndTime: '';
-                let url = `https://www.irisplorer.io/api/txs/${param.type}/${param.pageNumber}/${param.pageSize}?txType=${param.txType}&status=${param.status}&beginTime=${param.beginTime}&endTime=${param.endTime}`
-                const { data:txList } = await axios.get(url)
-                console.log(txList)
-                try {
-                    this.count = txList.Count;
-                    if(txList && txList.Data){
-                        sessionStorage.setItem('txTotal',txList.Count);
-                        this.totalPageNum =  Math.ceil((txList.Count/this.pageSize) === 0 ? 1 : (txList.Count/this.pageSize));
-                        sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
-                        if(txList.Data){
-                            this.txList = Tools.formatTxList(txList.Data,this.$route.params.txType)
-                        }else{
-                            this.txList = [];
-                            this.showNoData = true;
-                        }
-                        this.flShowLoading = false;
-                    }else {
-                        this.txList = [];
-                        this.showNoData = true;
-                        this.flShowLoading = false;
-                    }
-                }catch (e) {
-                    this.showNoData = true;
-                    console.error(e)
-                }
+                console.log(param,22222222222)
 
-                // Service.commonInterface(param, (txList) => {
-				// 	try {
-                //         this.count = txList.Count;
-                //         if(txList && txList.Data){
-				// 			sessionStorage.setItem('txTotal',txList.Count);
-				// 			this.totalPageNum =  Math.ceil((txList.Count/this.pageSize) === 0 ? 1 : (txList.Count/this.pageSize));
-				// 			sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
-				// 			if(txList.Data){
-				// 				this.txList = Tools.formatTxList(txList.Data,this.$route.params.txType)
-				// 			}else{
-				// 				this.txList = [];
-				// 				this.showNoData = true;
-				// 			}
-				// 			this.flShowLoading = false;
-                //         }else {
-				// 			this.txList = [];
-				// 			this.showNoData = true;
-				// 			this.flShowLoading = false;
+                // let url = `https://www.irisplorer.io/api/txs/${param.type}/${param.pageNumber}/${param.pageSize}?txType=${param.txType}&status=${param.status}&beginTime=${param.beginTime}&endTime=${param.endTime}`
+                // const { data:txList } = await axios.get(url)
+                let res = await getValidationTxsApi('',param.pageNumber,param.pageSize,true,param.txType,param.status,param.beginTime,param.endTime)
+                console.log(res)
+
+                this.count = res.count
+                res.data.forEach( item => {
+                    const formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs)
+                    //TODO:duanjie 待处理
+                    const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
+                    const status = item.status === 1 ?  'Success' : 'Fail'
+                    const time = Tools.getFormatTimestamp(item.time)
+                    this.txList.push({
+                    Tx_Hash: item.tx_hash,
+                    Block: item.height,
+                    From: formTO.from,
+                    Amount: fee,
+                    To: formTO.to,
+                    Tx_Type: Tools.firstWordUpperCase(item.type),
+                    Tx_Fee: '--' ,
+                    Tx_Signer: item.signers[0] ? item.signers[0] : '--',
+                    Tx_Status: status,
+                    Timestamp: time,
+                    })
+                })
+
+
+                // try {
+                //     this.count = txList.Count;
+                //     if(txList && txList.Data){
+                //         sessionStorage.setItem('txTotal',txList.Count);
+                //         this.totalPageNum =  Math.ceil((txList.Count/this.pageSize) === 0 ? 1 : (txList.Count/this.pageSize));
+                //         sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
+                //         if(txList.Data){
+                //             this.txList = Tools.formatTxList(txList.Data,this.$route.params.txType)
+                //         }else{
+                //             this.txList = [];
+                //             this.showNoData = true;
                 //         }
-				// 	}catch (e) {
-				// 		this.showNoData = true;
-				// 		console.error(e)
-				// 	}
-				// })
+                //         this.flShowLoading = false;
+                //     }else {
+                //         this.txList = [];
+                //         this.showNoData = true;
+                //         this.flShowLoading = false;
+                //     }
+                // }catch (e) {
+                //     this.showNoData = true;
+                //     console.error(e)
+                // }
             },
         }
     }

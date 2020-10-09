@@ -258,14 +258,14 @@ export function getUnbondingDelegationsApi(valAddress,pageNum,pageSize,useCount)
 }
 
 // 验证人详情页面 获取Delegation Txs 待调整
-export function getDelegationTxsApi(valAddress,pageNum,pageSize){
-    let url = `/txs/staking?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&address=${valAddress}`;
+export function getDelegationTxsApi (valAddress, pageNum, pageSize, useCount=true, type='', status='', beginTime='', endTime='') {
+    let url = `/txs/staking?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}&status=${status}&beginTime=${beginTime}&endTime=${endTime}`
     return get(url);
 }
 
 // 验证人详情页面 获取Validation Txs 待调整
-export function getValidationTxsApi(valAddress,pageNum,pageSize){
-    let url = `/txs/declaration?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&address=${valAddress}`;
+export function getValidationTxsApi(valAddress, pageNum, pageSize, useCount=true, type='', status='', beginTime='', endTime=''){
+    let url = `/txs/declaration?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}&status=${status}&beginTime=${beginTime}&endTime=${endTime}`
     return get(url);
 }
 
@@ -290,6 +290,15 @@ export function getRewardsItemsApi(address){
     return get(url);
 }
 
+export function getTypeStakingApi(address){
+    let url = `/txs/types/staking`;
+    return get(url);
+}
+
+export function getTypeDeclarationApi(address){
+    let url = `/txs/types/declaration`;
+    return get(url);
+}
 
 export function getValidatorSetList (pageNum,pageSize,height) {
 	const url = `/blocks/validatorset?height=${height}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`
