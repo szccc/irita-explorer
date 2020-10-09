@@ -284,3 +284,9 @@ export function getUnBondingDelegationListApi(address){
     let url = `/staking/delegators/${address}/unbonding_delegations`;
     return get(url);
 }
+
+export function getRewardsItemsApi(address){
+    let url = `/distribution/delegators/${address}/rewards`;
+    return get(url);
+}
+
