@@ -281,6 +281,6 @@ export function getDelegationListApi(address){
 }
 
 export function getUnBondingDelegationListApi(address){
-    let url = `/staking/delegators/${address}/delegations`;
+    let url = `/staking/delegators/${address}/unbonding_delegations`;
     return get(url);
 }

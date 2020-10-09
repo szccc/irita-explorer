@@ -421,7 +421,8 @@
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
 	import Constant from '../constant'
-	import { getAddressInformationApi,getDelegationListApi } from "@/service/api";
+	import Config from '@/productionConfig.js'
+	import { getAddressInformationApi,getDelegationListApi,getUnBondingDelegationListApi } from "@/service/api";
     export default {
 		name: "OwnerDetail",
 		components: { MPagination, TxListComponent,AddressInformationComponent },
@@ -933,7 +934,9 @@
 				}
             },
             async getUnBondingDelegationList(){
-				const { data:res } =  await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}/unbonding_delegations`)
+				const {data:res} = await getUnBondingDelegationListApi(this.$route.params.param)
+				console.log(res,2222222)
+				// const { data:res } =  await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}/unbonding_delegations`)
 				try {
 					if(res && res.length > 0){
 						let copyResult = JSON.parse(JSON.stringify(res));
@@ -948,12 +951,17 @@
 						if(res.length > 0){
 							res.forEach( item => {
 								if(item.amount && item.amount.amount){
-									if(item.amount.amount.toString().indexOf('.') !== -1){
-										let splitNumber = item.amount.amount.toString().split('.')[1].substr(0,2);
-										item.amount.amount =  Number(`${item.amount.amount.toString().split('.')[0]}.${splitNumber}`) * 100
-									}else {
-										item.amount.amount = item.amount.amount * 100
+									if(item.amount.denom == Config.unit.minUnit ){
+										item.amount.amount = Number(item.amount.amount) / Config.unit.conversionRatio
+									} else if (item.amount.denom == Config.unit.maxUnit) {
+										item.amount.amount = item.amount.amount
 									}
+									// if(item.amount.amount.toString().indexOf('.') !== -1){
+									// 	let splitNumber = item.amount.amount.toString().split('.')[1].substr(0,2);
+									// 	item.amount.amount =  Number(`${item.amount.amount.toString().split('.')[0]}.${splitNumber}`) * 100
+									// }else {
+									// 	item.amount.amount = item.amount.amount * 100
+									// }
 								}
 							});
 							this.totalUnBondingDelegator = res.reduce( (total,item) => {
@@ -1113,9 +1121,10 @@
 		        pageNum = pageNum - 1;
 		        if(this.flUnBondingDelegationNextPage){
 			        this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData[pageNum].map( item =>{
-				        return {
+						console.log(item,1111)
+						return {
 					        address: item.address,
-					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${item.amount.denom.toUpperCase()}`,
+					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${Config.unit.maxUnit.toUpperCase()}`,
 					        block: item.height,
 					        endTime: Tools.format2UTC(item.end_time),
 					        moniker: item.moniker
@@ -1123,16 +1132,16 @@
 			        });
                 }else {
 			        this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData.map( item =>{
-				        return {
+						console.log(item,1111)
+						return {
 					        address: item.address,
-					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${item.amount.denom.toUpperCase()}`,
+					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${Config.unit.maxUnit.toUpperCase()}`,
 					        block: item.height,
 					        endTime: Tools.format2UTC(item.end_time),
 					        moniker: item.moniker
 				        }
 			        });
                 }
-
             },
 	        rewardsDelegationPageChange(pageNum){
 		        pageNum = pageNum - 1;
