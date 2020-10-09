@@ -988,12 +988,12 @@
 				try {
 					// 需要用iva的地址发请求
 					// let data = await getValidatorRewardsApi(this.$route.params.param)
-					let commission = data.val_commission.commission[0]
-					if(commission) {
-						this.totalValidatorRewards = Tools.formatUnit(commission).toFixed(2) + ' IRIS' || '--'
-					} else {
-						this.totalValidatorRewards = '--'
-					}
+					// let commission = data.val_commission.commission[0]
+					// if(commission) {
+					// 	this.totalValidatorRewards = Tools.formatUnit(commission).toFixed(2) + ' IRIS' || '--'
+					// } else {
+					// 	this.totalValidatorRewards = '--'
+					// }
 				} catch (e) {
 					console.log(e)
 				}
