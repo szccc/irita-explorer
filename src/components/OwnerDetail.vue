@@ -281,7 +281,7 @@
 										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
 										</template>
 									</el-table-column>
-									<el-table-column prop="end_time" :label="$t('ExplorerLang.table.endTime')" width="180"> </el-table-column>
+									<el-table-column prop="endTime" :label="$t('ExplorerLang.table.endTime')" width="190"> </el-table-column>
 								</el-table>
 							</div>
 							<m-pagination v-if="flUnBondingDelegationNextPage" :page-size="tablePageSize" :total="unBondingDelegationCountNum" :page="unBondingDelegationCurrentPage" :page-change="unBondingDelegationPageChange"></m-pagination>
@@ -407,7 +407,7 @@
 	import { moduleSupport } from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
-	import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant';
+	import Constant,{ TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant';
     import AddressInformationComponent from "./AddressInformationComponent";
   	import {
   		getAddressTxList,
@@ -416,13 +416,13 @@
 		getRespondServiceRecord,
 		getServiceBindingByServiceName,
 		getServiceContextsByServiceName,
-		getAllTxTypes} from "../service/api";
-    import axios from 'axios'
+		getAllTxTypes,
+		getAddressInformationApi,getDelegationListApi,getUnBondingDelegationListApi,
+		getRewardsItemsApi
+		} from "@/service/api";
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
-	import Constant from '../constant'
-	import Config from '@/productionConfig.js'
-	import { getAddressInformationApi,getDelegationListApi,getUnBondingDelegationListApi } from "@/service/api";
+	import axios from 'axios'
     export default {
 		name: "OwnerDetail",
 		components: { MPagination, TxListComponent,AddressInformationComponent },
@@ -800,13 +800,12 @@
 				// const { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}`)
 				try {
 					let res = await getAddressInformationApi(this.$route.params.param)
-					// console.log(res)
+					console.log(res,1111)
 					if(res){
 						let arrayIndexOneData;
-						// 后续调整这里的代码
 						if(res.amount){
 							res.amount.forEach( item => {
-								if(item.denom === 'uiris'){
+								if(item.denom === prodConfig.unit.minUnit){
 									arrayIndexOneData = item
 								}
 							});
@@ -826,38 +825,10 @@
 				}catch (e) {
 					console.error(e)
 				}
-
-                // Server.commonInterface({addressInformation:{
-		        //         address:this.$route.params.param
-                //     }},(res) => {
-                // 	try {
-                //         if(res){
-                //         	let arrayIndexOneData;
-                //         	if(res.amount){
-                //                 res.amount.forEach( item => {
-                //                     if(item.denom === 'iris-atto'){
-                //                         arrayIndexOneData = item
-                //                     }
-                //                 });
-                //                 res.amount.unshift(arrayIndexOneData);
-                //                 res.amount = Array.from(new Set(res.amount));
-                //                 this.assetList = res.amount;
-                //             }
-	            //             this.validatorMoniker = res.moniker ? res.moniker : '--';
-	            //             this.OperatorAddress = res.operator_address ? res.operator_address : '--';
-	            //             this.validatorStatus = res.status;
-	            //             this.withdrewToAddress = res.withdrawAddress ? res.withdrawAddress : '--';
-	            //             this.isProfiler = res.isProfiler;
-	            //             this.getAssetList()
-                //         }
-	            //     }catch (e) {
-                //         console.error(e)
-	            //     }
-                // })
             },
             getAssetList(){
                 this.assetsItems = this.assetList.map( item => {
-	            	if(item.denom === 'uiris'){
+	            	if(item.denom === prodConfig.unit.minUnit){
 			            return {
 				            token: Tools.formatDenom(item.denom),
 				            balance: item.amount ? Tools.formatAmount2(item,this.fixedNumber): 0,
@@ -882,7 +853,7 @@
 				            reward: 0,
 				            totalAmount: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}`: 0
 			            }
-                    }
+					}
                 });
 			},
 			pageNation(dataArray){
@@ -935,8 +906,6 @@
             },
             async getUnBondingDelegationList(){
 				const {data:res} = await getUnBondingDelegationListApi(this.$route.params.param)
-				console.log(res,2222222)
-				// const { data:res } =  await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}/unbonding_delegations`)
 				try {
 					if(res && res.length > 0){
 						let copyResult = JSON.parse(JSON.stringify(res));
@@ -951,17 +920,11 @@
 						if(res.length > 0){
 							res.forEach( item => {
 								if(item.amount && item.amount.amount){
-									if(item.amount.denom == Config.unit.minUnit ){
-										item.amount.amount = Number(item.amount.amount) / Config.unit.conversionRatio
-									} else if (item.amount.denom == Config.unit.maxUnit) {
+									if(item.amount.denom == prodConfig.unit.minUnit ){
+										item.amount.amount = Number(item.amount.amount) / prodConfig.unit.conversionRatio
+									} else if (item.amount.denom == prodConfig.unit.maxUnit) {
 										item.amount.amount = item.amount.amount
 									}
-									// if(item.amount.amount.toString().indexOf('.') !== -1){
-									// 	let splitNumber = item.amount.amount.toString().split('.')[1].substr(0,2);
-									// 	item.amount.amount =  Number(`${item.amount.amount.toString().split('.')[0]}.${splitNumber}`) * 100
-									// }else {
-									// 	item.amount.amount = item.amount.amount * 100
-									// }
 								}
 							});
 							this.totalUnBondingDelegator = res.reduce( (total,item) => {
@@ -973,125 +936,52 @@
 				}catch (e) {
 					console.error(e)
 				}
-
-				// Server.commonInterface({unDelegationList:{
-	            // 	address: this.$route.params.param
-                //     }},(res) => {
-		        //     try {
-		        //     	if(res && res.length > 0){
-		        //     		let copyResult = JSON.parse(JSON.stringify(res));
-				//             this.unBondingDelegationPageNationArrayData = this.pageNation(copyResult);
-				//             if(res.length > this.pageSize){
-				// 	            this.flUnBondingDelegationNextPage = true
-				//             }else {
-				// 	            this.flUnBondingDelegationNextPage = false
-				//             }
-				//             this.unBondingDelegationCountNum = res.length;
-                //             this.unBondingDelegationPageChange(this.unBondingDelegationCurrentPage);
-		        //     		if(res.length > 0){
-                //                 res.forEach( item => {
-                //                     if(item.amount && item.amount.amount){
-                //                         if(item.amount.amount.toString().indexOf('.') !== -1){
-                //                             let splitNumber = item.amount.amount.toString().split('.')[1].substr(0,2);
-                //                             item.amount.amount =  Number(`${item.amount.amount.toString().split('.')[0]}.${splitNumber}`) * 100
-                //                         }else {
-                //                             item.amount.amount = item.amount.amount * 100
-                //                         }
-                //                     }
-                //                 });
-				// 	            this.totalUnBondingDelegator = res.reduce( (total,item) => {
-				// 		            return Number(item.amount.amount) + Number(total)
-				// 	            },0)
-                //             }
-				//             this.totalUnBondingDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalUnBondingDelegator.toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
-                //         }
-		        //     }catch (e) {
-			    //         console.error(e)
-		        //     }
-	            // })
             },
             async getRewardsItems(){
-				const { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}/rewards`)
+				// let { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}/rewards`)
+				let res = await getRewardsItemsApi(this.$route.params.param)
 				try {
-					if(res && res.delagations_rewards && res.delagations_rewards.length > 0) {
-						res.delagations_rewards.map( item => {
-							if(item.amount.length === 0){
-								item.amount.push({
+					if(res && res.rewards && res.rewards.length > 0) {
+						res.rewards.map( item => {
+							if(item.reward && item.reward.length === 0){
+								item.reward.push({
 									amount:0,
-									denom:'iris-atto'
+									denom:'uiris'
 								})
 							}
 						});
 						let copyResult = JSON.parse(JSON.stringify(res));
 						this.totalValidatorRewards = res.commission_rewards ? Tools.formatAmount2(res.commission_rewards,this.fixedNumber) : 0;
-						this.allRewardsValue = res.total_rewards ? Tools.formatAmount2(res.total_rewards,this.fixedNumber) : 0;
-						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.delagations_rewards);
-						if(res.delagations_rewards.length > this.pageSize){
+						this.allRewardsValue = res.total ? Tools.formatAmount2(res.total,this.fixedNumber) : 0;
+						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.rewards);
+						if(res.rewards.length > this.pageSize){
 							this.flRewardsDelegationNextPage = true
 						}else {
 							this.flRewardsDelegationNextPage = false
 						}
-						this.rewardsDelegationCountNum = res.delagations_rewards.length;
+						this.rewardsDelegationCountNum = res.rewards.length;
 						this.rewardsDelegationPageChange(this.rewardsDelegationCurrentPage);
-						if(res.delagations_rewards.length > 0){
-							res.delagations_rewards.forEach( item => {
-								if(item.amount && item.amount.length > 0){
-									item.amount[0].amount = (Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(item.amount[0].amount,-18),this.fixedNumber)) * 100
+						if(res.rewards.length > 0){
+							res.rewards.forEach( item => {
+								if(item.reward && item.reward.length > 0){
+									if(item.reward[0].denom == prodConfig.unit.minUnit ){
+										item.reward[0].amount = Number(item.reward[0].amount) / prodConfig.unit.conversionRatio
+									} else if (item.reward[0].denom == prodConfig.unit.maxUnit) {
+										item.reward[0].amount = item.reward[0].amount
+									}
 								}
 							})
-							this.totalDelegatorReward = res.delagations_rewards.reduce( (total,item) => {
-								return Number(item.amount[0].amount) + Number(total)
+							this.totalDelegatorReward = res.rewards.reduce( (total,item) => {
+								return item.reward ? Number(item.reward[0].amount) : 0 + Number(total)
 							},0);
 						}
-						this.allRewardsAmountValue = res.total_rewards ? Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(res.total_rewards[0].amount,-18),this.fixedNumber) : 0;
+						this.allRewardsAmountValue = res.total ? Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(res.total[0].amount,-18),this.fixedNumber) : 0;
 						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
 						this.getAssetList()
 					}
 				}catch (e) {
 					console.error(e)
 				}
-				// Server.commonInterface({rewardList:{
-	            // 	address: this.$route.params.param
-                //     }},(res) => {
-		        //     try {
-		        //     	if(res && res.delagations_rewards && res.delagations_rewards.length > 0) {
-                //             res.delagations_rewards.map( item => {
-				//             	if(item.amount.length === 0){
-				// 		            item.amount.push({
-				// 			            amount:0,
-                //                         denom:'iris-atto'
-                //                     })
-                //                 }
-                //             });
-                //             let copyResult = JSON.parse(JSON.stringify(res));
-				//             this.totalValidatorRewards = res.commission_rewards ? Tools.formatAmount2(res.commission_rewards,this.fixedNumber) : 0;
-		        //     		this.allRewardsValue = res.total_rewards ? Tools.formatAmount2(res.total_rewards,this.fixedNumber) : 0;
-				//             this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.delagations_rewards);
-				//             if(res.delagations_rewards.length > this.pageSize){
-				// 	            this.flRewardsDelegationNextPage = true
-				//             }else {
-				// 	            this.flRewardsDelegationNextPage = false
-				//             }
-                //             this.rewardsDelegationCountNum = res.delagations_rewards.length;
-				//             this.rewardsDelegationPageChange(this.rewardsDelegationCurrentPage);
-                //             if(res.delagations_rewards.length > 0){
-                //                 res.delagations_rewards.forEach( item => {
-                //                     if(item.amount && item.amount.length > 0){
-                //                         item.amount[0].amount = (Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(item.amount[0].amount,-18),this.fixedNumber)) * 100
-                //                     }
-                //                 })
-                //                 this.totalDelegatorReward = res.delagations_rewards.reduce( (total,item) => {
-                //                     return Number(item.amount[0].amount) + Number(total)
-                //                 },0);
-                //             }
-                //             this.allRewardsAmountValue = res.total_rewards ? Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(res.total_rewards[0].amount,-18),this.fixedNumber) : 0;
-                //             this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
-                //             this.getAssetList()
-			    //         }
-		        //     }catch (e) {
-			    //         console.error(e)
-		        //     }
-	            // })
 			},
 	        delegationPageChange(pageNum){
 		        pageNum = pageNum - 1
@@ -1121,10 +1011,16 @@
 		        pageNum = pageNum - 1;
 		        if(this.flUnBondingDelegationNextPage){
 			        this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData[pageNum].map( item =>{
-						console.log(item,1111)
+						if(item.amount && item.amount.amount){
+							if(item.amount.denom == prodConfig.unit.minUnit ){
+								item.amount.amount = Number(item.amount.amount) / prodConfig.unit.conversionRatio
+							} else if (item.amount.denom == prodConfig.unit.maxUnit) {
+								item.amount.amount = item.amount.amount
+							}
+						}
 						return {
 					        address: item.address,
-					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${Config.unit.maxUnit.toUpperCase()}`,
+					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${prodConfig.unit.maxUnit.toUpperCase()}`,
 					        block: item.height,
 					        endTime: Tools.format2UTC(item.end_time),
 					        moniker: item.moniker
@@ -1132,10 +1028,16 @@
 			        });
                 }else {
 			        this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData.map( item =>{
-						console.log(item,1111)
+						if(item.amount && item.amount.amount){
+							if(item.amount.denom == prodConfig.unit.minUnit ){
+								item.amount.amount = Number(item.amount.amount) / prodConfig.unit.conversionRatio
+							} else if (item.amount.denom == prodConfig.unit.maxUnit) {
+								item.amount.amount = item.amount.amount
+							}
+						}
 						return {
 					        address: item.address,
-					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${Config.unit.maxUnit.toUpperCase()}`,
+					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${prodConfig.unit.maxUnit.toUpperCase()}`,
 					        block: item.height,
 					        endTime: Tools.format2UTC(item.end_time),
 					        moniker: item.moniker
@@ -1147,17 +1049,31 @@
 		        pageNum = pageNum - 1;
 	        	if(this.flRewardsDelegationNextPage){
 			        this.rewardsItems = this.rewardsDelegationPageNationArrayData[pageNum].map( item => {
+						if(item.reward && item.reward.length > 0){
+							if(item.reward[0].denom == prodConfig.unit.minUnit ){
+								item.reward[0].amount = Number(item.reward[0].amount) / prodConfig.unit.conversionRatio
+							} else if (item.reward[0].denom == prodConfig.unit.maxUnit) {
+								item.reward[0].amount = item.reward[0].amount
+							}
+						}
 				        return {
-					        address: item.address,
-					        amount: Tools.formatAmount2(item.amount,this.fixedNumber),
+					        address: item.validator_address,
+					        amount: `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(item.reward[0].amount,-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`,
 					        moniker: item.moniker
 				        }
 			        });
                 }else {
 			        this.rewardsItems = this.rewardsDelegationPageNationArrayData.map( item => {
+						if(item.reward && item.reward.length > 0){
+							if(item.reward[0].denom == prodConfig.unit.minUnit ){
+								item.reward[0].amount = Number(item.reward[0].amount) / prodConfig.unit.conversionRatio
+							} else if (item.reward[0].denom == prodConfig.unit.maxUnit) {
+								item.reward[0].amount = item.reward[0].amount
+							}
+						}
 				        return {
-					        address: item.address,
-					        amount: item.amount && item.amount.length > 0 ? Tools.formatAmount2(item.amount,this.fixedNumber) : 0,
+					        address: item.validator_address,
+					        amount: item.reward && item.reward.length > 0 ? `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(item.reward[0].amount,-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}` : 0,
 					        moniker: item.moniker
 				        }
 			        });

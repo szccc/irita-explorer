@@ -251,6 +251,7 @@ export default {
     },
     async getValidatorsInfo() {
       let res = await getValidatorsInfoApi(this.$route.params.param)
+      console.log(res,1111111)
       this.validationInformation = res
       this.validatorStatus = Tools.firstWordUpperCase(res.status) 
     },
