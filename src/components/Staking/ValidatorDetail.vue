@@ -291,6 +291,7 @@ export default {
       const res = await getDelegationTxsApi('iaa1j7dgxaflz32kvaucv66a0x92lp846sv2ur2ak6',page,this.pageSize)
       // console.log(res)
       this.delegationTxs.total = res.count
+      this.delegationTxs.items = []
       res.data.forEach( item => {
         const formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs)
         //TODO:duanjie 待处理
@@ -303,7 +304,7 @@ export default {
           From: formTO.from,
           Amount: fee,
           To: formTO.to,
-          Tx_Type: Tools.firstWordUpperCase(item.type),
+          Tx_Type: item.type,
           Tx_Fee: '--' ,
           Tx_Signer: item.signers[0] ? item.signers[0] : '--',
           Tx_Status: status,
@@ -324,6 +325,7 @@ export default {
     async getValidationTxs(page = 1) {
       const res = await getValidationTxsApi('',page,this.pageSize)
       this.validationTxs.total = res.count
+      this.validationTxs.items = []
       res.data.forEach( item => {
         const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
         const status = item.status === 1 ?  'Success' : 'Fail'
@@ -334,7 +336,7 @@ export default {
           Moniker: '--',
           OperatorAddr: '--',
           'Self-Bonded': '--',
-          'Tx_Type': '--',
+          'Tx_Type': item.type,
           'Tx_Fee':fee,
           'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
           'Tx_Status': status,
