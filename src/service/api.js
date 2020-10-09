@@ -284,3 +284,8 @@ export function getUnBondingDelegationListApi(address){
     let url = `/staking/delegators/${address}/unbonding_delegations`;
     return get(url);
 }
+
+export function getValidatorSetList (pageNum,pageSize,height) {
+	const url = `/blocks/validatorset?height=${height}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`
+	return get(url)
+}
