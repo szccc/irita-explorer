@@ -188,7 +188,6 @@ import Tools from '../../util/Tools.js'
 import Constants from '../../constant/index.js'
 import { getValidatorsInfoApi,getValidatorsDelegationsApi,getUnbondingDelegationsApi,getDelegationTxsApi,getValidationTxsApi } from "@/service/api"
 import { TxHelper } from '../../helper/TxHelper.js'
-// 待删 
 import axios from 'axios'
 export default {
   name: '',
@@ -251,7 +250,6 @@ export default {
     },
     async getValidatorsInfo() {
       let res = await getValidatorsInfoApi(this.$route.params.param)
-      console.log(res,1111111)
       this.validationInformation = res
       this.validatorStatus = Tools.firstWordUpperCase(res.status) 
     },
@@ -325,7 +323,6 @@ export default {
     // 需调整
     async getValidationTxs(page = 1) {
       const res = await getValidationTxsApi('',page,this.pageSize)
-      console.log(res)
       this.validationTxs.total = res.count
       res.data.forEach( item => {
         const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'

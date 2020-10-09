@@ -202,7 +202,6 @@
 			async getValidatorCommissionInfo(){
 				try {
 					const res = await getValidatorCommissionInfoApi()
-					console.log(res,'qita')
 					if(res && res.data && res.data.length > 0){
 						let copyData = JSON.parse(JSON.stringify(this.jailedData));
 						res.data.push(copyData);
