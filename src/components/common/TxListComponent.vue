@@ -71,7 +71,7 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
+            <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
                 <template slot-scope="scope">
                     <span>{{scope.row.time}}</span>
                 </template>
@@ -112,7 +112,7 @@
                         txType :tx.msgs.length > 1 ? tx.msgs[0].type  : tx.type,
                         from,
                         to,
-                        signer : tx.signer,
+                        signer : tx.signers[0],
                         status : tx.status,
                         msgCount : tx.msgs.length,
                         time :Tools.getDisplayDate(tx.time),
