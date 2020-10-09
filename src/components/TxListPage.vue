@@ -320,57 +320,96 @@
                 }
 				param.beginTime = urlParams.filterStartTime ? urlParams.filterStartTime: '';
                 param.endTime =  urlParams.filterEndTime ? urlParams.filterEndTime: '';
-                console.log(param,22222222222)
-
+                // console.log(param,22222222222)
                 // let url = `https://www.irisplorer.io/api/txs/${param.type}/${param.pageNumber}/${param.pageSize}?txType=${param.txType}&status=${param.status}&beginTime=${param.beginTime}&endTime=${param.endTime}`
                 // const { data:txList } = await axios.get(url)
-                let res = await getValidationTxsApi('',param.pageNumber,param.pageSize,true,param.txType,param.status,param.beginTime,param.endTime)
-                console.log(res)
-
-                this.count = res.count
-                res.data.forEach( item => {
-                    const formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs)
-                    //TODO:duanjie 待处理
-                    const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
-                    const status = item.status === 1 ?  'Success' : 'Fail'
-                    const time = Tools.getFormatTimestamp(item.time)
-                    this.txList.push({
-                    Tx_Hash: item.tx_hash,
-                    Block: item.height,
-                    From: formTO.from,
-                    Amount: fee,
-                    To: formTO.to,
-                    Tx_Type: Tools.firstWordUpperCase(item.type),
-                    Tx_Fee: '--' ,
-                    Tx_Signer: item.signers[0] ? item.signers[0] : '--',
-                    Tx_Status: status,
-                    Timestamp: time,
-                    })
-                })
-
-
-                // try {
-                //     this.count = txList.Count;
-                //     if(txList && txList.Data){
-                //         sessionStorage.setItem('txTotal',txList.Count);
-                //         this.totalPageNum =  Math.ceil((txList.Count/this.pageSize) === 0 ? 1 : (txList.Count/this.pageSize));
-                //         sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
-                //         if(txList.Data){
-                //             this.txList = Tools.formatTxList(txList.Data,this.$route.params.txType)
-                //         }else{
-                //             this.txList = [];
-                //             this.showNoData = true;
-                //         }
-                //         this.flShowLoading = false;
-                //     }else {
-                //         this.txList = [];
-                //         this.showNoData = true;
-                //         this.flShowLoading = false;
-                //     }
-                // }catch (e) {
-                //     this.showNoData = true;
-                //     console.error(e)
-                // }
+                if (this.type === 'stake') {
+                    let res = await getDelegationTxsApi('',param.pageNumber,param.pageSize,true,param.txType,param.status,param.beginTime,param.endTime)
+                    // console.log(res)
+                    try {
+                        this.count = res.count;
+                        if(res && res.data){
+                            sessionStorage.setItem('txTotal',res.data);
+                            this.totalPageNum =  Math.ceil((res.data/this.pageSize) === 0 ? 1 : (res.data/this.pageSize));
+                            sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
+                            if(res.data){
+                                    this.txList = []
+                                    res.data.forEach( item => {
+                                    const formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs)
+                                    //TODO:duanjie 待处理
+                                    const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
+                                    const status = item.status === 1 ?  'Success' : 'Fail'
+                                    const time = Tools.getFormatTimestamp(item.time)
+                                    this.txList.push({
+                                    Tx_Hash: item.tx_hash,
+                                    Block: item.height,
+                                    From: formTO.from,
+                                    Amount: fee !== '--' ? (fee + ' IRIS') : '--',
+                                    To: formTO.to,
+                                    Tx_Type: Tools.firstWordUpperCase(item.type),
+                                    Tx_Fee: '--' ,
+                                    Tx_Signer: item.signers[0] ? item.signers[0] : '--',
+                                    Tx_Status: status,
+                                    Timestamp: time,
+                                    })
+                                })
+                            }else{
+                                this.txList = [];
+                                this.showNoData = true;
+                            }
+                            this.flShowLoading = false;
+                        }else {
+                            this.txList = [];
+                            this.showNoData = true;
+                            this.flShowLoading = false;
+                        }
+                    }catch (e) {
+                        this.showNoData = true;
+                        console.error(e)
+                    }
+                } else if(this.type === 'declaration') {
+                    let res = await getValidationTxsApi('',param.pageNumber,param.pageSize,true,param.txType,param.status,param.beginTime,param.endTime)
+                    // console.log(res)
+                    try {
+                        this.count = res.count;
+                        if(res && res.data){
+                            sessionStorage.setItem('txTotal',res.data);
+                            this.totalPageNum =  Math.ceil((res.data/this.pageSize) === 0 ? 1 : (res.data/this.pageSize));
+                            sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
+                            if(res.data){
+                                    this.txList = []
+                                    res.data.forEach( item => {
+                                        const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
+                                        const status = item.status === 1 ?  'Success' : 'Fail'
+                                        const time = Tools.getFormatTimestamp(item.time)
+                                        this.txList.push({
+                                        Tx_Hash: item.tx_hash,
+                                        Block:item.height,
+                                        Moniker: '--',
+                                        OperatorAddr: '--',
+                                        'Self-Bonded': '--',
+                                        'Tx_Type': '--',
+                                        'Tx_Fee': fee !== '--' ? (fee + ' IRIS') : '--',
+                                        'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
+                                        'Tx_Status': status,
+                                        Timestamp: time,
+                                    })
+                                })
+                            }else{
+                                this.txList = [];
+                                this.showNoData = true;
+                            }
+                            this.flShowLoading = false;
+                        }else {
+                            this.txList = [];
+                            this.showNoData = true;
+                            this.flShowLoading = false;
+                        }
+                    }catch (e) {
+                        this.showNoData = true;
+                        console.error(e)
+                    }
+                }
             },
         }
     }

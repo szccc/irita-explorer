@@ -190,7 +190,7 @@ export default {
           className: 'text_right',
         },
         {
-          title: this.$t('ExplorerLang.table.TxType'),
+          title: this.$t('ExplorerLang.table.txType'),
           slot: 'Tx_Type',
           key: 'Tx_Type',
         },
