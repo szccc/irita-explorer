@@ -10,7 +10,7 @@
           <div class="tx_detail_title_hash">{{ txHash }}</div>
           <MClip :text="txHash"></MClip>
         </div>
-        <div class="tx_information_content" v-if="!moduleSupport('107', prodConfig.navFuncList)" >
+        <div class="tx_information_content">
           <p class="tx_information_list_title">{{ $t('ExplorerLang.transactionInformation.baseInfo') }}</p>
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.blockHeight') }}：</span>
@@ -41,7 +41,7 @@
         <div class="tx_information_tx_message_content" v-if="messages.length !== 0">
           <div class="tx_information_tx_content">
             <div class="tx_information_tx_message_title">
-              {{ $t('ExplorerLang.transactionInformation.transactionMessage') }}
+              {{ $t('ExplorerLang.transactionInformation.transactionMessage.title') }}
             </div>
             <div v-for="(item, index) in messages" :key="index">
               <TxMessage :msg="item" :events="events" />
@@ -50,7 +50,7 @@
           </div>
         </div>
         <!-- 关联交易 -->
-        <div class="tx_information_relevance_tx" v-if="txCount > 0">
+        <!--<div class="tx_information_relevance_tx" v-if="txCount > 0">
           <div class="tx_information_relevance_tx_content">
             <div class="tx_information_relevance_tx_title">
               {{ $t('ExplorerLang.transactionInformation.relevanceTx') }}
@@ -111,11 +111,11 @@
             </div>
           </div>
         </div>
-        <!-- 复用部分 -->
+        &lt;!&ndash; 复用部分 &ndash;&gt;
         <div class="tx_detail_common_information_content_wrap" v-if="moduleSupport('107', prodConfig.navFuncList)">
-            <!-- 标题 -->
+            &lt;!&ndash; 标题 &ndash;&gt;
             <div class="tx_detail_header_title">{{ $t('ExplorerLang.transactionInformation.transactionInformations.title') }}</div>
-            <!-- 表格内容 -->
+            &lt;!&ndash; 表格内容 &ndash;&gt;
             <div class="tx_detail_common_information_wrap">
                 <ul class="tx_detail_common_information_content">
                     <li class="tx_detail_common_information_item">
@@ -124,7 +124,7 @@
                             <router-link :to="`/block/${blockValue}`">{{blockValue}}</router-link>
                         </div>
                     </li>
-                    <!-- Status  -->
+                    &lt;!&ndash; Status  &ndash;&gt;
                     <li class="tx_detail_common_information_item">
                         <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.status') }} :</span>
                         <div class="tx_detail_common_information_item_value" style="display: flex">
@@ -145,7 +145,7 @@
                         <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.fee') }}  :</span>
                         <div class="tx_detail_common_information_item_value">{{feeValue}}</div>
                     </li>
-                    <!-- Gas Used -->
+                    &lt;!&ndash; Gas Used &ndash;&gt;
                     <li class="tx_detail_common_information_item">
                         <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.gasUsed') }} :</span>
                         <div class="tx_detail_common_information_item_value gas_container">
@@ -154,16 +154,16 @@
                                 <i class="el-icon-warning-outline"></i>
                                 <div class="gas_tip_content_wrap"  :style="{left:`${-((gasContentWidth / 2) - 7) / 100}rem`}">
                                     <div class="gas_tip_content">
-                                        <p>Gas Price : {{gasPrice ? gasPrice + ' Nano' : '--'}}</p>
-                                        <p>Gas Used : {{gasUsed || '--'}}</p>
-                                        <p>Gas Wanted : {{gasWanted || '--'}}</p>
-                                        <p>Gas Limit : {{gasLimit || '--'}}</p>
+                                        <p>Gas Price : {{gasPrice ? gasPrice + ' Nano' : '&#45;&#45;'}}</p>
+                                        <p>Gas Used : {{gasUsed || '&#45;&#45;'}}</p>
+                                        <p>Gas Wanted : {{gasWanted || '&#45;&#45;'}}</p>
+                                        <p>Gas Limit : {{gasLimit || '&#45;&#45;'}}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <!-- Signer -->
+                    &lt;!&ndash; Signer &ndash;&gt;
                     <li class="tx_detail_common_information_item">
                         <span class="tx_detail_common_information_item_name">{{ $t('ExplorerLang.transactionInformation.transactionInformations.signer') }} :</span>
                         <div class="tx_detail_common_information_item_value skip_route iconProfiler_content">
@@ -177,12 +177,12 @@
                     </li>
                 </ul>
             </div>
-            <!-- 交易消息 -->
+            &lt;!&ndash; 交易消息 &ndash;&gt;
             <div class="tx_detail_message_content_title">{{ $t('ExplorerLang.transactionInformation.transactionMessage.title') }}</div>
             <div class="tx_detail_message_information_content">
                 <ul class="tx_detail_message_information">
                     <li class="tx_detail_message_information_item" v-for="(item,key) in messageList" :key="key">
-                        <!-- 左侧的信息 -->
+                        &lt;!&ndash; 左侧的信息 &ndash;&gt;
                         <span class="tx_detail_message_information_name" v-if="key !=='tooltip'">{{key}}</span>
                         <div>
                             <div class="tx_detail_message_information_value" :class="key !== 'Commission Rate :'? 'hide_rate_tip' : ''" v-for="(value,index) in item" :key="index">
@@ -266,23 +266,23 @@
                                     <router-link v-if="key === 'Hash Lock :' && messageList['TxType :'][0] !== 'CreateHTLC'" :to="`/htlc/${value}`">{{value}}</router-link>
                                     <router-link v-if="key === 'Hash Lock :' && messageList['TxType :'][0] === 'CreateHTLC' && statusValue === 'Success'" :to="`/htlc/${value}`">{{value}}</router-link>
                                     <span v-if="key === 'Hash Lock :' && statusValue === 'Failed' && messageList['TxType :'][0] === 'CreateHTLC'">{{value}}</span>
-                                    <span v-if="key === 'Website :' && value !== '--'" @click="openUrl(value)" style="color: var(--bgColor);cursor: pointer;">{{value}}</span>
-                                    <span v-if="key === 'Software :'&& value !== '--'" @click="openUrl(value)" style="color: var(--bgColor);cursor: pointer;">{{value}}</span>
-                                    <span v-if="key === 'Identity :'&& value !== '--'" @click="getKeyBaseName(value)" style="color: var(--bgColor);cursor: pointer;">{{value}}</span>
-                                    <span v-if="key === 'From :' && value === '-'">--</span>
+                                    <span v-if="key === 'Website :' && value !== '&#45;&#45;'" @click="openUrl(value)" style="color: var(&#45;&#45;bgColor);cursor: pointer;">{{value}}</span>
+                                    <span v-if="key === 'Software :'&& value !== '&#45;&#45;'" @click="openUrl(value)" style="color: var(&#45;&#45;bgColor);cursor: pointer;">{{value}}</span>
+                                    <span v-if="key === 'Identity :'&& value !== '&#45;&#45;'" @click="getKeyBaseName(value)" style="color: var(&#45;&#45;bgColor);cursor: pointer;">{{value}}</span>
+                                    <span v-if="key === 'From :' && value === '-'">&#45;&#45;</span>
                                     <span v-if="key === 'From :' && value.isLink">{{value.moniker || value.address}}</span>
-                                    <span v-if="key === 'To :' && value === '-'">--</span>
-                                    <span v-if="key === 'DestAddress :' && value === '-'">--</span>
-                                    <span v-if="key === 'Website :' && value === '--'">--</span>
-                                    <span v-if="key === 'Software :' && value === '--'">--</span>
-                                    <span v-if="key === 'Identity :' && value === '--'">--</span>
+                                    <span v-if="key === 'To :' && value === '-'">&#45;&#45;</span>
+                                    <span v-if="key === 'DestAddress :' && value === '-'">&#45;&#45;</span>
+                                    <span v-if="key === 'Website :' && value === '&#45;&#45;'">&#45;&#45;</span>
+                                    <span v-if="key === 'Software :' && value === '&#45;&#45;'">&#45;&#45;</span>
+                                    <span v-if="key === 'Identity :' && value === '&#45;&#45;'">&#45;&#45;</span>
                                 </span>
-                                <div class="commission_rate_container" v-if="key === 'Commission Rate :' && messageList['TxType :'][0] === 'CreateValidator' && value !== '--'">
+                                <div class="commission_rate_container" v-if="key === 'Commission Rate :' && messageList['TxType :'][0] === 'CreateValidator' && value !== '&#45;&#45;'">
                                     <i class="el-icon-warning-outline"></i>
                                     <div class="commission_rate_content_wrap" :style="{left:`${-((rateContentWidth / 2) - 7) / 100}rem`}">
                                         <div class="commission_rate_content">
-                                            <p>Max Rate : {{messageList.tooltip.maxRate || '--'}}</p>
-                                            <p>Max Change Rate : {{messageList.tooltip.maxChangeRate || '--'}}</p>
+                                            <p>Max Rate : {{messageList.tooltip.maxRate || '&#45;&#45;'}}</p>
+                                            <p>Max Change Rate : {{messageList.tooltip.maxChangeRate || '&#45;&#45;'}}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -291,7 +291,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
@@ -400,7 +400,7 @@ export default {
           this.blockHeight = res.height || '--'
           this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed'
           this.timestamp = Tools.getDisplayDate(res.time) || '--'
-          this.signer = res.signer || '--'
+          this.signer = res.signers[0] || '--'
           this.memo = res.memo ? res.memo : '--'
           this.txType = res.msgs[0].type || '--'
           switch (this.txType) {

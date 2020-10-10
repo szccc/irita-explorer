@@ -299,3 +299,8 @@ export function getTypeDeclarationApi(address){
     let url = `/txs/types/declaration`;
     return get(url);
 }
+
+export function getValidatorSetList (pageNum,pageSize,height) {
+	const url = `/blocks/validatorset?height=${height}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`
+	return get(url)
+}
