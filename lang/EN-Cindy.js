@@ -128,7 +128,8 @@ export const ExplorerLang = {
         search: 'Search',
         status: ' Status',
         // 新增
-        delegationTxsList: 'Delegation Txs List'
+        delegationTxsList: 'Delegation Txs List',
+        validationTxsList: 'Validation Txs List'
     },
     validators:{
         bonded:'Active',
@@ -167,7 +168,7 @@ export const ExplorerLang = {
         timestamp: 'Timestamp',
         signer: 'Signer',
         memo: 'Memo',
-        transactionMessage: 'Transaction Message or Result',
+        // transactionMessage: 'Transaction Message or Result',
         relevanceTx:'Related Transaction',
         txType: 'TxType',
         denomId: 'Denom Id',

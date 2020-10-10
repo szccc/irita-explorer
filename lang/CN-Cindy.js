@@ -129,7 +129,8 @@ export const ExplorerLang = {
         search: '搜索',
         status: '交易状态',
         // 新增
-        delegationTxsList: 'Delegation Txs List'
+        delegationTxsList: 'Delegation Txs List',
+        validationTxsList: 'Validation Txs List'
     },
     validators:{
         bonded:'共识中',
@@ -168,7 +169,7 @@ export const ExplorerLang = {
         timestamp: '参考时间',
         signer: '签名者',
         memo: '备注',
-        transactionMessage: '交易消息',
+        // transactionMessage: '交易消息',
         relevanceTx:'关联交易',
         txType: '交易类型',
         denomId: '数据类别标识',

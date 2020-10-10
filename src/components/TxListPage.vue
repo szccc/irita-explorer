@@ -1,7 +1,7 @@
 <template>
     <div class="transaction_list_page_container">
         <div class="title_container">
-            <span>{{$t('ExplorerLang.transactions.delegationTxsList')}}</span>
+            <span>{{ $route.params.txType === 'delegations' ? $t('ExplorerLang.transactions.delegationTxsList') : $t('ExplorerLang.transactions.validationTxsList')}}</span>
             <span>{{ count }} {{$t('ExplorerLang.transactions.txs')}}</span>
         </div>
         <div class="transaction_list_title_wrap">
@@ -320,16 +320,14 @@
                 }
 				param.beginTime = urlParams.filterStartTime ? urlParams.filterStartTime: '';
                 param.endTime =  urlParams.filterEndTime ? urlParams.filterEndTime: '';
-                // console.log(param,22222222222)
                 // let url = `https://www.irisplorer.io/api/txs/${param.type}/${param.pageNumber}/${param.pageSize}?txType=${param.txType}&status=${param.status}&beginTime=${param.beginTime}&endTime=${param.endTime}`
-                // const { data:txList } = await axios.get(url)
                 if (this.type === 'stake') {
                     let res = await getDelegationTxsApi('',param.pageNumber,param.pageSize,true,param.txType,param.status,param.beginTime,param.endTime)
                     // console.log(res)
                     try {
                         this.count = res.count;
                         if(res && res.data){
-                            sessionStorage.setItem('txTotal',res.data);
+                            sessionStorage.setItem('txTotal',res.count);
                             this.totalPageNum =  Math.ceil((res.data/this.pageSize) === 0 ? 1 : (res.data/this.pageSize));
                             sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
                             if(res.data){
@@ -373,7 +371,7 @@
                     try {
                         this.count = res.count;
                         if(res && res.data){
-                            sessionStorage.setItem('txTotal',res.data);
+                            sessionStorage.setItem('txTotal',res.count);
                             this.totalPageNum =  Math.ceil((res.data/this.pageSize) === 0 ? 1 : (res.data/this.pageSize));
                             sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
                             if(res.data){

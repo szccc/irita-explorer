@@ -221,13 +221,16 @@ export default {
     }
   },
   computed: {},
-  watch: {},
+  watch: {
+    validationInformation() {
+        this.getDelegationTxs()
+        this.getValidationTxs()
+    }  
+  },
   created() {
     this.getValidatorsInfo()
     this.getDelegations()
     this.getUnbondingDelegations()
-    this.getDelegationTxs()
-    this.getValidationTxs()
   },
   mounted() {},
   methods: {
@@ -255,7 +258,6 @@ export default {
     },
     async getDelegations(page = 1) {
       const res = await getValidatorsDelegationsApi(this.$route.params.param,page,this.pageSize,true)
-      // const { data: res } = await axios.get(`https://www.irisplorer.io/api/stake/validators/${this.$route.params.param}/delegations?page=${page}&size=${this.pageSize}`)
       this.delegations.total = res.count
       this.delegations.items = []
       res.data.forEach(item => {
@@ -285,10 +287,9 @@ export default {
         })
       })
     },
-    // 需调整 
+    // 需调整 展示的数据缺失
     async getDelegationTxs(page = 1) {
-      // 这里是假地址
-      const res = await getDelegationTxsApi('iaa1j7dgxaflz32kvaucv66a0x92lp846sv2ur2ak6',page,this.pageSize)
+      const res = await getDelegationTxsApi(this.validationInformation.owner_addr,page,this.pageSize)
       // console.log(res)
       this.delegationTxs.total = res.count
       this.delegationTxs.items = []
@@ -302,7 +303,7 @@ export default {
           Tx_Hash: item.tx_hash,
           Block: item.height,
           From: formTO.from,
-          Amount: fee,
+          Amount: fee !== '--' ? fee + ' IRIS' : '--',
           To: formTO.to,
           Tx_Type: item.type,
           Tx_Fee: '--' ,
@@ -321,9 +322,9 @@ export default {
       // console.log(res)
       // console.log(this.delegationTxs.items)
     },
-    // 需调整
+    // 需调整 展示的数据缺失
     async getValidationTxs(page = 1) {
-      const res = await getValidationTxsApi('',page,this.pageSize)
+      const res = await getValidationTxsApi(this.validationInformation.owner_addr,page,this.pageSize)
       this.validationTxs.total = res.count
       this.validationTxs.items = []
       res.data.forEach( item => {
@@ -337,7 +338,7 @@ export default {
           OperatorAddr: '--',
           'Self-Bonded': '--',
           'Tx_Type': item.type,
-          'Tx_Fee':fee,
+          'Tx_Fee': fee !== '--' ? fee + ' IRIS' : '--',
           'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
           'Tx_Status': status,
           Timestamp: time,
