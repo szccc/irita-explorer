@@ -56,7 +56,7 @@ export const ExplorerLang = {
         pubKeyAlgo:'公钥算法',
         certificate:'证书',
         credentials: '身份凭证',
-        // 新增
+        // 新增 全局表格中的表头
         commission: 'Commission',
         bondedTokens: 'Bonded_Tokens',
         uptime: 'Uptime',
@@ -71,7 +71,6 @@ export const ExplorerLang = {
         status: 'Status',
         consensusAddress: 'Consensus Address',
         proposerPriority: 'Proposer Priority',
-        
     },
     unit:{
         ellipsis:' ,...',
@@ -117,7 +116,7 @@ export const ExplorerLang = {
         transaction: '交易数量:',
         timestamp: '参考时间:',
         transactions: '区块交易',
-        // 新增
+        // 新增 
         proposer: 'Proposer:',
         validators: 'Validators:',
         votingPower: 'Voting Power:',
@@ -128,7 +127,7 @@ export const ExplorerLang = {
         txs: '交易',
         search: '搜索',
         status: '交易状态',
-        // 新增
+        // 新增 
         delegationTxsList: 'Delegation Txs List',
         validationTxsList: 'Validation Txs List'
     },
@@ -239,7 +238,7 @@ export const ExplorerLang = {
             clientID:'客户端ID',
             header:'区块头',
         },
-        // 新增
+        // 新增 
         transactionInformations: {
             title: 'Transaction Information',
             block: 'Block',

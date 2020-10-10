@@ -343,9 +343,9 @@
 										<router-link v-show="OperatorAddress !== '--' && validatorMoniker !== '--'" :to="`/staking/${OperatorAddress}`">{{validatorMoniker}}</router-link>
 										<span v-show="OperatorAddress === '--' || validatorMoniker === '--'">{{validatorMoniker}}</span>
 									</span>
-									<span class="address_information_address_status_active" v-if="validatorStatus === 'Active'">{{ $t('ExplorerLang.staking.status.active') }}</span>
-									<span class="address_information_address_status_candidate" v-if="validatorStatus === 'Candidate'">{{ $t('ExplorerLang.staking.status.candidate') }}</span>
-									<span class="address_information_address_status_jailed" v-if="validatorStatus === 'Jailed'">{{ $t('ExplorerLang.staking.status.jailed') }}</span>
+									<span class="address_information_address_status_active" v-if="validatorStatus === 'active'">{{ $t('ExplorerLang.staking.status.active') }}</span>
+									<span class="address_information_address_status_candidate" v-if="validatorStatus === 'candidate'">{{ $t('ExplorerLang.staking.status.candidate') }}</span>
+									<span class="address_information_address_status_jailed" v-if="validatorStatus === 'jailed'">{{ $t('ExplorerLang.staking.status.jailed') }}</span>
 								</div>
 							</li>
 							<li class="address_information_detail_option" style="margin-top: 0.05rem">
@@ -490,6 +490,8 @@
                 totalDelegator:0,
 				totalDelegatorValue:0,
 				totalValidatorRewards:0,
+				delegatorRewardsValue:0,
+				validatorRewardsValue:0,
                 allRewardsValue: 0,
 				allRewardsAmountValue:0,
 				
@@ -528,7 +530,10 @@
             },
 	        totalDelegator(){
 		        this.getAssetList()
-            }
+			},
+			OperatorAddress() {
+				this.getValidatorRewards()
+			}
 		},
 		created () {
 		},
@@ -951,7 +956,9 @@
 							}
 						});
 						let copyResult = JSON.parse(JSON.stringify(res));
-						this.allRewardsValue = res.total ? Tools.formatAmount2(res.total,this.fixedNumber) : 0;
+						console.log(res,22)
+						// this.allRewardsValue = res.total ? Tools.formatAmount2(res.total,this.fixedNumber) : 0;
+						this.delegatorRewardsValue = res.total ? Tools.formatUnit(res.total[0]) : 0;
 						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.rewards);
 						if(res.rewards.length > this.pageSize){
 							this.flRewardsDelegationNextPage = true
@@ -971,29 +978,28 @@
 								}
 							})
 							this.totalDelegatorReward = res.rewards.reduce( (total,item) => {
-								return item.reward ? Number(item.reward[0].amount) : 0 + Number(total)
+								return Number(item.reward[0].amount) + Number(total)
 							},0);
 						}
 						this.allRewardsAmountValue = res.total ? Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(res.total[0].amount,-18),this.fixedNumber) : 0;
-						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
+						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(),0)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
 						this.getAssetList()
 					}
 				}catch (e) {
 					console.error(e)
 				}
-				this.getValidatorRewards()
 				// this.totalValidatorRewards = res.commission_rewards ? Tools.formatAmount2(res.commission_rewards,this.fixedNumber) : 0;
 			},
 			async getValidatorRewards() {
 				try {
-					// 需要用iva的地址发请求，需要用operator_address地址发请求
-					// let data = await getValidatorRewardsApi(this.$route.params.param)
-					// let commission = data.val_commission.commission[0]
-					// if(commission) {
-					// 	this.totalValidatorRewards = Tools.formatUnit(commission).toFixed(2) + ' IRIS' || '--'
-					// } else {
-					// 	this.totalValidatorRewards = '--'
-					// }
+					let data = await getValidatorRewardsApi(this.OperatorAddress)
+					let commission = data.val_commission.commission[0]
+					if(commission) {
+						this.totalValidatorRewards = Tools.formatUnit(commission).toFixed(2) + ' IRIS' || '--'
+					} else {
+						this.totalValidatorRewards = '--'
+					}
+					this.allRewardsValue = (this.delegatorRewardsValue + Tools.formatUnit(commission)).toFixed(2) + ' IRIS' || '--'
 				} catch (e) {
 					console.log(e)
 				}
@@ -1207,6 +1213,7 @@
 
 			.address_transaction_content{
 				margin-top: 0.48rem;
+				margin-bottom: 0.2rem;
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
