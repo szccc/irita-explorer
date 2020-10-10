@@ -4,7 +4,6 @@ import { TX_TYPE } from "../constant";
 export class TxHelper {
 
     static getFromAndToAddressFromMsg(msgs){
-
         let res = {
             from : '--',
             to : '--'
@@ -89,6 +88,22 @@ export class TxHelper {
                 break;
             case TX_TYPE.update_identity:
                 res.to = msg.owner;
+                break;
+            case TX_TYPE.delegate:
+                res.from = msg.delegator_address;
+                res.to = msg.validator_address;
+                break;
+            case TX_TYPE.begin_unbonding:
+                res.from = msg.validator_address;
+                res.to = msg.delegator_address;
+                break;
+            case TX_TYPE.withdraw_delegator_reward:
+                res.from = msg.validator_address;
+                res.to = msg.delegator_address;
+                break;
+            case TX_TYPE.begin_redelegate:
+                res.from = msg.validator_src_address;
+                res.to = msg.validator_dst_address;
                 break;
         }
         return res;
