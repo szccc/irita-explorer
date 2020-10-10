@@ -257,19 +257,16 @@ export function getUnbondingDelegationsApi(valAddress,pageNum,pageSize,useCount)
     return get(url);
 }
 
-// 验证人详情页面 获取Delegation Txs 待调整
 export function getDelegationTxsApi (valAddress, pageNum, pageSize, useCount=true, type='', status='', beginTime='', endTime='') {
     let url = `/txs/staking?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}&status=${status}&address=${valAddress}&beginTime=${beginTime}&endTime=${endTime}`
     return get(url);
 }
 
-// 验证人详情页面 获取Validation Txs 待调整
 export function getValidationTxsApi(valAddress, pageNum, pageSize, useCount=true, type='', status='', beginTime='', endTime=''){
     let url = `/txs/declaration?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}&status=${status}&address=${valAddress}&beginTime=${beginTime}&endTime=${endTime}`
     return get(url);
 }
 
-// 地址详情接口 operator_address和withdrawAddress无数据
 export function getAddressInformationApi(address){
     let url = `/staking/account/${address}`;
     return get(url);

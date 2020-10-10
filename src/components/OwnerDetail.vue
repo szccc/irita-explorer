@@ -805,7 +805,6 @@
 				// const { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}`)
 				try {
 					let res = await getAddressInformationApi(this.$route.params.param)
-					console.log(res,1111)
 					if(res){
 						let arrayIndexOneData;
 						if(res.amount){
@@ -819,10 +818,8 @@
 							this.assetList = res.amount;
 						}
 						this.validatorMoniker = res.moniker ? res.moniker : '--';
-						// 接口没有返回数据
 						this.OperatorAddress = res.operator_address ? res.operator_address : '--';
 						this.validatorStatus = res.status;
-						// 接口没有返回数据
 						this.withdrewToAddress = res.withdrawAddress ? res.withdrawAddress : '--';
 						this.isProfiler = res.isProfiler;
 						this.getAssetList()
@@ -834,7 +831,7 @@
             getAssetList(){
                 this.assetsItems = this.assetList.map( item => {
 	            	if(item.denom === prodConfig.unit.minUnit){
-			            return {
+			           return {
 				            token: Tools.formatDenom(item.denom),
 				            balance: item.amount ? Tools.formatAmount2(item,this.fixedNumber): 0,
                             balanceNumber: item.amount,
@@ -842,20 +839,19 @@
 				            delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`: 0,
 				            unBondingValue: this.totalUnBondingDelegator ? this.totalUnBondingDelegator : 0,
 				            unBonding: this.totalUnBondingDelegator ?`${new BigNumber(Tools.formatStringToFixedNumber(moveDecimal(this.totalUnBondingDelegator.toString(),-2),this.fixedNumber)).toFormat()} ${Constant.Denom.IRIS.toUpperCase()}`  : 0,
-				            reward: this.allRewardsValue ? this.allRewardsValue : 0,
-                            rewards:this.allRewardsValue ? this.allRewardsValue : 0,
-				            totalAmount:`${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((Number(Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(item.amount.toString(),-18),this.fixedNumber))*100 +
-					            Number(Tools.formatStringToFixedNumber(this.totalDelegator.toString(),this.fixedNumber)) +
+							rewards:this.allRewardsValue ? this.allRewardsValue : 0,
+				            totalAmount:`${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((Number(Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(item.amount.toString(),-18),this.fixedNumber)) +
+					            Number(Tools.formatStringToFixedNumber(moveDecimal(this.totalDelegator.toString(),-2),this.fixedNumber)) +
 					            Number(Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(),this.fixedNumber))+
-					            Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(),this.fixedNumber)) * 100).toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}` ,
-			            }
+					            Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(),this.fixedNumber))).toString(),0)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`,
+						}
                     }else {
 			            return {
 				            token: item.denom,
 				            balance: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}`: 0,
 				            delegated: 0,
 				            unBonding: 0,
-				            reward: 0,
+				            rewards: 0,
 				            totalAmount: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}`: 0
 			            }
 					}
@@ -956,7 +952,6 @@
 							}
 						});
 						let copyResult = JSON.parse(JSON.stringify(res));
-						console.log(res,22)
 						// this.allRewardsValue = res.total ? Tools.formatAmount2(res.total,this.fixedNumber) : 0;
 						this.delegatorRewardsValue = res.total ? Tools.formatUnit(res.total[0]) : 0;
 						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.rewards);
@@ -981,7 +976,6 @@
 								return Number(item.reward[0].amount) + Number(total)
 							},0);
 						}
-						this.allRewardsAmountValue = res.total ? Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(res.total[0].amount,-18),this.fixedNumber) : 0;
 						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(),0)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
 						this.getAssetList()
 					}
@@ -999,7 +993,9 @@
 					} else {
 						this.totalValidatorRewards = '--'
 					}
-					this.allRewardsValue = (this.delegatorRewardsValue + Tools.formatUnit(commission)).toFixed(2) + ' IRIS' || '--'
+					this.allRewardsAmountValue = this.delegatorRewardsValue + Tools.formatUnit(commission)
+					this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((this.delegatorRewardsValue + Tools.formatUnit(commission)).toString(),0)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
+					this.getAssetList()
 				} catch (e) {
 					console.log(e)
 				}
@@ -1079,7 +1075,7 @@
 						}
 				        return {
 					        address: item.validator_address,
-					        amount: `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(item.reward[0].amount,-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`,
+					        amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`,
 					        moniker: item.moniker
 				        }
 			        });
@@ -1094,12 +1090,11 @@
 						}
 				        return {
 					        address: item.validator_address,
-					        amount: item.reward && item.reward.length > 0 ? `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(item.reward[0].amount,-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}` : 0,
+					        amount: item.reward && item.reward.length > 0 ? `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}` : 0,
 					        moniker: item.moniker
 				        }
 			        });
                 }
-
             },
 			formatAddress(address) {
 		        return Tools.formatValidatorAddress(address);
