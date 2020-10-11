@@ -70,12 +70,6 @@ export default class Tools {
   /**
    * 转换时间格式
    * */
-  static getFormatTimestamp (timestamp, format = 'YYYY/MM/DD HH:mm:ss') {
-    return moment(timestamp * 1000)
-      .utcOffset(+480)
-      .format(format) + '+UTC'
-  }
-
   static getDisplayDate(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
     return moment(timestamp * 1000)
       .utcOffset(+480)
@@ -209,7 +203,7 @@ export default class Tools {
     }
   }
   static formatDenom(denom) {
-    if (denom.toLowerCase() === 'iris-atto' || denom.toLowerCase() === 'iris' || denom.toLowerCase() === 'uiris') {
+    if (denom.toLowerCase() === 'iris-atto' || denom.toLowerCase() === 'iris') {
       return 'IRIS'
     } else {
       return denom
@@ -904,8 +898,13 @@ export default class Tools {
   static formatPercentage(number) {
     return new BigNumber(number).multipliedBy(100)
   }
-  // 单位转换 TODO:duanjie 大数字转换需优化
-  static formatUnit (item) {
-   return item.denom === productionConfig.unit.minUnit ? (item.amount / productionConfig.unit.conversionRatio) : item.amount
+  // 单位转换 TODO:duanjie 大数字转换需优化 
+  static formatUnit (num) {
+    let unit = JSON.parse(localStorage.getItem('unit')) || 1
+    return Number(num / unit.conversionRatio)
+  }
+
+  static findNum(str){
+      return str.match(/\d+/g);
   }
 }

@@ -63,6 +63,7 @@ export const ExplorerLang = {
         selfBonded: 'Self-Bonded',
         delegators: 'Delegators',
         bondHeight: 'Bond_Height',
+        unbondingHeight: 'Unbonding_Height', // 新增
         address: 'Address',
         amount: 'Amount',
         shares: 'Shares',

@@ -50,7 +50,8 @@
           </div>
         </div>
       </div>
-      <div v-show="moduleSupport('110', prodConfig.navFuncList)" class="header_network_container" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
+      <!-- 后续添加 -->
+      <!-- <div v-show="moduleSupport('110', prodConfig.navFuncList)" class="header_network_container" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
           <span style="color: #fff">
               <i style="font-size: 0.24rem;padding-right: 0.02rem;" class="iconfont iconiris"></i>
               <i style="font-size: 0.08rem" class="iconfont iconwangluoqiehuanjiantou"></i>
@@ -61,7 +62,7 @@
                   :key="item.chain_id"
                   @click="windowOpenUrl(item.host)"><i :class="item.icon"></i>{{item.netWorkSelectOption}}</li>
           </ul>
-      </div>
+      </div> -->
       
       <div class="use_feature_mobile" v-if="featureShow">
         <div v-for="(item, index) in menuList" class="mobile_tab_item_wrap" :key="String(index)" :style="`color:${(prodConfig.nav || {}).color || ''}`">
@@ -83,8 +84,8 @@
             </transition>
           </div>
         </div>
-        <div v-show="moduleSupport('110', prodConfig.navFuncList)" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">
-              
+        <!-- 后续添加 -->
+        <!-- <div v-show="moduleSupport('110', prodConfig.navFuncList)" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">   
               <div class="mobile_tab_item_children_container" >
                   <span class="mobile_tab_item mobile_tab_item_has_children" @click="flShowNetWork">
                     Network
@@ -99,7 +100,7 @@
                     </ul>
                   </transition>
               </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -108,7 +109,7 @@
 import Tools from '../../util/Tools'
 import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
-import { getBlockWithHeight, getTxDetail, getAddressTxList } from '../../service/api'
+import { getBlockWithHeight, getTxDetail, getAddressTxList,getUnitDataApi } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
 import axios from 'axios'
 export default {
@@ -143,6 +144,7 @@ export default {
   },
   created() {
     this.getConfig()
+    this.getUnitDataApi()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
@@ -285,8 +287,9 @@ export default {
 				this.flShowNetworkLogo = false;
     },
     async getConfig () {
-        const { data: res } = await axios.get(`https://www.irisplorer.io/api/config`)
-        this.handleConfigs(res.configs)
+        // const { data: res } = await axios.get(`https://www.irisplorer.io/api/config`)
+        // this.handleConfigs(res.configs)
+        
 				// Service.commonInterface({headerConfig:{}},(res) => {
 				// 	try {
 				// 		sessionStorage.setItem('skinEnvInformation',JSON.stringify(res));
@@ -344,6 +347,10 @@ export default {
     },
     flShowNetWork() {
       this.flShowNetWorkMenu = !this.flShowNetWorkMenu
+    },
+    async getUnitDataApi() {
+      const res = await getUnitDataApi()
+      localStorage.setItem('unit',JSON.stringify(res))
     }
   },
 }

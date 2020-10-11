@@ -94,10 +94,12 @@
 						<div class="delegations_txs_table_container">
 							<el-table :data="delegationTxs.items" style="width: 100%"
 							          :empty-text="$t('ExplorerLang.table.emptyDescription')">
-								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="90">
+								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="110">
 									<template v-slot:default="{ row }">
-										<el-tooltip :content="`${row.Tx_Hash}`" style="font-family: Consolas,Menlo">
-											<router-link style="font-family: Consolas,Menlo;"
+										<img class="status_icon"
+                                     		:src="require(`../../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
+										<el-tooltip :content="`${row.Tx_Hash}`">
+											<router-link 
 											             :to="`/tx?txHash=${row.Tx_Hash}`"
 											             :style="{ color: '$theme_c !important' }">{{
 												formatTxHash(row.Tx_Hash) }}
@@ -114,16 +116,16 @@
 								</el-table-column>
 								<el-table-column prop="From" :label="$t('ExplorerLang.table.from')" width="159">
 									<template v-slot:default="{ row }">
-                    <span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
-                      <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
-                    </span>
-										<div class="name_address"
-										     v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
-                      <span class="remove_default_style skip_route"
-                            :class="row.From === $route.params.param ? 'no_skip' : ''">
-                        <router-link :to="`/address/${row.From}`" class="link_style"
-                                     :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
-                      </span>
+										<span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
+										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
+										</span>
+															<div class="name_address"
+																v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
+										<span class="remove_default_style skip_route"
+												:class="row.From === $route.params.param ? 'no_skip' : ''">
+											<router-link :to="`/address/${row.From}`" class="link_style"
+														:style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
+										</span>
 										</div>
 										<span class="no_skip"
 										      v-show="/^[0]\d*$/.test(row.From) || row.From === '--'">--</span>
@@ -134,18 +136,18 @@
 								<el-table-column prop="To" :label="$t('ExplorerLang.table.to')" align="left"
 								                 width="159">
 									<template v-slot:default="{ row }">
-                    <span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
-                      <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
-                    </span>
-										<div class="name_address"
-										     v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
-                      <span class="remove_default_style skip_route"
-                            :class="row.To === $route.params.param ? 'no_skip' : ''">
-                        <router-link v-if="!(row.To === $route.params.param)" class="link_style"
-                                     :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }"
-                                     :to="`/address/${row.To}`">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
-                        <span style="cursor:pointer;font-family: Consolas, Menlo;" v-else>{{ formatMoniker(row.toMoniker) }}</span>
-                      </span>
+										<span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
+										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
+										</span>
+															<div class="name_address"
+																v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
+										<span class="remove_default_style skip_route"
+												:class="row.To === $route.params.param ? 'no_skip' : ''">
+											<router-link v-if="!(row.To === $route.params.param)" class="link_style"
+														:style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }"
+														:to="`/address/${row.To}`">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
+											<span style="cursor:pointer;font-family: Consolas, Menlo;" v-else>{{ formatMoniker(row.toMoniker) }}</span>
+										</span>
 										</div>
 										<span class="no_skip"
 										      v-show="/^[0]\d*$/.test(row.To) || row.To === '--'">--</span>
@@ -164,8 +166,8 @@
 										</router-link>
 									</template>
 								</el-table-column>
-								<el-table-column prop="Tx_Status" :label="$t('ExplorerLang.table.status')"
-								                 width="73"></el-table-column>
+								<!-- <el-table-column prop="Tx_Status" :label="$t('ExplorerLang.table.status')"
+								                 width="73"></el-table-column> -->
 								<el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')"
 								                 width="186"></el-table-column>
 							</el-table>
@@ -183,10 +185,12 @@
 						<div class="validation_txs_table_container">
 							<el-table :data="validationTxs.items" style="width: 100%"
 							          :empty-text="$t('ExplorerLang.table.emptyDescription')">
-								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="90">
+								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="110">
 									<template v-slot:default="{ row }">
-										<el-tooltip :content="`${row.Tx_Hash}`" style="font-family: Consolas,Menlo">
-											<router-link style="font-family: Consolas,Menlo;"
+										<img class="status_icon"
+                                     		:src="require(`../../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
+										<el-tooltip :content="`${row.Tx_Hash}`">
+											<router-link 
 											             :to="`/tx?txHash=${row.Tx_Hash}`"
 											             :style="{ color: '$theme_c !important' }">{{
 												formatTxHash(row.Tx_Hash) }}
@@ -212,9 +216,9 @@
 								<el-table-column prop="OperatorAddr" :label="$t('ExplorerLang.table.operator')"
 								                 width="140">
 									<template v-slot:default="{ row }">
-                    <span v-if="/^[1-9]\d*$/.test(row.OperatorAddr)" class="skip_route">
-                      <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.OperatorAddr }} Validators</router-link>
-                    </span>
+										<span v-if="/^[1-9]\d*$/.test(row.OperatorAddr)" class="skip_route">
+										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.OperatorAddr }} Validators</router-link>
+										</span>
 										<div class="name_address"
 										     v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
 											<el-tooltip :content="`${row.OperatorAddr}`"
@@ -248,8 +252,8 @@
 										</router-link>
 									</template>
 								</el-table-column>
-								<el-table-column prop="Tx_Status" :label="$t('ExplorerLang.table.status')"
-								                 width="73"></el-table-column>
+								<!-- <el-table-column prop="Tx_Status" :label="$t('ExplorerLang.table.status')"
+								                 width="73"></el-table-column> -->
 								<el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')"
 								                 width="186"></el-table-column>
 							</el-table>
@@ -309,6 +313,7 @@
 					currentPage: 1,
 					items: [],
 				},
+				unitData: JSON.parse(localStorage.getItem('unit'))
 			}
 		},
 		computed: {},
@@ -352,10 +357,11 @@
 				const res = await getValidatorsDelegationsApi(this.$route.params.param, page, this.pageSize, true)
 				this.delegations.total = res.count
 				this.delegations.items = []
+				console.log(res.data)
 				res.data.forEach(item => {
-					item.amount = Tools.formatUnit(item.amount) + ' IRIS'
+					item.amount = `${Tools.formatUnit(item.amount.amount)} ${this.unitData.maxUnit.toUpperCase()}`
 					let selfShares = Tools.formatPriceToFixed(item.self_shares, 4)
-					let shares = `${selfShares} (${this.formatPerNumber((Number(item.self_shares) / Number(item.total_shares)) * 100)}%)`
+					let shares = `${selfShares} (${this.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
 					this.delegations.items.push({
 						address: item.address,
 						amount: item.amount,
@@ -379,7 +385,6 @@
 					})
 				})
 			},
-			// 需调整 展示的数据缺失
 			async getDelegationTxs (page = 1) {
 				const res = await getDelegationTxsApi(this.validationInformation.owner_addr, page, this.pageSize)
 				// console.log(res)
@@ -392,15 +397,14 @@
 					} else {
 						formTO = '--'
 					}
-					//TODO:duanjie 待处理
-					const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
+					const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0].amount)) : '--'
 					const status = item.status === 1 ? 'Success' : 'Fail'
-					const time = Tools.getFormatTimestamp(item.time)
+					const time = Tools.getDisplayDate(item.time)
 					this.delegationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
 						From: formTO.from || "--",
-						Amount: fee !== '--' ? fee + ' IRIS' : '--',
+						Amount: fee !== '--' ? fee + this.unitData.maxUnit.toUpperCase() : '--',
 						To: formTO.to || '--',
 						Tx_Type: item.type,
 						MsgsNum: msgsNumber,
@@ -420,7 +424,6 @@
 				// console.log(res)
 				// console.log(this.delegationTxs.items)
 			},
-			// 需调整 展示的数据缺失
 			async getValidationTxs (page = 1) {
 				const res = await getValidationTxsApi(this.validationInformation.owner_addr, page, this.pageSize)
 				this.validationTxs.total = res.count
@@ -428,7 +431,7 @@
 				res.data.forEach(item => {
 					const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
 					const status = item.status === 1 ? 'Success' : 'Fail'
-					const time = Tools.getFormatTimestamp(item.time)
+					const time = Tools.getDisplayDate(item.time)
 					this.validationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
@@ -534,24 +537,24 @@
 						background: #fff;
 						
 						/deep/ .el-table__header thead tr {
-							border-left: 1px solid #dee2e6;
-							border-right: 1px solid #dee2e6;
-							height: 50px;
+							// border-left: 1px solid #dee2e6;
+							// border-right: 1px solid #dee2e6;
+							// height: 50px;
 						}
 						
 						/deep/ .el-table__header .has-gutter .cell {
-							color: $t_second_c !important;
-							font-family: Arial, Helvetica, sans-serif;
-							font-weight: 400;
+							// color: $t_second_c !important;
+							// font-family: Arial, Helvetica, sans-serif;
+							// font-weight: 400;
 						}
 						
 						/deep/ .el-table__body-wrapper .el-table__row .cell {
-							font-family: Arial, Helvetica, sans-serif;
-							color: $t_first_c !important;
+							// font-family: Arial, Helvetica, sans-serif;
+							// color: $t_first_c !important;
 						}
 						
 						/deep/ .el-table th.is-leaf {
-							border-bottom: 0.01rem solid $theme_c !important;
+							// border-bottom: 0.01rem solid $theme_c !important;
 						}
 					}
 				}
@@ -580,27 +583,32 @@
 						overflow-x: auto;
 						border: 0.01rem solid #e7e9eb;
 						background: #fff;
-						
-						/deep/ .el-table__header thead tr {
-							border-left: 1px solid #dee2e6;
-							border-right: 1px solid #dee2e6;
-							height: 50px;
+
+						.status_icon{
+							width:0.13rem;
+							height:0.13rem;
+							margin-right:0.05rem;
 						}
+						// /deep/ .el-table__header thead tr {
+						// 	border-left: 1px solid #dee2e6;
+						// 	border-right: 1px solid #dee2e6;
+						// 	height: 50px;
+						// }
 						
-						/deep/ .el-table__header .has-gutter .cell {
-							color: $t_second_c !important;
-							font-family: Arial, Helvetica, sans-serif;
-							font-weight: 400;
-						}
+						// /deep/ .el-table__header .has-gutter .cell {
+						// 	color: $t_second_c !important;
+						// 	font-family: Arial, Helvetica, sans-serif;
+						// 	font-weight: 400;
+						// }
 						
-						/deep/ .el-table__body-wrapper .el-table__row .cell {
-							font-family: Arial, Helvetica, sans-serif;
-							color: $t_first_c !important;
-						}
+						// /deep/ .el-table__body-wrapper .el-table__row .cell {
+						// 	font-family: Arial, Helvetica, sans-serif;
+						// 	color: $t_first_c !important;
+						// }
 						
-						/deep/ .el-table th.is-leaf {
-							border-bottom: 0.01rem solid $theme_c !important;
-						}
+						// /deep/ .el-table th.is-leaf {
+						// 	border-bottom: 0.01rem solid $theme_c !important;
+						// }
 						
 						/deep/ .el-table_3_column_12 {
 							text-align: right;
@@ -608,7 +616,7 @@
 						
 						/deep/ .el-table_3_column_13 {
 							.cell {
-								font-family: 'Consolas', 'Menlo';
+								// font-family: 'Consolas', 'Menlo';
 							}
 							
 							text-align: left;
@@ -642,25 +650,30 @@
 						border: 0.01rem solid #e7e9eb;
 						background: #fff;
 						
+						.status_icon{
+							width:0.13rem;
+							height:0.13rem;
+							margin-right:0.05rem;
+						}
 						/deep/ .el-table__header thead tr {
-							border-left: 1px solid #dee2e6;
-							border-right: 1px solid #dee2e6;
-							height: 50px;
+							// border-left: 1px solid #dee2e6;
+							// border-right: 1px solid #dee2e6;
+							// height: 50px;
 						}
 						
 						/deep/ .el-table__header .has-gutter .cell {
-							color: $t_second_c !important;
-							font-family: Arial, Helvetica, sans-serif;
-							font-weight: 400;
+							// color: $t_second_c !important;
+							// font-family: Arial, Helvetica, sans-serif;
+							// font-weight: 400;
 						}
 						
 						/deep/ .el-table__body-wrapper .el-table__row .cell {
-							font-family: Arial, Helvetica, sans-serif;
-							color: $t_first_c !important;
+							// font-family: Arial, Helvetica, sans-serif;
+							// color: $t_first_c !important;
 						}
 						
 						/deep/ .el-table th.is-leaf {
-							border-bottom: 0.01rem solid $theme_c !important;
+							// border-bottom: 0.01rem solid $theme_c !important;
 						}
 					}
 					

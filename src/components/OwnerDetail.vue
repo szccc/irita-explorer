@@ -251,11 +251,11 @@
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')" align="right" min-width="180"> </el-table-column>
 									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left" min-width="150"> </el-table-column>
-									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
+									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
 										<template v-slot:default="{ row }">
 										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
 										</template>
-									</el-table-column>
+									</el-table-column> -->
 								</el-table>
 							</div>
 							<m-pagination v-if="flDelegationNextPage" :page="delegationCurrentPage" :page-size="tablePageSize" :total="delegationCountNum" :page-change="delegationPageChange"></m-pagination>
@@ -511,6 +511,7 @@
 				delegationPageNationArrayData:[],
                 unBondingDelegationPageNationArrayData:[],
 				rewardsDelegationPageNationArrayData:[],
+				unitData: JSON.parse(localStorage.getItem('unit'))
 			}
 		},
 		watch:{
@@ -809,7 +810,7 @@
 						let arrayIndexOneData;
 						if(res.amount){
 							res.amount.forEach( item => {
-								if(item.denom === prodConfig.unit.minUnit){
+								if(item.denom === this.unitData.minUnit || item.denom === 'ubif'){
 									arrayIndexOneData = item
 								}
 							});
@@ -829,33 +830,36 @@
 				}
             },
             getAssetList(){
-                this.assetsItems = this.assetList.map( item => {
-	            	if(item.denom === prodConfig.unit.minUnit){
-			           return {
-				            token: Tools.formatDenom(item.denom),
-				            balance: item.amount ? Tools.formatAmount2(item,this.fixedNumber): 0,
-                            balanceNumber: item.amount,
-				            delegatedValue: this.totalDelegator ? this.totalDelegator : 0,
-				            delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`: 0,
-				            unBondingValue: this.totalUnBondingDelegator ? this.totalUnBondingDelegator : 0,
-				            unBonding: this.totalUnBondingDelegator ?`${new BigNumber(Tools.formatStringToFixedNumber(moveDecimal(this.totalUnBondingDelegator.toString(),-2),this.fixedNumber)).toFormat()} ${Constant.Denom.IRIS.toUpperCase()}`  : 0,
+				this.assetsItems = this.assetList.map( item => {
+					console.log(item,11)
+					if(item.denom === this.unitData.minUnit || item.denom === 'ubif'){
+					return {
+							// token:  Tools.formatDenom(item.denom),
+							tokenNumber: `${Tools.formatUnit(item.amount)} ${this.unitData.maxUnit.toUpperCase()}`,
+							token: this.unitData.maxUnit.toUpperCase(),
+							balance: item.amount ? Tools.formatAmount2(item,this.fixedNumber): 0,
+							balanceNumber: item.amount,
+							delegatedValue: this.totalDelegator ? this.totalDelegator : 0,
+							delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(),-2)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`: 0,
+							unBondingValue: this.totalUnBondingDelegator ? this.totalUnBondingDelegator : 0,
+							unBonding: this.totalUnBondingDelegator ?`${new BigNumber(Tools.formatStringToFixedNumber(moveDecimal(this.totalUnBondingDelegator.toString(),-2),this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`  : 0,
 							rewards:this.allRewardsValue ? this.allRewardsValue : 0,
-				            totalAmount:`${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((Number(Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(item.amount.toString(),-18),this.fixedNumber)) +
-					            Number(Tools.formatStringToFixedNumber(moveDecimal(this.totalDelegator.toString(),-2),this.fixedNumber)) +
-					            Number(Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(),this.fixedNumber))+
-					            Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(),this.fixedNumber))).toString(),0)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`,
+							totalAmount:`${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((Number(Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(item.amount.toString(),-18),this.fixedNumber)) +
+								Number(Tools.formatStringToFixedNumber(moveDecimal(this.totalDelegator.toString(),-2),this.fixedNumber)) +
+								Number(Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(),this.fixedNumber))+
+								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(),this.fixedNumber))).toString(),0)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`,
 						}
-                    }else {
-			            return {
-				            token: item.denom,
-				            balance: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}`: 0,
-				            delegated: 0,
-				            unBonding: 0,
-				            rewards: 0,
-				            totalAmount: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}`: 0
-			            }
+					}else {
+						return {
+							token: item.denom,
+							balance: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}`: 0,
+							delegated: 0,
+							unBonding: 0,
+							rewards: 0,
+							totalAmount: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}`: 0
+						}
 					}
-                });
+				});
 			},
 			pageNation(dataArray){
 	            let index = 0;
@@ -897,7 +901,7 @@
 								return Number(item.amount.amount) + Number(total)
 							},0)
 						}
-						this.totalDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
+						this.totalDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(),-2)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
 					}else {
 						this.delegationsItems = []
 					}
@@ -921,9 +925,9 @@
 						if(res.length > 0){
 							res.forEach( item => {
 								if(item.amount && item.amount.amount){
-									if(item.amount.denom == prodConfig.unit.minUnit ){
-										item.amount.amount = Number(item.amount.amount) / prodConfig.unit.conversionRatio
-									} else if (item.amount.denom == prodConfig.unit.maxUnit) {
+									if(item.amount.denom == this.unitData.minUnit ){
+										item.amount.amount = Number(item.amount.amount) / this.unitData.conversionRatio
+									} else if (item.amount.denom == this.unitData.maxUnit) {
 										item.amount.amount = item.amount.amount
 									}
 								}
@@ -932,7 +936,7 @@
 								return Number(item.amount.amount) + Number(total)
 							},0)
 						}
-						this.totalUnBondingDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalUnBondingDelegator.toString(),-2)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
+						this.totalUnBondingDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalUnBondingDelegator.toString(),-2)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
 					}
 				}catch (e) {
 					console.error(e)
@@ -947,13 +951,13 @@
 							if(item.reward && item.reward.length === 0){
 								item.reward.push({
 									amount:0,
-									denom:'uiris'
+									denom: this.unitData.minUnit
 								})
 							}
 						});
 						let copyResult = JSON.parse(JSON.stringify(res));
 						// this.allRewardsValue = res.total ? Tools.formatAmount2(res.total,this.fixedNumber) : 0;
-						this.delegatorRewardsValue = res.total ? Tools.formatUnit(res.total[0]) : 0;
+						this.delegatorRewardsValue = res.total ? Tools.formatUnit(res.total[0].amount) : 0;
 						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.rewards);
 						if(res.rewards.length > this.pageSize){
 							this.flRewardsDelegationNextPage = true
@@ -965,9 +969,9 @@
 						if(res.rewards.length > 0){
 							res.rewards.forEach( item => {
 								if(item.reward && item.reward.length > 0){
-									if(item.reward[0].denom == prodConfig.unit.minUnit ){
-										item.reward[0].amount = Number(item.reward[0].amount) / prodConfig.unit.conversionRatio
-									} else if (item.reward[0].denom == prodConfig.unit.maxUnit) {
+									if(item.reward[0].denom == this.unitData.minUnit ){
+										item.reward[0].amount = Number(item.reward[0].amount) / this.unitData.conversionRatio
+									} else if (item.reward[0].denom == this.unitData.maxUnit) {
 										item.reward[0].amount = item.reward[0].amount
 									}
 								}
@@ -976,7 +980,7 @@
 								return Number(item.reward[0].amount) + Number(total)
 							},0);
 						}
-						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(),0)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
+						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(),0)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
 						this.getAssetList()
 					}
 				}catch (e) {
@@ -987,15 +991,17 @@
 			async getValidatorRewards() {
 				try {
 					let data = await getValidatorRewardsApi(this.OperatorAddress)
-					let commission = data.val_commission.commission[0]
-					if(commission) {
-						this.totalValidatorRewards = Tools.formatUnit(commission).toFixed(2) + ' IRIS' || '--'
-					} else {
-						this.totalValidatorRewards = '--'
+					if(data) {
+						let commission = data.val_commission.commission[0]
+						if(commission) {
+							this.totalValidatorRewards = `${Tools.formatUnit(commission.amount).toFixed(2)} ${this.unitData.maxUnit.toUpperCase()}` || '--'
+						} else {
+							this.totalValidatorRewards = '--'
+						}
+						this.allRewardsAmountValue = this.delegatorRewardsValue + Tools.formatUnit(commission.amount)
+						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((this.delegatorRewardsValue + Tools.formatUnit(commission.amount)).toString(),0)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
+						this.getAssetList()
 					}
-					this.allRewardsAmountValue = this.delegatorRewardsValue + Tools.formatUnit(commission)
-					this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((this.delegatorRewardsValue + Tools.formatUnit(commission)).toString(),0)).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`
-					this.getAssetList()
 				} catch (e) {
 					console.log(e)
 				}
@@ -1029,15 +1035,15 @@
 		        if(this.flUnBondingDelegationNextPage){
 			        this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData[pageNum].map( item =>{
 						if(item.amount && item.amount.amount){
-							if(item.amount.denom == prodConfig.unit.minUnit ){
-								item.amount.amount = Number(item.amount.amount) / prodConfig.unit.conversionRatio
-							} else if (item.amount.denom == prodConfig.unit.maxUnit) {
+							if(item.amount.denom == this.unitData.minUnit ){
+								item.amount.amount = Number(item.amount.amount) / this.unitData.conversionRatio
+							} else if (item.amount.denom == this.unitData.maxUnit) {
 								item.amount.amount = item.amount.amount
 							}
 						}
 						return {
 					        address: item.address,
-					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${prodConfig.unit.maxUnit.toUpperCase()}`,
+					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
 					        block: item.height,
 					        endTime: Tools.format2UTC(item.end_time),
 					        moniker: item.moniker
@@ -1046,15 +1052,15 @@
                 }else {
 			        this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData.map( item =>{
 						if(item.amount && item.amount.amount){
-							if(item.amount.denom == prodConfig.unit.minUnit ){
-								item.amount.amount = Number(item.amount.amount) / prodConfig.unit.conversionRatio
-							} else if (item.amount.denom == prodConfig.unit.maxUnit) {
+							if(item.amount.denom == this.unitData.minUnit ){
+								item.amount.amount = Number(item.amount.amount) / this.unitData.conversionRatio
+							} else if (item.amount.denom == this.unitData.maxUnit) {
 								item.amount.amount = item.amount.amount
 							}
 						}
 						return {
 					        address: item.address,
-					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${prodConfig.unit.maxUnit.toUpperCase()}`,
+					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
 					        block: item.height,
 					        endTime: Tools.format2UTC(item.end_time),
 					        moniker: item.moniker
@@ -1067,30 +1073,30 @@
 	        	if(this.flRewardsDelegationNextPage){
 			        this.rewardsItems = this.rewardsDelegationPageNationArrayData[pageNum].map( item => {
 						if(item.reward && item.reward.length > 0){
-							if(item.reward[0].denom == prodConfig.unit.minUnit ){
-								item.reward[0].amount = Number(item.reward[0].amount) / prodConfig.unit.conversionRatio
-							} else if (item.reward[0].denom == prodConfig.unit.maxUnit) {
+							if(item.reward[0].denom == this.unitData.minUnit ){
+								item.reward[0].amount = Number(item.reward[0].amount) / this.unitData.conversionRatio
+							} else if (item.reward[0].denom == this.unitData.maxUnit) {
 								item.reward[0].amount = item.reward[0].amount
 							}
 						}
 				        return {
 					        address: item.validator_address,
-					        amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}`,
+					        amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`,
 					        moniker: item.moniker
 				        }
 			        });
                 }else {
 			        this.rewardsItems = this.rewardsDelegationPageNationArrayData.map( item => {
 						if(item.reward && item.reward.length > 0){
-							if(item.reward[0].denom == prodConfig.unit.minUnit ){
-								item.reward[0].amount = Number(item.reward[0].amount) / prodConfig.unit.conversionRatio
-							} else if (item.reward[0].denom == prodConfig.unit.maxUnit) {
+							if(item.reward[0].denom == this.unitData.minUnit ){
+								item.reward[0].amount = Number(item.reward[0].amount) / this.unitData.conversionRatio
+							} else if (item.reward[0].denom == this.unitData.maxUnit) {
 								item.reward[0].amount = item.reward[0].amount
 							}
 						}
 				        return {
 					        address: item.validator_address,
-					        amount: item.reward && item.reward.length > 0 ? `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(),this.fixedNumber)} ${Constant.Denom.IRIS.toUpperCase()}` : 0,
+					        amount: item.reward && item.reward.length > 0 ? `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}` : 0,
 					        moniker: item.moniker
 				        }
 			        });
@@ -1344,23 +1350,23 @@
    						border: 1px solid #D7D7D7;
 						min-height: 2.34rem;
 						background: #fff;
-						/deep/ .el-table__header thead tr {
-							border-left: 1px solid #dee2e6;
-							border-right: 1px solid #dee2e6;
-							height: 50px;
-						}
-						/deep/ .el-table__header .has-gutter .cell {
-							color: $t_second_c !important;
-							font-family: Arial, Helvetica, sans-serif;
-							font-weight: 400;
-						}
-						/deep/ .el-table__body-wrapper .el-table__row .cell {
-							font-family: Arial, Helvetica, sans-serif;
-							color: $t_first_c !important;
-						}
-						/deep/ .el-table th.is-leaf {
-							border-bottom: 0.01rem solid $theme_c !important;
-						}
+						// /deep/ .el-table__header thead tr {
+						// 	border-left: 1px solid #dee2e6;
+						// 	border-right: 1px solid #dee2e6;
+						// 	height: 50px;
+						// }
+						// /deep/ .el-table__header .has-gutter .cell {
+						// 	color: $t_second_c !important;
+						// 	font-family: Arial, Helvetica, sans-serif;
+						// 	font-weight: 400;
+						// }
+						// /deep/ .el-table__body-wrapper .el-table__row .cell {
+						// 	font-family: Arial, Helvetica, sans-serif;
+						// 	color: $t_first_c !important;
+						// }
+						// /deep/ .el-table th.is-leaf {
+						// 	border-bottom: 0.01rem solid $theme_c !important;
+						// }
 				    }
 				}
 				.common_pagination_content {
@@ -1410,23 +1416,23 @@
    						border: 1px solid #D7D7D7;
 						min-height: 2.34rem;
 						background: #fff;
-						/deep/ .el-table__header thead tr {
-							border-left: 1px solid #dee2e6;
-							border-right: 1px solid #dee2e6;
-							height: 50px;
-						}
-						/deep/ .el-table__header .has-gutter .cell {
-							color: $t_second_c !important;
-							font-family: Arial, Helvetica, sans-serif;
-							font-weight: 400;
-						}
-						/deep/ .el-table__body-wrapper .el-table__row .cell {
-							font-family: Arial, Helvetica, sans-serif;
-							color: $t_first_c !important;
-						}
-						/deep/ .el-table th.is-leaf {
-							border-bottom: 0.01rem solid $theme_c !important;
-						}
+						// /deep/ .el-table__header thead tr {
+						// 	border-left: 1px solid #dee2e6;
+						// 	border-right: 1px solid #dee2e6;
+						// 	height: 50px;
+						// }
+						// /deep/ .el-table__header .has-gutter .cell {
+						// 	color: $t_second_c !important;
+						// 	font-family: Arial, Helvetica, sans-serif;
+						// 	font-weight: 400;
+						// }
+						// /deep/ .el-table__body-wrapper .el-table__row .cell {
+						// 	font-family: Arial, Helvetica, sans-serif;
+						// 	color: $t_first_c !important;
+						// }
+						// /deep/ .el-table th.is-leaf {
+						// 	border-bottom: 0.01rem solid $theme_c !important;
+						// }
                     }
                     .pagination_content{
                         margin-top: 0.2rem;
@@ -1598,12 +1604,12 @@
 				}
 
 				.address_information_redelegation_header_title{
-                    margin-left: 0.1rem;
+                    margin-left: 0rem;
 				}
 				
 				.address_information_redelegation_tx_container{
                     flex-direction: column;
-                    margin: 0 0.1rem;
+                    // margin: 0 0.1rem;
                     .address_information_delegator_rewards_content{
 						width: 100%;
                         margin-right: 0;

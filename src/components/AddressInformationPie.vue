@@ -22,6 +22,7 @@
 				testnetFuXiThemeStyle:["#0C4282","#FFA300","#67E523","#8E66FF"],
 				testnetNyancatThemeStyle:["#0D9388","#FFA300","#67E523","#8E66FF"],
 				defaultThemeStyle:["#0580D3","#FFA300","#67E523","#8E66FF"],
+				unitData: JSON.parse(localStorage.getItem('unit'))
 			}
 		},
 		watch:{
@@ -51,8 +52,8 @@
 						position:{
 							left: 10,
 						},
-						formatter: function (data) {
-							return `<span style="max-width: 1.2rem;word-break: break-all;">${data.name}: <br/>${new bigNumber(data.value).toFormat()} IRIS (${data.data.formatPercent}%)</span>`
+						formatter: (data) => {
+							return `<span style="max-width: 1.2rem;word-break: break-all;">${data.name}: <br/>${new bigNumber(data.value).toFormat()} ${this.unitData.maxUnit.toUpperCase()} (${data.data.formatPercent}%)</span>`
 						}
 					},
 					legend: {

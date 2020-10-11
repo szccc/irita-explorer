@@ -357,13 +357,11 @@ export default {
       flShowRateToolTip: false,
       isProfiler:false,
       failTipStyle:false,
+      unitData: JSON.parse(localStorage.getItem('unit'))
     }
   },
   mounted() {
     this.getTransactionInformation()
-    if(moduleSupport('107', prodConfig.navFuncList)) {
-        this.getTxDetailInformation()
-    }
   },
   watch:{
       log(){
@@ -393,9 +391,13 @@ export default {
       try {
         const res = await getTxDetail(this.$route.query.txHash)
         if (res) {
+          res.msgs.forEach( item => {
+            let amount = item.msg.amount
+            amount = Number(Tools.findNum(amount)[0])
+            item.msg.amount = Tools.formatUnit(amount) + this.unitData.maxUnit.toUpperCase()
+          })
           this.messages = res.msgs || []
           this.events = res.events
-          // console.log(res)
           this.txHash = res.tx_hash || '--'
           this.blockHeight = res.height || '--'
           this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed'
@@ -456,10 +458,8 @@ export default {
           this.relevanceTxList()
         }
       } catch (e) {
-        if (!moduleSupport('107', prodConfig.navFuncList)) {
           console.error(e)
           this.$message.error(this.$t('ExplorerLang.message.requestFailed'))
-        }
       }
     },
     pageChange(pageNum) {
@@ -477,7 +477,7 @@ export default {
           type = TX_TYPE.call_service
           break
       }
-      console.log(this.TxType, '///', type, '///', this.requestContextId)
+      // console.log(this.TxType, '///', type, '///', this.requestContextId)
       if (type && type.length && this.requestContextId && this.requestContextId.length) {
         try {
           const res = await getRelevanceTxList(type, this.requestContextId, this.pageNum, this.pageSize, true)
@@ -550,82 +550,6 @@ export default {
                 });
             }
         }
-    },
-    async getTxDetailInformation(){
-        const { data:res } = await axios.get(`https://www.irisplorer.io/api/tx/${this.$route.query.txHash}`)
-        try {
-            if(res){
-                let fromInformation,toInformation;
-                fromInformation = Tools.formatListAmount(res).fromAddressAndMoniker;
-                toInformation = Tools.formatListAmount(res).toAddressAndMoniker;
-                this.gasPrice = Tools.convertScientificNotation2Number(
-                    Tools.formaNumberAboutGasPrice(res.gas_price)
-                );
-                if(res.isProfiler){
-                    this.isProfiler = res.isProfiler;
-                }
-                this.gasLimit = res.gas_limit;
-                this.gasUsed = res.gas_used;
-                this.gasWanted = res.gas_wanted;
-                this.txHashValue = res.hash;
-                this.txHash = res.hash;
-                this.log = res.log;
-                this.blockValue = res.block_height;
-                this.statusValue = Tools.firstWordUpperCase(res.status);
-                this.timestampValue = Tools.format2UTC(res.timestamp);
-                this.feeValue = Tools.formatFee(res.fee);
-                this.gasUsedValue = res.gas_used;
-                this.signerValue = res.signer;
-                this.memoValue = res.memo ? res.memo : '--';
-                this.fromMoniker =  fromInformation.length > 1 ? fromInformation.length : fromInformation.length === 1 ? fromInformation[0].moniker :'';
-                this.toMoniker = toInformation.length > 1 ? toInformation.length : toInformation.length === 1 ? toInformation[0].moniker :'';
-                console.log('转换前',res)
-                this.messageList = formatMessage.switchTxType(res);
-                if(this.messageList.tooltip){
-                    this.flShowRateToolTip = true
-                }
-                console.log('转换后',this.messageList)
-            }
-        }catch (e) {
-            console.error(e)
-        }
-        
-        // Server.commonInterface( {txDetail: {txHash: this.$route.query.txHash} },(res) => {
-        //     try {
-        //         if(res){
-        //             let fromInformation,toInformation;
-        //             fromInformation = Tools.formatListAmount(res).fromAddressAndMoniker;
-        //             toInformation = Tools.formatListAmount(res).toAddressAndMoniker;
-        //             this.gasPrice = Tools.convertScientificNotation2Number(
-        //                 Tools.formaNumberAboutGasPrice(res.gas_price)
-        //             );
-        //             if(res.isProfiler){
-        //                 this.isProfiler = res.isProfiler;
-        //             }
-        //             this.gasLimit = res.gas_limit;
-        //             this.gasUsed = res.gas_used;
-        //             this.gasWanted = res.gas_wanted;
-        //             this.txHashValue = res.hash;
-        //             this.log = res.log;
-        //             this.blockValue = res.block_height;
-        //             this.statusValue = Tools.firstWordUpperCase(res.status);
-        //             this.timestampValue = Tools.format2UTC(res.timestamp);
-        //             this.feeValue = Tools.formatFee(res.fee);
-        //             this.gasUsedValue = res.gas_used;
-        //             this.signerValue = res.signer;
-        //             this.memoValue = res.memo ? res.memo : '--';
-        //             this.fromMoniker =  fromInformation.length > 1 ? fromInformation.length : fromInformation.length === 1 ? fromInformation[0].moniker :'';
-        //             this.toMoniker = toInformation.length > 1 ? toInformation.length : toInformation.length === 1 ? toInformation[0].moniker :'';
-        //             this.messageList = formatMessage.switchTxType(res);
-        //             if(this.messageList.tooltip){
-        //                 this.flShowRateToolTip = true
-        //             }
-        //         }
-
-        //     }catch (e) {
-        //         console.error(e)
-        //     }
-        // })
     }
   },
 }

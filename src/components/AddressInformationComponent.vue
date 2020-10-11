@@ -10,17 +10,17 @@
 						<ul class="address_information_content">
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.address') }}:</span>
-								<p>
+								<p style="min-width: 3.53rem">
 									<span>{{address}}<m-clip :text="address" style="margin-left: 0.09rem"></m-clip><span class="profiler_content" v-if="isProfiler">Profiler</span></span>
 								</p>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
-								<span class="address_information_value">IRIS</span>
+								<span class="address_information_value">{{ data[0].tokenNumber || unitData.maxUnit.toUpperCase() }}</span>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
-								<span class="address_information_value">{{totalAmount || 0}}</span>
+								<span class="address_information_value">{{ totalAmount || 0}}</span>
 							</li>
 						</ul>
 						<!--<div class="address_information_asset_logo">-->
@@ -106,14 +106,14 @@
 						value:'',
 						color:'#8E66FF'
 					},
-					
 				],
 				totalAmount: '',
 				balance:'',
 				delegated:'',
 				unbonding:'',
 				rewards:'',
-				otherTokenList:[]
+				otherTokenList:[],
+				unitData: JSON.parse(localStorage.getItem('unit'))
 			}
 		},
 		watch:{
@@ -134,7 +134,7 @@
 			},
 			formatAssetInformation(assetInformation){
 				assetInformation.forEach( item => {
-					if(item && item.token === 'IRIS'){
+					if(item && item.token === this.unitData.maxUnit.toUpperCase() ){
 						this.totalAmount = item.totalAmount;
 						this.assetConstitute.forEach( res => {
 							 if(res.label === "UnBonding"){
@@ -151,7 +151,7 @@
 					}
 				});
 				this.otherTokenList = assetInformation.filter((item) => {
-					return item.token !== 'IRIS'
+					return item.token !== this.unitData.maxUnit.toUpperCase()
 				})
 			},
 			formatDecimalNumberToFixedNumber(total,data) {
@@ -202,6 +202,7 @@
 						width: 0.4rem;
 					}
 					.address_information_content{
+						text-align: left;
 						.address_information_item{
 							display: grid;
 							grid-template-columns: repeat(1,1.1rem auto);
@@ -354,7 +355,7 @@
 		.address_information_component_container{
 			padding-top: 0.54rem;
 			.address_information_component_wrap{
-				margin: 0.2rem 0.1rem 0 0.1rem;
+				// margin: 0.2rem 0.1rem 0 0.1rem;
 				.address_information_component_content{
 					.address_information_asset_content{
 						width: 100%;

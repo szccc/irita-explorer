@@ -57,9 +57,172 @@
         <div class="transaction_list_table_container">
             <div class="transaction_list_table_content">
                 <div class="table_list_content">
-                    <m-tx-list-page-table :items="txList"></m-tx-list-page-table>
+                    <!-- <m-tx-list-page-table :items="txList"></m-tx-list-page-table>
                     <div v-if="txList.length === 0" class="no_data_show">
                         <img src="../assets/no_data.svg" alt="">
+                    </div> -->
+                    <!-- Delegation Txs -->
+                    <div class="delegations_txs_wrap" v-if="this.$route.params.txType === 'delegations'">
+                        <div class="delegations_txs_container">
+                            <div class="delegations_txs_table_container">
+                                <el-table :data="txList" style="width: 100%"
+                                        :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                                    <el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="110">
+                                        <template v-slot:default="{ row }">
+                                            <img class="status_icon"
+                                                :src="require(`../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
+                                            <el-tooltip :content="`${row.Tx_Hash}`">
+                                                <router-link 
+                                                            :to="`/tx?txHash=${row.Tx_Hash}`"
+                                                            :style="{ color: '$theme_c !important' }">{{
+                                                    formatTxHash(row.Tx_Hash) }}
+                                                </router-link>
+                                            </el-tooltip>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" width="76">
+                                        <template v-slot:default="{ row }">
+                                            <router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.Block"
+                                                        :style="{ color: '$theme_c !important' }">{{ row.Block }}
+                                            </router-link>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="From" :label="$t('ExplorerLang.table.from')" width="120">
+                                        <template v-slot:default="{ row }">
+                                            <span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
+                                            <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
+                                            </span>
+                                                                <div class="name_address"
+                                                                    v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
+                                            <span class="remove_default_style skip_route"
+                                                    :class="row.From === $route.params.param ? 'no_skip' : ''">
+                                                <router-link :to="`/address/${row.From}`" class="link_style"
+                                                            :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
+                                            </span>
+                                            </div>
+                                            <span class="no_skip"
+                                                v-show="/^[0]\d*$/.test(row.From) || row.From === '--'">--</span>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="Amount" :label="$t('ExplorerLang.table.amount')" align="right"
+                                                    width="140"></el-table-column>
+                                    <el-table-column prop="To" :label="$t('ExplorerLang.table.to')" align="left"
+                                                    width="159">
+                                        <template v-slot:default="{ row }">
+                                            <span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
+                                            <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
+                                            </span>
+                                                                <div class="name_address"
+                                                                    v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
+                                            <span class="remove_default_style skip_route"
+                                                    :class="row.To === $route.params.param ? 'no_skip' : ''">
+                                                <router-link v-if="!(row.To === $route.params.param)" class="link_style"
+                                                            :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }"
+                                                            :to="`/address/${row.To}`">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
+                                                <span style="cursor:pointer;font-family: Consolas, Menlo;" v-else>{{ formatMoniker(row.toMoniker) }}</span>
+                                            </span>
+                                            </div>
+                                            <span class="no_skip"
+                                                v-show="/^[0]\d*$/.test(row.To) || row.To === '--'">--</span>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="Tx_Type" width="130" :label="$t('ExplorerLang.table.txType')"
+                                                show-overflow-tooltip></el-table-column>
+                                    <el-table-column prop="MsgsNum" :label="$t('ExplorerLang.table.message')">
+                                    </el-table-column>
+                                    <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')"
+                                                    width="110"></el-table-column>
+                                    <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" width="121">
+                                        <template v-slot:default="{ row }">
+                                            <router-link :to="`/address/${row.Tx_Signer}`" class="link_style justify">{{
+                                                formatAddress(row.Tx_Signer) }}
+                                            </router-link>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')"
+                                                    width="186"></el-table-column>
+                                </el-table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Validation Txs -->
+                    <div class="validation_txs_wrap" v-else>
+                        <div class="validation_txs_container">
+                            <div class="validation_txs_table_container">
+                                <el-table :data="txList" style="width: 100%"
+                                        :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                                    <el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="110">
+                                        <template v-slot:default="{ row }">
+                                            <img class="status_icon"
+                                                :src="require(`../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
+                                            <el-tooltip :content="`${row.Tx_Hash}`">
+                                                <router-link 
+                                                            :to="`/tx?txHash=${row.Tx_Hash}`"
+                                                            :style="{ color: '$theme_c !important' }">{{
+                                                    formatTxHash(row.Tx_Hash) }}
+                                                </router-link>
+                                            </el-tooltip>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" width="76">
+                                        <template v-slot:default="{ row }">
+                                            <router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.Block"
+                                                        :style="{ color: '$theme_c !important' }">{{ row.Block }}
+                                            </router-link>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="Moniker" :label="$t('ExplorerLang.table.name')" width="159">
+                                        <template v-slot:default="{ row }">
+                                            <span style="cursor:pointer;" v-if="row.OperatorAddr === $route.params.param">{{ row.Moniker }}</span>
+                                            <router-link v-else :to="`/address/${row.OperatorAddr}`"
+                                                        class="link_style justify">{{ formatMoniker(row.Moniker) }}
+                                            </router-link>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="OperatorAddr" :label="$t('ExplorerLang.table.operator')"
+                                                    width="140">
+                                        <template v-slot:default="{ row }">
+                                            <span v-if="/^[1-9]\d*$/.test(row.OperatorAddr)" class="skip_route">
+                                            <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.OperatorAddr }} Validators</router-link>
+                                            </span>
+                                            <div class="name_address"
+                                                v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
+                                                <el-tooltip :content="`${row.OperatorAddr}`"
+                                                            style="font-family: Consolas,Menlo">
+                                                    <span style="cursor:pointer;"
+                                                        v-if="row.OperatorAddr === $route.params.param">{{ formatAddress(row.OperatorAddr) }}</span>
+                                                    <router-link v-else :to="`/address/${row.OperatorAddr}`"
+                                                                class="link_style justify">{{
+                                                        formatAddress(row.OperatorAddr) }}
+                                                    </router-link>
+                                                </el-tooltip>
+                                            </div>
+                                            <span class="no_skip"
+                                                v-show="/^[0]\d*$/.test(row.OperatorAddr) || row.OperatorAddr === '--'">--</span>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="Self-Bonded" :label="$t('ExplorerLang.table.selfBonded')"
+                                                    width="159">
+                                        <template v-slot:default="{ row }">
+                                            <span>{{ row.SelfBonded }}</span>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')"
+                                                    show-overflow-tooltip></el-table-column>
+                                    <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')"
+                                                    width="110"></el-table-column>
+                                    <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" width="121">
+                                        <template v-slot:default="{ row }">
+                                            <router-link :to="`/address/${row.Tx_Signer}`" class="link_style justify">{{
+                                                formatAddress(row.Tx_Signer) }}
+                                            </router-link>
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')"
+                                                    width="186"></el-table-column>
+                                </el-table>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="pagination_nav_footer_content">
@@ -75,14 +238,13 @@
 <script>
 	import axios from "axios";
 	import Tools from "../util/Tools";
-	import MTxListPageTable from "./MTxListPageTable";
 	import MPagination from "./common/MPagination";
     import { pageTitleConfig } from "../constant";
     import { TxHelper } from '@/helper/TxHelper.js'
     import { getTypeStakingApi,getTypeDeclarationApi,getDelegationTxsApi,getValidationTxsApi } from "@/service/api";
 	export default {
 		name: "TransactionListPage",
-		components: { MPagination, MTxListPageTable},
+		components: { MPagination},
 		data() {
 			return {
                 pageTitle:'',
@@ -117,7 +279,8 @@
 				filterEndTime: '',
                 urlParamsShowStartTime:this.getParamsByUrlHash().urlParamShowStartTime ? this.getParamsByUrlHash().urlParamShowStartTime : '',
                 urlParamsShowEndTime:this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',
-				type:'',
+                type:'',
+                unitData: JSON.parse(localStorage.getItem('unit'))
 			}
 		},
 		mounted(){
@@ -333,22 +496,42 @@
                             if(res.data){
                                     this.txList = []
                                     res.data.forEach( item => {
-                                    const formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs)
-                                    //TODO:duanjie 待处理
-                                    const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
-                                    const status = item.status === 1 ?  'Success' : 'Fail'
-                                    const time = Tools.getFormatTimestamp(item.time)
+                                    // const formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs)
+                                    // const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0].amount)) : '--'
+                                    // const status = item.status === 1 ?  'Success' : 'Fail'
+                                    // const time = Tools.getDisplayDate(item.time)
+                                    // this.txList.push({
+                                    // Tx_Hash: item.tx_hash,
+                                    // Block: item.height,
+                                    // From: formTO.from,
+                                    // Amount: fee !== '--' ? (fee + this.unitData.maxUnit.toUpperCase()) : '--',
+                                    // To: formTO.to,
+                                    // Tx_Type: item.type,
+                                    // Tx_Fee: '--' ,
+                                    // Tx_Signer: item.signers[0] ? item.signers[0] : '--',
+                                    // Tx_Status: status,
+                                    // Timestamp: time,
+                                    let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
+                                    if (item.msgs && item.msgs.length === 1) {
+                                        formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
+                                    } else {
+                                        formTO = '--'
+                                    }
+                                    const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0].amount)) : '--'
+                                    const status = item.status === 1 ? 'Success' : 'Fail'
+                                    const time = Tools.getDisplayDate(item.time)
                                     this.txList.push({
-                                    Tx_Hash: item.tx_hash,
-                                    Block: item.height,
-                                    From: formTO.from,
-                                    Amount: fee !== '--' ? (fee + ' IRIS') : '--',
-                                    To: formTO.to,
-                                    Tx_Type: item.type,
-                                    Tx_Fee: '--' ,
-                                    Tx_Signer: item.signers[0] ? item.signers[0] : '--',
-                                    Tx_Status: status,
-                                    Timestamp: time,
+                                        Tx_Hash: item.tx_hash,
+                                        Block: item.height,
+                                        From: formTO.from || "--",
+                                        Amount: fee !== '--' ? fee + this.unitData.maxUnit.toUpperCase() : '--',
+                                        To: formTO.to || '--',
+                                        Tx_Type: item.type,
+                                        MsgsNum: msgsNumber,
+                                        Tx_Fee: item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
+                                        Tx_Signer: item.signers[0] ? item.signers[0] : '--',
+                                        Tx_Status: status,
+                                        Timestamp: time,
                                     })
                                 })
                             }else{
@@ -377,21 +560,36 @@
                             if(res.data){
                                     this.txList = []
                                     res.data.forEach( item => {
+                                        // const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
+                                        // const status = item.status === 1 ?  'Success' : 'Fail'
+                                        // const time = Tools.getDisplayDate(item.time)
+                                        // this.txList.push({
+                                        //     Tx_Hash: item.tx_hash,
+                                        //     Block:item.height,
+                                        //     Moniker: '--',
+                                        //     OperatorAddr: '--',
+                                        //     'Self-Bonded': '--',
+                                        //     'Tx_Type': item.type,
+                                        //     'Tx_Fee': fee !== '--' ? (fee + this.unitData.maxUnit.toUpperCase()) : '--',
+                                        //     'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
+                                        //     'Tx_Status': status,
+                                        //     Timestamp: time,
+                                        // })
                                         const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
-                                        const status = item.status === 1 ?  'Success' : 'Fail'
-                                        const time = Tools.getFormatTimestamp(item.time)
+                                        const status = item.status === 1 ? 'Success' : 'Fail'
+                                        const time = Tools.getDisplayDate(item.time)
                                         this.txList.push({
-                                        Tx_Hash: item.tx_hash,
-                                        Block:item.height,
-                                        Moniker: '--',
-                                        OperatorAddr: '--',
-                                        'Self-Bonded': '--',
-                                        'Tx_Type': item.type,
-                                        'Tx_Fee': fee !== '--' ? (fee + ' IRIS') : '--',
-                                        'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
-                                        'Tx_Status': status,
-                                        Timestamp: time,
-                                    })
+                                            Tx_Hash: item.tx_hash,
+                                            Block: item.height,
+                                            Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
+                                            OperatorAddr: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--',
+                                            SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? item.msgs[0].msg.min_self_delegation : '--' : '--',
+                                            'Tx_Type': item.type,
+                                            'Tx_Fee': item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
+                                            'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
+                                            'Tx_Status': status,
+                                            Timestamp: time,
+                                        })
                                 })
                             }else{
                                 this.txList = [];
@@ -409,6 +607,20 @@
                     }
                 }
             },
+            formatAddress (address) {
+				return Tools.formatValidatorAddress(address)
+			},
+			formatTxHash (TxHash) {
+				if (TxHash) {
+					return Tools.formatTxHash(TxHash)
+				}
+			},
+			formatMoniker (moniker) {
+				if (!moniker) {
+					return ''
+				}
+				return Tools.formatString(moniker, 15, '...')
+			},
         }
     }
 </script>
@@ -559,6 +771,9 @@
                 width: 100%;
                 overflow-x: auto;
                 padding-top: 0rem;
+                a {
+                    color: $t_link_c !important;
+                }
                 .no_data_show{
                     display: flex;
                     justify-content: center;
@@ -567,6 +782,11 @@
                     font-size:0.14rem;
                     height:3rem;
                     align-items: center;
+                }
+                .status_icon{
+                    width:0.13rem;
+                    height:0.13rem;
+                    margin-right:0.05rem;
                 }
             }
             .pagination_nav_footer_content{

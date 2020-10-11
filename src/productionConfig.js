@@ -103,11 +103,6 @@ let config = {
         bgColor:{
             common:'',
         }
-    },
-    unit: {
-        maxUnit: 'iris',
-        minUnit: 'uiris',
-        conversionRatio: 1000000
     }
 }
 module.exports = config;

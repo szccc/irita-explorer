@@ -50,6 +50,7 @@
 		},
 		data(){
 			return {
+				unitData: JSON.parse(localStorage.getItem('unit')),
 				informationData:'',
 				validatorStatus:'',
 				jailedData:{},
@@ -150,19 +151,19 @@
 							value: `0 ~ ${Number(dataInfomation.commission_max_change_rate) * 100} %`
 						})
 					}else if(item.label === 'Bonded Tokens:'){
-						item.value =`${this.$options.filters.amountFromat(dataInfomation.bonded_tokens, Constants.Denom.IRIS.toUpperCase(), this.irisTokenFixedNumber)}`;
-						let self_bond = Tools.formatUnit(dataInfomation.self_bond)
+						item.value =`${this.$options.filters.amountFromat(dataInfomation.bonded_tokens, this.unitData.maxUnit.toUpperCase(), this.irisTokenFixedNumber)}`;
+						let self_bond = Tools.formatUnit(dataInfomation.self_bond.amount)
 						let bonded_stake = dataInfomation.bonded_tokens - self_bond
 						let selfBonded = {
 							label:'Self-Bonded:',
 							value: `
-							${this.$options.filters.amountFromat(self_bond, Constants.Denom.IRIS.toUpperCase(),this.irisTokenFixedNumber)}
+							${this.$options.filters.amountFromat(self_bond, this.unitData.maxUnit.toUpperCase(),this.irisTokenFixedNumber)}
 								(${this.formatPerNumber((self_bond / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						let delegatorBonded = {
 							label:'Delegator Bonded:',
 							value:`${this.$options.filters.amountFromat(
-								bonded_stake, Constants.Denom.IRIS.toUpperCase(), this.irisTokenFixedNumber)}
+								bonded_stake, this.unitData.maxUnit.toUpperCase(), this.irisTokenFixedNumber)}
 								 (${this.formatPerNumber((Number(bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						item.children.unshift(selfBonded,delegatorBonded)
@@ -191,19 +192,22 @@
 			async getValidatorRewards() {
 				try {
 					let data = await getValidatorRewardsApi(this.$route.params.param)
-					let commission = data.val_commission.commission[0]
-					if(commission) {
-						this.bondedAndCommissionArr.map(item => {
-							if(item.label === 'Commission Rewards:'){
-								return item.value = Tools.formatUnit(commission) + ' IRIS' || '--'
-							}
-						})
-					} else {
-						this.bondedAndCommissionArr.map(item => {
-							if(item.label === 'Commission Rewards:'){
-								return item.value = '--'
-							}
-						})
+					console.log(data)
+					if(data) {
+						let commission = data.val_commission.commission[0]
+						if(commission) {
+							this.bondedAndCommissionArr.map(item => {
+								if(item.label === 'Commission Rewards:'){
+									return item.value = `${Tools.formatUnit(commission.amount)} ${this.unitData.maxUnit.toUpperCase()}` || '--'
+								}
+							})
+						} else {
+							this.bondedAndCommissionArr.map(item => {
+								if(item.label === 'Commission Rewards:'){
+									return item.value = '--'
+								}
+							})
+						}
 					}
 				} catch (e) {
 					console.log(e)

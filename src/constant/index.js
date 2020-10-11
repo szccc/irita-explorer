@@ -178,8 +178,6 @@ export const ModuleMap = {
   },
 }
 
-export const CHAINNAME = 'iris'
-
 const Denom = {}
 Denom.IRISATTO = 'iris-atto'
 Denom.IRIS = 'iris'

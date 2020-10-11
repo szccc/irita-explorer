@@ -55,7 +55,8 @@
 				testnetNyancatJailedThemeStyle:['#0D9388',"#101149"],
 				chartOptionColor:'',
 				currentMoniker:'',
-				tipColor:''
+				tipColor:'',
+				unitData: JSON.parse(localStorage.getItem('unit'))
 			}
 		},
 		watch:{
@@ -115,7 +116,7 @@
 							return `<div>
 										<p>${value[2]}</p>
 										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.commissionRate')}:${value[0]}%</p>
-										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.bondedTokens')}:<br/>${new bigNumber(value[1]).toFormat()} IRIS</p>
+										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.bondedTokens')}:<br/>${new bigNumber(value[1]).toFormat()} ${this.unitData.maxUnit.toUpperCase()}</p>
 										</div>`
 						}
 					},
