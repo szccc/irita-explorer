@@ -50,6 +50,7 @@
 					<span>{{$t('ExplorerLang.blockDetail.transaction')}}</span>
 					<span>{{transactionsValue}}</span>
 				</div>
+				<!-- 单个区块的奖励没有 -->
 				<!--<div class="block_information_item">
 					<span>{{$t('ExplorerLang.blockDetail.inflation')}}</span>
 					<span>{{inflationValue}}</span>
@@ -69,11 +70,33 @@
 			<div class="block_validator_set_container">
 				<div class="block_validator_set_title">{{$t('ExplorerLang.blockDetail.validatorSet')}}</div>
 				<div class="block_validator_set_content">
-					<m-block-information-table :items="validatorSetList" :showNoData="flValidatorNoData"
-					                           :min-width="tableMinWidth"></m-block-information-table>
-					<div v-show="flValidatorNoData" class="no_data_show">
-						<img src="../assets/no_data.svg" alt="">
-					</div>
+					<el-table class="table"  :data="validatorSetList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
+						<el-table-column type="index" width="45" :label="$t('ExplorerLang.table.number')"></el-table-column>
+						<el-table-column  prop="moniker" :label="$t('ExplorerLang.table.block')">
+							<template slot-scope="{ row }" slot="moniker">
+								<div class="moniker_conent">
+									<div class="proposer_img_content">
+										<img :style="{visibility:row.flProposer ? 'visible' : 'hidden'}" src="../assets/proposer_img.png"/>
+									</div>
+									<span class="skip_route">
+										<router-link :to="`/staking/${row.OperatorAddress}`">{{row.moniker? row.moniker :''}}</router-link>
+									</span>
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')">
+							<template slot-scope="{ row }" slot="OperatorAddress">
+								<div class="common_hover_address_parent skip_route">
+									<router-link :to="`/staking/${row.OperatorAddress}`" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
+									</router-link>
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column  prop="Consensus" width="330" :label="$t('ExplorerLang.table.consensusAddress')"></el-table-column>
+						<el-table-column  align="right" prop="ProposerPriority" :label="$t('ExplorerLang.table.proposerPriority')"></el-table-column>
+						<el-table-column  align="right" prop="VotingPower" :label="$t('ExplorerLang.table.votingPower')"></el-table-column>
+					</el-table>
+
 				</div>
 				<div class="pagination" style='margin-top:0.2rem;margin-bottom: 0.2rem;'
 				     v-if="flShowValidatorListSetPagination">
@@ -101,12 +124,11 @@
 	import {TX_TYPE, TX_STATUS} from '../constant';
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import prodConfig from "../productionConfig"
-	import MBlockInformationTable from "./MBlockInformationTable";
 	import MPagination from "./common/MPagination";
 	
 	export default {
 		name: "BlockDetail",
-		components: {TxListComponent, MBlockInformationTable, MPagination},
+		components: {TxListComponent, MPagination},
 		data () {
 			return {
 				moduleSupport,
@@ -130,8 +152,6 @@
 				inflationValue: null,
 				timestampValue: '',
 				validatorSetList: [],
-				flValidatorNoData: false,
-				tableMinWidth: "",
 				flShowValidatorListSetPagination: false,
 				validatorSetListCount: 0,
 				pageSize: 10,
@@ -143,7 +163,6 @@
 				this.getBlockInformation();
 				this.getTransactionList();
 				this.latestBlock()
-				this.computeMinWidth();
 				if (Number(this.$route.params.height) <= 1) {
 					this.active = false;
 				} else {
@@ -170,26 +189,26 @@
 				this.active = false;
 				this.activeNext = false
 			}
-			this.computeMinWidth();
 			this.getValidatorSetList(this.validatorSetPageNum, this.pageSize, this.$route.params.height);
 		},
 		methods: {
 			async getStakingBlockInformation() {
-				const height = this.$route.params.height
-				let res = await stakingBlockInformation(height)
-				console.log(res,"数据格式化")
-				if(res) {
-					this.blockStakingHash = res.hash;
-					this.proposerValue = res.propopser_addr || '--';
-					this.validatorValue =`${res.precommit_validator_num || 0} / ${res.total_validator_num || 0}`;
-					//TODO zhangjinbiao  需要变成百分比
-					this.votingPowerValue = res.total_voting_power;
-					this.transactionsValue = res.txn;
-					//TODO zhangjinbiao   单个区块的奖励没有
-					// this.inflationValue =
-					this.timestampValue = Tools.getDisplayDate(res.time);
+				try {
+					const height = this.$route.params.height
+					let res = await stakingBlockInformation(height)
+					if(res) {
+						this.blockStakingHash = res.hash;
+						this.proposerValue = res.propopser_addr || '--';
+						this.validatorValue =`${res.precommit_validator_num || 0} / ${res.total_validator_num || 0}`;
+						this.votingPowerValue = res.precommit_voting_power ? `${this.formatPerNumber((Number(res.precommit_voting_power) / res.total_voting_power) * 100)} %` : '--';
+						this.transactionsValue = res.txn;
+						//TODO zhangjinbiao  单个区块的奖励没有
+						// this.inflationValue =
+						this.timestampValue = Tools.getDisplayDate(res.time);
+					}
+				} catch(e) {
+					console.error(e)
 				}
-				console.log(res)
 			},
 			async latestBlock () {
 				try {
@@ -264,14 +283,9 @@
 				this.pageNum = pageNum;
 				this.getTxByAddress();
 			},
-			computeMinWidth () {
-				if (this.$route.params.height) {
-					this.tableMinWidth = 8.8;
-				}
-			},
 			async getValidatorSetList () {
-				let data = await getValidatorSetList(this.validatorSetPageNum, this.pageSize, this.$route.params.height)
 				try {
+					let data = await getValidatorSetList(this.validatorSetPageNum, this.pageSize, this.$route.params.height)
 					if (data.data.length > 0) {
 						this.validatorSetList = data.data.map(item => {
 							return {
@@ -283,6 +297,7 @@
 								'flProposer': item.is_proposer
 							}
 						})
+						console.log(this.validatorSetList,11)
 					}
 				} catch (e) {
 					console.error(e);
@@ -293,6 +308,19 @@
 				this.validatorSetPageNum = pageNum;
 				this.getValidatorSetList()
 			},
+			// 处理Voting Power:中的value值
+			formatPerNumber(num) {
+				if (typeof num === "number" && !Object.is(num, NaN)) {
+					let afterPoint = String(num).split(".")[1];
+					let afterPointLong = (afterPoint && afterPoint.length) || 0;
+					if (afterPointLong > 2 && num !== 0) {
+						return num.toFixed(4);
+					} else {
+						return num.toFixed(2);
+					}
+				}
+				return num;
+			}	
 		}
 	}
 </script>
@@ -427,7 +455,10 @@
 					background: #fff;
 					overflow-x: auto;
 					overflow-y: hidden;
-					
+					.table {
+						color: $t_second_c
+					}
+
 					.no_data_show {
 						display: flex;
 						min-height: 2rem;

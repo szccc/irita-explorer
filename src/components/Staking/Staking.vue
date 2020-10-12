@@ -150,7 +150,7 @@ export default {
                 votingPower: `${(item.voting_rate * 100).toFixed(4)}%`,
                 selfBond: `${Tools.subStrings(Tools.formatPriceToFixed(Number(selfBond.match(/\d*(\.\d{0,4})?/)[0])), 2)} ${this.unitData.maxUnit.toLocaleUpperCase()}`,
                 delegatorNum: item.delegator_num,
-                bondHeight: Number(item.bond_height),
+                bondHeight: item.bonding_height && Number(item.bonding_height) > 0 ? Number(item.bonding_height) : '--',
                 unbondingHeight: item.unbonding_height && Number(item.unbonding_height) > 0 ? Number(item.unbonding_height) : '--',
                 // unbondingTime: new Date(item.unbonding_time).getTime() > 0 ? Tools.format2UTC(item.unbonding_time) : '--',
                 // identity: item.description.identity,
