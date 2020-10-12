@@ -12,7 +12,7 @@
                 </span>
 			</div>
 			<!-- 区块基本信息 -->
-			<div class="block_detail_content">
+			<div class="block_detail_content" v-if="!moduleSupport('107', prodConfig.navFuncList)">
 				<div class="block_information_item">
 					<span>{{$t('ExplorerLang.blockDetail.blockHash')}}</span>
 					<span style="word-break: break-all;">{{blockHash}}</span>
@@ -25,39 +25,40 @@
 					<span>{{$t('ExplorerLang.blockDetail.timestamp')}}</span>
 					<span>{{time}}</span>
 				</div>
-				<!--<template v-else>
-					<div class="block_information_item">
-                        <span>{{$t('ExplorerLang.blockDetail.blockHash')}}</span>
-                        <span>{{blockHashValue}}</span>
-                    </div>
-                    <div class="block_information_item">
-                        <span>{{$t('ExplorerLang.blockDetail.proposer')}}</span>
-                        <span v-if="proposerAddress !== ''&& proposerAddress !== '&#45;&#45;'"><router-link class="common_link_style" :to="`/staking/${proposerAddress}`">{{proposerValue}}</router-link></span>
-                        <span v-if="proposerAddress === '' && proposerValue">{{proposerValue}}</span>
-                        <span v-if="proposerAddress === '&#45;&#45;'">&#45;&#45;</span>
-                    </div>
-                    <div class="block_information_item">
-                        <span>{{$t('ExplorerLang.blockDetail.validators')}}</span>
-                        <span>{{validatorValue}}</span>
-                    </div>
-                    <div class="block_information_item">
-                        <span>{{$t('ExplorerLang.blockDetail.votingPower')}}</span>
-                        <span>{{votingPowerValue}}</span>
-                    </div>
-                    <div class="block_information_item">
-                        <span>{{$t('ExplorerLang.blockDetail.transaction')}}</span>
-                        <span>{{transactionsValue}}</span>
-                    </div>
-                    <div class="block_information_item">
-                        <span>{{$t('ExplorerLang.blockDetail.inflation')}}</span>
-                        <span>{{inflationValue}}</span>
-                    </div>
-                    <div class="block_information_item">
-                        <span>{{$t('ExplorerLang.blockDetail.timestamp')}}</span>
-                        <span v-if="timestampValue">{{timestampValue}}</span>
-                        <span v-if="!timestampValue">&#45;&#45;</span>
-                    </div>
-				</template>-->
+				
+			</div>
+			<div class="block_detail_content" v-if="moduleSupport('107', prodConfig.navFuncList)" >
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.blockHash')}}</span>
+					<span>{{blockStakingHash}}</span>
+				</div>
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.proposer')}}</span>
+					<span v-if="proposerAddress !== ''&& proposerAddress !== '--'"><router-link class="common_link_style" :to="`/staking/${proposerAddress}`">{{proposerValue}}</router-link></span>
+					<span v-if="proposerAddress === '' && proposerValue">{{proposerValue}}</span>
+					<span v-if="proposerAddress === '--'">--</span>
+				</div>
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.validators')}}</span>
+					<span>{{validatorValue}}</span>
+				</div>
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.votingPower')}}</span>
+					<span>{{votingPowerValue}}</span>
+				</div>
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.transaction')}}</span>
+					<span>{{transactionsValue}}</span>
+				</div>
+				<!--<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.inflation')}}</span>
+					<span>{{inflationValue}}</span>
+				</div>-->
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.timestamp')}}</span>
+					<span v-if="timestampValue">{{timestampValue}}</span>
+					<span v-if="!timestampValue">--</span>
+				</div>
 			</div>
 			<!-- 区块交易 -->
 			<div class="block_transaction_content" v-if="transactionArray.length > 0">
@@ -89,7 +90,13 @@
 
 <script>
 	import TxListComponent from "./common/TxListComponent";
-	import {getBlockWithHeight, getLatestBlock, getBlockTxList, getValidatorSetList} from '../service/api';
+	import {
+		getBlockWithHeight,
+		getLatestBlock,
+		getBlockTxList,
+		getValidatorSetList,
+		stakingBlockInformation
+	} from '../service/api';
 	import Tools from "../util/Tools";
 	import {TX_TYPE, TX_STATUS} from '../constant';
 	import {moduleSupport} from "../helper/ModulesHelper";
@@ -114,7 +121,7 @@
 				maxBlock: 0,
 				heightValue: '',
 				transactionArray: [],
-				blockHashValue: '',
+				blockStakingHash: '',
 				proposerValue: "",
 				proposerAddress: '',
 				validatorValue: null,
@@ -154,6 +161,7 @@
 		mounted () {
 			this.getBlockInformation();
 			this.getTransactionList();
+			this.getStakingBlockInformation()
 			this.latestBlock()
 			if (Number(this.$route.params.height) > 1) {
 				this.active = true;
@@ -166,6 +174,23 @@
 			this.getValidatorSetList(this.validatorSetPageNum, this.pageSize, this.$route.params.height);
 		},
 		methods: {
+			async getStakingBlockInformation() {
+				const height = this.$route.params.height
+				let res = await stakingBlockInformation(height)
+				console.log(res,"数据格式化")
+				if(res) {
+					this.blockStakingHash = res.hash;
+					this.proposerValue = res.propopser_addr || '--';
+					this.validatorValue =`${res.precommit_validator_num || 0} / ${res.total_validator_num || 0}`;
+					//TODO zhangjinbiao  需要变成百分比
+					this.votingPowerValue = res.total_voting_power;
+					this.transactionsValue = res.txn;
+					//TODO zhangjinbiao   单个区块的奖励没有
+					// this.inflationValue =
+					this.timestampValue = Tools.getDisplayDate(res.time);
+				}
+				console.log(res)
+			},
 			async latestBlock () {
 				try {
 					let blockData = await getLatestBlock();
