@@ -87,7 +87,7 @@
                                             </router-link>
                                         </template>
                                     </el-table-column>
-                                    <el-table-column prop="From" :label="$t('ExplorerLang.table.from')" width="120">
+                                    <el-table-column prop="From" :label="$t('ExplorerLang.table.from')" width="128">
                                         <template v-slot:default="{ row }">
                                             <span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
                                             <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
