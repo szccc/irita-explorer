@@ -267,16 +267,18 @@ table.m_table {
     color: $t_second_c;
     thead {
       tr {
-        border-left: 1px solid #dee2e6;
-        border-right: 1px solid #dee2e6;
+        // border-left: 1px solid #dee2e6;
+        // border-right: 1px solid #dee2e6;
         th {
           box-sizing: border-box;
-          font-weight: 500 !important;
+          // font-weight: 500 !important;
           padding: 7.5px;
           vertical-align: middle;
           white-space: nowrap;
-          border-top: 1px solid #dee2e6;
+          // border-top: 1px solid #dee2e6;
           text-align: left;
+          color: #909399;
+          font-weight: 700;
         }
         th.sorting {
           cursor: pointer;
@@ -313,7 +315,7 @@ table.m_table {
           }
         }
         height: 50px;
-        border-bottom: 0.01rem solid $theme_c;
+        // border-bottom: 0.01rem solid $theme_c;
       }
     }
   }

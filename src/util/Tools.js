@@ -177,10 +177,10 @@ export default class Tools {
     return value
   }
   /**
-   * 后端返回的数据转换成标准格式 (+UTC)
+   * 后端返回的数据转换成标准格式
    */
   static format2UTC(originTime) {
-    return `${originTime.substr(0, 4)}/${originTime.substr(5, 2)}/${originTime.substr(8, 2)} ${originTime.substr(11, 8)}+UTC`
+    return `${originTime.substr(0, 4)}-${originTime.substr(5, 2)}-${originTime.substr(8, 2)} ${originTime.substr(11, 8)}`
   }
   /**
    * 格式化数字类型是string的数字并让小数点左移18位 (本质是移动小数点的位置)
@@ -898,12 +898,25 @@ export default class Tools {
   static formatPercentage(number) {
     return new BigNumber(number).multipliedBy(100)
   }
-  // 单位转换 TODO:duanjie 大数字转换需优化 
-  static formatUnit (num) {
-    let unit = JSON.parse(localStorage.getItem('unit')) || 1
-    return Number(num / unit.conversionRatio)
-  }
 
+  static formatUnit (item) {
+    let unit = JSON.parse(localStorage.getItem('unit')) || 1
+    if (typeof item === 'number' || typeof item === 'string') {
+      let num = new BigNumber(Number(item))
+      let Ratio = new BigNumber(Number(unit.conversionRatio))
+      return Number(num.dividedBy(Ratio))
+    }
+    if (typeof item === 'object') {
+      if (item.denom === unit.minUnit) {
+        let num = new BigNumber(Number(item.amount))
+        let Ratio = new BigNumber(Number(unit.conversionRatio))
+        return Number(num.dividedBy(Ratio))
+      } else {
+        return Number(item.amount)
+      }
+    }
+  }
+  
   static findNum(str){
       return str.match(/\d+/g);
   }

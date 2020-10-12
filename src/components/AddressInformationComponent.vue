@@ -16,19 +16,13 @@
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
-								<span class="address_information_value">{{ data[0].tokenNumber || unitData.maxUnit.toUpperCase() }}</span>
+								<span class="address_information_value">{{ data[0] ? data[0].tokenNumber : unitData.maxUnit.toUpperCase() }}</span>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
 								<span class="address_information_value">{{ totalAmount || 0}}</span>
 							</li>
 						</ul>
-						<!--<div class="address_information_asset_logo">-->
-							<!---->
-							<!--<span>IRIS</span>-->
-						<!--</div>-->
-						<!--<p class="address_information_title">Total Amount</p>-->
-						<!--<p class="address_information_total_amount_content">{{totalAmount}}</p>-->
 					</div>
 					<!-- 右侧信息 -->
 					<ul class="address_information_asset_constitute_content" v-show="flShowAssetInfo(assetConstitute)">
@@ -350,8 +344,7 @@
 		}
 	}
 }
-	@media screen and (max-width: 1030px){
-		
+	@media screen and (max-width: 1108px){
 		.address_information_component_container{
 			padding-top: 0.54rem;
 			.address_information_component_wrap{

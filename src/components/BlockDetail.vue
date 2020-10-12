@@ -410,12 +410,15 @@
 			}
 			
 			.block_validator_set_container {
+				margin-top: 0.1rem;
 				padding-bottom: 0.01rem;
 				
 				.block_validator_set_title {
-					height: 0.65rem;
+					height: 0.45rem;
 					display: flex;
 					align-items: center;
+					font-size: 0.18rem;
+    				font-weight: bold;
 					padding-left: 0.2rem;
 					color: $t_first_c
 				}

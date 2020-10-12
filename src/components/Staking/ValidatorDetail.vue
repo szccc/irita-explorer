@@ -114,7 +114,7 @@
 										</router-link>
 									</template>
 								</el-table-column>
-								<el-table-column prop="From" :label="$t('ExplorerLang.table.from')" width="159">
+								<el-table-column prop="From" :label="$t('ExplorerLang.table.from')" width="150">
 									<template v-slot:default="{ row }">
 										<span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
 										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
@@ -132,7 +132,7 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="Amount" :label="$t('ExplorerLang.table.amount')" align="right"
-								                 width="140"></el-table-column>
+								                 width="110"></el-table-column>
 								<el-table-column prop="To" :label="$t('ExplorerLang.table.to')" align="left"
 								                 width="159">
 									<template v-slot:default="{ row }">
@@ -154,7 +154,7 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')"
-								                 show-overflow-tooltip></el-table-column>
+								                 show-overflow-tooltip min-width="150"></el-table-column>
 								<el-table-column prop="MsgsNum" :label="$t('ExplorerLang.table.message')">
 								</el-table-column>
 								<el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')"
@@ -372,6 +372,7 @@
 			},
 			async getUnbondingDelegations (page = 1) {
 				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, true)
+				console.log(res,11)
 				this.unbondingDelegations.total = res.count
 				this.unbondingDelegations.items = []
 				res.data.forEach(item => {
@@ -414,15 +415,6 @@
 						Timestamp: time,
 					})
 				})
-				
-				// const { data: res } = await axios.get(`https://www.irisplorer.io/api/txs/stake/${page}/${this.pageSize}?address=${this.$route.params.param}`)
-				// this.delegationTxs.total = res.Count
-				// for (let it of res.Data) {
-				//   it.Tx_Hash = it.Hash
-				// }
-				// this.delegationTxs.items = Tools.formatTxList(res.Data, 'delegations')
-				// console.log(res)
-				// console.log(this.delegationTxs.items)
 			},
 			async getValidationTxs (page = 1) {
 				const res = await getValidationTxsApi(this.validationInformation.owner_addr, page, this.pageSize)
@@ -445,18 +437,6 @@
 						Timestamp: time,
 					})
 				})
-				
-				// const { data: res } = await axios.get(`https://www.irisplorer.io/api/txs/declaration/${page}/${this.pageSize}?address=${this.$route.params.param}`)
-				// this.validationTxs.total = res.Count
-				// for (let it of res.Data) {
-				//   it.Tx_Hash = it.Hash
-				//   if(it.self_bond.length > 0) {
-				//     it.self_bonded = (it.self_bond[0].amount/1000000000000000000).toFixed(2) + ' IRIS'
-				//   } else {
-				//     it.self_bonded = '--'
-				//   }
-				// }
-				// this.validationTxs.items = Tools.formatTxList(res.Data, 'validations')
 			},
 			formatAddress (address) {
 				return Tools.formatValidatorAddress(address)
@@ -686,7 +666,32 @@
 			}
 		}
 	}
-	
+
+	@media screen and (max-width: 1050px){
+		.vaildtor_detail_container {
+			.vaildtor_detail_content {
+				.vaildtor_detail_title_container {
+					margin-left: 0.2rem;
+				}
+				.delegations_wrap {
+					.delegations_container{
+						margin: 0 0.2rem;
+					}
+				}
+				.delegations_txs_wrap {
+					.delegations_txs_container{
+						margin: 0 0.2rem;
+					}
+				}
+				.validation_txs_wrap {
+					.validation_txs_container {
+						margin: 0 0.2rem;
+					}
+				}
+			}
+		}
+	}
+
 	@media screen and (max-width: 910px) {
 		.vaildtor_detail_container {
 			.vaildtor_detail_content {
@@ -718,6 +723,31 @@
 						
 						.common_pagination_content {
 						}
+					}
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 750px){
+		.vaildtor_detail_container {
+			.vaildtor_detail_content {
+				.vaildtor_detail_title_container {
+					margin-left: 0.2rem;
+				}
+				.delegations_wrap {
+					.delegations_container{
+						margin: 0 0.1rem;
+					}
+				}
+				.delegations_txs_wrap {
+					.delegations_txs_container{
+						margin: 0 0.1rem;
+					}
+				}
+				.validation_txs_wrap {
+					.validation_txs_container {
+						margin: 0 0.1rem;
 					}
 				}
 			}

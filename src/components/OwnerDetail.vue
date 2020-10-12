@@ -831,7 +831,6 @@
             },
             getAssetList(){
 				this.assetsItems = this.assetList.map( item => {
-					console.log(item,11)
 					if(item.denom === this.unitData.minUnit || item.denom === 'ubif'){
 					return {
 							// token:  Tools.formatDenom(item.denom),
@@ -851,6 +850,7 @@
 						}
 					}else {
 						return {
+							tokenNumber: item.amount,
 							token: item.denom,
 							balance: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}`: 0,
 							delegated: 0,
@@ -876,6 +876,7 @@
 			async getDelegationList(){	
 				try {
 					const {data:res} = await getDelegationListApi(this.$route.params.param)
+					// console.log(res)
 					if(res && res.length > 0){
 						let copyResult = JSON.parse(JSON.stringify(res));
 						this.delegationPageNationArrayData = this.pageNation(copyResult);
@@ -945,6 +946,7 @@
             async getRewardsItems(){
 				// let { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}/rewards`)
 				let res = await getRewardsItemsApi(this.$route.params.param)
+				// console.log(res)
 				try {
 					if(res && res.rewards && res.rewards.length > 0) {
 						res.rewards.map( item => {
@@ -957,7 +959,7 @@
 						});
 						let copyResult = JSON.parse(JSON.stringify(res));
 						// this.allRewardsValue = res.total ? Tools.formatAmount2(res.total,this.fixedNumber) : 0;
-						this.delegatorRewardsValue = res.total ? Tools.formatUnit(res.total[0].amount) : 0;
+						this.delegatorRewardsValue = res.total ? Tools.formatUnit(res.total[0]) : 0;
 						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.rewards);
 						if(res.rewards.length > this.pageSize){
 							this.flRewardsDelegationNextPage = true
@@ -981,6 +983,8 @@
 							},0);
 						}
 						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(),0)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
+						this.allRewardsAmountValue = this.delegatorRewardsValue + this.validatorRewardsValue
+						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.allRewardsAmountValue.toString(),0)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
 						this.getAssetList()
 					}
 				}catch (e) {
@@ -994,12 +998,13 @@
 					if(data) {
 						let commission = data.val_commission.commission[0]
 						if(commission) {
-							this.totalValidatorRewards = `${Tools.formatUnit(commission.amount).toFixed(2)} ${this.unitData.maxUnit.toUpperCase()}` || '--'
+							this.validatorRewardsValue = Tools.formatUnit(commission)
+							this.totalValidatorRewards = `${Tools.formatUnit(commission).toFixed(2)} ${this.unitData.maxUnit.toUpperCase()}` || '--'
 						} else {
 							this.totalValidatorRewards = '--'
 						}
-						this.allRewardsAmountValue = this.delegatorRewardsValue + Tools.formatUnit(commission.amount)
-						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((this.delegatorRewardsValue + Tools.formatUnit(commission.amount)).toString(),0)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
+						this.allRewardsAmountValue = this.delegatorRewardsValue + Tools.formatUnit(commission)
+						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.allRewardsAmountValue.toString(),0)).toFormat(),this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
 						this.getAssetList()
 					}
 				} catch (e) {
@@ -1012,7 +1017,7 @@
 			        this.delegationsItems = this.delegationPageNationArrayData[pageNum].map(item => {
 				        return {
 					        address: item.address,
-					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${item.amount.denom.toUpperCase()}`,
+					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
 					        shares: new BigNumber((Number(item.shares)).toFixed(2)).toFormat(),
 					        block: item.height,
 					        moniker: item.moniker
@@ -1022,7 +1027,7 @@
 			        this.delegationsItems = this.delegationPageNationArrayData.map(item => {
 				        return {
 					        address: item.address,
-					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${item.amount.denom.toUpperCase()}`,
+					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
 					        shares: new BigNumber((Number(item.shares)).toFixed(2)).toFormat(),
 					        block: item.height,
 					        moniker: item.moniker
@@ -1123,6 +1128,10 @@
 <style scoped lang="scss">
 	a{
 		color: $t_link_c !important;
+	}
+	/deep/ .el-table__empty-block {
+		height: 0.48rem !important;
+		min-height: 0.48rem !important;
 	}
 	.address_container_content{
 		padding:0 0.15rem;
@@ -1587,7 +1596,7 @@
 						display: block;
 						// margin-left: 0.2rem;
 						.validator_information_content_title {
-							padding-left:0.05rem;
+							padding-left:0rem;
 						}
 						.one_table_container {
 							width: 100%;

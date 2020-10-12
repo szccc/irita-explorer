@@ -39,6 +39,7 @@
           <el-table-column key="8" align="right" prop="selfBond" min-width="150" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="9" v-if="titleStatus !== 'Jailed'" align="right" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="10" align="right" prop="bondHeight" min-width="132" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <!-- 新增 -->
           <el-table-column key="11" v-if="titleStatus !== 'Active'" align="right" prop="unbondingHeight" min-width="175" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
         </el-table>
         <div class="pagination_content">
