@@ -21,6 +21,6 @@ yarn-error.log*
 *.sw?
 
 package-lock.json
-public/index.html
+# public/index.html
 src/style/productization.scss
 vue.config.js
