@@ -19,8 +19,3 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
-
-package-lock.json
-public/index.html
-src/style/productization.scss
-# vue.config.js
