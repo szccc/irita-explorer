@@ -5,7 +5,7 @@
 	          <div class="address_content_title_first">{{`${$t('ExplorerLang.addressDetail.addressDetail')} |`}}</div>
 	          <div class="address_content_title_address">{{address}}</div>
 	      	</div>
-			<div class="address_asset_content" v-show="moduleSupport('103', prodConfig.navFuncList)">
+			<div class="address_content" v-show="moduleSupport('103', prodConfig.navFuncList)">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.assets')}}</div>
 				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
@@ -14,7 +14,11 @@
 							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{scope.row.nftName || formatAddress(scope.row.id)}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
+						<!-- <template slot-scope="scope">
+							<LargeString :text="scope.row.tokenData" :maxLength="Number(50)" mode="cell" textWidth="300px"/>
+						</template> -->
+					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :download="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
@@ -22,6 +26,44 @@
 						</template>
 					</el-table-column>
 				</el-table>
+				<div class="pagination_content" v-show="assetCount > assetPageSize">
+					<m-pagination :page-size="assetPageSize"
+					              :total="assetCount"
+					              :page="assetPageNum"
+					              :page-change="assetPageChange">
+					</m-pagination>
+				</div>
+			</div>
+			<div class="address_content" v-show="moduleSupport('106', prodConfig.navFuncList)">
+				<div class="content_title">{{$t('ExplorerLang.addressDetail.identities')}}</div>
+				<el-table class="table" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table-column :min-width="ColumnMinWidth.identity" :label="$t('ExplorerLang.table.identity')">
+						<template slot-scope="scope">
+							<router-link :to="`/identity/${scope.row.id}`">{{scope.row.id}}</router-link>
+						</template>
+					</el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+		                <template slot-scope="scope">
+		                    <el-tooltip :content="scope.row.txHash"
+	                                    placement="top"
+	                                    :disabled="!Tools.isValid(scope.row.txHash)">
+	                            <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+	                        </el-tooltip>
+		                </template>
+		            </el-table-column>
+		            <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
+		                <template slot-scope="scope">
+		                    <span>{{scope.row.time}}</span>
+		                </template>
+		            </el-table-column>
+				</el-table>
+				<div class="pagination_content" v-show="identityCount > identityPageSize">
+					<m-pagination :page-size="identityPageSize"
+					              :total="identityCount"
+					              :page="identityPageNum"
+					              :page-change="identityPageChange">
+					</m-pagination>
+				</div>
 			</div>
 			<div class="consumer_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList)">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.consumerTitle')}}</div>
@@ -72,7 +114,7 @@
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
                         <template slot-scope="scope">
-                            <el-tooltip v-if="scope.row.txType==TX_TYPE.respond_service" 
+                            <el-tooltip v-if="scope.row.txType==TX_TYPE.respond_service"
 								        :content="scope.row.provider"
 								        placement="top">
 								<router-link   :to="`/address/${scope.row.provider}`">
@@ -90,13 +132,13 @@
                                 <div class="service_tx_muti_to_container"
                                      v-else>
                                     <router-link :to="`/tx?txHash=${scope.row.txHash}`">
-                                        {{ `${scope.row.provider.length} ${$t('ExplorerLang.unit.providers')}` }} 
+                                        {{ `${scope.row.provider.length} ${$t('ExplorerLang.unit.providers')}` }}
                                     </router-link>
                                 </div>
                             </div>
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
+                    <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
@@ -153,7 +195,7 @@
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
+					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
 						<template slot-scope="scope">
 							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
@@ -210,7 +252,7 @@
 							<div class="address_transaction_content_hash">
 								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
                                             src="../assets/success.png"/>
-								<el-tooltip v-if="scope.row.requestHash && scope.row.requestHash != '--'" 
+								<el-tooltip v-if="scope.row.requestHash && scope.row.requestHash != '--'"
 								            :content="scope.row.requestHash"
 								            placement="top">
 									<router-link :to="`/tx?txHash=${scope.row.requestHash}`">{{formatTxHash(scope.row.requestHash)}}</router-link>
@@ -400,7 +442,6 @@
 </template>
 
 <script>
-	import { getNfts } from "../service/api";
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
 	import { TxHelper } from "../helper/TxHelper";
@@ -408,8 +449,10 @@
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
 	import Constant,{ TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant';
-    import AddressInformationComponent from "./AddressInformationComponent";
+	import AddressInformationComponent from "./AddressInformationComponent";
+	import LargeString from './common/LargeString';
   	import {
+  		getNfts,
   		getAddressTxList,
     	getCallServiceWithAddress,
 		getRespondServiceWithAddress,
@@ -422,10 +465,9 @@
 		} from "@/service/api";
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
-	import axios from 'axios'
     export default {
 		name: "OwnerDetail",
-		components: { MPagination, TxListComponent,AddressInformationComponent },
+		components: { MPagination, TxListComponent,AddressInformationComponent,LargeString },
 		data() {
 			return{
 				TX_TYPE,
@@ -435,6 +477,9 @@
 				moduleSupport,
 				Tools,
 				assetArray:[],
+				assetPageNum:1,
+				assetPageSize: 5,
+				assetCount:0,
 				denomArray:[],
 				address:'',
 				pageNum: 1,
@@ -450,6 +495,10 @@
 				respondRecordPageNum:1,
 				respondRecordPageSize: 5,
 				respondRecordCount:0,
+				identityList:[],
+				identityPageNum:1,
+				identityPageSize: 5,
+				identityCount:0,
 				type:'',
                 status:'',
                 type_temp:'',
@@ -517,7 +566,7 @@
 		watch:{
 			$route(){
 				this.address = this.$route.params.param;
-				this.getOwnerDetail();
+				this.getAssetList();
 				this.getTxByAddress();
 				this.getConsumerTxList();
 				this.getRspondRecordList();
@@ -540,8 +589,9 @@
 		},
 		mounted () {
 			document.documentElement.scrollTop = 0;
-			this.getOwnerDetail();
+			this.getAssetList();
 			this.getAllTxType();
+			this.getIdentityList();
 			this.getTxByAddress();
 			this.getConsumerTxList();
 			this.getRspondRecordList();
@@ -554,11 +604,15 @@
 			this.getAssetList()
 		},
 		methods:{
-			async getOwnerDetail(){
-				try {				
-					let nftData = await getNfts('', '', this.$route.params.param, 1, 1000, true);
-					// console.log('----',nftData)
+			assetPageChange(pageNum){
+				this.assetPageNum = pageNum;
+				this.getAssetList()
+			},
+			async getAssetList(){
+				try {
+					let nftData = await getNfts('', '', this.$route.params.param, this.assetPageNum, this.assetPageSize, true);
 					if(nftData && nftData.data ){
+						this.assetCount = nftData.count;
 						this.assetArray = nftData.data.map(item => {
 							return{
 								id: item.nft_id,
@@ -575,6 +629,29 @@
 				}catch (e) {
 					console.error(e)
 				}
+			},
+			//身份id列表
+			identityPageChange(pageNum){
+				this.identityPageNum = pageNum;
+				this.getIdentityList()
+			},
+			async getIdentityList(){
+				try {
+                    const res = await getIdentityListByAddress(this.$route.params.param, this.identityPageNum, this.identityPageSize, true);
+                    if(res){
+                        this.identityCount = res.count;
+                        this.identityList = res.data.map((item)=>{
+                        	return {
+                        		id:item.identities_id,
+								txHash:item.update_tx_hash || '--',
+			                    time: Tools.getDisplayDate(item.update_block_time) || '--'
+                        	}
+                        });
+                    }
+                }catch (e) {
+                	console.error(e);
+                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+                }
 			},
 			//地址相关交易记录
 			async getTxByAddress(){
@@ -643,7 +720,7 @@
 										status:r.status,
 	                        		};
 	                        		this.consumerTxList.push(respondResult);
-	                        	});	 
+	                        	});
 	                        }
                         }
                     }
@@ -783,6 +860,8 @@
                 this.getTxByAddress();
             },
             resetFilterCondition(){
+            	this.type_temp = '';
+            	this.status_temp = '';
                 this.type = '';
 				this.status = '';
                 this.pageNum = 1;
@@ -1161,15 +1240,16 @@
 		            word-break: break-all;
 		        }
 		    }
-			.address_asset_content{
+			.address_content{
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
 				border:1px solid $bd_first_c;
+				margin-bottom:0.48rem;
 			}
 
 			.consumer_transaction_content{
-				margin-top: 0.48rem;
+				margin-bottom:0.48rem;
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
@@ -1188,14 +1268,9 @@
                     	margin-right:0.1rem;
                     }
 				}
-				.pagination_content{
-					margin: 0.2rem 0 0.2rem 0;
-					display: flex;
-					justify-content: flex-end;
-				}
 			}
 			.provider_transaction_content{
-				margin-top: 0.48rem;
+				margin-bottom:0.48rem;
 				background: $bg_white_c;
 				padding:0.25rem;
 				border-radius:0.05rem;
@@ -1214,13 +1289,7 @@
                     	margin-right:0.1rem;
                     }
 				}
-				.pagination_content{
-					margin: 0.2rem 0 0.2rem 0;
-					display: flex;
-					justify-content: flex-end;
-				}
 			}
-
 			.address_transaction_content{
 				margin-top: 0.48rem;
 				margin-bottom: 0.2rem;
@@ -1301,11 +1370,6 @@
                     }
                     
                 }
-                .pagination_content{
-					margin: 0.2rem 0 0.2rem 0;
-					display: flex;
-					justify-content: flex-end;
-				}
 			}
 			
 			.content_title{
@@ -1517,6 +1581,12 @@
                     }
                 }
             }
+
+            .pagination_content{
+				margin: 0.2rem 0 0.2rem 0;
+				display: flex;
+				justify-content: flex-end;
+			}
 		}
 	}
 
@@ -1667,7 +1737,7 @@
 			        .address_content_title_address{
 			        }
 			    }
-				.address_asset_content{
+				.address_content{
 				}
 				.consumer_transaction_content{
 					.consumer_transaction_content_hash{
@@ -1676,8 +1746,6 @@
 	                    .consumer_transaction_content_available_icon{
 	                    }
 					}
-					.pagination_content{
-					}
 				}
 				.provider_transaction_content{
 					.respond_transaction_content_hash{
@@ -1685,8 +1753,6 @@
 					.provider_transaction_content_available{
 	                    .provider_transaction_content_available_icon{
 	                    }
-					}
-					.pagination_content{
 					}
 				}
 
@@ -1726,13 +1792,13 @@
 	                        }
 	                    }
 	                }
-	                .pagination_content{
-					}
 				}
 				.content_title{
 				}
 				.status_icon{
 	            }
+	            .pagination_content{
+				}
 			}
 		}
 	}

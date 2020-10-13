@@ -4,7 +4,6 @@ import URLSearchParams from 'url-search-params'
 import bech32 from 'bech32'
 import moveDecimal from 'move-decimal-point'
 import Constant from '../constant/index.js'
-import productionConfig from '@/productionConfig.js'
 export default class Tools {
   /**
    * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -33,6 +32,16 @@ export default class Tools {
     }
   }
 
+  /**
+	 * 格式化hash
+	 * */
+	static formatTxHash(txHash = ''){
+		if (txHash.length <= 6) {
+			return txHash;
+		}
+		return `${txHash.substring(0,3)}...${txHash.substring(txHash.length - 3)}`
+  }
+  
   /**
    * 格式化地址
    */

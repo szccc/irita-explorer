@@ -18,7 +18,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
-				<span>{{schemas}}</span>
+				<LargeString :text="schemas"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
@@ -133,7 +133,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<span>{{tokenData}}</span>
+				<LargeString :text="tokenData"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -168,7 +168,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<span>{{tokenData}}</span>
+				<LargeString :text="tokenData"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -198,7 +198,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<span>{{tokenData}}</span>
+				<LargeString :text="tokenData"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -216,7 +216,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
-				<span>{{schema}}</span>
+				<LargeString :text="schema" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
@@ -447,7 +447,7 @@
 		<div v-if="txType === TX_TYPE.recv_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.packet')}}：</span>
-				<span>{{packet}}</span>
+				<LargeString :text="packet"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proof')}}：</span>
@@ -463,7 +463,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proofData')}}：</span>
-				<span>{{proofData}}</span>
+				<LargeString :text="proofData"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.clientID')}}：</span>
@@ -481,11 +481,11 @@
 		<div v-if="txType === TX_TYPE.create_identity || txType === TX_TYPE.update_identity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.id')}}：</span>
-				<span>{{id}}</span>
+				<span><router-link :to="`/identity/${id}`">{{id}}</router-link></span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubkey')}}：</span>
-				<span>{{pubkey}}</span>
+				<LargeString :text="pubkey"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubKeyAlgo')}}：</span>
@@ -493,11 +493,12 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.certificate')}}：</span>
-				<span>{{certificate}}</span>
+				<LargeString :text="certificate"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.credentials')}}：</span>
-				<span>{{credentials}}</span>
+				<span v-if="credentials === '--'">{{credentials}}</span>
+                <span v-else><a :href="credentials" target="_blank">{{credentials}}</a></span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
@@ -511,7 +512,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
-				<span>{{header}}</span>
+				<LargeString :text="header"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -676,10 +677,11 @@
 <script>
 	import {TX_TYPE} from '../../constant';
 	import Tools from "../../util/Tools";
-	
+	import { TxHelper } from '../../helper/TxHelper';
+    import LargeString from './LargeString';
 	export default {
 		name: "txMessage",
-		components: {},
+		components: {LargeString},
 		props: {
 			msg: {
 				type: Object,
@@ -763,6 +765,7 @@
 				credentials: '',
 				pubKeyAlgo: '',
 				header: '',
+				pubkeyShow:false,
 				endTime: '',
 				shares: '',
 				operatorAddress: '',
@@ -971,11 +974,12 @@
 								break;
 							case TX_TYPE.create_identity:
 							case TX_TYPE.update_identity:
+								let pubkey = msg.pubkey || {};
 								this.id = msg.id || '--';
-								this.pubkey = msg.pubkey || '--';
+								this.pubkey = pubkey.pubkey || '--';
 								this.certificate = msg.certificate || '--';
 								this.credentials = msg.credentials && msg.credentials !== '[do-not-modify]' ? msg.credentials : '--';
-								this.pubKeyAlgo = msg.algorithm || '--';
+								this.pubKeyAlgo = TxHelper.getPubKeyAlgorithm(pubkey.algorithm) || '--';
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.create_client:
@@ -1053,7 +1057,7 @@
 	.tx_message_content {
 		padding: 0.48rem 0;
 		background: $bg_white_c;
-		
+		font-size: $s14;
 		.record_container {
 			display: flex;
 			width: 100%;

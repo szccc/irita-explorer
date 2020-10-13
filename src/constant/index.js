@@ -130,8 +130,10 @@ export const ColumnMinWidth = {
   nftCount: '100',
   identity: '220',
   idPubKey: '220',
+  idPubKeyFull:'650',
   pubKeyAlgo: '120',
   certificate: '220',
+  certificateFull: '650',
   credentials: '220',
 }
 
@@ -269,6 +271,15 @@ export const pageTitleConfig  = {
 	StatsIRISRichList:'IRIS Rich List',
 	StatsIRISRichListAddress:'Address',
 	StatsIRISStats:'IRIS Stats Analyse',
+}
+
+export const PubKeyAlgorithm = {
+  '0':'UnknownPubKeyAlgorithm',
+  '1':'RSA',
+  '2':'DSA',
+  '3':'ECDSA',
+  '4':'ED25519',
+  '5':'SM2',
 }
 
 const TRANSACTIONMESSAGENAME = {};

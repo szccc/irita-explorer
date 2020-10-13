@@ -8,6 +8,8 @@ export const ExplorerLang = {
         copied:'Copied',
         copyFailed:'Failed',
         all:'All',
+        more:'Expand',
+        fewer:'Collapse',
     },
     table:{
         emptyDescription:'- No Data -',
@@ -56,6 +58,7 @@ export const ExplorerLang = {
         pubKeyAlgo:'PubKey Algo',
         certificate:'Certificate',
         credentials: 'Credentials',
+        updateTime:'Timestamp',
         // 新增
         commission: 'Commission',
         bondedTokens: 'Bonded_Tokens',
@@ -147,10 +150,21 @@ export const ExplorerLang = {
         search: 'Search',
         placeHolder: 'Search by Denom Name or Denom ID',
     },
-    identity:{
+    identityList:{
         title: 'Identity',
         search: 'Search',
         placeHolder: 'Search by ID / Owner',
+    },
+    identityDetail:{
+        title: 'Identity Details',
+        baseInfo: 'Base Info',
+        credentialsInfo: 'Credentials Info',
+        txRecord: 'Txs',
+        owner: 'Owner',
+        credentials: 'Credentials',
+        createTxHash: 'Created TxHash',
+        createHeight: 'Block',
+        createTime: 'Timestamp',
     },
     service: {
         services: 'iService List',
@@ -219,6 +233,13 @@ export const ExplorerLang = {
             authorDescription: 'Author Description',
             schemas:'Schemas',
         },
+        identity:{
+            id:'ID',
+            pubkey:'Pubkey',
+            certificate:'Certificate',
+            credentials:'Credentials',
+            pubKeyAlgo:'PubKey Algo'
+        },
         recvPacket:{
             packet:'Packet',
             proof:'Proof',
@@ -227,13 +248,6 @@ export const ExplorerLang = {
             proofData:'Proof Data',
             clientID:'Client ID',
             module:'Module',
-        },
-        identity:{
-            id:'ID',
-            pubkey:'Pubkey',
-            certificate:'Certificate',
-            credentials:'Credentials',
-            pubKeyAlgo:'PubKey Algo'
         },
         client:{
             clientID:'Client ID',
@@ -279,6 +293,7 @@ export const ExplorerLang = {
         providerTitle:'iService-As Provider',
         respondRecord:'Respond Record',
         assets: 'NFT',
+        identities:'身份列表'
     },
     nftDetail: {
         nftInformation:'NFT Details',

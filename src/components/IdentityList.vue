@@ -1,21 +1,21 @@
 <template>
     <div class="identity_list_container">
         <div class="identity_list_content_wrap">
-            <div class="identity_list_header_content">
-                <h3 class="identity_list_header_title">{{count}} {{$t('ExplorerLang.identity.title')}}</h3>
-                <el-input v-model="input"
-                          @change="handleSearchClick"
-                          :placeholder="$t('ExplorerLang.identity.placeHolder')"></el-input>
-                <div class="tx_type_mobile_content">
-                    <div class="search_btn" @click="handleSearchClick">
-                        {{$t('ExplorerLang.identity.search')}}
-                    </div>
-                    <div class="reset_btn" @click="reset">
-                        <i class="iconfont iconzhongzhi"></i>
+            <h3 class="identity_list_header_title">{{count}} {{$t('ExplorerLang.identityList.title')}}</h3>
+            <div class="nef_list_table_container">
+                <div class="identity_list_header_content">
+                    <el-input v-model="input"
+                              @change="handleSearchClick"
+                              :placeholder="$t('ExplorerLang.identityList.placeHolder')"></el-input>
+                    <div class="tx_type_mobile_content">
+                        <div class="search_btn" @click="handleSearchClick">
+                            {{$t('ExplorerLang.identityList.search')}}
+                        </div>
+                        <div class="reset_btn" @click="reset">
+                            <i class="iconfont iconzhongzhi"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="nef_list_table_container">
                 <el-table class="table" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.identity" :label="$t('ExplorerLang.table.identity')">
                         <template slot-scope="scope">
@@ -23,7 +23,7 @@
                                         placement="top"
                                         effect="dark"
                                         :disabled="!Tools.isValid(scope.row.id)">
-                                <span>{{formatStr20(scope.row.id)}}</span>(scope.row.id)
+                                <router-link :to="`/identity/${scope.row.id}`">{{formatStr20(scope.row.id)}}</router-link>
                             </el-tooltip>
                         </template>
                     </el-table-column>
@@ -40,47 +40,30 @@
                             </el-tooltip>
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.idPubKey" :label="$t('ExplorerLang.table.idPubkey')">
+                    <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                         <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.pubkeys"
+                            <el-tooltip :content="scope.row.txHash"
                                         placement="top"
-                                        effect="dark"
-                                        :disabled="!Tools.isValid(scope.row.pubkeys)">
-                                <span>{{formatStr20(scope.row.pubkeys)}}</span>
+                                        :disabled="!Tools.isValid(scope.row.txHash)">
+                                <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
                             </el-tooltip>
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.certificate" :label="$t('ExplorerLang.table.certificate')">
+                    <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.updateTime')" prop="time">
                         <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.certificates"
-                                        placement="top"
-                                        effect="dark"
-                                        :disabled="!Tools.isValid(scope.row.certificates)">
-                                        <span>{{formatStr20(scope.row.certificates)}}</span>
-                            </el-tooltip>
-                        </template>
-                    </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.credentials" :label="$t('ExplorerLang.table.credentials')">
-                        <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.credentials"
-                                        placement="top"
-                                        effect="dark"
-                                        :disabled="!Tools.isValid(scope.row.credentials)">
-                                        <a v-if="Tools.isValid(scope.row.credentials)" :href="formatUrl(scope.row.credentials)" target="_blank">{{formatStr20(scope.row.credentials)}}</a>
-                                        <span v-else>{{formatStr20(scope.row.credentials)}}</span>
-                            </el-tooltip>
+                            <span>{{scope.row.time}}</span>
                         </template>
                     </el-table-column>
                 </el-table>
-            </div>
-            <div class="pagination_content">
-                <keep-alive>
-                    <m-pagination :page-size="pageSize"
-                                  :total="count"
-                                  :page="pageNum"
-                                  :page-change="pageChange">
-                    </m-pagination>
-                </keep-alive>
+                <div class="pagination_content">
+                    <keep-alive>
+                        <m-pagination :page-size="pageSize"
+                                      :total="count"
+                                      :page="pageNum"
+                                      :page-change="pageChange">
+                        </m-pagination>
+                    </keep-alive>
+                </div>
             </div>
         </div>
     </div>
@@ -130,12 +113,14 @@
                         this.identityList = res.data.map((item)=>{
                             let pubkey = (item.pubkeys || [])[0] || {};
                             return {
-                                id : item.id || '--',
+                                id : item.identities_id || '--',
                                 owner : item.owner || '--',
                                 pubkeys : pubkey.pubkey || '--',
                                 certificates : (item.certificates || [])[0] || '--',
                                 credentials : (item.credentials && item.credentials!='[do-not-modify]') ? item.credentials : '--',
                                 algorithm: pubkey.algorithm || '--',
+                                txHash: item.update_tx_hash || '--',
+                                time: Tools.getDisplayDate(item.update_block_time) || '--'
                             }
                         });
                         this.count = res.count;
@@ -153,6 +138,11 @@
             },
             formatAddress(address){
                 return Tools.formatValidatorAddress(address)
+            },
+            formatTxHash(TxHash){
+                if(TxHash){
+                    return Tools.formatTxHash(TxHash)
+                }
             },
             formatStr20(str){
                 if (str && str.length > 20) {
@@ -184,7 +174,6 @@
                     align-items: center;
                     /deep/ .el-input{
                         max-width: 3.5rem;
-                        margin-left: 0.1rem;
                         .el-input__inner{
                             padding-left: 0.07rem;
                             height: 0.32rem;
@@ -208,9 +197,6 @@
                     display: flex;
                     flex-direction:column;
                     justify-content: flex-start;
-                    .identity_list_header_title{
-                        margin-bottom:0.1rem;
-                    }
                     /deep/ .el-input{
                         margin-bottom:0.1rem;
                         .el-input__inner{
@@ -231,15 +217,16 @@
         .identity_list_content_wrap{
             margin: 0 auto;
             padding:0 0.15rem;
+            .identity_list_header_title{
+                margin: 0.3rem 0 0.1rem 0.27rem;
+                font-size: $s18;
+                color: $t_first_c;
+                line-height: 0.21rem;
+                text-align: left;
+            }
             .identity_list_header_content{
                 width: 100%;
-                margin: 0.3rem 0 0.1rem 0;
-                .identity_list_header_title{
-                    font-size: $s18;
-                    color: $t_first_c;
-                    line-height: 0.21rem;
-                    text-align: left;
-                }
+                margin: 0rem 0 0.1rem 0;
                 /deep/ .el-input{
                     .el-input__inner{
                         font-size: $s14 !important;
@@ -278,16 +265,48 @@
                     }
                 }
             }
-            .nef_list_table_container{
-                //margin-top: 0.05rem;
+            /deep/ .nef_list_table_container{
+                background: $bg_white_c;
+                border-radius: 0.05rem;
+                border: 0.01rem solid $bd_first_c;
+                margin: 0.2rem 0;
+                padding: 0.24rem 0.28rem 0.36rem 0.28rem;
                 a{
                     cursor:pointer;
                 }
-            }
-            .pagination_content{
-                display: flex;
-                justify-content: flex-end;
-                margin: 0.1rem 0 0.2rem 0;
+                .pagination_content{
+                    display: flex;
+                    justify-content: flex-end;
+                    margin: 0.1rem 0 0.2rem 0;
+                }
+                .el-table{
+                    .el-table__header-wrapper{
+                        .el-table__header{
+                            .has-gutter{
+                                tr{
+                                    th:first-child{
+                                        .cell{
+                                            padding-left: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .el-table__body-wrapper{
+                        .el-table__body{
+                            tbody{
+                                .el-table__row{
+                                    td:first-child{
+                                        .cell{
+                                            padding-left: 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

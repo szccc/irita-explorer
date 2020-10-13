@@ -12,7 +12,7 @@ module.exports = {
         pathRewrite: { '^/api': '/' },
       },
       '/lcd': {
-        target: 'http://10.2.10.130:2317',
+        target: 'http://192.168.150.31:11317',
         secure: false,
         pathRewrite: { '^/lcd': '/' },
       }

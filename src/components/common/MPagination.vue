@@ -159,6 +159,7 @@ export default {
     font-size: $s14;
     line-height: 1;
     background: $bg_white_c;
+    display: inline-block;
 }
 button {
     outline: none;

@@ -218,7 +218,7 @@ export function getNodeInfo(){
     return getFromLcd('node_info');
 }
 export function getIdentities(identity, pageNum, pageSize){
-    let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
+    let url = `identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
     return get(url);
 }
 
@@ -229,6 +229,30 @@ export function getValidatorsListApi(pageNum, pageSize, useCount,status){
 
 export function getValidatorsInfoApi(valAddress){
     let url = `staking/validators/${valAddress}`;
+    return get(url);
+}
+export function getIdentityDetail(identity){
+    let url = `/identities/${identity}`;
+    return get(url);
+}
+
+export function getPubkeyListByIdentity(identity, pageNum, pageSize, useCount){
+    let url = `identities/pubkey?id=${identity}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getCertificateListByIdentity(identity, pageNum, pageSize, useCount){
+    let url = `identities/certificate?id=${identity}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getTxListByIdentity(identity, pageNum, pageSize, useCount){
+    let url = `txs/identity?id=${identity}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getIdentityListByAddress(address, pageNum, pageSize, useCount){
+    let url = `identities/address?address=${address||''}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
     return get(url);
 }
 

@@ -8,6 +8,8 @@ export const ExplorerLang = {
         copied:'已复制',
         copyFailed:'复制失败',
         all:'全部',
+        more:'展开',
+        fewer:'收起',
     },
     table:{
         emptyDescription:'- 暂时没有内容 -',
@@ -56,6 +58,7 @@ export const ExplorerLang = {
         pubKeyAlgo:'公钥算法',
         certificate:'证书',
         credentials: '身份凭证',
+        updateTime:'更新时间',
         // 新增 全局表格中的表头
         commission: 'Commission',
         bondedTokens: 'Bonded_Tokens',
@@ -147,10 +150,21 @@ export const ExplorerLang = {
         search: '搜索',
         placeHolder: '搜索数据类别或数据类别标识',
     },
-    identity:{
+    identityList:{
         title: '身份',
         search: '搜索',
         placeHolder: '搜索身份ID/拥有者',
+    },
+    identityDetail:{
+        title: '身份详情',
+        baseInfo: '基本信息',
+        credentialsInfo: '凭证信息',
+        txRecord: '交易记录',
+        owner: '拥有者',
+        credentials: '身份凭证',
+        createTxHash: '创建交易',
+        createHeight: '创建区块',
+        createTime: '创建时间',
     },
     service: {
         services: '服务',
@@ -219,6 +233,13 @@ export const ExplorerLang = {
             authorDescription: '创建者简介',
             schemas:'接口规范',
         },
+        identity:{
+            id:'身份ID',
+            pubkey:'身份公钥',
+            certificate:'证书',
+            credentials:'身份凭证',
+            pubKeyAlgo:'公钥算法'
+        },
         recvPacket:{
             packet:'跨链数据包',
             proof:'证明信息',
@@ -227,13 +248,6 @@ export const ExplorerLang = {
             proofData:'证明数据',
             clientID:'客户端ID',
             module:'模块',
-        },
-        identity:{
-            id:'身份ID',
-            pubkey:'身份公钥',
-            certificate:'证书',
-            credentials:'身份凭证',
-            pubKeyAlgo:'公钥算法'
         },
         client:{
             clientID:'客户端ID',
@@ -279,6 +293,7 @@ export const ExplorerLang = {
         providerTitle:'服务调用-作为提供者',
         respondRecord:'响应记录',
         assets: '数据对象',
+        identities:'身份列表'
     },
     nftDetail: {
         nftInformation: '数据对象详情',
