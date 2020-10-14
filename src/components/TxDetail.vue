@@ -62,16 +62,13 @@ import TxMessage from './common/TxMessage.vue'
 import { getTxDetail, getRelevanceTxList } from '../service/api'
 import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant'
 import { moduleSupport } from '../helper/ModulesHelper'
-import prodConfig from '../productionConfig'
 import slef_axios from "../axios"
-import formatMessage from "../util/txdetail.js"
 export default {
   name: 'TxDetail',
   components: { MPagination, MClip, TxMessage },
   data() {
     return {
       moduleSupport,
-      prodConfig,
       TX_TYPE,
       TX_STATUS,
       ColumnMinWidth,
@@ -111,7 +108,7 @@ export default {
       flShowRateToolTip: false,
       isProfiler:false,
       failTipStyle:false,
-      unitData: JSON.parse(localStorage.getItem('unit'))
+      unitData: Tools.getUnit()
     }
   },
   mounted() {
@@ -147,8 +144,10 @@ export default {
         if (res) {
           res.msgs.forEach( item => {
             let amount = item.msg.amount
-            amount = Number(Tools.findNum(amount)[0])
-            item.msg.amount = Tools.formatUnit(amount) + this.unitData.maxUnit.toUpperCase()
+            if(amount) {
+              amount = Number(Tools.findNum(amount)[0])
+              item.msg.amount = Tools.formatUnit(amount) + this.unitData.maxUnit.toUpperCase()
+            }
           })
           this.messages = res.msgs || []
           this.events = res.events
@@ -231,7 +230,6 @@ export default {
           type = TX_TYPE.call_service
           break
       }
-      // console.log(this.TxType, '///', type, '///', this.requestContextId)
       if (type && type.length && this.requestContextId && this.requestContextId.length) {
         try {
           const res = await getRelevanceTxList(type, this.requestContextId, this.pageNum, this.pageSize, true)
@@ -264,7 +262,6 @@ export default {
               return result
             })
           }
-          console.log('=========:', this.relevanceTxs)
         } catch (e) {
           console.error(e)
         }
@@ -405,347 +402,10 @@ a {
           }
         }
       }
-      .tx_information_relevance_tx {
-        margin: 0.48rem 0 0.1rem 0;
-        .tx_information_relevance_tx_content {
-          box-sizing: border-box;
-          padding: 0.25rem;
-          background: $bg_white_c;
-          border-radius: 0.05rem;
-          border: 1px solid $bd_first_c;
-          .tx_information_relevance_tx_title {
-            text-align: left;
-            font-size: $s16;
-            font-weight: bold;
-            margin-bottom: 0.48rem;
-            font-family: PingFangSC-Semibold, PingFang SC;
-            font-weight: 600;
-          }
-          .tx_information_relevance_tx_list_content {
-            .tx_information_relevance_tx_list_content_hash {
-              display: flex;
-              align-items: center;
-              .service_tx_status {
-                width: 0.13rem;
-                height: 0.13rem;
-                margin-right: 0.05rem;
-              }
-            }
-          }
-          .pagination_content {
-            display: flex;
-            justify-content: flex-end;
-            margin: 0.1rem 0 0.2rem 0;
-          }
-        }
-      }
-      .tx_detail_common_information_content_wrap{
-        text-align: left;
-        padding-top: 0.05rem;
-        max-width: 12.8rem;
-        margin: 0 auto;
-        .tx_detail_header_title{
-            text-align: left;
-            height: 0.7rem;
-            line-height: 0.7rem;
-            color:$t_first_c;
-            margin-left: 0.2rem;
-            font-size: 0.18rem;
-        }
-        .tx_detail_common_information_wrap{
-            background: #fff;
-            border:0.01rem solid #d7d9e0;
-            box-sizing: border-box;
-            padding: 0.2rem;
-            font-size: 0.14rem;
-            .tx_detail_common_information_content{
-                .tx_detail_common_information_item{
-                    padding: 0.05rem 0;
-                    display: flex;
-                    .tx_detail_common_information_item_name{
-                        width: 1.5rem;
-                        color: $t_second_c;
-                    }
-                    .tx_detail_common_information_item_value{
-                        display: flex;
-                        color: $t_first_c;
-                        span{
-                            color: $t_first_c;
-                            overflow-x: auto;
-                            overflow-y: hidden;
-                        }
-                        .log_content_container{
-                            position: relative;
-                            .iconyiwen{
-                                padding-left: 0.05rem;
-                                font-size: 0.14rem;
-                                color: #fa8593;
-                            }
-                            &:hover{
-                                .tip_content{
-                                    visibility: visible;
-                                }
-                            }
-                            .tip_content{
-                                position: absolute;
-                                bottom:0.25rem;
-                                visibility: hidden;
-                                .log_content{
-                                    white-space: nowrap;
-                                    bottom: 0.25rem;
-                                    word-break: normal;
-                                    background: #000;
-                                    color:#fff;
-                                    padding: 0.08rem 0.15rem;
-                                    border-radius: 0.04rem;
-                                    &::after{
-                                        position: absolute;
-                                        width: 0;
-                                        height: 0;
-                                        border: 0.1rem solid transparent;
-                                        content: "";
-                                        display: block;
-                                        border-top-color: #000000;
-                                        left: 50%;
-                                        margin-left: -0.06rem;
-                                    }
-                                }
-
-                            }
-                            .overstep_style{
-                                left: -1.5rem!important;
-                                .log_content{
-                                    &::after{
-                                        left: 1.5rem !important;
-                                        margin-left: 0 !important;
-                                    }
-                                }
-                            }
-                        }
-                        .address_information_address_status_profiler{
-                            background: $theme_c;
-                            min-width: 0.65rem;
-                            font-size: 0.12rem;
-                            color: #fff;
-                            padding: 0.02rem 0.14rem;
-                            border-radius: 0.22rem;
-                            margin-left: 0.05rem;
-                        }
-                    }
-                    .iconProfiler_content{
-                        overflow-x: auto;
-                        overflow-y: hidden;
-                    }
-                    .gas_container{
-                        .gas_content_container{
-                            position: relative;
-                            &:hover{
-                                .gas_tip_content_wrap{
-                                    visibility: visible;
-                                }
-                            }
-                            .el-icon-warning-outline{
-                                padding-left: 0.05rem;
-                                font-size: 0.14rem;
-                                color:$theme_c;
-
-                            }
-                            .gas_tip_content_wrap{
-                                position: absolute;
-                                bottom: 0.25rem;
-                                left: -1.2rem;
-                                visibility: hidden;
-                                .gas_tip_content{
-                                    background: #000;
-                                    color: #fff;
-                                    padding: 0.09rem 0.15rem;
-                                    border-radius: 0.04rem;
-                                    p{
-                                        display: flex;
-                                        white-space: nowrap;
-                                    }
-                                    &::after{
-                                        position: absolute;
-                                        width: 0;
-                                        height: 0;
-                                        border: 0.14rem solid transparent;
-                                        content: "";
-                                        display: block;
-                                        border-top-color: #000000;
-                                        left: 50%;
-                                        margin-left: -0.08rem;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-        .tx_detail_message_content_title{
-            text-align: left;
-            font-size: 0.18rem;
-            height: 0.7rem;
-            line-height: 0.7rem;
-            margin-left: 0.2rem;
-            color:$t_first_c;
-        }
-        .tx_detail_message_information_content{
-            padding-bottom: 0.4rem;
-            .tx_detail_message_information{
-                box-sizing: border-box;
-                padding: 0.2rem;
-                background: #fff;
-                border: 0.01rem solid #d7d9e0;
-                .tx_detail_message_information_item{
-                    padding: 0.05rem 0;
-                    display: flex;
-                    font-size: 0.14rem;
-                    .tx_detail_message_information_name{
-                        width: 1.5rem;
-                        min-width: 1.5rem;
-                        max-width: 1.5rem;
-                        color: $t_second_c;
-                    }
-                    .hide_rate_tip{
-                        overflow-x: auto;
-                        overflow-y: hidden;
-                    }
-                    .tx_detail_message_information_value{
-                        display: flex;
-                        color: $t_first_c;
-
-                        .commission_rate_container{
-                            position: relative;
-                            display: flex;
-                            i{
-                                font-size: 0.14rem;
-                                padding-left: 0.05rem;
-                                color:$theme_c;
-                            }
-                            &:hover{
-                                .commission_rate_content_wrap{
-                                    visibility: visible;
-                                }
-                            }
-                            .commission_rate_content_wrap{
-                                background: #000;
-                                color: #fff;
-                                padding: 0.08rem 0.15rem;
-                                border-radius: 0.04rem;
-                                position: absolute;
-                                bottom:0.3rem;
-                                visibility: hidden;
-                                .commission_rate_content{
-                                    p{
-                                        display: flex;
-                                        white-space: nowrap;
-                                    }
-                                    &::after{
-                                        position: absolute;
-                                        width: 0;
-                                        height: 0;
-                                        border: 0.14rem solid transparent;
-                                        content: "";
-                                        display: block;
-                                        border-top-color: #000000;
-                                        left: 50%;
-                                        margin-left: -0.08rem;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-      }
     }
   }
 }
 
-@media screen and (max-width: 1280px){
-    .tx_detail_container{
-        .tx_detail_common_information_content_wrap{
-            .tx_detail_common_information_wrap{
-                margin: 0 0.2rem;
-            }
-            .tx_detail_message_information_content{
-                margin: 0 0.2rem;
-            }
-        }
-    }
-}
-@media screen and (max-width: 910px){
-    .tx_detail_container{
-        .tx_detail_common_information_content_wrap{
-            padding-top: 0;
-            .tx_detail_common_information_wrap{
-                margin: 0 0.1rem;
-                .tx_detail_common_information_content{
-                    .tx_detail_common_information_item{
-                        flex-direction: column;
-                        .tx_detail_common_information_item_value{
-                            display: flex;
-                            .log_content_container{
-                                .tip_content{
-                                    width: 2.25rem;
-                                    left: -0.12rem !important;
-                                    .log_content{
-                                        display: inline-block;
-                                        overflow-x: auto;
-                                        overflow-y: hidden;
-                                        padding: 0.04rem 0.1rem !important;
-                                        width: 100%;
-                                        &::after{
-                                            left: 0.2rem;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        .gas_container{
-                            .gas_content_container{
-                                .gas_tip_content_wrap{
-                                    left: -0.2rem !important;
-                                    .gas_tip_content{
-                                        &::after{
-                                            left: 0.25rem;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            .tx_detail_message_information_content{
-                margin: 0 0.1rem;
-                padding-bottom: 0.4rem;
-                .tx_detail_message_information{
-                    .tx_detail_message_information_item{
-                        flex-direction: column;
-                        padding: 0;
-                        .tx_detail_message_information_value{
-                            .commission_rate_container{
-                                .commission_rate_content_wrap{
-                                    left: -0.2rem !important;
-                                    .commission_rate_content{
-                                        &::after{
-                                            left: 0.25rem;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-}
 @media screen and (max-width: 768px) {
   .tx_detail_container {
     .tx_detail_content_wrap {

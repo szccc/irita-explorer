@@ -76,7 +76,6 @@
 				this.validatorStatusTitleList.forEach( item => {
 					item.isActive = false
 				});
-				// localStorage.setItem('validatorTabIndex',index);
 				this.validatorStatusTitleList[index].isActive = true;
 				this.status = this.validatorStatusTitleList[index]['name'];
 				// this.getValidatorStatus(index);

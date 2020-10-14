@@ -57,10 +57,6 @@
         <div class="transaction_list_table_container">
             <div class="transaction_list_table_content">
                 <div class="table_list_content">
-                    <!-- <m-tx-list-page-table :items="txList"></m-tx-list-page-table>
-                    <div v-if="txList.length === 0" class="no_data_show">
-                        <img src="../assets/no_data.svg" alt="">
-                    </div> -->
                     <!-- Delegation Txs -->
                     <div class="delegations_txs_wrap" v-if="this.$route.params.txType === 'delegations'">
                         <div class="delegations_txs_container">
@@ -239,7 +235,7 @@
 	import axios from "axios";
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
-    import { pageTitleConfig } from "../constant";
+    import { pageTitleConfig,TxStatus } from "../constant";
     import { TxHelper } from '@/helper/TxHelper.js'
     import { getTypeStakingApi,getTypeDeclarationApi,getDelegationTxsApi,getValidationTxsApi } from "@/service/api";
 	export default {
@@ -280,7 +276,7 @@
                 urlParamsShowStartTime:this.getParamsByUrlHash().urlParamShowStartTime ? this.getParamsByUrlHash().urlParamShowStartTime : '',
                 urlParamsShowEndTime:this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',
                 type:'',
-                unitData: JSON.parse(localStorage.getItem('unit'))
+                unitData: Tools.getUnit()
 			}
 		},
 		mounted(){
@@ -358,7 +354,6 @@
 				sessionStorage.setItem('txpagenum',1);
                 history.pushState(null, null, `/#${this.$route.path}?txType=${this.TxType}&status=${this.txStatus}&startTime=${this.urlParamsShowStartTime}&endTime=${this.urlParamsShowEndTime}&page=1`);
                 this.getTxListByFilterCondition();
-                // this.$uMeng.push('Transactions_Search','click')
             },
             resetUrl(){
                 this.value = 'allTxType';
@@ -373,16 +368,13 @@
 			filterTxByTxType(e){
 				if (e === 'allTxType' || e === undefined ) {
 					this.TxType = '';
-                    // this.$uMeng.push('Transactions_All Type','click')
 				}else {
 					this.TxType = e
 				}
 			},
 			filterTxByStatus(e){
 				if(e === 'allStatus'){
-					this.txStatus = '';
-                    // this.$uMeng.push('Transactions_All Status','click')
-                    
+					this.txStatus = '';                 
 				}else {
 					this.txStatus = e
 				}
@@ -395,12 +387,10 @@
 			},
 			formatStartTime(time){
                 this.urlParamsShowStartTime =  time
-				// let utcTime = Tools.conversionTimeToUTCByValidatorsLine(new Date(time).toISOString());
 				return Number(new Date(time).getTime()/1000)
 			},
 			formatEndTime(time){
                 this.urlParamsShowEndTime = time
-				// let utcTime = Tools.conversionTimeToUTCByValidatorsLine(new Date(time).toISOString());
 				let oneDaySeconds = 24 * 60 *60;
 				return Number(new Date(time).getTime()/1000) + Number(oneDaySeconds)
 			},
@@ -408,7 +398,6 @@
 				this.getType();
                 this.resetUrl()
                 this.getTxListByFilterCondition();
-                // this.$uMeng.push('Transactions_Refresh','click')
 			},
             getType(){
 	            switch (this.$route.params.txType) {
@@ -471,7 +460,6 @@
 				param.pageNumber = this.currentPageNum;
 				param.pageSize = this.pageSize;
 				param.txType = urlParams.txType ? urlParams.txType: '';
-                // param.status = urlParams.txStatus ? urlParams.txStatus: '';
                 if(urlParams.txStatus) {
                     if(urlParams.txStatus === 'success') {
                         param.status = 1
@@ -483,10 +471,8 @@
                 }
 				param.beginTime = urlParams.filterStartTime ? urlParams.filterStartTime: '';
                 param.endTime =  urlParams.filterEndTime ? urlParams.filterEndTime: '';
-                // let url = `https://www.irisplorer.io/api/txs/${param.type}/${param.pageNumber}/${param.pageSize}?txType=${param.txType}&status=${param.status}&beginTime=${param.beginTime}&endTime=${param.endTime}`
                 if (this.type === 'stake') {
                     let res = await getDelegationTxsApi('',param.pageNumber,param.pageSize,true,param.txType,param.status,param.beginTime,param.endTime)
-                    // console.log(res)
                     try {
                         this.count = res.count;
                         if(res && res.data){
@@ -496,21 +482,6 @@
                             if(res.data){
                                     this.txList = []
                                     res.data.forEach( item => {
-                                    // const formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs)
-                                    // const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0].amount)) : '--'
-                                    // const status = item.status === 1 ?  'Success' : 'Fail'
-                                    // const time = Tools.getDisplayDate(item.time)
-                                    // this.txList.push({
-                                    // Tx_Hash: item.tx_hash,
-                                    // Block: item.height,
-                                    // From: formTO.from,
-                                    // Amount: fee !== '--' ? (fee + this.unitData.maxUnit.toUpperCase()) : '--',
-                                    // To: formTO.to,
-                                    // Tx_Type: item.type,
-                                    // Tx_Fee: '--' ,
-                                    // Tx_Signer: item.signers[0] ? item.signers[0] : '--',
-                                    // Tx_Status: status,
-                                    // Timestamp: time,
                                     let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
                                     if (item.msgs && item.msgs.length === 1) {
                                         formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
@@ -518,7 +489,6 @@
                                         formTO = '--'
                                     }
                                     const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0].amount)) : '--'
-                                    const status = item.status === 1 ? 'Success' : 'Fail'
                                     const time = Tools.getDisplayDate(item.time)
                                     this.txList.push({
                                         Tx_Hash: item.tx_hash,
@@ -530,7 +500,7 @@
                                         MsgsNum: msgsNumber,
                                         Tx_Fee: item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
                                         Tx_Signer: item.signers[0] ? item.signers[0] : '--',
-                                        Tx_Status: status,
+                                        Tx_Status: TxStatus[item.status],
                                         Timestamp: time,
                                     })
                                 })
@@ -550,7 +520,6 @@
                     }
                 } else if(this.type === 'declaration') {
                     let res = await getValidationTxsApi('',param.pageNumber,param.pageSize,true,param.txType,param.status,param.beginTime,param.endTime)
-                    // console.log(res)
                     try {
                         this.count = res.count;
                         if(res && res.data){
@@ -560,23 +529,8 @@
                             if(res.data){
                                     this.txList = []
                                     res.data.forEach( item => {
-                                        // const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
-                                        // const status = item.status === 1 ?  'Success' : 'Fail'
-                                        // const time = Tools.getDisplayDate(item.time)
-                                        // this.txList.push({
-                                        //     Tx_Hash: item.tx_hash,
-                                        //     Block:item.height,
-                                        //     Moniker: '--',
-                                        //     OperatorAddr: '--',
-                                        //     'Self-Bonded': '--',
-                                        //     'Tx_Type': item.type,
-                                        //     'Tx_Fee': fee !== '--' ? (fee + this.unitData.maxUnit.toUpperCase()) : '--',
-                                        //     'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
-                                        //     'Tx_Status': status,
-                                        //     Timestamp: time,
-                                        // })
-                                        const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
-                                        const status = item.status === 1 ? 'Success' : 'Fail'
+                                        const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0])) : '--'
+                                        const status = item.status === 1 ? 'Success' : 'Fail' 
                                         const time = Tools.getDisplayDate(item.time)
                                         this.txList.push({
                                             Tx_Hash: item.tx_hash,
@@ -587,7 +541,7 @@
                                             'Tx_Type': item.type,
                                             'Tx_Fee': item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
                                             'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
-                                            'Tx_Status': status,
+                                            'Tx_Status': TxStatus[item.status],
                                             Timestamp: time,
                                         })
                                 })
@@ -645,7 +599,7 @@
             width: 100%;
             // position: fixed;
             // z-index: 3;
-            background-color: #F5F7FD;
+            background-color: $bg_cancel_c;
             // padding-top: 0.54rem;
             .transaction_list_title_content{
                 height:0.7rem;
@@ -665,10 +619,10 @@
                                 .el-input__inner{
                                     padding-left: 0.07rem;
                                     height: 0.32rem;
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                     line-height: 0.32rem;
                                     &::-webkit-input-placeholder{
-                                        font-size: 0.1rem !important;
+                                        font-size: $s10 !important;
                                     }
                                 }
                                 .el-input__inner:focus{
@@ -704,7 +658,7 @@
                                 padding-right: 0;
                                 line-height: 0.32rem;
                                 &::-webkit-input-placeholder{
-                                    font-size: 0.14rem !important;
+                                    font-size: $s14 !important;
                                 }
                                 &:focus{
                                     border-color: $theme_c;
@@ -730,14 +684,14 @@
                         align-items: center;
                         .reset_btn{
                             background: $theme_c;
-                            color: #fff;
+                            color: $t_white_c;
                             border-radius: 0.04rem;
                             margin-left: 0.1rem;
                             cursor: pointer;
                             height: 0.3rem;
                             i{
                                 padding: 0.08rem;
-                                font-size: 0.14rem;
+                                font-size: $s14;
                                 line-height: 1;
                                 display: inline-block;
                             }
@@ -747,10 +701,10 @@
                             cursor: pointer;
                             background: $theme_c;
                             margin-left: 0.1rem;
-                            color: #fff;
+                            color: $t_white_c;
                             border-radius: 0.04rem;
                             padding: 0.05rem 0.18rem;
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             line-height: 0.2rem;
                         }
                     }
@@ -766,22 +720,12 @@
         margin: 0 auto;
         .transaction_list_table_content{
             text-align: left;
-            // border: 1px solid #dee2e6;
             .table_list_content{
                 width: 100%;
                 overflow-x: auto;
                 padding-top: 0rem;
                 a {
                     color: $t_link_c !important;
-                }
-                .no_data_show{
-                    display: flex;
-                    justify-content: center;
-                    border-top:0.01rem solid #eee;
-                    border-bottom:0.01rem solid #eee;
-                    font-size:0.14rem;
-                    height:3rem;
-                    align-items: center;
                 }
                 .status_icon{
                     width:0.13rem;

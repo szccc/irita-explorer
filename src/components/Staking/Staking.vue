@@ -9,13 +9,12 @@
         <m-tabs class="staking_m_tabs" :data="stakingStatusTitleList" :chose="selectStakingStatus"></m-tabs>
       </div>
       <div class="staking_table_list_content">
-        <!-- Active -->
         <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData" :default-sort="{ prop: 'votingPower', order: 'descending' }">
           <el-table-column key="1" align="right" type="index" width="45" :label="$t('ExplorerLang.table.number')"></el-table-column>
           <el-table-column key="2" align="left" prop="moniker" show-overflow-tooltip  width="168" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
               <div style="display: flex;align-items: center;position: relative">
-                <span style="background:#E0E8FF;width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;display: flex;align-items: center;justify-content: center">{{ row.validatorIconSrc }}</span>
+                <span class="avatar" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;display: flex;align-items: center;justify-content: center">{{ row.validatorIconSrc }}</span>
                 <img v-if="row.url" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;position: absolute" :src="row.url ? row.url : ''" />
                 <router-link style="margin-left: 0.2rem;" :to="'staking/' + row.operatorAddress" class="link_style">{{ row.moniker }}</router-link>
               </div>
@@ -39,7 +38,6 @@
           <el-table-column key="8" align="right" prop="selfBond" min-width="150" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="9" v-if="titleStatus !== 'Jailed'" align="right" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="10" align="right" prop="bondHeight" min-width="132" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <!-- 新增 -->
           <el-table-column key="11" v-if="titleStatus !== 'Active'" align="right" prop="unbondingHeight" min-width="175" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -83,13 +81,13 @@ export default {
         },
       ],
       tableData: [],
-      unitData: JSON.parse(localStorage.getItem('unit'))
+      unitData: Tools.getUnit()
     }
   },
   computed: {},
   watch: {},
   created() {
-    this.getValidatorsList('active')
+    this.getValidatorsList(this.stakingStatusTitleList[0].name)
   },
   mounted() {},
   methods: {
@@ -126,14 +124,12 @@ export default {
     selectStakingStatus(i, v) {
       this.titleStatus = v.title
       this.getValidatorsList(v.name)
-      console.log(this.titleStatus)
     },
     async getValidatorsList(type) {
       try{
           let res = await getValidatorsListApi(1,100,true,type)
           this.count = res && res.count ? res.count : 0
           let result = res && res.data ? res.data : null
-          // console.log(result)
           if (result) {
             this.tableData = result.map(item => {
               let regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g
@@ -199,11 +195,11 @@ a {
     }
     .staking_table_list_content {
       width: 100%;
+      .avatar {
+        background: $bg_avatar;
+      }
       /deep/ .sort_table {
         overflow: auto hidden;
-        // td {
-        //   text-align: right;
-        // }
         /deep/ .sort-caret.ascending,
         .sort-caret.descending {
           margin-left: 0.09rem;

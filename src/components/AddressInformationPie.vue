@@ -5,6 +5,7 @@
 <script>
 	import Constant from "../constant"
 	import bigNumber from "bignumber.js"
+	import Tools from "@/util/Tools"
 	var echarts = require('echarts/lib/echarts')
 	require('echarts/lib/component/legend')
 	require('echarts/lib/component/tooltip')
@@ -22,7 +23,7 @@
 				testnetFuXiThemeStyle:["#0C4282","#FFA300","#67E523","#8E66FF"],
 				testnetNyancatThemeStyle:["#0D9388","#FFA300","#67E523","#8E66FF"],
 				defaultThemeStyle:["#0580D3","#FFA300","#67E523","#8E66FF"],
-				unitData: JSON.parse(localStorage.getItem('unit'))
+				unitData: Tools.getUnit()
 			}
 		},
 		watch:{
@@ -38,11 +39,7 @@
 				type: Array
 			}
 		},
-		mounted () {
-			// setTimeout(() => {
-			// 	this.initCharts();
-			// },400)
-		},
+		mounted () {},
 		methods:{
 			initCharts(){
 				this.addressInformationCharts = echarts.init(document.getElementById('address_information_chart'));
@@ -85,15 +82,6 @@
 						}
 					]
 				};
-				// if(this.$store.state.currentSkinStyle ===  Constant.CHAINID.IRISHUB){
-				// 	this.themeStyleArray = this.mainnetThemeStyle;
-				// }else if(this.$store.state.currentSkinStyle ===  Constant.CHAINID.FUXI){
-				// 	this.themeStyleArray = this.testnetFuXiThemeStyle;
-				// }else if(this.$store.state.currentSkinStyle ===  Constant.CHAINID.NYANCAT){
-				// 	this.themeStyleArray = this.testnetNyancatThemeStyle;
-				// }else {
-				// 	this.themeStyleArray = this.defaultThemeStyle;
-				// }
 				this.themeStyleArray = this.mainnetThemeStyle;
 				let seriesData = this.echartData.map( (item,index )=> {
 					return {

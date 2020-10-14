@@ -50,7 +50,7 @@
 		},
 		data(){
 			return {
-				unitData: JSON.parse(localStorage.getItem('unit')),
+				unitData: Tools.getUnit(),
 				informationData:'',
 				validatorStatus:'',
 				jailedData:{},
@@ -58,7 +58,6 @@
 				irisTokenMaxFixedNumber:18,
 				bondedAndCommissionArr:[
 					{
-						// label:'Commission Rate:',
 						label: this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.commissionRate'),
 						dataName:'commission_rate',
 						value:'',
@@ -192,7 +191,6 @@
 			async getValidatorRewards() {
 				try {
 					let data = await getValidatorRewardsApi(this.$route.params.param)
-					console.log(data)
 					if(data) {
 						let commission = data.val_commission.commission[0]
 						if(commission) {
@@ -210,7 +208,7 @@
 						}
 					}
 				} catch (e) {
-					console.log(e)
+					console.error(e)
 				}
 			}
 		}
@@ -227,7 +225,7 @@
 				display: inline-block;
 				margin: 0.35rem 0 0.12rem 0;
 				color: $t_first_c;
-				font-size: 0.18rem;
+				font-size: $s18;
 				line-height: 0.21rem;
 				padding-left: 0.2rem;
 			}
@@ -235,8 +233,8 @@
 		.validator_commission_information_wrap{
 			max-width: 12.8rem;
 			margin: 0 auto;
-			background: #fff;
-			border: 0.01rem solid #E7E9EB;
+			background: $bg_white_c;
+			border: 0.01rem solid $bd_first_c;
 			.validator_commission_information_content{
 				display: grid;
 				grid-template-columns: repeat(1,50% 50%);
@@ -245,7 +243,7 @@
 				.validator_commission_information_scatter_content{
 					width: 100%;
 					.validator_commission_information_scatter_title{
-						font-size: 0.14rem;
+						font-size:  $s14;
 						line-height: 0.16rem;
 						color: $t_first_c;
 					}
@@ -254,8 +252,8 @@
 					.validator_commission_bonded_list{
 						box-sizing: border-box;
 						padding-left: 0.7rem;
-						border-left: 0.01rem dashed #D7DCE0;
-						font-size: 0.14rem;
+						border-left: 0.01rem dashed $bd_first_c;
+						font-size:  $s14;
 						.validator_commission_bonded_item{
 							display: flex;
 							flex-direction: column;
@@ -279,7 +277,7 @@
 								display: flex;
 								flex-direction: column;
 								margin-top: 0.1rem;
-								border: 0.01rem dashed #D7DCE0;
+								border: 0.01rem dashed $bd_first_c;
 								box-sizing: border-box;
 								padding: 0.1rem;
 								.validator_commission_children_item{
@@ -288,12 +286,12 @@
 										display: inline-block;
 										width: 1.79rem;
 										color: $t_second_c;
-										font-size: 0.12rem;
+										font-size:  $s12;
 									}
 									span:nth-of-type(2){
 										display: inline-block;
 										color: $t_first_c;
-										font-size: 0.12rem;
+										font-size:  $s12;
 									}
 								}
 								.validator_commission_children_item:first-child{
@@ -324,7 +322,7 @@
 							border-left: 0;
 							padding-left: 0;
 							padding-top: 0.3rem;
-							border-top: 0.01rem solid #D7DCE0;
+							border-top: 0.01rem solid $bd_first_c;
 							.validator_commission_bonded_item{
 								.validator_commission_children_content{
 									margin-right: 0.2rem;

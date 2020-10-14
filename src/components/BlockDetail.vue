@@ -72,8 +72,8 @@
 				<div class="block_validator_set_content">
 					<el-table class="table"  :data="validatorSetList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
 						<el-table-column type="index" width="45" :label="$t('ExplorerLang.table.number')"></el-table-column>
-						<el-table-column  prop="moniker" :label="$t('ExplorerLang.table.block')">
-							<template slot-scope="{ row }" slot="moniker">
+						<el-table-column  prop="moniker" :label="$t('ExplorerLang.table.name')">
+							<template v-slot:default="{ row }">
 								<div class="moniker_conent">
 									<div class="proposer_img_content">
 										<img :style="{visibility:row.flProposer ? 'visible' : 'hidden'}" src="../assets/proposer_img.png"/>
@@ -85,14 +85,14 @@
 							</template>
 						</el-table-column>
 						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')">
-							<template slot-scope="{ row }" slot="OperatorAddress">
+							<template v-slot:default="{ row }">
 								<div class="common_hover_address_parent skip_route">
 									<router-link :to="`/staking/${row.OperatorAddress}`" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
 									</router-link>
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column  prop="Consensus" width="330" :label="$t('ExplorerLang.table.consensusAddress')"></el-table-column>
+						<el-table-column  prop="Consensus" width="340" :label="$t('ExplorerLang.table.consensusAddress')"></el-table-column>
 						<el-table-column  align="right" prop="ProposerPriority" :label="$t('ExplorerLang.table.proposerPriority')"></el-table-column>
 						<el-table-column  align="right" prop="VotingPower" :label="$t('ExplorerLang.table.votingPower')"></el-table-column>
 					</el-table>
@@ -297,7 +297,6 @@
 								'flProposer': item.is_proposer
 							}
 						})
-						console.log(this.validatorSetList,11)
 					}
 				} catch (e) {
 					console.error(e);
@@ -445,18 +444,30 @@
 					height: 0.45rem;
 					display: flex;
 					align-items: center;
-					font-size: 0.18rem;
+					font-size: $s18;
     				font-weight: bold;
 					padding-left: 0.2rem;
 					color: $t_first_c
 				}
 				
 				.block_validator_set_content {
-					background: #fff;
+					background: $bg_white_c;
 					overflow-x: auto;
 					overflow-y: hidden;
 					.table {
-						color: $t_second_c
+						color: $t_second_c;
+						.moniker_conent {
+							display: flex;
+							.proposer_img_content {
+								width: 0.13rem;
+								margin-right: 0.06rem;
+								display: flex;
+								align-items: center;
+								img {
+								width: 100%;
+								}
+							}
+						}
 					}
 
 					.no_data_show {

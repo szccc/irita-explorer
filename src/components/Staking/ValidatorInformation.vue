@@ -220,15 +220,6 @@
 			}
 		},
 		watch:{
-			// validationInformation: {
-			// 	handler: () => {
-			// 		this.informationData = this.validationInformation;
-			// 		// 处理后台返回的数据
-			// 		this.handlePropsData()
-			// 	},
-			// 	deep: true,
-			// 	// immediate: true
-			// }
 			validationInformation(){
 				this.informationData = this.validationInformation;
 				// 处理后台返回的数据
@@ -363,10 +354,10 @@ a {
 	.validation_information_wrap{
 		max-width: 12.8rem;
 		margin: 0 auto;
-		border:0.01rem solid #E7E9EB;
+		border:0.01rem solid $bd_first_c;
 		.validation_information_content{
 			width: 100%;
-			background: #fff;
+			background: $bg_white_c;
 			display: grid;
 			grid-template-columns: repeat(2,50%);
 			.validation_information_header_content{
@@ -379,7 +370,7 @@ a {
 					width: 1.2rem;
 					height: 1.2rem;
 					border-radius: 0.6rem;
-					background: #E0E8FF;
+					background: $bg_avatar;
 					overflow: hidden;
 					display: flex;
 					align-items: center;
@@ -390,19 +381,19 @@ a {
 						width: 100%;
 					}
 					span{
-						font-size: 0.52rem;
+						font-size: $s52;
 					}
 				}
 				.validation_information_moniker{
 					margin-top: 0.1rem;
-					font-size: 0.2rem;
+					font-size:  $s20;
 					line-height: 0.23rem;
 					font-weight: bold;
 				}
 				.validation_information_website{
 					margin-top: 0.15rem;
 					.validation_website_link{
-						font-size: 0.14rem;
+						font-size:  $s14;
 						line-height: 0.16rem;
 						color:$theme_c;
 						cursor: pointer;
@@ -412,33 +403,33 @@ a {
 					margin-top: 0.1rem;
 					.validation_information_link{
 						color:$theme_c !important;
-						font-size: 0.14rem;
+						font-size:  $s14;
 						line-height: 0.16rem;
 					}
 					.validation_information_not_link{
 						color:$t_first_c;
-						font-size: 0.14rem;
+						font-size:  $s14;
 						line-height: 0.16rem;
 					}
 				}
 				.validation_information_details{
 					max-width: 5rem;
 					margin-top: 0.1rem;
-					font-size: 0.14rem;
+					font-size:  $s14;
 					line-height: 0.21rem;
 					color: $t_first_c;
 				}
 				.validation_information_no_more{
 					margin-top: 0.55rem;
 					color: $t_second_c;
-					font-size: 0.14rem;
+					font-size:  $s14;
 					line-height: 0.21rem;
 				}
 			}
 			.validation_information_asset_information_content{
 				box-sizing: border-box;
 				margin: 0.3rem 0;
-				border-left: 0.01rem dashed #D7DCE0;
+				border-left: 0.01rem dashed $bd_second_c;
 				padding:0 0 0.3rem 0.7rem;
 				.validation_information_status_content{
 					.status_btn{
@@ -446,7 +437,7 @@ a {
 						line-height: 0.26rem;
 						padding: 0.05rem 0.16rem;
 						background: $theme_c;
-						color:#fff;
+						color: $t_white_c;
 						border-radius: 0.13rem;
 					}
 				}
@@ -455,7 +446,7 @@ a {
 						display: grid;
 						grid-template-columns: repeat(1,1.5rem auto);
 						margin-top: 0.16rem;
-						font-size: 0.14rem;
+						font-size:  $s14;
 						.validation_information_item_label_content{
 							span{
 								color: $t_second_c;
@@ -492,7 +483,7 @@ a {
 						margin:0.3rem 0.15rem;
 					}
 					.validation_information_asset_information_content{
-						border-top: 0.01rem solid #D7DCE0;
+						border-top: 0.01rem solid $bd_second_c;
 						margin: 0.15rem;
 						padding: 0.3rem 0 0 0;
 						border-left: none;

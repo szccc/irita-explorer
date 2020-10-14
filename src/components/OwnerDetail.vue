@@ -385,7 +385,7 @@
 										<router-link v-show="OperatorAddress !== '--' && validatorMoniker !== '--'" :to="`/staking/${OperatorAddress}`">{{validatorMoniker}}</router-link>
 										<span v-show="OperatorAddress === '--' || validatorMoniker === '--'">{{validatorMoniker}}</span>
 									</span>
-									<span class="address_information_address_status_active" v-if="validatorStatus === 'active'">{{ $t('ExplorerLang.staking.status.active') }}</span>
+									<span class="address_information_address_status_active" v-if="validatorStatus === 'active'">{{ $t('ExplorerLang.staking.status.active')}}</span>
 									<span class="address_information_address_status_candidate" v-if="validatorStatus === 'candidate'">{{ $t('ExplorerLang.staking.status.candidate') }}</span>
 									<span class="address_information_address_status_jailed" v-if="validatorStatus === 'jailed'">{{ $t('ExplorerLang.staking.status.jailed') }}</span>
 								</div>
@@ -459,6 +459,7 @@
 		getRespondServiceRecord,
 		getServiceBindingByServiceName,
 		getServiceContextsByServiceName,
+		getIdentityListByAddress,
 		getAllTxTypes,
 		getAddressInformationApi,getDelegationListApi,getUnBondingDelegationListApi,
 		getRewardsItemsApi,getValidatorRewardsApi
@@ -560,7 +561,7 @@
 				delegationPageNationArrayData:[],
                 unBondingDelegationPageNationArrayData:[],
 				rewardsDelegationPageNationArrayData:[],
-				unitData: JSON.parse(localStorage.getItem('unit'))
+				unitData: Tools.getUnit()
 			}
 		},
 		watch:{
@@ -584,8 +585,6 @@
 			OperatorAddress() {
 				this.getValidatorRewards()
 			}
-		},
-		created () {
 		},
 		mounted () {
 			document.documentElement.scrollTop = 0;
@@ -658,7 +657,6 @@
 			    try {
                     const res = await getAddressTxList(this.$route.params.param, this.type, this.status, this.pageNum, this.pageSize);
                     if(res){
-                        // console.log('addressTx======:',res);
                         this.totalTxNumber = res.count;
                         this.txList = res.data;
                     }
@@ -676,7 +674,6 @@
 			    try {
                     const res = await getCallServiceWithAddress(this.$route.params.param, this.consumerTxPageNum, this.consumerTxPageSize, true);
                     if(res){
-                        // console.log('ConsumerTx======:',res);
                         this.consumerTxCount = res.count;
                         this.consumerTxList = [];
                         for (let item of res.data){
@@ -739,7 +736,6 @@
 			    try {
                     const res = await getRespondServiceRecord('',this.$route.params.param, this.respondRecordPageNum, this.respondRecordPageSize);
                     if(res){
-                        // console.log('RspondRecordList======:',res);
                         this.respondRecordCount = res.count;
                         this.respondRecordList = res.data || [];
                     }
@@ -758,7 +754,6 @@
 			    try {
                     const res = await getRespondServiceWithAddress(this.$route.params.param, 1, 1000);
                     if(res){
-                        // console.log('ProviderTxList======:',res);
                         this.providerTxList = [];
                         for(let item of res.data){
                         	let result = {
@@ -878,18 +873,16 @@
                     });
                 } catch (e) {
                     console.error(e);
-                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 			},
 			async getAddressInformation(){
-				// const { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}`)
 				try {
 					let res = await getAddressInformationApi(this.$route.params.param)
 					if(res){
 						let arrayIndexOneData;
 						if(res.amount){
 							res.amount.forEach( item => {
-								if(item.denom === this.unitData.minUnit || item.denom === 'ubif'){
+								if(item.denom === this.unitData.minUnit){
 									arrayIndexOneData = item
 								}
 							});
@@ -910,7 +903,7 @@
             },
             getAssetList(){
 				this.assetsItems = this.assetList.map( item => {
-					if(item.denom === this.unitData.minUnit || item.denom === 'ubif'){
+					if(item.denom === this.unitData.minUnit){
 					return {
 							// token:  Tools.formatDenom(item.denom),
 							tokenNumber: `${Tools.formatUnit(item.amount)} ${this.unitData.maxUnit.toUpperCase()}`,
@@ -955,7 +948,6 @@
 			async getDelegationList(){	
 				try {
 					const {data:res} = await getDelegationListApi(this.$route.params.param)
-					// console.log(res)
 					if(res && res.length > 0){
 						let copyResult = JSON.parse(JSON.stringify(res));
 						this.delegationPageNationArrayData = this.pageNation(copyResult);
@@ -969,6 +961,7 @@
 						if(res.length > 0){
 							res.forEach( item => {
 								if(item.amount && item.amount.amount){
+									item.amount.amount = Tools.formatUnit(item.amount.amount)
 									if(item.amount.amount.toString().indexOf('.') !== -1){
 										let splitNumber = item.amount.amount.toString().split('.')[1].substr(0,2);
 										item.amount.amount =  Number(`${item.amount.amount.toString().split('.')[0]}.${splitNumber}`) * 100
@@ -990,8 +983,8 @@
 				}
             },
             async getUnBondingDelegationList(){
-				const {data:res} = await getUnBondingDelegationListApi(this.$route.params.param)
 				try {
+					const {data:res} = await getUnBondingDelegationListApi(this.$route.params.param)
 					if(res && res.length > 0){
 						let copyResult = JSON.parse(JSON.stringify(res));
 						this.unBondingDelegationPageNationArrayData = this.pageNation(copyResult);
@@ -1005,11 +998,7 @@
 						if(res.length > 0){
 							res.forEach( item => {
 								if(item.amount && item.amount.amount){
-									if(item.amount.denom == this.unitData.minUnit ){
-										item.amount.amount = Number(item.amount.amount) / this.unitData.conversionRatio
-									} else if (item.amount.denom == this.unitData.maxUnit) {
-										item.amount.amount = item.amount.amount
-									}
+									item.amount.amount = Tools.formatUnit(item.amount)
 								}
 							});
 							this.totalUnBondingDelegator = res.reduce( (total,item) => {
@@ -1023,9 +1012,7 @@
 				}
             },
             async getRewardsItems(){
-				// let { data:res } = await axios.get(`https://www.irisplorer.io/api/account/${this.$route.params.param}/rewards`)
 				let res = await getRewardsItemsApi(this.$route.params.param)
-				// console.log(res)
 				try {
 					if(res && res.rewards && res.rewards.length > 0) {
 						res.rewards.map( item => {
@@ -1037,7 +1024,6 @@
 							}
 						});
 						let copyResult = JSON.parse(JSON.stringify(res));
-						// this.allRewardsValue = res.total ? Tools.formatAmount2(res.total,this.fixedNumber) : 0;
 						this.delegatorRewardsValue = res.total ? Tools.formatUnit(res.total[0]) : 0;
 						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.rewards);
 						if(res.rewards.length > this.pageSize){
@@ -1050,11 +1036,7 @@
 						if(res.rewards.length > 0){
 							res.rewards.forEach( item => {
 								if(item.reward && item.reward.length > 0){
-									if(item.reward[0].denom == this.unitData.minUnit ){
-										item.reward[0].amount = Number(item.reward[0].amount) / this.unitData.conversionRatio
-									} else if (item.reward[0].denom == this.unitData.maxUnit) {
-										item.reward[0].amount = item.reward[0].amount
-									}
+									item.reward[0].amount = Tools.formatUnit(item.reward[0])
 								}
 							})
 							this.totalDelegatorReward = res.rewards.reduce( (total,item) => {
@@ -1069,7 +1051,6 @@
 				}catch (e) {
 					console.error(e)
 				}
-				// this.totalValidatorRewards = res.commission_rewards ? Tools.formatAmount2(res.commission_rewards,this.fixedNumber) : 0;
 			},
 			async getValidatorRewards() {
 				try {
@@ -1087,13 +1068,14 @@
 						this.getAssetList()
 					}
 				} catch (e) {
-					console.log(e)
+					console.error(e)
 				}
 			},
 	        delegationPageChange(pageNum){
 		        pageNum = pageNum - 1
 	        	if(this.flDelegationNextPage){
 			        this.delegationsItems = this.delegationPageNationArrayData[pageNum].map(item => {
+						item.amount.amount = Tools.formatUnit(item.amount.amount)
 				        return {
 					        address: item.address,
 					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
@@ -1104,6 +1086,7 @@
 			        });
                 }else {
 			        this.delegationsItems = this.delegationPageNationArrayData.map(item => {
+						item.amount.amount = Tools.formatUnit(item.amount.amount)
 				        return {
 					        address: item.address,
 					        amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(),this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
@@ -1119,11 +1102,7 @@
 		        if(this.flUnBondingDelegationNextPage){
 			        this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData[pageNum].map( item =>{
 						if(item.amount && item.amount.amount){
-							if(item.amount.denom == this.unitData.minUnit ){
-								item.amount.amount = Number(item.amount.amount) / this.unitData.conversionRatio
-							} else if (item.amount.denom == this.unitData.maxUnit) {
-								item.amount.amount = item.amount.amount
-							}
+							item.amount.amount = Tools.formatUnit(item.amount)
 						}
 						return {
 					        address: item.address,
@@ -1136,11 +1115,7 @@
                 }else {
 			        this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData.map( item =>{
 						if(item.amount && item.amount.amount){
-							if(item.amount.denom == this.unitData.minUnit ){
-								item.amount.amount = Number(item.amount.amount) / this.unitData.conversionRatio
-							} else if (item.amount.denom == this.unitData.maxUnit) {
-								item.amount.amount = item.amount.amount
-							}
+							item.amount.amount = Tools.formatUnit(item.amount)
 						}
 						return {
 					        address: item.address,
@@ -1157,11 +1132,7 @@
 	        	if(this.flRewardsDelegationNextPage){
 			        this.rewardsItems = this.rewardsDelegationPageNationArrayData[pageNum].map( item => {
 						if(item.reward && item.reward.length > 0){
-							if(item.reward[0].denom == this.unitData.minUnit ){
-								item.reward[0].amount = Number(item.reward[0].amount) / this.unitData.conversionRatio
-							} else if (item.reward[0].denom == this.unitData.maxUnit) {
-								item.reward[0].amount = item.reward[0].amount
-							}
+							item.reward[0].amount = Tools.formatUnit(item.reward[0])
 						}
 				        return {
 					        address: item.validator_address,
@@ -1172,11 +1143,7 @@
                 }else {
 			        this.rewardsItems = this.rewardsDelegationPageNationArrayData.map( item => {
 						if(item.reward && item.reward.length > 0){
-							if(item.reward[0].denom == this.unitData.minUnit ){
-								item.reward[0].amount = Number(item.reward[0].amount) / this.unitData.conversionRatio
-							} else if (item.reward[0].denom == this.unitData.maxUnit) {
-								item.reward[0].amount = item.reward[0].amount
-							}
+							item.reward[0].amount = Tools.formatUnit(item.reward[0])
 						}
 				        return {
 					        address: item.validator_address,
@@ -1396,14 +1363,14 @@
 						height: 0.2rem;
 						line-height: 0.2rem;
 						color: $t_first_c;
-						font-size: 0.18rem;
+						font-size: $s18;
 						margin-top: 0.3rem;
 						padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 						text-align: left;
 						.address_information_delegation_value,
 						.address_information_unbonding_delegation_value{
-                            font-size: 0.14rem;
+                            font-size: $s14;
                             color: $t_second_c;
                             line-height: 0.16rem;
                             margin-left: 0.15rem;
@@ -1418,28 +1385,10 @@
 					}
 					.delegations_table_container {
 						overflow-x: auto;
-						// border: 0.01rem solid #e7e9eb;
 						border-radius: 0.05rem;
-   						border: 1px solid #D7D7D7;
+   						border: 1px solid $bd_first_c;
 						min-height: 2.34rem;
-						background: #fff;
-						// /deep/ .el-table__header thead tr {
-						// 	border-left: 1px solid #dee2e6;
-						// 	border-right: 1px solid #dee2e6;
-						// 	height: 50px;
-						// }
-						// /deep/ .el-table__header .has-gutter .cell {
-						// 	color: $t_second_c !important;
-						// 	font-family: Arial, Helvetica, sans-serif;
-						// 	font-weight: 400;
-						// }
-						// /deep/ .el-table__body-wrapper .el-table__row .cell {
-						// 	font-family: Arial, Helvetica, sans-serif;
-						// 	color: $t_first_c !important;
-						// }
-						// /deep/ .el-table th.is-leaf {
-						// 	border-bottom: 0.01rem solid $theme_c !important;
-						// }
+						background: $bg_white_c;
 				    }
 				}
 				.common_pagination_content {
@@ -1450,13 +1399,13 @@
 
 			.address_information_redelegation_header_title{
 				text-align: left;
-                font-size: 0.18rem;
-                color: #171D44;
+                font-size: $s18;
+                color: $t_first_c;
                 line-height: 0.21rem;
                 margin: 0.27rem 0 0 0.2rem;
                 .address_information_redelegation_rewards_value{
-                    font-size: 0.14rem;
-                    color: #787C99;
+                    font-size: $s14;
+                    color: $t_second_c;
                     line-height: 0.16rem;
                     margin-left: 0.15rem;
                 }
@@ -1471,12 +1420,12 @@
                     .address_information_detail_option{
                         padding: 0 0 0.1rem 0.2rem;
                         .address_information_detail_option_name{
-                            font-size: 0.14rem;
-                            color: #787C99;
+                            font-size:  $s14;
+                            color: $t_second_c;
                             margin-right: 0.1rem;
                         }
                         .address_information_detail_option_value{
-                            font-size: 0.14rem;
+                            font-size:  $s14;
                             a{
                                 color: $theme_c !important;
                             }
@@ -1486,26 +1435,9 @@
                         overflow-x: auto;
 						box-sizing: border-box;
 						border-radius: 0.05rem;
-   						border: 1px solid #D7D7D7;
+   						border: 1px solid $bd_first_c;
 						min-height: 2.34rem;
-						background: #fff;
-						// /deep/ .el-table__header thead tr {
-						// 	border-left: 1px solid #dee2e6;
-						// 	border-right: 1px solid #dee2e6;
-						// 	height: 50px;
-						// }
-						// /deep/ .el-table__header .has-gutter .cell {
-						// 	color: $t_second_c !important;
-						// 	font-family: Arial, Helvetica, sans-serif;
-						// 	font-weight: 400;
-						// }
-						// /deep/ .el-table__body-wrapper .el-table__row .cell {
-						// 	font-family: Arial, Helvetica, sans-serif;
-						// 	color: $t_first_c !important;
-						// }
-						// /deep/ .el-table th.is-leaf {
-						// 	border-bottom: 0.01rem solid $theme_c !important;
-						// }
+						background: $bg_white_c;
                     }
                     .pagination_content{
                         margin-top: 0.2rem;
@@ -1517,20 +1449,20 @@
 					width: calc(50% - 0.1rem);
                     .address_information_redelegation_title{
 						width: 100%;
-                        font-size: 0.18rem;
-                        color: #171D44;
+                        font-size:  $s18;
+                        color: $t_first_c;
                         padding: 0 0 0.06rem 0.2rem;
                         .address_information_validator_rewards_value{
-                            font-size: 0.14rem;
-                            color: #787C99;
+                            font-size:  $s14;
+                            color: $t_second_c;
                             line-height: 0.16rem;
                             margin-left: 0.15rem;
                         }
                     }
                     .address_information_detail_content{
-						border: 1px solid #D7D7D7;
+						border: 1px solid $bd_first_c;
 						border-radius: 0.05rem;
-                        background: #fff;
+                        background: $bg_white_c;
                         box-sizing: border-box;
                         padding: 0.2rem;
                         min-height: 2.34rem;
@@ -1539,14 +1471,14 @@
                             align-items: center;
                             .address_information_detail_option_name{
                                 width: 1.3rem;
-                                font-size: 0.14rem;
-                                color: #787c99;
+                                font-size:  $s14;
+                                color: $t_second_c;
                                 line-height: 0.16rem;
                                 margin-right: 0.3rem;
                             }
                             .address_information_detail_option_value{
-                                font-size: 0.14rem;
-                                color: #171D44;
+                                font-size:  $s14;
+                                color: $t_first_c;
                                 margin-right: 0.1rem;
                                 a{
                                     color: $theme_c !important;
@@ -1554,24 +1486,24 @@
                             }
                             .address_information_address_status_active{
                                 background: $theme_c;
-                                font-size: 0.12rem;
-                                color: #fff;
+                                font-size:  $s12;
+                                color: $t_button_c;
                                 padding: 0.02rem 0.14rem;
                                 border-radius: 0.22rem;
                                 margin-right: 0.1rem;
                             }
                             .address_information_address_status_candidate{
-                                background: #3DA87E;
-                                font-size: 0.12rem;
-                                color: #fff;
+                                background: $bg_candidate_c;
+                                font-size:  $s12;
+                                color: $t_button_c;
                                 padding: 0.02rem 0.14rem;
                                 border-radius: 0.22rem;
                                 margin-right: 0.1rem;
                             }
                             .address_information_address_status_jailed{
-                                background: #FA7373;
-                                font-size: 0.12rem;
-                                color: #fff;
+                                background: $bg_jailed_c;
+                                font-size:  $s12;
+                                color: $t_button_c;
                                 padding: 0.02rem 0.14rem;
                                 border-radius: 0.22rem;
                                 margin-right: 0.1rem;

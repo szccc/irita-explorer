@@ -206,7 +206,6 @@
                 };
                 try {
                     const res = await getTxList(params);
-                    // console.log('tx list:',res)
                     if(res){
                         for (let txIndex = 0; txIndex < res.data.length; txIndex++){
                             let lastTxTime = Tools.getTimestamp();

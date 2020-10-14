@@ -35,7 +35,7 @@
           </el-menu>
         </div>
         <div class="header_mobile_menu" @click="featureShow = !featureShow">
-          <span v-if="netWorkArray.length !== 0" style="color:white;font-size: 0.12rem;font-family: PingFangSC-Regular, PingFang SC">{{netWorkArray[0].netWorkSelectOption}}</span>
+          <span v-if="netWorkArray.length !== 0">{{netWorkArray[0].netWorkSelectOption}}</span>
           <!-- <img class="menu_btn" src="../../assets/menu.png" /> -->
         </div>
       </div>
@@ -340,7 +340,6 @@ export default {
 				this.netWorkArray = this.netWorkArray.filter(item => {
 					return item.env !== constant.ENVCONFIG.DEV && item.env !== constant.ENVCONFIG.QA && item.env !== constant.ENVCONFIG.STAGE
         });
-        // console.log(this.netWorkArray)
     },
     windowOpenUrl (url) {
 				window.open(url)
@@ -350,7 +349,7 @@ export default {
     },
     async getUnitDataApi() {
       const res = await getUnitDataApi()
-      localStorage.setItem('unit',JSON.stringify(res))
+      sessionStorage.setItem('unit',JSON.stringify(res))
     }
   },
 }
@@ -427,6 +426,10 @@ export default {
       }
       .header_mobile_menu {
         display: none;
+        font-size: $s12;
+        span {
+          color: $t_white_c;
+        }
         .menu_btn {
           width: 0.2rem;
           height: 0.2rem;
@@ -510,13 +513,13 @@ export default {
               white-space: nowrap;
               padding: 0 0.2rem;
               cursor: pointer;
-              font-size: 0.14rem;
+              font-size: $s14;
               display: flex;
               &:hover{
                   background: #F6F7FF;
               }
               i{
-                  font-size: 0.18rem;
+                  font-size: $s18;
                   color: var(--titleColor);
                   padding-right: 0.2rem;
               }
