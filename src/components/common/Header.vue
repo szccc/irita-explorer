@@ -108,7 +108,7 @@ import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList,getUnitDataApi } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
-import { getConfig } from "@/helper/IritaHelper"
+import { getConfig, converAmount } from "@/helper/IritaHelper"
 import axios from 'axios'
 export default {
   data() {
@@ -147,7 +147,7 @@ export default {
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
-    this.setActiveIndex()
+    this.setActiveIndex();
   },
   watch: {
     $route: {
@@ -294,6 +294,7 @@ export default {
         this.handleConfigs(config.networkData);
     },
     handleConfigs (configs=[]) {
+
 		this.netWorkArray = configs.map(item => {
 			if(item.network_id === constant.CHAINID.IRISHUB){
                 item.icon = 'iconfont iconiris'
