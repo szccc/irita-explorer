@@ -34,9 +34,8 @@
             </component>
           </el-menu>
         </div>
-        <div class="header_mobile_menu" @click="featureShow = !featureShow">
-          <span v-if="netWorkArray.length !== 0">{{netWorkArray[0].netWorkSelectOption}}</span>
-          <!-- <img class="menu_btn" src="../../assets/menu.png" /> -->
+        <div class="header_mobile_menu" v-if="flShowNetwork">
+          <span v-if="netWorkArray.length !== 0" style="color:white;font-size: 0.12rem;font-family: PingFangSC-Regular, PingFang SC">{{netWorkArray[0].network_name}}</span>
         </div>
       </div>
       <div class="header_input_content" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`" v-if="searchShow">
@@ -50,8 +49,7 @@
           </div>
         </div>
       </div>
-      <!-- 后续添加 -->
-      <!-- <div v-show="moduleSupport('110', prodConfig.navFuncList)" class="header_network_container" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
+      <div v-show="flShowNetwork" class="header_network_container" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
           <span style="color: #fff">
               <i style="font-size: 0.24rem;padding-right: 0.02rem;" class="iconfont iconiris"></i>
               <i style="font-size: 0.08rem" class="iconfont iconwangluoqiehuanjiantou"></i>
@@ -59,10 +57,10 @@
           <ul class="network_list_container" v-show="flShowNetworkLogo && netWorkArray.length !== 0" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
               <li class="network_list_item"
                   v-for="item in netWorkArray"
-                  :key="item.chain_id"
-                  @click="windowOpenUrl(item.host)"><i :class="item.icon"></i>{{item.netWorkSelectOption}}</li>
+                  :key="item.network_id"
+                  @click="windowOpenUrl(item.uri)"><i :class="item.icon"></i>{{item.network_name}}</li>
           </ul>
-      </div> -->
+      </div>
       
       <div class="use_feature_mobile" v-if="featureShow">
         <div v-for="(item, index) in menuList" class="mobile_tab_item_wrap" :key="String(index)" :style="`color:${(prodConfig.nav || {}).color || ''}`">
@@ -84,23 +82,22 @@
             </transition>
           </div>
         </div>
-        <!-- 后续添加 -->
-        <!-- <div v-show="moduleSupport('110', prodConfig.navFuncList)" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">   
+        <div v-show="flShowNetwork" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">   
               <div class="mobile_tab_item_children_container" >
                   <span class="mobile_tab_item mobile_tab_item_has_children" @click="flShowNetWork">
-                    Network
+                    {{$t('ExplorerLang.Navigation.network')}}
                     <img src="../../assets/expanding.svg" v-show="!flShowNetWorkMenu" class="mobile_tab_item_icon" />
                     <img src="../../assets/retract.svg" v-show="flShowNetWorkMenu" class="mobile_tab_item_icon" />
                   </span>
                   <transition name="fade">
                     <ul class="mobile_tab_item_sub_children_container" v-show="flShowNetWorkMenu && netWorkArray.length !== 0">
-                        <li class="mobile_tab_item mobile_tab_item_child" v-for="item in netWorkArray" :key="item.chain_id">
-                            <a style="color:white;" :href="item.host">{{item.netWorkSelectOption}}</a>
+                        <li class="mobile_tab_item mobile_tab_item_child" v-for="item in netWorkArray" :key="item.network_id">
+                            <a style="color:white;" :href="item.uri" target='_blank'>{{item.network_name}}</a>
                         </li>
                     </ul>
                   </transition>
               </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -111,6 +108,7 @@ import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList,getUnitDataApi } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
+import { getConfig, converAmount } from "@/helper/IritaHelper"
 import axios from 'axios'
 export default {
   data() {
@@ -124,9 +122,10 @@ export default {
       menuList: [],
       searchShow: false,
       expandingList: [],
+      flShowNetwork:false,
       flShowNetworkLogo:false,
       netWorkArray:[],
-      currentNetworkClass:'',
+      // currentNetworkClass:'',
       flShowNetWorkMenu:false,
     }
   },
@@ -143,12 +142,12 @@ export default {
     this.menuList = this.loadModules(prodConfig.navFuncList)
   },
   created() {
-    this.getConfig()
+    this.getConfigApi()
     this.getUnitDataApi()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
-    this.setActiveIndex()
+    this.setActiveIndex();
   },
   watch: {
     $route: {
@@ -175,7 +174,10 @@ export default {
             menuList.push(menu)
           }
           if (item == '1000') {
-            this.searchShow = true
+            this.searchShow = true;
+          }
+          if (item == '1001') {
+            this.flShowNetwork = true;
           }
         })
       }
@@ -281,68 +283,35 @@ export default {
       this.searchInputValue = ''
     },
     showNetWorkLogo(){
-				this.flShowNetworkLogo = true;
+		this.flShowNetworkLogo = true;
     },
 		hideNetWorkLogo(){
-				this.flShowNetworkLogo = false;
+		this.flShowNetworkLogo = false;
     },
-    async getConfig () {
-        // const { data: res } = await axios.get(`https://www.irisplorer.io/api/config`)
-        // this.handleConfigs(res.configs)
-        
-				// Service.commonInterface({headerConfig:{}},(res) => {
-				// 	try {
-				// 		sessionStorage.setItem('skinEnvInformation',JSON.stringify(res));
-        //                 if(res.cur_env === constant.ENVCONFIG.TESTNET || res.cur_env === constant.ENVCONFIG.MAINNET){
-        //                     this.$store.commit('hideTestSkinStyle',false)
-        //                 }
-				// 		this.flShowLogo = true;
-				// 		this.toggleTestnetLogo(res);
-				// 		this.setCurrentSelectOption(res.cur_env, res.chain_id, res.configs);
-				// 		this.setEnvConfig(res);
-				// 		this.handleConfigs(res.configs);
-        //                 this.setNetWorkLogo();
-        //                 this.flShowHeaderNetwork = true;
-				// 		this.chainId = `${res.chain_id.toUpperCase()} ${res.cur_env.toUpperCase()}`;
-				// 		res.configs.forEach(item => {
-				// 			if (res.cur_env === item.env && res.chain_id === item.chain_id) {
-				// 				if (item.show_faucet && item.show_faucet === 1) {
-				// 					this.flShowFaucet = true;
-				// 					sessionStorage.setItem("Show_faucet", JSON.stringify(1))
-				// 				} else {
-				// 					this.flShowFaucet = false;
-				// 					sessionStorage.setItem("Show_faucet", JSON.stringify(0))
-				// 				}
-				// 			}
-				// 		})
-				// 	}catch (e) {
-				// 		console.error(e);
-				// 		this.explorerLogo = require("../../assets/logo.png")
-				// 	}
-        // });
+    async getConfigApi () {
+        let config = await getConfig();
+        console.log('config:',config);
+        this.handleConfigs(config.networkData);
     },
-    handleConfigs (configs) {
-				this.netWorkArray = configs.map(item => {
-					if(item.network_name === constant.CHAINID.IRISHUB){
-              item.icon = 'iconfont iconiris'
-          }else if(item.network_name === constant.CHAINID.FUXI){
-              item.icon = 'iconfont iconfuxi1'
-          }else if(item.network_name === constant.CHAINID.NYANCAT){
-              item.icon = 'iconfont iconcaihongmao'
-          }else if(item.network_name === constant.CHAINID.GOZTESTNET){
-              item.icon = 'iconfont iconGOZ'
-          } else if (item.network_name === constant.CHAINID.BIFROST) {
-              item.icon = 'iconfont iconBI-01'
-          }
-					item.netWorkSelectOption = `${Tools.firstWordUpperCase(item.env)} ${item.chain_id.toLocaleUpperCase()}`;
-					return item
-        });
-				this.netWorkArray = this.netWorkArray.filter(item => {
-					return item.env !== constant.ENVCONFIG.DEV && item.env !== constant.ENVCONFIG.QA && item.env !== constant.ENVCONFIG.STAGE
+    handleConfigs (configs=[]) {
+
+		this.netWorkArray = configs.map(item => {
+			if(item.network_id === constant.CHAINID.IRISHUB){
+                item.icon = 'iconfont iconiris'
+            }else if(item.network_id === constant.CHAINID.FUXI){
+                item.icon = 'iconfont iconfuxi1'
+            }else if(item.network_id === constant.CHAINID.NYANCAT){
+                item.icon = 'iconfont iconcaihongmao'
+            }else if(item.network_id === constant.CHAINID.GOZTESTNET){
+                item.icon = 'iconfont iconGOZ'
+            } else if (item.network_id === constant.CHAINID.BIFROST) {
+                item.icon = 'iconfont iconBI-01'
+            }
+			return item
         });
     },
     windowOpenUrl (url) {
-				window.open(url)
+		window.open(url)
     },
     flShowNetWork() {
       this.flShowNetWorkMenu = !this.flShowNetWorkMenu

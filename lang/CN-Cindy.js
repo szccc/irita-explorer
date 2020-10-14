@@ -97,6 +97,7 @@ export const ExplorerLang = {
         denoms: '数据类别',
         service: '服务浏览',
         searchPlaceHolder: '请输入地址/交易哈希/区块高度进行搜索',
+        network:'Network'
     },
     home:{
         blockHeight: '最新区块',
