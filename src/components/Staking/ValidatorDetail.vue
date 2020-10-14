@@ -283,7 +283,7 @@
 	} from "@/service/api"
 	import {TxHelper} from '../../helper/TxHelper.js'
 	import axios from 'axios'
-	import { getMainToken } from '@/helper/IritaHelper';
+	import { getMainToken, converCoin } from '@/helper/IritaHelper';
 	
 	export default {
 		name: '',
