@@ -326,9 +326,14 @@ export function getValidatorSetList (pageNum,pageSize,height) {
 	return get(url)
 }
 
+export function getUnitDataApi () {
+	const url = `/staking/config`
+	return get(url)
+}
+
 export function getConfig () {
     const url = `/config`
-	return get(url)
+    return get(url)
 }
 
 export function stakingBlockInformation(height) {

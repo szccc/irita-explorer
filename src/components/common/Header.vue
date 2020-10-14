@@ -106,7 +106,7 @@
 import Tools from '../../util/Tools'
 import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
-import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
+import { getBlockWithHeight, getTxDetail, getAddressTxList,getUnitDataApi } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
 import { getConfig } from "@/helper/IritaHelper"
 import axios from 'axios'
@@ -142,7 +142,8 @@ export default {
     this.menuList = this.loadModules(prodConfig.navFuncList)
   },
   created() {
-    this.getConfig()
+    this.getConfigApi()
+    this.getUnitDataApi()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
@@ -287,9 +288,10 @@ export default {
 		hideNetWorkLogo(){
 		this.flShowNetworkLogo = false;
     },
-    async getConfig () {
-        let config = await getConfig()
-        this.handleConfigs(config.networkData)
+    async getConfigApi () {
+        let config = await getConfig();
+        console.log('config:',config);
+        this.handleConfigs(config.networkData);
     },
     handleConfigs (configs=[]) {
 
@@ -313,6 +315,10 @@ export default {
     },
     flShowNetWork() {
       this.flShowNetWorkMenu = !this.flShowNetWorkMenu
+    },
+    async getUnitDataApi() {
+      const res = await getUnitDataApi()
+      sessionStorage.setItem('unit',JSON.stringify(res))
     }
   },
 }

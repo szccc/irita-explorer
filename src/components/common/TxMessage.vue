@@ -521,11 +521,11 @@
 		</div>
 		<div v-if="txType === TX_TYPE.begin_redelegate">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>Amount</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>From</span>
 				<span><router-link :to="`/address/${from}`">{{from}}</router-link></span>
 			</p>
 			<!-- <p>
@@ -533,7 +533,7 @@
 				 <span>{{from}}</span>
 			 </p>-->
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>To </span>
 				<span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
 			</p>
 			<!--<p>
@@ -547,50 +547,50 @@
 		</div>
 		<div v-if="txType === TX_TYPE.create_validator">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span>Operator Address </span>
 				<span><router-link :to="`/address/${operatorAddress}`">{{operatorAddress}}</router-link></span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.moniker')}}</span>
+				<span>Moniker </span>
 				<span>{{moniker}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
+				<span>Identity  </span>
 				<span>{{identity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.selfBonded')}}</span>
+				<span>Self-Bonded </span>
 				<span>{{selfBond}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.ownerAddress')}}</span>
+				<span>Owner Address</span>
 				<span><router-link :to="`/address/${ownerAddress}`">{{ownerAddress}}</router-link></span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.consensusPubkey')}}</span>
+				<span>Consensus Pubkey </span>
 				<span>{{consensusPubkey}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
+				<span>Commission Rate</span>
 				<span>{{commissionRate}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
+				<span>Website</span>
 				<span>{{website}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
+				<span>Details </span>
 				<span>{{details}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>From</span>
 				<span><router-link :to="`/address/${from}`">{{from}}</router-link></span>
 			</p>
 <!--			<p>原来还有amount,现在msg里面没有这个字段 </p>-->
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>To </span>
 				<span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
 			</p>
 		</div>
@@ -599,75 +599,75 @@
 		</div>
 		<div v-if="txType === TX_TYPE.set_withdraw_address">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.delegatorAddress')}}</span>
+				<span>Delegator Address </span>
 				<span><router-link :to="`/address/${delegatorAddress}`">{{delegatorAddress}}</router-link></span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawAddress')}}</span>
+				<span>Withdraw Address </span>
 				<span><router-link :to="`/address/${withdrawAddress}`">{{withdrawAddress}}</router-link></span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.begin_unbonding">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>From</span>
 				<span><router-link :to="`/address/${from}`">{{from}}</router-link></span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>Amount </span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>To </span>
 				<span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.edit_validator">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span>Operator Address </span>
 				<span><router-link :to="`/address/${operatorAddress}`">{{operatorAddress}}</router-link></span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.moniker')}}</span>
+				<span>Moniker </span>
 				<span>{{moniker}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
+				<span>Identity  </span>
 				<span>{{identity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
+				<span>Commission Rate</span>
 				<span>{{commissionRate}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
+				<span>Website</span>
 				<span>{{website}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
+				<span>Details </span>
 				<span>{{details}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.delegate">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>From</span>
 				<span><router-link :to="`/address/${from}`">{{from}}</router-link></span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>Amount </span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>To </span>
 				<span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.fund_community_pool">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>Amount </span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
+				<span>Depositor </span>
 				<span><router-link :to="`/address/${depositor}`">{{depositor}}</router-link></span>
 			</p>
 		</div>

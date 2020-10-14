@@ -106,12 +106,12 @@ export const ColumnMinWidth = {
   txHash: '120',
   blockHeight: '90',
   txType: '130',
-  address: '132',
+  address: '120',
   time: '180',
   txn: '',
   blockAge: '120',
   validatirName: '120',
-  votingPower: '132',
+  votingPower: '120',
   publickKey: '450',
   denom: '155',
   tokenId: '150',
@@ -135,18 +135,6 @@ export const ColumnMinWidth = {
   certificate: '220',
   certificateFull: '650',
   credentials: '220',
-  commission: '129',
-  bondedTokens: '152',
-  uptime: '100',
-  selfBond: '150',
-  delegators: '117',
-  bondHeight: '132',
-  unbondingHeight: '175',
-  amount: '110',
-  shares: '213',
-  fee: '110',
-  consensus: '340',
-  proposerPriority: '200'
 }
 
 export const ModuleMap = {
@@ -294,6 +282,92 @@ export const PubKeyAlgorithm = {
   '5':'SM2',
 }
 
+const TRANSACTIONMESSAGENAME = {};
+TRANSACTIONMESSAGENAME.TXTYPE = i18n.t('ExplorerLang.transactionInformation.transactionMessage.TxType');
+TRANSACTIONMESSAGENAME.FROM = i18n.t('ExplorerLang.transactionInformation.transactionMessage.from');
+TRANSACTIONMESSAGENAME.AMOUNT = i18n.t('ExplorerLang.transactionInformation.transactionMessage.amount');
+TRANSACTIONMESSAGENAME.TO = i18n.t('ExplorerLang.transactionInformation.transactionMessage.to');
+TRANSACTIONMESSAGENAME.OWNER = 'Owner :';
+TRANSACTIONMESSAGENAME.MEMOREGEXP = 'MemoRegexp :';
+TRANSACTIONMESSAGENAME.OPERATORADDRESS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress');
+TRANSACTIONMESSAGENAME.MONIKER = i18n.t('ExplorerLang.transactionInformation.transactionMessage.moniker');
+TRANSACTIONMESSAGENAME.IDENTITY = i18n.t('ExplorerLang.transactionInformation.transactionMessage.identity');
+TRANSACTIONMESSAGENAME.SELFBONDED = i18n.t('ExplorerLang.transactionInformation.transactionMessage.selfBonded');
+TRANSACTIONMESSAGENAME.OWNERADDRESS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.ownerAddress');
+TRANSACTIONMESSAGENAME.CONSENSUSPUBKEY = i18n.t('ExplorerLang.transactionInformation.transactionMessage.consensusPubkey');
+TRANSACTIONMESSAGENAME.COMMISSIONRATE = i18n.t('ExplorerLang.transactionInformation.transactionMessage.commissionRate');
+TRANSACTIONMESSAGENAME.WEBSITE = i18n.t('ExplorerLang.transactionInformation.transactionMessage.website');
+TRANSACTIONMESSAGENAME.DETAILS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.details');
+TRANSACTIONMESSAGENAME.SHARES = i18n.t('ExplorerLang.transactionInformation.transactionMessage.shares');
+TRANSACTIONMESSAGENAME.TOSHARES = i18n.t('ExplorerLang.transactionInformation.transactionMessage.toShares');//'Shares : ' 此处有空格
+TRANSACTIONMESSAGENAME.ENDTIME = i18n.t('ExplorerLang.transactionInformation.transactionMessage.endTime');
+TRANSACTIONMESSAGENAME.NEWADDRESS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.withdrawAddress');
+TRANSACTIONMESSAGENAME.ORIGINALADDRESS = i18n.t('ExplorerLang.transactionInformation.transactionMessage.delegatorAddress');
+TRANSACTIONMESSAGENAME.PROPOSER = 'Proposer :';
+TRANSACTIONMESSAGENAME.TITLE = 'Title :';
+TRANSACTIONMESSAGENAME.INITIALDEPOSIT = 'Initial Deposit :';
+TRANSACTIONMESSAGENAME.DESCRIPTION = 'Description :';
+TRANSACTIONMESSAGENAME.PROPOSALTYPE = 'Proposal Type :';
+TRANSACTIONMESSAGENAME.DEPOSITOR = 'Depositor :';
+TRANSACTIONMESSAGENAME.PROPOSALID = 'Proposal ID :';
+TRANSACTIONMESSAGENAME.DEPOSIT = 'Deposit :';
+TRANSACTIONMESSAGENAME.VOTER = 'Voter :';
+TRANSACTIONMESSAGENAME.OPTION = 'Option :';
+TRANSACTIONMESSAGENAME.FAMILY = 'Family :';
+TRANSACTIONMESSAGENAME.SOURCE = 'Source :';
+TRANSACTIONMESSAGENAME.GATEWAY = 'Gateway :';
+TRANSACTIONMESSAGENAME.SYMBOL = 'Symbol :';
+TRANSACTIONMESSAGENAME.CANONICALSYMBOL = 'Canonical Symbol :';
+TRANSACTIONMESSAGENAME.NAME = 'Name :';
+TRANSACTIONMESSAGENAME.DECIMAL = 'Decimal :';
+TRANSACTIONMESSAGENAME.SYMBOLMINALIAS = 'SymbolMinAlias :';
+TRANSACTIONMESSAGENAME.INITIALSUPPLY = 'InitialSupply :';
+TRANSACTIONMESSAGENAME.MAXSUPPLY = 'MaxSupply :';
+TRANSACTIONMESSAGENAME.MINTABLE = 'Mintable :';
+TRANSACTIONMESSAGENAME.TOKENID = 'TokenId :';
+TRANSACTIONMESSAGENAME.ORIGINALOWNER = 'Original Owner :';
+TRANSACTIONMESSAGENAME.NEWOWNER = 'New Owner :';
+TRANSACTIONMESSAGENAME.BLOCKINTERVAL = 'Block Interval :';
+TRANSACTIONMESSAGENAME.REQUESTID = 'Request ID :';
+TRANSACTIONMESSAGENAME.RANDHEIGHT = 'Rand Height :';
+TRANSACTIONMESSAGENAME.HASHLOCK = 'Hash Lock :';
+TRANSACTIONMESSAGENAME.TIMELOCK = 'Time Lock :';
+TRANSACTIONMESSAGENAME.TIMESTAMP = 'Timestamp :';
+TRANSACTIONMESSAGENAME.EXPIRYHEIGHT = 'Expiry Height :';
+TRANSACTIONMESSAGENAME.CROSSCHAINREVEIVER = 'Cross-chain Receiver :';
+TRANSACTIONMESSAGENAME.SECRET = 'Secret :';
+TRANSACTIONMESSAGENAME.PARAMETER = 'Parameter :';
+TRANSACTIONMESSAGENAME.SOFTWARE = 'Software :';
+TRANSACTIONMESSAGENAME.VERSION = 'Version :';
+TRANSACTIONMESSAGENAME.SWITCHHEIGHT = 'Switch Height :';
+TRANSACTIONMESSAGENAME.TRESHOLD = 'Treshold :';
+TRANSACTIONMESSAGENAME.ADDRESS = 'Address :';
+TRANSACTIONMESSAGENAME.ADDRESSBY = 'Added By :';
+TRANSACTIONMESSAGENAME.DELETEDBY = 'Deleted By :';
+TRANSACTIONMESSAGENAME.USAGE = 'Usage :';
+TRANSACTIONMESSAGENAME.DESTADDRESS = 'DestAddress :';
+TRANSACTIONMESSAGENAME.PERCENT = 'Percent :';
+TRANSACTIONMESSAGENAME.CANONICALSYMBOL = 'CanonicalSymbol :';
+TRANSACTIONMESSAGENAME.MINUNITALIAS = 'MinUnitAlias :';
+
+
+TRANSACTIONMESSAGENAME.INPUTADDRESS = 'Input Address :';
+TRANSACTIONMESSAGENAME.OUTPUTADDRESS = 'Output Address :';
+TRANSACTIONMESSAGENAME.INPUT = 'Input :';
+TRANSACTIONMESSAGENAME.OUTPUT = 'Output :';
+TRANSACTIONMESSAGENAME.DEADLINE = 'Deadline :';
+TRANSACTIONMESSAGENAME.ISBUYORDER = 'Is Buy Order :';
+
+TRANSACTIONMESSAGENAME.MAXTOKEN = 'Max Token :';
+TRANSACTIONMESSAGENAME.EXACTIRISAMT = 'Exact IRIS Amount :';
+TRANSACTIONMESSAGENAME.MINLIQUIDITY = 'MinLiquidity :';
+TRANSACTIONMESSAGENAME.SENDER = 'Sender :';
+
+
+TRANSACTIONMESSAGENAME.MINTOKEN = 'Min Token :';
+TRANSACTIONMESSAGENAME.WITHDRAWLIQUIDITY = 'Withdraw Liquidity :';
+TRANSACTIONMESSAGENAME.MINIRISAMT = 'Min IRIS Amount :';
+
 const ENVCONFIG = {};
 ENVCONFIG.DEV = 'dev';
 ENVCONFIG.QA = 'qa';
@@ -306,14 +380,8 @@ export const TxStatus = {
   '1':'Success'
 }
 
-export const numFormat = {
-  num: '0.00'
-}
-
-export const validator_Status = {
-  active:'Active',
-  candidate:'Candidate',
-  jailed:'Jailed',
+export const validatorStatus = {
+  unbonding:'UnBonding',
 }
 
 export default {
@@ -321,5 +389,6 @@ export default {
   CHAINID,
   TxType,
   RADIXDENOM,
+  TRANSACTIONMESSAGENAME,
   ENVCONFIG
 }

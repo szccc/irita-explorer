@@ -38,7 +38,7 @@ let config = {
         color:'',
         //页脚背景颜色 上半部分
         bgColor_top:'',
-        //页脚背景颜色 下半部分  
+        //页脚背景颜色 下半部分
         bgColor_bottom:'',
         //页脚版权信息   必填
         copyright: 'copyright © 2020 边界智能',
@@ -67,7 +67,6 @@ let config = {
                 {title:'Validation Txs',id:'109'}
             ]
         },
-        { title: 'Network', id: '110'},
         '1000',
         '1001'
     ],

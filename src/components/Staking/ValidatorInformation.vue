@@ -34,22 +34,22 @@
 				<div class="validation_information_asset_information_content">
 					<!-- 根据validatorStatus显示验证人的状态 -->
 					<div class="validation_information_status_content">
-						<span class="status_btn" v-if="validatorStatus === validator_Status.active">{{$t('ExplorerLang.staking.status.active')}}</span>
+						<span class="status_btn" v-if="validatorStatus === 'Active'">{{$t('ExplorerLang.staking.status.active')}}</span>
 						<span
 								class="status_btn"
 								style="background-color: #3DA87E;"
-								v-if="validatorStatus === validator_Status.candidate"
+								v-if="validatorStatus === 'Candidate'"
 						>{{$t('ExplorerLang.staking.status.candidate')}}</span>
 						<span
 								class="status_btn"
 								style="background-color: #FA7373;"
-								v-if="validatorStatus === validator_Status.jailed"
+								v-if="validatorStatus === 'Jailed'"
 						>{{$t('ExplorerLang.staking.status.jailed')}}</span>
 					</div>
 					<!-- 展示详细的数据 -->
 					<ul class="validation_information_list_content">
 						<!-- 循环 li -->
-						<li class="validation_information_item" v-for="(item, index) in validationAssetInfoArr" :key="index" v-show="showVotingPower(validatorStatus,item.dataName)">
+						<li class="validation_information_item" v-for="(item, index) in validationAssetInfoArr" :key="index" v-show="showVotingPower(validatorStatus,item.label)">
 							<!-- 左侧 -->
 							<div class="validation_information_item_label_content">
 								<!-- 标题 -->
@@ -92,7 +92,6 @@
 	import Tools from "../../util/Tools.js";
 	import { getValidatorWithdrawAddrApi } from "@/service/api"
 	import axios from "../../axios/index.js";
-	import { validator_Status } from '@/constant'
 	export default {
 		name: "ValidationInformation",
 		components: {MClip},
@@ -108,7 +107,6 @@
 		},
 		data () {
 			return {
-				validator_Status,
 				// 验证人的信息
 				informationData:"",
 				// 验证人图标的大写字母
@@ -239,14 +237,14 @@
 			},
 			// 控制右侧详细信息 是否展示和隐藏
 			showVotingPower(validatorStatus,labelName){
-				if(validatorStatus ===  this.validator_Status.candidate || validatorStatus === this.validator_Status.jailed){
-					if(labelName === 'self_power' || labelName === 'bond_height'){
+				if(validatorStatus === 'Candidate' || validatorStatus === 'Jailed'){
+					if(labelName === 'Voting Power:' || labelName === 'Bond Height:'){
 						return false
 					}else {
 						return true
 					}
 				}else {
-					if(labelName === 'jailed_until' || labelName === 'unbond_height'){
+					if(labelName === 'Jailed Until:' || labelName === 'Unbonding Height:'){
 						return false
 					}
 					return true
@@ -276,7 +274,7 @@
 							item.value = Tools.FormatUptime(information[item.dataName]);
 						}else if(item.dataName === 'self_power') {
 							item.value = information.status === "active"
-								? `${information.self_power} (${Tools.formatPerNumber((information.self_power / information.total_power) * 100)} %)`
+								? `${information.self_power} (${this.formatPerNumber((information.self_power / information.total_power) * 100)} %)`
 								: "";
 						}else if(item.dataName === 'missed_blocks_count'){
 							item.value = `${information.missed_blocks_count} in ${information.stats_blocks_window} blocks`;
@@ -328,7 +326,20 @@
 				} catch (e) {
 					console.error(e)
 				}
-			}
+			},
+			// 处理Voting Power:中的value值
+			formatPerNumber(num) {
+				if (typeof num === "number" && !Object.is(num, NaN)) {
+					let afterPoint = String(num).split(".")[1];
+					let afterPointLong = (afterPoint && afterPoint.length) || 0;
+					if (afterPointLong > 2 && num !== 0) {
+						return num.toFixed(4);
+					} else {
+						return num.toFixed(2);
+					}
+				}
+				return num;
+			},
 		}
 	}
 </script>
