@@ -134,8 +134,9 @@
 						let UnBonding = this.validatorStatus.unbonding
 						this.assetConstitute.forEach( res => {
 							 if(res.label === UnBonding){
-								res.value = item[UnBonding] || "--";
-								res.numberValue = item[UnBonding] ? item[UnBonding].replace(/[^\d.]/g,"") : 0;
+								res.value = item['unBonding'] || "--";
+								// console.log(item,item[UnBonding])
+								res.numberValue = item['unBonding'] ? item['unBonding'].replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
 							}else {
 								res.value = item[Tools.firstWordLowerCase(res.label)] && item[Tools.firstWordLowerCase(res.label)] !== 0 ? item[Tools.firstWordLowerCase(res.label)] : "--";
