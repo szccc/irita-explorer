@@ -143,13 +143,6 @@ export default {
         let mainToken = await getMainToken();
         const res = await getTxDetail(this.$route.query.txHash)
         if (res) {
-          res.msgs.forEach( item => {
-            let amount = item.msg.amount
-            if(amount) {
-              amount = Number(Tools.findNum(amount)[0])
-              item.msg.amount = Tools.formatUnit(amount) + mainToken.symbol.toUpperCase()
-            }
-          })
           this.messages = res.msgs || []
           this.events = res.events
           this.txHash = res.tx_hash || '--'
