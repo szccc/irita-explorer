@@ -13,6 +13,7 @@ function get(url){
 				console.error(`error from ${url}:`,JSON.stringify(data));
 				rej(data);
 			}
+
 		}catch(err){
 			console.error(`error from ${url}:`,err.message);
 			rej(err);
@@ -329,6 +330,11 @@ export function getValidatorSetList (pageNum,pageSize,height) {
 export function getUnitDataApi () {
 	const url = `/staking/config`
 	return get(url)
+}
+
+export function getConfig () {
+    const url = `/config`
+    return get(url)
 }
 
 export function stakingBlockInformation(height) {

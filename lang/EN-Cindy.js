@@ -97,6 +97,7 @@ export const ExplorerLang = {
         denoms: 'Denom',
         service: 'iService',
         searchPlaceHolder: 'Search by Address / Txhash / Block / HashLock',
+        network:'Network'
     },
     home:{
         blockHeight: 'Block Height',

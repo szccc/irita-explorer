@@ -460,8 +460,12 @@
 		getServiceBindingByServiceName,
 		getServiceContextsByServiceName,
 		getAllTxTypes,
-		getAddressInformationApi,getDelegationListApi,getUnBondingDelegationListApi,
-		getRewardsItemsApi,getValidatorRewardsApi
+		getAddressInformationApi,
+		getDelegationListApi,
+		getUnBondingDelegationListApi,
+		getRewardsItemsApi,
+		getValidatorRewardsApi,
+		getIdentityListByAddress
 		} from "@/service/api";
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
