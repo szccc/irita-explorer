@@ -99,7 +99,7 @@
 										<img class="status_icon"
                                      		:src="require(`../../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
 										<el-tooltip :content="`${row.Tx_Hash}`">
-											<router-link 
+											<router-link
 											             :to="`/tx?txHash=${row.Tx_Hash}`"
 											             :style="{ color: '$theme_c !important' }">{{
 												formatTxHash(row.Tx_Hash) }}
@@ -190,7 +190,7 @@
 										<img class="status_icon"
                                      		:src="require(`../../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
 										<el-tooltip :content="`${row.Tx_Hash}`">
-											<router-link 
+											<router-link
 											             :to="`/tx?txHash=${row.Tx_Hash}`"
 											             :style="{ color: '$theme_c !important' }">{{
 												formatTxHash(row.Tx_Hash) }}
@@ -282,8 +282,7 @@
 		getValidationTxsApi
 	} from "@/service/api"
 	import {TxHelper} from '../../helper/TxHelper.js'
-	import axios from 'axios'
-	import { getMainToken } from '@/helper/IritaHelper';
+	import {converCoin,getMainToken} from "../../helper/IritaHelper.js"
 	
 	export default {
 		name: '',
@@ -350,7 +349,6 @@
 			async getValidatorsInfo () {
 				let res = await getValidatorsInfoApi(this.$route.params.param)
 				this.validationInformation = res
-				console.log(res,11)
 				this.validatorStatus = Tools.firstWordUpperCase(res.status)
 			},
 			async getDelegations (page = 1) {
@@ -388,24 +386,26 @@
 				const res = await getDelegationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.delegationTxs.total = res.count
 				this.delegationTxs.items = []
-				res.data.forEach(item => {
+				res.data.forEach(async (item) => {
 					let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
+					let amount = '--'
 					if (item.msgs && item.msgs.length === 1) {
 						formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
+						amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) :'--'
 					} else {
 						formTO = '--'
 					}
-					const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0].amount)) : '--'
 					const time = Tools.getDisplayDate(item.time)
+					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 					this.delegationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
 						From: formTO.from || "--",
-						Amount: fee !== '--' ? fee + this.mainToken.symbol.toUpperCase() : '--',
+						Amount: amount && amount.amount ? `${amount.amount} ${amount.denom.toLocaleUpperCase()}`:'--' ,
 						To: formTO.to || '--',
 						Tx_Type: item.type,
 						MsgsNum: msgsNumber,
-						Tx_Fee: item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
+						Tx_Fee: fee && fee.amount ? `${fee.amount} ${fee.denom.toLocaleUpperCase()}` : '--',
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
@@ -416,8 +416,8 @@
 				const res = await getValidationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.validationTxs.total = res.count
 				this.validationTxs.items = []
-				res.data.forEach(item => {
-					const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
+				res.data.forEach(async (item) => {
+					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 					const time = Tools.getDisplayDate(item.time)
 					this.validationTxs.items.push({
 						Tx_Hash: item.tx_hash,
@@ -426,7 +426,7 @@
 						OperatorAddr: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--',
 						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? item.msgs[0].msg.min_self_delegation : '--' : '--',
 						'Tx_Type': item.type,
-						'Tx_Fee': item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
+						'Tx_Fee': fee && fee.amount ? `${fee.amount} ${fee.denom.toLocaleUpperCase()}` : '--',
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,

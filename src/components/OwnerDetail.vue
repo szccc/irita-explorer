@@ -561,8 +561,7 @@
 	} from "@/service/api";
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
-	import { getMainToken } from '@/helper/IritaHelper';
-
+	import {converCoin,getMainToken} from "../helper/IritaHelper"
 	export default {
 		name: "OwnerDetail",
 		components: {MPagination, TxListComponent, AddressInformationComponent, LargeString},
@@ -1095,13 +1094,14 @@
 				}
 			},
 			getAssetList () {
-				this.assetsItems = this.assetList.map(item => {
+				this.assetsItems = this.assetList.map(async (item) => {
 					if (item.denom === this.mainToken.min_unit) {
+						let balanceAmount = item && item.amount ? converCoin(item) : 0
 						return {
 							// token:  Tools.formatDenom(item.denom),
-							tokenNumber: `${Tools.formatUnit(item.amount)} ${this.mainToken.symbol.toUpperCase()}`,
-							token: this.mainToken.symbol.toUpperCase(),
-							balance: item.amount ? Tools.formatAmount2(item, this.fixedNumber) : 0,
+							tokenNumber: `${Tools.formatUnit(item.amount)} ${this.unitData.maxUnit.toUpperCase()}`,
+							token: this.unitData.maxUnit.toUpperCase(),
+							balance: balanceAmount  && balanceAmount.amount ? `${balanceAmount.amount} ${balanceAmount.denom.toLocaleString()}` : 0,
 							balanceNumber: item.amount,
 							delegatedValue: this.totalDelegator ? this.totalDelegator : 0,
 							delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
