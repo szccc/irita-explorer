@@ -108,7 +108,7 @@ import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList,getUnitDataApi } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
-import { getConfig, converAmount } from "@/helper/IritaHelper"
+import { getConfig } from "@/helper/IritaHelper"
 import axios from 'axios'
 export default {
   data() {

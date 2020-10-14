@@ -18,14 +18,21 @@ export async function getConfig(){
 
 export async function getMainToken(){
     let config = await getConfig();
+    let defaultData = {
+        min_unit: "",
+        scale: "1",
+        symbol: ""
+    };
+    let mainToken = {...defaultData};
     if (config.tokenData) {
-        return config.tokenData.find(item=>item.is_main_token);
+        mainToken =  config.tokenData.find(item=>item.is_main_token) || defaultData;
     }else{
         console.warn("main token is empty");
     }
+    return mainToken;
 }
 
-export async function converAmount(_coin){
+export async function converCoin(_coin){
     let { tokenData=[] } = await getConfig();
     let coin = {};
     let displayCoin = {};

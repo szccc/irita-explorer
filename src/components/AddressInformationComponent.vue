@@ -16,7 +16,7 @@
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
-								<span class="address_information_value">{{ data[0] ? data[0].tokenNumber : unitData.maxUnit.toUpperCase() }}</span>
+								<span class="address_information_value">{{ data[0] ? data[0].tokenNumber : '--' }}</span>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
@@ -62,6 +62,7 @@
 	import AddressInformationPie from "./AddressInformationPie";
 	import moveDecimal from 'move-decimal-point'
 	import { validatorStatus } from '@/constant'
+	import { getMainToken } from '@/helper/IritaHelper';
 	export default {
 		name: "AddressInformationComponent",
 		components: {AddressInformationPie, MClip},
@@ -108,7 +109,6 @@
 				unbonding:'',
 				rewards:'',
 				otherTokenList:[],
-				unitData: Tools.getUnit()
 			}
 		},
 		watch:{
@@ -127,9 +127,11 @@
 				 });
 				return res
 			},
-			formatAssetInformation(assetInformation){
+
+			async formatAssetInformation(assetInformation){
+				let mainToken = await getMainToken();
 				assetInformation.forEach( item => {
-					if(item && item.token === this.unitData.maxUnit.toUpperCase() ){
+					if(item && item.token === (mainToken.symbol || '').toUpperCase()){
 						this.totalAmount = item.totalAmount;
 						let UnBonding = this.validatorStatus.unbonding
 						this.assetConstitute.forEach( res => {
@@ -148,7 +150,7 @@
 					}
 				});
 				this.otherTokenList = assetInformation.filter((item) => {
-					return item.token !== this.unitData.maxUnit.toUpperCase()
+					return item.token !== (mainToken.symbol || '').toUpperCase()
 				})
 			},
 			formatDecimalNumberToFixedNumber(total,data) {
