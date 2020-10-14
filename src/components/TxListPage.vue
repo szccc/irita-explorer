@@ -238,7 +238,8 @@
     import { pageTitleConfig,TxStatus } from "../constant";
     import { TxHelper } from '@/helper/TxHelper.js'
     import { getTypeStakingApi,getTypeDeclarationApi,getDelegationTxsApi,getValidationTxsApi } from "@/service/api";
-	export default {
+	import { getMainToken } from '@/helper/IritaHelper';
+    export default {
 		name: "TransactionListPage",
 		components: { MPagination},
 		data() {
@@ -455,6 +456,7 @@
                 }
 			},
 			async getTxListByFilterCondition(){
+                let mainToken = await getMainToken();
                 let urlParams = this.getParamsByUrlHash(), param = {};
 				param.type = this.type;
 				param.pageNumber = this.currentPageNum;
@@ -494,7 +496,7 @@
                                         Tx_Hash: item.tx_hash,
                                         Block: item.height,
                                         From: formTO.from || "--",
-                                        Amount: fee !== '--' ? fee + this.unitData.maxUnit.toUpperCase() : '--',
+                                        Amount: fee !== '--' ? fee + mainToken.symbol.toUpperCase() : '--',
                                         To: formTO.to || '--',
                                         Tx_Type: item.type,
                                         MsgsNum: msgsNumber,

@@ -6,6 +6,7 @@
 	import Constant from "../constant"
 	import bigNumber from "bignumber.js"
 	import Tools from "@/util/Tools"
+	import { getMainToken } from '@/helper/IritaHelper';
 	var echarts = require('echarts/lib/echarts')
 	require('echarts/lib/component/legend')
 	require('echarts/lib/component/tooltip')
@@ -23,7 +24,6 @@
 				testnetFuXiThemeStyle:["#0C4282","#FFA300","#67E523","#8E66FF"],
 				testnetNyancatThemeStyle:["#0D9388","#FFA300","#67E523","#8E66FF"],
 				defaultThemeStyle:["#0580D3","#FFA300","#67E523","#8E66FF"],
-				unitData: Tools.getUnit()
 			}
 		},
 		watch:{
@@ -41,8 +41,9 @@
 		},
 		mounted () {},
 		methods:{
-			initCharts(){
+			async initCharts(){
 				this.addressInformationCharts = echarts.init(document.getElementById('address_information_chart'));
+				let mainToken = await getMainToken();
 				let echartsOption = {
 					tooltip: {
 						trigger: 'item',
@@ -50,7 +51,7 @@
 							left: 10,
 						},
 						formatter: (data) => {
-							return `<span style="max-width: 1.2rem;word-break: break-all;">${data.name}: <br/>${new bigNumber(data.value).toFormat()} ${this.unitData.maxUnit.toUpperCase()} (${data.data.formatPercent}%)</span>`
+							return `<span style="max-width: 1.2rem;word-break: break-all;">${data.name}: <br/>${new bigNumber(data.value).toFormat()} ${(mainToken.symbol || '').toUpperCase()} (${data.data.formatPercent}%)</span>`
 						}
 					},
 					legend: {

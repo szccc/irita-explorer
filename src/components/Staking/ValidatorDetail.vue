@@ -283,6 +283,7 @@
 	} from "@/service/api"
 	import {TxHelper} from '../../helper/TxHelper.js'
 	import axios from 'axios'
+	import { getMainToken } from '@/helper/IritaHelper';
 	
 	export default {
 		name: '',
@@ -313,12 +314,13 @@
 					currentPage: 1,
 					items: [],
 				},
-				unitData: Tools.getUnit()
+				mainToken:{},
 			}
 		},
 		computed: {},
 		watch: {},
-		created () {
+		async created () {
+			this.mainToken = await getMainToken();
 			this.getValidatorsInfo()
 			this.getDelegations()
 			this.getUnbondingDelegations()
@@ -356,7 +358,7 @@
 				this.delegations.total = res.count
 				this.delegations.items = []
 				res.data.forEach(item => {
-					item.amount = `${Tools.formatUnit(item.amount.amount)} ${this.unitData.maxUnit.toUpperCase()}`
+					item.amount = `${Tools.formatUnit(item.amount.amount)} ${this.mainToken.symbol.toUpperCase()}`
 					let selfShares = Tools.formatPriceToFixed(item.self_shares, 4)
 					let shares = `${selfShares} (${this.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
 					this.delegations.items.push({
@@ -399,7 +401,7 @@
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
 						From: formTO.from || "--",
-						Amount: fee !== '--' ? fee + this.unitData.maxUnit.toUpperCase() : '--',
+						Amount: fee !== '--' ? fee + this.mainToken.symbol.toUpperCase() : '--',
 						To: formTO.to || '--',
 						Tx_Type: item.type,
 						MsgsNum: msgsNumber,

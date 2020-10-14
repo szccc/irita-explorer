@@ -553,12 +553,16 @@
 		getServiceContextsByServiceName,
 		getIdentityListByAddress,
 		getAllTxTypes,
-		getAddressInformationApi, getDelegationListApi, getUnBondingDelegationListApi,
-		getRewardsItemsApi, getValidatorRewardsApi
+		getAddressInformationApi,
+		getDelegationListApi,
+		getUnBondingDelegationListApi,
+		getRewardsItemsApi,
+		getValidatorRewardsApi,
 	} from "@/service/api";
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
-	
+	import { getMainToken } from '@/helper/IritaHelper';
+
 	export default {
 		name: "OwnerDetail",
 		components: {MPagination, TxListComponent, AddressInformationComponent, LargeString},
@@ -654,7 +658,7 @@
 				delegationPageNationArrayData: [],
 				unBondingDelegationPageNationArrayData: [],
 				rewardsDelegationPageNationArrayData: [],
-				unitData: Tools.getUnit(),
+				mainToken: {},
 				tabList: [],
 				isAsset:false,
 				isNftInfo:false,
@@ -708,6 +712,9 @@
 			OperatorAddress () {
 				this.getValidatorRewards()
 			}
+		},
+		async created(){
+			this.mainToken = await getMainToken();
 		},
 		mounted () {
 			document.documentElement.scrollTop = 0;
@@ -1068,7 +1075,7 @@
 						let arrayIndexOneData;
 						if (res.amount) {
 							res.amount.forEach(item => {
-								if (item.denom === this.unitData.minUnit) {
+								if (item.denom === this.mainToken.min_unit) {
 									arrayIndexOneData = item
 								}
 							});
@@ -1089,22 +1096,22 @@
 			},
 			getAssetList () {
 				this.assetsItems = this.assetList.map(item => {
-					if (item.denom === this.unitData.minUnit) {
+					if (item.denom === this.mainToken.min_unit) {
 						return {
 							// token:  Tools.formatDenom(item.denom),
-							tokenNumber: `${Tools.formatUnit(item.amount)} ${this.unitData.maxUnit.toUpperCase()}`,
-							token: this.unitData.maxUnit.toUpperCase(),
+							tokenNumber: `${Tools.formatUnit(item.amount)} ${this.mainToken.symbol.toUpperCase()}`,
+							token: this.mainToken.symbol.toUpperCase(),
 							balance: item.amount ? Tools.formatAmount2(item, this.fixedNumber) : 0,
 							balanceNumber: item.amount,
 							delegatedValue: this.totalDelegator ? this.totalDelegator : 0,
-							delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}` : 0,
+							delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
 							unBondingValue: this.totalUnBondingDelegator ? this.totalUnBondingDelegator : 0,
-							unBonding: this.totalUnBondingDelegator ? `${new BigNumber(Tools.formatStringToFixedNumber(moveDecimal(this.totalUnBondingDelegator.toString(), -2), this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}` : 0,
+							unBonding: this.totalUnBondingDelegator ? `${new BigNumber(Tools.formatStringToFixedNumber(moveDecimal(this.totalUnBondingDelegator.toString(), -2), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}` : 0,
 							rewards: this.allRewardsValue ? this.allRewardsValue : 0,
 							totalAmount: `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((Number(Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(item.amount.toString(), -18), this.fixedNumber)) +
 								Number(Tools.formatStringToFixedNumber(moveDecimal(this.totalDelegator.toString(), -2), this.fixedNumber)) +
 								Number(Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.fixedNumber)) +
-								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber))).toString(), 0)).toFormat(), this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`,
+								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber))).toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
 						}
 					} else {
 						return {
@@ -1160,7 +1167,7 @@
 								return Number(item.amount.amount) + Number(total)
 							}, 0)
 						}
-						this.totalDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
+						this.totalDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 					} else {
 						this.delegationsItems = []
 					}
@@ -1191,7 +1198,7 @@
 								return Number(item.amount.amount) + Number(total)
 							}, 0)
 						}
-						this.totalUnBondingDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalUnBondingDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
+						this.totalUnBondingDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalUnBondingDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 					}
 				} catch (e) {
 					console.error(e)
@@ -1205,7 +1212,7 @@
 							if (item.reward && item.reward.length === 0) {
 								item.reward.push({
 									amount: 0,
-									denom: this.unitData.minUnit
+									denom: this.mainToken.min_unit
 								})
 							}
 						});
@@ -1229,9 +1236,9 @@
 								return Number(item.reward[0].amount) + Number(total)
 							}, 0);
 						}
-						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(), 0)).toFormat(), this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
+						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 						this.allRewardsAmountValue = this.delegatorRewardsValue + this.validatorRewardsValue
-						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.allRewardsAmountValue.toString(), 0)).toFormat(), this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
+						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.allRewardsAmountValue.toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 						this.getAssetList()
 					}
 				} catch (e) {
@@ -1246,12 +1253,12 @@
 							let commission = data.val_commission.commission[0]
 							if (commission) {
 								this.validatorRewardsValue = Tools.formatUnit(commission)
-								this.totalValidatorRewards = `${Tools.formatUnit(commission).toFixed(2)} ${this.unitData.maxUnit.toUpperCase()}` || '--'
+								this.totalValidatorRewards = `${Tools.formatUnit(commission).toFixed(2)} ${this.mainToken.symbol.toUpperCase()}` || '--'
 							} else {
 								this.totalValidatorRewards = '--'
 							}
 							this.allRewardsAmountValue = this.delegatorRewardsValue + Tools.formatUnit(commission)
-							this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.allRewardsAmountValue.toString(), 0)).toFormat(), this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`
+							this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.allRewardsAmountValue.toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 							this.getAssetList()
 						}
 					}
@@ -1266,7 +1273,7 @@
 						item.amount.amount = Tools.formatUnit(item.amount.amount)
 						return {
 							address: item.address,
-							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
+							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
 							shares: new BigNumber((Number(item.shares)).toFixed(2)).toFormat(),
 							block: item.height,
 							moniker: item.moniker
@@ -1277,7 +1284,7 @@
 						item.amount.amount = Tools.formatUnit(item.amount.amount)
 						return {
 							address: item.address,
-							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
+							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
 							shares: new BigNumber((Number(item.shares)).toFixed(2)).toFormat(),
 							block: item.height,
 							moniker: item.moniker
@@ -1294,7 +1301,7 @@
 						}
 						return {
 							address: item.address,
-							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
+							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
 							block: item.height,
 							endTime: Tools.format2UTC(item.end_time),
 							moniker: item.moniker
@@ -1307,7 +1314,7 @@
 						}
 						return {
 							address: item.address,
-							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.unitData.maxUnit.toUpperCase()}`,
+							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
 							block: item.height,
 							endTime: Tools.format2UTC(item.end_time),
 							moniker: item.moniker
@@ -1324,7 +1331,7 @@
 						}
 						return {
 							address: item.validator_address,
-							amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}`,
+							amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
 							moniker: item.moniker
 						}
 					});
@@ -1335,7 +1342,7 @@
 						}
 						return {
 							address: item.validator_address,
-							amount: item.reward && item.reward.length > 0 ? `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)} ${this.unitData.maxUnit.toUpperCase()}` : 0,
+							amount: item.reward && item.reward.length > 0 ? `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
 							moniker: item.moniker
 						}
 					});

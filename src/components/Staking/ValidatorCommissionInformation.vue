@@ -40,6 +40,7 @@
 	import Tools from "../../util/Tools.js";
 	import ValidatorDetailScatter from "./ValidatorDetailScatter";
 	import { getValidatorRewardsApi } from "@/service/api"
+	import { getMainToken } from '@/helper/IritaHelper';
 	export default {
 		name: "ValidatorCommissionInformation",
 		components: {ValidatorDetailScatter},
@@ -50,7 +51,6 @@
 		},
 		data(){
 			return {
-				unitData: Tools.getUnit(),
 				informationData:'',
 				validatorStatus:'',
 				jailedData:{},
@@ -135,7 +135,8 @@
 					this.bondedAndCommissionArr[index].flShowChildren = !this.bondedAndCommissionArr[index].flShowChildren;
 				}
 			},
-			handlePropsData(){
+			async handlePropsData(){
+				let mainToken = await getMainToken();
 				let dataInfomation = this.informationData;
 				this.jailedData.bonded_tokens = dataInfomation.bonded_tokens;
 				this.jailedData.commission_rate = dataInfomation.commission_rate;
@@ -150,19 +151,19 @@
 							value: `0 ~ ${Number(dataInfomation.commission_max_change_rate) * 100} %`
 						})
 					}else if(item.label === 'Bonded Tokens:'){
-						item.value =`${this.$options.filters.amountFromat(dataInfomation.bonded_tokens, this.unitData.maxUnit.toUpperCase(), this.irisTokenFixedNumber)}`;
+						item.value =`${this.$options.filters.amountFromat(dataInfomation.bonded_tokens, mainToken.symbol.toUpperCase(), this.irisTokenFixedNumber)}`;
 						let self_bond = Tools.formatUnit(dataInfomation.self_bond.amount)
 						let bonded_stake = dataInfomation.bonded_tokens - self_bond
 						let selfBonded = {
 							label:'Self-Bonded:',
 							value: `
-							${this.$options.filters.amountFromat(self_bond, this.unitData.maxUnit.toUpperCase(),this.irisTokenFixedNumber)}
+							${this.$options.filters.amountFromat(self_bond, mainToken.symbol.toUpperCase(),this.irisTokenFixedNumber)}
 								(${this.formatPerNumber((self_bond / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						let delegatorBonded = {
 							label:'Delegator Bonded:',
 							value:`${this.$options.filters.amountFromat(
-								bonded_stake, this.unitData.maxUnit.toUpperCase(), this.irisTokenFixedNumber)}
+								bonded_stake, mainToken.symbol.toUpperCase(), this.irisTokenFixedNumber)}
 								 (${this.formatPerNumber((Number(bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						item.children.unshift(selfBonded,delegatorBonded)
@@ -189,6 +190,7 @@
 				return num;
 			},
 			async getValidatorRewards() {
+				let mainToken = await getMainToken();
 				try {
 					let data = await getValidatorRewardsApi(this.$route.params.param)
 					if(data) {
@@ -196,7 +198,7 @@
 						if(commission) {
 							this.bondedAndCommissionArr.map(item => {
 								if(item.label === 'Commission Rewards:'){
-									return item.value = `${Tools.formatUnit(commission.amount)} ${this.unitData.maxUnit.toUpperCase()}` || '--'
+									return item.value = `${Tools.formatUnit(commission.amount)} ${mainToken.symbol.toUpperCase()}` || '--'
 								}
 							})
 						} else {

@@ -55,6 +55,8 @@ import Tools from '../../util/Tools'
 import BigNumber from 'bignumber.js'
 import { getValidatorsListApi } from "@/service/api"
 import productionConfig from '@/productionConfig.js'
+import { getMainToken } from '@/helper/IritaHelper';
+
 export default {
   name: 'Staking',
   components: { MTabs, MPagination },
@@ -81,7 +83,6 @@ export default {
         },
       ],
       tableData: [],
-      unitData: Tools.getUnit()
     }
   },
   computed: {},
@@ -126,6 +127,7 @@ export default {
       this.getValidatorsList(v.name)
     },
     async getValidatorsList(type) {
+      let mainToken = await getMainToken();
       try{
           let res = await getValidatorsListApi(1,100,true,type)
           this.count = res && res.count ? res.count : 0
@@ -141,10 +143,10 @@ export default {
                 moniker: Tools.formatString(item.description.moniker, 15, '...'),
                 operatorAddress: item.operator_address,
                 commission: `${(item.commission.commission_rates.rate * 100).toFixed(2)} %`,
-                bondedToken: `${Tools.formatPriceToFixed(Tools.formatUnit(Number(item.tokens)), 2)} ${this.unitData.maxUnit.toLocaleUpperCase()}`,
+                bondedToken: `${Tools.formatPriceToFixed(Tools.formatUnit(Number(item.tokens)), 2)} ${mainToken.symbol.toLocaleUpperCase()}`,
                 uptime: Tools.FormatUptime(item.uptime),
                 votingPower: `${(item.voting_rate * 100).toFixed(4)}%`,
-                selfBond: `${Tools.subStrings(Tools.formatPriceToFixed(Number(selfBond.match(/\d*(\.\d{0,4})?/)[0])), 2)} ${this.unitData.maxUnit.toLocaleUpperCase()}`,
+                selfBond: `${Tools.subStrings(Tools.formatPriceToFixed(Number(selfBond.match(/\d*(\.\d{0,4})?/)[0])), 2)} ${mainToken.symbol.toLocaleUpperCase()}`,
                 delegatorNum: item.delegator_num,
                 bondHeight: item.bonding_height && Number(item.bonding_height) > 0 ? Number(item.bonding_height) : '--',
                 unbondingHeight: item.unbonding_height && Number(item.unbonding_height) > 0 ? Number(item.unbonding_height) : '--',

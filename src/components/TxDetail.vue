@@ -63,6 +63,7 @@ import { getTxDetail, getRelevanceTxList } from '../service/api'
 import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant'
 import { moduleSupport } from '../helper/ModulesHelper'
 import slef_axios from "../axios"
+import { getMainToken } from '@/helper/IritaHelper';
 export default {
   name: 'TxDetail',
   components: { MPagination, MClip, TxMessage },
@@ -108,7 +109,6 @@ export default {
       flShowRateToolTip: false,
       isProfiler:false,
       failTipStyle:false,
-      unitData: Tools.getUnit()
     }
   },
   mounted() {
@@ -140,13 +140,14 @@ export default {
   methods: {
     async getTransactionInformation() {
       try {
+        let mainToken = await getMainToken();
         const res = await getTxDetail(this.$route.query.txHash)
         if (res) {
           res.msgs.forEach( item => {
             let amount = item.msg.amount
             if(amount) {
               amount = Number(Tools.findNum(amount)[0])
-              item.msg.amount = Tools.formatUnit(amount) + this.unitData.maxUnit.toUpperCase()
+              item.msg.amount = Tools.formatUnit(amount) + mainToken.symbol.toUpperCase()
             }
           })
           this.messages = res.msgs || []

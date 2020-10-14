@@ -24,6 +24,8 @@
 	import Constant from "../../constant/index.js"
 	import bigNumber from "bignumber.js"
 	import { getValidatorCommissionInfoApi } from "@/service/api" 
+	import { getMainToken } from '@/helper/IritaHelper';
+
 	var echarts = require('echarts/lib/echarts');
 	require('echarts/lib/component/legend');
 	require('echarts/lib/component/tooltip');
@@ -55,7 +57,6 @@
 				chartOptionColor:'',
 				currentMoniker:'',
 				tipColor:'',
-				unitData: Tools.getUnit()
 			}
 		},
 		watch:{
@@ -84,7 +85,8 @@
 			},300)
 		},
 		methods:{
-			initCharts(){
+			async initCharts(){
+				let mainToken = await getMainToken();
 				let itemStyle = {
 					opacity: 0.5,
 					shadowOffsetX: 0,
@@ -115,7 +117,7 @@
 							return `<div>
 										<p>${value[2]}</p>
 										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.commissionRate')}:${value[0]}%</p>
-										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.bondedTokens')}:<br/>${new bigNumber(value[1]).toFormat()} ${this.unitData.maxUnit.toUpperCase()}</p>
+										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.bondedTokens')}:<br/>${new bigNumber(value[1]).toFormat()} ${mainToken.symbol.toUpperCase()}</p>
 										</div>`
 						}
 					},
