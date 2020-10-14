@@ -61,7 +61,7 @@
 	import Tools from "../util/Tools"
 	import AddressInformationPie from "./AddressInformationPie";
 	import moveDecimal from 'move-decimal-point'
-	import { validatorStatus } from '@/constant'
+	import { validatorStatus,numFormat } from '@/constant'
 	import { getMainToken } from '@/helper/IritaHelper';
 	export default {
 		name: "AddressInformationComponent",
@@ -79,26 +79,30 @@
 		},
 		data(){
 			return {
-				validatorStatus,
+				numFormat,
 				assetInformation:'',
 				assetConstitute:[
 					{
 						label:this.$t('ExplorerLang.addressInformation.content.balance'),
+						status: 'Balance',
 						value:'',
 						color: '$theme_c'
 					},
 					{
 						label:this.$t('ExplorerLang.addressInformation.content.delegated'),
+						status: 'Delegated',
 						value:'',
 						color:'#FFA300'
 					},
 					{
 						label:this.$t('ExplorerLang.addressInformation.content.unBonding'),
+						status: 'UnBonding',
 						value:'',
 						color:'#67E523'
 					},
 					{
 						label:this.$t('ExplorerLang.addressInformation.content.rewards'),
+						status: 'Rewards',
 						value:'',
 						color:'#8E66FF'
 					},
@@ -133,12 +137,10 @@
 				assetInformation.forEach( item => {
 					if(item && item.token === (mainToken.symbol || '').toUpperCase()){
 						this.totalAmount = item.totalAmount;
-						let UnBonding = this.validatorStatus.unbonding
 						this.assetConstitute.forEach( res => {
-							 if(res.label === UnBonding){
-								res.value = item['unBonding'] || "--";
-								// console.log(item,item[UnBonding])
-								res.numberValue = item['unBonding'] ? item['unBonding'].replace(/[^\d.]/g,"") : 0;
+							 if(res.status === 'UnBonding'){
+								res.value = item.unBonding || "--";
+								res.numberValue = item.unBonding ? item.unBonding.replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
 							}else {
 								res.value = item[Tools.firstWordLowerCase(res.label)] && item[Tools.firstWordLowerCase(res.label)] !== 0 ? item[Tools.firstWordLowerCase(res.label)] : "--";
@@ -160,7 +162,7 @@
 					num = Tools.subStrings(moveDecimal(Tools.FormatScientificNotationToNumber(percentNumber),2),2) ;
 				}else {
 					//数字太小赋值为0.00
-					num = '0.00'
+					num = this.numFormat.num
 				}
 				return num;
 			}

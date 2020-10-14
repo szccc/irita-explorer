@@ -68,7 +68,8 @@ let config = {
             ]
         },
         { title: 'Network', id: '110'},
-        '1000'
+        '1000',
+        '1001'
     ],
     //首页卡片配置
     homeCard:{

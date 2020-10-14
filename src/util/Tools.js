@@ -4,6 +4,8 @@ import URLSearchParams from 'url-search-params'
 import bech32 from 'bech32'
 import moveDecimal from 'move-decimal-point'
 import Constant from '../constant/index.js'
+import { getConfig } from '@/helper/IritaHelper'
+
 export default class Tools {
   /**
    * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -391,6 +393,27 @@ export default class Tools {
   }
 
   static getUnit () {
-    return JSON.parse(sessionStorage.getItem('unit'))
+    let { tokenData } = JSON.parse(sessionStorage.getItem('config'))
+    let mainTokenArr = tokenData.filter(item => item.is_main_token)
+    let mainToken = mainTokenArr[0]
+    let unit = {
+      maxUnit: mainToken.symbol,
+      minUnit: mainToken.min_unit,
+      conversionRatio: 100000
+    }
+    return unit 
+  }
+
+  static formatPerNumber (num) {
+    if (typeof num === 'number' && !Object.is(num, NaN)) {
+      let afterPoint = String(num).split('.')[1]
+      let afterPointLong = (afterPoint && afterPoint.length) || 0
+      if (afterPointLong > 2 && num !== 0) {
+        return num.toFixed(4)
+      } else {
+        return num.toFixed(2)
+      }
+    }
+    return num
   }
 }

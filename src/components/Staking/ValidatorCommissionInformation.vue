@@ -144,66 +144,54 @@
 				this.jailedData.moniker = dataInfomation.description.moniker;
 				this.validatorStatus = Tools.firstWordUpperCase(dataInfomation.status);
 				this.bondedAndCommissionArr.forEach( item => {
-					if(item.label === 'Commission Rate Range:'){
+					if(item.dataName === 'commissionRateRange'){
 						item.value = `0 ~ ${Number(dataInfomation.commission_max_rate) * 100} %`;
 						item.children.push({
-							label:'Max Change Rate Everytime:',
+							label: this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.maxChangeRateEverytime'),
 							value: `0 ~ ${Number(dataInfomation.commission_max_change_rate) * 100} %`
 						})
-					}else if(item.label === 'Bonded Tokens:'){
+					}else if(item.dataName === 'bonded_tokens'){
 						item.value =`${this.$options.filters.amountFromat(dataInfomation.bonded_tokens, mainToken.symbol.toUpperCase(), this.irisTokenFixedNumber)}`;
 						let self_bond = Tools.formatUnit(dataInfomation.self_bond.amount)
 						let bonded_stake = dataInfomation.bonded_tokens - self_bond
 						let selfBonded = {
-							label:'Self-Bonded:',
+							label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.selfBonded'),
 							value: `
 							${this.$options.filters.amountFromat(self_bond, mainToken.symbol.toUpperCase(),this.irisTokenFixedNumber)}
-								(${this.formatPerNumber((self_bond / Number(dataInfomation.bonded_tokens)) * 100)} %)`
+								(${Tools.formatPerNumber((self_bond / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						let delegatorBonded = {
-							label:'Delegator Bonded:',
+							label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.delegatorBonded'),
 							value:`${this.$options.filters.amountFromat(
 								bonded_stake, mainToken.symbol.toUpperCase(), this.irisTokenFixedNumber)}
-								 (${this.formatPerNumber((Number(bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
+								 (${Tools.formatPerNumber((Number(bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						item.children.unshift(selfBonded,delegatorBonded)
-					}else if(item.label === 'Total Shares:'){
+					}else if(item.dataName === 'delegator_shares'){
 						item.value = `${this.$options.filters.amountFromat(dataInfomation.delegator_shares, "", this.irisTokenFixedNumber)}`
-					}else if(item.label === 'Commission Rate:'){
-						item.value = `${this.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
+					}else if(item.dataName === 'commission_rate'){
+						item.value = `${Tools.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
 					}else {
 						item.value = dataInfomation[item.dataName]
 					}
 				});
 				this.getValidatorRewards();
 			},
-			formatPerNumber(num) {
-				if (typeof num === "number" && !Object.is(num, NaN)) {
-					let afterPoint = String(num).split(".")[1];
-					let afterPointLong = (afterPoint && afterPoint.length) || 0;
-					if (afterPointLong > 2 && num !== 0) {
-						return num.toFixed(4);
-					} else {
-						return num.toFixed(2);
-					}
-				}
-				return num;
-			},
 			async getValidatorRewards() {
 				let mainToken = await getMainToken();
 				try {
 					let data = await getValidatorRewardsApi(this.$route.params.param)
 					if(data) {
-						let commission = data.val_commission.commission[0]
+						let commission = data.val_commission.commission && data.val_commission.commission[0]
 						if(commission) {
 							this.bondedAndCommissionArr.map(item => {
-								if(item.label === 'Commission Rewards:'){
+								if(item.dataName === 'commissionRewards'){
 									return item.value = `${Tools.formatUnit(commission.amount)} ${mainToken.symbol.toUpperCase()}` || '--'
 								}
 							})
 						} else {
 							this.bondedAndCommissionArr.map(item => {
-								if(item.label === 'Commission Rewards:'){
+								if(item.dataName === 'commissionRewards'){
 									return item.value = '--'
 								}
 							})

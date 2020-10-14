@@ -8,6 +8,7 @@
 			<div class="address_tab_container">
 				<div class="address_tab_content">
 					<div class="address_tab_item"
+						 :key="index"
 					     v-for="(item,index) in tabList"
 					     :class="item.isActive ? 'active_content' : ''" @click="selectOptions(index)">
 						<span>{{item.label}}</span>
@@ -332,7 +333,7 @@
 								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')"
 								          :data="delegationsItems" style="width: 100%">
 									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 min-width="150">
+									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link v-if="row.moniker" class="address_link"
@@ -347,9 +348,9 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" min-width="180"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
 									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
-									                 min-width="150"></el-table-column>
+									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
 										<template v-slot:default="{ row }">
 										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
@@ -372,7 +373,7 @@
 								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')"
 								          :data="unBondingDelegationsItems" style="width: 100%">
 									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 width="130">
+									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link style="font-family: Consolas,Menlo;"
@@ -384,9 +385,9 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 min-width="150"></el-table-column>
+									                 :min-width="ColumnMinWidth.amount"></el-table-column>
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')"
-									                 min-width="118">
+									                 :min-width="ColumnMinWidth.blockHeight">
 										<template v-slot:default="{ row }">
 											<router-link style="font-family: Consolas,Menlo;"
 											             :to="'/block/' + row.block"
@@ -395,7 +396,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="endTime" :label="$t('ExplorerLang.table.endTime')"
-									                 width="190"></el-table-column>
+									                 :min-width="ColumnMinWidth.time"></el-table-column>
 								</el-table>
 							</div>
 							<m-pagination v-if="flUnBondingDelegationNextPage" :page-size="tablePageSize"
@@ -424,7 +425,7 @@
 								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="rewardsItems"
 								          style="width: 100%">
 									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 align="left" min-width="294">
+									                 align="left" :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link v-if="row.moniker" class="address_link"
@@ -439,7 +440,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" min-width="294"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
 								</el-table>
 							</div>
 						</div>
@@ -1099,7 +1100,6 @@
 						let balanceAmount = item && item.amount ? converCoin(item) : 0
 						return {
 							// token:  Tools.formatDenom(item.denom),
-							tokenNumber: `${Tools.formatUnit(item.amount)} ${this.unitData.maxUnit.toUpperCase()}`,
 							token: this.unitData.maxUnit.toUpperCase(),
 							balance: balanceAmount  && balanceAmount.amount ? `${balanceAmount.amount} ${balanceAmount.denom.toLocaleString()}` : 0,
 							balanceNumber: item.amount,
@@ -1115,7 +1115,6 @@
 						}
 					} else {
 						return {
-							tokenNumber: item.amount,
 							token: item.denom,
 							balance: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}` : 0,
 							delegated: 0,
@@ -1266,8 +1265,8 @@
 					console.error(e)
 				}
 			},
-			delegationPageChange (pageNum) {
-				pageNum = pageNum - 1
+			delegationPageChange (pageNums) {
+				let pageNum = pageNums - 1
 				if (this.flDelegationNextPage) {
 					this.delegationsItems = this.delegationPageNationArrayData[pageNum].map(item => {
 						item.amount.amount = Tools.formatUnit(item.amount.amount)
@@ -1292,8 +1291,8 @@
 					});
 				}
 			},
-			unBondingDelegationPageChange (pageNum) {
-				pageNum = pageNum - 1;
+			unBondingDelegationPageChange (pageNums) {
+				let pageNum = pageNums - 1;
 				if (this.flUnBondingDelegationNextPage) {
 					this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData[pageNum].map(item => {
 						if (item.amount && item.amount.amount) {
@@ -1322,8 +1321,8 @@
 					});
 				}
 			},
-			rewardsDelegationPageChange (pageNum) {
-				pageNum = pageNum - 1;
+			rewardsDelegationPageChange (pageNums) {
+				let pageNum = pageNums - 1;
 				if (this.flRewardsDelegationNextPage) {
 					this.rewardsItems = this.rewardsDelegationPageNationArrayData[pageNum].map(item => {
 						if (item.reward && item.reward.length > 0) {
@@ -1673,7 +1672,7 @@
 			.address_information_redelegation_tx_container {
 				text-align: left;
 				display: flex;
-				
+				margin-bottom: 0.2rem;
 				.address_information_delegator_rewards_content {
 					width: calc(50% - 0.1rem);
 					margin-right: 0.2rem;
