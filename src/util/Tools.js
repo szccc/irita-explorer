@@ -4,6 +4,8 @@ import URLSearchParams from 'url-search-params'
 import bech32 from 'bech32'
 import moveDecimal from 'move-decimal-point'
 import Constant from '../constant/index.js'
+import { getConfig } from '@/helper/IritaHelper'
+
 export default class Tools {
   /**
    * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -394,17 +396,12 @@ export default class Tools {
     let { tokenData } = JSON.parse(sessionStorage.getItem('config'))
     let mainTokenArr = tokenData.filter(item => item.is_main_token)
     let mainToken = mainTokenArr[0]
-    console.log(mainToken)
     let unit = {
       maxUnit: mainToken.symbol,
       minUnit: mainToken.min_unit,
       conversionRatio: 100000
     }
-    console.log(unit,1)
-    return unit
-  }
-
-  static firstToLower(str) {
-    return str.replace(str[0], str[0].toLowerCase());
+    // console.log(unit,1)
+    return unit 
   }
 }

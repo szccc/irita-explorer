@@ -13,6 +13,7 @@ function get(url){
 				console.error(`error from ${url}:`,JSON.stringify(data));
 				rej(data);
 			}
+
 		}catch(err){
 			console.error(`error from ${url}:`,err.message);
 			rej(err);

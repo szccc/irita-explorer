@@ -461,8 +461,11 @@
 		getServiceContextsByServiceName,
 		getIdentityListByAddress,
 		getAllTxTypes,
-		getAddressInformationApi,getDelegationListApi,getUnBondingDelegationListApi,
-		getRewardsItemsApi,getValidatorRewardsApi
+		getAddressInformationApi,
+		getDelegationListApi,
+		getUnBondingDelegationListApi,
+		getRewardsItemsApi,
+		getValidatorRewardsApi,
 		} from "@/service/api";
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
@@ -906,7 +909,6 @@
 					if(item.denom === this.unitData.minUnit){
 					return {
 							// token:  Tools.formatDenom(item.denom),
-							tokenNumber: `${Tools.formatUnit(item.amount)} ${this.unitData.maxUnit.toUpperCase()}`,
 							token: this.unitData.maxUnit.toUpperCase(),
 							balance: item.amount ? Tools.formatAmount2(item,this.fixedNumber): 0,
 							balanceNumber: item.amount,
@@ -922,7 +924,6 @@
 						}
 					}else {
 						return {
-							tokenNumber: item.amount,
 							token: item.denom,
 							balance: item.amount ? `${new BigNumber(item.amount).toFormat()} ${item.denom.toUpperCase()}`: 0,
 							delegated: 0,

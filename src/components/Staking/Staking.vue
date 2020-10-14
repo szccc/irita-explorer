@@ -10,7 +10,7 @@
       </div>
       <div class="staking_table_list_content">
         <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData" :default-sort="{ prop: 'votingPower', order: 'descending' }">
-          <el-table-column key="1" align="right" type="index" width="45" :label="$t('ExplorerLang.table.number')"></el-table-column>
+          <el-table-column key="1" align="right" type="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
           <el-table-column key="2" align="left" prop="moniker" show-overflow-tooltip  width="168" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
               <div style="display: flex;align-items: center;position: relative">
@@ -55,12 +55,14 @@ import Tools from '../../util/Tools'
 import BigNumber from 'bignumber.js'
 import { getValidatorsListApi } from "@/service/api"
 import productionConfig from '@/productionConfig.js'
+import { ColumnMinWidth } from '@/constant'
 export default {
   name: 'Staking',
   components: { MTabs, MPagination },
   props: {},
   data() {
     return {
+      ColumnMinWidth,
       count: 0,
       titleStatus: this.$t('ExplorerLang.staking.status.active'),
       stakingStatusTitleList: [

@@ -185,13 +185,13 @@ Denom.IRISATTO = 'iris-atto'
 Denom.IRIS = 'iris'
 
 const CHAINID = {}
-CHAINID.IRISHUB = 'irishub'
-CHAINID.FUXI = 'fuxi'
-CHAINID.NYANCAT = 'nyancat'
+CHAINID.IRISHUB = 'Mainnet IRISHUB'
+CHAINID.FUXI = 'Testnet FUXI'
+CHAINID.NYANCAT = 'Testnet NYANCAT-6'
 CHAINID.QA = 'rainbow-qa'
 CHAINID.DEV = 'rainbow-dev'
-CHAINID.GOZTESTNET = 'goz-testnet'
-CHAINID.BIFROST = 'bifrost'
+CHAINID.GOZTESTNET = 'Testnet GOZ'
+CHAINID.BIFROST = 'Testnet BIFTOST'
 
 
 const TxType = {};
@@ -380,9 +380,11 @@ export const TxStatus = {
   '1':'Success'
 }
 
-export const validatorStatus = {
-  unbonding: 'UnBonding'
+export const numFormat = {
+  num: '0.00'
 }
+
+
 
 export default {
   Denom,

@@ -9,7 +9,8 @@
     "107":"Vaildators",
     "108":"Delegation Txs",
     "109":"Validation Txs",
-    "1000":"搜索"(始终排在末尾)}*/
+    "1000":"搜索"(排在末尾)
+    "1001":"网络切换"(排在末尾)}*/
 
 let config = {
   //国际化 CN / EN 默认CN
@@ -66,8 +67,8 @@ let config = {
         { title: 'Validation Txs', id: '109' },
       ],
     },
-    { title: 'Network', id: '110' },
     '1000',
+    '1001',
   ],
   //首页卡片配置
   homeCard: {
