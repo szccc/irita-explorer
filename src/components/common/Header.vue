@@ -82,7 +82,7 @@
             </transition>
           </div>
         </div>
-        <div v-show="flShowNetwork" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">   
+        <div v-show="flShowNetwork" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">
               <div class="mobile_tab_item_children_container" >
                   <span class="mobile_tab_item mobile_tab_item_has_children" @click="flShowNetWork">
                     {{$t('ExplorerLang.Navigation.network')}}
@@ -106,7 +106,7 @@
 import Tools from '../../util/Tools'
 import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
-import { getBlockWithHeight, getTxDetail, getAddressTxList,getUnitDataApi } from '@/service/api'
+import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
 import { getConfig } from "@/helper/IritaHelper"
 import axios from 'axios'

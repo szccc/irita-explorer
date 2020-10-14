@@ -19,7 +19,7 @@
 								<el-table :data="delegations.items" style="width: 100%"
 								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
 									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 width="130">
+									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link style="font-family: Consolas,Menlo;"
@@ -31,9 +31,9 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" min-width="175"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
 									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
-									                 min-width="213"></el-table-column>
+									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- 待处理 -->
 									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" width="110">
 									  <template v-slot:default="{ row }">
@@ -54,7 +54,7 @@
 								<el-table :data="unbondingDelegations.items" style="width: 100%"
 								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
 									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 width="130">
+									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link style="font-family: Consolas,Menlo;"
@@ -66,9 +66,9 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" min-width="180"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')" align="left"
-									                 min-width="118">
+									                 :min-width="ColumnMinWidth.blockHeight">
 										<template v-slot:default="{ row }">
 											<router-link style="font-family: Consolas,Menlo;"
 											             :to="'/block/' + row.block"
@@ -77,7 +77,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="end_time" :label="$t('ExplorerLang.table.endTime')"
-									                 width="200"></el-table-column>
+									                 :min-width="ColumnMinWidth.time"></el-table-column>
 								</el-table>
 							</div>
 							<m-pagination v-if="unbondingDelegations.total > pageSize" :page-size="pageSize"
@@ -94,7 +94,7 @@
 						<div class="delegations_txs_table_container">
 							<el-table :data="delegationTxs.items" style="width: 100%"
 							          :empty-text="$t('ExplorerLang.table.emptyDescription')">
-								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="110">
+								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
 									<template v-slot:default="{ row }">
 										<img class="status_icon"
                                      		:src="require(`../../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
@@ -107,14 +107,14 @@
 										</el-tooltip>
 									</template>
 								</el-table-column>
-								<el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" width="76">
+								<el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" :min-width="ColumnMinWidth.blockHeight">
 									<template v-slot:default="{ row }">
 										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.Block"
 										             :style="{ color: '$theme_c !important' }">{{ row.Block }}
 										</router-link>
 									</template>
 								</el-table-column>
-								<el-table-column prop="From" :label="$t('ExplorerLang.table.from')" width="150">
+								<el-table-column prop="From" :label="$t('ExplorerLang.table.from')" :min-width="ColumnMinWidth.address">
 									<template v-slot:default="{ row }">
 										<span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
 										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
@@ -132,9 +132,9 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="Amount" :label="$t('ExplorerLang.table.amount')" align="right"
-								                 width="110"></el-table-column>
+								                 :min-width="ColumnMinWidth.amount"></el-table-column>
 								<el-table-column prop="To" :label="$t('ExplorerLang.table.to')" align="left"
-								                 width="159">
+								                 :min-width="ColumnMinWidth.address">
 									<template v-slot:default="{ row }">
 										<span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
 										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
@@ -154,22 +154,20 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')"
-								                 show-overflow-tooltip min-width="150"></el-table-column>
-								<el-table-column prop="MsgsNum" :label="$t('ExplorerLang.table.message')">
+								                 show-overflow-tooltip :min-width="ColumnMinWidth.txType"></el-table-column>
+								<el-table-column prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message">
 								</el-table-column>
 								<el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')"
-								                 width="110"></el-table-column>
-								<el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" width="121">
+								                 :min-width="ColumnMinWidth.fee"></el-table-column>
+								<el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
 									<template v-slot:default="{ row }">
 										<router-link :to="`/address/${row.Tx_Signer}`" class="link_style justify">{{
 											formatAddress(row.Tx_Signer) }}
 										</router-link>
 									</template>
 								</el-table-column>
-								<!-- <el-table-column prop="Tx_Status" :label="$t('ExplorerLang.table.status')"
-								                 width="73"></el-table-column> -->
 								<el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')"
-								                 width="186"></el-table-column>
+								                 :width="ColumnMinWidth.time"></el-table-column>
 							</el-table>
 						</div>
 						<m-pagination v-if="delegationTxs.total > pageSize" :page-size="pageSize"
@@ -185,7 +183,7 @@
 						<div class="validation_txs_table_container">
 							<el-table :data="validationTxs.items" style="width: 100%"
 							          :empty-text="$t('ExplorerLang.table.emptyDescription')">
-								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" width="110">
+								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
 									<template v-slot:default="{ row }">
 										<img class="status_icon"
                                      		:src="require(`../../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
@@ -198,14 +196,14 @@
 										</el-tooltip>
 									</template>
 								</el-table-column>
-								<el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" width="76">
+								<el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" :min-width="ColumnMinWidth.blockHeight">
 									<template v-slot:default="{ row }">
 										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.Block"
 										             :style="{ color: '$theme_c !important' }">{{ row.Block }}
 										</router-link>
 									</template>
 								</el-table-column>
-								<el-table-column prop="Moniker" :label="$t('ExplorerLang.table.name')" width="159">
+								<el-table-column prop="Moniker" :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
 									<template v-slot:default="{ row }">
 										<span style="cursor:pointer;" v-if="row.OperatorAddr === $route.params.param">{{ row.Moniker }}</span>
 										<router-link v-else :to="`/address/${row.OperatorAddr}`"
@@ -214,7 +212,7 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="OperatorAddr" :label="$t('ExplorerLang.table.operator')"
-								                 width="140">
+								                 :min-width="ColumnMinWidth.address">
 									<template v-slot:default="{ row }">
 										<span v-if="/^[1-9]\d*$/.test(row.OperatorAddr)" class="skip_route">
 										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.OperatorAddr }} Validators</router-link>
@@ -236,16 +234,16 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="Self-Bonded" :label="$t('ExplorerLang.table.selfBonded')"
-								                 width="159">
+								                 :min-width="ColumnMinWidth.selfBond">
 									<template v-slot:default="{ row }">
 										<span>{{ row.SelfBonded }}</span>
 									</template>
 								</el-table-column>
 								<el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')"
-								                 show-overflow-tooltip></el-table-column>
+								                 show-overflow-tooltip :min-width="ColumnMinWidth.txType"></el-table-column>
 								<el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')"
-								                 width="110"></el-table-column>
-								<el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" width="121">
+								                 :min-width="ColumnMinWidth.fee"></el-table-column>
+								<el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
 									<template v-slot:default="{ row }">
 										<router-link :to="`/address/${row.Tx_Signer}`" class="link_style justify">{{
 											formatAddress(row.Tx_Signer) }}
@@ -255,7 +253,7 @@
 								<!-- <el-table-column prop="Tx_Status" :label="$t('ExplorerLang.table.status')"
 								                 width="73"></el-table-column> -->
 								<el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')"
-								                 width="186"></el-table-column>
+								                 :width="ColumnMinWidth.time"></el-table-column>
 							</el-table>
 						</div>
 						<m-pagination v-if="validationTxs.total > pageSize" :page-size="pageSize"
@@ -273,7 +271,7 @@
 	import ValidatorCommissionInformation from './ValidatorCommissionInformation'
 	import MPagination from '../common/MPagination'
 	import Tools from '../../util/Tools.js'
-	import Constants,{ TxStatus } from '../../constant/index.js'
+	import Constants,{ TxStatus,ColumnMinWidth } from '../../constant/index.js'
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
@@ -290,6 +288,7 @@
 		props: {},
 		data () {
 			return {
+				ColumnMinWidth,
 				validationInformation: {},
 				validatorStatus: '',
 				pageSize: 5,
@@ -334,18 +333,6 @@
 					this[key](page)
 				}
 			},
-			formatPerNumber (num) {
-				if (typeof num === 'number' && !Object.is(num, NaN)) {
-					let afterPoint = String(num).split('.')[1]
-					let afterPointLong = (afterPoint && afterPoint.length) || 0
-					if (afterPointLong > 2 && num !== 0) {
-						return num.toFixed(4)
-					} else {
-						return num.toFixed(2)
-					}
-				}
-				return num
-			},
 			async getValidatorsInfo () {
 				let res = await getValidatorsInfoApi(this.$route.params.param)
 				this.validationInformation = res
@@ -358,7 +345,7 @@
 				res.data.forEach(item => {
 					item.amount = `${Tools.formatUnit(item.amount.amount)} ${this.mainToken.symbol.toUpperCase()}`
 					let selfShares = Tools.formatPriceToFixed(item.self_shares, 4)
-					let shares = `${selfShares} (${this.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
+					let shares = `${selfShares} (${Tools.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
 					this.delegations.items.push({
 						address: item.address,
 						amount: item.amount,

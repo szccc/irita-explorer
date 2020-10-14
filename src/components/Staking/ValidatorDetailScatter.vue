@@ -21,7 +21,7 @@
 
 <script>
 	import Tools from "../../util/Tools.js"
-	import Constant,{validator_Status} from "../../constant/index.js"
+	import Constant from "../../constant/index.js"
 	import bigNumber from "bignumber.js"
 	import { getValidatorCommissionInfoApi } from "@/service/api"
 	import { getMainToken } from '@/helper/IritaHelper';
@@ -62,7 +62,7 @@
 		},
 		watch:{
 			validatorStatus(){
-				if(this.validatorStatus === this.validator_Status.jailed || this.validatorStatus === this.validator_Status.candidate){
+				if(this.validatorStatus === 'Jailed' || this.validatorStatus === 'Candidate'){
 					this.tipColor = "#101149"
 				}else {
 					this.tipColor = "#FF5C01"
