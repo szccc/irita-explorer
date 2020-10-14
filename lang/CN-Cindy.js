@@ -120,7 +120,7 @@ export const ExplorerLang = {
         transaction: '交易数量:',
         timestamp: '参考时间:',
         transactions: '区块交易',
-        // 新增 
+        // 新增
         proposer: 'Proposer:',
         validators: 'Validators:',
         votingPower: 'Voting Power:',
@@ -131,7 +131,7 @@ export const ExplorerLang = {
         txs: '交易',
         search: '搜索',
         status: '交易状态',
-        // 新增 
+        // 新增
         delegationTxsList: 'Delegation Txs List',
         validationTxsList: 'Validation Txs List'
     },
@@ -253,7 +253,7 @@ export const ExplorerLang = {
             clientID:'客户端ID',
             header:'区块头',
         },
-        // 新增 
+        // 新增
         transactionInformations: {
             title: 'Transaction Information',
             block: 'Block',
@@ -402,6 +402,13 @@ export const ExplorerLang = {
     },
     // 普通地址详情
     addressInformation: {
+        tab:{
+          assetInfo:'资产组成',
+          nftCount:'数据对象',
+          identity:'身份',
+          iService:'服务',
+          tx:'交易记录',
+        },
         content: {
             address: 'Address',
             token: 'Token',

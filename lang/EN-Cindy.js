@@ -402,6 +402,13 @@ export const ExplorerLang = {
     },
     // 普通地址详情
     addressInformation: {
+        tab:{
+            assetInfo:'资产组成',
+            nftCount:'数据对象',
+            identity:'身份',
+            iService:'服务',
+            tx:'交易记录',
+        },
         content: {
             address: 'Address',
             token: 'Token',
