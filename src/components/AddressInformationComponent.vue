@@ -132,11 +132,11 @@
 					if(item && item.token === this.unitData.maxUnit.toUpperCase() ){
 						this.totalAmount = item.totalAmount;
 						let UnBonding = this.validatorStatus.unbonding
+						let unBonding = Tools.firstToLower(UnBonding)
 						this.assetConstitute.forEach( res => {
 							 if(res.label === UnBonding){
-								res.value = item['unBonding'] || "--";
-								// console.log(item,item[UnBonding])
-								res.numberValue = item['unBonding'] ? item['unBonding'].replace(/[^\d.]/g,"") : 0;
+								res.value = item[unBonding] || "--";
+								res.numberValue = item[unBonding] ? item[unBonding].replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
 							}else {
 								res.value = item[Tools.firstWordLowerCase(res.label)] && item[Tools.firstWordLowerCase(res.label)] !== 0 ? item[Tools.firstWordLowerCase(res.label)] : "--";

@@ -109,7 +109,7 @@
 import Tools from '../../util/Tools'
 import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
-import { getBlockWithHeight, getTxDetail, getAddressTxList,getUnitDataApi } from '@/service/api'
+import { getBlockWithHeight, getTxDetail, getAddressTxList,getConfig } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
 import axios from 'axios'
 export default {
@@ -144,7 +144,6 @@ export default {
   },
   created() {
     this.getConfig()
-    this.getUnitDataApi()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
@@ -287,6 +286,9 @@ export default {
 				this.flShowNetworkLogo = false;
     },
     async getConfig () {
+        const data = await getConfig()
+        sessionStorage.setItem('config',JSON.stringify(data))
+
         // const { data: res } = await axios.get(`https://www.irisplorer.io/api/config`)
         // this.handleConfigs(res.configs)
         
@@ -346,10 +348,6 @@ export default {
     },
     flShowNetWork() {
       this.flShowNetWorkMenu = !this.flShowNetWorkMenu
-    },
-    async getUnitDataApi() {
-      const res = await getUnitDataApi()
-      sessionStorage.setItem('unit',JSON.stringify(res))
     }
   },
 }

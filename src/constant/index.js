@@ -381,7 +381,7 @@ export const TxStatus = {
 }
 
 export const validatorStatus = {
-  unbonding:'UnBonding',
+  unbonding: 'UnBonding'
 }
 
 export default {

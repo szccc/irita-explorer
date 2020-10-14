@@ -391,6 +391,20 @@ export default class Tools {
   }
 
   static getUnit () {
-    return JSON.parse(sessionStorage.getItem('unit'))
+    let { tokenData } = JSON.parse(sessionStorage.getItem('config'))
+    let mainTokenArr = tokenData.filter(item => item.is_main_token)
+    let mainToken = mainTokenArr[0]
+    console.log(mainToken)
+    let unit = {
+      maxUnit: mainToken.symbol,
+      minUnit: mainToken.min_unit,
+      conversionRatio: 100000
+    }
+    console.log(unit,1)
+    return unit
+  }
+
+  static firstToLower(str) {
+    return str.replace(str[0], str[0].toLowerCase());
   }
 }
