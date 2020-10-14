@@ -106,12 +106,12 @@ export const ColumnMinWidth = {
   txHash: '120',
   blockHeight: '90',
   txType: '130',
-  address: '120',
+  address: '132',
   time: '180',
   txn: '',
   blockAge: '120',
   validatirName: '120',
-  votingPower: '120',
+  votingPower: '132',
   publickKey: '450',
   denom: '155',
   tokenId: '150',
@@ -135,6 +135,18 @@ export const ColumnMinWidth = {
   certificate: '220',
   certificateFull: '650',
   credentials: '220',
+  commission: '129',
+  bondedTokens: '152',
+  uptime: '100',
+  selfBond: '150',
+  delegators: '117',
+  bondHeight: '132',
+  unbondingHeight: '175',
+  amount: '110',
+  shares: '213',
+  fee: '110',
+  consensus: '340',
+  proposerPriority: '200'
 }
 
 export const ModuleMap = {

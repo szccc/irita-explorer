@@ -11,7 +11,7 @@
       <div class="staking_table_list_content">
         <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData" :default-sort="{ prop: 'votingPower', order: 'descending' }">
           <el-table-column key="1" align="right" type="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
-          <el-table-column key="2" align="left" prop="moniker" show-overflow-tooltip  width="168" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
+          <el-table-column key="2" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatirName" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
               <div style="display: flex;align-items: center;position: relative">
                 <span class="avatar" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;display: flex;align-items: center;justify-content: center">{{ row.validatorIconSrc }}</span>
@@ -20,7 +20,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column key="3" prop="operatorAddress" align="center" min-width="128" :label="$t('ExplorerLang.table.operator')">
+          <el-table-column key="3" prop="operatorAddress" align="center" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip :content="row.operatorAddress" placement="top">
@@ -31,14 +31,14 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column key="4" align="center" prop="commission" min-width="129" :sort-method="commissionSort" :label="$t('ExplorerLang.table.commission')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="5" align="right" prop="bondedToken" min-width="152" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="6" v-if="titleStatus === 'Active'" align="center" prop="votingPower" width="137" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="7" v-if="titleStatus === 'Active'" align="right" prop="uptime" width="100" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="8" align="right" prop="selfBond" min-width="150" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="9" v-if="titleStatus !== 'Jailed'" align="right" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="10" align="right" prop="bondHeight" min-width="132" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="11" v-if="titleStatus !== 'Active'" align="right" prop="unbondingHeight" min-width="175" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="4" align="center" prop="commission" :min-width="ColumnMinWidth.commission" :sort-method="commissionSort" :label="$t('ExplorerLang.table.commission')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="5" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="6" v-if="titleStatus === 'Active'" align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="7" v-if="titleStatus === 'Active'" align="right" prop="uptime" :min-width="ColumnMinWidth.uptime" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="8" align="right" prop="selfBond" :min-width="ColumnMinWidth.selfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="9" v-if="titleStatus !== 'Jailed'" :min-width="ColumnMinWidth.delegators" align="right" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="10" align="right" prop="bondHeight" :min-width="ColumnMinWidth.bondHeight" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="11" v-if="titleStatus !== 'Active'" align="right" prop="unbondingHeight" :min-width="ColumnMinWidth.unbondingHeight" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
         </el-table>
         <div class="pagination_content">
           <m-pagination :page-size="1" :total="1" :page="1"></m-pagination>

@@ -71,8 +71,8 @@
 				<div class="block_validator_set_title">{{$t('ExplorerLang.blockDetail.validatorSet')}}</div>
 				<div class="block_validator_set_content">
 					<el-table class="table"  :data="validatorSetList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
-						<el-table-column type="index" width="45" :label="$t('ExplorerLang.table.number')"></el-table-column>
-						<el-table-column  prop="moniker" :label="$t('ExplorerLang.table.name')">
+						<el-table-column type="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
+						<el-table-column  prop="moniker"  :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
 							<template v-slot:default="{ row }">
 								<div class="moniker_conent">
 									<div class="proposer_img_content">
@@ -84,7 +84,7 @@
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')">
+						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
 							<template v-slot:default="{ row }">
 								<div class="common_hover_address_parent skip_route">
 									<router-link :to="`/staking/${row.OperatorAddress}`" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
@@ -92,9 +92,9 @@
 								</div>
 							</template>
 						</el-table-column>
-						<el-table-column  prop="Consensus" width="340" :label="$t('ExplorerLang.table.consensusAddress')"></el-table-column>
-						<el-table-column  align="right" prop="ProposerPriority" :label="$t('ExplorerLang.table.proposerPriority')"></el-table-column>
-						<el-table-column  align="right" prop="VotingPower" :label="$t('ExplorerLang.table.votingPower')"></el-table-column>
+						<el-table-column  prop="Consensus" :min-width="ColumnMinWidth.consensus" :label="$t('ExplorerLang.table.consensusAddress')"></el-table-column>
+						<el-table-column  align="right" prop="ProposerPriority" :min-width="ColumnMinWidth.proposerPriority" :label="$t('ExplorerLang.table.proposerPriority')"></el-table-column>
+						<el-table-column  align="right" prop="VotingPower" :min-width="ColumnMinWidth.votingPower" :label="$t('ExplorerLang.table.votingPower')"></el-table-column>
 					</el-table>
 
 				</div>
@@ -121,7 +121,7 @@
 		stakingBlockInformation
 	} from '../service/api';
 	import Tools from "../util/Tools";
-	import {TX_TYPE, TX_STATUS} from '../constant';
+	import {TX_TYPE, TX_STATUS,ColumnMinWidth} from '../constant';
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import prodConfig from "../productionConfig"
 	import MPagination from "./common/MPagination";
@@ -131,6 +131,7 @@
 		components: {TxListComponent, MPagination},
 		data () {
 			return {
+				ColumnMinWidth,
 				moduleSupport,
 				prodConfig,
 				TX_TYPE,
