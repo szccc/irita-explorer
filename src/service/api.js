@@ -116,7 +116,6 @@ export function getTxList(params){
     if(endTime){
         url += `&endTime=${moment(endTime).endOf('d').unix()}`;
     }
-    // console.log('query tx url', url);
     return get(url);
 }
 

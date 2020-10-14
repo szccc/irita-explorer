@@ -305,7 +305,7 @@
                     justify-content: flex-start;
                     margin-bottom: 0.26rem;
                     a{
-                        font-size: 0.14rem;
+                        font-size: $s14;
                         line-height: 1;
                     }
                     span:nth-of-type(1) {

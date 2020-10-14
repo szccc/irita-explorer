@@ -20,7 +20,6 @@
 </template>
 
 <script>
-	import axios from "axios"
 	import Tools from "../../util/Tools.js"
 	import Constant from "../../constant/index.js"
 	import bigNumber from "bignumber.js"
@@ -56,7 +55,7 @@
 				chartOptionColor:'',
 				currentMoniker:'',
 				tipColor:'',
-				unitData: JSON.parse(localStorage.getItem('unit'))
+				unitData: Tools.getUnit()
 			}
 		},
 		watch:{
@@ -169,34 +168,6 @@
 						}
 					]
 				};
-				// if(this.$store.state.currentSkinStyle ===  Constant.CHAINID.IRISHUB){
-				// 	if(this.validatorStatus === 'Jailed' || this.validatorStatus === 'Candidate'){
-				// 		this.chartOptionColor = this.mainnetJailedThemeStyle;
-				// 	}else {
-				// 		this.chartOptionColor = this.mainnetThemeStyle;
-				// 	}
-				// }else if(this.$store.state.currentSkinStyle ===  Constant.CHAINID.FUXI){
-				// 	if(this.validatorStatus === 'Jailed' || this.validatorStatus === 'Candidate'){
-				// 		this.chartOptionColor = this.testnetFuXiJailedThemeStyle;
-				// 	}else {
-				// 		this.chartOptionColor = this.testnetFuXiThemeStyle;
-				// 	}
-				// }else if(this.$store.state.currentSkinStyle ===  Constant.CHAINID.NYANCAT){
-				// 	if(this.validatorStatus === 'Jailed' || this.validatorStatus === 'Candidate'){
-				// 		this.chartOptionColor = this.testnetNyancatJailedThemeStyle;
-				// 	}else {
-				// 		this.chartOptionColor = this.testnetNyancatThemeStyle;
-				// 	}
-					
-				// }else {
-				// 	if(this.validatorStatus === 'Jailed' || this.validatorStatus === 'Candidate'){
-				// 		this.chartOptionColor = this.defaultJailedThemeStyle;
-				// 	}else {
-				// 		this.chartOptionColor = this.defaultThemeStyle;
-				// 	}
-					
-				// }
-				// echartsOption.color = this.chartOptionColor
 				echartsOption.color = this.mainnetThemeStyle
 				echartsData.setOption(echartsOption)
 			},

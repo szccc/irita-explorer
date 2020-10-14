@@ -273,7 +273,7 @@
 	import ValidatorCommissionInformation from './ValidatorCommissionInformation'
 	import MPagination from '../common/MPagination'
 	import Tools from '../../util/Tools.js'
-	import Constants from '../../constant/index.js'
+	import Constants,{ TxStatus } from '../../constant/index.js'
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
@@ -313,20 +313,17 @@
 					currentPage: 1,
 					items: [],
 				},
-				unitData: JSON.parse(localStorage.getItem('unit'))
+				unitData: Tools.getUnit()
 			}
 		},
 		computed: {},
-		watch: {
-			validationInformation () {
-				this.getDelegationTxs()
-				this.getValidationTxs()
-			}
-		},
+		watch: {},
 		created () {
 			this.getValidatorsInfo()
 			this.getDelegations()
 			this.getUnbondingDelegations()
+			this.getDelegationTxs()
+			this.getValidationTxs()
 		},
 		mounted () {
 		},
@@ -351,13 +348,13 @@
 			async getValidatorsInfo () {
 				let res = await getValidatorsInfoApi(this.$route.params.param)
 				this.validationInformation = res
+				console.log(res,11)
 				this.validatorStatus = Tools.firstWordUpperCase(res.status)
 			},
 			async getDelegations (page = 1) {
 				const res = await getValidatorsDelegationsApi(this.$route.params.param, page, this.pageSize, true)
 				this.delegations.total = res.count
 				this.delegations.items = []
-				console.log(res.data)
 				res.data.forEach(item => {
 					item.amount = `${Tools.formatUnit(item.amount.amount)} ${this.unitData.maxUnit.toUpperCase()}`
 					let selfShares = Tools.formatPriceToFixed(item.self_shares, 4)
@@ -372,7 +369,6 @@
 			},
 			async getUnbondingDelegations (page = 1) {
 				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, true)
-				console.log(res,11)
 				this.unbondingDelegations.total = res.count
 				this.unbondingDelegations.items = []
 				res.data.forEach(item => {
@@ -387,8 +383,7 @@
 				})
 			},
 			async getDelegationTxs (page = 1) {
-				const res = await getDelegationTxsApi(this.validationInformation.owner_addr, page, this.pageSize)
-				// console.log(res)
+				const res = await getDelegationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.delegationTxs.total = res.count
 				this.delegationTxs.items = []
 				res.data.forEach(item => {
@@ -399,7 +394,6 @@
 						formTO = '--'
 					}
 					const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0].amount)) : '--'
-					const status = item.status === 1 ? 'Success' : 'Fail'
 					const time = Tools.getDisplayDate(item.time)
 					this.delegationTxs.items.push({
 						Tx_Hash: item.tx_hash,
@@ -411,18 +405,17 @@
 						MsgsNum: msgsNumber,
 						Tx_Fee: item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
-						Tx_Status: status,
+						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
 					})
 				})
 			},
 			async getValidationTxs (page = 1) {
-				const res = await getValidationTxsApi(this.validationInformation.owner_addr, page, this.pageSize)
+				const res = await getValidationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.validationTxs.total = res.count
 				this.validationTxs.items = []
 				res.data.forEach(item => {
 					const fee = (item.fee.amount[0]) ? (Number(item.fee.amount[0].amount) / 1000000) : '--'
-					const status = item.status === 1 ? 'Success' : 'Fail'
 					const time = Tools.getDisplayDate(item.time)
 					this.validationTxs.items.push({
 						Tx_Hash: item.tx_hash,
@@ -433,7 +426,7 @@
 						'Tx_Type': item.type,
 						'Tx_Fee': item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
-						'Tx_Status': status,
+						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,
 					})
 				})
@@ -496,7 +489,7 @@
 						height: 0.2rem;
 						line-height: 0.2rem;
 						color: $t_first_c;
-						font-size: 0.18rem;
+						font-size:  $s18;
 						margin-top: 0.3rem;
 						padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
@@ -513,29 +506,8 @@
 					
 					.delegations_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid #e7e9eb;
-						background: #fff;
-						
-						/deep/ .el-table__header thead tr {
-							// border-left: 1px solid #dee2e6;
-							// border-right: 1px solid #dee2e6;
-							// height: 50px;
-						}
-						
-						/deep/ .el-table__header .has-gutter .cell {
-							// color: $t_second_c !important;
-							// font-family: Arial, Helvetica, sans-serif;
-							// font-weight: 400;
-						}
-						
-						/deep/ .el-table__body-wrapper .el-table__row .cell {
-							// font-family: Arial, Helvetica, sans-serif;
-							// color: $t_first_c !important;
-						}
-						
-						/deep/ .el-table th.is-leaf {
-							// border-bottom: 0.01rem solid $theme_c !important;
-						}
+						border: 0.01rem solid $bd_first_c;
+						background: $bg_white_c;
 					}
 				}
 				
@@ -553,7 +525,7 @@
 						height: 0.2rem;
 						line-height: 0.2rem;
 						color: $t_first_c;
-						font-size: 0.18rem;
+						font-size:  $s18;
 						margin-top: 0.3rem;
 						padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
@@ -561,44 +533,20 @@
 					
 					.delegations_txs_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid #e7e9eb;
-						background: #fff;
+						border: 0.01rem solid $bd_first_c;
+						background: $bg_white_c;
 
 						.status_icon{
 							width:0.13rem;
 							height:0.13rem;
 							margin-right:0.05rem;
 						}
-						// /deep/ .el-table__header thead tr {
-						// 	border-left: 1px solid #dee2e6;
-						// 	border-right: 1px solid #dee2e6;
-						// 	height: 50px;
-						// }
-						
-						// /deep/ .el-table__header .has-gutter .cell {
-						// 	color: $t_second_c !important;
-						// 	font-family: Arial, Helvetica, sans-serif;
-						// 	font-weight: 400;
-						// }
-						
-						// /deep/ .el-table__body-wrapper .el-table__row .cell {
-						// 	font-family: Arial, Helvetica, sans-serif;
-						// 	color: $t_first_c !important;
-						// }
-						
-						// /deep/ .el-table th.is-leaf {
-						// 	border-bottom: 0.01rem solid $theme_c !important;
-						// }
 						
 						/deep/ .el-table_3_column_12 {
 							text-align: right;
 						}
 						
 						/deep/ .el-table_3_column_13 {
-							.cell {
-								// font-family: 'Consolas', 'Menlo';
-							}
-							
 							text-align: left;
 						}
 					}
@@ -619,7 +567,7 @@
 						height: 0.2rem;
 						line-height: 0.2rem;
 						color: $t_first_c;
-						font-size: 0.18rem;
+						font-size:  $s18;
 						margin-top: 0.3rem;
 						padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
@@ -627,33 +575,13 @@
 					
 					.validation_txs_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid #e7e9eb;
-						background: #fff;
+						border: 0.01rem solid $bd_first_c;
+						background: $bg_white_c;
 						
 						.status_icon{
 							width:0.13rem;
 							height:0.13rem;
 							margin-right:0.05rem;
-						}
-						/deep/ .el-table__header thead tr {
-							// border-left: 1px solid #dee2e6;
-							// border-right: 1px solid #dee2e6;
-							// height: 50px;
-						}
-						
-						/deep/ .el-table__header .has-gutter .cell {
-							// color: $t_second_c !important;
-							// font-family: Arial, Helvetica, sans-serif;
-							// font-weight: 400;
-						}
-						
-						/deep/ .el-table__body-wrapper .el-table__row .cell {
-							// font-family: Arial, Helvetica, sans-serif;
-							// color: $t_first_c !important;
-						}
-						
-						/deep/ .el-table th.is-leaf {
-							// border-bottom: 0.01rem solid $theme_c !important;
 						}
 					}
 					

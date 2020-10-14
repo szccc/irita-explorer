@@ -45,7 +45,6 @@
 					<ul class="address_information_asset_list_content">
 						<li class="address_information_asset_list_item" v-for="(item,index) in otherTokenList" :key="index">
 							<div class="address_information_token_img_content">
-								<span class="iconfont iconqitabizhongwuiconshishiyongdemorenicon"></span>
 								<span class="address_information_token_name">{{item.token}}</span>
 							</div>
 							<div class="address_information_list_item_value">{{item.balance}}</div>
@@ -62,6 +61,7 @@
 	import Tools from "../util/Tools"
 	import AddressInformationPie from "./AddressInformationPie";
 	import moveDecimal from 'move-decimal-point'
+	import { validatorStatus } from '@/constant'
 	export default {
 		name: "AddressInformationComponent",
 		components: {AddressInformationPie, MClip},
@@ -78,6 +78,7 @@
 		},
 		data(){
 			return {
+				validatorStatus,
 				assetInformation:'',
 				assetConstitute:[
 					{
@@ -107,7 +108,7 @@
 				unbonding:'',
 				rewards:'',
 				otherTokenList:[],
-				unitData: JSON.parse(localStorage.getItem('unit'))
+				unitData: Tools.getUnit()
 			}
 		},
 		watch:{
@@ -130,9 +131,11 @@
 				assetInformation.forEach( item => {
 					if(item && item.token === this.unitData.maxUnit.toUpperCase() ){
 						this.totalAmount = item.totalAmount;
+						let UnBonding = this.validatorStatus.unbonding
 						this.assetConstitute.forEach( res => {
-							 if(res.label === "UnBonding"){
+							 if(res.label === UnBonding){
 								res.value = item['unBonding'] || "--";
+								// console.log(item,item[UnBonding])
 								res.numberValue = item['unBonding'] ? item['unBonding'].replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
 							}else {
@@ -170,11 +173,10 @@
 		max-width: 12.8rem;
 		margin: 0 auto;
 		.address_information_component_content{
-			// border: 0.01rem solid #E7E9EB;
-			border: 1px solid #D7D7D7;
+			border: 0.01rem solid $bd_first_c;
 			.address_information_component_title{
 				color:$t_first_c;
-				font-size: 0.18rem;
+				font-size: $s18;
 				line-height: 0.21rem;
 				margin-bottom: 0.1rem;
 				.address{
@@ -184,7 +186,7 @@
 			.address_information_asset_content{
 				max-width: 12.8rem;
 				box-sizing: border-box;
-				background: #fff;
+				background: $bg_white_c;
 				padding: 0.3rem 0.2rem 0.2rem 0.2rem;
 				display: grid;
 				grid-template-columns: repeat(3,50% 30% 20%);
@@ -204,13 +206,13 @@
 							.address_information_label{
 								width: 1.1rem;
 								color: $t_second_c;
-								font-size: 0.14rem;
+								font-size: $s14;
 								line-height: 0.16rem;
 							}
 							p{
 								display: flex;
 								color: $t_first_c;
-								font-size: 0.14rem;
+								font-size: $s14;
 								line-height: 0.2rem;
 								padding-right: 0.01rem;
 									.profiler_content{
@@ -218,8 +220,8 @@
 										border-radius: 0.08rem;
 										margin-left: 0.08rem;
 										background: $theme_c;
-										color: #fff;
-										font-size: 0.14rem;
+										color: $t_white_c;
+										font-size: $s14;
 										font-weight: lighter;
 										word-break: normal;
 									}
@@ -228,7 +230,7 @@
 								flex: 1;
 								display: flex;
 								color: $t_first_c;
-								font-size: 0.14rem;
+								font-size: $s14;
 								line-height: 0.16rem;
 							}
 						}
@@ -240,13 +242,13 @@
 						}
 					}
 					.address_information_title{
-						font-size: 0.14rem;
+						font-size: $s14;
 						line-height: 0.16rem;
 						color: $t_second_c;
 						margin-bottom: 0.1rem;
 					}
 					.address_information_total_amount_content{
-						font-size: 0.16rem;
+						font-size: $s16;
 						line-height: 0.18rem;
 						font-weight: bold;
 						color: $t_first_c;
@@ -273,12 +275,12 @@
 							margin-right: 0.09rem;
 						}
 						span:nth-of-type(2){
-							font-size: 0.14rem;
+							font-size: $s14;
 							line-height: 0.16rem;
 							width: 1rem;
 						}
 						span:nth-of-type(3){
-							font-size: 0.14rem;
+							font-size: $s14;
 							line-height: 0.16rem;
 						}
 					}
@@ -290,10 +292,10 @@
 			.address_information_asset_list_container{
 				box-sizing: border-box;
 				padding: 0 0.2rem;
-				background: #fff;
+				background: $bg_white_c;
 				.address_information_asset_header_content{
 					box-sizing: border-box;
-					border-top: 0.01rem solid #D7DCE0;
+					border-top: 0.01rem solid $bd_first_c;
 					padding-top: 0.19rem;
 					margin-bottom: 0.1rem;
 					display: grid;
@@ -313,25 +315,19 @@
 						display: grid;
 						grid-template-rows: repeat(1,100%);
 						grid-template-columns: repeat(2,50%);
-						background: #F0F3FB;
 						box-sizing: border-box;
 						padding: 0.08rem 0 0.08rem 0;
 						margin-bottom: 0.05rem;
 						.address_information_token_img_content{
 							padding-left: 0.2rem;
-							.iconqitabizhongwuiconshishiyongdemorenicon{
-								font-size: 0.18rem;
-								color: #B6BAD2;
-								margin-right: 0.1rem;
-							}
 							.address_information_token_name{
-								font-size: 0.14rem;
+								font-size: $s14;
 								line-height: 0.16rem;
 								color: $t_first_c;
 							}
 						}
 						.address_information_list_item_value{
-							font-size: 0.14rem;
+							font-size: $s14;
 							line-height: 0.16rem;
 							color: $t_first_c;
 						}
@@ -370,7 +366,7 @@
 						}
 						.address_information_asset_constitute_content{
 							margin-top: 0.3rem;
-							border-top: 0.01rem solid #D7DCE0;
+							border-top: 0.01rem solid $bd_first_c;
 							width: 100%;
 							.address_information_asset_constitute_item:first-child{
 								margin-top: 0.3rem;

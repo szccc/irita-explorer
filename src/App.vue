@@ -40,7 +40,7 @@ export default {
     -webkit-text-size-adjust: none;
   }
   body{
-    overflow-y: overlay;
+    overflow-y: scroll;
     background: $bg_cancel_c;
     font-size: $s16 !important;
   }

@@ -130,7 +130,7 @@ export default {
         border-radius: 0.04rem;
         z-index: 10;
         line-height: 0.32rem;
-        font-size: 0.14rem;
+        font-size: $s14;
         white-space: nowrap;
         i {
             width: 0;

@@ -375,6 +375,15 @@ ENVCONFIG.STAGE = 'stage';
 ENVCONFIG.TESTNET = 'testnet';
 ENVCONFIG.MAINNET = 'mainnet';
 
+export const TxStatus = {
+  '0':'Fail',
+  '1':'Success'
+}
+
+export const validatorStatus = {
+  unbonding:'UnBonding',
+}
+
 export default {
   Denom,
   CHAINID,

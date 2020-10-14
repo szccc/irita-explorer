@@ -317,7 +317,7 @@ export default {
     },
     async getUnitDataApi() {
       const res = await getUnitDataApi()
-      localStorage.setItem('unit',JSON.stringify(res))
+      sessionStorage.setItem('unit',JSON.stringify(res))
     }
   },
 }
@@ -394,6 +394,10 @@ export default {
       }
       .header_mobile_menu {
         display: none;
+        font-size: $s12;
+        span {
+          color: $t_white_c;
+        }
         .menu_btn {
           width: 0.2rem;
           height: 0.2rem;
@@ -477,13 +481,13 @@ export default {
               white-space: nowrap;
               padding: 0 0.2rem;
               cursor: pointer;
-              font-size: 0.14rem;
+              font-size: $s14;
               display: flex;
               &:hover{
                   background: #F6F7FF;
               }
               i{
-                  font-size: 0.18rem;
+                  font-size: $s18;
                   color: var(--titleColor);
                   padding-right: 0.2rem;
               }
