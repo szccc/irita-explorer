@@ -201,7 +201,7 @@
 						this.blockStakingHash = res.hash;
 						this.proposerValue = res.propopser_addr || '--';
 						this.validatorValue =`${res.precommit_validator_num || 0} / ${res.total_validator_num || 0}`;
-						this.votingPowerValue = res.precommit_voting_power ? `${this.formatPerNumber((Number(res.precommit_voting_power) / res.total_voting_power) * 100)} %` : '--';
+						this.votingPowerValue = res.precommit_voting_power ? `${Tools.formatPerNumber((Number(res.precommit_voting_power) / res.total_voting_power) * 100)} %` : '--';
 						this.transactionsValue = res.txn;
 						//TODO zhangjinbiao  单个区块的奖励没有
 						// this.inflationValue =
@@ -307,20 +307,7 @@
 			pageChangeValidatorSet (pageNum) {
 				this.validatorSetPageNum = pageNum;
 				this.getValidatorSetList()
-			},
-			// 处理Voting Power:中的value值
-			formatPerNumber(num) {
-				if (typeof num === "number" && !Object.is(num, NaN)) {
-					let afterPoint = String(num).split(".")[1];
-					let afterPointLong = (afterPoint && afterPoint.length) || 0;
-					if (afterPointLong > 2 && num !== 0) {
-						return num.toFixed(4);
-					} else {
-						return num.toFixed(2);
-					}
-				}
-				return num;
-			}	
+			}
 		}
 	}
 </script>

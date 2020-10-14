@@ -157,51 +157,39 @@
 							label:'Self-Bonded:',
 							value: `
 							${this.$options.filters.amountFromat(self_bond, this.unitData.maxUnit.toUpperCase(),this.irisTokenFixedNumber)}
-								(${this.formatPerNumber((self_bond / Number(dataInfomation.bonded_tokens)) * 100)} %)`
+								(${Tools.formatPerNumber((self_bond / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						let delegatorBonded = {
 							label:'Delegator Bonded:',
 							value:`${this.$options.filters.amountFromat(
 								bonded_stake, this.unitData.maxUnit.toUpperCase(), this.irisTokenFixedNumber)}
-								 (${this.formatPerNumber((Number(bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
+								 (${Tools.formatPerNumber((Number(bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						item.children.unshift(selfBonded,delegatorBonded)
 					}else if(item.label === 'Total Shares:'){
 						item.value = `${this.$options.filters.amountFromat(dataInfomation.delegator_shares, "", this.irisTokenFixedNumber)}`
 					}else if(item.label === 'Commission Rate:'){
-						item.value = `${this.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
+						item.value = `${Tools.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
 					}else {
 						item.value = dataInfomation[item.dataName]
 					}
 				});
 				this.getValidatorRewards();
 			},
-			formatPerNumber(num) {
-				if (typeof num === "number" && !Object.is(num, NaN)) {
-					let afterPoint = String(num).split(".")[1];
-					let afterPointLong = (afterPoint && afterPoint.length) || 0;
-					if (afterPointLong > 2 && num !== 0) {
-						return num.toFixed(4);
-					} else {
-						return num.toFixed(2);
-					}
-				}
-				return num;
-			},
 			async getValidatorRewards() {
 				try {
 					let data = await getValidatorRewardsApi(this.$route.params.param)
 					if(data) {
-						let commission = data.val_commission.commission[0]
+						let commission = data.val_commission.commission && data.val_commission.commission[0]
 						if(commission) {
 							this.bondedAndCommissionArr.map(item => {
-								if(item.label === 'Commission Rewards:'){
+								if(item.dataName === 'commissionRewards'){
 									return item.value = `${Tools.formatUnit(commission.amount)} ${this.unitData.maxUnit.toUpperCase()}` || '--'
 								}
 							})
 						} else {
 							this.bondedAndCommissionArr.map(item => {
-								if(item.label === 'Commission Rewards:'){
+								if(item.dataName === 'commissionRewards'){
 									return item.value = '--'
 								}
 							})

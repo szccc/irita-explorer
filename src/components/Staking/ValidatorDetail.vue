@@ -331,22 +331,9 @@
 					this[key](page)
 				}
 			},
-			formatPerNumber (num) {
-				if (typeof num === 'number' && !Object.is(num, NaN)) {
-					let afterPoint = String(num).split('.')[1]
-					let afterPointLong = (afterPoint && afterPoint.length) || 0
-					if (afterPointLong > 2 && num !== 0) {
-						return num.toFixed(4)
-					} else {
-						return num.toFixed(2)
-					}
-				}
-				return num
-			},
 			async getValidatorsInfo () {
 				let res = await getValidatorsInfoApi(this.$route.params.param)
 				this.validationInformation = res
-				console.log(res,11)
 				this.validatorStatus = Tools.firstWordUpperCase(res.status)
 			},
 			async getDelegations (page = 1) {
@@ -356,7 +343,7 @@
 				res.data.forEach(item => {
 					item.amount = `${Tools.formatUnit(item.amount.amount)} ${this.unitData.maxUnit.toUpperCase()}`
 					let selfShares = Tools.formatPriceToFixed(item.self_shares, 4)
-					let shares = `${selfShares} (${this.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
+					let shares = `${selfShares} (${Tools.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
 					this.delegations.items.push({
 						address: item.address,
 						amount: item.amount,

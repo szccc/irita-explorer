@@ -396,7 +396,11 @@ export const numFormat = {
   num: '0.00'
 }
 
-
+export const validator_Status = {
+  active:'Active',
+  candidate:'Candidate',
+  jailed:'Jailed',
+}
 
 export default {
   Denom,

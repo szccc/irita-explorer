@@ -404,4 +404,17 @@ export default class Tools {
     // console.log(unit,1)
     return unit 
   }
+
+  static formatPerNumber (num) {
+    if (typeof num === 'number' && !Object.is(num, NaN)) {
+      let afterPoint = String(num).split('.')[1]
+      let afterPointLong = (afterPoint && afterPoint.length) || 0
+      if (afterPointLong > 2 && num !== 0) {
+        return num.toFixed(4)
+      } else {
+        return num.toFixed(2)
+      }
+    }
+    return num
+  }
 }
