@@ -401,7 +401,6 @@ export default class Tools {
       minUnit: mainToken.min_unit,
       conversionRatio: 100000
     }
-    // console.log(unit,1)
     return unit 
   }
 

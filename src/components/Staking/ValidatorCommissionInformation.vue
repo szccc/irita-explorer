@@ -143,32 +143,32 @@
 				this.jailedData.moniker = dataInfomation.description.moniker;
 				this.validatorStatus = Tools.firstWordUpperCase(dataInfomation.status);
 				this.bondedAndCommissionArr.forEach( item => {
-					if(item.label === 'Commission Rate Range:'){
+					if(item.dataName === 'commissionRateRange'){
 						item.value = `0 ~ ${Number(dataInfomation.commission_max_rate) * 100} %`;
 						item.children.push({
-							label:'Max Change Rate Everytime:',
+							label: this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.maxChangeRateEverytime'),
 							value: `0 ~ ${Number(dataInfomation.commission_max_change_rate) * 100} %`
 						})
-					}else if(item.label === 'Bonded Tokens:'){
+					}else if(item.dataName === 'bonded_tokens'){
 						item.value =`${this.$options.filters.amountFromat(dataInfomation.bonded_tokens, this.unitData.maxUnit.toUpperCase(), this.irisTokenFixedNumber)}`;
 						let self_bond = Tools.formatUnit(dataInfomation.self_bond.amount)
 						let bonded_stake = dataInfomation.bonded_tokens - self_bond
 						let selfBonded = {
-							label:'Self-Bonded:',
+							label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.selfBonded'),
 							value: `
 							${this.$options.filters.amountFromat(self_bond, this.unitData.maxUnit.toUpperCase(),this.irisTokenFixedNumber)}
 								(${Tools.formatPerNumber((self_bond / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						let delegatorBonded = {
-							label:'Delegator Bonded:',
+							label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.delegatorBonded'),
 							value:`${this.$options.filters.amountFromat(
 								bonded_stake, this.unitData.maxUnit.toUpperCase(), this.irisTokenFixedNumber)}
 								 (${Tools.formatPerNumber((Number(bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
 						};
 						item.children.unshift(selfBonded,delegatorBonded)
-					}else if(item.label === 'Total Shares:'){
+					}else if(item.dataName === 'delegator_shares'){
 						item.value = `${this.$options.filters.amountFromat(dataInfomation.delegator_shares, "", this.irisTokenFixedNumber)}`
-					}else if(item.label === 'Commission Rate:'){
+					}else if(item.dataName === 'commission_rate'){
 						item.value = `${Tools.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
 					}else {
 						item.value = dataInfomation[item.dataName]
