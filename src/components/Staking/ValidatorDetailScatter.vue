@@ -21,9 +21,9 @@
 
 <script>
 	import Tools from "../../util/Tools.js"
-	import Constant from "../../constant/index.js"
+	import Constant,{validator_Status} from "../../constant/index.js"
 	import bigNumber from "bignumber.js"
-	import { getValidatorCommissionInfoApi } from "@/service/api" 
+	import { getValidatorCommissionInfoApi } from "@/service/api"
 	import { getMainToken } from '@/helper/IritaHelper';
 
 	var echarts = require('echarts/lib/echarts');
@@ -57,11 +57,12 @@
 				chartOptionColor:'',
 				currentMoniker:'',
 				tipColor:'',
+				validator_Status
 			}
 		},
 		watch:{
 			validatorStatus(){
-				if(this.validatorStatus === 'Jailed' || this.validatorStatus === 'Candidate'){
+				if(this.validatorStatus === this.validator_Status.jailed || this.validatorStatus === this.validator_Status.candidate){
 					this.tipColor = "#101149"
 				}else {
 					this.tipColor = "#FF5C01"
