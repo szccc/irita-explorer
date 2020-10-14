@@ -1151,9 +1151,10 @@
 						this.delegationCountNum = res.length;
 						this.delegationPageChange(this.delegationCurrentPage);
 						if (res.length > 0) {
-							res.forEach(item => {
+							res.forEach(async (item) => {
 								if (item.amount && item.amount.amount) {
-									item.amount.amount = Tools.formatUnit(item.amount.amount)
+									const amount = await converCoin(item.amount)
+									item.amount.amount = amount.amount
 									if (item.amount.amount.toString().indexOf('.') !== -1) {
 										let splitNumber = item.amount.amount.toString().split('.')[1].substr(0, 2);
 										item.amount.amount = Number(`${item.amount.amount.toString().split('.')[0]}.${splitNumber}`) * 100
@@ -1188,9 +1189,10 @@
 						this.unBondingDelegationCountNum = res.length;
 						this.unBondingDelegationPageChange(this.unBondingDelegationCurrentPage);
 						if (res.length > 0) {
-							res.forEach(item => {
+							res.forEach(async (item) => {
 								if (item.amount && item.amount.amount) {
-									item.amount.amount = Tools.formatUnit(item.amount)
+									let amount = await converCoin(item.amount)
+									item.amount.amount = amount.amount
 								}
 							});
 							this.totalUnBondingDelegator = res.reduce((total, item) => {
@@ -1216,7 +1218,8 @@
 							}
 						});
 						let copyResult = JSON.parse(JSON.stringify(res));
-						this.delegatorRewardsValue = res.total ? Tools.formatUnit(res.total[0]) : 0;
+						let amount = await converCoin(res.total[0])
+						this.delegatorRewardsValue = res.total ? amount.amount : 0;
 						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.rewards);
 						if (res.rewards.length > this.pageSize) {
 							this.flRewardsDelegationNextPage = true
@@ -1226,9 +1229,10 @@
 						this.rewardsDelegationCountNum = res.rewards.length;
 						this.rewardsDelegationPageChange(this.rewardsDelegationCurrentPage);
 						if (res.rewards.length > 0) {
-							res.rewards.forEach(item => {
+							res.rewards.forEach(async (item) => {
 								if (item.reward && item.reward.length > 0) {
-									item.reward[0].amount = Tools.formatUnit(item.reward[0])
+									let amount = await converCoin(item.reward[0])
+									item.reward[0].amount = amount.amount
 								}
 							})
 							this.totalDelegatorReward = res.rewards.reduce((total, item) => {
@@ -1251,12 +1255,13 @@
 						if (data) {
 							let commission = data.val_commission.commission[0]
 							if (commission) {
-								this.validatorRewardsValue = Tools.formatUnit(commission)
-								this.totalValidatorRewards = `${Tools.formatUnit(commission).toFixed(2)} ${this.mainToken.symbol.toUpperCase()}` || '--'
+								let amount = await converCoin(commission)
+								this.validatorRewardsValue = amount.amount
+								this.totalValidatorRewards = `${ Number(amount.amount).toFixed(2)} ${this.mainToken.symbol.toUpperCase()}` || '--'
 							} else {
 								this.totalValidatorRewards = '--'
 							}
-							this.allRewardsAmountValue = this.delegatorRewardsValue + Tools.formatUnit(commission)
+							this.allRewardsAmountValue = this.delegatorRewardsValue + Number(amount.amount)
 							this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.allRewardsAmountValue.toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 							this.getAssetList()
 						}
@@ -1268,8 +1273,9 @@
 			delegationPageChange (pageNums) {
 				let pageNum = pageNums - 1
 				if (this.flDelegationNextPage) {
-					this.delegationsItems = this.delegationPageNationArrayData[pageNum].map(item => {
-						item.amount.amount = Tools.formatUnit(item.amount.amount)
+					this.delegationsItems = this.delegationPageNationArrayData[pageNum].map(async (item) => {
+						let amount = await converCoin(item.amount)
+						item.amount.amount = amount.amount
 						return {
 							address: item.address,
 							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
@@ -1279,8 +1285,9 @@
 						}
 					});
 				} else {
-					this.delegationsItems = this.delegationPageNationArrayData.map(item => {
-						item.amount.amount = Tools.formatUnit(item.amount.amount)
+					this.delegationsItems = this.delegationPageNationArrayData.map(async item => {
+						let amount = await converCoin(item.amount)
+						item.amount.amount = amount.amount
 						return {
 							address: item.address,
 							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
@@ -1294,9 +1301,10 @@
 			unBondingDelegationPageChange (pageNums) {
 				let pageNum = pageNums - 1;
 				if (this.flUnBondingDelegationNextPage) {
-					this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData[pageNum].map(item => {
+					this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData[pageNum].map(async item => {
 						if (item.amount && item.amount.amount) {
-							item.amount.amount = Tools.formatUnit(item.amount)
+							let amount = await converCoin(item.amount)
+							item.amount.amount = amount.amount
 						}
 						return {
 							address: item.address,
@@ -1307,9 +1315,10 @@
 						}
 					});
 				} else {
-					this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData.map(item => {
+					this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData.map(async item => {
 						if (item.amount && item.amount.amount) {
-							item.amount.amount = Tools.formatUnit(item.amount)
+							let amount = await converCoin(item.amount)
+							item.amount.amount = amount.amount
 						}
 						return {
 							address: item.address,
@@ -1324,9 +1333,10 @@
 			rewardsDelegationPageChange (pageNums) {
 				let pageNum = pageNums - 1;
 				if (this.flRewardsDelegationNextPage) {
-					this.rewardsItems = this.rewardsDelegationPageNationArrayData[pageNum].map(item => {
+					this.rewardsItems = this.rewardsDelegationPageNationArrayData[pageNum].map(async item => {
 						if (item.reward && item.reward.length > 0) {
-							item.reward[0].amount = Tools.formatUnit(item.reward[0])
+							let amount = await converCoin(item.reward[0])
+							item.reward[0].amount = amount.amount
 						}
 						return {
 							address: item.validator_address,
@@ -1335,9 +1345,10 @@
 						}
 					});
 				} else {
-					this.rewardsItems = this.rewardsDelegationPageNationArrayData.map(item => {
+					this.rewardsItems = this.rewardsDelegationPageNationArrayData.map(async item => {
 						if (item.reward && item.reward.length > 0) {
-							item.reward[0].amount = Tools.formatUnit(item.reward[0])
+							let amount = await converCoin(item.reward[0])
+							item.reward[0].amount = amount.amount
 						}
 						return {
 							address: item.validator_address,
