@@ -8,6 +8,7 @@
 			<div class="address_tab_container">
 				<div class="address_tab_content">
 					<div class="address_tab_item"
+						 :key="index"
 					     v-for="(item,index) in tabList"
 					     :class="item.isActive ? 'active_content' : ''" @click="selectOptions(index)">
 						<span>{{item.label}}</span>
@@ -1257,8 +1258,8 @@
 					console.error(e)
 				}
 			},
-			delegationPageChange (pageNum) {
-				pageNum = pageNum - 1
+			delegationPageChange (pageNums) {
+				let pageNum = pageNums - 1
 				if (this.flDelegationNextPage) {
 					this.delegationsItems = this.delegationPageNationArrayData[pageNum].map(item => {
 						item.amount.amount = Tools.formatUnit(item.amount.amount)
@@ -1283,8 +1284,8 @@
 					});
 				}
 			},
-			unBondingDelegationPageChange (pageNum) {
-				pageNum = pageNum - 1;
+			unBondingDelegationPageChange (pageNums) {
+				let pageNum = pageNums - 1;
 				if (this.flUnBondingDelegationNextPage) {
 					this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData[pageNum].map(item => {
 						if (item.amount && item.amount.amount) {
@@ -1313,8 +1314,8 @@
 					});
 				}
 			},
-			rewardsDelegationPageChange (pageNum) {
-				pageNum = pageNum - 1;
+			rewardsDelegationPageChange (pageNums) {
+				let pageNum = pageNums - 1;
 				if (this.flRewardsDelegationNextPage) {
 					this.rewardsItems = this.rewardsDelegationPageNationArrayData[pageNum].map(item => {
 						if (item.reward && item.reward.length > 0) {
@@ -1664,7 +1665,7 @@
 			.address_information_redelegation_tx_container {
 				text-align: left;
 				display: flex;
-				
+				margin-bottom: 0.2rem;
 				.address_information_delegator_rewards_content {
 					width: calc(50% - 0.1rem);
 					margin-right: 0.2rem;
