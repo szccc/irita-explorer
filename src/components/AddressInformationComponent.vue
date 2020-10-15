@@ -16,7 +16,7 @@
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
-								<span class="address_information_value">{{ data[0] ? data[0].tokenNumber : '--' }}</span>
+								<span class="address_information_value">{{ mainToken }}</span>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
@@ -113,6 +113,7 @@
 				unbonding:'',
 				rewards:'',
 				otherTokenList:[],
+				mainToken:'--'
 			}
 		},
 		watch:{
@@ -123,6 +124,7 @@
 		},
 		mounted () {
 			this.assetInformation = this.data;
+			this.formatAssetInformation(this.assetInformation)
 		},
 		methods:{
 			flShowAssetInfo(data){
@@ -136,6 +138,8 @@
 				let mainToken = await getMainToken();
 				assetInformation.forEach( item => {
 					if(item && item.token === (mainToken.symbol || '').toUpperCase()){
+						this.mainToken = item.token.toLocaleUpperCase()
+						console.log(item,"好烦啊")
 						this.totalAmount = item.totalAmount;
 						this.assetConstitute.forEach( res => {
 							 if(res.status === 'UnBonding'){
