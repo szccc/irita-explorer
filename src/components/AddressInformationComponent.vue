@@ -173,7 +173,7 @@
 
 <style scoped lang="scss">
 .address_information_component_container{
-	padding-top: 0.24rem;
+	padding-top: 0.14rem;
 	.address_information_component_wrap{
 		max-width: 12.8rem;
 		margin: 0 auto;
@@ -347,7 +347,7 @@
 }
 	@media screen and (max-width: 1108px){
 		.address_information_component_container{
-			padding-top: 0.54rem;
+			padding-top: 0.1rem;
 			.address_information_component_wrap{
 				// margin: 0.2rem 0.1rem 0 0.1rem;
 				.address_information_component_content{
