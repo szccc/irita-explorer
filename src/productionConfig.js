@@ -76,8 +76,9 @@ let config = {
         txCount:true,
         avgBlockTime:true,
         validatorCount:true,
-        serviceCount:true,
+        serviceCount:false,
         assetCount:true,
+        identityCount:true,
     },
     text:{
         //预设字体颜色
