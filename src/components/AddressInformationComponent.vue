@@ -119,7 +119,7 @@
 			data(){
 				this.assetInformation = this.data;
 				this.formatAssetInformation(this.assetInformation)
-				console.log(this.data,'传入的数据')
+				console.log(this.assetInformation,11)
 			}
 		},
 		mounted () {
@@ -138,9 +138,7 @@
 				let mainToken = await getMainToken();
 				assetInformation.forEach( item => {
 					if(item && item.token === (mainToken.symbol || '').toUpperCase()){
-						console.log(item,"好烦啊")
 						this.totalAmount = item.totalAmount;
-						console.log(this.totalAmount,'percent')
 						this.assetConstitute.forEach( res => {
 							 if(res.status === 'UnBonding'){
 								res.value = item.unBonding || "--";
