@@ -1102,17 +1102,17 @@
 			 		if (item.denom === this.mainToken.min_unit) {
 						assetList.unshift({
 							token: this.mainToken.symbol.toUpperCase(),
-							balance: balanceAmount  && balanceAmount.amount ? `${balanceAmount.amount} ${balanceAmount.denom.toUpperCase()}` : 0,
+							balance: balanceAmount  && balanceAmount.amount ? `${Tools.formatStringToFixedNumber(balanceAmount.amount, this.fixedNumber)} ${balanceAmount.denom.toUpperCase()}` : 0,
 							balanceNumber: balanceAmount.amount,
 							delegatedValue: this.totalDelegator ? this.totalDelegator : 0,
 							delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(this.totalDelegator).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
 							unBondingValue: this.totalUnBondingDelegator ? this.totalUnBondingDelegator : 0,
 							unBonding: this.totalUnBondingDelegator ? `${Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
 							rewards: this.allRewardsValue ? this.allRewardsValue : 0,
-							totalAmount: `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((Number(Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(item.amount.toString(), -18), this.fixedNumber)) +
+							totalAmount: `${Tools.formatStringToFixedNumber(new BigNumber((Number(Tools.formatStringToFixedNumber(balanceAmount.amount.toString(), this.fixedNumber)) +
 								Number(Tools.formatStringToFixedNumber(this.totalDelegator.toString(), this.fixedNumber)) +
 								Number(Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.fixedNumber)) +
-								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber))).toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
+								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber))).toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
 						});
 					} else {
 						assetList.push( {
