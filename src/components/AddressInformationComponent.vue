@@ -123,6 +123,7 @@
 		},
 		mounted () {
 			this.assetInformation = this.data;
+			this.formatAssetInformation(this.assetInformation)
 		},
 		methods:{
 			flShowAssetInfo(data){
@@ -136,6 +137,7 @@
 				let mainToken = await getMainToken();
 				assetInformation.forEach( item => {
 					if(item && item.token === (mainToken.symbol || '').toUpperCase()){
+						console.log(item,"好烦啊")
 						this.totalAmount = item.totalAmount;
 						this.assetConstitute.forEach( res => {
 
