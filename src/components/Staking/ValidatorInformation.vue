@@ -108,6 +108,7 @@
 		},
 		data () {
 			return {
+				percentageFixedNumber:4,
 				validator_Status,
 				// 验证人的信息
 				informationData:"",
@@ -276,7 +277,7 @@
 							item.value = Tools.FormatUptime(information[item.dataName]);
 						}else if(item.dataName === 'self_power') {
 							item.value = information.status === "active"
-								? `${information.self_power} (${Tools.formatPerNumber((information.self_power / information.total_power) * 100)} %)`
+								? `${information.self_power} (${Tools.formatPerNumber((information.self_power / information.total_power) * 100,this.percentageFixedNumber)} %)`
 								: "";
 						}else if(item.dataName === 'missed_blocks_count'){
 							item.value = `${information.missed_blocks_count} in ${information.stats_blocks_window} blocks`;

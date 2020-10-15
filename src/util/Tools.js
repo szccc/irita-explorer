@@ -212,14 +212,6 @@ export default class Tools {
       }
     }
   }
-  static formatDenom (denom) {
-    let unit = Tools.getUnit()
-    if (denom.toLowerCase() === unit.minUnit) {
-      return unit.maxUnit
-    } else {
-      return denom
-    }
-  }
   /**
    *   科学计数法转成数字
    *
@@ -274,81 +266,6 @@ export default class Tools {
   static formatAccountCoinsDenom(coinsDenom){
     return coinsDenom = /[A-Za-z\-]{2,15}/.exec(coinsDenom)
   }
-  /**
-   *   formatAmount
-   *   param Object or array
-   *   return string
-   *   fixedNumber: nonzero
-   * */
-  static formatAmount2(param, fixedNumber) {
-    let amount, amountDenom, amountNumber, amountRadixNumber
-    if (param instanceof Array) {
-      amount = param[0].amount
-      amountDenom = param[0].denom
-    } else if (param instanceof Object) {
-      amount = param.amount
-      amountDenom = param.denom
-    }
-    if (amount.toString().indexOf('e') !== -1 || amount.toString().indexOf('E') !== -1) {
-      if (amount.toString().indexOf('.') !== -1) {
-        amountNumber = new BigNumber(amount).toFixed().toString()
-      } else {
-        amountNumber = new BigNumber(amount).toFixed().toString() + '.'
-      }
-      amountRadixNumber = Tools.amountRadix(amountDenom)
-    } else {
-      if (amount.toString().indexOf('.') !== -1) {
-        amountNumber = amount.toString()
-      } else {
-        amountNumber = amount.toString() + '.'
-      }
-      amountRadixNumber = Tools.amountRadix(amountDenom)
-    }
-    if (amountDenom) {
-      return `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(amountNumber, Number(amountRadixNumber) * -1)).toFormat(), fixedNumber)} ${Constant.RADIXDENOM.IRIS.toLocaleUpperCase()}`
-    } else {
-      return `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(amountNumber, Number(amountRadixNumber) * -1)).toFormat(), fixedNumber)} SHARES`
-    }
-  }
-  /**
-   *   Amount iris Radix
-   *   param string
-   *   return Radix length
-   * */
-  static amountRadix(param) {
-    let diffValue = 1,
-      defaultValue = 18
-    if (param) {
-      //radix number length need to minus 1;
-      switch (param) {
-        case Constant.RADIXDENOM.IRISATTO:
-          return Constant.RADIXDENOM.IRISATTONUMBER.length - diffValue
-          break
-        case Constant.RADIXDENOM.IRISMILLI:
-          return Constant.RADIXDENOM.IRISMILLINUMBER.length - diffValue
-          break
-        case Constant.RADIXDENOM.IRISMICRO:
-          return Constant.RADIXDENOM.IRISMICRONUMBER.length - diffValue
-          break
-        case Constant.RADIXDENOM.IRISNANO:
-          return Constant.RADIXDENOM.IRISNANONUMBER.length - diffValue
-          break
-        case Constant.RADIXDENOM.IRISPICO:
-          return Constant.RADIXDENOM.IRISPICONUMBER.length - diffValue
-          break
-        case Constant.RADIXDENOM.IRISFEMTO:
-          return Constant.RADIXDENOM.IRISFEMTONUMBER.length - diffValue
-          break
-        case Constant.RADIXDENOM.IRIS:
-          return Constant.RADIXDENOM.IRISNUMBER.length - diffValue
-          break
-        default:
-          return defaultValue
-      }
-    } else {
-      return defaultValue
-    }
-  }
   static firstWordLowerCase(str) {
     return str.toLowerCase().replace(/(\s|^)[a-z]/g, function(char) {
       return char.toLocaleLowerCase()
@@ -368,36 +285,6 @@ export default class Tools {
       }
     }
     return flag
-  }
-
-  static formatUnit (item) {
-    let unit = Tools.getUnit()
-    if (typeof item === 'number' || typeof item === 'string') {
-      let num = new BigNumber(Number(item))
-      let Ratio = new BigNumber(Number(unit.conversionRatio))
-      return Number(num.dividedBy(Ratio))
-    }
-    if (typeof item === 'object') {
-      if (item.denom === unit.minUnit) {
-        let num = new BigNumber(Number(item.amount))
-        let Ratio = new BigNumber(Number(unit.conversionRatio))
-        return Number(num.dividedBy(Ratio))
-      } else {
-        return Number(item.amount)
-      }
-    }
-  }
-  
-  static getUnit () {
-    let { tokenData } = JSON.parse(sessionStorage.getItem('config'))
-    let mainTokenArr = tokenData.filter(item => item.is_main_token)
-    let mainToken = mainTokenArr[0]
-    let unit = {
-      maxUnit: mainToken.symbol,
-      minUnit: mainToken.min_unit,
-      conversionRatio: 100000
-    }
-    return unit
   }
 
   static formatPerNumber (num) {
