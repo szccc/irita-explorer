@@ -40,7 +40,8 @@
 	import Tools from "../../util/Tools.js";
 	import ValidatorDetailScatter from "./ValidatorDetailScatter";
 	import { getValidatorRewardsApi } from "@/service/api"
-	import { getMainToken } from '@/helper/IritaHelper';
+	import { getMainToken} from '@/helper/IritaHelper';
+import { converCoin } from '../../helper/IritaHelper.js';
 	export default {
 		name: "ValidatorCommissionInformation",
 		components: {ValidatorDetailScatter},
@@ -143,7 +144,7 @@
 				this.jailedData.operator_address = dataInfomation.operator_addr;
 				this.jailedData.moniker = dataInfomation.description.moniker;
 				this.validatorStatus = Tools.firstWordUpperCase(dataInfomation.status);
-				this.bondedAndCommissionArr.forEach( item => {
+				this.bondedAndCommissionArr.forEach( async item => {
 					if(item.dataName === 'commissionRateRange'){
 						item.value = `0 ~ ${Number(dataInfomation.commission_max_rate) * 100} %`;
 						item.children.push({
@@ -151,24 +152,31 @@
 							value: `0 ~ ${Number(dataInfomation.commission_max_change_rate) * 100} %`
 						})
 					}else if(item.dataName === 'bonded_tokens'){
-						item.value =`${this.$options.filters.amountFromat(dataInfomation.bonded_tokens, mainToken.symbol.toUpperCase(), this.irisTokenFixedNumber)}`;
-						let self_bond = Tools.formatUnit(dataInfomation.self_bond.amount)
-						let bonded_stake = dataInfomation.bonded_tokens - self_bond
+						let bonded_tokens = await converCoin({
+							amount: dataInfomation.bonded_tokens,
+							denom: mainToken.min_unit
+						})
+						item.value =`${Tools.formatPriceToFixed(bonded_tokens.amount,this.irisTokenFixedNumber)} ${bonded_tokens.denom.toUpperCase()}`;
+						let self_bond = await converCoin(dataInfomation.self_bond)
+						let bonded_stake = bonded_tokens.amount - self_bond.amount
 						let selfBonded = {
 							label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.selfBonded'),
-							value: `
-							${this.$options.filters.amountFromat(self_bond, mainToken.symbol.toUpperCase(),this.irisTokenFixedNumber)}
-								(${Tools.formatPerNumber((self_bond / Number(dataInfomation.bonded_tokens)) * 100)} %)`
+							value: `${Tools.formatPriceToFixed(self_bond.amount,this.irisTokenFixedNumber)} ${self_bond.denom.toUpperCase()}
+								(${Tools.formatPerNumber((self_bond.amount / Number(bonded_tokens.amount)) * 100)} %)`
 						};
 						let delegatorBonded = {
 							label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.delegatorBonded'),
-							value:`${this.$options.filters.amountFromat(
-								bonded_stake, mainToken.symbol.toUpperCase(), this.irisTokenFixedNumber)}
-								 (${Tools.formatPerNumber((Number(bonded_stake) / Number(dataInfomation.bonded_tokens)) * 100)} %)`
+							value:`${Tools.formatPriceToFixed(bonded_stake,this.irisTokenFixedNumber)} ${mainToken.symbol.toUpperCase()}
+								 (${Tools.formatPerNumber((Number(bonded_stake) / Number(bonded_tokens.amount)) * 100)} %)`
 						};
 						item.children.unshift(selfBonded,delegatorBonded)
 					}else if(item.dataName === 'delegator_shares'){
-						item.value = `${this.$options.filters.amountFromat(dataInfomation.delegator_shares, "", this.irisTokenFixedNumber)}`
+						let delegator_shares = await converCoin({
+							amount: dataInfomation.delegator_shares,
+							denom: mainToken.min_unit
+						})
+						// item.value = `${this.$options.filters.amountFromat(delegator_shares.amount, "", this.irisTokenFixedNumber)}`
+						item.value = `${Tools.formatPriceToFixed(delegator_shares.amount,this.irisTokenFixedNumber)} ${delegator_shares.denom.toUpperCase()}`
 					}else if(item.dataName === 'commission_rate'){
 						item.value = `${Tools.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
 					}else {
@@ -184,9 +192,10 @@
 					if(data) {
 						let commission = data.val_commission.commission && data.val_commission.commission[0]
 						if(commission) {
+							let amount = await converCoin(commission)
 							this.bondedAndCommissionArr.map(item => {
 								if(item.dataName === 'commissionRewards'){
-									return item.value = `${Tools.formatUnit(commission.amount)} ${mainToken.symbol.toUpperCase()}` || '--'
+									return item.value = `${Tools.formatPriceToFixed(Number(amount.amount),this.irisTokenFixedNumber)} ${mainToken.symbol.toUpperCase()}` || '--'
 								}
 							})
 						} else {

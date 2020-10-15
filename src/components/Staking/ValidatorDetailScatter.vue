@@ -21,11 +21,10 @@
 
 <script>
 	import Tools from "../../util/Tools.js"
-	import Constant from "../../constant/index.js"
-	import { validator_Status } from "../../constant/index.js"
+	import Constant,{ validator_Status } from "../../constant/index.js"
 	import bigNumber from "bignumber.js"
 	import { getValidatorCommissionInfoApi } from "@/service/api"
-	import { getMainToken } from '@/helper/IritaHelper';
+	import { getMainToken,converCoin } from '@/helper/IritaHelper';
 	var echarts = require('echarts/lib/echarts');
 	require('echarts/lib/component/legend');
 	require('echarts/lib/component/tooltip');
@@ -62,7 +61,7 @@
 		},
 		watch:{
 			validatorStatus(){
-				if(this.validatorStatus === 'Jailed' || this.validatorStatus === 'Candidate'){
+				if(this.validatorStatus === this.validator_Status.jailed || this.validatorStatus === this.validator_Status.candidate){
 					this.tipColor = "#101149"
 				}else {
 					this.tipColor = "#FF5C01"
@@ -177,15 +176,20 @@
 			async getValidatorCommissionInfo(){
 				try {
 					const res = await getValidatorCommissionInfoApi()
+					let mainToken = await getMainToken()
 					if(res && res.data && res.data.length > 0){
 						let copyData = JSON.parse(JSON.stringify(this.jailedData));
 						res.data.push(copyData);
 						let allValidatorBondedTokenArr = res.data;
 						this.currentValidatorBondedTokenArr = [];
 						this.otherValidatorBondedTokenArr = [];
-						allValidatorBondedTokenArr.forEach( item => {
+						allValidatorBondedTokenArr.forEach( async item => {
 							item.formatCommissionRote = (Number(item.commission_rate) * 100).toFixed(0);
-							item.formatBondedToken = Tools.subStrings(item.bonded_tokens,6)
+							let bonded_tokens = await converCoin({
+								amount: item.bonded_tokens,
+								denom: mainToken.min_unit
+							})
+							item.formatBondedToken = Tools.subStrings(bonded_tokens.amount,6)
 							if(item.operator_address === this.$route.params.param){
 								this.currentMoniker = item.moniker;
 								this.currentValidatorBondedTokenArr.push([item.formatCommissionRote,item.formatBondedToken,item.moniker]);

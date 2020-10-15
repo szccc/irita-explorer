@@ -23,7 +23,7 @@ export async function getMainToken(){
         scale: "1",
         symbol: ""
     };
-    let mainToken = {...defaultData};
+    let mainToken = { ...defaultData };
     if (config.tokenData) {
         mainToken =  config.tokenData.find(item=>item.is_main_token) || defaultData;
     }else{

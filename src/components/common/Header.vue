@@ -109,7 +109,6 @@ import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
 import { getConfig } from "@/helper/IritaHelper"
-import axios from 'axios'
 export default {
   data() {
     return {
@@ -289,7 +288,6 @@ export default {
     },
     async getConfigApi () {
         let config = await getConfig();
-        console.log('config:',config);
         this.handleConfigs(config.networkData);
     },
     handleConfigs (configs=[]) {
@@ -306,7 +304,7 @@ export default {
             } else if (item.network_id === constant.CHAINID.BIFROST) {
                 item.icon = 'iconfont iconBI-01'
             }
-			return item
+			      return item
         });
     },
     windowOpenUrl (url) {

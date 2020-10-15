@@ -1101,7 +1101,6 @@
 			 		let balanceAmount = item && item.amount ? await converCoin(item) : {};
 			 		if (item.denom === this.mainToken.min_unit) {
 						assetList.unshift({
-							// token:  Tools.formatDenom(item.denom),
 							token: this.mainToken.symbol.toUpperCase(),
 							balance: balanceAmount  && balanceAmount.amount ? `${balanceAmount.amount} ${balanceAmount.denom.toUpperCase()}` : 0,
 							balanceNumber: balanceAmount.amount,

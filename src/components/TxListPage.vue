@@ -540,7 +540,6 @@
 								this.txList = []
 								res.data.forEach(async (item) => {
 									const fee = item.fee && item.fee.amount && item.fee.amount.length === 1 ? await converCoin(item.fee.amount[0]) : '--'
-									const status = item.status === 1 ? 'Success' : 'Fail'
 									const time = Tools.getDisplayDate(item.time)
 									this.txList.push({
 										Tx_Hash: item.tx_hash,

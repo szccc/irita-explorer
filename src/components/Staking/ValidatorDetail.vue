@@ -342,8 +342,9 @@
 				const res = await getValidatorsDelegationsApi(this.$route.params.param, page, this.pageSize, true)
 				this.delegations.total = res.count
 				this.delegations.items = []
-				res.data.forEach(item => {
-					item.amount = `${Tools.formatUnit(item.amount.amount)} ${this.mainToken.symbol.toUpperCase()}`
+				res.data.forEach( async item => {
+					let amount = await converCoin(item.amount)
+					item.amount = `${amount.amount} ${amount.denom.toUpperCase()}`
 					let selfShares = Tools.formatPriceToFixed(item.self_shares, 4)
 					let shares = `${selfShares} (${Tools.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
 					this.delegations.items.push({
@@ -358,8 +359,12 @@
 				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, true)
 				this.unbondingDelegations.total = res.count
 				this.unbondingDelegations.items = []
-				res.data.forEach(item => {
-					item.amount = Number(item.amount).toFixed(2)
+				res.data.forEach(async item => {
+					let amount = await converCoin({
+						amount: item.amount,
+						denom: this.mainToken.min_unit
+					})
+					item.amount = `${amount.amount} ${amount.denom.toUpperCase()}`
 					item.until = Tools.format2UTC(item.until)
 					this.unbondingDelegations.items.push({
 						address: item.address,

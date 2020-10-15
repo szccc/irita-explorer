@@ -55,7 +55,7 @@ import Tools from '../../util/Tools'
 import BigNumber from 'bignumber.js'
 import { getValidatorsListApi } from "@/service/api"
 import productionConfig from '@/productionConfig.js'
-import { getMainToken } from '@/helper/IritaHelper';
+import { getMainToken,converCoin } from '@/helper/IritaHelper';
 import { ColumnMinWidth } from '@/constant'
 export default {
   name: 'Staking',
@@ -134,29 +134,35 @@ export default {
           this.count = res && res.count ? res.count : 0
           let result = res && res.data ? res.data : null
           if (result) {
-            this.tableData = result.map(item => {
-              let regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g
-              let replaceMoniker = item.description.moniker.replace(regex, '')
-              let validatorIconSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : ''
-              let selfBond = String(Tools.formatUnit(item.self_bond.amount))
-              return {
-                validatorStatus: status,
-                moniker: Tools.formatString(item.description.moniker, 15, '...'),
-                operatorAddress: item.operator_address,
-                commission: `${(item.commission.commission_rates.rate * 100).toFixed(2)} %`,
-                bondedToken: `${Tools.formatPriceToFixed(Tools.formatUnit(Number(item.tokens)), 2)} ${mainToken.symbol.toLocaleUpperCase()}`,
-                uptime: Tools.FormatUptime(item.uptime),
-                votingPower: `${(item.voting_rate * 100).toFixed(4)}%`,
-                selfBond: `${Tools.subStrings(Tools.formatPriceToFixed(Number(selfBond.match(/\d*(\.\d{0,4})?/)[0])), 2)} ${mainToken.symbol.toLocaleUpperCase()}`,
-                delegatorNum: item.delegator_num,
-                bondHeight: item.bonding_height && Number(item.bonding_height) > 0 ? Number(item.bonding_height) : '--',
-                unbondingHeight: item.unbonding_height && Number(item.unbonding_height) > 0 ? Number(item.unbonding_height) : '--',
-                // unbondingTime: new Date(item.unbonding_time).getTime() > 0 ? Tools.format2UTC(item.unbonding_time) : '--',
-                // identity: item.description.identity,
-                url: item.icons ? item.icons : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg'),
-                validatorIconSrc: validatorIconSrc,
-              }
-            })
+            this.tableData =  
+              await Promise.all(result.map( async item => {
+                let regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g
+                let replaceMoniker = item.description.moniker.replace(regex, '')
+                let validatorIconSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : ''
+                let selfBond = await converCoin(item.self_bond)
+                let bondedToken = await converCoin({
+                  amount: item.tokens,
+                  denom: mainToken.min_unit
+                })
+                return {
+                  validatorStatus: status,
+                  moniker: Tools.formatString(item.description.moniker, 15, '...'),
+                  operatorAddress: item.operator_address,
+                  commission: `${(item.commission.commission_rates.rate * 100).toFixed(2)} %`,
+                  bondedToken: `${Tools.subStrings(bondedToken.amount, 2)} ${bondedToken.denom.toLocaleUpperCase()}`,
+                  uptime: Tools.FormatUptime(item.uptime),
+                  votingPower: `${(item.voting_rate * 100).toFixed(4)}%`,
+                  selfBond: `${Tools.subStrings(selfBond.amount, 2)} ${selfBond.denom.toLocaleUpperCase()}`,
+                  delegatorNum: item.delegator_num,
+                  bondHeight: item.bonding_height && Number(item.bonding_height) > 0 ? Number(item.bonding_height) : '--',
+                  unbondingHeight: item.unbonding_height && Number(item.unbonding_height) > 0 ? Number(item.unbonding_height) : '--',
+                  // unbondingTime: new Date(item.unbonding_time).getTime() > 0 ? Tools.format2UTC(item.unbonding_time) : '--',
+                  // identity: item.description.identity,
+                  url: item.icons ? item.icons : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg'),
+                  validatorIconSrc: validatorIconSrc,
+                }
+              })
+            )
           } else {
             this.tableData = []
           }
