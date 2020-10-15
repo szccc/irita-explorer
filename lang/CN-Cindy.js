@@ -8,6 +8,8 @@ export const ExplorerLang = {
         copied:'已复制',
         copyFailed:'复制失败',
         all:'全部',
+        more:'展开',
+        fewer:'收起',
     },
     table:{
         emptyDescription:'- 暂时没有内容 -',
@@ -31,7 +33,8 @@ export const ExplorerLang = {
         denom: '数据类别',
         denomId: '数据类别标识',
         owner: '拥有者',
-        id: '数据标识',
+        tokenName: '数据对象',
+        tokenId: '数据对象标识',
         data: '链上数据',
         uri: '链外链接',
         serviceName: '服务类型',
@@ -55,7 +58,8 @@ export const ExplorerLang = {
         idPubkey:'身份公钥',
         pubKeyAlgo:'公钥算法',
         certificate:'证书',
-        credentials:'身份凭证',
+        updateTime:'更新时间'
+
     },
     unit:{
         ellipsis:' ,...',
@@ -86,7 +90,9 @@ export const ExplorerLang = {
         last100Blocs: '最近100块',
         validators: '共识节点数',
         services: '服务数量',
-        assets: '数据对象',
+        denoms:'数据类别数量',
+        assets: '数据对象数量',
+        identities: '身份 ID 数量',
         blocks: '最近区块',
         viewAll: '查看全部',
         listTransactions: '最近交易',
@@ -115,17 +121,28 @@ export const ExplorerLang = {
     nftAsset:{
         assets: '数据对象',
         search: '搜索',
-        placeHolder: '搜索数据标识',
+        placeHolder: '搜索数据对象标识',
     },
     denom:{
         title: '数据类别',
         search: '搜索',
         placeHolder: '搜索数据类别或数据类别标识',
     },
-    identity:{
+    identityList:{
         title: '身份',
         search: '搜索',
         placeHolder: '搜索身份ID/拥有者',
+    },
+    identityDetail:{
+        title: '身份详情',
+        baseInfo: '基本信息',
+        credentialsInfo: '凭证信息',
+        txRecord: '交易记录',
+        owner: '拥有者',
+        credentials: '身份凭证',
+        createTxHash: '创建交易',
+        createHeight: '创建区块',
+        createTime: '创建时间',
     },
     service: {
         services: '服务',
@@ -163,7 +180,7 @@ export const ExplorerLang = {
         owner: '拥有者',
         qos: '最小响应时间',
         deposit: '绑定押金',
-        nftId: '数据标识',
+        nftId: '数据对象标识',
         nftName: '数据对象',
         data: '链上数据',
         uri: '链外链接',
@@ -194,6 +211,13 @@ export const ExplorerLang = {
             authorDescription: '创建者简介',
             schemas:'接口规范',
         },
+        identity:{
+            id:'身份ID',
+            pubkey:'身份公钥',
+            certificate:'证书',
+            credentials:'身份凭证',
+            pubKeyAlgo:'公钥算法'
+        },
         recvPacket:{
             packet:'跨链数据包',
             proof:'证明信息',
@@ -202,13 +226,6 @@ export const ExplorerLang = {
             proofData:'证明数据',
             clientID:'客户端ID',
             module:'模块',
-        },
-        identity:{
-            id:'身份ID',
-            pubkey:'身份公钥',
-            certificate:'证书',
-            credentials:'身份凭证',
-            pubKeyAlgo:'公钥算法'
         },
         client:{
             clientID:'客户端ID',
@@ -222,12 +239,14 @@ export const ExplorerLang = {
         providerTitle:'服务调用-作为提供者',
         respondRecord:'响应记录',
         assets: '数据对象',
+        identities:'身份列表'
     },
     nftDetail: {
         nftInformation: '数据对象详情',
         owner: '拥有者',
         denom: '数据类别',
-        id: '数据标识',
+        tokenName:'数据对象',
+        tokenId: '数据对象标识',
         schema: '上链结构',
         data: '链上数据',
         creator: '创建者',
@@ -255,9 +274,9 @@ export const ExplorerLang = {
             hash:'绑定哈希',
         },
         serviceTransactions: '交易记录',
-        hash:'定义详情',
-        height:'定义区块',
-        time:'定义时间',
+        hash:'创建详情',
+        height:'创建区块',
+        time:'创建时间',
         respondRecord:'服务响应记录',
         provider:'提供者',
         txRecord:'响应记录',
@@ -267,5 +286,5 @@ export const ExplorerLang = {
         backHome: '返回首页',
         resultTitle: '搜索结果为空',
         searchTip: '尝试搜索交易哈希或区块高度',
-    },
+    }
 }
