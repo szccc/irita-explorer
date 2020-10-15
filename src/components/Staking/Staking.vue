@@ -24,7 +24,7 @@
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip :content="row.operatorAddress" placement="top">
-                  <router-link :to="'staking/' + row.operatorAddress" class="link_style operator_address_style" style="font-family: Consolas,Menlo;color:#171d44;">
+                  <router-link :to="'staking/' + row.operatorAddress" class="link_style operator_address_style">
                     {{ formatAddress(row.operatorAddress) }}
                   </router-link>
                 </el-tooltip>

@@ -119,7 +119,6 @@
 			data(){
 				this.assetInformation = this.data;
 				this.formatAssetInformation(this.assetInformation)
-				console.log(this.assetInformation,11)
 			}
 		},
 		mounted () {

@@ -111,7 +111,7 @@ export const ColumnMinWidth = {
   txn: '',
   blockAge: '120',
   validatirName: '120',
-  votingPower: '132',
+  votingPower: '133',
   publickKey: '450',
   denom: '155',
   tokenId: '150',
@@ -314,6 +314,12 @@ export const validator_Status = {
   active:'Active',
   candidate:'Candidate',
   jailed:'Jailed',
+}
+
+export const decimals = {
+  amount: 2,
+  fee: 2,
+  shares: 4
 }
 
 export default {
