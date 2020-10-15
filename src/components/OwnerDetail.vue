@@ -321,90 +321,6 @@
 			<template v-if="moduleSupport('107', prodConfig.navFuncList) && isAsset">
 				<!-- 地址详情 -->
 				<address-information-component :address="address" :data="assetsItems" :isProfiler="isProfiler"/>
-				<div class="delegations_wrap">
-					<div class="delegations_container">
-						<!-- Delegations -->
-						<div class="one_table_container">
-							<p class="validator_information_content_title">
-								{{ $t('ExplorerLang.validatorDetail.delegationsTitle') }}
-								<span class="address_information_delegation_value" v-show="totalDelegatorValue">{{totalDelegatorValue}}</span>
-							</p>
-							<div class="delegations_table_container">
-								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')"
-								          :data="delegationsItems" style="width: 100%">
-									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 :min-width="ColumnMinWidth.address">
-										<template v-slot:default="{ row }">
-											<el-tooltip :content="`${row.address}`">
-												<router-link v-if="row.moniker" class="address_link"
-												             :to="`/staking/${row.address}`">
-													{{formatMoniker(row.moniker)}}
-												</router-link>
-												<router-link v-if="!row.moniker" style="font-family:Consolas,Menlo"
-												             class="address_link" :to="`/staking/${row.address}`">
-													{{formatAddress(row.address)}}
-												</router-link>
-											</el-tooltip>
-										</template>
-									</el-table-column>
-									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
-									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
-									                 :min-width="ColumnMinWidth.shares"></el-table-column>
-									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
-										<template v-slot:default="{ row }">
-										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
-										</template>
-									</el-table-column> -->
-								</el-table>
-							</div>
-							<m-pagination v-if="flDelegationNextPage" :page="delegationCurrentPage"
-							              :page-size="tablePageSize" :total="delegationCountNum"
-							              :page-change="delegationPageChange"></m-pagination>
-						</div>
-						<!-- Unbonding Delegations -->
-						<div class="second_table_container">
-							<p class="validator_information_content_title">
-								{{ $t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}
-								<span class="address_information_unbonding_delegation_value"
-								      v-show="totalUnBondingDelegatorValue">{{totalUnBondingDelegatorValue}}</span>
-							</p>
-							<div class="delegations_table_container">
-								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')"
-								          :data="unBondingDelegationsItems" style="width: 100%">
-									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 :min-width="ColumnMinWidth.address">
-										<template v-slot:default="{ row }">
-											<el-tooltip :content="`${row.address}`">
-												<router-link style="font-family: Consolas,Menlo;"
-												             :to="'address/' + row.address"
-												             :style="{ color: '$theme_c !important' }">{{
-													formatAddress(row.address) }}
-												</router-link>
-											</el-tooltip>
-										</template>
-									</el-table-column>
-									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 :min-width="ColumnMinWidth.amount"></el-table-column>
-									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')"
-									                 :min-width="ColumnMinWidth.blockHeight">
-										<template v-slot:default="{ row }">
-											<router-link style="font-family: Consolas,Menlo;"
-											             :to="'/block/' + row.block"
-											             :style="{ color: '$theme_c !important' }">{{ row.block }}
-											</router-link>
-										</template>
-									</el-table-column>
-									<el-table-column prop="endTime" :label="$t('ExplorerLang.table.endTime')"
-									                 :min-width="ColumnMinWidth.time"></el-table-column>
-								</el-table>
-							</div>
-							<m-pagination v-if="flUnBondingDelegationNextPage" :page-size="tablePageSize"
-							              :total="unBondingDelegationCountNum" :page="unBondingDelegationCurrentPage"
-							              :page-change="unBondingDelegationPageChange"></m-pagination>
-						</div>
-					</div>
-				</div>
 				<!-- Delegator Rewards 标题 -->
 				<div class="address_information_redelegation_header_title">{{
 					$t('ExplorerLang.addressInformation.delegatorRewards.title') }}
@@ -491,6 +407,90 @@
 								</span>
 							</li>
 						</ul>
+					</div>
+				</div>
+				<div class="delegations_wrap">
+					<div class="delegations_container">
+						<!-- Delegations -->
+						<div class="one_table_container">
+							<p class="validator_information_content_title">
+								{{ $t('ExplorerLang.validatorDetail.delegationsTitle') }}
+								<span class="address_information_delegation_value" v-show="totalDelegatorValue">{{totalDelegatorValue}}</span>
+							</p>
+							<div class="delegations_table_container">
+								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')"
+								          :data="delegationsItems" style="width: 100%">
+									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
+									                 :min-width="ColumnMinWidth.address">
+										<template v-slot:default="{ row }">
+											<el-tooltip :content="`${row.address}`">
+												<router-link v-if="row.moniker" class="address_link"
+												             :to="`/staking/${row.address}`">
+													{{formatMoniker(row.moniker)}}
+												</router-link>
+												<router-link v-if="!row.moniker" style="font-family:Consolas,Menlo"
+												             class="address_link" :to="`/staking/${row.address}`">
+													{{formatAddress(row.address)}}
+												</router-link>
+											</el-tooltip>
+										</template>
+									</el-table-column>
+									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
+									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
+									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
+									                 :min-width="ColumnMinWidth.shares"></el-table-column>
+									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
+										<template v-slot:default="{ row }">
+										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
+										</template>
+									</el-table-column> -->
+								</el-table>
+							</div>
+							<m-pagination v-if="flDelegationNextPage" :page="delegationCurrentPage"
+							              :page-size="tablePageSize" :total="delegationCountNum"
+							              :page-change="delegationPageChange"></m-pagination>
+						</div>
+						<!-- Unbonding Delegations -->
+						<div class="second_table_container">
+							<p class="validator_information_content_title">
+								{{ $t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}
+								<span class="address_information_unbonding_delegation_value"
+								      v-show="totalUnBondingDelegatorValue">{{totalUnBondingDelegatorValue}}</span>
+							</p>
+							<div class="delegations_table_container">
+								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')"
+								          :data="unBondingDelegationsItems" style="width: 100%">
+									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
+									                 :min-width="ColumnMinWidth.address">
+										<template v-slot:default="{ row }">
+											<el-tooltip :content="`${row.address}`">
+												<router-link style="font-family: Consolas,Menlo;"
+												             :to="'address/' + row.address"
+												             :style="{ color: '$theme_c !important' }">{{
+													formatAddress(row.address) }}
+												</router-link>
+											</el-tooltip>
+										</template>
+									</el-table-column>
+									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
+									                 :min-width="ColumnMinWidth.amount"></el-table-column>
+									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')"
+									                 :min-width="ColumnMinWidth.blockHeight">
+										<template v-slot:default="{ row }">
+											<router-link style="font-family: Consolas,Menlo;"
+											             :to="'/block/' + row.block"
+											             :style="{ color: '$theme_c !important' }">{{ row.block }}
+											</router-link>
+										</template>
+									</el-table-column>
+									<el-table-column prop="endTime" :label="$t('ExplorerLang.table.endTime')"
+									                 :min-width="ColumnMinWidth.time"></el-table-column>
+								</el-table>
+							</div>
+							<m-pagination v-if="flUnBondingDelegationNextPage" :page-size="tablePageSize"
+							              :total="unBondingDelegationCountNum" :page="unBondingDelegationCurrentPage"
+							              :page-change="unBondingDelegationPageChange"></m-pagination>
+						</div>
 					</div>
 				</div>
 			</template>
@@ -1580,7 +1580,7 @@
 			
 			.delegations_wrap {
 				margin: 0 auto;
-				
+				margin-bottom: 0.2rem;
 				.delegations_container {
 					display: flex;
 					
@@ -1645,7 +1645,6 @@
 			.address_information_redelegation_tx_container {
 				text-align: left;
 				display: flex;
-				margin-bottom: 0.2rem;
 				.address_information_delegator_rewards_content {
 					width: calc(50% - 0.1rem);
 					margin-right: 0.2rem;

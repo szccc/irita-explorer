@@ -300,7 +300,7 @@
 				background: $bg_white_c;
 				.address_information_asset_header_content{
 					box-sizing: border-box;
-					border-top: 0.01rem solid $bd_first_c;
+					// border-bottom: 0.01rem solid $bd_second_c;
 					padding-top: 0.19rem;
 					margin-bottom: 0.1rem;
 					display: grid;
@@ -316,8 +316,10 @@
 				.address_information_asset_list_content{
 					display: flex;
 					flex-direction: column;
+					border-top: 0.01rem solid $bd_second_c;
 					.address_information_asset_list_item{
 						display: grid;
+						border-bottom: 0.01rem solid $bd_second_c;
 						grid-template-rows: repeat(1,100%);
 						grid-template-columns: repeat(2,50%);
 						box-sizing: border-box;
