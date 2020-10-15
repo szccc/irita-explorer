@@ -93,8 +93,7 @@
 											     v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
                                             <span class="remove_default_style skip_route"
                                                   :class="row.From === $route.params.param ? 'no_skip' : ''">
-                                                <router-link :to="`/address/${row.From}`" class="link_style"
-                                                             :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
+                                                <router-link :to="`/address/${row.From}`" class="link_style">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
                                             </span>
                                             </div>
                                             <span class="no_skip"
@@ -115,7 +114,6 @@
                                             <span class="remove_default_style skip_route"
                                                   :class="row.To === $route.params.param ? 'no_skip' : ''">
                                                 <router-link v-if="!(row.To === $route.params.param)" class="link_style"
-                                                             :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }"
                                                              :to="`/address/${row.To}`">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
                                                 <span style="cursor:pointer;font-family: Consolas, Menlo;" v-else>{{ formatMoniker(row.toMoniker) }}</span>
                                             </span>
@@ -186,10 +184,8 @@
                                             </span>
 											<div class="name_address"
 											     v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
-												<el-tooltip :content="`${row.OperatorAddr}`"
-												            style="font-family: Consolas,Menlo">
+												<el-tooltip :content="`${row.OperatorAddr}`">
                                                     <span style="cursor:pointer;"
-
                                                         v-if="row.OperatorAddr === $route.params.param">{{ formatAddress(row.OperatorAddr) }}</span>
                                                     <router-link v-else :to="`/address/${row.OperatorAddr}`"
                                                                 class="link_style justify">{{
@@ -236,10 +232,9 @@
 </template>
 
 <script>
-	import axios from "axios";
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
-	import {pageTitleConfig, TxStatus,ColumnMinWidth} from "../constant";
+	import {pageTitleConfig, TxStatus,ColumnMinWidth,decimals} from "../constant";
 	import {TxHelper} from '@/helper/TxHelper.js'
 	import {getTypeStakingApi, getTypeDeclarationApi, getDelegationTxsApi, getValidationTxsApi} from "@/service/api";
 	import {converCoin,getMainToken} from "../helper/IritaHelper";
@@ -249,6 +244,7 @@
 		components: {MPagination},
 		data () {
 			return {
+				amountDecimals: decimals.amount,
                 ColumnMinWidth,
                 pageTitle:'',
 				totalPageNum: sessionStorage.getItem("txpagenum") ? JSON.parse(sessionStorage.getItem("txpagenum")) : 1,
@@ -507,7 +503,7 @@
 											To: formTO.to || '--',
 											Tx_Type: item.type,
 											MsgsNum: msgsNumber,
-											Tx_Fee: fee && fee.amount ? `${fee.amount} ${fee.denom.toLocaleUpperCase()}` : '--',
+											Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
 											Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 											Tx_Status: TxStatus[item.status],
 											Timestamp: time,
@@ -548,7 +544,7 @@
 										OperatorAddr: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--',
 										SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? item.msgs[0].msg.min_self_delegation : '--' : '--',
 										'Tx_Type': item.type,
-										'Tx_Fee': fee && fee.amount ? `${fee.amount} ${fee.denom.toLocaleUpperCase()}` : '--',
+										'Tx_Fee': fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
 										'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 										'Tx_Status': TxStatus[item.status],
 										Timestamp: time,

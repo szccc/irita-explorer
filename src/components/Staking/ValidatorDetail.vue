@@ -22,7 +22,7 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link style="font-family: Consolas,Menlo;"
+												<router-link
 												             :to="'/address/' + row.address"
 												             :style="{ color: '$theme_c !important' }">{{
 													formatAddress(row.address) }}
@@ -57,7 +57,7 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link style="font-family: Consolas,Menlo;"
+												<router-link 
 												             :to="'/address/' + row.address"
 												             :style="{ color: '$theme_c !important' }">{{
 													formatAddress(row.address) }}
@@ -124,7 +124,7 @@
 										<span class="remove_default_style skip_route"
 												:class="row.From === $route.params.param ? 'no_skip' : ''">
 											<router-link :to="`/address/${row.From}`" class="link_style"
-														:style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
+														>{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
 										</span>
 										</div>
 										<span class="no_skip"
@@ -144,9 +144,8 @@
 										<span class="remove_default_style skip_route"
 												:class="row.To === $route.params.param ? 'no_skip' : ''">
 											<router-link v-if="!(row.To === $route.params.param)" class="link_style"
-														:style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }"
 														:to="`/address/${row.To}`">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
-											<span style="cursor:pointer;font-family: Consolas, Menlo;" v-else>{{ formatMoniker(row.toMoniker) }}</span>
+											<span style="cursor:pointer;" v-else>{{ formatMoniker(row.toMoniker) }}</span>
 										</span>
 										</div>
 										<span class="no_skip"
@@ -219,8 +218,7 @@
 										</span>
 										<div class="name_address"
 										     v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
-											<el-tooltip :content="`${row.OperatorAddr}`"
-											            style="font-family: Consolas,Menlo">
+											<el-tooltip :content="`${row.OperatorAddr}`">
 												<span style="cursor:pointer;"
 												      v-if="row.OperatorAddr === $route.params.param">{{ formatAddress(row.OperatorAddr) }}</span>
 												<router-link v-else :to="`/address/${row.OperatorAddr}`"
@@ -271,7 +269,7 @@
 	import ValidatorCommissionInformation from './ValidatorCommissionInformation'
 	import MPagination from '../common/MPagination'
 	import Tools from '../../util/Tools.js'
-	import Constants,{ TxStatus,ColumnMinWidth } from '../../constant/index.js'
+	import Constants,{ TxStatus,ColumnMinWidth,decimals } from '../../constant/index.js'
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
@@ -288,6 +286,8 @@
 		props: {},
 		data () {
 			return {
+				amountDecimals: decimals.amount,
+				sharesDecimals: decimals.shares,
 				ColumnMinWidth,
 				validationInformation: {},
 				validatorStatus: '',
@@ -344,8 +344,8 @@
 				this.delegations.items = []
 				res.data.forEach( async item => {
 					let amount = await converCoin(item.amount)
-					item.amount = `${amount.amount} ${amount.denom.toUpperCase()}`
-					let selfShares = Tools.formatPriceToFixed(item.self_shares, 4)
+					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					let selfShares = Tools.formatPriceToFixed(item.self_shares, this.sharesDecimals)
 					let shares = `${selfShares} (${Tools.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
 					this.delegations.items.push({
 						address: item.address,
@@ -364,7 +364,7 @@
 						amount: item.amount,
 						denom: this.mainToken.min_unit
 					})
-					item.amount = `${amount.amount} ${amount.denom.toUpperCase()}`
+					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
 					item.until = Tools.format2UTC(item.until)
 					this.unbondingDelegations.items.push({
 						address: item.address,
@@ -393,11 +393,11 @@
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
 						From: formTO.from || "--",
-						Amount: amount && amount.amount ? `${amount.amount} ${amount.denom.toLocaleUpperCase()}`:'--' ,
+						Amount: amount && amount.amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}`:'--' ,
 						To: formTO.to || '--',
 						Tx_Type: item.type,
 						MsgsNum: msgsNumber,
-						Tx_Fee: fee && fee.amount ? `${fee.amount} ${fee.denom.toLocaleUpperCase()}` : '--',
+						Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
@@ -418,7 +418,7 @@
 						OperatorAddr: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--',
 						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? item.msgs[0].msg.min_self_delegation : '--' : '--',
 						'Tx_Type': item.type,
-						'Tx_Fee': fee && fee.amount ? `${fee.amount} ${fee.denom.toLocaleUpperCase()}` : '--',
+						'Tx_Fee': fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,
