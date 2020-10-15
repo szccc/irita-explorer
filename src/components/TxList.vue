@@ -36,6 +36,7 @@
                         <el-date-picker type="date"
                                         v-model="beginTime"
                                         @change="getStartTime(beginTime)"
+                                        :picker-options="PickerOptions"
                                         :editable="false"
                                         value-format="yyyy-MM-dd"
                                         :placeholder="$t('ExplorerLang.common.selectDate')">
@@ -45,6 +46,7 @@
                                         v-model="endTime"
                                         value-format="yyyy-MM-dd"
                                         @change="getEndTime(endTime)"
+                                        :picker-options="PickerOptions"
                                         :editable="false"
                                         :placeholder="$t('ExplorerLang.common.selectDate')">
                         </el-date-picker>
@@ -83,6 +85,11 @@
             const {txType, status, beginTime, endTime, pageNum, pageSize} = Tools.urlParser();
 
             return {
+                PickerOptions: {
+					disabledDate: (time) => {
+						return time.getTime() < new Date(this.pickerStartTime).getTime() || time.getTime() > Date.now()
+					}
+				},
                 TX_TYPE,
                 TX_STATUS,
                 transactionArray : [],
