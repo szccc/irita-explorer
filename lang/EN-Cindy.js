@@ -57,8 +57,24 @@ export const ExplorerLang = {
         idPubkey:'Pubkey',
         pubKeyAlgo:'PubKey Algo',
         certificate:'Certificate',
-        credentials:'Credentials',
-        updateTime:'Timestamp'
+        credentials: 'Credentials',
+        updateTime:'Timestamp',
+        // 新增
+        commission: 'Commission',
+        bondedTokens: 'Bonded_Tokens',
+        uptime: 'Uptime',
+        selfBonded: 'Self-Bonded',
+        delegators: 'Delegators',
+        bondHeight: 'Bond_Height',
+        unbondingHeight: 'Unbonding_Height', // 新增
+        address: 'Address',
+        amount: 'Amount',
+        shares: 'Shares',
+        endTime: 'End Time',
+        fee: 'Fee',
+        status: 'Status',
+        consensusAddress: 'Consensus Address',
+        proposerPriority: 'Proposer Priority',
     },
     unit:{
         ellipsis:' ,...',
@@ -81,6 +97,7 @@ export const ExplorerLang = {
         denoms: 'Denom',
         service: 'iService',
         searchPlaceHolder: 'Search by Address / Txhash / Block / HashLock',
+        network:'Network'
     },
     home:{
         blockHeight: 'Block Height',
@@ -104,11 +121,20 @@ export const ExplorerLang = {
         transaction: 'Transactions:',
         timestamp: 'Timestamp:',
         transactions: 'Transactions',
+        // 新增
+        proposer: 'Proposer:',
+        validators: 'Validators:',
+        votingPower: 'Voting Power:',
+        inflation: 'Inflation:',
+        validatorSet:'Validator Set'
     },
     transactions:{
         txs: 'Txs',
         search: 'Search',
         status: ' Status',
+        // 新增
+        delegationTxsList: 'Delegation Txs List',
+        validationTxsList: 'Validation Txs List'
     },
     validators:{
         bonded:'Active',
@@ -158,7 +184,7 @@ export const ExplorerLang = {
         timestamp: 'Timestamp',
         signer: 'Signer',
         memo: 'Memo',
-        transactionMessage: 'Transaction Message or Result',
+        // transactionMessage: 'Transaction Message or Result',
         relevanceTx:'Related Transaction',
         txType: 'TxType',
         denomId: 'Denom Id',
@@ -227,6 +253,38 @@ export const ExplorerLang = {
         client:{
             clientID:'Client ID',
             header:'Header',
+        },
+        // 新增
+        transactionInformations: {
+            title: 'Transaction Information',
+            block: 'Block',
+            status: 'Status',
+            timestamp: 'Timestamp',
+            fee: 'Fee',
+            gasUsed: 'Gas Used',
+            signer: 'Signer',
+            memo:'Memo'
+        },
+        transactionMessage: {
+            title: 'Transaction Message or Result',
+            TxType: 'TxType :',
+            from: 'From :',
+            amount: 'Amount :',
+            to: 'To :',
+            shares: 'Shares :',
+            toShares: 'Shares : ',//'Shares : '此处有空格
+            endTime: 'End Time :',
+            withdrawAddress: 'Withdraw Address:',
+            delegatorAddress: 'Delegator Address :',
+            operatorAddress: 'Operator Address :',
+            moniker: 'Moniker :',
+            identity: 'Identity :',
+            selfBonded: 'Self-Bonded :',
+            ownerAddress:'Owner Address :',
+            consensusPubkey: 'Consensus Pubkey :',
+            commissionRate: 'Commission Rate :',
+            website: 'Website :',
+            details: 'Details :',
         }
     },
     addressDetail: {
@@ -282,5 +340,93 @@ export const ExplorerLang = {
         backHome: 'Back Home',
         resultTitle: 'There is no valid result.',
         searchTip: 'Try to search with Address, Transaction, Block Number, Proposal ID, HashLock.',
+    },
+    // 新增
+    // 验证人列表
+    staking: {
+        title: 'Validator List',
+        status:{
+            active:'Active',
+            candidate:'Candidate',
+            jailed:'Jailed',
+        }
+    },
+    // 验证人详情
+    validatorDetail: {
+        title: 'Validator Details',
+        validatorInformation: {
+            validatorTip: 'The validator has no more information',
+            operatorAddressTip: 'The address you used to Create a Validator , Delegate or Withdraw DelegatorReward, etc.',
+            validationAssetInfoArr: {
+                operatorAddress: 'Operator Address:',
+                ownerAddress: 'Owner Address:',
+                withdrawAddress: 'Withdraw Address:',
+                votingPower: 'Voting Power:',
+                uptime: 'Uptime:',
+                missedBlocks: 'Missed Blocks:',
+                bondHeight: 'Bond Height:',
+                unbondingHeight:'Unbonding Height:',
+                consensusPubkey: 'Consensus Pubkey:',
+                jailedUntil:'Jailed Until:'
+            }
+        },
+        commissionInfo: {
+            title: 'Commission Info',
+            scatter: {
+                title: 'Commission Rate & Bonded Tokens Distribution',
+                xAxis: 'Commission Rate(%)',
+                yAxis: 'Bonded_Token(IRIS)',
+                tooltip: {
+                    commissionRate: 'Commission Rate',
+                    bondedTokens: 'Bonded Tokens',
+                },
+                otherValidator: 'Other Validator'
+            },
+            bondedAndCommissionArr: {
+                commissionRate: 'Commission Rate:',
+                bondedTokens: 'Bonded Tokens:',
+                delegators: 'Delegators:',
+                totalShares: 'Total Shares:',
+                commissionRewards: 'Commission Rewards:',
+                commissionRateRange: 'Commission Rate Range:',
+                children: {
+                    maxChangeRateEverytime: 'Max Change Rate Everytime:',
+                    selfBonded: 'Self-Bonded:',
+                    delegatorBonded:'Delegator Bonded:'
+                }
+            }
+        },
+        delegationsTitle: 'Delegations',
+        unbondingDelegationsTitle: 'Unbonding Delegations',
+        delegationsTxsTitle: 'Delegation Txs',
+        validationTxsTitle: 'Validation Txs'
+    },
+    // 普通地址详情
+    addressInformation: {
+        tab:{
+            assetInfo:'资产组成',
+            nftCount:'数据对象',
+            identity:'身份',
+            iService:'服务',
+            tx:'交易记录',
+        },
+        content: {
+            address: 'Address',
+            token: 'Token',
+            totalAmount: 'Total Amount',
+            balance: 'Balance',
+            delegated: 'Delegated',
+            unBonding: 'UnBonding',
+            rewards: 'Rewards'
+        },
+        delegatorRewards: {
+            title: 'Delegator Rewards',
+            withdrawTo: 'Withdraw To'
+        },
+        validatorRewards: {
+            title: 'Validator Rewards',
+            validatorMoniker: 'Validator Moniker',
+            operatorAddress:'Operator Address'
+        }
     }
 }

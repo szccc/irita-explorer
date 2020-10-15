@@ -1,30 +1,111 @@
 <template>
 	<div class="block_detail_container">
 		<div class="block_detail_content_wrap">
+			<!-- 标题 -->
 			<div class="block_detail_header_content">
 				 <span class="block_height_content">
-                    <i :class="active?'flag_item_left':'flag_item_left_disabled'" class="iconfont iconshangyigequkuai" @click="skipNext(-1)"></i>
+                    <i :class="active?'flag_item_left':'flag_item_left_disabled'" class="iconfont iconshangyigequkuai"
+                       @click="skipNext(-1)"></i>
                         <span class="information_value" style="flex:none;">{{heightValue}}</span>
-                    <i :class="activeNext?'flag_item_right':'flag_item_right_disabled'" class="iconfont iconxiayigequkuai" @click="skipNext(1)"></i>
+                    <i :class="activeNext?'flag_item_right':'flag_item_right_disabled'"
+                       class="iconfont iconxiayigequkuai" @click="skipNext(1)"></i>
                 </span>
 			</div>
-			<div class="block_detail_content">
-				<p>
+			<!-- 区块基本信息 -->
+			<div class="block_detail_content" v-if="!moduleSupport('107', prodConfig.navFuncList)">
+				<div class="block_information_item">
 					<span>{{$t('ExplorerLang.blockDetail.blockHash')}}</span>
 					<span style="word-break: break-all;">{{blockHash}}</span>
-				</p>
-				<p>
+				</div>
+				<div class="block_information_item">
 					<span>{{$t('ExplorerLang.blockDetail.transaction')}}</span>
 					<span>{{txNumber}}</span>
-				</p>
-				<p>
+				</div>
+				<div class="block_information_item">
 					<span>{{$t('ExplorerLang.blockDetail.timestamp')}}</span>
 					<span>{{time}}</span>
-				</p>
+				</div>
+				
 			</div>
+			<div class="block_detail_content" v-if="moduleSupport('107', prodConfig.navFuncList)" >
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.blockHash')}}</span>
+					<span>{{blockStakingHash}}</span>
+				</div>
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.proposer')}}</span>
+					<span v-if="proposerAddress !== ''&& proposerAddress !== '--'"><router-link class="common_link_style" :to="`/staking/${proposerAddress}`">{{proposerValue}}</router-link></span>
+					<span v-if="proposerAddress === '' && proposerValue">{{proposerValue}}</span>
+					<span v-if="proposerAddress === '--'">--</span>
+				</div>
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.validators')}}</span>
+					<span>{{validatorValue}}</span>
+				</div>
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.votingPower')}}</span>
+					<span>{{votingPowerValue}}</span>
+				</div>
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.transaction')}}</span>
+					<span>{{transactionsValue}}</span>
+				</div>
+				<!-- 单个区块的奖励没有 -->
+				<!--<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.inflation')}}</span>
+					<span>{{inflationValue}}</span>
+				</div>-->
+				<div class="block_information_item">
+					<span>{{$t('ExplorerLang.blockDetail.timestamp')}}</span>
+					<span v-if="timestampValue">{{timestampValue}}</span>
+					<span v-if="!timestampValue">--</span>
+				</div>
+			</div>
+			<!-- 区块交易 -->
 			<div class="block_transaction_content" v-if="transactionArray.length > 0">
 				<div class="block_transaction_title_content">{{$t('ExplorerLang.blockDetail.transactions')}}</div>
 				<TxListComponent :txData="transactionArray"></TxListComponent>
+			</div>
+			<!-- Validator Set 表格 -->
+			<div class="block_validator_set_container">
+				<div class="block_validator_set_title">{{$t('ExplorerLang.blockDetail.validatorSet')}}</div>
+				<div class="block_validator_set_content">
+					<el-table class="table"  :data="validatorSetList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
+						<el-table-column type="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
+						<el-table-column  prop="moniker"  :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
+							<template v-slot:default="{ row }">
+								<div class="moniker_conent">
+									<div class="proposer_img_content">
+										<img :style="{visibility:row.flProposer ? 'visible' : 'hidden'}" src="../assets/proposer_img.png"/>
+									</div>
+									<span class="skip_route">
+										<router-link :to="`/staking/${row.OperatorAddress}`">{{row.moniker? row.moniker :''}}</router-link>
+									</span>
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
+							<template v-slot:default="{ row }">
+								<div class="common_hover_address_parent skip_route">
+									<router-link :to="`/staking/${row.OperatorAddress}`" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
+									</router-link>
+								</div>
+							</template>
+						</el-table-column>
+						<el-table-column  prop="Consensus" :min-width="ColumnMinWidth.consensus" :label="$t('ExplorerLang.table.consensusAddress')"></el-table-column>
+						<el-table-column  align="right" prop="ProposerPriority" :min-width="ColumnMinWidth.proposerPriority" :label="$t('ExplorerLang.table.proposerPriority')"></el-table-column>
+						<el-table-column  align="right" prop="VotingPower" :min-width="ColumnMinWidth.votingPower" :label="$t('ExplorerLang.table.votingPower')"></el-table-column>
+					</el-table>
+
+				</div>
+				<div class="pagination" style='margin-top:0.2rem;margin-bottom: 0.2rem;'
+				     v-if="flShowValidatorListSetPagination">
+					<m-pagination :total="validatorSetListCount"
+					              :pageSize="pageSize"
+					              :page="validatorSetPageNum"
+					              :page-change="pageChangeValidatorSet">
+					</m-pagination>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -32,29 +113,54 @@
 
 <script>
 	import TxListComponent from "./common/TxListComponent";
-	import { getBlockWithHeight, getLatestBlock, getBlockTxList } from '../service/api';
+	import {
+		getBlockWithHeight,
+		getLatestBlock,
+		getBlockTxList,
+		getValidatorSetList,
+		stakingBlockInformation
+	} from '../service/api';
 	import Tools from "../util/Tools";
-  	import { TxHelper } from "../helper/TxHelper";
-  	import { TX_TYPE,TX_STATUS } from '../constant';
+	import {TX_TYPE, TX_STATUS,ColumnMinWidth} from '../constant';
+	import {moduleSupport} from "../helper/ModulesHelper";
+	import prodConfig from "../productionConfig"
+	import MPagination from "./common/MPagination";
+	
 	export default {
 		name: "BlockDetail",
-		components:{ TxListComponent },
-		data(){
+		components: {TxListComponent, MPagination},
+		data () {
 			return {
+				ColumnMinWidth,
+				moduleSupport,
+				prodConfig,
 				TX_TYPE,
 				TX_STATUS,
 				blockHash: 0,
-				txNumber:0,
-				time:'',
+				txNumber: 0,
+				time: '',
 				active: true,
 				activeNext: true,
 				maxBlock: 0,
 				heightValue: '',
-				transactionArray:[]
+				transactionArray: [],
+				blockStakingHash: '',
+				proposerValue: "",
+				proposerAddress: '',
+				validatorValue: null,
+				votingPowerValue: '',
+				transactionsValue: '',
+				inflationValue: null,
+				timestampValue: '',
+				validatorSetList: [],
+				flShowValidatorListSetPagination: false,
+				validatorSetListCount: 0,
+				pageSize: 10,
+				validatorSetPageNum: 1,
 			}
 		},
-		watch:{
-			$route() {
+		watch: {
+			$route () {
 				this.getBlockInformation();
 				this.getTransactionList();
 				this.latestBlock()
@@ -70,11 +176,12 @@
 						this.activeNext = true;
 					}
 				}
-			}
+			},
 		},
 		mounted () {
 			this.getBlockInformation();
 			this.getTransactionList();
+			this.getStakingBlockInformation()
 			this.latestBlock()
 			if (Number(this.$route.params.height) > 1) {
 				this.active = true;
@@ -83,32 +190,53 @@
 				this.active = false;
 				this.activeNext = false
 			}
+			this.getValidatorSetList(this.validatorSetPageNum, this.pageSize, this.$route.params.height);
 		},
-		methods:{
-			async latestBlock(){
+		methods: {
+			async getStakingBlockInformation() {
+				try {
+					const height = this.$route.params.height
+					let res = await stakingBlockInformation(height)
+					if(res) {
+						this.blockStakingHash = res.hash;
+						this.proposerValue = res.propopser_addr || '--';
+						this.validatorValue =`${res.precommit_validator_num || 0} / ${res.total_validator_num || 0}`;
+						this.votingPowerValue = res.precommit_voting_power ? `${Tools.formatPerNumber((Number(res.precommit_voting_power) / res.total_voting_power) * 100)} %` : '--';
+						this.transactionsValue = res.txn;
+						//TODO zhangjinbiao  单个区块的奖励没有
+						// this.inflationValue =
+						this.timestampValue = Tools.getDisplayDate(res.time);
+					}
+				} catch(e) {
+					console.error(e)
+				}
+			},
+			async latestBlock () {
 				try {
 					let blockData = await getLatestBlock();
-					if(blockData){
+					if (blockData) {
 						this.getMaxBlock(blockData.height);
 					}
-				}catch (e) {
+				} catch (e) {
 					console.error(e)
-				}				
+				}
 			},
-			async getBlockInformation(){
+			async getBlockInformation () {
 				try {
 					let blockData = await getBlockWithHeight(this.$route.params.height);
-					if(blockData){
+					if (blockData) {
 						this.heightValue = blockData.height;
 						this.blockHash = blockData.hash;
 						this.txNumber = blockData.txn;
 						this.time = Tools.getDisplayDate(blockData.time);
 					}
-				}catch (e) {
+				} catch (e) {
 					console.error(e)
 				}
+				
+				
 			},
-			getMaxBlock(latestHeight) {
+			getMaxBlock (latestHeight) {
 				this.maxBlock = latestHeight;
 				if (Number(this.$route.params.height) >= Number(latestHeight)) {
 					this.activeNext = false;
@@ -116,19 +244,19 @@
 					this.activeNext = true;
 				}
 			},
-			async getTransactionList(){
-                try {
-                    const res = await getBlockTxList(this.$route.params.height);
-                    if(res){
-                        this.transactionArray = res.data;
-                    }
-                }catch (e) {
-                		console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
-                }
+			async getTransactionList () {
+				try {
+					const res = await getBlockTxList(this.$route.params.height);
+					if (res) {
+						this.transactionArray = res.data;
+					}
+				} catch (e) {
+					console.error(e);
+					this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+				}
 			},
-			skipNext(num) {
-				if(Number(this.$route.params.height) >= 1){
+			skipNext (num) {
+				if (Number(this.$route.params.height) >= 1) {
 					if (Number(this.$route.params.height) <= 1) {
 						this.active = false;
 						if (num !== -1) {
@@ -144,41 +272,70 @@
 					}
 				}
 			},
-			formatTxHash(TxHash){
-				if(TxHash){
+			formatTxHash (TxHash) {
+				if (TxHash) {
 					return Tools.formatTxHash(TxHash)
 				}
 			},
-			formatAddress(address){
+			formatAddress (address) {
 				return Tools.formatValidatorAddress(address)
 			},
-			pageChange(pageNum) {
+			pageChange (pageNum) {
 				this.pageNum = pageNum;
 				this.getTxByAddress();
+			},
+			async getValidatorSetList () {
+				try {
+					let data = await getValidatorSetList(this.validatorSetPageNum, this.pageSize, this.$route.params.height)
+					if (data.data.length > 0) {
+						this.validatorSetList = data.data.map(item => {
+							return {
+								'moniker': item.moniker || '--',
+								'OperatorAddress': item.operator_address || '--',
+								'Consensus': item.consensus,
+								'ProposerPriority': item.proposer_priority,
+								'VotingPower': item.voting_power,
+								'flProposer': item.is_proposer
+							}
+						})
+					}
+				} catch (e) {
+					console.error(e);
+					
+				}
+			},
+			pageChangeValidatorSet (pageNum) {
+				this.validatorSetPageNum = pageNum;
+				this.getValidatorSetList()
 			}
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	a{
-		color: $t_link_c !important;
-	}
-	.block_detail_container{
+	.block_detail_container {
+		a {
+			color: $t_link_c !important;
+		}
+		
 		padding: 0 0.15rem;
-		.block_detail_content_wrap{
+		
+		.block_detail_content_wrap {
 			max-width: 12rem;
 			margin: 0 auto;
-			.block_detail_header_content{
+			
+			.block_detail_header_content {
 				margin: 0.3rem 0 0.1rem 0;
 				text-align: left;
 				padding-left: 0.2rem;
-				.block_height_content{
-					.information_value{
+				
+				.block_height_content {
+					.information_value {
 						font-size: $s22;
 						color: $t_second_c;
 						margin: 0 0.07rem;
 					}
+					
 					.flag_item_left {
 						display: inline-block;
 						font-size: $s20;
@@ -186,6 +343,7 @@
 						cursor: pointer;
 						color: $t_link_c !important;
 					}
+					
 					.flag_item_left_disabled {
 						display: inline-block;
 						font-size: $s20;
@@ -193,6 +351,7 @@
 						cursor: pointer;
 						color: $t_second_c;
 					}
+					
 					.flag_item_right {
 						display: inline-block;
 						font-size: $s20;
@@ -200,6 +359,7 @@
 						color: $t_link_c;
 						cursor: pointer;
 					}
+					
 					.flag_item_right_disabled {
 						display: inline-block;
 						font-size: $s20;
@@ -209,95 +369,175 @@
 					}
 				}
 			}
-			.block_detail_content{
+			
+			.block_detail_content {
 				padding: 0.2rem;
 				box-sizing: border-box;
 				background: $bg_white_c;
-				p{
+				
+				.block_information_item {
 					display: flex;
 					margin-bottom: 0.16rem;
-					span:nth-of-type(1){
+					
+					span:nth-of-type(1) {
 						text-align: left;
 						color: $t_second_c;
 						font-size: $s14;
 						min-width: 1.5rem;
 					}
-					span:nth-of-type(2){
+					
+					span:nth-of-type(2) {
 						text-align: left;
 						color: $t_first_c;
 						font-size: $s14;
 						flex: 1;
+						
+						.common_link_style {
+							color: $theme_c !important;
+						}
 					}
 				}
-				p:last-child{
+				
+				.block_information_item:last-child {
 					margin-bottom: 0;
 				}
 			}
-			.block_transaction_content{
-				.block_transaction_title_content{
+			
+			.block_transaction_content {
+				.block_transaction_title_content {
 					font-size: $s18;
 					font-weight: bold;
 					margin: 0.3rem 0 0.1rem 0;
 					text-align: left;
 					text-indent: 0.2rem;
 				}
-				.tx_transaction_content_hash{
-            display: flex;
-            align-items: center;
-        }
-			}
-			.status_icon{
-	        width:0.13rem;
-	        height:0.13rem;
-	        margin-right:0.05rem;
-	    }
-		}
-	}
-
-
-@media screen and (max-width: 768px) {
-	.block_detail_container{
-		.block_detail_content_wrap{
-			.block_detail_header_content{
-				.block_height_content{
-					.information_value{
-						
-					}
-					.flag_item_left {
-						
-					}
-					.flag_item_left_disabled {
-						
-					}
-					.flag_item_right {
-						
-					}
-					.flag_item_right_disabled {
-						
-					}
-				}
-			}
-			.block_detail_content{
 				
-				p{
-					
-					span:nth-of-type(1){
-						min-width: 1rem;
-					}
-					span:nth-of-type(2){
-						
-					}
-				}
-				p:last-child{
-					
+				.tx_transaction_content_hash {
+					display: flex;
+					align-items: center;
 				}
 			}
-			.block_transaction_content{
-				.block_transaction_title_content{
+			
+			.status_icon {
+				width: 0.13rem;
+				height: 0.13rem;
+				margin-right: 0.05rem;
+			}
+			
+			.block_validator_set_container {
+				margin-top: 0.1rem;
+				padding-bottom: 0.01rem;
+				
+				.block_validator_set_title {
+					height: 0.45rem;
+					display: flex;
+					align-items: center;
+					font-size: $s18;
+    				font-weight: bold;
+					padding-left: 0.2rem;
+					color: $t_first_c
+				}
+				
+				.block_validator_set_content {
+					background: $bg_white_c;
+					overflow-x: auto;
+					overflow-y: hidden;
+					.table {
+						color: $t_second_c;
+						.moniker_conent {
+							display: flex;
+							.proposer_img_content {
+								width: 0.13rem;
+								margin-right: 0.06rem;
+								display: flex;
+								align-items: center;
+								img {
+								width: 100%;
+								}
+							}
+						}
+					}
+
+					.no_data_show {
+						display: flex;
+						min-height: 2rem;
+						
+						img {
+							width: 1.5rem;
+						}
+					}
 					
+					/deep/ .m-table-header {
+						width: 12rem !important;
+					}
+					
+					/deep/ table.m_table {
+						min-width: 12rem !important;
+						text-align: left;
+					}
+					
+				}
+				
+				.pagination {
+					display: flex;
+					justify-content: flex-end;
 				}
 			}
 		}
 	}
-}
+	
+	
+	@media screen and (max-width: 768px) {
+		.block_detail_container {
+			.block_detail_content_wrap {
+				.block_detail_header_content {
+					.block_height_content {
+						.information_value {
+						
+						}
+						
+						.flag_item_left {
+						
+						}
+						
+						.flag_item_left_disabled {
+						
+						}
+						
+						.flag_item_right {
+						
+						}
+						
+						.flag_item_right_disabled {
+						
+						}
+					}
+				}
+				
+				.block_detail_content {
+					
+					.block_information_item {
+						
+						span:nth-of-type(1) {
+							min-width: 1rem;
+						}
+						
+						span:nth-of-type(2) {
+						
+						}
+					}
+					
+					.block_information_item:last-child {
+					
+					}
+				}
+				
+				.block_transaction_content {
+					.block_transaction_title_content {
+					
+					}
+				}
+			}
+		}
+	}
 </style>
