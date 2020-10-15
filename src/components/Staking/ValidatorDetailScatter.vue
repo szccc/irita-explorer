@@ -22,10 +22,10 @@
 <script>
 	import Tools from "../../util/Tools.js"
 	import Constant from "../../constant/index.js"
+	import { validator_Status } from "../../constant/index.js"
 	import bigNumber from "bignumber.js"
 	import { getValidatorCommissionInfoApi } from "@/service/api"
 	import { getMainToken } from '@/helper/IritaHelper';
-
 	var echarts = require('echarts/lib/echarts');
 	require('echarts/lib/component/legend');
 	require('echarts/lib/component/tooltip');

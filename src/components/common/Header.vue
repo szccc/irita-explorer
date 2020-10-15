@@ -143,7 +143,6 @@ export default {
   },
   created() {
     this.getConfigApi()
-    this.getUnitDataApi()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
@@ -316,10 +315,6 @@ export default {
     flShowNetWork() {
       this.flShowNetWorkMenu = !this.flShowNetWorkMenu
     },
-    async getUnitDataApi() {
-      const res = await getUnitDataApi()
-      sessionStorage.setItem('unit',JSON.stringify(res))
-    }
   },
 }
 </script>
