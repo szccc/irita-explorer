@@ -321,13 +321,49 @@
 			<template v-if="moduleSupport('107', prodConfig.navFuncList) && isAsset">
 				<!-- 地址详情 -->
 				<address-information-component :address="address" :data="assetsItems" :isProfiler="isProfiler"/>
-				<!-- Delegator Rewards 标题 -->
-				<div class="address_information_redelegation_header_title">{{
-					$t('ExplorerLang.addressInformation.delegatorRewards.title') }}
-					<span class="address_information_redelegation_rewards_value" v-show="totalDelegatorRewardValue">{{totalDelegatorRewardValue}}</span>
-				</div>
 				<div class="address_information_redelegation_tx_container">
+					<!-- Validator Rewards -->
+					<div class="address_information_detail_container"
+					     :class="OperatorAddress !== '--' ? '' :'hide_style'"
+					     :style="{visibility:OperatorAddress && OperatorAddress !== '--' ? 'visible':'hidden'}">
+						<!-- 标题 -->
+						<div class="address_information_redelegation_title">{{
+							$t('ExplorerLang.addressInformation.validatorRewards.title') }}
+							<span class="address_information_validator_rewards_value" v-show="totalValidatorRewards">{{totalValidatorRewards}}</span>
+						</div>
+						<!-- 需展示的数据 -->
+						<ul class="address_information_detail_content">
+							<li class="address_information_detail_option">
+								<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.validatorRewards.validatorMoniker') }}:</span>
+								<div class="validator_status_content">
+									<span class="address_information_detail_option_value">
+										<router-link v-show="OperatorAddress !== '--' && validatorMoniker !== '--'"
+										             :to="`/staking/${OperatorAddress}`">{{validatorMoniker}}</router-link>
+										<span v-show="OperatorAddress === '--' || validatorMoniker === '--'">{{validatorMoniker}}</span>
+									</span>
+									<span class="address_information_address_status_active"
+									      v-if="validatorStatus === 'active'">{{ $t('ExplorerLang.staking.status.active')}}</span>
+									<span class="address_information_address_status_candidate"
+									      v-if="validatorStatus === 'candidate'">{{ $t('ExplorerLang.staking.status.candidate') }}</span>
+									<span class="address_information_address_status_jailed"
+									      v-if="validatorStatus === 'jailed'">{{ $t('ExplorerLang.staking.status.jailed') }}</span>
+								</div>
+							</li>
+							<li class="address_information_detail_option" style="margin-top: 0.05rem">
+								<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.validatorRewards.operatorAddress') }}:</span>
+								<span class="address_information_detail_option_value">
+									<router-link v-show="OperatorAddress !== '--'" :to="`/staking/${OperatorAddress}`">{{OperatorAddress}}</router-link>
+									<span v-show="OperatorAddress === '--'">{{OperatorAddress}}</span>
+								</span>
+							</li>
+						</ul>
+					</div>
 					<div class="address_information_delegator_rewards_content">
+						<!-- Delegator Rewards 标题 -->
+						<div class="address_information_redelegation_header_title">{{
+							$t('ExplorerLang.addressInformation.delegatorRewards.title') }}
+							<span class="address_information_redelegation_rewards_value" v-show="totalDelegatorRewardValue">{{totalDelegatorRewardValue}}</span>
+						</div>
 						<!-- Withdraw To: -->
 						<div class="address_information_detail_option">
 							<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.delegatorRewards.withdrawTo') }}:</span>
@@ -371,42 +407,6 @@
 								></m-pagination>
 							</keep-alive>
 						</div>
-					</div>
-					<!-- Validator Rewards -->
-					<div class="address_information_detail_container"
-					     :class="OperatorAddress !== '--' ? '' :'hide_style'"
-					     :style="{visibility:OperatorAddress && OperatorAddress !== '--' ? 'visible':'hidden'}">
-						<!-- 标题 -->
-						<div class="address_information_redelegation_title">{{
-							$t('ExplorerLang.addressInformation.validatorRewards.title') }}
-							<span class="address_information_validator_rewards_value" v-show="totalValidatorRewards">{{totalValidatorRewards}}</span>
-						</div>
-						<!-- 需展示的数据 -->
-						<ul class="address_information_detail_content">
-							<li class="address_information_detail_option">
-								<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.validatorRewards.validatorMoniker') }}:</span>
-								<div class="validator_status_content">
-									<span class="address_information_detail_option_value">
-										<router-link v-show="OperatorAddress !== '--' && validatorMoniker !== '--'"
-										             :to="`/staking/${OperatorAddress}`">{{validatorMoniker}}</router-link>
-										<span v-show="OperatorAddress === '--' || validatorMoniker === '--'">{{validatorMoniker}}</span>
-									</span>
-									<span class="address_information_address_status_active"
-									      v-if="validatorStatus === 'active'">{{ $t('ExplorerLang.staking.status.active')}}</span>
-									<span class="address_information_address_status_candidate"
-									      v-if="validatorStatus === 'candidate'">{{ $t('ExplorerLang.staking.status.candidate') }}</span>
-									<span class="address_information_address_status_jailed"
-									      v-if="validatorStatus === 'jailed'">{{ $t('ExplorerLang.staking.status.jailed') }}</span>
-								</div>
-							</li>
-							<li class="address_information_detail_option" style="margin-top: 0.05rem">
-								<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.validatorRewards.operatorAddress') }}:</span>
-								<span class="address_information_detail_option_value">
-									<router-link v-show="OperatorAddress !== '--'" :to="`/staking/${OperatorAddress}`">{{OperatorAddress}}</router-link>
-									<span v-show="OperatorAddress === '--'">{{OperatorAddress}}</span>
-								</span>
-							</li>
-						</ul>
 					</div>
 				</div>
 				<div class="delegations_wrap">
@@ -1647,7 +1647,7 @@
 				display: flex;
 				.address_information_delegator_rewards_content {
 					width: calc(50% - 0.1rem);
-					margin-right: 0.2rem;
+					margin-left: 0.2rem;
 					
 					.address_information_detail_option {
 						padding: 0 0 0.1rem 0.2rem;
@@ -1684,13 +1684,14 @@
 				}
 				
 				.address_information_detail_container {
+					padding-top: 0.3rem;
 					width: calc(50% - 0.1rem);
 					
 					.address_information_redelegation_title {
 						width: 100%;
 						font-size: $s18;
 						color: $t_first_c;
-						padding: 0 0 0.06rem 0.2rem;
+						padding: 0 0 0.26rem 0.2rem;
 						
 						.address_information_validator_rewards_value {
 							font-size: $s14;
