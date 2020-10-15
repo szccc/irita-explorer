@@ -1894,8 +1894,7 @@
 					// margin: 0 0.1rem;
 					.address_information_delegator_rewards_content {
 						width: 100%;
-						margin-right: 0;
-						
+						margin-left: 0;
 						.address_information_detail_option {
 							padding-left: 0;
 							display: flex;
