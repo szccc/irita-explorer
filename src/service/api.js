@@ -296,13 +296,13 @@ export function getAddressInformationApi(address){
     return get(url);
 }
 
-export function getDelegationListApi(address){
-    let url = `/staking/delegators/${address}/delegations`;
+export function getDelegationListApi(address,pageNum,pageSize,useCount=true){
+    let url = `/staking/delegators/${address}/delegations?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
     return get(url);
 }
 
-export function getUnBondingDelegationListApi(address){
-    let url = `/staking/delegators/${address}/unbonding_delegations`;
+export function getUnBondingDelegationListApi(address,pageNum,pageSize,useCount=true){
+    let url = `/staking/delegators/${address}/unbonding_delegations?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
     return get(url);
 }
 
