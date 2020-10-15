@@ -990,7 +990,8 @@
 								this.signer = msg.signer || '--';
 								break;
 							case TX_TYPE.begin_redelegate:
-								this.amount = `${Tools.formatAccountCoinsAmount(msg.amount)[0]} ${Tools.formatAccountCoinsDenom(msg.amount)[0]}`;
+                                let amount = await converCoin(msg.amount);
+								this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
 								this.from = msg.validator_src_address;
 								// this.shares = '需要取值';
 								this.to = msg.validator_dst_address;

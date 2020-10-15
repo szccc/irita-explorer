@@ -1106,12 +1106,12 @@
 							balance: balanceAmount  && balanceAmount.amount ? `${balanceAmount.amount} ${balanceAmount.denom.toUpperCase()}` : 0,
 							balanceNumber: balanceAmount.amount,
 							delegatedValue: this.totalDelegator ? this.totalDelegator : 0,
-							delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
+							delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(this.totalDelegator).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
 							unBondingValue: this.totalUnBondingDelegator ? this.totalUnBondingDelegator : 0,
-							unBonding: this.totalUnBondingDelegator ? `${new BigNumber(Tools.formatStringToFixedNumber(moveDecimal(this.totalUnBondingDelegator.toString(), -2), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}` : 0,
+							unBonding: this.totalUnBondingDelegator ? `${Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
 							rewards: this.allRewardsValue ? this.allRewardsValue : 0,
 							totalAmount: `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal((Number(Tools.formatStringToFixedNumber(Tools.numberMoveDecimal(item.amount.toString(), -18), this.fixedNumber)) +
-								Number(Tools.formatStringToFixedNumber(moveDecimal(this.totalDelegator.toString(), -2), this.fixedNumber)) +
+								Number(Tools.formatStringToFixedNumber(this.totalDelegator.toString(), this.fixedNumber)) +
 								Number(Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.fixedNumber)) +
 								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber))).toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
 						});
@@ -1142,7 +1142,7 @@
 			},
 			async getDelegationList () {
 				try {
-					const {data: res} = await getDelegationListApi(this.$route.params.param)
+					const {data: res} = await getDelegationListApi(this.$route.params.param,1,1000)
 					if (res && res.length > 0) {
 						let copyResult = JSON.parse(JSON.stringify(res));
 						this.delegationPageNationArrayData = this.pageNation(copyResult);
@@ -1154,23 +1154,29 @@
 						this.delegationCountNum = res.length;
 						this.delegationPageChange(this.delegationCurrentPage);
 						if (res.length > 0) {
-							res.forEach(async (item) => {
-								if (item.amount && item.amount.amount) {
-									const amount = await converCoin(item.amount)
-									item.amount.amount = amount.amount
-									if (item.amount.amount.toString().indexOf('.') !== -1) {
-										let splitNumber = item.amount.amount.toString().split('.')[1].substr(0, 2);
-										item.amount.amount = Number(`${item.amount.amount.toString().split('.')[0]}.${splitNumber}`) * 100
-									} else {
-										item.amount.amount = item.amount.amount * 100
-									}
-								}
-							});
-							this.totalDelegator = res.reduce((total, item) => {
+							// res.forEach(async (item) => {
+							// 	if (item.amount && item.amount.amount) {
+							// 		const amount = await converCoin(item.amount)
+							// 		item.amount.amount = amount.amount
+							// 		if (item.amount.amount.toString().indexOf('.') !== -1) {
+							// 			let splitNumber = item.amount.amount.toString().split('.')[1].substr(0, 2);
+							// 			item.amount.amount = Number(`${item.amount.amount.toString().split('.')[0]}.${splitNumber}`) * 100
+							// 		} else {
+							// 			item.amount.amount = item.amount.amount * 100
+							// 		}
+							// 	}
+							// });
+							
+							let totalAmount = res.reduce((total, item) => {
 								return Number(item.amount.amount) + Number(total)
-							}, 0)
+							}, 0);
+							totalAmount = await converCoin({
+								amount:totalAmount,
+								denom:res[0].amount.denom,
+							});
+							this.totalDelegator = totalAmount.amount;
 						}
-						this.totalDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
+						this.totalDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(this.totalDelegator.toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 					} else {
 						this.delegationsItems = []
 					}
@@ -1180,7 +1186,7 @@
 			},
 			async getUnBondingDelegationList () {
 				try {
-					const {data: res} = await getUnBondingDelegationListApi(this.$route.params.param)
+					const {data: res} = await getUnBondingDelegationListApi(this.$route.params.param,1,1000)
 					if (res && res.length > 0) {
 						let copyResult = JSON.parse(JSON.stringify(res));
 						this.unBondingDelegationPageNationArrayData = this.pageNation(copyResult);
@@ -1192,17 +1198,22 @@
 						this.unBondingDelegationCountNum = res.length;
 						this.unBondingDelegationPageChange(this.unBondingDelegationCurrentPage);
 						if (res.length > 0) {
-							res.forEach(async (item) => {
-								if (item.amount && item.amount.amount) {
-									let amount = await converCoin(item.amount)
-									item.amount.amount = amount.amount
-								}
-							});
-							this.totalUnBondingDelegator = res.reduce((total, item) => {
+							// res.forEach(async (item) => {
+							// 	if (item.amount && item.amount.amount) {
+							// 		let amount = await converCoin(item.amount)
+							// 		item.amount.amount = amount.amount
+							// 	}
+							// });
+							let totalUnBondingDelegator = res.reduce((total, item) => {
 								return Number(item.amount.amount) + Number(total)
 							}, 0)
+							totalUnBondingDelegator = await converCoin({
+								amount:totalUnBondingDelegator,
+								denom:res[0].amount.denom,
+							})
+							this.totalUnBondingDelegator = totalUnBondingDelegator.amount;
 						}
-						this.totalUnBondingDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalUnBondingDelegator.toString(), -2)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
+						this.totalUnBondingDelegatorValue = `${Tools.formatStringToFixedNumber(new BigNumber(this.totalUnBondingDelegator.toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 					}
 				} catch (e) {
 					console.error(e)
@@ -1221,8 +1232,9 @@
 							}
 						});
 						let copyResult = JSON.parse(JSON.stringify(res));
-						let amount = await converCoin(res.total[0])
+						let amount = await converCoin((res.total || [])[0])
 						this.delegatorRewardsValue = res.total ? amount.amount : 0;
+						this.totalDelegatorReward = amount.amount;
 						this.rewardsDelegationPageNationArrayData = this.pageNation(copyResult.rewards);
 						if (res.rewards.length > this.pageSize) {
 							this.flRewardsDelegationNextPage = true
@@ -1231,20 +1243,9 @@
 						}
 						this.rewardsDelegationCountNum = res.rewards.length;
 						this.rewardsDelegationPageChange(this.rewardsDelegationCurrentPage);
-						if (res.rewards.length > 0) {
-							res.rewards.forEach(async (item) => {
-								if (item.reward && item.reward.length > 0) {
-									let amount = await converCoin(item.reward[0])
-									item.reward[0].amount = amount.amount
-								}
-							})
-							this.totalDelegatorReward = res.rewards.reduce((total, item) => {
-								return Number(item.reward[0].amount) + Number(total)
-							}, 0);
-						}
 						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 						this.allRewardsAmountValue = this.delegatorRewardsValue + this.validatorRewardsValue
-						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.allRewardsAmountValue.toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
+						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(this.allRewardsAmountValue.toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 						this.getAssetList()
 					}
 				} catch (e) {
@@ -1261,11 +1262,11 @@
 								let amount = await converCoin(commission)
 								this.validatorRewardsValue = amount.amount
 								this.totalValidatorRewards = `${ Number(amount.amount).toFixed(2)} ${this.mainToken.symbol.toUpperCase()}` || '--'
-								this.allRewardsAmountValue = this.delegatorRewardsValue + Number(amount.amount)
+								this.allRewardsAmountValue = Number(this.delegatorRewardsValue) + Number(amount.amount)
 							} else {
 								this.totalValidatorRewards = '--'
 							}
-							this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.allRewardsAmountValue.toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
+							this.allRewardsValue = `${Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 							this.getAssetList()
 						}
 					}
@@ -1273,91 +1274,49 @@
 					console.error(e)
 				}
 			},
-			delegationPageChange (pageNums) {
-				let pageNum = pageNums - 1
-				if (this.flDelegationNextPage) {
-					this.delegationsItems = this.delegationPageNationArrayData[pageNum].map(async (item) => {
+			async delegationPageChange (pageNums) {
+				let pageNum = pageNums - 1;
+				this.delegationsItems = [];
+				let data = this.flDelegationNextPage ? this.delegationPageNationArrayData[pageNum] : this.delegationPageNationArrayData;
+				for(let item of data){
 						let amount = await converCoin(item.amount)
-						item.amount.amount = amount.amount
-						return {
+						this.delegationsItems.push({
 							address: item.address,
-							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
+							amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)} ${amount.denom.toUpperCase()}`,
 							shares: new BigNumber((Number(item.shares)).toFixed(2)).toFormat(),
 							block: item.height,
 							moniker: item.moniker
-						}
-					});
-				} else {
-					this.delegationsItems = this.delegationPageNationArrayData.map(async item => {
-						let amount = await converCoin(item.amount)
-						item.amount.amount = amount.amount
-						return {
-							address: item.address,
-							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
-							shares: new BigNumber((Number(item.shares)).toFixed(2)).toFormat(),
-							block: item.height,
-							moniker: item.moniker
-						}
+						});
+					}
+			},
+			async unBondingDelegationPageChange (pageNums) {
+				let pageNum = pageNums - 1;
+				this.unBondingDelegationsItems = [];
+				let data = this.flUnBondingDelegationNextPage ? this.unBondingDelegationPageNationArrayData[pageNum] : this.unBondingDelegationPageNationArrayData;
+				for (let item of data){
+					let amount = await converCoin(item.amount)
+					this.unBondingDelegationsItems.push({
+						address: item.address,
+						amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)} ${amount.denom.toUpperCase()}`,
+						block: item.height,
+						endTime: Tools.format2UTC(item.end_time),
+						moniker: item.moniker
 					});
 				}
 			},
-			unBondingDelegationPageChange (pageNums) {
+			async rewardsDelegationPageChange (pageNums) {
 				let pageNum = pageNums - 1;
-				if (this.flUnBondingDelegationNextPage) {
-					this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData[pageNum].map(async item => {
-						if (item.amount && item.amount.amount) {
-							let amount = await converCoin(item.amount)
-							item.amount.amount = amount.amount
-						}
-						return {
-							address: item.address,
-							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
-							block: item.height,
-							endTime: Tools.format2UTC(item.end_time),
-							moniker: item.moniker
-						}
-					});
-				} else {
-					this.unBondingDelegationsItems = this.unBondingDelegationPageNationArrayData.map(async item => {
-						if (item.amount && item.amount.amount) {
-							let amount = await converCoin(item.amount)
-							item.amount.amount = amount.amount
-						}
-						return {
-							address: item.address,
-							amount: `${new BigNumber(Tools.formatStringToFixedNumber(item.amount.amount.toString(), this.fixedNumber)).toFormat()} ${this.mainToken.symbol.toUpperCase()}`,
-							block: item.height,
-							endTime: Tools.format2UTC(item.end_time),
-							moniker: item.moniker
-						}
-					});
-				}
-			},
-			rewardsDelegationPageChange (pageNums) {
-				let pageNum = pageNums - 1;
-				if (this.flRewardsDelegationNextPage) {
-					this.rewardsItems = this.rewardsDelegationPageNationArrayData[pageNum].map(async item => {
-						if (item.reward && item.reward.length > 0) {
-							let amount = await converCoin(item.reward[0])
-							item.reward[0].amount = amount.amount
-						}
-						return {
-							address: item.validator_address,
-							amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
-							moniker: item.moniker
-						}
-					});
-				} else {
-					this.rewardsItems = this.rewardsDelegationPageNationArrayData.map(async item => {
-						if (item.reward && item.reward.length > 0) {
-							let amount = await converCoin(item.reward[0])
-							item.reward[0].amount = amount.amount
-						}
-						return {
-							address: item.validator_address,
-							amount: item.reward && item.reward.length > 0 ? `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
-							moniker: item.moniker
-						}
+				this.rewardsItems = [];
+				let data = this.flRewardsDelegationNextPage ? this.rewardsDelegationPageNationArrayData[pageNum] : this.rewardsDelegationPageNationArrayData;
+				for(let item of data){
+					if (item.reward && item.reward.length > 0) {
+						let amount = await converCoin(item.reward[0])
+						item.reward[0].amount = amount.amount
+					}
+					this.rewardsItems.push({
+						address: item.validator_address,
+						amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
+						moniker: item.moniker
 					});
 				}
 			},
