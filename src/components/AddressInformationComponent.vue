@@ -16,7 +16,7 @@
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
-								<span class="address_information_value">{{ data[0] ? data[0].tokenNumber : '--' }}</span>
+								<span class="address_information_value">{{ data[0] ? data[0].token : '--' }}</span>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
@@ -138,6 +138,7 @@
 					if(item && item.token === (mainToken.symbol || '').toUpperCase()){
 						this.totalAmount = item.totalAmount;
 						this.assetConstitute.forEach( res => {
+
 							 if(res.status === 'UnBonding'){
 								res.value = item.unBonding || "--";
 								res.numberValue = item.unBonding ? item.unBonding.replace(/[^\d.]/g,"") : 0;

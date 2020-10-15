@@ -33,8 +33,11 @@ export async function getMainToken(){
 }
 
 export async function converCoin(_coin){
-    let { tokenData = [] } = await getConfig();
-    let coin = {};
+    let { tokenData=[] } = await getConfig();
+    let coin = {
+        denom:'',
+        amount:''
+    };
     let displayCoin = {};
     if (typeof _coin == 'string') {
         let amount = (/[0-9]+[.]?[0-9]*/.exec(_coin) || [''])[0];

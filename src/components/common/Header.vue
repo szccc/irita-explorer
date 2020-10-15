@@ -106,7 +106,7 @@
 import Tools from '../../util/Tools'
 import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
-import { getBlockWithHeight, getTxDetail, getAddressTxList,getUnitDataApi } from '@/service/api'
+import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
 import { getConfig } from "@/helper/IritaHelper"
 export default {
@@ -142,7 +142,6 @@ export default {
   },
   created() {
     this.getConfigApi()
-    this.getUnitData()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
@@ -314,10 +313,6 @@ export default {
     flShowNetWork() {
       this.flShowNetWorkMenu = !this.flShowNetWorkMenu
     },
-    async getUnitData() {
-      const res = await getUnitDataApi()
-      sessionStorage.setItem('unit',JSON.stringify(res))
-    }
   },
 }
 </script>

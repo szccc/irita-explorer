@@ -280,7 +280,7 @@
 		getValidationTxsApi
 	} from "@/service/api"
 	import {TxHelper} from '../../helper/TxHelper.js'
-	import {converCoin,getMainToken} from "../../helper/IritaHelper.js"
+	import { getMainToken, converCoin } from '@/helper/IritaHelper';
 	
 	export default {
 		name: '',
