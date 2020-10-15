@@ -119,6 +119,7 @@
 			data(){
 				this.assetInformation = this.data;
 				this.formatAssetInformation(this.assetInformation)
+				console.log(this.data,'传入的数据')
 			}
 		},
 		mounted () {
@@ -137,16 +138,16 @@
 				assetInformation.forEach( item => {
 					if(item && item.token === (mainToken.symbol || '').toUpperCase()){
 						this.totalAmount = item.totalAmount;
+						console.log(this.totalAmount,'percent')
 						this.assetConstitute.forEach( res => {
-
 							 if(res.status === 'UnBonding'){
 								res.value = item.unBonding || "--";
 								res.numberValue = item.unBonding ? item.unBonding.replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
 							}else {
-								res.value = item[Tools.firstWordLowerCase(res.label)] && item[Tools.firstWordLowerCase(res.label)] !== 0 ? item[Tools.firstWordLowerCase(res.label)] : "--";
-								res.numberValue = item[Tools.firstWordLowerCase(res.label)] ?
-									item[Tools.firstWordLowerCase(res.label)].replace(/[^\d.]/g,"") : 0;
+								res.value = item[Tools.firstWordLowerCase(res.status)] && item[Tools.firstWordLowerCase(res.status)] !== 0 ? item[Tools.firstWordLowerCase(res.status)] : "--";
+								res.numberValue = item[Tools.firstWordLowerCase(res.status)] ?
+									item[Tools.firstWordLowerCase(res.status)].replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
 							}
 						})

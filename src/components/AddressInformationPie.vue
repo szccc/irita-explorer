@@ -51,7 +51,7 @@
 							left: 10,
 						},
 						formatter: (data) => {
-							return `<span style="max-width: 1.2rem;word-break: break-all;">${data.name}: <br/>${new bigNumber(data.value).toFormat()} ${(mainToken.symbol || '').toUpperCase()} (${data.data.formatPercent}%)</span>`
+							return `<span style="max-width: 1.2rem;word-break: break-all;">${data.name}: <br/>${new bigNumber(data.value).toFormat()} ${(mainToken.symbol || '').toUpperCase()} (${data.data.formatPercent}%)</span>`				
 						}
 					},
 					legend: {
