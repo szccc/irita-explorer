@@ -68,7 +68,7 @@
                                             <img class="status_icon"
                                                 :src="require(`../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
                                             <el-tooltip :content="`${row.Tx_Hash}`">
-                                                <router-link 
+                                                <router-link
                                                             :to="`/tx?txHash=${row.Tx_Hash}`"
                                                             :style="{ color: '$theme_c !important' }">{{
                                                     formatTxHash(row.Tx_Hash) }}
@@ -86,14 +86,15 @@
                                     <el-table-column prop="From" :label="$t('ExplorerLang.table.from')" :min-width="ColumnMinWidth.address">
                                         <template v-slot:default="{ row }">
                                             <span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
-                                            <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
+                                            <router-link
+		                                            :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
                                             </span>
-                                                                <div class="name_address"
-                                                                    v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
+											<div class="name_address"
+											     v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
                                             <span class="remove_default_style skip_route"
-                                                    :class="row.From === $route.params.param ? 'no_skip' : ''">
+                                                  :class="row.From === $route.params.param ? 'no_skip' : ''">
                                                 <router-link :to="`/address/${row.From}`" class="link_style"
-                                                            :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
+                                                             :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
                                             </span>
                                             </div>
                                             <span class="no_skip"
@@ -106,17 +107,19 @@
                                                     :min-width="ColumnMinWidth.address">
                                         <template v-slot:default="{ row }">
                                             <span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
-                                            <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
+                                            <router-link
+		                                            :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
                                             </span>
-                                                                <div class="name_address"
-                                                                    v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
+											<div class="name_address"
+											     v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
                                             <span class="remove_default_style skip_route"
-                                                    :class="row.To === $route.params.param ? 'no_skip' : ''">
+                                                  :class="row.To === $route.params.param ? 'no_skip' : ''">
                                                 <router-link v-if="!(row.To === $route.params.param)" class="link_style"
-                                                            :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }"
-                                                            :to="`/address/${row.To}`">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
+                                                             :style="{ 'font-family': row.From ? 'Consolas,Menlo' : '' }"
+                                                             :to="`/address/${row.To}`">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
                                                 <span style="cursor:pointer;font-family: Consolas, Menlo;" v-else>{{ formatMoniker(row.toMoniker) }}</span>
                                             </span>
+
                                             </div>
                                             <span class="no_skip"
                                                 v-show="/^[0]\d*$/.test(row.To) || row.To === '--'">--</span>
@@ -152,7 +155,7 @@
                                             <img class="status_icon"
                                                 :src="require(`../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
                                             <el-tooltip :content="`${row.Tx_Hash}`">
-                                                <router-link 
+                                                <router-link
                                                             :to="`/tx?txHash=${row.Tx_Hash}`"
                                                             :style="{ color: '$theme_c !important' }">{{
                                                     formatTxHash(row.Tx_Hash) }}
@@ -181,11 +184,12 @@
                                             <span v-if="/^[1-9]\d*$/.test(row.OperatorAddr)" class="skip_route">
                                             <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.OperatorAddr }} Validators</router-link>
                                             </span>
-                                            <div class="name_address"
-                                                v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
-                                                <el-tooltip :content="`${row.OperatorAddr}`"
-                                                            style="font-family: Consolas,Menlo">
+											<div class="name_address"
+											     v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
+												<el-tooltip :content="`${row.OperatorAddr}`"
+												            style="font-family: Consolas,Menlo">
                                                     <span style="cursor:pointer;"
+
                                                         v-if="row.OperatorAddr === $route.params.param">{{ formatAddress(row.OperatorAddr) }}</span>
                                                     <router-link v-else :to="`/address/${row.OperatorAddr}`"
                                                                 class="link_style justify">{{
@@ -235,32 +239,34 @@
 	import axios from "axios";
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
-    import { pageTitleConfig,TxStatus,ColumnMinWidth } from "../constant";
-    import { TxHelper } from '@/helper/TxHelper.js'
-    import { getTypeStakingApi,getTypeDeclarationApi,getDelegationTxsApi,getValidationTxsApi } from "@/service/api";
+	import {pageTitleConfig, TxStatus,ColumnMinWidth} from "../constant";
+	import {TxHelper} from '@/helper/TxHelper.js'
+	import {getTypeStakingApi, getTypeDeclarationApi, getDelegationTxsApi, getValidationTxsApi} from "@/service/api";
+	import {converCoin,getMainToken} from "../helper/IritaHelper";
+	import {getAmountByTx} from "../helper/txListAmoutHelper";
 	export default {
 		name: "TransactionListPage",
-		components: { MPagination},
-		data() {
+		components: {MPagination},
+		data () {
 			return {
                 ColumnMinWidth,
                 pageTitle:'',
 				totalPageNum: sessionStorage.getItem("txpagenum") ? JSON.parse(sessionStorage.getItem("txpagenum")) : 1,
 				currentPageNum: this.forCurrentPageNum(),
-                pickerStartTime:sessionStorage.getItem('firstBlockTime') ? sessionStorage.getItem('firstBlockTime') : '',
-                PickerOptions: {
-                    disabledDate: (time) => {
-                        return time.getTime() < new Date(this.pickerStartTime).getTime() || time.getTime() > Date.now()
-                    }
-                },
-				txList: [],
-				txTypeListArray:[
-					{
-						value:'allTxType',
-						label: this.$t('ExplorerLang.common.allTxType'),
-						slot:'allTXType'
+				pickerStartTime: sessionStorage.getItem('firstBlockTime') ? sessionStorage.getItem('firstBlockTime') : '',
+				PickerOptions: {
+					disabledDate: (time) => {
+						return time.getTime() < new Date(this.pickerStartTime).getTime() || time.getTime() > Date.now()
 					}
-                ],
+				},
+				txList: [],
+				txTypeListArray: [
+					{
+						value: 'allTxType',
+						label: this.$t('ExplorerLang.common.allTxType'),
+						slot: 'allTXType'
+					}
+				],
 				listTitleName: "",
 				count: sessionStorage.getItem("txTotal") ? Number(sessionStorage.getItem("txTotal")) : 0,
 				pageSize: 30,
@@ -269,300 +275,302 @@
 				value: this.getParamsByUrlHash().txType ? this.getParamsByUrlHash().txType : 'allTxType',
 				txStatus: '',
 				statusValue: this.getParamsByUrlHash().txStatus ? this.getParamsByUrlHash().txStatus : 'allStatus',
-				status:[],
+				status: [],
 				startTime: this.getParamsByUrlHash().urlParamShowStartTime ? this.getParamsByUrlHash().urlParamShowStartTime : '',
 				endTime: this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',
 				filterStartTime: '',
 				filterEndTime: '',
-                urlParamsShowStartTime:this.getParamsByUrlHash().urlParamShowStartTime ? this.getParamsByUrlHash().urlParamShowStartTime : '',
-                urlParamsShowEndTime:this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',
-                type:'',
-                unitData: Tools.getUnit()
+				urlParamsShowStartTime: this.getParamsByUrlHash().urlParamShowStartTime ? this.getParamsByUrlHash().urlParamShowStartTime : '',
+				urlParamsShowEndTime: this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',
+				type: '',
 			}
 		},
-		mounted(){
-                let statusArray = [
-                {
-                    value: 'allStatus',
-                    label: this.$t('ExplorerLang.common.allTxStatus')
-                },
-                {
-                    value:'success',
-                    label: this.$t('ExplorerLang.common.success')
-                },
-                {
-                    value:'fail',
-                    label: this.$t('ExplorerLang.common.failed')
-                }
-            ]
-            statusArray.forEach( item => {
-                this.status.push(item)
-            })
-
-            this.getType();
-            this.getTxListByFilterCondition();
+		mounted () {
+			let statusArray = [
+				{
+					value: 'allStatus',
+					label: this.$t('ExplorerLang.common.allTxStatus')
+				},
+				{
+					value: 'success',
+					label: this.$t('ExplorerLang.common.success')
+				},
+				{
+					value: 'fail',
+					label: this.$t('ExplorerLang.common.failed')
+				}
+			]
+			statusArray.forEach(item => {
+				this.status.push(item)
+			})
+			
+			this.getType();
+			this.getTxListByFilterCondition();
 		},
 		methods: {
-            getParamsByUrlHash(){
-                let txType,
-                    txStatus,
-                    urlParamShowStartTime,
-                    urlParamShowEndTime,
-                    filterStartTime ,
-                    filterEndTime ;
-                let path = window.location.hash;
-                if(path.includes("?")){
-                    let urlHash = path.split('?')[1];
-                    let params =  urlHash.split("&");
-                    params.forEach( item => {
-                        if(item.includes('txType')){
-                            txType =  item.split("=")[1]
-                        }else if (item.includes('status')){
-                            txStatus = item.split("=")[1]
-                        }else if(item.includes('startTime')){
-                            urlParamShowStartTime = item.split("=")[1]
-                            filterStartTime = this.formatStartTime(item.split("=")[1])
-                        }else if(item.includes('endTime')){
-                            urlParamShowEndTime = item.split("=")[1]
-                            filterEndTime = this.formatEndTime(item.split("=")[1])
-                        }
-                    })
-                }
-                return {txType,txStatus,filterStartTime,filterEndTime,urlParamShowStartTime,urlParamShowEndTime}
-            },
-			forCurrentPageNum() {
+			getParamsByUrlHash () {
+				let txType,
+					txStatus,
+					urlParamShowStartTime,
+					urlParamShowEndTime,
+					filterStartTime,
+					filterEndTime;
+				let path = window.location.hash;
+				if (path.includes("?")) {
+					let urlHash = path.split('?')[1];
+					let params = urlHash.split("&");
+					params.forEach(item => {
+						if (item.includes('txType')) {
+							txType = item.split("=")[1]
+						} else if (item.includes('status')) {
+							txStatus = item.split("=")[1]
+						} else if (item.includes('startTime')) {
+							urlParamShowStartTime = item.split("=")[1]
+							filterStartTime = this.formatStartTime(item.split("=")[1])
+						} else if (item.includes('endTime')) {
+							urlParamShowEndTime = item.split("=")[1]
+							filterEndTime = this.formatEndTime(item.split("=")[1])
+						}
+					})
+				}
+				return {txType, txStatus, filterStartTime, filterEndTime, urlParamShowStartTime, urlParamShowEndTime}
+			},
+			forCurrentPageNum () {
 				let currentPageNum = 1;
 				let urlPageSize = this.$route.query.page && Number(this.$route.query.page);
 				currentPageNum = urlPageSize ? urlPageSize : 1;
 				return currentPageNum;
 			},
-			pageChange(pageNum) {
+			pageChange (pageNum) {
 				this.currentPageNum = pageNum;
 				if (this.currentPageNumCache === this.currentPageNum) {
 					return;
 				}
 				this.currentPageNumCache = this.currentPageNum;
-				let path = this.$route.path , urlParams = this.getParamsByUrlHash();
-                this.statusValue = urlParams.txStatus ? urlParams.txStatus : 'allStatus';
-                this.value = urlParams.txType ? urlParams.txType : 'allTxType';
-                this.startTime = urlParams.urlParamShowStartTime ? urlParams.urlParamShowStartTime : '';
-                this.endTime = urlParams.urlParamShowEndTime ? urlParams.urlParamShowEndTime : '';
-                history.pushState(null, null, `/#${path}?txType=${urlParams.txType ? urlParams.txType : ''}&status=${urlParams.txStatus ? urlParams.txStatus : ''}&startTime=${urlParams.urlParamShowStartTime ? urlParams.urlParamShowStartTime : ''}&endTime=${urlParams.urlParamShowEndTime ? urlParams.urlParamShowEndTime : ''}&page=${pageNum}`);
+				let path = this.$route.path, urlParams = this.getParamsByUrlHash();
+				this.statusValue = urlParams.txStatus ? urlParams.txStatus : 'allStatus';
+				this.value = urlParams.txType ? urlParams.txType : 'allTxType';
+				this.startTime = urlParams.urlParamShowStartTime ? urlParams.urlParamShowStartTime : '';
+				this.endTime = urlParams.urlParamShowEndTime ? urlParams.urlParamShowEndTime : '';
+				history.pushState(null, null, `/#${path}?txType=${urlParams.txType ? urlParams.txType : ''}&status=${urlParams.txStatus ? urlParams.txStatus : ''}&startTime=${urlParams.urlParamShowStartTime ? urlParams.urlParamShowStartTime : ''}&endTime=${urlParams.urlParamShowEndTime ? urlParams.urlParamShowEndTime : ''}&page=${pageNum}`);
 				this.getTxListByFilterCondition();
 			},
-			getFilterTxs(){
+			getFilterTxs () {
 				this.currentPageNum = 1;
-				sessionStorage.setItem('txpagenum',1);
-                history.pushState(null, null, `/#${this.$route.path}?txType=${this.TxType}&status=${this.txStatus}&startTime=${this.urlParamsShowStartTime}&endTime=${this.urlParamsShowEndTime}&page=1`);
-                this.getTxListByFilterCondition();
-            },
-            resetUrl(){
-                this.value = 'allTxType';
-                this.statusValue = 'allStatus';
-                this.startTime = '';
-                this.endTime = '';
-                this.currentPageNum = 1;
-                this.urlParamsShowStartTime = '';
-                this.urlParamsShowEndTime = '';
-                history.pushState(null, null, `/#${this.$route.path}?txType=&status=&startTime=&endTime=&page=1`);
-            },
-			filterTxByTxType(e){
-				if (e === 'allTxType' || e === undefined ) {
+				sessionStorage.setItem('txpagenum', 1);
+				history.pushState(null, null, `/#${this.$route.path}?txType=${this.TxType}&status=${this.txStatus}&startTime=${this.urlParamsShowStartTime}&endTime=${this.urlParamsShowEndTime}&page=1`);
+				this.getTxListByFilterCondition();
+			},
+			resetUrl () {
+				this.value = 'allTxType';
+				this.statusValue = 'allStatus';
+				this.startTime = '';
+				this.endTime = '';
+				this.currentPageNum = 1;
+				this.urlParamsShowStartTime = '';
+				this.urlParamsShowEndTime = '';
+				history.pushState(null, null, `/#${this.$route.path}?txType=&status=&startTime=&endTime=&page=1`);
+			},
+			filterTxByTxType (e) {
+				if (e === 'allTxType' || e === undefined) {
 					this.TxType = '';
-				}else {
+				} else {
 					this.TxType = e
 				}
 			},
-			filterTxByStatus(e){
-				if(e === 'allStatus'){
-					this.txStatus = '';                 
-				}else {
+			filterTxByStatus (e) {
+				if (e === 'allStatus') {
+					this.txStatus = '';
+				} else {
 					this.txStatus = e
 				}
 			},
-			getStartTime(time){
+			getStartTime (time) {
 				this.filterStartTime = this.formatStartTime(time)
 			},
-			getEndTime(time){
+			getEndTime (time) {
 				this.filterEndTime = this.formatEndTime(time)
 			},
-			formatStartTime(time){
-                this.urlParamsShowStartTime =  time
-				return Number(new Date(time).getTime()/1000)
+			formatStartTime (time) {
+				this.urlParamsShowStartTime = time
+				return Number(new Date(time).getTime() / 1000)
 			},
-			formatEndTime(time){
-                this.urlParamsShowEndTime = time
-				let oneDaySeconds = 24 * 60 *60;
-				return Number(new Date(time).getTime()/1000) + Number(oneDaySeconds)
+			formatEndTime (time) {
+				this.urlParamsShowEndTime = time
+				let oneDaySeconds = 24 * 60 * 60;
+				return Number(new Date(time).getTime() / 1000) + Number(oneDaySeconds)
 			},
-			resetFilterCondition(){
+			resetFilterCondition () {
 				this.getType();
-                this.resetUrl()
-                this.getTxListByFilterCondition();
+				this.resetUrl()
+				this.getTxListByFilterCondition();
 			},
-            getType(){
-	            switch (this.$route.params.txType) {
-		            case 'delegations' :
-			            this.type = 'stake';
-			            this.pageTitle = pageTitleConfig.StakingDelegationTxs;
-			            break;
-		            case 'validations':
-			            this.type = 'declaration';
-			            this.pageTitle = pageTitleConfig.StakingValidationTxs;
-			            break;
-		            case 'transfers':
-			            this.type = 'trans';
-			            this.pageTitle = pageTitleConfig.Transfer;
-			            break;
-		            case 'governance':
-			            this.type = 'gov';
-			            this.pageTitle = pageTitleConfig.GovGovTxs;
-	            }
-	            this.getAllTxType();
-            },
-			async getAllTxType(){
-                let res=[];
-                if (this.type === 'stake') {
-                    const {data} = await getTypeStakingApi()
-                    data.forEach( item => {
-                        res.push(item.typeName)
-                    })
-                } else if(this.type === 'declaration') {
-                    const {data} = await getTypeDeclarationApi()
-                    data.forEach( item => {
-                        res.push(item.typeName)
-                    })
-                }
-                try {
-                    if(res){
-                        let typeArray;
-                        typeArray = res.map(item => {
-                            return {
-                                value : item,
-                                label : item
-                            }
-                        });
-                        this.txTypeListArray = [
-                            {
-                                value:'allTxType',
-                                label: this.$t('ExplorerLang.common.allTxType'),
-                                slot:'allTXType'
-                            }
-                        ];
-                        this.txTypeListArray = this.txTypeListArray.concat(typeArray)
-                    }
-                }catch (e) {
-                    console.error(e)
-                }
+			getType () {
+				switch (this.$route.params.txType) {
+					case 'delegations' :
+						this.type = 'stake';
+						this.pageTitle = pageTitleConfig.StakingDelegationTxs;
+						break;
+					case 'validations':
+						this.type = 'declaration';
+						this.pageTitle = pageTitleConfig.StakingValidationTxs;
+						break;
+					case 'transfers':
+						this.type = 'trans';
+						this.pageTitle = pageTitleConfig.Transfer;
+						break;
+					case 'governance':
+						this.type = 'gov';
+						this.pageTitle = pageTitleConfig.GovGovTxs;
+				}
+				this.getAllTxType();
 			},
-			async getTxListByFilterCondition(){
-                let urlParams = this.getParamsByUrlHash(), param = {};
+			async getAllTxType () {
+				let res = [];
+				if (this.type === 'stake') {
+					const {data} = await getTypeStakingApi()
+					data.forEach(item => {
+						res.push(item.typeName)
+					})
+				} else if (this.type === 'declaration') {
+					const {data} = await getTypeDeclarationApi()
+					data.forEach(item => {
+						res.push(item.typeName)
+					})
+				}
+				try {
+					if (res) {
+						let typeArray;
+						typeArray = res.map(item => {
+							return {
+								value: item,
+								label: item
+							}
+						});
+						this.txTypeListArray = [
+							{
+								value: 'allTxType',
+								label: this.$t('ExplorerLang.common.allTxType'),
+								slot: 'allTXType'
+							}
+						];
+						this.txTypeListArray = this.txTypeListArray.concat(typeArray)
+					}
+				} catch (e) {
+					console.error(e)
+				}
+			},
+			async getTxListByFilterCondition () {
+				let urlParams = this.getParamsByUrlHash(), param = {};
 				param.type = this.type;
 				param.pageNumber = this.currentPageNum;
 				param.pageSize = this.pageSize;
-				param.txType = urlParams.txType ? urlParams.txType: '';
-                if(urlParams.txStatus) {
-                    if(urlParams.txStatus === 'success') {
-                        param.status = 1
-                    } else if(urlParams.txStatus === 'fail') {
-                        param.status = 2
-                    }
-                } else {
-                    param.status = ''
-                }
-				param.beginTime = urlParams.filterStartTime ? urlParams.filterStartTime: '';
-                param.endTime =  urlParams.filterEndTime ? urlParams.filterEndTime: '';
-                if (this.type === 'stake') {
-                    let res = await getDelegationTxsApi('',param.pageNumber,param.pageSize,true,param.txType,param.status,param.beginTime,param.endTime)
-                    try {
-                        this.count = res.count;
-                        if(res && res.data){
-                            sessionStorage.setItem('txTotal',res.count);
-                            this.totalPageNum =  Math.ceil((res.data/this.pageSize) === 0 ? 1 : (res.data/this.pageSize));
-                            sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
-                            if(res.data){
-                                    this.txList = []
-                                    res.data.forEach( item => {
-                                    let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
-                                    if (item.msgs && item.msgs.length === 1) {
-                                        formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
-                                    } else {
-                                        formTO = '--'
-                                    }
-                                    const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0].amount)) : '--'
-                                    const time = Tools.getDisplayDate(item.time)
-                                    this.txList.push({
-                                        Tx_Hash: item.tx_hash,
-                                        Block: item.height,
-                                        From: formTO.from || "--",
-                                        Amount: fee !== '--' ? fee + this.unitData.maxUnit.toUpperCase() : '--',
-                                        To: formTO.to || '--',
-                                        Tx_Type: item.type,
-                                        MsgsNum: msgsNumber,
-                                        Tx_Fee: item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
-                                        Tx_Signer: item.signers[0] ? item.signers[0] : '--',
-                                        Tx_Status: TxStatus[item.status],
-                                        Timestamp: time,
-                                    })
-                                })
-                            }else{
-                                this.txList = [];
-                                this.showNoData = true;
-                            }
-                            this.flShowLoading = false;
-                        }else {
-                            this.txList = [];
-                            this.showNoData = true;
-                            this.flShowLoading = false;
-                        }
-                    }catch (e) {
-                        this.showNoData = true;
-                        console.error(e)
-                    }
-                } else if(this.type === 'declaration') {
-                    let res = await getValidationTxsApi('',param.pageNumber,param.pageSize,true,param.txType,param.status,param.beginTime,param.endTime)
-                    try {
-                        this.count = res.count;
-                        if(res && res.data){
-                            sessionStorage.setItem('txTotal',res.count);
-                            this.totalPageNum =  Math.ceil((res.data/this.pageSize) === 0 ? 1 : (res.data/this.pageSize));
-                            sessionStorage.setItem('txpagenum',JSON.stringify(this.totalPageNum));
-                            if(res.data){
-                                    this.txList = []
-                                    res.data.forEach( item => {
-                                        const fee = (item.fee.amount[0]) ? Tools.formatUnit(Number(item.fee.amount[0])) : '--'
-                                        const status = item.status === 1 ? 'Success' : 'Fail' 
-                                        const time = Tools.getDisplayDate(item.time)
-                                        this.txList.push({
-                                            Tx_Hash: item.tx_hash,
-                                            Block: item.height,
-                                            Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
-                                            OperatorAddr: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--',
-                                            SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? item.msgs[0].msg.min_self_delegation : '--' : '--',
-                                            'Tx_Type': item.type,
-                                            'Tx_Fee': item.fee && item.fee.amount && item.fee.amount.length > 0 ? Tools.formatAmount2(item.fee.amount, 6) : '--',
-                                            'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
-                                            'Tx_Status': TxStatus[item.status],
-                                            Timestamp: time,
-                                        })
-                                })
-                            }else{
-                                this.txList = [];
-                                this.showNoData = true;
-                            }
-                            this.flShowLoading = false;
-                        }else {
-                            this.txList = [];
-                            this.showNoData = true;
-                            this.flShowLoading = false;
-                        }
-                    }catch (e) {
-                        this.showNoData = true;
-                        console.error(e)
-                    }
-                }
-            },
-            formatAddress (address) {
+				param.txType = urlParams.txType ? urlParams.txType : '';
+				if (urlParams.txStatus) {
+					if (urlParams.txStatus === 'success') {
+						param.status = 1
+					} else if (urlParams.txStatus === 'fail') {
+						param.status = 2
+					}
+				} else {
+					param.status = ''
+				}
+				param.beginTime = urlParams.filterStartTime ? urlParams.filterStartTime : '';
+				param.endTime = urlParams.filterEndTime ? urlParams.filterEndTime : '';
+				if (this.type === 'stake') {
+					let res = await getDelegationTxsApi('', param.pageNumber, param.pageSize, true, param.txType, param.status, param.beginTime, param.endTime)
+					try {
+						this.count = res.count;
+						if (res && res.data) {
+							sessionStorage.setItem('txTotal', res.count);
+							this.totalPageNum = Math.ceil((res.data / this.pageSize) === 0 ? 1 : (res.data / this.pageSize));
+							sessionStorage.setItem('txpagenum', JSON.stringify(this.totalPageNum));
+							if (res.data) {
+								this.txList = []
+								let amount = '--'
+								res.data.forEach(async (item) => {
+									if(item) {
+										let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
+										if (item.msgs && item.msgs.length === 1) {
+											formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
+										} else {
+											formTO = '--'
+										}
+										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : '--'
+										const txAmount = item  && item.msgs && item.msgs.length > 0 ? await getAmountByTx(item.msgs[0]) : '--'
+										const time = Tools.getDisplayDate(item.time)
+										this.txList.push({
+											Tx_Hash: item.tx_hash,
+											Block: item.height,
+											From: formTO.from || "--",
+											Amount: txAmount,
+											To: formTO.to || '--',
+											Tx_Type: item.type,
+											MsgsNum: msgsNumber,
+											Tx_Fee: fee && fee.amount ? `${fee.amount} ${fee.denom.toLocaleUpperCase()}` : '--',
+											Tx_Signer: item.signers[0] ? item.signers[0] : '--',
+											Tx_Status: TxStatus[item.status],
+											Timestamp: time,
+										})
+									}
+								})
+							} else {
+								this.txList = [];
+								this.showNoData = true;
+							}
+							this.flShowLoading = false;
+						} else {
+							this.txList = [];
+							this.showNoData = true;
+							this.flShowLoading = false;
+						}
+					} catch (e) {
+						this.showNoData = true;
+						console.error(e)
+					}
+				} else if (this.type === 'declaration') {
+					let res = await getValidationTxsApi('', param.pageNumber, param.pageSize, true, param.txType, param.status, param.beginTime, param.endTime)
+					try {
+						this.count = res.count;
+						if (res && res.data) {
+							sessionStorage.setItem('txTotal', res.count);
+							this.totalPageNum = Math.ceil((res.data / this.pageSize) === 0 ? 1 : (res.data / this.pageSize));
+							sessionStorage.setItem('txpagenum', JSON.stringify(this.totalPageNum));
+							if (res.data) {
+								this.txList = []
+								res.data.forEach(async (item) => {
+									const fee = item.fee && item.fee.amount && item.fee.amount.length === 1 ? await converCoin(item.fee.amount[0]) : '--'
+									const time = Tools.getDisplayDate(item.time)
+									this.txList.push({
+										Tx_Hash: item.tx_hash,
+										Block: item.height,
+										Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
+										OperatorAddr: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--',
+										SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? item.msgs[0].msg.min_self_delegation : '--' : '--',
+										'Tx_Type': item.type,
+										'Tx_Fee': fee && fee.amount ? `${fee.amount} ${fee.denom.toLocaleUpperCase()}` : '--',
+										'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
+										'Tx_Status': TxStatus[item.status],
+										Timestamp: time,
+									})
+								})
+							} else {
+								this.txList = [];
+								this.showNoData = true;
+							}
+							this.flShowLoading = false;
+						} else {
+							this.txList = [];
+							this.showNoData = true;
+							this.flShowLoading = false;
+						}
+					} catch (e) {
+						this.showNoData = true;
+						console.error(e)
+					}
+				}
+			},
+			formatAddress (address) {
 				return Tools.formatValidatorAddress(address)
 			},
 			formatTxHash (TxHash) {
@@ -576,238 +584,280 @@
 				}
 				return Tools.formatString(moniker, 15, '...')
 			},
-        }
-    }
+		}
+	}
 </script>
 
 <style scoped lang="scss">
-    .transaction_list_page_container {
-        .title_container {
-            max-width: 12.8rem;
-            margin: 0.3rem auto;
-            margin-bottom: 0rem;
-            text-align: left;
-            display: flex;
-            line-height: 0.3rem;
-            color: $t_first_c;
-            font-size: $s18;
-            font-weight: bold;
-            span {
-                margin-right: 0.1rem;
-            }
-        }
-        .transaction_list_title_wrap{
-            width: 100%;
-            // position: fixed;
-            // z-index: 3;
-            background-color: $bg_cancel_c;
-            // padding-top: 0.54rem;
-            .transaction_list_title_content{
-                height:0.7rem;
-                display: flex;
-                align-items: center;
-                max-width: 12.8rem;
-                margin: 0 auto;
-                .filter_container{
-                    display: flex;
-                    .filter_tx_type_statue_content{
-                        display: flex;
-                        align-items: center;
-                        /deep/.el-select{
-                            width: 1.3rem;
-                            margin-right: 0.1rem;
-                            .el-input{
-                                .el-input__inner{
-                                    padding-left: 0.07rem;
-                                    height: 0.32rem;
-                                    font-size: $s14 !important;
-                                    line-height: 0.32rem;
-                                    &::-webkit-input-placeholder{
-                                        font-size: $s10 !important;
-                                    }
-                                }
-                                .el-input__inner:focus{
-                                    border-color: $theme_c !important;
-                                }
-                                .el-input__suffix{
-                                   .el-input__suffix-inner{
-                                       .el-input__icon{
-                                           line-height: 0.32rem;
-                                       }
-                                   }
-                                }
-                            }
-                            .is-focus{
-                                .el-input__inner{
-                                    border-color: $theme_c !important;
-                                }
-                            }
-
-                        }
-                    }
-                    .select_date_content{
-                        display: flex;
-                        align-items: center;
-                        /deep/.el-date-editor{
-                            width: 1.3rem;
-                            .el-icon-circle-close{
-                                display: none !important;
-                            }
-                            .el-input__inner{
-                                height:0.32rem;
-                                padding-left: 0.07rem;
-                                padding-right: 0;
-                                line-height: 0.32rem;
-                                &::-webkit-input-placeholder{
-                                    font-size: $s14 !important;
-                                }
-                                &:focus{
-                                    border-color: $theme_c;
-                                }
-                            }
-                            .el-input__prefix{
-                                right: 5px;
-                                left: 1rem;
-                                .el-input__icon{
-                                    line-height: 0.32rem;
-                                }
-                            }
-                        }
-                        .joint_mark{
-                            margin:  0 0.08rem;
-                        }
-                        .tooltip_content{
-                            padding: 0 0 0 0.1rem;
-                        }
-                    }
-                    .reset_search_content{
-                        display: flex;
-                        align-items: center;
-                        .reset_btn{
-                            background: $theme_c;
-                            color: $t_white_c;
-                            border-radius: 0.04rem;
-                            margin-left: 0.1rem;
-                            cursor: pointer;
-                            height: 0.3rem;
-                            i{
-                                padding: 0.08rem;
-                                font-size: $s14;
-                                line-height: 1;
-                                display: inline-block;
-                            }
-                        }
-                        .tx_search_btn{
-                            height: 0.2rem;
-                            cursor: pointer;
-                            background: $theme_c;
-                            margin-left: 0.1rem;
-                            color: $t_white_c;
-                            border-radius: 0.04rem;
-                            padding: 0.05rem 0.18rem;
-                            font-size: $s14;
-                            line-height: 0.2rem;
-                        }
-                    }
-                }
-
-            }
-        }
-    }
-    .transaction_list_table_container{   
-        max-width: 12.8rem;
-        // padding: 1.24rem 0 0.2rem 0;
-        padding: 0.04rem 0 0.2rem 0;
-        margin: 0 auto;
-        .transaction_list_table_content{
-            text-align: left;
-            .table_list_content{
-                width: 100%;
-                overflow-x: auto;
-                padding-top: 0rem;
-                a {
-                    color: $t_link_c !important;
-                }
-                .status_icon{
-                    width:0.13rem;
-                    height:0.13rem;
-                    margin-right:0.05rem;
-                }
-            }
-            .pagination_nav_footer_content{
-                display: flex;
-                justify-content: flex-end;
-                height: 0.7rem;
-                align-items: center;
-            }
-
-        }
-    }
-    @media screen and (max-width: 910px){
-        .transaction_list_page_container{
-            .transaction_list_title_wrap{
-                position: static;
-                padding-top: 0.15rem;
-                .transaction_list_title_content{
-                    display: flex;
-                    flex-direction: column;
-                    height: auto;
-                    align-items: flex-start;
-                    .transaction_list_title{
-                        height: 0.7rem;
-                        line-height: 0.7rem;
-                    }
-                    .filter_container{
-                        flex-direction: column;
-                        margin-left: 0.1rem;
-                        .filter_tx_type_statue_content{
-                            width: 3.45rem;
-                            display: flex;
-                            justify-content: space-between;
-                            margin-bottom: 0.1rem;
-                            .el-select{
-                                margin-right: 0;
-                                width: 1.6rem;
-                            }
-                        }
-                        .select_date_content{
-                            width: 3.45rem;
-                            display: flex;
-                            justify-content: space-between;
-                            margin-bottom: 0.1rem;
-                            .el-date-editor{
-                                width: 1.6rem;
-                            }
-                        }
-                        .reset_search_content{
-                            width: 3.45rem;
-                            display: flex;
-                            justify-content: space-between;
-                            margin-bottom: 0.1rem;
-                            .reset_btn{
-                                margin-left: 0;
-                            }
-                            .tx_search_btn{
-                                flex: 1;
-                                margin-left: 0;
-                                margin-right: 0.1rem;
-                                text-align: center;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        .transaction_list_table_container{
-            padding-top: 0;
-            padding-left: 0.1rem;
-            padding-right: 0.1rem;
-            .transaction_list_table_content{
-                .table_list_content{
-                    padding-top: 0;
-                }
-            }
-        }
-    }
+	.transaction_list_page_container {
+		.title_container {
+			max-width: 12.8rem;
+			margin: 0.3rem auto;
+			margin-bottom: 0rem;
+			text-align: left;
+			display: flex;
+			line-height: 0.3rem;
+			color: $t_first_c;
+			font-size: $s18;
+			font-weight: bold;
+			
+			span {
+				margin-right: 0.1rem;
+			}
+		}
+		
+		.transaction_list_title_wrap {
+			width: 100%;
+			// position: fixed;
+			// z-index: 3;
+			background-color: $bg_cancel_c;
+			// padding-top: 0.54rem;
+			.transaction_list_title_content {
+				height: 0.7rem;
+				display: flex;
+				align-items: center;
+				max-width: 12.8rem;
+				margin: 0 auto;
+				
+				.filter_container {
+					display: flex;
+					
+					.filter_tx_type_statue_content {
+						display: flex;
+						align-items: center;
+						
+						/deep/ .el-select {
+							width: 1.3rem;
+							margin-right: 0.1rem;
+							
+							.el-input {
+								.el-input__inner {
+									padding-left: 0.07rem;
+									height: 0.32rem;
+									font-size: $s14 !important;
+									line-height: 0.32rem;
+									
+									&::-webkit-input-placeholder {
+										font-size: $s10 !important;
+									}
+								}
+								
+								.el-input__inner:focus {
+									border-color: $theme_c !important;
+								}
+								
+								.el-input__suffix {
+									.el-input__suffix-inner {
+										.el-input__icon {
+											line-height: 0.32rem;
+										}
+									}
+								}
+							}
+							
+							.is-focus {
+								.el-input__inner {
+									border-color: $theme_c !important;
+								}
+							}
+							
+						}
+					}
+					
+					.select_date_content {
+						display: flex;
+						align-items: center;
+						
+						/deep/ .el-date-editor {
+							width: 1.3rem;
+							
+							.el-icon-circle-close {
+								display: none !important;
+							}
+							
+							.el-input__inner {
+								height: 0.32rem;
+								padding-left: 0.07rem;
+								padding-right: 0;
+								line-height: 0.32rem;
+								
+								&::-webkit-input-placeholder {
+									font-size: $s14 !important;
+								}
+								
+								&:focus {
+									border-color: $theme_c;
+								}
+							}
+							
+							.el-input__prefix {
+								right: 5px;
+								left: 1rem;
+								
+								.el-input__icon {
+									line-height: 0.32rem;
+								}
+							}
+						}
+						
+						.joint_mark {
+							margin: 0 0.08rem;
+						}
+						
+						.tooltip_content {
+							padding: 0 0 0 0.1rem;
+						}
+					}
+					
+					.reset_search_content {
+						display: flex;
+						align-items: center;
+						
+						.reset_btn {
+							background: $theme_c;
+							color: $t_white_c;
+							border-radius: 0.04rem;
+							margin-left: 0.1rem;
+							cursor: pointer;
+							height: 0.3rem;
+							
+							i {
+								padding: 0.08rem;
+								font-size: $s14;
+								line-height: 1;
+								display: inline-block;
+							}
+						}
+						
+						.tx_search_btn {
+							height: 0.2rem;
+							cursor: pointer;
+							background: $theme_c;
+							margin-left: 0.1rem;
+							color: $t_white_c;
+							border-radius: 0.04rem;
+							padding: 0.05rem 0.18rem;
+							font-size: $s14;
+							line-height: 0.2rem;
+						}
+					}
+				}
+				
+			}
+		}
+	}
+	
+	.transaction_list_table_container {
+		max-width: 12.8rem;
+		// padding: 1.24rem 0 0.2rem 0;
+		padding: 0.04rem 0 0.2rem 0;
+		margin: 0 auto;
+		
+		.transaction_list_table_content {
+			text-align: left;
+			
+			.table_list_content {
+				width: 100%;
+				overflow-x: auto;
+				padding-top: 0rem;
+				
+				a {
+					color: $t_link_c !important;
+				}
+				
+				.status_icon {
+					width: 0.13rem;
+					height: 0.13rem;
+					margin-right: 0.05rem;
+				}
+			}
+			
+			.pagination_nav_footer_content {
+				display: flex;
+				justify-content: flex-end;
+				height: 0.7rem;
+				align-items: center;
+			}
+			
+		}
+	}
+	
+	@media screen and (max-width: 910px) {
+		.transaction_list_page_container {
+			.transaction_list_title_wrap {
+				position: static;
+				padding-top: 0.15rem;
+				
+				.transaction_list_title_content {
+					display: flex;
+					flex-direction: column;
+					height: auto;
+					align-items: flex-start;
+					
+					.transaction_list_title {
+						height: 0.7rem;
+						line-height: 0.7rem;
+					}
+					
+					.filter_container {
+						flex-direction: column;
+						margin-left: 0.1rem;
+						
+						.filter_tx_type_statue_content {
+							width: 3.45rem;
+							display: flex;
+							justify-content: space-between;
+							margin-bottom: 0.1rem;
+							
+							.el-select {
+								margin-right: 0;
+								width: 1.6rem;
+							}
+						}
+						
+						.select_date_content {
+							width: 3.45rem;
+							display: flex;
+							justify-content: space-between;
+							margin-bottom: 0.1rem;
+							
+							.el-date-editor {
+								width: 1.6rem;
+							}
+						}
+						
+						.reset_search_content {
+							width: 3.45rem;
+							display: flex;
+							justify-content: space-between;
+							margin-bottom: 0.1rem;
+							
+							.reset_btn {
+								margin-left: 0;
+							}
+							
+							.tx_search_btn {
+								flex: 1;
+								margin-left: 0;
+								margin-right: 0.1rem;
+								text-align: center;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		.transaction_list_table_container {
+			padding-top: 0;
+			padding-left: 0.1rem;
+			padding-right: 0.1rem;
+			
+			.transaction_list_table_content {
+				.table_list_content {
+					padding-top: 0;
+				}
+			}
+		}
+	}
 </style>

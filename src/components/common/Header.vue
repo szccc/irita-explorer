@@ -82,7 +82,7 @@
             </transition>
           </div>
         </div>
-        <div v-show="flShowNetwork" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">   
+        <div v-show="flShowNetwork" class="mobile_tab_item_wrap" :style="`color:${(prodConfig.nav || {}).color || ''}`">
               <div class="mobile_tab_item_children_container" >
                   <span class="mobile_tab_item mobile_tab_item_has_children" @click="flShowNetWork">
                     {{$t('ExplorerLang.Navigation.network')}}
@@ -106,10 +106,9 @@
 import Tools from '../../util/Tools'
 import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
-import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
+import { getBlockWithHeight, getTxDetail, getAddressTxList,getUnitDataApi } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
 import { getConfig } from "@/helper/IritaHelper"
-import axios from 'axios'
 export default {
   data() {
     return {
@@ -142,11 +141,12 @@ export default {
     this.menuList = this.loadModules(prodConfig.navFuncList)
   },
   created() {
-    this.getConfig()
+    this.getConfigApi()
+    this.getUnitData()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
-    this.setActiveIndex()
+    this.setActiveIndex();
   },
   watch: {
     $route: {
@@ -287,11 +287,12 @@ export default {
 		hideNetWorkLogo(){
 		this.flShowNetworkLogo = false;
     },
-    async getConfig () {
-        let config = await getConfig()
-        this.handleConfigs(config.networkData)
+    async getConfigApi () {
+        let config = await getConfig();
+        this.handleConfigs(config.networkData);
     },
     handleConfigs (configs=[]) {
+
 		this.netWorkArray = configs.map(item => {
 			if(item.network_id === constant.CHAINID.IRISHUB){
                 item.icon = 'iconfont iconiris'
@@ -304,7 +305,7 @@ export default {
             } else if (item.network_id === constant.CHAINID.BIFROST) {
                 item.icon = 'iconfont iconBI-01'
             }
-			return item
+			      return item
         });
     },
     windowOpenUrl (url) {
@@ -312,6 +313,10 @@ export default {
     },
     flShowNetWork() {
       this.flShowNetWorkMenu = !this.flShowNetWorkMenu
+    },
+    async getUnitData() {
+      const res = await getUnitDataApi()
+      sessionStorage.setItem('unit',JSON.stringify(res))
     }
   },
 }

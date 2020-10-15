@@ -331,6 +331,11 @@ export function getConfig () {
 	return get(url)
 }
 
+export function getUnitDataApi () {
+    const url = `/staking/config`
+	return get(url)
+}
+
 export function stakingBlockInformation(height) {
 	const url = `/blocks/staking/${height}`
 	return get(url)

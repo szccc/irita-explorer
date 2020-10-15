@@ -588,14 +588,14 @@
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
 				<span><router-link :to="`/address/${from}`">{{from}}</router-link></span>
 			</p>
-			<p>原来还有amount,现在msg里面没有这个字段 </p>
+<!--			<p>原来还有amount,现在msg里面没有这个字段 </p>-->
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
 				<span><router-link :to="`/address/${to}`">{{to}}</router-link></span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_validator_commission">
-			<p>就一个验证人地址，不知道该怎么展示</p>
+<!--			<p>就一个验证人地址，不知道该怎么展示</p>-->
 		</div>
 		<div v-if="txType === TX_TYPE.set_withdraw_address">
 			<p>
@@ -679,6 +679,7 @@
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
+	import { converCoin } from "../../helper/IritaHelper"
 	export default {
 		name: "txMessage",
 		components: {LargeString},
@@ -1011,7 +1012,7 @@
 								this.to = msg.delegator_address;
 								break;
 							case TX_TYPE.withdraw_validator_commission:
-								this.form = '不知道展示什么,只有一个验证人地址'
+								// this.form = '不知道展示什么,只有一个验证人地址'
 								break;
 							case TX_TYPE.set_withdraw_address:
 								this.delegatorAddress = msg.delegator_address;
@@ -1033,11 +1034,13 @@
 							case TX_TYPE.delegate:
 								this.from = msg.delegator_address;
 								this.to = msg.validator_address;
-								this.amount = Tools.formatAmount2(msg.delegation)
+								let delegateAmount = await converCoin(msg.delegation)
+								this.amount = `${delegateAmount.amount} ${delegateAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.fund_community_pool:
 								this.depositor = msg.depositor;
-								this.amount = Tools.formatAmount2(msg.amount)
+								let poolAmount = await converCoin(msg.amount[0])
+								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
 								
 						}
 					}

@@ -388,10 +388,6 @@ export default class Tools {
     }
   }
   
-  static findNum(str){
-      return str.match(/\d+/g);
-  }
-
   static getUnit () {
     let { tokenData } = JSON.parse(sessionStorage.getItem('config'))
     let mainTokenArr = tokenData.filter(item => item.is_main_token)
@@ -401,7 +397,7 @@ export default class Tools {
       minUnit: mainToken.min_unit,
       conversionRatio: 100000
     }
-    return unit 
+    return unit
   }
 
   static formatPerNumber (num) {
