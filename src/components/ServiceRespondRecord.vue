@@ -207,8 +207,8 @@
                         this.owner = serviceInfo.owner;
                         this.bindTime = Tools.getDisplayDate(serviceInfo.time);
                     }
-                    if(bindings && bindings.result && bindings.result.value){
-                        const {available, pricing, qos, deposit, disabled_time} = bindings.result.value;
+                    if(bindings && bindings.result){
+                        const {available, pricing, qos, deposit, disabled_time} = bindings.result;
                         this.isAvailable = available ? 'True' : 'False';
                         this.price = pricing;
                         this.qos = qos;
@@ -384,6 +384,7 @@
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 border-radius:5px;
                 border:1px solid rgba(215,215,215,1);
+                margin-bottom:0.2rem;
                 .service_respond_record_transaction_title {
                     font-size: $s18;
                     color: $t_first_c;

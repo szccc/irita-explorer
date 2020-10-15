@@ -196,17 +196,25 @@ export function getServiceRespondInfo(serviceName, provider){
 
 
 
-export function getServiceBindingByServiceName(serviceName, provider){
+export async function getServiceBindingByServiceName(serviceName, provider){
     let url = `service/bindings/${serviceName}`;
     if(provider){
         url += `/${provider}`;
     }
-    return getFromLcd(url);
+    let res = await getFromLcd(url);
+    if (res && res.result && res.result.value) {
+        res.result = res.result.value;
+    } 
+    return res;
 }
 
-export function getServiceContextsByServiceName(requestContextId){
+export async function getServiceContextsByServiceName(requestContextId){
     let url = `service/contexts/${requestContextId}`;
-    return getFromLcd(url);
+    let res = await getFromLcd(url);
+    if (res && res.result && res.result.value) {
+        res.result = res.result.value;
+    }
+    return res;
 }
 
 export function getRespondServiceRecord(serviceName, provider, pageNum, pageSize){
@@ -218,11 +226,34 @@ export function getNodeInfo(){
     return getFromLcd('node_info');
 }
 export function getIdentities(identity, pageNum, pageSize){
-    let url = `txs/identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
+    let url = `identities?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true&search=${identity}`;
     return get(url);
 }
 
+export function getIdentityDetail(identity){
+    let url = `/identities/${identity}`;
+    return get(url);
+}
 
+export function getPubkeyListByIdentity(identity, pageNum, pageSize, useCount){
+    let url = `identities/pubkey?id=${identity}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getCertificateListByIdentity(identity, pageNum, pageSize, useCount){
+    let url = `identities/certificate?id=${identity}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getTxListByIdentity(identity, pageNum, pageSize, useCount){
+    let url = `txs/identity?id=${identity}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getIdentityListByAddress(address, pageNum, pageSize, useCount){
+    let url = `identities/address?address=${address||''}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
 
 
 

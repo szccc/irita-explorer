@@ -59,10 +59,12 @@ let config = {
     homeCard:{
         lestBlock:true,
         txCount:true,
-        avgBlockTime:true,
         validatorCount:true,
+        avgBlockTime:true,
         serviceCount:true,
+        DenomCount:true,
         assetCount:true,
+        identityCount:true,
     },
     text:{
         //预设字体颜色
