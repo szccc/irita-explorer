@@ -288,6 +288,18 @@ export const ExplorerLang = {
             commissionRate: 'Commission Rate :',
             website: 'Website :',
             details: 'Details :',
+            // 新的交易类型展示
+            isBuyOrder: 'isBuyOrder :',
+            inputAddress: 'Input Address :',
+            Input: 'Input :',
+            outputAddress: 'Output Address :',
+            output: 'Output :',
+            deadline: 'Deadline :',
+            sender: 'Sender :',
+            exactIrisAmt: 'Exact Iris Amt :',
+            maxToken: 'Max Token :',
+            minLiquidity: 'Min Liquidity :',
+            withdrawLiquidity: 'Withdraw Liquidity :'
         }
     },
     addressDetail: {

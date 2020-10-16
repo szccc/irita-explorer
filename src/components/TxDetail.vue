@@ -142,6 +142,7 @@ export default {
       try {
         let mainToken = await getMainToken();
         const res = await getTxDetail(this.$route.query.txHash)
+        console.log(res,'交易展示数据')
         if (res) {
           this.messages = res.msgs || []
           this.events = res.events

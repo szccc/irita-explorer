@@ -671,6 +671,76 @@
 				<span><router-link :to="`/address/${depositor}`">{{depositor}}</router-link></span>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.swap_order">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.isBuyOrder')}}</span>
+				<span>{{isBuyOrder}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.inputAddress')}}</span>
+				<span>{{inputAddress}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.Input')}}</span>
+				<span>{{input}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.outputAddress')}}</span>
+				<span>{{outputAddress}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.output')}}</span>
+				<span>{{output}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{deadline}}</span>
+			</p>		
+		</div>
+		<div v-if="txType === TX_TYPE.add_liquidity">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
+				<span>{{sender}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.exactIrisAmt')}}</span>
+				<span>{{exactIrisAmt}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.maxToken')}}</span>
+				<span>{{maxToken}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minLiquidity')}}</span>
+				<span>{{minLiquidity}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{deadline}}</span>
+			</p>	
+		</div>
+		<div v-if="txType === TX_TYPE.remove_liquidity">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
+				<span>{{sender}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawLiquidity')}}</span>
+				<span>{{withdrawLiquidity}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.exactIrisAmt')}}</span>
+				<span>{{exactIrisAmt}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.maxToken')}}</span>
+				<span>{{maxToken}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{deadline}}</span>
+			</p>	
+		</div>	
 	</div>
 </template>
 
@@ -780,7 +850,17 @@
 				details: '',
 				delegatorAddress:'',
 				withdrawAddress:'',
-				depositor:''
+				depositor:'',
+
+				isBuyOrder: '',
+				inputAddress:'',
+				outputAddress:'',
+				deadline:'',
+				sender:'',
+				exactIrisAmt:'',
+				maxToken:'',
+				minLiquidity:'',
+				withdrawLiquidity:'',
 			}
 		},
 		computed: {
@@ -1042,7 +1122,29 @@
 								this.depositor = msg.depositor;
 								let poolAmount = await converCoin(msg.amount[0])
 								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
-								
+								break;
+							case TX_TYPE.swap_order:
+								this.isBuyOrder = '--';
+								this.inputAddress = '--';
+								this.input = '--';
+								this.outputAddress = '--';
+								this.output = '--';
+								this.deadline = '--';
+								break;
+							case TX_TYPE.add_liquidity:
+								this.sender = '--';
+								this.exactIrisAmt = '--';
+								this.maxToken = '--';
+								this.minLiquidity = '--';
+								this.deadline = '--';
+								break;
+							case TX_TYPE.add_liquidity:
+								this.sender = '--';
+								this.withdrawLiquidity = '--';
+								this.exactIrisAmt = '--';
+								this.maxToken = '--';
+								this.deadline = '--';
+								break;					
 						}
 					}
 				} catch (e) {
