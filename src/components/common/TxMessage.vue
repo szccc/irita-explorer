@@ -677,7 +677,7 @@
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.depositor')}}</span>
 				<span><router-link :to="`/address/${depositor}`">{{depositor}}</router-link></span>
 			</p>
 		</div>
