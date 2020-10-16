@@ -20,7 +20,15 @@
           </p>
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.status') }}：</span>
-            <span>{{ status }}</span>
+            <span :style="{color: status === 'Failed' ? '#fa8593' : ''}">
+              {{status}}
+              <el-tooltip  popper-class="tooltip" placement="top" v-if="status === 'Failed'">
+                  <div slot="content" >
+                      {{ log }}
+                  </div>
+                  <i class="iconfont iconyiwen"></i>
+					    </el-tooltip>
+            </span>
           </p>
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.timestamp') }}：</span>
@@ -28,8 +36,7 @@
           </p>
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.signer') }}：</span>
-            <span style="word-break:break-all;"
-              ><router-link :to="`/address/${signer}`">{{ signer }}</router-link></span
+            <span style="word-break:break-all;"><router-link :to="`/address/${signer}`">{{ signer }}</router-link></span
             >
           </p>
           <p class="tx_information_list_item">
@@ -115,15 +122,6 @@ export default {
     this.getTransactionInformation()
   },
   watch:{
-      log(){
-          this.$nextTick( () => {
-              let toolTipMaxWidth = 400;
-              this.logContentWidth = document.getElementsByClassName('tip_content')[0].clientWidth;
-              if(this.logContentWidth > toolTipMaxWidth){
-              this.failTipStyle = true;
-              }
-          })
-      },
       gasPrice(){
           this.$nextTick( () => {
               this.gasContentWidth = document.getElementsByClassName('gas_tip_content_wrap')[0].clientWidth;
@@ -149,6 +147,7 @@ export default {
           this.txHash = res.tx_hash || '--'
           this.blockHeight = res.height || '--'
           this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed'
+          this.log = res.log || '--'
           this.timestamp = Tools.getDisplayDate(res.time) || '--'
           this.signer = res.signers[0] || '--'
           this.memo = res.memo ? res.memo : '--'
