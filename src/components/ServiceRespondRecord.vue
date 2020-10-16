@@ -205,8 +205,8 @@
                         this.owner = serviceInfo.owner;
                         this.bindTime = Tools.getDisplayDate(serviceInfo.time);
                     }
-                    if(bindings && bindings.result && bindings.result.value){
-                        const {available, pricing, qos, deposit, disabled_time} = bindings.result.value;
+                    if(bindings && bindings.result){
+                        const {available, pricing, qos, deposit, disabled_time} = bindings.result;
                         this.isAvailable = available ? 'True' : 'False';
                         this.price = pricing;
                         this.qos = qos;

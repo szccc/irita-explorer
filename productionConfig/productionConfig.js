@@ -72,12 +72,15 @@ let config = {
   ],
   //首页卡片配置
   homeCard: {
-    lestBlock: true,
-    txCount: true,
-    avgBlockTime: true,
-    validatorCount: true,
-    serviceCount: true,
-    assetCount: true,
+    lestBlock:true,
+    txCount:true,
+    validatorCount:true,
+    avgBlockTime:true,
+    serviceCount:true,
+    DenomCount:true,
+    assetCount:true,
+    identityCount:true,
+    
   },
   text: {
     //预设字体颜色

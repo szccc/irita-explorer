@@ -18,20 +18,21 @@
 			<div class="address_content" v-show="moduleSupport('103', prodConfig.navFuncList)&& isNftInfo">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.assets')}}</div>
 				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"
-					                 prop="denomName"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.id')">
+					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">
-								{{scope.row.nftName || formatAddress(scope.row.id)}}
-							</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.nftName)}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')"
-					                 prop="tokenData">
-						<!-- <template slot-scope="scope">
-							<LargeString :text="scope.row.tokenData" :maxLength="Number(50)" mode="cell" textWidth="300px"/>
-						</template> -->
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
+						<template slot-scope="scope">
+							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.id)}}</router-link>
+						</template>
+					</el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
+						<template slot-scope="scope">
+							<LargeString :text="scope.row.tokenData" :maxLength="Number(50)" mode="cell" textWidth="400px"/>
+						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')"
 					                 prop="tokenUri">
@@ -871,29 +872,29 @@
 								txType: item.type,
 								provider: item.msgs[0].msg.providers,
 								time: Tools.getDisplayDate(item.time),
-								state: "Running",
-								status: item.status,
-								respond: [],
-							};
-							item.events.forEach((item) => {
-								(item.attributes || []).forEach((attr) => {
-									if (attr.key == 'request_context_id') {
-										result.requestContextId = attr.value;
-									}
-								});
-							});
-							let context = await getServiceContextsByServiceName(result.requestContextId || '');
-							if (context && context.result && context.result.value) {
-								result.state = context.result.value.state;
-							}
-							this.consumerTxList.push(result);
-							if (item.respond && item.respond.length) {
-								item.respond.forEach((r, index) => {
-									let respondResult = {
-										index,
-										isChildren: true,
-										count: item.respond.length,
-										serviceName: (r.msgs[0].msg.ex || {}).service_name || '',
+								state:"Running",
+								status:item.status,
+								respond:[],
+                            };
+                            item.events.forEach((item)=>{
+	                            (item.attributes || []).forEach((attr)=>{
+	                                if (attr.key == 'request_context_id') {
+	                                    result.requestContextId = attr.value;
+	                                }
+	                            });
+	                        });
+	                        let context = await getServiceContextsByServiceName(result.requestContextId || '');
+	                        if (context && context.result) {
+	                        	result.state = context.result.state;
+	                        }
+                            this.consumerTxList.push(result);
+                            if (item.respond && item.respond.length) {
+	                        	item.respond.forEach((r,index)=>{
+	                        		let respondResult = {
+	                        			index,
+	                        			isChildren:true,
+	                        			count:item.respond.length,
+		                        		serviceName:(r.msgs[0].msg.ex || {}).service_name || '',
 										txHash: r.tx_hash,
 										blockHeight: r.height,
 										txType: r.type,

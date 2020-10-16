@@ -14,8 +14,12 @@
 					<span>{{denomName || denomId}}</span>
 				</div>
 				<div class="nft_token_information_item">
-					<span>{{$t('ExplorerLang.nftDetail.id')}}：</span>
-					<span>{{nftName || tokenID}}</span>
+					<span>{{$t('ExplorerLang.nftDetail.tokenName')}}：</span>
+					<span>{{nftName}}</span>
+				</div>
+				<div class="nft_token_information_item">
+					<span>{{$t('ExplorerLang.nftDetail.tokenId')}}：</span>
+					<span>{{tokenID}}</span>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.schema')}}：</span>
@@ -27,11 +31,10 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.creator')}}：</span>
-					<span>{{creator}}</span>
+					<span>
+						<router-link :to="`/address/${creator}`">{{creator}}</router-link>
+					</span>
 				</div>
-				
-				
-				
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.uri')}}：</span>
 					<span v-if="tokenUri && tokenUri !== '--'">
@@ -96,14 +99,14 @@
 						this.creator = (nftDetail.denomDetail || {}).creator;
 						this.schema = (nftDetail.denomDetail || {}).json_schema;
 						this.name = nftDetail.denom;
-						this.tokenID = nftDetail.nft_id;
+						this.tokenID = nftDetail.nft_id || '--';
 						this.denomName = nftDetail.denom_name;
 						this.denomId = nftDetail.denom_id;
-						this.nftName = nftDetail.nft_name;
+						this.nftName = nftDetail.nft_name || '--';
 						// this.primaryKey = nftDetail.primary_key;
 						this.owner = nftDetail.owner;
-						this.tokenData = nftDetail.tokenData;
-						this.tokenUri = nftDetail.tokenUri;
+						this.tokenData = nftDetail.tokenData || '--';;
+						this.tokenUri = nftDetail.tokenUri || '--';;
 						
 						this.getTokenTx()
 					}
