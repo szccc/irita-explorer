@@ -573,7 +573,15 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
-				<span>{{commissionRate}}</span>
+				<span>{{commissionRate}} 
+					<el-tooltip placement="top" v-if="commissionRate">
+  						<div slot="content" >
+							<p>Max Rate : {{commissionMaxRate || '--'}}</p>
+                            <p>Max Change Rate : {{commissionMaxChangeRate || '--'}}</p>
+						</div>
+						<i class="iconfont icontishi"></i>
+					</el-tooltip>
+				</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
@@ -871,7 +879,9 @@
 				minLiquidity:'',
 				withdrawLiquidity:'',
 				minIrisAmt:'',
-				keyBaseName:''
+				keyBaseName:'',
+				commissionMaxRate:'',
+				commissionMaxChangeRate:'',
 			}
 		},
 		computed: {
@@ -1099,7 +1109,9 @@
 								this.selfBond = msg.min_self_delegation;
 								this.ownerAddress = msg.delegator_address;
 								this.consensusPubkey = msg.pubkey;
-								this.commissionRate = msg.commission.rate;
+								this.commissionRate = `${Tools.formatPercentage(msg.commission.rate )} %`;
+								this.commissionMaxRate = `${Tools.formatPercentage(msg.commission.max_rate )} %`
+								this.commissionMaxChangeRate = `${Tools.formatPercentage(msg.commission.max_change_rate )} %`
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
 								break;
