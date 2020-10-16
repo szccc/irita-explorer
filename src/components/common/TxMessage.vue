@@ -740,7 +740,13 @@
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>	
-		</div>	
+		</div>
+		<div v-if="txType === TX_TYPE.unjail">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span><router-link :to="`/address/${operatorAddress}`">{{operatorAddress}}</router-link></span>
+			</p>
+		</div>
 	</div>
 </template>
 
@@ -1162,7 +1168,10 @@
 								})
 								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
 								this.deadline = msg.deadline || '--';
-								break;					
+								break;
+								case TX_TYPE.unjail:
+								this.operatorAddress = msg.address || '--';
+								break;						
 						}
 					}
 				} catch (e) {
