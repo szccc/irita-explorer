@@ -7,12 +7,12 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target:'http://localhost:3000',
+        target:'http://10.1.4.101:3000',
         secure: false,
         pathRewrite: { '^/api': '/' },
       },
       '/lcd': {
-        target: 'http://192.168.150.31:11317',
+        target: 'http://10.2.10.140:11317',
         secure: false,
         pathRewrite: { '^/lcd': '/' },
       }

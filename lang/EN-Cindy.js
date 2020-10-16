@@ -297,7 +297,9 @@ export const ExplorerLang = {
             deadline: 'Deadline :',
             sender: 'Sender :',
             exactIrisAmt: 'Exact Iris Amt :',
+            minIrisAmt: 'Min Iris Amt :',
             maxToken: 'Max Token :',
+            minToken: 'Min Token :',
             minLiquidity: 'Min Liquidity :',
             withdrawLiquidity: 'Withdraw Liquidity :'
         }

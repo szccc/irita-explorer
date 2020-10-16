@@ -729,12 +729,12 @@
 				<span>{{withdrawLiquidity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.exactIrisAmt')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minIrisAmt')}}</span>
 				<span>{{minIrisAmt}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.maxToken')}}</span>
-				<span>{{maxToken}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minToken')}}</span>
+				<span>{{minToken}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
@@ -1126,7 +1126,7 @@
 								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.swap_order:
-								this.isBuyOrder = msg.is_buy_order || '--';
+								this.isBuyOrder = msg.is_buy_order;
 								this.inputAddress = msg.input.address || '--';
 								let input = await converCoin(msg.input.coin)
 								this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
@@ -1157,7 +1157,7 @@
 								})
 								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
 								let minToken = await converCoin({
-									amount: msg.min_Token,
+									amount: msg.min_token,
 									denom: mainToken.min_unit
 								})
 								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
