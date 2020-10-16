@@ -556,7 +556,8 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
-				<span>{{identity}}</span>
+				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
+				<span v-else>{{identity}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.selfBonded')}}</span>
@@ -576,7 +577,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
-				<span>{{website}}</span>
+				<span class="website_link" @click="openUrl(website)">{{website}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
@@ -632,7 +633,8 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
-				<span>{{identity}}</span>
+				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
+				<span v-else>{{identity}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
@@ -640,7 +642,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
-				<span>{{website}}</span>
+				<span class="website_link" @click="openUrl(website)">{{website}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
@@ -756,6 +758,7 @@
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
 	import { converCoin,getMainToken } from "../../helper/IritaHelper"
+	import axios from '@/axios'
 	export default {
 		name: "txMessage",
 		components: {LargeString},
@@ -867,7 +870,8 @@
 				maxToken:'',
 				minLiquidity:'',
 				withdrawLiquidity:'',
-				minIrisAmt:''
+				minIrisAmt:'',
+				keyBaseName:''
 			}
 		},
 		computed: {
@@ -1088,6 +1092,9 @@
 							case TX_TYPE.create_validator:
 								this.operatorAddress = msg.validator_address;
 								this.moniker = msg.description.moniker;
+								if(msg.description.identity) {
+									this.getKeyBaseName(msg.description.identity)
+								}
 								this.identity = msg.description.identity || '--';
 								this.selfBond = msg.min_self_delegation;
 								this.ownerAddress = msg.delegator_address;
@@ -1115,6 +1122,9 @@
 							case TX_TYPE.edit_validator:
 								this.operatorAddress = msg.validator_address;
 								this.moniker = msg.description.moniker;
+								if(msg.description.identity) {
+									this.getKeyBaseName(msg.description.identity)
+								}
 								this.identity = msg.description.identity || '--';
 								this.commissionRate = msg.commission_rate || '--';
 								this.website = msg.description.website || '--';
@@ -1176,6 +1186,29 @@
 					}
 				} catch (e) {
 					console.error(e);
+				}
+			},
+			// 处理需打开的网站地址
+			openUrl(url) {
+				url = url.trim();
+				if (url) {
+					if (!/(http|https):\/\/([\w.]+\/?)\S*/.test(url)) {
+						url = `http://${url}`;
+					}
+					window.open(url);
+				}
+			},
+			// 通过identity，拿到keyBaseName数据
+			getKeyBaseName(identity) {
+				let url = `https://keybase.io/_/api/1.0/user/lookup.json?fields=basics&key_suffix=${identity}`;
+				if (identity) {
+					axios.http(url).then(res => {
+						if (res.them && res.them.length > 0 && res.them[0].basics && res.them[0].basics.username) {
+							this.keyBaseName = `https://keybase.io/${res.them[0].basics.username}`;
+						}else {
+							this.keyBaseName = ''
+						}
+					});
 				}
 			},
 		}
@@ -1252,6 +1285,13 @@
 		
 		p:last-child {
 			margin-bottom: 0;
+		}
+
+		.website_link{
+			font-size:  $s14;
+			line-height: 0.16rem;
+			color:$theme_c !important; 
+			cursor: pointer;
 		}
 	}
 	
