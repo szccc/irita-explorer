@@ -1156,11 +1156,11 @@
 									denom: mainToken.min_unit
 								})
 								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
-								let maxTokens = await converCoin({
-									amount: msg.max_Token,
+								let minToken = await converCoin({
+									amount: msg.min_Token,
 									denom: mainToken.min_unit
 								})
-								this.maxToken = `${maxTokens.amount} ${maxTokens.denom.toLocaleUpperCase()}`;
+								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
 								this.deadline = msg.deadline || '--';
 								break;					
 						}
