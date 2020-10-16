@@ -288,6 +288,18 @@ export const ExplorerLang = {
             commissionRate: 'Commission Rate :',
             website: 'Website :',
             details: 'Details :',
+            // 新的交易类型展示
+            isBuyOrder: 'isBuyOrder :',
+            inputAddress: 'Input Address :',
+            Input: 'Input :',
+            outputAddress: 'Output Address :',
+            output: 'Output :',
+            deadline: 'Deadline :',
+            sender: 'Sender :',
+            exactIrisAmt: 'Exact Iris Amt :',
+            maxToken: 'Max Token :',
+            minLiquidity: 'Min Liquidity :',
+            withdrawLiquidity: 'Withdraw Liquidity :'
         }
     },
     addressDetail: {
@@ -408,11 +420,11 @@ export const ExplorerLang = {
     // 普通地址详情
     addressInformation: {
         tab:{
-            assetInfo:'资产组成',
-            nftCount:'数据对象',
-            identity:'身份',
-            iService:'服务',
-            tx:'交易记录',
+            assetInfo:'Assets',
+            nftCount:'NFT',
+            identity:'Identity',
+            iService:'iService',
+            tx:'Txs',
         },
         content: {
             address: 'Address',

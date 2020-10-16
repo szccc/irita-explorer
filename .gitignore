@@ -19,3 +19,8 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+package-lock.json
+public
+src/style/productization.scss
+vue.config.js

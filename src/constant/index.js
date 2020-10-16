@@ -139,7 +139,7 @@ export const ColumnMinWidth = {
   bondedTokens: '152',
   uptime: '100',
   selfBond: '150',
-  delegators: '117',
+  delegators: '120',
   bondHeight: '132',
   unbondingHeight: '175',
   amount: '110',

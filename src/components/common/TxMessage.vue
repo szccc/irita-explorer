@@ -678,7 +678,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.inputAddress')}}</span>
-				<span>{{inputAddress}}</span>
+				<span><router-link :to="`/address/${inputAddress}`">{{ inputAddress }}</router-link></span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.Input')}}</span>
@@ -686,7 +686,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.outputAddress')}}</span>
-				<span>{{outputAddress}}</span>
+				<span><router-link :to="`/address/${outputAddress}`">{{ outputAddress }}</router-link></span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.output')}}</span>
@@ -700,7 +700,7 @@
 		<div v-if="txType === TX_TYPE.add_liquidity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
-				<span>{{sender}}</span>
+				<span><router-link :to="`/address/${sender}`">{{ sender }}</router-link></span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.exactIrisAmt')}}</span>
@@ -722,7 +722,7 @@
 		<div v-if="txType === TX_TYPE.remove_liquidity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
-				<span>{{sender}}</span>
+				<span><router-link :to="`/address/${sender}`">{{ sender }}</router-link></span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawLiquidity')}}</span>
@@ -730,7 +730,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.exactIrisAmt')}}</span>
-				<span>{{exactIrisAmt}}</span>
+				<span>{{minIrisAmt}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.maxToken')}}</span>
@@ -749,7 +749,7 @@
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
-	import { converCoin } from "../../helper/IritaHelper"
+	import { converCoin,getMainToken } from "../../helper/IritaHelper"
 	export default {
 		name: "txMessage",
 		components: {LargeString},
@@ -861,6 +861,7 @@
 				maxToken:'',
 				minLiquidity:'',
 				withdrawLiquidity:'',
+				minIrisAmt:''
 			}
 		},
 		computed: {
@@ -876,6 +877,7 @@
 			async getTransactionInformation () {
 				try {
 					const message = this.msg;
+					let mainToken = await getMainToken()
 					if (message) {
 						let msg = message.msg;
 						this.txType = message.type || '--';
@@ -1124,26 +1126,42 @@
 								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.swap_order:
-								this.isBuyOrder = '--';
-								this.inputAddress = '--';
-								this.input = '--';
-								this.outputAddress = '--';
-								this.output = '--';
-								this.deadline = '--';
+								this.isBuyOrder = msg.is_buy_order || '--';
+								this.inputAddress = msg.input.address || '--';
+								let input = await converCoin(msg.input.coin)
+								this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+								this.outputAddress = msg.output.address || '--';
+								let output = await converCoin(msg.output.coin)
+								this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
+								this.deadline = msg.deadline || '--';
 								break;
 							case TX_TYPE.add_liquidity:
-								this.sender = '--';
-								this.exactIrisAmt = '--';
-								this.maxToken = '--';
-								this.minLiquidity = '--';
-								this.deadline = '--';
+								this.sender = msg.sender || '--';
+								let exactIrisAmt = await converCoin({
+									amount: msg.exact_iris_amt,
+									denom: mainToken.min_unit
+								})
+								this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
+								let maxToken = await converCoin(msg.max_token)
+								this.maxToken = `${maxToken.amount} ${maxToken.denom.toLocaleUpperCase()}`;
+								this.minLiquidity = msg.min_liquidity || '--';
+								this.deadline = msg.deadline || '--';
 								break;
-							case TX_TYPE.add_liquidity:
-								this.sender = '--';
-								this.withdrawLiquidity = '--';
-								this.exactIrisAmt = '--';
-								this.maxToken = '--';
-								this.deadline = '--';
+							case TX_TYPE.remove_liquidity:
+								this.sender = msg.sender || '--';
+								let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
+								this.withdrawLiquidity = withdrawLiquidity.amount || '--';
+								let minIrisAmt = await converCoin({
+									amount: msg.min_iris_amt,
+									denom: mainToken.min_unit
+								})
+								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
+								let maxTokens = await converCoin({
+									amount: msg.max_Token,
+									denom: mainToken.min_unit
+								})
+								this.maxToken = `${maxTokens.amount} ${maxTokens.denom.toLocaleUpperCase()}`;
+								this.deadline = msg.deadline || '--';
 								break;					
 						}
 					}
