@@ -556,7 +556,8 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
-				<span>{{identity}}</span>
+				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
+				<span v-else>{{identity}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.selfBonded')}}</span>
@@ -572,11 +573,19 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
-				<span>{{commissionRate}}</span>
+				<span>{{commissionRate}} 
+					<el-tooltip placement="top" v-if="commissionRate">
+  						<div slot="content" >
+							<p>Max Rate : {{commissionMaxRate || '--'}}</p>
+                            <p>Max Change Rate : {{commissionMaxChangeRate || '--'}}</p>
+						</div>
+						<i class="iconfont icontishi"></i>
+					</el-tooltip>
+				</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
-				<span>{{website}}</span>
+				<span class="website_link" @click="openUrl(website)">{{website}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
@@ -632,7 +641,8 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
-				<span>{{identity}}</span>
+				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
+				<span v-else>{{identity}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
@@ -640,7 +650,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
-				<span>{{website}}</span>
+				<span class="website_link" @click="openUrl(website)">{{website}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
@@ -667,8 +677,84 @@
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.depositor')}}</span>
 				<span><router-link :to="`/address/${depositor}`">{{depositor}}</router-link></span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.swap_order">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.isBuyOrder')}}</span>
+				<span>{{isBuyOrder}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.inputAddress')}}</span>
+				<span><router-link :to="`/address/${inputAddress}`">{{ inputAddress }}</router-link></span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.Input')}}</span>
+				<span>{{input}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.outputAddress')}}</span>
+				<span><router-link :to="`/address/${outputAddress}`">{{ outputAddress }}</router-link></span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.output')}}</span>
+				<span>{{output}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{deadline}}</span>
+			</p>		
+		</div>
+		<div v-if="txType === TX_TYPE.add_liquidity">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
+				<span><router-link :to="`/address/${sender}`">{{ sender }}</router-link></span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.exactIrisAmt')}}</span>
+				<span>{{exactIrisAmt}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.maxToken')}}</span>
+				<span>{{maxToken}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minLiquidity')}}</span>
+				<span>{{minLiquidity}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{deadline}}</span>
+			</p>	
+		</div>
+		<div v-if="txType === TX_TYPE.remove_liquidity">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
+				<span><router-link :to="`/address/${sender}`">{{ sender }}</router-link></span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawLiquidity')}}</span>
+				<span>{{withdrawLiquidity}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minIrisAmt')}}</span>
+				<span>{{minIrisAmt}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minToken')}}</span>
+				<span>{{minToken}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{deadline}}</span>
+			</p>	
+		</div>
+		<div v-if="txType === TX_TYPE.unjail">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span><router-link :to="`/address/${operatorAddress}`">{{operatorAddress}}</router-link></span>
 			</p>
 		</div>
 	</div>
@@ -679,7 +765,8 @@
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
-	import { converCoin } from "../../helper/IritaHelper"
+	import { converCoin,getMainToken } from "../../helper/IritaHelper"
+	import axios from '@/axios'
 	export default {
 		name: "txMessage",
 		components: {LargeString},
@@ -780,7 +867,21 @@
 				details: '',
 				delegatorAddress:'',
 				withdrawAddress:'',
-				depositor:''
+				depositor:'',
+
+				isBuyOrder: '',
+				inputAddress:'',
+				outputAddress:'',
+				deadline:'',
+				sender:'',
+				exactIrisAmt:'',
+				maxToken:'',
+				minLiquidity:'',
+				withdrawLiquidity:'',
+				minIrisAmt:'',
+				keyBaseName:'',
+				commissionMaxRate:'',
+				commissionMaxChangeRate:'',
 			}
 		},
 		computed: {
@@ -796,6 +897,7 @@
 			async getTransactionInformation () {
 				try {
 					const message = this.msg;
+					let mainToken = await getMainToken()
 					if (message) {
 						let msg = message.msg;
 						this.txType = message.type || '--';
@@ -1000,11 +1102,16 @@
 							case TX_TYPE.create_validator:
 								this.operatorAddress = msg.validator_address;
 								this.moniker = msg.description.moniker;
+								if(msg.description.identity) {
+									this.getKeyBaseName(msg.description.identity)
+								}
 								this.identity = msg.description.identity || '--';
 								this.selfBond = msg.min_self_delegation;
 								this.ownerAddress = msg.delegator_address;
 								this.consensusPubkey = msg.pubkey;
-								this.commissionRate = msg.commission.rate;
+								this.commissionRate = `${Tools.formatPercentage(msg.commission.rate )} %`;
+								this.commissionMaxRate = `${Tools.formatPercentage(msg.commission.max_rate )} %`
+								this.commissionMaxChangeRate = `${Tools.formatPercentage(msg.commission.max_change_rate )} %`
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
 								break;
@@ -1027,6 +1134,9 @@
 							case TX_TYPE.edit_validator:
 								this.operatorAddress = msg.validator_address;
 								this.moniker = msg.description.moniker;
+								if(msg.description.identity) {
+									this.getKeyBaseName(msg.description.identity)
+								}
 								this.identity = msg.description.identity || '--';
 								this.commissionRate = msg.commission_rate || '--';
 								this.website = msg.description.website || '--';
@@ -1042,11 +1152,75 @@
 								this.depositor = msg.depositor;
 								let poolAmount = await converCoin(msg.amount[0])
 								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
-								
+								break;
+							case TX_TYPE.swap_order:
+								this.isBuyOrder = msg.is_buy_order;
+								this.inputAddress = msg.input.address || '--';
+								let input = await converCoin(msg.input.coin)
+								this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+								this.outputAddress = msg.output.address || '--';
+								let output = await converCoin(msg.output.coin)
+								this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
+								this.deadline = msg.deadline || '--';
+								break;
+							case TX_TYPE.add_liquidity:
+								this.sender = msg.sender || '--';
+								let exactIrisAmt = await converCoin({
+									amount: msg.exact_iris_amt,
+									denom: mainToken.min_unit
+								})
+								this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
+								let maxToken = await converCoin(msg.max_token)
+								this.maxToken = `${maxToken.amount} ${maxToken.denom.toLocaleUpperCase()}`;
+								this.minLiquidity = msg.min_liquidity || '--';
+								this.deadline = msg.deadline || '--';
+								break;
+							case TX_TYPE.remove_liquidity:
+								this.sender = msg.sender || '--';
+								let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
+								this.withdrawLiquidity = withdrawLiquidity.amount || '--';
+								let minIrisAmt = await converCoin({
+									amount: msg.min_iris_amt,
+									denom: mainToken.min_unit
+								})
+								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
+								let minToken = await converCoin({
+									amount: msg.min_token,
+									denom: mainToken.min_unit
+								})
+								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
+								this.deadline = msg.deadline || '--';
+								break;
+								case TX_TYPE.unjail:
+								this.operatorAddress = msg.address || '--';
+								break;						
 						}
 					}
 				} catch (e) {
 					console.error(e);
+				}
+			},
+			// 处理需打开的网站地址
+			openUrl(url) {
+				url = url.trim();
+				if (url) {
+					if (!/(http|https):\/\/([\w.]+\/?)\S*/.test(url)) {
+						url = `http://${url}`;
+					}
+					window.open(url);
+				}
+			},
+			// 通过identity，拿到keyBaseName数据
+			getKeyBaseName(identity) {
+				let url = `https://keybase.io/_/api/1.0/user/lookup.json?fields=basics&key_suffix=${identity}`;
+				if (identity) {
+					axios.http(url).then(res => {
+						if (res.them && res.them.length > 0 && res.them[0].basics && res.them[0].basics.username) {
+							this.keyBaseName = `https://keybase.io/${res.them[0].basics.username}`;
+						}else {
+							this.keyBaseName = ''
+						}
+					});
 				}
 			},
 		}
@@ -1123,6 +1297,13 @@
 		
 		p:last-child {
 			margin-bottom: 0;
+		}
+
+		.website_link{
+			font-size:  $s14;
+			line-height: 0.16rem;
+			color:$theme_c !important; 
+			cursor: pointer;
 		}
 	}
 	

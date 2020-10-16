@@ -485,30 +485,32 @@
 								this.txList = []
 								let amount = '--'
 								res.data.forEach(async (item) => {
-									if(item) {
-										let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
-										if (item.msgs && item.msgs.length === 1) {
-											formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
-										} else {
-											formTO = '--'
+									setTimeout(async()=> {
+										if(item) {
+											let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
+											if (item.msgs && item.msgs.length === 1) {
+												formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
+											} else {
+												formTO = '--'
+											}
+											const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : '--'
+											const txAmount = item  && item.msgs && item.msgs.length > 0 ? await getAmountByTx(item.msgs[0]) : '--'
+											const time = Tools.getDisplayDate(item.time)
+											this.txList.push({
+												Tx_Hash: item.tx_hash,
+												Block: item.height,
+												From: formTO.from || "--",
+												Amount: txAmount,
+												To: formTO.to || '--',
+												Tx_Type: item.type,
+												MsgsNum: msgsNumber,
+												Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+												Tx_Signer: item.signers[0] ? item.signers[0] : '--',
+												Tx_Status: TxStatus[item.status],
+												Timestamp: time,
+											})
 										}
-										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : '--'
-										const txAmount = item  && item.msgs && item.msgs.length > 0 ? await getAmountByTx(item.msgs[0]) : '--'
-										const time = Tools.getDisplayDate(item.time)
-										this.txList.push({
-											Tx_Hash: item.tx_hash,
-											Block: item.height,
-											From: formTO.from || "--",
-											Amount: txAmount,
-											To: formTO.to || '--',
-											Tx_Type: item.type,
-											MsgsNum: msgsNumber,
-											Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
-											Tx_Signer: item.signers[0] ? item.signers[0] : '--',
-											Tx_Status: TxStatus[item.status],
-											Timestamp: time,
-										})
-									}
+									},0)
 								})
 							} else {
 								this.txList = [];
