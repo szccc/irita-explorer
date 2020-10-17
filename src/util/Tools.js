@@ -299,4 +299,8 @@ export default class Tools {
     }
     return num
   }
+
+  static formatPercentage(number){
+    return new BigNumber(number).multipliedBy(100)
+  }
 }

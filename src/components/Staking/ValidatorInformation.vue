@@ -75,7 +75,7 @@
 										</span>
 										<!-- 判断是否需要显示复制图标 -->
 										<!-- 封装好的组件，直接用，使用了插件Clipboard可复制文本到剪贴板 -->
-										<m-clip v-if="item.isCopyIcon" style="margin-left: 0.06rem;cursor: pointer;" :text="item.value ? item.value : ''" ></m-clip>
+										<m-clip v-if="item.isCopyIcon" style="margin-left: 0.06rem;" :text="item.value ? item.value : ''" ></m-clip>
 									</span>
 								</p>
 							</div>
