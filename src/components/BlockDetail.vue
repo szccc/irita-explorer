@@ -199,8 +199,9 @@
 					const height = this.$route.params.height
 					let res = await stakingBlockInformation(height)
 					if(res) {
+						this.proposerAddress = res.proposer_addr;
 						this.blockStakingHash = res.hash;
-						this.proposerValue = res.propopser_addr || '--';
+						this.proposerValue = res.proposer_moniker || ( res.proposer_addr || '--');
 						this.validatorValue =`${res.precommit_validator_num || 0} / ${res.total_validator_num || 0}`;
 						this.votingPowerValue = res.precommit_voting_power ? `${Tools.formatPerNumber((Number(res.precommit_voting_power) / res.total_voting_power) * 100)} %` : '--';
 						this.transactionsValue = res.txn;
