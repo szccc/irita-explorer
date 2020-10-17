@@ -210,6 +210,8 @@ export const ExplorerLang = {
         nftName: '数据对象',
         data: '链上数据',
         uri: '链外链接',
+        fee: 'Fee',
+        gasUsed:'Gas Used',
         issueDenom:{
             schema: '上链结构',
             sender: '创建者',

@@ -34,6 +34,17 @@
             <span>{{ $t('ExplorerLang.transactionInformation.timestamp') }}：</span>
             <span>{{ timestamp }}</span>
           </p>
+
+          <p class="tx_information_list_item">
+            <span>{{ $t('ExplorerLang.transactionInformation.fee') }}：</span>
+            <span>{{ fee }}</span>
+          </p>
+          <p class="tx_information_list_item">
+            <span>{{ $t('ExplorerLang.transactionInformation.gasUsed') }}：</span>
+            <span>{{ gasUsed }}</span>
+          </p>
+
+
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.signer') }}：</span>
             <span style="word-break:break-all;"><router-link :to="Tools.addressRoute(signer)">{{ signer }}</router-link></span
@@ -70,7 +81,7 @@ import { getTxDetail, getRelevanceTxList } from '../service/api'
 import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant'
 import { moduleSupport } from '../helper/ModulesHelper'
 import slef_axios from "../axios"
-import { getMainToken } from '@/helper/IritaHelper';
+import { getMainToken,converCoin } from '@/helper/IritaHelper';
 export default {
   name: 'TxDetail',
   components: { MPagination, MClip, TxMessage },
@@ -117,6 +128,8 @@ export default {
       flShowRateToolTip: false,
       isProfiler:false,
       failTipStyle:false,
+      fee:'',
+      gasUsed:''
     }
   },
   mounted() {
@@ -141,7 +154,7 @@ export default {
       try {
         let mainToken = await getMainToken();
         const res = await getTxDetail(this.$route.query.txHash)
-        console.log(res,'交易展示数据')
+        // console.log(res,'交易展示数据')
         if (res) {
           this.messages = res.msgs || []
           this.events = res.events
@@ -150,6 +163,9 @@ export default {
           this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed'
           this.log = res.log || '--'
           this.timestamp = Tools.getDisplayDate(res.time) || '--'
+          let fee = await converCoin(res.fee.amount[0])
+          this.fee = `${fee.amount} ${fee.denom.toUpperCase()}`
+          this.gasUsed=res.fee.gas || '--' 
           this.signer = res.signers[0] || '--'
           this.memo = res.memo ? res.memo : '--'
           this.txType = res.msgs[0].type || '--'

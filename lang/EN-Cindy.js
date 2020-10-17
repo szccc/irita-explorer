@@ -210,6 +210,8 @@ export const ExplorerLang = {
         nftName: 'NFT Name',
         data: 'Data',
         uri: 'Uri',
+        fee: 'Fee',
+        gasUsed:'Gas Used',
         issueDenom:{
             schema: 'Schema',
             sender: 'Sender',
