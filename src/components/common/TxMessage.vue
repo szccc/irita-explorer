@@ -604,7 +604,12 @@
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_validator_commission">
-<!--			<p>就一个验证人地址，不知道该怎么展示</p>-->
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.validator')}}</span>
+				<span>
+					<router-link :to="Tools.addressRoute(validatorAddress)">{{ moniker || validatorAddress}}</router-link>
+				</span>
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.set_withdraw_address">
 			<p>
@@ -778,6 +783,10 @@
 			events: {
 				type: Array,
 				required: true,
+			},
+			monikers: {
+				type: Array,
+				required: true,
 			}
 		},
 		data () {
@@ -883,6 +892,7 @@
 				keyBaseName:'',
 				commissionMaxRate:'',
 				commissionMaxChangeRate:'',
+				validatorAddress:''
 			}
 		},
 		computed: {
@@ -1121,7 +1131,12 @@
 								this.to = msg.delegator_address;
 								break;
 							case TX_TYPE.withdraw_validator_commission:
-								// this.form = '不知道展示什么,只有一个验证人地址'
+								this.validatorAddress = msg.validator_address
+								if(this.monikers.length) {
+									this.monikers.map( item => {
+										this.moniker = this.moniker || item[this.validatorAddress] || ''
+									})
+								}
 								break;
 							case TX_TYPE.set_withdraw_address:
 								this.delegatorAddress = msg.delegator_address;
@@ -1162,7 +1177,7 @@
 								this.outputAddress = msg.output.address || '--';
 								let output = await converCoin(msg.output.coin)
 								this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
-								this.deadline = msg.deadline || '--';
+								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
 								this.sender = msg.sender || '--';
@@ -1174,12 +1189,12 @@
 								let maxToken = await converCoin(msg.max_token)
 								this.maxToken = `${maxToken.amount} ${maxToken.denom.toLocaleUpperCase()}`;
 								this.minLiquidity = msg.min_liquidity || '--';
-								this.deadline = msg.deadline || '--';
+								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.remove_liquidity:
 								this.sender = msg.sender || '--';
 								let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
-								this.withdrawLiquidity = withdrawLiquidity.amount || '--';
+								this.withdrawLiquidity = `${withdrawLiquidity.amount} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
 								let minIrisAmt = await converCoin({
 									amount: msg.min_iris_amt,
 									denom: mainToken.min_unit
@@ -1190,7 +1205,7 @@
 									denom: mainToken.min_unit
 								})
 								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
-								this.deadline = msg.deadline || '--';
+								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
 								case TX_TYPE.unjail:
 								this.operatorAddress = msg.address || '--';

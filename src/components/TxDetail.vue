@@ -62,7 +62,7 @@
               {{ $t('ExplorerLang.transactionInformation.transactionMessage.title') }}
             </div>
             <div v-for="(item, index) in messages" :key="index">
-              <TxMessage :msg="item" :events="events" />
+              <TxMessage :msg="item" :events="events" :monikers="monikers" />
               <div class="tx_information_tx_message_line" v-if="messages.length > 1 && index != messages.length - 1"></div>
             </div>
           </div>
@@ -129,7 +129,8 @@ export default {
       isProfiler:false,
       failTipStyle:false,
       fee:'',
-      gasUsed:''
+      gasUsed:'',
+      monikers:[],
     }
   },
   mounted() {
@@ -156,6 +157,7 @@ export default {
         const res = await getTxDetail(this.$route.query.txHash)
         // console.log(res,'交易展示数据')
         if (res) {
+          this.monikers = res.monikers
           this.messages = res.msgs || []
           this.events = res.events
           this.txHash = res.tx_hash || '--'

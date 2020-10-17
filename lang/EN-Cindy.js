@@ -97,7 +97,7 @@ export const ExplorerLang = {
         nftAsset: 'NFT',
         denoms: 'Denom',
         service: 'iService',
-        searchPlaceHolder: 'Search by Address / Txhash / Block / HashLock',
+        searchPlaceHolder: 'Search by Address / Txhash / Block',
         network:'Network'
     },
     home:{
@@ -304,7 +304,8 @@ export const ExplorerLang = {
             minToken: 'Min Token :',
             minLiquidity: 'Min Liquidity :',
             withdrawLiquidity: 'Withdraw Liquidity :',
-            depositor: 'Depositor :'
+            depositor: 'Depositor :',
+            validator: 'Validator: '
         }
     },
     addressDetail: {

@@ -304,7 +304,8 @@ export const ExplorerLang = {
             minToken: 'Min Token :',
             minLiquidity: 'Min Liquidity :',
             withdrawLiquidity: 'Withdraw Liquidity :',
-            depositor: 'Depositor :'
+            depositor: 'Depositor :',
+            validator: 'Validator: '
         }
     },
     addressDetail: {

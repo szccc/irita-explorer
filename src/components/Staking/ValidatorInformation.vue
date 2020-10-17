@@ -241,7 +241,7 @@
 			// 控制右侧详细信息 是否展示和隐藏
 			showVotingPower(validatorStatus,labelName){
 				if(validatorStatus ===  this.validator_Status.candidate || validatorStatus === this.validator_Status.jailed){
-					if(labelName === 'self_power' || labelName === 'bond_height'){
+					if(labelName === 'self_power' || labelName === 'bond_height' || labelName==='uptime' || labelName === 'missed_blocks_count'){
 						return false
 					}else {
 						return true

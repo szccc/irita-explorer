@@ -106,17 +106,17 @@ export const ColumnMinWidth = {
   txHash: '120',
   blockHeight: '90',
   txType: '188',
-  address: '132',
+  address: '126',
   time: '155',
   txn: '',
   blockAge: '120',
   validatirName: '120',
   votingPower: '133',
   publickKey: '450',
-  denom: '155',
+  denom: '150',
   tokenId: '141',
   denomId: '150',
-  schema: '450',
+  schema: '380',
   URI: '260',
   respondTimes: '100',
   available: '100',
@@ -146,7 +146,8 @@ export const ColumnMinWidth = {
   shares: '213',
   fee: '110',
   consensus: '340',
-  proposerPriority: '200'
+  proposerPriority: '200',
+  message: '90'
 }
 
 export const ModuleMap = {
