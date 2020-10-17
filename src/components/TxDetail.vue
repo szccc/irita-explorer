@@ -36,7 +36,7 @@
           </p>
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.signer') }}：</span>
-            <span style="word-break:break-all;"><router-link :to="`/address/${signer}`">{{ signer }}</router-link></span
+            <span style="word-break:break-all;"><router-link :to="Tools.addressRoute(signer)">{{ signer }}</router-link></span
             >
           </p>
           <p class="tx_information_list_item">
@@ -76,6 +76,7 @@ export default {
   components: { MPagination, MClip, TxMessage },
   data() {
     return {
+      Tools,
       moduleSupport,
       TX_TYPE,
       TX_STATUS,

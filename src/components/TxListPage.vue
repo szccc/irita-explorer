@@ -93,7 +93,7 @@
 											     v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
                                             <span class="remove_default_style skip_route"
                                                   :class="row.From === $route.params.param ? 'no_skip' : ''">
-                                                <router-link :to="`/address/${row.From}`" class="link_style">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
+                                                <router-link :to="Tools.addressRoute(row.From)" class="link_style">{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
                                             </span>
                                             </div>
                                             <span class="no_skip"
@@ -114,7 +114,7 @@
                                             <span class="remove_default_style skip_route"
                                                   :class="row.To === $route.params.param ? 'no_skip' : ''">
                                                 <router-link v-if="!(row.To === $route.params.param)" class="link_style"
-                                                             :to="`/address/${row.To}`">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
+                                                             :to="Tools.addressRoute(row.To)">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
                                                 <span style="cursor:pointer;font-family: Consolas, Menlo;" v-else>{{ formatMoniker(row.toMoniker) }}</span>
                                             </span>
 
@@ -187,7 +187,7 @@
 												<el-tooltip :content="`${row.OperatorAddr}`">
                                                     <span style="cursor:pointer;"
                                                         v-if="row.OperatorAddr === $route.params.param">{{ formatAddress(row.OperatorAddr) }}</span>
-                                                    <router-link v-else :to="`/address/${row.OperatorAddr}`"
+                                                    <router-link v-else :to="Tools.addressRoute(row.OperatorAddr)"
                                                                 class="link_style justify">{{
                                                         formatAddress(row.OperatorAddr) }}
                                                     </router-link>
@@ -209,7 +209,7 @@
                                                     :min-width="ColumnMinWidth.fee"></el-table-column>
                                     <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
                                         <template v-slot:default="{ row }">
-                                            <router-link :to="`/address/${row.Tx_Signer}`" class="link_style justify">{{
+                                            <router-link :to="Tools.addressRoute(row.Tx_Signer)" class="link_style justify">{{
                                                 formatAddress(row.Tx_Signer) }}
                                             </router-link>
                                         </template>
@@ -245,6 +245,7 @@
 		data () {
 			return {
 				amountDecimals: decimals.amount,
+				Tools,
                 ColumnMinWidth,
                 pageTitle:'',
 				totalPageNum: sessionStorage.getItem("txpagenum") ? JSON.parse(sessionStorage.getItem("txpagenum")) : 1,
