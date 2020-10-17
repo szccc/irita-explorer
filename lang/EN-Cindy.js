@@ -83,7 +83,7 @@ export const ExplorerLang = {
         providers:'providers',
         time:'Time',
         blocks:'Blocks',
-        totalRespond:'Total${%value%}Responds',
+        totalRespond:'Total ${%value%} Responds',
         Txs:'Txs',
         second:'Second',
     },
@@ -147,7 +147,7 @@ export const ExplorerLang = {
     nftAsset:{
         assets: 'NFT',
         search: 'Search',
-        placeHolder: 'Search by NFT Id',
+        placeHolder: 'Search by NFT Id or NFT Name',
     },
     denom:{
         title: 'Denom',

@@ -197,7 +197,7 @@
 					},
 					{
 						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.unbondingHeight'),
-						dataName:'unbond_height',
+						dataName:'unbonding_height',
 						value:'',
 						isToolTip:false,
 						isCopyIcon:false,
@@ -247,7 +247,7 @@
 						return true
 					}
 				}else {
-					if(labelName === 'jailed_until' || labelName === 'unbond_height'){
+					if(labelName === 'jailed_until' || labelName === 'unbonding_height'){
 						return false
 					}
 					return true
@@ -272,6 +272,7 @@
 				this.details = information.description.details ? information.description.details : '';
 				// 处理右侧需渲染的详细数据，设置value
 				this.validationAssetInfoArr.forEach( item => {
+					// console.log(information,'取值')
 					if(item.dataName !== 'address'){
 						if(item.dataName === 'uptime'){
 							item.value = Tools.FormatUptime(information[item.dataName]);
@@ -282,12 +283,14 @@
 						}else if(item.dataName === 'missed_blocks_count'){
 							item.value = `${information.missed_blocks_count} in ${information.stats_blocks_window} blocks`;
 						}else if(item.dataName === 'jailed_until'){
-							item.value = new Date(information[item.dataName]).getTime() ? Tools.format2UTC(information[item.dataName]) : "--";
-						}else {
+							// item.value = new Date(information[item.dataName]).getTime() ? Tools.format2UTC(information[item.dataName]) : "--";
+							item.value = information[item.dataName] || '--';
+						} else {
 							item.value = information[item.dataName];
 						}
 					}
 				})
+				// console.log(this.validationAssetInfoArr,2)
 			},
 			// 处理需打开的网站地址
 			openUrl(url) {

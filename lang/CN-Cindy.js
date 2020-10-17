@@ -83,7 +83,7 @@ export const ExplorerLang = {
         providers:'providers',
         time:'次',
         blocks:'blocks',
-        totalRespond:'共${%value%}条回复',
+        totalRespond:'共 ${%value%} 条回复',
         Txs:'Txs',
         second:'秒',
     },
@@ -147,7 +147,7 @@ export const ExplorerLang = {
     nftAsset:{
         assets: '数据对象',
         search: '搜索',
-        placeHolder: '搜索数据对象标识',
+        placeHolder: '搜索数据对象标识或数据对象',
     },
     denom:{
         title: '数据类别',

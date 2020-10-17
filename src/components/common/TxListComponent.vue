@@ -19,7 +19,7 @@
                     <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')" show-overflow-tooltip>
+            <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.txType.join(',')"
                                 placement="top"
@@ -39,7 +39,7 @@
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
                         <router-link v-if="isValid(scope.row.from)" :to="Tools.addressRoute(scope.row.from)">
-                            {{formatAddress(scope.row.from)}}
+                            {{  formatMoniker(scope.row.fromMonikers) || formatAddress(scope.row.from)}}
                         </router-link>
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
@@ -53,7 +53,7 @@
                                 :key="Math.random()"
                                 :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
                         <router-link v-if="typeof scope.row.to=='string' && isValid(scope.row.to)" :to="Tools.addressRoute(scope.row.to)">
-                            {{formatAddress(scope.row.to)}}
+                            {{ formatMoniker(scope.row.toMonikers) || formatAddress(scope.row.to)}}
                         </router-link>
                         <router-link v-else-if="isValid(scope.row.to)" :to="`/tx?txHash=${scope.row.txHash}`">
                             {{ `${scope.row.to.length} ${$t('ExplorerLang.unit.providers')}`}}
@@ -111,11 +111,20 @@
                         let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
                         let from = addrObj.from || '--',
                             to =  addrObj.to || '--';
+                        let fromMonikers,toMonikers
+                        if(tx.monikers.length) {
+                            tx.monikers.map( item => {
+                                toMonikers = toMonikers || item[to] || ''
+                                fromMonikers = fromMonikers || item[from] || ''
+                            })
+                        }
                         return {
                             txHash : tx.tx_hash,
                             blockHeight : tx.height,
                             txType :(tx.msgs || []).map(item=>item.type),
                             from,
+                            fromMonikers,
+                            toMonikers,
                             to,
                             signer : tx.signers[0],
                             status : tx.status,
@@ -148,6 +157,12 @@
             formatAddress(address){
                 return Tools.formatValidatorAddress(address)
             },
+            formatMoniker (moniker) {
+				if (!moniker) {
+					return ''
+				}
+				return Tools.formatString(moniker, 15, '...')
+			},
         }
     }
 </script>
