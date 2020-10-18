@@ -83,7 +83,7 @@ export const ExplorerLang = {
         providers:'providers',
         time:'Time',
         blocks:'Blocks',
-        totalRespond:'Total${%value%}Responds',
+        totalRespond:'Total ${%value%} Responds',
         Txs:'Txs',
         second:'Second',
     },
@@ -97,7 +97,7 @@ export const ExplorerLang = {
         nftAsset: 'NFT',
         denoms: 'Denom',
         service: 'iService',
-        searchPlaceHolder: 'Search by Address / Txhash / Block / HashLock',
+        searchPlaceHolder: 'Search by Address / Txhash / Block',
         network:'Network'
     },
     home:{
@@ -147,7 +147,7 @@ export const ExplorerLang = {
     nftAsset:{
         assets: 'NFT',
         search: 'Search',
-        placeHolder: 'Search by NFT Id',
+        placeHolder: 'Search by NFT Id or NFT Name',
     },
     denom:{
         title: 'Denom',
@@ -210,6 +210,8 @@ export const ExplorerLang = {
         nftName: 'NFT Name',
         data: 'Data',
         uri: 'Uri',
+        fee: 'Fee',
+        gasUsed:'Gas Used',
         issueDenom:{
             schema: 'Schema',
             sender: 'Sender',
@@ -302,7 +304,8 @@ export const ExplorerLang = {
             minToken: 'Min Token :',
             minLiquidity: 'Min Liquidity :',
             withdrawLiquidity: 'Withdraw Liquidity :',
-            depositor: 'Depositor :'
+            depositor: 'Depositor :',
+            validator: 'Validator: '
         }
     },
     addressDetail: {

@@ -87,7 +87,7 @@
 						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
 							<template v-slot:default="{ row }">
 								<div class="common_hover_address_parent skip_route">
-									<router-link :to="`/staking/${row.OperatorAddress}`" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
+									<router-link :to="Tools.addressRoute(row.OperatorAddress)" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
 									</router-link>
 								</div>
 							</template>
@@ -131,6 +131,7 @@
 		components: {TxListComponent, MPagination},
 		data () {
 			return {
+				Tools,
 				ColumnMinWidth,
 				moduleSupport,
 				prodConfig,

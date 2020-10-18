@@ -295,6 +295,7 @@
 				}
 			}
 			.address_information_asset_list_container{
+				text-align: left;
 				box-sizing: border-box;
 				padding: 0 0.2rem;
 				background: $bg_white_c;

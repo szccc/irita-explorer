@@ -3,7 +3,7 @@ import { TX_TYPE, PubKeyAlgorithm } from "../constant";
 
 export class TxHelper {
 
-    static getFromAndToAddressFromMsg(msgs){
+    static getFromAndToAddressFromMsg (msgs) {
         let res = {
             from : '--',
             to : '--'
@@ -169,5 +169,27 @@ export class TxHelper {
 
     static getPubKeyAlgorithm(algorithm){
         return PubKeyAlgorithm[String(algorithm)] ;
+    }
+
+    static getValidationTxsOperator (message) {
+        if (message) {
+            let msg = message.msg;
+            let operator
+            let txType = message.type || '--';
+            switch (txType) {
+                case TX_TYPE.create_validator:
+                    operator = msg.validator_address ? msg.validator_address : '--'
+                    break;
+                case TX_TYPE.edit_validator:
+                        operator = msg.validator_address ? msg.validator_address : '--'
+                    break;
+                case TX_TYPE.unjail:
+                    operator = msg.address ? msg.address : '--'
+                    break; 
+                default:
+                    operator = '--'
+            }
+            return operator
+        }
     }
 }

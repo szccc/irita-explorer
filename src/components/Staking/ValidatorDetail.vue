@@ -23,7 +23,7 @@
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link
-												             :to="'/address/' + row.address"
+												             :to="Tools.addressRoute(row.address)"
 												             :style="{ color: '$theme_c !important' }">{{
 													formatAddress(row.address) }}
 												</router-link>
@@ -58,7 +58,7 @@
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link 
-												             :to="'/address/' + row.address"
+												             :to="Tools.addressRoute(row.address)"
 												             :style="{ color: '$theme_c !important' }">{{
 													formatAddress(row.address) }}
 												</router-link>
@@ -119,13 +119,13 @@
 										<span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
 										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
 										</span>
-															<div class="name_address"
-																v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
-										<span class="remove_default_style skip_route"
-												:class="row.From === $route.params.param ? 'no_skip' : ''">
-											<router-link :to="`/address/${row.From}`" class="link_style"
-														>{{ formatMoniker(row.fromMoniker) || formatAddress(row.From) }}</router-link>
-										</span>
+										<div class="name_address" v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
+											<span class="remove_default_style skip_route"
+													:class="row.From === $route.params.param ? 'no_skip' : ''">
+												<span style="cursor:pointer;" v-if="row.From === $route.params.param">{{ formatMoniker(row.fromMonikers) || formatAddress(row.From) }}</span>
+												<router-link v-else :to="Tools.addressRoute(row.From)" class="link_style"
+															>{{ formatMoniker(row.fromMonikers) || formatAddress(row.From) }}</router-link>
+											</span>
 										</div>
 										<span class="no_skip"
 										      v-show="/^[0]\d*$/.test(row.From) || row.From === '--'">--</span>
@@ -139,13 +139,12 @@
 										<span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
 										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
 										</span>
-															<div class="name_address"
-																v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
+										<div class="name_address" v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
 										<span class="remove_default_style skip_route"
 												:class="row.To === $route.params.param ? 'no_skip' : ''">
 											<router-link v-if="!(row.To === $route.params.param)" class="link_style"
-														:to="`/address/${row.To}`">{{ formatMoniker(row.toMoniker) || formatAddress(row.To) }}</router-link>
-											<span style="cursor:pointer;" v-else>{{ formatMoniker(row.toMoniker) }}</span>
+														:to="Tools.addressRoute(row.To)">{{ formatMoniker(row.toMonikers) || formatAddress(row.To) }}</router-link>
+											<span style="cursor:pointer;" v-else>{{ formatMoniker(row.toMonikers) }}</span>
 										</span>
 										</div>
 										<span class="no_skip"
@@ -153,14 +152,22 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')"
-								                 show-overflow-tooltip :min-width="ColumnMinWidth.txType"></el-table-column>
+								                 :min-width="ColumnMinWidth.txType">
+									<template v-slot:default="{ row }">
+										<el-tooltip :content="row.Tx_Type.join(',')"
+													placement="top"
+													:disabled="row.Tx_Type.length <= 1">
+											<span>{{getDisplayTxType(row.Tx_Type) }}</span>
+										</el-tooltip>
+									</template>
+								</el-table-column>
 								<el-table-column prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message">
 								</el-table-column>
 								<el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')"
 								                 :min-width="ColumnMinWidth.fee"></el-table-column>
 								<el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
 									<template v-slot:default="{ row }">
-										<router-link :to="`/address/${row.Tx_Signer}`" class="link_style justify">{{
+										<router-link :to="Tools.addressRoute(row.Tx_Signer)" class="link_style justify">{{
 											formatAddress(row.Tx_Signer) }}
 										</router-link>
 									</template>
@@ -204,9 +211,9 @@
 								</el-table-column>
 								<el-table-column prop="Moniker" :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
 									<template v-slot:default="{ row }">
-										<span style="cursor:pointer;" v-if="row.OperatorAddr === $route.params.param">{{ row.Moniker }}</span>
+										<span style="cursor:pointer;" v-if="row.OperatorAddr === $route.params.param || row.OperatorAddr == '--'">{{ row.OperatorMonikers }}</span>
 										<router-link v-else :to="`/address/${row.OperatorAddr}`"
-										             class="link_style justify">{{ formatMoniker(row.Moniker) }}
+										             class="link_style justify">{{ formatMoniker(row.OperatorMonikers) }}
 										</router-link>
 									</template>
 								</el-table-column>
@@ -220,10 +227,10 @@
 										     v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
 											<el-tooltip :content="`${row.OperatorAddr}`">
 												<span style="cursor:pointer;"
-												      v-if="row.OperatorAddr === $route.params.param">{{ formatAddress(row.OperatorAddr) }}</span>
-												<router-link v-else :to="`/address/${row.OperatorAddr}`"
-												             class="link_style justify">{{
-													formatAddress(row.OperatorAddr) }}
+														v-if="row.OperatorAddr === $route.params.param ">{{ formatAddress(row.OperatorAddr) }}</span>
+												<router-link v-else :to="Tools.addressRoute(row.OperatorAddr)"
+																class="link_style justify">
+																{{ formatAddress(row.OperatorAddr) }}
 												</router-link>
 											</el-tooltip>
 										</div>
@@ -238,12 +245,22 @@
 									</template>
 								</el-table-column>
 								<el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')"
-								                 show-overflow-tooltip :min-width="ColumnMinWidth.txType"></el-table-column>
+								           :min-width="ColumnMinWidth.txType">
+									<template v-slot:default="{ row }">
+										<el-tooltip :content="row.Tx_Type.join(',')"
+													placement="top"
+													:disabled="row.Tx_Type.length <= 1">
+											<span>{{getDisplayTxType(row.Tx_Type) }}</span>
+										</el-tooltip>
+									</template>
+								</el-table-column>
+								<el-table-column prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message">
+								</el-table-column>
 								<el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')"
 								                 :min-width="ColumnMinWidth.fee"></el-table-column>
 								<el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
 									<template v-slot:default="{ row }">
-										<router-link :to="`/address/${row.Tx_Signer}`" class="link_style justify">{{
+										<router-link :to="Tools.addressRoute(row.Tx_Signer)" class="link_style justify">{{
 											formatAddress(row.Tx_Signer) }}
 										</router-link>
 									</template>
@@ -279,6 +296,7 @@
 	} from "@/service/api"
 	import {TxHelper} from '../../helper/TxHelper.js'
 	import { getMainToken, converCoin } from '@/helper/IritaHelper';
+	import { getAmountByTx } from '@/helper/txListAmoutHelper'
 	
 	export default {
 		name: '',
@@ -286,6 +304,7 @@
 		props: {},
 		data () {
 			return {
+				Tools,
 				amountDecimals: decimals.amount,
 				sharesDecimals: decimals.shares,
 				ColumnMinWidth,
@@ -383,9 +402,17 @@
 					let amount = '--'
 					if (item.msgs && item.msgs.length === 1) {
 						formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
-						amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) :'--'
+						// amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) :'--'
+						amount = item.msgs[0] ? await getAmountByTx(item.msgs[0]) : '--'
 					} else {
 						formTO = '--'
+					}
+					let fromMonikers,toMonikers
+					if(item.monikers.length) {
+						item.monikers.map( it => {
+							toMonikers = toMonikers|| it[formTO.to] || ''
+							fromMonikers = fromMonikers || it[formTO.from] || ''
+						})
 					}
 					const time = Tools.getDisplayDate(item.time)
 					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
@@ -393,9 +420,11 @@
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
 						From: formTO.from || "--",
-						Amount: amount && amount.amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}`:'--' ,
+						fromMonikers,
+						Amount: amount,
 						To: formTO.to || '--',
-						Tx_Type: item.type,
+						toMonikers,
+						Tx_Type: (item.msgs || []).map(item=>item.type),
 						MsgsNum: msgsNumber,
 						Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
@@ -409,15 +438,27 @@
 				this.validationTxs.total = res.count
 				this.validationTxs.items = []
 				res.data.forEach(async (item) => {
+					let msgsNumber = item.msgs ? item.msgs.length : 0
 					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 					const time = Tools.getDisplayDate(item.time)
+					// let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--'
+					let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
+					let OperatorMonikers
+					if(item.monikers.length) {
+						item.monikers.map( it => {
+							OperatorMonikers = OperatorMonikers || it[OperatorAddr] || ''
+						})
+					}
+					// console.log('OperatorAddr:',OperatorAddr,'OperatorMonikers',OperatorMonikers)
 					this.validationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
 						Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
-						OperatorAddr: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--',
+						OperatorAddr,
+						OperatorMonikers: OperatorMonikers || '--',
 						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? item.msgs[0].msg.min_self_delegation : '--' : '--',
-						'Tx_Type': item.type,
+						'Tx_Type': (item.msgs || []).map(item=>item.type),
+						MsgsNum: msgsNumber,
 						'Tx_Fee': fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
@@ -439,6 +480,13 @@
 				}
 				return Tools.formatString(moniker, 15, '...')
 			},
+			getDisplayTxType(types=[]){
+				let type = types[0] || '';
+                if (type && types.length > 1) {
+                    type += this.$t('ExplorerLang.unit.ellipsis');
+                }
+                return type;
+            },
 		},
 	}
 </script>

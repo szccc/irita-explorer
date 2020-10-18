@@ -183,7 +183,7 @@
             async getAllTxType(){
                 try {
                     const res = await getAllTxTypes();
-                    console.log(res,'获取所有交易类型')
+                    // console.log(res,'获取所有交易类型')
                     const typeList = res.data.map((type)=>{
                         return {
                             value: type.typeName,
@@ -195,7 +195,7 @@
                         label : this.$t('ExplorerLang.common.allTxType'),
                         slot : 'allTxType'
                     });
-                    console.log(typeList,'处理数据')
+                    // console.log(typeList,'处理数据')
                     this.txTypeOption = typeList;
                 }catch (e) {
                     console.error(e);

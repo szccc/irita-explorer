@@ -99,7 +99,7 @@
 									{{scope.row.serviceName}}
 								</router-link>
 							</el-tooltip>
-							<span v-if="scope.row.isChildren && scope.row.index==0">{{getRespondCount(scope.row.count)}}</span>
+							<span class="serviceNameText" v-if="scope.row.isChildren && scope.row.index==0">{{getRespondCount(scope.row.count)}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
@@ -501,7 +501,7 @@
                     <span class="address_transaction_condition_count">
                         {{ `${totalTxNumber} ${$t('ExplorerLang.unit.Txs')}` }}
                     </span>
-					<el-select v-model="type_temp">
+					<el-select v-model="type_temp" filterable>
 						<el-option v-for="(item, index) in txTypeOption"
 						           :key="index"
 						           :label="item.label"
@@ -1424,7 +1424,9 @@
 				padding: 0.25rem;
 				border-radius: 0.05rem;
 				border: 0.01rem solid $bd_first_c;
-				
+				.serviceNameText {
+					color: $t_second_c;
+				}
 				.consumer_transaction_content_hash {
 					display: flex;
 					align-items: center;

@@ -83,7 +83,7 @@ export const ExplorerLang = {
         providers:'providers',
         time:'次',
         blocks:'blocks',
-        totalRespond:'共${%value%}条回复',
+        totalRespond:'共 ${%value%} 条回复',
         Txs:'Txs',
         second:'秒',
     },
@@ -147,7 +147,7 @@ export const ExplorerLang = {
     nftAsset:{
         assets: '数据对象',
         search: '搜索',
-        placeHolder: '搜索数据对象标识',
+        placeHolder: '搜索数据对象标识或数据对象',
     },
     denom:{
         title: '数据类别',
@@ -210,6 +210,8 @@ export const ExplorerLang = {
         nftName: '数据对象',
         data: '链上数据',
         uri: '链外链接',
+        fee: 'Fee',
+        gasUsed:'Gas Used',
         issueDenom:{
             schema: '上链结构',
             sender: '创建者',
@@ -302,7 +304,8 @@ export const ExplorerLang = {
             minToken: 'Min Token :',
             minLiquidity: 'Min Liquidity :',
             withdrawLiquidity: 'Withdraw Liquidity :',
-            depositor: 'Depositor :'
+            depositor: 'Depositor :',
+            validator: 'Validator: '
         }
     },
     addressDetail: {

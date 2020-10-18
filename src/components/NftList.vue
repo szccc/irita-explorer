@@ -46,7 +46,7 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
-							<LargeString :text="scope.row.tokenData" mode="cell" textWidth="400px" :maxLength="Number(50)"/>
+							<LargeString :text="scope.row.tokenData"  mode="cell" textWidth="300px" :maxLength="Number(40)"/>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
