@@ -200,15 +200,13 @@
                 try {
                     const serviceInfo = await getServiceRespondInfo(this.$route.params.serviceName, this.$route.params.provider);
                     const bindings = await getServiceBindingByServiceName(this.$route.params.serviceName, this.$route.params.provider);
-                    console.log(serviceInfo)
-                    console.log(bindings)
                     if(serviceInfo){
                         this.hash = serviceInfo.hash;
                         this.owner = serviceInfo.owner;
                         this.bindTime = Tools.getDisplayDate(serviceInfo.time);
                     }
-                    if(bindings && bindings.result && bindings.result.value){
-                        const {available, pricing, qos, deposit, disabled_time} = bindings.result.value;
+                    if(bindings && bindings.result){
+                        const {available, pricing, qos, deposit, disabled_time} = bindings.result;
                         this.isAvailable = available ? 'True' : 'False';
                         this.price = pricing;
                         this.qos = qos;
@@ -230,7 +228,6 @@
                         this.txPageNum,
                         this.txPageSize
                     );
-                    console.log(res);
                     this.txList = res.data.map((item) =>{
                         return {
                             type : item.type,
@@ -340,7 +337,7 @@
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
                 border-radius:5px;
-                border:1px solid rgba(215,215,215,1);
+                border:1px solid $bd_first_c;
                 .service_respond_record_definition_title {
                     font-size: $s18;
                     color: $t_first_c;
@@ -383,7 +380,7 @@
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 border-radius:5px;
-                border:1px solid rgba(215,215,215,1);
+                border:1px solid $bd_first_c;
                 .service_respond_record_transaction_title {
                     font-size: $s18;
                     color: $t_first_c;

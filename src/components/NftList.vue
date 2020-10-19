@@ -34,12 +34,21 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.id')" >
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{scope.row.nft_name || formatAddress(scope.row.nft_id)}}</router-link>
+							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData"></el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
+						<template slot-scope="scope">
+							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
+						</template>
+					</el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
+						<template slot-scope="scope">
+							<LargeString :text="scope.row.tokenData"  mode="cell" textWidth="300px" :maxLength="Number(40)"/>
+						</template>
+					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
@@ -66,9 +75,10 @@
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
 	import { ColumnMinWidth } from '../constant';
+	import LargeString from './common/LargeString';
 	export default {
 		name: "NftList",
-		components: {MPagination},
+		components: {MPagination, LargeString},
 		data () {
             let denom = '';
 		    if(this.$store.state.tempDenomId){
@@ -142,6 +152,9 @@
 					}
 			},
 			formatAddress(address){
+				if (!address) {
+					return '--';
+				}
 				return Tools.formatValidatorAddress(address)
 			},
 			async getNftList(){

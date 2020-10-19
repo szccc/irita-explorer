@@ -10,7 +10,7 @@
                                        :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>-->
-                        <el-select v-model="txType">
+                        <el-select v-model="txType" filterable>
                             <el-option v-for="(item, index) in txTypeOption"
                                        :key="index"
                                        :label="item.label"
@@ -36,6 +36,7 @@
                         <el-date-picker type="date"
                                         v-model="beginTime"
                                         @change="getStartTime(beginTime)"
+                                        :picker-options="PickerOptions"
                                         :editable="false"
                                         value-format="yyyy-MM-dd"
                                         :placeholder="$t('ExplorerLang.common.selectDate')">
@@ -45,6 +46,7 @@
                                         v-model="endTime"
                                         value-format="yyyy-MM-dd"
                                         @change="getEndTime(endTime)"
+                                        :picker-options="PickerOptions"
                                         :editable="false"
                                         :placeholder="$t('ExplorerLang.common.selectDate')">
                         </el-date-picker>
@@ -83,6 +85,11 @@
             const {txType, status, beginTime, endTime, pageNum, pageSize} = Tools.urlParser();
 
             return {
+                PickerOptions: {
+					disabledDate: (time) => {
+						return time.getTime() < new Date(this.pickerStartTime).getTime() || time.getTime() > Date.now()
+					}
+				},
                 TX_TYPE,
                 TX_STATUS,
                 transactionArray : [],
@@ -172,12 +179,11 @@
                     console.error(e);
                     this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
-
-
             },
             async getAllTxType(){
                 try {
                     const res = await getAllTxTypes();
+                    // console.log(res,'获取所有交易类型')
                     const typeList = res.data.map((type)=>{
                         return {
                             value: type.typeName,
@@ -189,6 +195,7 @@
                         label : this.$t('ExplorerLang.common.allTxType'),
                         slot : 'allTxType'
                     });
+                    // console.log(typeList,'处理数据')
                     this.txTypeOption = typeList;
                 }catch (e) {
                     console.error(e);

@@ -4,7 +4,7 @@ import moment from 'moment';
 
 function get(url){
 	return new Promise(async (res,rej)=>{
-        url = `/api/${url.replace(/^\//,'')}`;
+        url = `/api/${url.replace(/^\//, '')}`;
 		try{
 			let data = await HttpHelper.get(url);
 			if(data && data.code == 0){
@@ -13,6 +13,7 @@ function get(url){
 				console.error(`error from ${url}:`,JSON.stringify(data));
 				rej(data);
 			}
+
 		}catch(err){
 			console.error(`error from ${url}:`,err.message);
 			rej(err);
@@ -115,7 +116,6 @@ export function getTxList(params){
     if(endTime){
         url += `&endTime=${moment(endTime).endOf('d').unix()}`;
     }
-    // console.log('query tx url', url);
     return get(url);
 }
 
@@ -196,17 +196,25 @@ export function getServiceRespondInfo(serviceName, provider){
 
 
 
-export function getServiceBindingByServiceName(serviceName, provider){
+export async function getServiceBindingByServiceName(serviceName, provider){
     let url = `service/bindings/${serviceName}`;
     if(provider){
         url += `/${provider}`;
     }
-    return getFromLcd(url);
+    let res = await getFromLcd(url);
+    if (res && res.result && res.result.value) {
+        res.result = res.result.value;
+    } 
+    return res;
 }
 
-export function getServiceContextsByServiceName(requestContextId){
+export async function getServiceContextsByServiceName(requestContextId){
     let url = `service/contexts/${requestContextId}`;
-    return getFromLcd(url);
+    let res = await getFromLcd(url);
+    if (res && res.result && res.result.value) {
+        res.result = res.result.value;
+    }
+    return res;
 }
 
 export function getRespondServiceRecord(serviceName, provider, pageNum, pageSize){
@@ -222,6 +230,15 @@ export function getIdentities(identity, pageNum, pageSize){
     return get(url);
 }
 
+export function getValidatorsListApi(pageNum, pageSize, useCount,status){
+    let url = `staking/validators?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&status=${status}`;
+    return get(url);
+}
+
+export function getValidatorsInfoApi(valAddress){
+    let url = `staking/validators/${valAddress}`;
+    return get(url);
+}
 export function getIdentityDetail(identity){
     let url = `/identities/${identity}`;
     return get(url);
@@ -247,21 +264,82 @@ export function getIdentityListByAddress(address, pageNum, pageSize, useCount){
     return get(url);
 }
 
+export function getValidatorWithdrawAddrApi(delegatorAddr){
+    let url = `/distribution/delegators/${delegatorAddr}/withdraw_address`;
+    return get(url);
+}
 
+export function getValidatorRewardsApi(valAddress){
+    let url = `/distribution/validators/${valAddress} `;
+    return get(url);
+}
 
+export function getValidatorCommissionInfoApi(){
+    let url = `/staking/commission_info`;
+    return get(url);
+}
 
+export function getValidatorsDelegationsApi(valAddress,pageNum,pageSize,useCount){
+    let url = `/staking/validators/${valAddress}/delegations?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
 
+export function getUnbondingDelegationsApi(valAddress,pageNum,pageSize,useCount){
+    let url = `/staking/validators/${valAddress}/unbonding-delegations?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
 
+export function getDelegationTxsApi (valAddress, pageNum, pageSize, useCount=true, type='', status='', beginTime='', endTime='') {
+    let url = `/txs/staking?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}&status=${status}&address=${valAddress}&beginTime=${beginTime}&endTime=${endTime}`
+    return get(url);
+}
 
+export function getValidationTxsApi(valAddress, pageNum, pageSize, useCount=true, type='', status='', beginTime='', endTime=''){
+    let url = `/txs/declaration?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}&status=${status}&address=${valAddress}&beginTime=${beginTime}&endTime=${endTime}`
+    return get(url);
+}
 
+export function getAddressInformationApi(address){
+    let url = `/staking/account/${address}`;
+    return get(url);
+}
 
+export function getDelegationListApi(address,pageNum,pageSize,useCount=true){
+    let url = `/staking/delegators/${address}/delegations?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
 
+export function getUnBondingDelegationListApi(address,pageNum,pageSize,useCount=true){
+    let url = `/staking/delegators/${address}/unbonding_delegations?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
 
+export function getRewardsItemsApi(address){
+    let url = `/distribution/delegators/${address}/rewards`;
+    return get(url);
+}
 
+export function getTypeStakingApi(address){
+    let url = `/txs/types/staking`;
+    return get(url);
+}
 
+export function getTypeDeclarationApi(address){
+    let url = `/txs/types/declaration`;
+    return get(url);
+}
 
+export function getValidatorSetList (pageNum,pageSize,height) {
+	const url = `/blocks/validatorset?height=${height}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`
+	return get(url)
+}
 
+export function getConfig () {
+    const url = `/config`
+	return get(url)
+}
 
-
-
-
+export function stakingBlockInformation(height) {
+	const url = `/blocks/staking/${height}`
+	return get(url)
+}

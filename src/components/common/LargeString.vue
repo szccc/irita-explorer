@@ -1,6 +1,6 @@
 <template>
     <span :class="`tx_message_content_largeStr ${mode=='cell'?'flex-row':'flex-colum'}`">
-        <span :style="`width:${textWidth || 'auto'}`">
+        <span class="text" :style="`width:${textWidth || 'auto'}`">
             {{text_f}}
         </span>
         <span class="tx_message_content_largeStr_btn" v-if="showDescBtn(text)" @click="btnDidClick">
@@ -28,7 +28,7 @@
                 required:false,
                 default:'nomal'
             },
-            textWidth:{//nomal or cell
+            textWidth:{
                 type:String,
                 required:false,
                 default:''
@@ -70,6 +70,10 @@
         font-weight: 400;
         color: $t_first_c;
         word-break: break-all;
+        .text {
+            overflow-y: auto;
+            max-height: 2rem;
+        }
     }
     .flex-row{
         display:flex;
@@ -86,7 +90,7 @@
             align-self:flex-end;
             font-size: $s14;
             font-weight: 400;
-            margin-left:0.4rem;
+            margin-left: 0rem;
             white-space: nowrap;
         }
 </style>

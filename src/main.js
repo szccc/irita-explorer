@@ -11,6 +11,10 @@ import locale from 'element-ui/lib/locale';
 import VueI18n from 'vue-i18n';
 import prodConfig from "./productionConfig";
 
+/*引入自定义修饰器*/
+import directives from './directives';
+Vue.use(directives);
+
 locale.use(lang);
 Vue.use(ElementUI)
 Vue.use(VueI18n)

@@ -18,7 +18,7 @@
                 </p>
                 <p class="identity_information_list_item">
                     <span>{{$t('ExplorerLang.identityDetail.credentials')}}：</span>
-                    <a v-if="credentials !=='[do-not-modify]'" :href="formatUrl(credentials)" target="_blank">{{credentials}}</a>
+                    <a v-if="credentials !=='[do-not-modify]' && credentials !=='--'" :href="formatUrl(credentials)" target="_blank">{{credentials}}</a>
                     <span v-else>{{credentials}}</span>
                 </p>
                 <p class="identity_information_list_item">
@@ -39,7 +39,7 @@
                 <el-table class="table" :data="pubkeyList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.idPubKeyFull" :label="$t('ExplorerLang.table.idPubkey')">
                         <template slot-scope="scope">
-                            <span>{{scope.row.pubkey}}</span>
+                            <LargeString :text="scope.row.pubkey" mode="cell" textWidth="698px" :maxLength="Number(75)"/>
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.pubKeyAlgo" :label="$t('ExplorerLang.table.pubKeyAlgo')">
@@ -305,7 +305,7 @@
                     justify-content: flex-start;
                     margin-bottom: 0.26rem;
                     a{
-                        font-size: 0.14rem;
+                        font-size: $s14;
                         line-height: 1;
                     }
                     span:nth-of-type(1) {

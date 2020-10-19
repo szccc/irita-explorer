@@ -3,8 +3,7 @@ import { TX_TYPE, PubKeyAlgorithm } from "../constant";
 
 export class TxHelper {
 
-    static getFromAndToAddressFromMsg(msgs){
-
+    static getFromAndToAddressFromMsg (msgs) {
         let res = {
             from : '--',
             to : '--'
@@ -90,6 +89,22 @@ export class TxHelper {
             case TX_TYPE.update_identity:
                 res.to = msg.owner;
                 break;
+            case TX_TYPE.delegate:
+                res.from = msg.delegator_address;
+                res.to = msg.validator_address;
+                break;
+            case TX_TYPE.begin_unbonding:
+                res.from = msg.validator_address;
+                res.to = msg.delegator_address;
+                break;
+            case TX_TYPE.withdraw_delegator_reward:
+                res.from = msg.validator_address;
+                res.to = msg.delegator_address;
+                break;
+            case TX_TYPE.begin_redelegate:
+                res.from = msg.validator_src_address;
+                res.to = msg.validator_dst_address;
+                break;
         }
         return res;
     }
@@ -154,5 +169,27 @@ export class TxHelper {
 
     static getPubKeyAlgorithm(algorithm){
         return PubKeyAlgorithm[String(algorithm)] ;
+    }
+
+    static getValidationTxsOperator (message) {
+        if (message) {
+            let msg = message.msg;
+            let operator
+            let txType = message.type || '--';
+            switch (txType) {
+                case TX_TYPE.create_validator:
+                    operator = msg.validator_address ? msg.validator_address : '--'
+                    break;
+                case TX_TYPE.edit_validator:
+                        operator = msg.validator_address ? msg.validator_address : '--'
+                    break;
+                case TX_TYPE.unjail:
+                    operator = msg.address ? msg.address : '--'
+                    break; 
+                default:
+                    operator = '--'
+            }
+            return operator
+        }
     }
 }

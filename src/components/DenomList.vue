@@ -126,7 +126,6 @@
             async getDenoms(){
                 try {
                     const res = await getDenoms(this.pageNum, this.pageSize, this.input, false);
-                    console.log(res)
                     if(res && res.data && Array.isArray(res.data) && res.data.length > 0){
                         this.denomList = res.data.map((denom)=>{
                             return {
