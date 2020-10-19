@@ -79,7 +79,8 @@
 										<img :style="{visibility:row.flProposer ? 'visible' : 'hidden'}" src="../assets/proposer_img.png"/>
 									</div>
 									<span class="skip_route">
-										<router-link :to="`/staking/${row.OperatorAddress}`">{{row.moniker? row.moniker :''}}</router-link>
+										<router-link v-if="row.moniker !== '--'" :to="`/staking/${row.OperatorAddress}`">{{row.moniker? row.moniker :''}}</router-link>
+										<span v-else>{{ row.moniker }}</span>
 									</span>
 								</div>
 							</template>
@@ -87,8 +88,9 @@
 						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
 							<template v-slot:default="{ row }">
 								<div class="common_hover_address_parent skip_route">
-									<router-link :to="Tools.addressRoute(row.OperatorAddress)" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
+									<router-link v-if="row.OperatorAddress !== '--'"  :to="Tools.addressRoute(row.OperatorAddress)" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
 									</router-link>
+									<span v-else>{{ row.OperatorAddress }}</span>
 								</div>
 							</template>
 						</el-table-column>

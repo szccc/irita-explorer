@@ -39,10 +39,10 @@
             <span>{{ $t('ExplorerLang.transactionInformation.fee') }}：</span>
             <span>{{ fee }}</span>
           </p>
-          <p class="tx_information_list_item">
+          <!-- <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.gasUsed') }}：</span>
             <span>{{ gasUsed }}</span>
-          </p>
+          </p> -->
 
 
           <p class="tx_information_list_item">
@@ -129,7 +129,6 @@ export default {
       isProfiler:false,
       failTipStyle:false,
       fee:'',
-      gasUsed:'',
       monikers:[],
     }
   },
@@ -165,9 +164,12 @@ export default {
           this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed'
           this.log = res.log || '--'
           this.timestamp = Tools.getDisplayDate(res.time) || '--'
-          let fee = await converCoin(res.fee.amount[0])
-          this.fee = `${fee.amount} ${fee.denom.toUpperCase()}`
-          this.gasUsed=res.fee.gas || '--' 
+          if(res.fee && res.fee.amount[0]) {
+            let fee = await converCoin(res.fee.amount[0])
+            this.fee = `${Tools.formatPriceToFixed(fee.amount,2)} ${fee.denom.toUpperCase()}`
+          }
+          this.fee = this.fee || '--'
+          // this.gasUsed=res.fee.gas || '--' 
           this.signer = res.signers[0] || '--'
           this.memo = res.memo ? res.memo : '--'
           this.txType = res.msgs[0].type || '--'
