@@ -1405,7 +1405,7 @@
 				}
 				
 				.active_content {
-					background: $bg_main_c !important;
+					background: $bg_button_c !important;
 					color: $t_white_c;
 				}
 			}

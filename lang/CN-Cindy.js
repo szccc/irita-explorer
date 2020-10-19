@@ -397,7 +397,7 @@ export const ExplorerLang = {
             scatter: {
                 title: 'Commission Rate & Bonded Tokens Distribution',
                 xAxis: 'Commission Rate(%)',
-                yAxis: 'Bonded_Token(IRIS)',
+                yAxis: 'Bonded_Token',
                 tooltip: {
                     commissionRate: 'Commission Rate',
                     bondedTokens: 'Bonded Tokens',
