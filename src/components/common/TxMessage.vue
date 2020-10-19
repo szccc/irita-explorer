@@ -19,7 +19,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
 				<span v-if="!isLargeString"> {{schemas}} </span>
-				<LargeString  v-else class="large_string" :text="schemas" mode="cell" :maxLength="155" />
+				<LargeString  v-else class="large_string" :text="schemas" mode="cell" :maxLength="15" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
