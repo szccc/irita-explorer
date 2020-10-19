@@ -39,8 +39,8 @@
 				</div>
 				<div class="address_information_asset_list_container" v-if="otherTokenList.length !== 0">
 					<div class="address_information_asset_header_content">
-						<span>{{ $t('ExplorerLang.addressInformation.content.token') }}</span>
-						<span>{{ $t('ExplorerLang.addressInformation.content.balance') }}</span>
+						<span class="token">{{ $t('ExplorerLang.addressInformation.content.token') }}</span>
+						<span class="balance">{{ $t('ExplorerLang.addressInformation.content.balance') }}</span>
 					</div>
 					<ul class="address_information_asset_list_content">
 						<li class="address_information_asset_list_item" v-for="(item,index) in otherTokenList" :key="index">
@@ -310,7 +310,7 @@
 					span{
 						color: $t_second_c;
 					}
-					span:nth-of-type(1){
+					span:nth-of-type(2){
 						padding-left: 0.2rem;
 					}
 				}
@@ -327,7 +327,7 @@
 						padding: 0.08rem 0 0.08rem 0;
 						margin-bottom: 0.05rem;
 						.address_information_token_img_content{
-							padding-left: 0.2rem;
+							// padding-left: 0.2rem;
 							.address_information_token_name{
 								font-size: $s14;
 								line-height: 0.16rem;
@@ -335,6 +335,7 @@
 							}
 						}
 						.address_information_list_item_value{
+							padding-left: 0.2rem;
 							font-size: $s14;
 							line-height: 0.16rem;
 							color: $t_first_c;
