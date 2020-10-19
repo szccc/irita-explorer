@@ -141,7 +141,7 @@
 					},
 					yAxis: {
 						type: 'value',
-						name:this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.yAxis'),
+						name:`${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.yAxis')} (${mainToken.symbol.toUpperCase()})`,
 						nameLocation: 'end',
 						nameGap: 20,
 						nameTextStyle: {
