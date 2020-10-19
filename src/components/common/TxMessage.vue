@@ -18,7 +18,8 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
-				<LargeString :text="schemas"/>
+				<span v-if="!isLargeString"> {{schemas}} </span>
+				<LargeString  v-else class="large_string" :text="schemas" mode="cell" :maxLength="155" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
@@ -892,7 +893,8 @@
 				keyBaseName:'',
 				commissionMaxRate:'',
 				commissionMaxChangeRate:'',
-				validatorAddress:''
+				validatorAddress:'',
+				isLargeString: true,
 			}
 		},
 		computed: {
@@ -947,6 +949,7 @@
 								this.authorDescription = msg.author_description || '--';
 								this.tags = msg.tags || '--';
 								this.schemas = msg.schemas || '--';
+								this.isLargeString = msg.schemas.length > 800
 								break;
 							case TX_TYPE.bind_service:
 								this.defineName = msg.service_name || '--';
@@ -1320,6 +1323,12 @@
 			line-height: 0.16rem;
 			color:$theme_c !important; 
 			cursor: pointer;
+		}
+
+		/deep/ .large_string {
+			.tx_message_content_largeStr_btn {
+				line-height: 0.19rem;
+			}
 		}
 	}
 	
