@@ -892,7 +892,7 @@
 				keyBaseName:'',
 				commissionMaxRate:'',
 				commissionMaxChangeRate:'',
-				validatorAddress:''
+				validatorAddress:'',
 			}
 		},
 		computed: {
@@ -952,8 +952,10 @@
 								this.defineName = msg.service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
-									this.deposit = `${msg.deposit[0].amount} ${msg.deposit[0].denom}` || '--';
+									let amount = await converCoin(msg.deposit[0]);
+									this.deposit = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}` || '--';
 								}
+								this.deposit = this.deposit || '--'
 								this.owner = msg.owner || '--';
 								this.pricing = msg.pricing || '--';
 								this.qos = msg.qos || '--';
@@ -962,8 +964,10 @@
 								this.from = msg.fromaddress || '--';
 								this.to = msg.toaddress || '--';
 								if (msg.amount && msg.amount.length) {
-									this.amount = `${msg.amount[0].amount} ${msg.amount[0].denom}` || '--';
+									let amount = await converCoin(msg.amount[0]);
+									this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}` || '--';
 								}
+								this.amount = this.amount || '--'
 								break;
 							case TX_TYPE.call_service:
 								this.consumer = msg.consumer || '--';
@@ -972,9 +976,9 @@
 								this.repeated = msg.repeated || '--';
 								this.repeatedFrequency = msg.repeated_frequency || '--';
 								this.repeatedTotal = msg.repeated_total || '--';
-								if (msg.service_fee_cap && msg.service_fee_cap.length) {
-									this.serviceFeeCap = `${msg.service_fee_cap[0].amount} ${msg.service_fee_cap[0].denom}` || '--';
-								}
+								// if (msg.service_fee_cap && msg.service_fee_cap.length) {
+								// 	this.serviceFeeCap = `${msg.service_fee_cap[0].amount} ${msg.service_fee_cap[0].denom}` || '--';
+								// }
 								this.serviceName = msg.service_name || '--';
 								this.superMode = msg.super_mode || '--';
 								this.timeout = msg.timeout || '--';
@@ -1041,19 +1045,22 @@
 								this.provider = msg.providers || '--';
 								this.repeatedFrequency = msg.repeated_frequency || '--';
 								this.repeatedTotal = msg.repeated_total || '--';
-								if (msg.service_fee_cap && msg.service_fee_cap.length) {
-									this.serviceFeeCap = `${msg.service_fee_cap[0].amount} ${msg.service_fee_cap[0].denom}` || '--';
-								} else {
-									this.serviceFeeCap = '--';
-								}
+								// if (msg.service_fee_cap && msg.service_fee_cap.length) {
+								// 	this.serviceFeeCap = `${msg.service_fee_cap[0].amount} ${msg.service_fee_cap[0].denom}` || '--';
+								// } else {
+								// 	this.serviceFeeCap = '--';
+								// }
 								this.timeout = (msg.timeout) ? msg.timeout : '--';
 								break;
 							case TX_TYPE.update_service_binding:
 								this.serviceName = (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
-									this.deposit = `${msg.deposit[0].amount} ${msg.deposit[0].denom}` || '--';
+									let amount = await converCoin(msg.deposit[0]);
+									this.deposit = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
+									// this.deposit = `${msg.deposit[0].amount} ${msg.deposit[0].denom}` || '--';
 								}
+								this.deposit = this.deposit || '--'
 								this.owner = msg.owner || '--';
 								this.pricing = msg.pricing || '--';
 								this.qos = msg.qos || '--';
@@ -1067,8 +1074,11 @@
 								this.serviceName = (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
-									this.deposit = `${msg.deposit[0].amount} ${msg.deposit[0].denom}` || '--';
+									let amount = await converCoin(msg.deposit[0]);
+									this.deposit = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
+									// this.deposit = `${msg.deposit[0].amount} ${msg.deposit[0].denom}` || '--';
 								}
+								this.deposit = this.deposit || '--'
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.refund_service_deposit:
@@ -1104,7 +1114,7 @@
 								break;
 							case TX_TYPE.begin_redelegate:
                                 let amount = await converCoin(msg.amount);
-								this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
+								this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
 								this.from = msg.validator_src_address;
 								// this.shares = '需要取值';
 								this.to = msg.validator_dst_address;
@@ -1142,8 +1152,12 @@
 								this.delegatorAddress = msg.delegator_address;
 								this.withdrawAddress = msg.withdraw_address;
 								break;
-							case TX_TYPE.begin_unbonding:
-								this.amount = `${Tools.formatAccountCoinsAmount(msg.amount)[0]} ${Tools.formatAccountCoinsDenom(msg.amount)[0]}`;
+							case TX_TYPE.begin_unbonding:	
+								if(msg.amount) {
+									let amount = await converCoin(msg.amount);
+									this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
+								}
+								this.amount = this.amount || '--'
 								this.from = msg.validator_address;
 								this.to = msg.delegator_address;
 								break;
@@ -1162,21 +1176,22 @@
 								this.from = msg.delegator_address;
 								this.to = msg.validator_address;
 								let delegateAmount = await converCoin(msg.delegation)
-								this.amount = `${delegateAmount.amount} ${delegateAmount.denom.toLocaleUpperCase()}`
+								amount = await converCoin(msg.delegation);
+								this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}` || '--'
 								break;
 							case TX_TYPE.fund_community_pool:
 								this.depositor = msg.depositor;
 								let poolAmount = await converCoin(msg.amount[0])
-								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
+								this.amount =  `${Tools.formatPriceToFixed(poolAmount.amount,2)} ${poolAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.swap_order:
 								this.isBuyOrder = msg.is_buy_order;
 								this.inputAddress = msg.input.address || '--';
 								let input = await converCoin(msg.input.coin)
-								this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+								this.input = `${Tools.formatPriceToFixed(input.amount,2)} ${input.denom.toLocaleUpperCase()}`;
 								this.outputAddress = msg.output.address || '--';
 								let output = await converCoin(msg.output.coin)
-								this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
+								this.output = `${Tools.formatPriceToFixed(output.amount,2)} ${output.denom.toLocaleUpperCase()}`;
 								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
@@ -1185,26 +1200,26 @@
 									amount: msg.exact_iris_amt,
 									denom: mainToken.min_unit
 								})
-								this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
+								this.exactIrisAmt = `${Tools.formatPriceToFixed(exactIrisAmt.amount,2)} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
 								let maxToken = await converCoin(msg.max_token)
-								this.maxToken = `${maxToken.amount} ${maxToken.denom.toLocaleUpperCase()}`;
+								this.maxToken = `${Tools.formatPriceToFixed(maxToken.amount,2)} ${maxToken.denom.toLocaleUpperCase()}`;
 								this.minLiquidity = msg.min_liquidity || '--';
 								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.remove_liquidity:
 								this.sender = msg.sender || '--';
 								let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
-								this.withdrawLiquidity = `${withdrawLiquidity.amount} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
+								this.withdrawLiquidity = `${Tools.formatPriceToFixed(withdrawLiquidity.amount,2)} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
 								let minIrisAmt = await converCoin({
 									amount: msg.min_iris_amt,
 									denom: mainToken.min_unit
 								})
-								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
+								this.minIrisAmt = `${Tools.formatPriceToFixed(minIrisAmt.amount,2)} ${minIrisAmt.denom.toLocaleUpperCase()}`;
 								let minToken = await converCoin({
 									amount: msg.min_token,
 									denom: mainToken.min_unit
 								})
-								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
+								this.minToken = `${Tools.formatPriceToFixed(minToken.amount,2)} ${minToken.denom.toLocaleUpperCase()}`;
 								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
 								case TX_TYPE.unjail:
@@ -1321,6 +1336,7 @@
 			color:$theme_c !important; 
 			cursor: pointer;
 		}
+
 	}
 	
 	@media screen and (max-width: 768px) {
