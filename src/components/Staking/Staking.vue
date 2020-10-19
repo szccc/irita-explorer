@@ -222,9 +222,10 @@ a {
       }
       /deep/ .sort_table {
         overflow: auto hidden;
-        /deep/ .sort-caret.ascending,
+        .sort-caret.ascending,
         .sort-caret.descending {
-          margin-left: 0.09rem;
+          // margin-left: 0.09rem;
+          margin-left: 0.07rem;
         }
       }
       /deep/ .el-table .descending .sort-caret.descending {
