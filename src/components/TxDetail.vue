@@ -39,10 +39,10 @@
             <span>{{ $t('ExplorerLang.transactionInformation.fee') }}：</span>
             <span>{{ fee }}</span>
           </p>
-          <p class="tx_information_list_item">
+          <!-- <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.gasUsed') }}：</span>
             <span>{{ gasUsed }}</span>
-          </p>
+          </p> -->
 
 
           <p class="tx_information_list_item">
@@ -129,7 +129,6 @@ export default {
       isProfiler:false,
       failTipStyle:false,
       fee:'',
-      gasUsed:'',
       monikers:[],
     }
   },
@@ -170,7 +169,7 @@ export default {
             this.fee = `${Tools.formatPriceToFixed(fee.amount,2)} ${fee.denom.toUpperCase()}`
           }
           this.fee = this.fee || '--'
-          this.gasUsed=res.fee.gas || '--' 
+          // this.gasUsed=res.fee.gas || '--' 
           this.signer = res.signers[0] || '--'
           this.memo = res.memo ? res.memo : '--'
           this.txType = res.msgs[0].type || '--'
