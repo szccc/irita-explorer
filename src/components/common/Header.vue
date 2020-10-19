@@ -323,7 +323,7 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 10;
+  z-index: 10000;
 
   .header_content {
     max-width: 12rem;
