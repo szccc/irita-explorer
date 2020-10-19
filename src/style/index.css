@@ -184,3 +184,19 @@ td, th {
     padding: 0
 }
 
+.clearfloat:after{
+    display:block;
+    clear:both;
+    content:"";
+    visibility:hidden;
+    height:0
+} 
+
+.clearfloat{
+    zoom:1
+}
+
+.tooltip {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-size: 0.14rem !important;
+}
