@@ -16,10 +16,9 @@
               <div style="display: flex;align-items: center;position: relative">
                 <span class="avatar" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;display: flex;align-items: center;justify-content: center">{{ row.validatorIconSrc }}</span>
                 <img v-if="row.url" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;position: absolute" :src="row.url ? row.url : ''" />
-                <el-tooltip v-if="row.isTooltip" :content="row.monikerValue" placement="top">
+                <el-tooltip :disabled="!row.isTooltip" :content="row.monikerValue" placement="top">
                   <router-link style="margin-left: 0.2rem;" :to="'staking/' + row.operatorAddress" class="link_style">{{ row.moniker }}</router-link>
                 </el-tooltip>
-                <router-link v-else style="margin-left: 0.2rem;" :to="'staking/' + row.operatorAddress" class="link_style">{{ row.moniker }}</router-link>
               </div>
             </template>
           </el-table-column>
@@ -66,6 +65,9 @@ export default {
   props: {},
   data() {
     return {
+      cutNumber: 10,
+      decimalNamber: 2,
+      percentum:4,
       ColumnMinWidth,
       count: 0,
       titleStatus: this.$t('ExplorerLang.staking.status.active'),
@@ -149,15 +151,15 @@ export default {
                 })
                 return {
                   validatorStatus: status,
-                  isTooltip: item.description.moniker.length > 10,
+                  isTooltip: item.description.moniker.length > this.cutNumber,
                   monikerValue: item.description.moniker,
-                  moniker: Tools.formatString(item.description.moniker, 10, '...'),
+                  moniker: Tools.formatString(item.description.moniker, this.cutNumber, '...'),
                   operatorAddress: item.operator_address,
-                  commission: `${(item.commission.commission_rates.rate * 100).toFixed(2)} %`,
-                  bondedToken: `${Tools.subStrings(bondedToken.amount, 2)} ${bondedToken.denom.toLocaleUpperCase()}`,
+                  commission: `${(item.commission.commission_rates.rate * 100).toFixed(this.decimalNamber)} %`,
+                  bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)} ${bondedToken.denom.toLocaleUpperCase()}`,
                   uptime: Tools.FormatUptime(item.uptime),
-                  votingPower: `${(item.voting_rate * 100).toFixed(4)}%`,
-                  selfBond: `${Tools.subStrings(selfBond.amount, 2)} ${selfBond.denom.toLocaleUpperCase()}`,
+                  votingPower: `${(item.voting_rate * 100).toFixed(this.percentum)}%`,
+                  selfBond: `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}`,
                   delegatorNum: item.delegator_num,
                   bondHeight: Number(item.bond_height),
                   unbondingHeight: Number(item.unbonding_height),
