@@ -1027,25 +1027,30 @@
 								this.requestId = msg.request_id || '--';
 								this.requestContextId = (msg.ex || {}).request_context_id || '--';
 								this.result = msg.result || '--';
-								this.serviceName = (msg.ex || {}).service_name || '--';
+								// this.serviceName = (msg.ex || {}).service_name || '--';
+								this.serviceName = msg.service_name || '--';
 								break;
 							case TX_TYPE.pause_request_context:
-								this.serviceName = (msg.ex || {}).service_name || '--';
+								// this.serviceName = (msg.ex || {}).service_name || '--';
+								this.serviceName = msg.service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.start_request_context:
-								this.serviceName = (msg.ex || {}).service_name || '--';
+								// this.serviceName = (msg.ex || {}).service_name || '--';
+								this.serviceName = msg.service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.kill_request_context:
-								this.serviceName = (msg.ex || {}).service_name || '--';
+								// this.serviceName = (msg.ex || {}).service_name || '--';
+								this.serviceName = msg.service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.update_request_context:
-								this.serviceName = (msg.ex || {}).service_name || '--';
+								// this.serviceName = (msg.ex || {}).service_name || '--';
+								this.serviceName = msg.service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								this.provider = msg.providers || '--';
@@ -1060,7 +1065,8 @@
 								this.timeout = (msg.timeout) ? msg.timeout : '--';
 								break;
 							case TX_TYPE.update_service_binding:
-								this.serviceName = (msg.ex || {}).service_name || '--';
+								// this.serviceName = (msg.ex || {}).service_name || '--';
+								this.serviceName = msg.service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
@@ -1073,12 +1079,14 @@
 								this.qos = msg.qos || '--';
 								break;
 							case TX_TYPE.disable_service_binding:
-								this.serviceName = (msg.ex || {}).service_name || '--';
+								// this.serviceName = (msg.ex || {}).service_name || '--';
+								this.serviceName = msg.service_name || '--';
 								this.provider = msg.provider || '--';
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.enable_service_binding:
-								this.serviceName = (msg.ex || {}).service_name || '--';
+								// this.serviceName = (msg.ex || {}).service_name || '--';
+								this.serviceName = msg.service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
@@ -1089,7 +1097,8 @@
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.refund_service_deposit:
-								this.serviceName = (msg.ex || {}).service_name || '--';
+								// this.serviceName = (msg.ex || {}).service_name || '--';
+								this.serviceName = msg.service_name || '--';
 								this.provider = msg.provider || '--';
 								this.owner = msg.owner || '--';
 								break;
