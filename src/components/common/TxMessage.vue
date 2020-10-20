@@ -300,14 +300,14 @@
 				<span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
 				<span>{{repeatedTotal}}</span>
 			</p>
-			<!-- <p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
 				<span>{{serviceFeeCap}}</span>
-			</p> -->
-			<!-- <p>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.callService.superMode')}}：</span>
 				<span>{{superMode}}</span>
-			</p> -->
+			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.timeOut')}}：</span>
 				<span>{{timeout}}</span>
@@ -372,10 +372,10 @@
 				<span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
 				<span>{{repeatedTotal}}</span>
 			</p>
-			<!-- <p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
 				<span>{{serviceFeeCap}}</span>
-			</p> -->
+			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.timeOut')}}：</span>
 				<span>{{timeout}}</span>
@@ -389,6 +389,10 @@
 				</router-link>
 				<span v-if="serviceName == '--'"> -- </span>
 			</p>
+			<p>
+				 <span>{{$t('ExplorerLang.transactionInformation.pricing')}}：</span>
+				 <span>{{pricing}}</span>
+			 </p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.qos')}}：</span>
 				<span>{{qos}}</span>
@@ -945,7 +949,7 @@
 								this.description = msg.description || '--';
 								this.author = msg.author || '--';
 								this.authorDescription = msg.author_description || '--';
-								this.tags = msg.tags || '--';
+								this.tags = msg.tags.length && msg.tags || '--';
 								this.schemas = msg.schemas || '--';
 								break;
 							case TX_TYPE.bind_service:
@@ -976,11 +980,13 @@
 								this.repeated = msg.repeated || '--';
 								this.repeatedFrequency = msg.repeated_frequency || '--';
 								this.repeatedTotal = msg.repeated_total || '--';
-								// if (msg.service_fee_cap && msg.service_fee_cap.length) {
-								// 	this.serviceFeeCap = `${msg.service_fee_cap[0].amount} ${msg.service_fee_cap[0].denom}` || '--';
-								// }
+								if (msg.service_fee_cap && msg.service_fee_cap.length) {
+									let serviceFeeCap = await converCoin(msg.service_fee_cap[0]);
+									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toUpperCase()}`;
+								}
+								this.serviceFeeCap = this.serviceFeeCap || '--'
 								this.serviceName = msg.service_name || '--';
-								this.superMode = msg.super_mode || '--';
+								this.superMode = msg.super_mode;
 								this.timeout = msg.timeout || '--';
 								(this.events || []).forEach((item) => {
 									(item.attributes || []).forEach((attr) => {
@@ -1045,11 +1051,12 @@
 								this.provider = msg.providers || '--';
 								this.repeatedFrequency = msg.repeated_frequency || '--';
 								this.repeatedTotal = msg.repeated_total || '--';
-								// if (msg.service_fee_cap && msg.service_fee_cap.length) {
-								// 	this.serviceFeeCap = `${msg.service_fee_cap[0].amount} ${msg.service_fee_cap[0].denom}` || '--';
-								// } else {
-								// 	this.serviceFeeCap = '--';
-								// }
+								if (msg.service_fee_cap && msg.service_fee_cap.length) {
+									let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
+									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toUpperCase()}`;
+								} else {
+									this.serviceFeeCap = '--';
+								}
 								this.timeout = (msg.timeout) ? msg.timeout : '--';
 								break;
 							case TX_TYPE.update_service_binding:

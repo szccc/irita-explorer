@@ -201,10 +201,10 @@ export const ExplorerLang = {
         serviceFeeCap: 'Service Fee Cap',
         timeOut: 'Timeout',
         serviceName: 'Service Name',
-        requestContextId: 'Request Id',
-        pricing: 'Cost Per Call',
+        requestContextId: 'Request Context ID', //更改，中文未变
+        pricing: 'Pricing', //更改，中文未变
         owner: 'Owner',
-        qos: 'Minimum Response Time',
+        qos: 'QoS', // 更改，中文未变
         deposit: 'Deposit',
         nftId: 'NFT Id',
         nftName: 'NFT Name',
@@ -228,8 +228,8 @@ export const ExplorerLang = {
             superMode: 'SuperMode',
         },
         respondService:{
-            output: 'Output:',
-            requestId: 'Request Id',
+            output: 'Output',
+            requestId: 'Request Context ID',
             result: 'Result',
         },
         defineService: {
