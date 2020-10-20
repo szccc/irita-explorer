@@ -204,7 +204,7 @@ CHAINID.NYANCAT = 'Testnet NYANCAT-6'
 CHAINID.QA = 'rainbow-qa'
 CHAINID.DEV = 'rainbow-dev'
 CHAINID.GOZTESTNET = 'Testnet GOZ'
-CHAINID.BIFROST = 'Testnet BIFTOST'
+CHAINID.BIFROST = 'Testnet BIFROST'
 
 
 const TxType = {};

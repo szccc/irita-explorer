@@ -35,7 +35,7 @@
           </el-menu>
         </div>
         <div class="header_mobile_menu" v-if="flShowNetwork">
-          <span v-if="netWorkArray.length !== 0" style="color:white;font-size: 0.12rem;font-family: PingFangSC-Regular, PingFang SC">{{netWorkArray[0].network_name}}</span>
+          <span v-if="netWorkArray.length !== 0" style="color:white;font-size: 0.12rem;font-family: PingFangSC-Regular, PingFang SC">{{mainnet.network_name}}</span>
         </div>
       </div>
       <div class="header_input_content" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`" v-if="searchShow">
@@ -51,7 +51,7 @@
       </div>
       <div v-show="flShowNetwork" class="header_network_container" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
           <span style="color: #fff">
-              <i style="font-size: 0.24rem;padding-right: 0.02rem;" class="iconfont iconiris"></i>
+              <i style="font-size: 0.24rem;padding-right: 0.02rem;" :class="mainnet.icon"></i>
               <i style="font-size: 0.08rem" class="iconfont iconwangluoqiehuanjiantou"></i>
           </span>
           <ul class="network_list_container" v-show="flShowNetworkLogo && netWorkArray.length !== 0" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
@@ -126,6 +126,7 @@ export default {
       netWorkArray:[],
       // currentNetworkClass:'',
       flShowNetWorkMenu:false,
+      mainnet:{},
     }
   },
   computed: {
@@ -304,7 +305,11 @@ export default {
             } else if (item.network_id === constant.CHAINID.BIFROST) {
                 item.icon = 'iconfont iconBI-01'
             }
-			      return item
+
+            if (item.is_main) {
+                this.mainnet = {...item};
+            }
+			return item
         });
     },
     windowOpenUrl (url) {
@@ -323,7 +328,7 @@ export default {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 10;
+  z-index: 10000;
 
   .header_content {
     max-width: 12rem;
