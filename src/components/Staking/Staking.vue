@@ -16,7 +16,10 @@
               <div style="display: flex;align-items: center;position: relative">
                 <span class="avatar" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;display: flex;align-items: center;justify-content: center">{{ row.validatorIconSrc }}</span>
                 <img v-if="row.url" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;position: absolute" :src="row.url ? row.url : ''" />
-                <router-link style="margin-left: 0.2rem;" :to="'staking/' + row.operatorAddress" class="link_style">{{ row.moniker }}</router-link>
+                <el-tooltip v-if="row.isTooltip" :content="row.monikerValue" placement="top">
+                  <router-link style="margin-left: 0.2rem;" :to="'staking/' + row.operatorAddress" class="link_style">{{ row.moniker }}</router-link>
+                </el-tooltip>
+                <router-link v-else style="margin-left: 0.2rem;" :to="'staking/' + row.operatorAddress" class="link_style">{{ row.moniker }}</router-link>
               </div>
             </template>
           </el-table-column>
@@ -130,7 +133,175 @@ export default {
     async getValidatorsList(type) {
       let mainToken = await getMainToken();
       try{
-          let res = await getValidatorsListApi(1,100,true,type)
+          // let res = await getValidatorsListApi(1,100,true,type)
+          let res ={
+        "data": [
+            {
+                "operator_address": "iva1svannhv2zaxefq83m7treg078udfk37lpjufkw",
+                "consensus_pubkey": "icp1zcjduepqlv6f7st4zkqw2t80deevxen43zjscmgx9md4rvjtqucryuq0dtvskw7n6c",
+                "jailed": false,
+                "status": 3,
+                "tokens": "1000000000000",
+                "delegator_shares": "1000000000000.000000000000000000",
+                "description": {
+                    "moniker": "IRISnet-Bianjie"
+                },
+                "bond_height": "0",
+                "unbonding_height": "",
+                "commission": {
+                    "commission_rates": {
+                        "rate": "0.100000000000000000",
+                        "max_rate": "0.200000000000000000",
+                        "max_change_rate": "0.010000000000000000"
+                    },
+                    "update_time": 1603076870
+                },
+                "uptime": 1,
+                "self_bond": {
+                    "denom": "ubif",
+                    "amount": "1000000000000"
+                },
+                "delegator_num": 1,
+                "proposer_addr": "489AB90DB6988CFA0E67E75C152FA20C12D41B63",
+                "voting_power": 1000000000000,
+                "icons": "",
+                "voting_rate": 0.9998420249600564
+            },
+            {
+                "operator_address": "iva1httpn7slzvqllw9vn5fz8x5zmkl93d3kwaacpp",
+                "consensus_pubkey": "icp1zcjduepqf3mue5fdjna82c0hxu0calt34dnqkdxy690mymz9rhpks2hyu73skm00y8",
+                "jailed": false,
+                "status": 3,
+                "tokens": "10000000",
+                "delegator_shares": "10000000.000000000000000000",
+                "description": {
+                    "moniker": "Nodeasy",
+                    "identity": "F7BABF2C95B02A9F",
+                    "details": "Nodeasy.com，助你进入Staking时代！"
+                },
+                "bond_height": "4764",
+                "unbonding_height": "",
+                "commission": {
+                    "commission_rates": {
+                        "rate": "0.100000000000000000",
+                        "max_rate": "1.000000000000000000",
+                        "max_change_rate": "1.000000000000000000"
+                    },
+                    "update_time": 1603101468
+                },
+                "uptime": 1,
+                "self_bond": {
+                    "denom": "ubif",
+                    "amount": "10000000"
+                },
+                "delegator_num": 1,
+                "proposer_addr": "55BCFCEDC38200E42C5D913E7A4245DC2039739F",
+                "voting_power": 10000000,
+                "icons": "https://s3.amazonaws.com/keybase_processed_uploads/d8c764c7e286d36525b9e037fdd7aa05_360_360.jpg",
+                "voting_rate": 0.000009998420249600562
+            },
+            {
+                "operator_address": "iva1ve5p4xas7ptmp367mkvlka86zszpt93yjx5ge2",
+                "consensus_pubkey": "icp1zcjduepqnzkas50uhzeh25yprsuptfwkzkuh836v8dz5wlztlykzwhfjt6es7ud992",
+                "jailed": false,
+                "status": 3,
+                "tokens": "8000000",
+                "delegator_shares": "8000000.000000000000000000",
+                "description": {
+                    "moniker": "ok-1E70794B56DFB583",
+                    "identity": "1E70794B56DFB583"
+                },
+                "bond_height": "4929",
+                "unbonding_height": "",
+                "commission": {
+                    "commission_rates": {
+                        "rate": "0.090000000000000000",
+                        "max_rate": "0.110000000000000000",
+                        "max_change_rate": "0.100000000000000000"
+                    },
+                    "update_time": 1603102298
+                },
+                "uptime": 1,
+                "self_bond": {
+                    "denom": "ubif",
+                    "amount": "8000000"
+                },
+                "delegator_num": 1,
+                "proposer_addr": "C39CA25787B228622235C1A56E194B4EB4B02D81",
+                "voting_power": 8000000,
+                "icons": "https://s3.amazonaws.com/keybase_processed_uploads/ea90fed1ffba5c74211e4bd9c79c6d05_360_360.jpg",
+                "voting_rate": 0.00000799873619968045
+            },
+            {
+                "operator_address": "iva1tyd79ynwjwxtvmhxjq3yks9jlfejewv0n8602t",
+                "consensus_pubkey": "icp1zcjduepqd2ph9mmyhx5e5uz3j9vwmdq50p6xxrf5p5w8muv23wzkgwwxgjaqc0jcsd",
+                "jailed": false,
+                "status": 3,
+                "tokens": "50000000",
+                "delegator_shares": "50000000.000000000000000000",
+                "description": {
+                    "moniker": "TomShi",
+                    "identity": "F1F0BF192D84EAC3"
+                },
+                "bond_height": "6556",
+                "unbonding_height": "",
+                "commission": {
+                    "commission_rates": {
+                        "rate": "1.000000000000000000",
+                        "max_rate": "1.000000000000000000",
+                        "max_change_rate": "1.000000000000000000"
+                    },
+                    "update_time": 1603110474
+                },
+                "uptime": 1,
+                "self_bond": {
+                    "denom": "ubif",
+                    "amount": "50000000"
+                },
+                "delegator_num": 1,
+                "proposer_addr": "3CE905C0B87849C06CD90119C2986D9423EF4371",
+                "voting_power": 50000000,
+                "icons": "https://s3.amazonaws.com/keybase_processed_uploads/1718038c86c665895ee7e7e0ace0e505_360_360.jpg",
+                "voting_rate": 0.00004999210124800282
+            },
+            {
+                "operator_address": "iva18p5jgdfw6dh0ftwg72ezxj4qfffn6l4jxn2vw4",
+                "consensus_pubkey": "icp1zcjduepqf7w8ersmww0zudg2sgylz2grz3cw3rszkw23rgqlyu2r0rdydxwsstmfus",
+                "jailed": false,
+                "status": 3,
+                "tokens": "90000000",
+                "delegator_shares": "90000000.000000000000000000",
+                "description": {
+                    "moniker": "dolphintwo-7A38C8CD6C0FA32A",
+                    "identity": "7A38C8CD6C0FA32A",
+                    "details": "IRIS To The Moon!!!"
+                },
+                "bond_height": "17430",
+                "unbonding_height": "",
+                "commission": {
+                    "commission_rates": {
+                        "rate": "0.500000000000000000",
+                        "max_rate": "1.000000000000000000",
+                        "max_change_rate": "0.200000000000000000"
+                    },
+                    "update_time": 1603165112
+                },
+                "uptime": 1,
+                "self_bond": {
+                    "denom": "ubif",
+                    "amount": "90000000"
+                },
+                "delegator_num": 1,
+                "proposer_addr": "740A34638BF6603FC6B7F8AE46FD8F4FE6C782E5",
+                "voting_power": 90000000,
+                "icons": "https://s3.amazonaws.com/keybase_processed_uploads/2fa0d167099c079cfd392f5e65385e05_360_360.jpg",
+                "voting_rate": 0.00008998578224640506
+            }
+        ],
+        "pageNum": 1,
+        "pageSize": 100,
+        "count": 5
+    }
           this.count = res && res.count ? res.count : 0
           let result = res && res.data ? res.data : null
           if (result) {
@@ -146,6 +317,8 @@ export default {
                 })
                 return {
                   validatorStatus: status,
+                  isTooltip: item.description.moniker.length > 10,
+                  monikerValue: item.description.moniker,
                   moniker: Tools.formatString(item.description.moniker, 10, '...'),
                   operatorAddress: item.operator_address,
                   commission: `${(item.commission.commission_rates.rate * 100).toFixed(2)} %`,
