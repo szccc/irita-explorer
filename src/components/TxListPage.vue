@@ -144,8 +144,6 @@
                     </div> -->
 					<div class="delegations_txs_wrap" v-if="this.$route.params.txType === 'delegations'">
 						<div class="delegations_txs_container">
-							<p class="validator_information_content_title">{{
-								$t('ExplorerLang.validatorDetail.delegationsTxsTitle') }}</p>
 							<div class="delegations_txs_table_container">
 								<el-table :data="txList" style="width: 100%"
 										:empty-text="$t('ExplorerLang.table.emptyDescription')">
@@ -313,8 +311,6 @@
                     </div> -->
 					<div class="validation_txs_wrap" v-else>
 						<div class="validation_txs_container">
-							<p class="validator_information_content_title">{{
-								$t('ExplorerLang.validatorDetail.validationTxsTitle') }}</p>
 							<div class="validation_txs_table_container">
 								<el-table :data="txList" style="width: 100%"
 										:empty-text="$t('ExplorerLang.table.emptyDescription')">

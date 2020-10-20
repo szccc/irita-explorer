@@ -112,7 +112,7 @@
                         let from = addrObj.from || '--',
                             to =  addrObj.to || '--';
                         let fromMonikers,toMonikers
-                        if(tx.monikers.length) {
+                        if((tx.monikers || {}).length) {
                             tx.monikers.map( item => {
                                 toMonikers = toMonikers || item[to] || ''
                                 fromMonikers = fromMonikers || item[from] || ''
