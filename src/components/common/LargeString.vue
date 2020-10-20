@@ -1,11 +1,11 @@
 <template>
     <span :class="`tx_message_content_largeStr ${mode=='cell'?'flex-row':'flex-colum'}`">
-        <span class="text" :style="`width:${textWidth || 'auto'}`">
-            {{text_f}}
-        </span>
-        <span class="tx_message_content_largeStr_btn" v-if="showDescBtn(text)" @click="btnDidClick">
-            {{`${showDesc ? $t('ExplorerLang.common.fewer') : $t('ExplorerLang.common.more')}`}}
-        </span>
+            <span class="text" :style="`width:${textWidth || 'auto'}`">
+                {{text_f}}
+            </span>
+            <span class="tx_message_content_largeStr_btn" v-if="showDescBtn(text)" @click="btnDidClick">
+                {{`${showDesc ? $t('ExplorerLang.common.fewer') : $t('ExplorerLang.common.more')}`}}
+            </span>
     </span>
 </template>
 

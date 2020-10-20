@@ -146,7 +146,7 @@ export default {
                 })
                 return {
                   validatorStatus: status,
-                  moniker: Tools.formatString(item.description.moniker, 15, '...'),
+                  moniker: Tools.formatString(item.description.moniker, 10, '...'),
                   operatorAddress: item.operator_address,
                   commission: `${(item.commission.commission_rates.rate * 100).toFixed(2)} %`,
                   bondedToken: `${Tools.subStrings(bondedToken.amount, 2)} ${bondedToken.denom.toLocaleUpperCase()}`,
