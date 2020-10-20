@@ -766,6 +766,126 @@
 				<span><router-link :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link></span>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.create_feed">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}: </span>
+				<span>{{ serviceName }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.feedName')}}: </span>
+				<span>{{ feedName }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.description')}}: </span>
+				<span>{{ description }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.latestHistory')}}: </span>
+				<span>{{ latestHistory }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.creator')}}: </span>
+				<span>{{ creator }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.providers')}}: </span>
+				<span>{{ providers }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionMessage.Input')}}</span>
+				<span>{{ input }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}: </span>
+				<span>{{ serviceFeeCap }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.aggregateFunc')}}: </span>
+				<span>{{ aggregateFunc }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.valueJsonPath')}}: </span>
+				<span>{{ valueJsonPath }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.repeatedFrequency')}}: </span>
+				<span>{{ repeatedFrequency }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.responseThreshold')}}: </span>
+				<span>{{ responseThreshold }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.timeOut')}}: </span>
+				<span>{{ timeout }}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.start_feed || txType === TX_TYPE.pause_feed">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.feedName')}}: </span>
+				<span>{{ feedName }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.creator')}}: </span>
+				<span>{{ creator }}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.edit_feed">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.feedName')}}: </span>
+				<span>{{ feedName }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.description')}}: </span>
+				<span>{{ description }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.latestHistory')}}: </span>
+				<span>{{ latestHistory }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.creator')}}: </span>
+				<span>{{ creator }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.providers')}}: </span>
+				<span>{{ providers }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}: </span>
+				<span>{{ serviceFeeCap }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.repeatedFrequency')}}: </span>
+				<span>{{ repeatedFrequency }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.responseThreshold')}}: </span>
+				<span>{{ responseThreshold }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.timeOut')}}: </span>
+				<span>{{ timeout }}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.request_rand">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.blockInterval')}}: </span>
+				<span>{{ blockInterval }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.consumer')}}: </span>
+				<span>{{ consumer }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle')}}: </span>
+				<span>{{ oracle }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}: </span>
+				<span>{{ serviceFeeCap }}</span>
+			</p>
+		</div>
 	</div>
 </template>
 
@@ -897,6 +1017,17 @@
 				commissionMaxRate:'',
 				commissionMaxChangeRate:'',
 				validatorAddress:'',
+				feedName:'',
+				description:'',
+				latestHistory:'',
+				creator:'',
+				providers:'',
+				aggregateFunc:'',
+				valueJsonPath:'',
+				repeatedFrequency:'',
+				responseThreshold:'',
+				blockInterval:'',
+				oracle:'',
 			}
 		},
 		computed: {
@@ -1240,7 +1371,48 @@
 								break;
 								case TX_TYPE.unjail:
 								this.operatorAddress = msg.address || '--';
-								break;						
+								break;	
+								// 待联调
+								case TX_TYPE.create_feed:
+								this.serviceName = msg.serviceName || '--';
+								this.feedName = msg.serviceName || '--';
+								this.description = msg.serviceName || '--';
+								this.latestHistory = msg.serviceName || '--';
+								this.creator = msg.serviceName || '--';
+								this.providers = msg.serviceName || '--';
+								this.input = msg.serviceName || '--';
+								this.serviceFeeCap = msg.serviceName || '--';
+								this.aggregateFunc = msg.serviceName || '--';
+								this.valueJsonPath = msg.serviceName || '--';
+								this.repeatedFrequency = msg.serviceName || '--';
+								this.responseThreshold = msg.serviceName || '--';
+								this.timeout = msg.serviceName || '--';
+								break;	
+								case TX_TYPE.start_feed:
+								this.feedName = msg.serviceName || '--';
+								this.creator = msg.serviceName || '--';
+								break;
+								case TX_TYPE.pause_feed:
+								this.feedName = msg.serviceName || '--';
+								this.creator = msg.serviceName || '--';
+								break;
+								case TX_TYPE.edit_feed:
+								this.feedName = msg.serviceName || '--';
+								this.description = msg.serviceName || '--';
+								this.latestHistory = msg.serviceName || '--';
+								this.creator = msg.serviceName || '--';
+								this.providers = msg.serviceName || '--';
+								this.serviceFeeCap = msg.serviceName || '--';
+								this.repeatedFrequency = msg.serviceName || '--';
+								this.responseThreshold = msg.serviceName || '--';
+								this.timeout = msg.serviceName || '--';
+								break;
+								case TX_TYPE.request_rand:
+								this.blockInterval = msg.serviceName || '--';
+								this.consumer = msg.serviceName || '--';
+								this.oracle = msg.serviceName || '--';
+								this.serviceFeeCap = msg.serviceName || '--';
+								break;
 						}
 					}
 				} catch (e) {

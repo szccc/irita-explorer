@@ -89,6 +89,8 @@ export const TX_TYPE = {
   update_client: 'update_client',
   create_identity: 'create_identity',
   update_identity: 'update_identity',
+  // Random
+  request_rand: 'request_rand'
 }
 
 export const TX_STATUS = {
@@ -193,78 +195,6 @@ export const ModuleMap = {
   },
 }
 
-const Denom = {}
-Denom.IRISATTO = 'iris-atto'
-Denom.IRIS = 'iris'
-
-const CHAINID = {}
-CHAINID.IRISHUB = 'Mainnet IRISHUB'
-CHAINID.FUXI = 'Testnet FUXI'
-CHAINID.NYANCAT = 'Testnet NYANCAT-6'
-CHAINID.QA = 'rainbow-qa'
-CHAINID.DEV = 'rainbow-dev'
-CHAINID.GOZTESTNET = 'Testnet GOZ'
-CHAINID.BIFROST = 'Testnet BIFROST'
-
-
-const TxType = {};
-TxType.TRANSFER = 'Transfer';
-TxType.BURN = 'Burn';
-TxType.SETMEMOREGEXP = 'SetMemoRegexp';
-TxType.CREATEVALIDATOR ='CreateValidator';
-TxType.EDITVALIDATOR = 'EditValidator';
-TxType.UNJAIL = 'Unjail';
-TxType.DELEGATE = 'Delegate';
-TxType.BEGINREDELEGATE = 'BeginRedelegate';
-TxType.SETWITHDRAWADDRESS = 'SetWithdrawAddress';
-TxType.BEGINUNBONDING = 'BeginUnbonding';
-TxType.WITHDRAWDELEGATORREWARD = 'WithdrawDelegatorReward';
-TxType.WITHDRAWDELEGATORREWARDSALL = 'WithdrawDelegatorRewardsAll';
-TxType.WITHDRAWVALIDATORREWARDSALL = 'WithdrawValidatorRewardsAll';
-TxType.SUBMITPROPOSAL = 'SubmitProposal';
-TxType.DEPOSIT = 'Deposit';
-TxType.VOTE = 'Vote';
-TxType.ISSUETOKEN = 'IssueToken';
-TxType.EDITTOKEN = 'EditToken';
-TxType.MINTTOKEN = 'MintToken';
-TxType.TRANSFERTOKENOWNER = 'TransferTokenOwner';
-TxType.CREATEGATEWAY = 'CreateGateway';
-TxType.EDITGATEWAY = 'EditGateway';
-TxType.TRANSFERGATEWAYOWNER = 'TransferGatewayOwner';
-TxType.REQUESTRAND = 'RequestRand';
-TxType.ADDPROFILER = 'AddProfiler';
-TxType.ADDTRUSTEE = 'AddTrustee';
-TxType.DELETEPROFIKER = 'DeleteProfiler';
-TxType.DELETETRUSTEE = 'DeleteTrustee';
-TxType.CLAIMHTLC = 'ClaimHTLC';
-TxType.CREATEHTLC = 'CreateHTLC';
-TxType.REFUNDHTLC = 'RefundHTLC';
-TxType.ADDLIQUIDITY = 'AddLiquidity';
-TxType.REMOVELIQUIDITY = 'RemoveLiquidity';
-TxType.SWAPORDER = 'SwapOrder';
-TxType.TRANSFERS = 'Transfers';
-TxType.WITHDRAWADDRESS = 'WithdrawAddress';
-TxType.STAKES = 'Stakes';
-TxType.GOVERNANCE = 'Governance';
-TxType.DECLARATIONS = 'Declarations';
-
-const RADIXDENOM = {};
-
-RADIXDENOM.IRISATTO = 'iris-atto';
-RADIXDENOM.IRISATTONUMBER = '1000000000000000000';
-RADIXDENOM.IRISMILLI = 'iris-milli';
-RADIXDENOM.IRISMILLINUMBER = '1000000000000000';
-RADIXDENOM.IRISMICRO = 'iris-micro';
-RADIXDENOM.IRISMICRONUMBER = '1000000000000';
-RADIXDENOM.IRISNANO = 'iris-nano';
-RADIXDENOM.IRISNANONUMBER = '1000000000';
-RADIXDENOM.IRISPICO = 'iris-pico';
-RADIXDENOM.IRISPICONUMBER = '1000000';
-RADIXDENOM.IRISFEMTO = 'iris-femto';
-RADIXDENOM.IRISFEMTONUMBER = '1000';
-RADIXDENOM.IRIS = 'iris';
-RADIXDENOM.IRISNUMBER = '1';
-
 export const pageTitleConfig  = {
 	BlockchainBlocks:'Block List',
 	BlockchainBlocksBlockDetails:'Block Details',
@@ -295,12 +225,6 @@ export const PubKeyAlgorithm = {
   '5':'SM2',
 }
 
-const ENVCONFIG = {};
-ENVCONFIG.DEV = 'dev';
-ENVCONFIG.QA = 'qa';
-ENVCONFIG.STAGE = 'stage';
-ENVCONFIG.TESTNET = 'testnet';
-ENVCONFIG.MAINNET = 'mainnet';
 
 export const TxStatus = {
   '0':'Fail',
@@ -323,10 +247,3 @@ export const decimals = {
   shares: 4
 }
 
-export default {
-  Denom,
-  CHAINID,
-  TxType,
-  RADIXDENOM,
-  ENVCONFIG
-}
