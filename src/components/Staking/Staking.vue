@@ -22,7 +22,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column key="3" prop="operatorAddress" align="center" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
+          <el-table-column key="3" prop="operatorAddress" align="left" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip :content="row.operatorAddress" placement="top">
