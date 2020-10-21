@@ -22,7 +22,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
-				<span><router-link :to="Tools.addressRoute(author)">{{author}}</router-link></span>
+				<template>
+					<span v-if="author == '--'">{{author}}</span>
+					<router-link v-else :to="Tools.addressRoute(author)">{{author}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.authorDescription')}}：</span>
@@ -60,7 +63,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
-				<span><router-link :to="Tools.addressRoute(owner)">{{owner}}</router-link></span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.create_record" class="record_container">
@@ -87,7 +93,10 @@
 		<div v-if="txType === TX_TYPE.burn_nft">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-				<span><router-link :to="Tools.addressRoute(sender)">{{sender}}</router-link></span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<router-link v-else :to="Tools.addressRoute(sender)">{{sender}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.denomId')}}：</span>
@@ -125,11 +134,17 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.to')}}：</span>
-				<span><router-link :to="Tools.addressRoute(recipient)">{{recipient}}</router-link></span>
+				<template>
+					<span v-if="recipient === '--'">{{recipient}}</span>
+					<router-link v-else :to="Tools.addressRoute(recipient)">{{recipient}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-				<span><router-link :to="Tools.addressRoute(sender)">{{sender}}</router-link></span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<router-link v-else :to="Tools.addressRoute(sender)">{{sender}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
@@ -160,11 +175,17 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.to')}}：</span>
-				<span><router-link :to="Tools.addressRoute(recipient) ">{{recipient}}</router-link> </span>
+				<template>
+					<span v-if="recipient === '--'">{{recipient}}</span>
+					<router-link v-else :to="Tools.addressRoute(recipient) ">{{recipient}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-				<span><router-link :to="Tools.addressRoute(sender)">{{sender}}</router-link>  </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<router-link v-else :to="Tools.addressRoute(sender)">{{sender}}</router-link> 
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
@@ -194,7 +215,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-				<span><router-link :to="Tools.addressRoute(sender)">{{sender}}</router-link>  </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<router-link v-else :to="Tools.addressRoute(sender)">{{sender}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
@@ -220,7 +244,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
-				<span><router-link :to="Tools.addressRoute(sender)">{{sender}}</router-link>  </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<router-link v-else :to="Tools.addressRoute(sender)">{{sender}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.send">
@@ -230,11 +257,17 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
-				<span><router-link :to="Tools.addressRoute(from)">{{from}}</router-link></span>
+				<template>
+					<span v-if="from === '--'">{{from}}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.to')}}：</span>
-				<span><router-link :to="Tools.addressRoute(to)">{{to}}</router-link></span>
+				<template>
+					<span v-if="to === '--'">{{to}}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.respond_service">
@@ -251,7 +284,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-				<span><router-link :to="Tools.addressRoute(provider)">{{provider}}</router-link></span>
+				<template>
+					<span v-if="provider === '--'">{{provider}}</span>
+					<router-link v-else :to="Tools.addressRoute(provider)">{{provider}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.respondService.result')}}：</span>
@@ -403,11 +439,17 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-				<span><router-link :to="Tools.addressRoute(provider)">{{provider}}</router-link></span>
+				<template>
+					<span v-if="provider === '--'">{{provider}}</span>
+					<router-link v-else :to="Tools.addressRoute(provider)">{{provider}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
-				<span><router-link :to="Tools.addressRoute(owner)">{{owner}}</router-link></span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.disable_service_binding || txType === TX_TYPE.refund_service_deposit">
@@ -420,11 +462,17 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-				<span><router-link :to="Tools.addressRoute(provider)">{{provider}}</router-link></span>
+				<template>
+					<span v-if="provider === '--'">{{provider}}</span>
+					<router-link v-else :to="Tools.addressRoute(provider)">{{provider}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
-				<span><router-link :to="Tools.addressRoute(owner)">{{owner}}</router-link></span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.enable_service_binding">
@@ -441,11 +489,17 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-				<span><router-link :to="Tools.addressRoute(provider)">{{provider}}</router-link></span>
+				<template>
+					<span v-if="provider === '--'">{{provider}}</span>
+					<router-link v-else :to="Tools.addressRoute(provider)">{{provider}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
-				<span><router-link :to="Tools.addressRoute(owner)">{{owner}}</router-link></span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.recv_packet">
@@ -479,13 +533,19 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
-				<span><router-link :to="Tools.addressRoute(signer)">{{signer}}</router-link></span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<router-link v-else :to="Tools.addressRoute(signer)">{{signer}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.create_identity || txType === TX_TYPE.update_identity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.id')}}：</span>
-				<span><router-link :to="`/identity/${id}`">{{id}}</router-link></span>
+				<template>
+					<span v-if="id === '--'">{{id}}</span>
+					<router-link v-else :to="`/identity/${id}`">{{id}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubkey')}}：</span>
@@ -506,7 +566,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
-				<span><router-link :to="Tools.addressRoute(owner)">{{owner}}</router-link></span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.create_client || txType === TX_TYPE.update_client">
@@ -520,7 +583,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
-				<span><router-link :to="Tools.addressRoute(signer)">{{signer}}</router-link></span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<router-link v-else :to="Tools.addressRoute(signer)">{{signer}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.begin_redelegate">
@@ -530,7 +596,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
-				<span><router-link :to="Tools.addressRoute(from)">{{from}}</router-link></span>
+				<template>
+					<span v-if="from === '--'">{{from}}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+				</template>
 			</p>
 			<!-- <p>
 				 <span>Shares </span>
@@ -538,7 +607,10 @@
 			 </p>-->
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
-				<span><router-link :to="Tools.addressRoute(to)">{{to}}</router-link></span>
+				<template>
+					<span v-if="to === '--'">{{to}}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+				</template>
 			</p>
 			<!--<p>
 				<span>Shares </span>
@@ -552,7 +624,10 @@
 		<div v-if="txType === TX_TYPE.create_validator">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
-				<span><router-link :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link></span>
+				<template>
+					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
+					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.moniker')}}</span>
@@ -569,7 +644,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.ownerAddress')}}</span>
-				<span><router-link :to="Tools.addressRoute(ownerAddress)">{{ownerAddress}}</router-link></span>
+				<template>
+					<span v-if="ownerAddress === '--'">{{ownerAddress}}</span>
+					<router-link v-else :to="Tools.addressRoute(ownerAddress)">{{ownerAddress}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.consensusPubkey')}}</span>
@@ -599,36 +677,52 @@
 		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
-				<span><router-link :to="Tools.addressRoute(from)">{{from}}</router-link></span>
+				<template>
+					<span v-if="from === '--'">{{from}}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+				</template>
 			</p>
 <!--			<p>原来还有amount,现在msg里面没有这个字段 </p>-->
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
-				<span><router-link :to="Tools.addressRoute(to)">{{to}}</router-link></span>
+				<template>
+					<span v-if="to === '--'">{{to}}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_validator_commission">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.validator')}}</span>
-				<span>
-					<router-link :to="Tools.addressRoute(validatorAddress)">{{ moniker || validatorAddress}}</router-link>
-				</span>
+				<template>
+					<span v-if="moniker === '--' && validatorAddress === '--' ">{{ moniker || validatorAddress }}</span>
+					<router-link v-else :to="Tools.addressRoute(validatorAddress)">{{ moniker || validatorAddress}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.set_withdraw_address">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.delegatorAddress')}}</span>
-				<span><router-link :to="Tools.addressRoute(delegatorAddress)">{{delegatorAddress}}</router-link></span>
+				<template>
+					<span v-if="delegatorAddress === '--'">{{delegatorAddress}}</span>
+					<router-link v-else :to="Tools.addressRoute(delegatorAddress)">{{delegatorAddress}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawAddress')}}</span>
-				<span><router-link :to="Tools.addressRoute(withdrawAddress)">{{withdrawAddress}}</router-link></span>
+				<template>
+					<span v-if="withdrawAddress === '--'">{{withdrawAddress}}</span>
+					<router-link v-else :to="Tools.addressRoute(withdrawAddress)">{{withdrawAddress}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.begin_unbonding">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
-				<span><router-link :to="Tools.addressRoute(from)">{{from}}</router-link></span>
+				<template>
+					<span v-if="from === '--'">{{from}}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
@@ -636,13 +730,19 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
-				<span><router-link :to="Tools.addressRoute(to)">{{to}}</router-link></span>
+				<template>
+					<span v-if="to === '--'">{{to}}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.edit_validator">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
-				<span><router-link :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link></span>
+				<template>
+					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
+					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.moniker')}}</span>
@@ -669,7 +769,10 @@
 		<div v-if="txType === TX_TYPE.delegate">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
-				<span><router-link :to="Tools.addressRoute(from)">{{from}}</router-link></span>
+				<template>
+					<span v-if="from === '--'">{{from}}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
@@ -677,7 +780,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
-				<span><router-link :to="Tools.addressRoute(to)">{{to}}</router-link></span>
+				<template>
+					<span v-if="to === '--'">{{to}}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.fund_community_pool">
@@ -687,7 +793,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.depositor')}}</span>
-				<span><router-link :to="Tools.addressRoute(depositor)">{{depositor}}</router-link></span>
+				<template>
+					<span v-if="depositor === '--'">{{depositor}}</span>
+					<router-link :to="Tools.addressRoute(depositor)">{{depositor}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.swap_order">
@@ -697,7 +806,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.inputAddress')}}</span>
-				<span><router-link :to="Tools.addressRoute(inputAddress)">{{ inputAddress }}</router-link></span>
+				<template>
+					<span v-if="inputAddress === '--'">{{inputAddress}}</span>
+					<router-link v-else :to="Tools.addressRoute(inputAddress)">{{ inputAddress }}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.Input')}}</span>
@@ -705,7 +817,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.outputAddress')}}</span>
-				<span><router-link :to="Tools.addressRoute(outputAddress)">{{ outputAddress }}</router-link></span>
+				<template>
+					<span v-if="outputAddress === '--'">{{outputAddress}}</span>
+					<router-link v-else :to="Tools.addressRoute(outputAddress)">{{ outputAddress }}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.output')}}</span>
@@ -719,7 +834,10 @@
 		<div v-if="txType === TX_TYPE.add_liquidity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
-				<span><router-link :to="Tools.addressRoute(sender)">{{ sender }}</router-link></span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<router-link v-else :to="Tools.addressRoute(sender)">{{ sender }}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.exactIrisAmt')}}</span>
@@ -741,7 +859,10 @@
 		<div v-if="txType === TX_TYPE.remove_liquidity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
-				<span><router-link :to="Tools.addressRoute(sender)">{{ sender }}</router-link></span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<router-link v-else :to="Tools.addressRoute(sender)">{{ sender }}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawLiquidity')}}</span>
@@ -763,7 +884,10 @@
 		<div v-if="txType === TX_TYPE.unjail">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
-				<span><router-link :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link></span>
+				<template>
+					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
+					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.create_feed">
@@ -884,6 +1008,38 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}: </span>
 				<span>{{ serviceFeeCap }}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.service_set_withdraw_address">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawAddress')}}</span>
+				<template>
+					<span v-if="withdrawAddress === '--'">{{withdrawAddress}}</span>
+					<router-link :to="Tools.addressRoute(withdrawAddress)">{{withdrawAddress}}</router-link>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.withdraw_earned_fees">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.provider')}}: </span>
+				<template>
+					<span v-if="provider === '--'">{{provider}}</span>
+					<router-link v-else :to="Tools.addressRoute(provider)">{{provider}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
 			</p>
 		</div>
 	</div>
@@ -1412,7 +1568,15 @@
 								this.consumer = msg.serviceName || '--';
 								this.oracle = msg.serviceName || '--';
 								this.serviceFeeCap = msg.serviceName || '--';
+								break; 
+								case TX_TYPE.service_set_withdraw_address:
+								this.owner = msg.serviceName || '--';
+								this.withdrawAddress = msg.serviceName || '--';
 								break;
+								case TX_TYPE.withdraw_earned_fees:
+								this.owner = msg.owner || '--';
+								this.provider = msg.provider || '--';
+								break; 
 						}
 					}
 				} catch (e) {
