@@ -195,6 +195,14 @@ export const ModuleMap = {
   },
 }
 
+const CHAINID = {}
+CHAINID.IRISHUB = 'Mainnet IRISHUB'
+CHAINID.FUXI = 'Testnet FUXI'
+CHAINID.NYANCAT = 'Testnet NYANCAT-6'
+CHAINID.GOZTESTNET = 'Testnet GOZ'
+CHAINID.BIFROST = 'Testnet BIFTOST'
+
+
 export const pageTitleConfig  = {
 	BlockchainBlocks:'Block List',
 	BlockchainBlocksBlockDetails:'Block Details',
@@ -247,3 +255,6 @@ export const decimals = {
   shares: 4
 }
 
+export default {
+  CHAINID
+}

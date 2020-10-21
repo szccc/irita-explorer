@@ -305,11 +305,10 @@ export default {
             } else if (item.network_id === constant.CHAINID.BIFROST) {
                 item.icon = 'iconfont iconBI-01'
             }
-
             if (item.is_main) {
                 this.mainnet = {...item};
             }
-			return item
+			      return item
         });
     },
     windowOpenUrl (url) {
