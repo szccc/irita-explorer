@@ -170,9 +170,9 @@ export default {
           }
           this.fee = this.fee || '--'
           // this.gasUsed=res.fee.gas || '--' 
-          this.signer = res.signers[0] || '--'
+          this.signer = res.signers && res.signers[0] || '--'
           this.memo = res.memo ? res.memo : '--'
-          this.txType = res.msgs[0].type || '--'
+          this.txType = res.msgs && res.msgs[0] && res.msgs[0].type || '--'
           switch (this.txType) {
             case TX_TYPE.mint_nft:
               break

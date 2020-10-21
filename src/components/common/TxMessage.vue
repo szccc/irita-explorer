@@ -1585,10 +1585,10 @@
 								} else {
 									this.serviceFeeCap = '--';
 								}
-								break; 
+								break;
 								case TX_TYPE.service_set_withdraw_address:
-								this.owner = msg.serviceName || '--';
-								this.withdrawAddress = msg.serviceName || '--';
+								this.owner = msg.owner || '--';
+								this.withdrawAddress = msg.withdraw_address || '--';
 								break;
 								case TX_TYPE.withdraw_earned_fees:
 								this.owner = msg.owner || '--';
