@@ -308,11 +308,14 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
-				<span>{{(requestContextId || '').toUpperCase()}}</span>
+				<span>{{(requestContextId || '--').toUpperCase()}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.consumer')}}：</span>
-				<span>{{consumer}}</span>
+				<template>
+					<span v-if="consumer === '--'">{{consumer}}</span>
+					<router-link v-else :to="Tools.addressRoute(consumer)">{{consumer}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.callService.input')}}：</span>
@@ -365,7 +368,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.consumer')}}：</span>
-				<span>{{consumer}}</span>
+				<template>
+					<span v-if="consumer === '--'">{{consumer}}</span>
+					<router-link v-else :to="Tools.addressRoute(consumer)">{{consumer}}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.update_request_context">
@@ -386,7 +392,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.consumer')}}：</span>
-				<span>{{consumer}}</span>
+				<template>
+					<span v-if="consumer === '--'">{{consumer}}</span>
+					<router-link v-else :to="Tools.addressRoute(consumer)">{{consumer}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
@@ -999,7 +1008,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.consumer')}}: </span>
-				<span>{{ consumer }}</span>
+				<template>
+					<span v-if="consumer === '--'">{{consumer}}</span>
+					<router-link v-else :to="Tools.addressRoute(consumer)">{{consumer}}</router-link>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.oracle')}}: </span>
@@ -1564,10 +1576,15 @@
 								this.timeout = msg.serviceName || '--';
 								break;
 								case TX_TYPE.request_rand:
-								this.blockInterval = msg.serviceName || '--';
-								this.consumer = msg.serviceName || '--';
-								this.oracle = msg.serviceName || '--';
-								this.serviceFeeCap = msg.serviceName || '--';
+								this.blockInterval = msg.block_interval == 0 ? msg.block_interval : msg.block_interval || '--';
+								this.consumer = msg.consumer || '--';
+								this.oracle = msg.oracle;
+								if (msg.service_fee_cap && msg.service_fee_cap.length) {
+									let serviceFeeCap = await converCoin(msg.service_fee_cap[0]);
+									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toUpperCase()}`;
+								} else {
+									this.serviceFeeCap = '--';
+								}
 								break; 
 								case TX_TYPE.service_set_withdraw_address:
 								this.owner = msg.serviceName || '--';
