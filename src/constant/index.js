@@ -202,7 +202,7 @@ CHAINID.IRISHUB = 'Mainnet IRISHUB'
 CHAINID.FUXI = 'Testnet FUXI'
 CHAINID.NYANCAT = 'Testnet NYANCAT-6'
 CHAINID.GOZTESTNET = 'Testnet GOZ'
-CHAINID.BIFROST = 'Testnet BIFTOST'
+CHAINID.BIFROST = 'Testnet BIFROST'
 
 
 export const pageTitleConfig  = {
