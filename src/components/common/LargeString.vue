@@ -2,7 +2,7 @@
     <span :class="`tx_message_content_largeStr ${mode=='cell'?'flex-row':'flex-colum'}`">
         <span v-if="!isLarge" ref="text">{{text}}</span>
         <template v-else>
-            <span class="text" :style="`width:${textWidth || 'auto'}`">
+            <span class="text" :class=" !showDesc ? 'width': ''" :style="`width:${textWidth || 'auto'}`">
                 {{text_f}}
             </span>
             <span class="tx_message_content_largeStr_btn" v-if="showDescBtn(text)" @click="btnDidClick">
@@ -86,6 +86,11 @@
         .text {
             overflow-y: auto;
             max-height: 2rem;
+        }
+        .width {
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
         }
     }
     .flex-row{

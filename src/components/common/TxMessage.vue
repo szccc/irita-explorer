@@ -18,9 +18,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
-				<!-- <LargeString :text="schemas"/> -->
-				<!-- <LargeString :text="schemas" :maxLength="155" :minHeight="80"/> -->
-				<LargeString :text="schemas" :maxLength="155"/>
+				<LargeString :text="schemas" textWidth="980px" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
@@ -150,7 +148,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString :text="tokenData" :maxLength="155" :minHeight="80"/>
+				<LargeString :text="tokenData" textWidth="980px" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -191,7 +189,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString :text="tokenData" :maxLength="155" :minHeight="80"/>
+				<LargeString :text="tokenData" textWidth="980px" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -224,7 +222,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString :text="tokenData" :maxLength="155" :minHeight="80"/>
+				<LargeString :text="tokenData" textWidth="980px" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -242,7 +240,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
-				<LargeString :text="schema" :maxLength="155" :minHeight="80" />
+				<LargeString :text="schema" textWidth="980px" :minHeight="80" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
@@ -516,7 +514,7 @@
 		<div v-if="txType === TX_TYPE.recv_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.packet')}}：</span>
-				<LargeString :text="packet" :maxLength="155" :minHeight="80"/>
+				<LargeString :text="packet" textWidth="980px" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proof')}}：</span>
@@ -532,7 +530,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proofData')}}：</span>
-				<LargeString :text="proofData" :maxLength="155" :minHeight="80"/>
+				<LargeString :text="proofData" textWidth="980px" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.clientID')}}：</span>
@@ -560,7 +558,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubkey')}}：</span>
-				<LargeString :text="pubkey" :maxLength="155" :minHeight="80"/>
+				<LargeString :text="pubkey" textWidth="980px" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubKeyAlgo')}}：</span>
@@ -568,7 +566,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.certificate')}}：</span>
-				<LargeString :text="certificate" :maxLength="155" :minHeight="80"/>
+				<LargeString :text="certificate" textWidth="980px" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.credentials')}}：</span>
@@ -590,7 +588,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
-				<LargeString :text="header" :maxLength="155" :minHeight="80"/>
+				<LargeString :text="header" textWidth="980px" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
