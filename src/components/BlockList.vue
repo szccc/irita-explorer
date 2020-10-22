@@ -152,6 +152,7 @@
                             flex-direction:column;
                             .pagination_content{
                                 width:100%;
+								margin: -0.1rem 0 0.1rem 0;
                             }
                         }
                     }
@@ -180,7 +181,7 @@
 
 
 					.block_list_current_height_content{
-						padding:0.3rem 0 0.1rem 0;
+						padding:0.3rem 0 0.1rem 0.1rem;
 						text-align: left;
                         display:flex;
                         align-items: center;
