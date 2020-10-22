@@ -124,7 +124,7 @@ export const ColumnMinWidth = {
   URI: '260',
   respondTimes: '100',
   available: '100',
-  qos: '120',
+  qos: '126',
   requestId: '130',
   state: '120',
   serviceName: '120',

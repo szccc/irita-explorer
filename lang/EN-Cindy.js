@@ -307,16 +307,21 @@ export const ExplorerLang = {
             depositor: 'Depositor :',
             validator: 'Validator: '
         },
-        feedName: 'Feed Name',
-        description: 'Description',
-        latestHistory: 'Latest History',
-        creator: 'Creator',
-        providers: 'Providers',
-        aggregateFunc: 'Aggregate Func',
-        valueJsonPath: 'Value Json Path',    
-        responseThreshold: 'Response Threshold',
-        blockInterval: 'Block_interval',
-        oracle: 'Oracle',
+        oracle: {
+            feedName: 'Feed Name',
+            description: 'Description',
+            latestHistory: 'Latest History',
+            creator: 'Creator',
+            providers: 'Providers',
+            aggregateFunc: 'Aggregate Func',
+            valueJsonPath: 'Value Json Path',    
+            responseThreshold: 'Response Threshold',
+        },
+        random: {
+            blockInterval: 'Block_interval',
+            oracle: 'Oracle',
+        }
+
     },
     addressDetail: {
         addressDetail:'Address Details',

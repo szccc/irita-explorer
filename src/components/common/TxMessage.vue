@@ -19,7 +19,8 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
 				<!-- <LargeString :text="schemas"/> -->
-				<LargeString :text="schemas" :maxLength="160" :minHeight="80"/>
+				<!-- <LargeString :text="schemas" :maxLength="155" :minHeight="80"/> -->
+				<LargeString :text="schemas" :maxLength="155"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
@@ -149,7 +150,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString :text="tokenData" :maxLength="160" :minHeight="80"/>
+				<LargeString :text="tokenData" :maxLength="155" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -190,7 +191,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString :text="tokenData" :maxLength="160" :minHeight="80"/>
+				<LargeString :text="tokenData" :maxLength="155" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -223,7 +224,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString :text="tokenData" :maxLength="160" :minHeight="80"/>
+				<LargeString :text="tokenData" :maxLength="155" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -241,7 +242,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
-				<LargeString :text="schema" :maxLength="160" :minHeight="80" />
+				<LargeString :text="schema" :maxLength="155" :minHeight="80" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
@@ -515,7 +516,7 @@
 		<div v-if="txType === TX_TYPE.recv_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.packet')}}：</span>
-				<LargeString :text="packet" :maxLength="160" :minHeight="80"/>
+				<LargeString :text="packet" :maxLength="155" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proof')}}：</span>
@@ -531,7 +532,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proofData')}}：</span>
-				<LargeString :text="proofData" :maxLength="160" :minHeight="80"/>
+				<LargeString :text="proofData" :maxLength="155" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.clientID')}}：</span>
@@ -559,7 +560,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubkey')}}：</span>
-				<LargeString :text="pubkey" :maxLength="160" :minHeight="80"/>
+				<LargeString :text="pubkey" :maxLength="155" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubKeyAlgo')}}：</span>
@@ -567,7 +568,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.certificate')}}：</span>
-				<LargeString :text="certificate" :maxLength="160" :minHeight="80"/>
+				<LargeString :text="certificate" :maxLength="155" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.credentials')}}：</span>
@@ -589,7 +590,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
-				<LargeString :text="header" :maxLength="160" :minHeight="80"/>
+				<LargeString :text="header" :maxLength="155" :minHeight="80"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -906,30 +907,46 @@
 		<div v-if="txType === TX_TYPE.create_feed">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceName')}}: </span>
-				<span>{{ serviceName }}</span>
+				<template>
+					<span v-if="serviceName == '--'"> -- </span>
+					<router-link v-else :to="`/service?serviceName=${serviceName}`">
+						{{serviceName}}
+					</router-link>	
+				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.feedName')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.feedName')}}: </span>
 				<span>{{ feedName }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.description')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.description')}}: </span>
 				<span>{{ description }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.latestHistory')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.latestHistory')}}: </span>
 				<span>{{ latestHistory }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.creator')}}: </span>
-				<span>{{ creator }}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.creator')}}: </span>
+				<template>
+					<span v-if="creator === '--'">{{ creator }}</span>
+					<router-link  v-else :to="Tools.addressRoute(creator)">{{ creator }}</router-link>
+				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.providers')}}: </span>
-				<span>{{ providers }}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.providers')}}: </span>
+				<span style="display: flex;flex-direction: column" v-if="providers.length > 0">
+                    <router-link
+		                    v-for="(item,index) in providers"
+		                    :key="index"
+		                    :to="Tools.addressRoute(item)">
+                        {{item}}
+                    </router-link>
+                </span>
+				<span v-else>--</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionMessage.Input')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.Input')}}</span>
 				<span>{{ input }}</span>
 			</p>
 			<p>
@@ -937,11 +954,11 @@
 				<span>{{ serviceFeeCap }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.aggregateFunc')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.aggregateFunc')}}: </span>
 				<span>{{ aggregateFunc }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.valueJsonPath')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.valueJsonPath')}}: </span>
 				<span>{{ valueJsonPath }}</span>
 			</p>
 			<p>
@@ -949,7 +966,7 @@
 				<span>{{ repeatedFrequency }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.responseThreshold')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.responseThreshold')}}: </span>
 				<span>{{ responseThreshold }}</span>
 			</p>
 			<p>
@@ -959,34 +976,48 @@
 		</div>
 		<div v-if="txType === TX_TYPE.start_feed || txType === TX_TYPE.pause_feed">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.feedName')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.feedName')}}: </span>
 				<span>{{ feedName }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.creator')}}: </span>
-				<span>{{ creator }}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.creator')}}: </span>
+				<template>
+					<span v-if="creator === '--'">{{ creator }}</span>
+					<router-link  v-else :to="Tools.addressRoute(creator)">{{ creator }}</router-link>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.edit_feed">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.feedName')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.feedName')}}: </span>
 				<span>{{ feedName }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.description')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.description')}}: </span>
 				<span>{{ description }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.latestHistory')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.latestHistory')}}: </span>
 				<span>{{ latestHistory }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.creator')}}: </span>
-				<span>{{ creator }}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.creator')}}: </span>
+				<template>
+					<span v-if="creator === '--'">{{ creator }}</span>
+					<router-link  v-else :to="Tools.addressRoute(creator)">{{ creator }}</router-link>
+				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.providers')}}: </span>
-				<span>{{ providers }}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.providers')}}: </span>
+				<span style="display: flex;flex-direction: column" v-if="providers.length > 0">
+                    <router-link
+		                    v-for="(item,index) in providers"
+		                    :key="index"
+		                    :to="Tools.addressRoute(item)">
+                        {{item}}
+                    </router-link>
+                </span>
+				<span v-else>--</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}: </span>
@@ -997,7 +1028,7 @@
 				<span>{{ repeatedFrequency }}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.responseThreshold')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.responseThreshold')}}: </span>
 				<span>{{ responseThreshold }}</span>
 			</p>
 			<p>
@@ -1007,7 +1038,7 @@
 		</div>
 		<div v-if="txType === TX_TYPE.request_rand">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.blockInterval')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.random.blockInterval')}}: </span>
 				<span>{{ blockInterval }}</span>
 			</p>
 			<p>
@@ -1018,7 +1049,7 @@
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.oracle')}}: </span>
+				<span>{{$t('ExplorerLang.transactionInformation.random.oracle')}}: </span>
 				<span>{{ oracle }}</span>
 			</p>
 			<p>
@@ -1559,40 +1590,49 @@
 								case TX_TYPE.unjail:
 								this.operatorAddress = msg.address || '--';
 								break;	
-								// 待联调
 								case TX_TYPE.create_feed:
-								this.serviceName = msg.serviceName || '--';
-								this.feedName = msg.serviceName || '--';
-								this.description = msg.serviceName || '--';
-								this.latestHistory = msg.serviceName || '--';
-								this.creator = msg.serviceName || '--';
-								this.providers = msg.serviceName || '--';
-								this.input = msg.serviceName || '--';
-								this.serviceFeeCap = msg.serviceName || '--';
-								this.aggregateFunc = msg.serviceName || '--';
-								this.valueJsonPath = msg.serviceName || '--';
-								this.repeatedFrequency = msg.serviceName || '--';
-								this.responseThreshold = msg.serviceName || '--';
-								this.timeout = msg.serviceName || '--';
+								this.serviceName = msg.serviceName || msg.service_name || '--';
+								this.feedName = msg.feed_name || '--';
+								this.description = msg.description || '--';
+								this.latestHistory = msg.latest_history !== 0 ?  msg.latest_history || '--' : '--';
+								this.creator = msg.creator || '--';
+								this.providers = msg.providers || '--'; // 待处理
+								this.input = msg.input || '--';
+								if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
+									let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
+									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
+								} else {
+									this.serviceFeeCap = '--'
+								}
+								this.aggregateFunc = msg.aggregate_func || '--';
+								this.valueJsonPath = msg.value_json_path || '--';
+								this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
+								this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
+								this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
 								break;	
 								case TX_TYPE.start_feed:
-								this.feedName = msg.serviceName || '--';
-								this.creator = msg.serviceName || '--';
+								this.feedName = msg.feed_name || '--';
+								this.creator = msg.creator || '--';
 								break;
 								case TX_TYPE.pause_feed:
-								this.feedName = msg.serviceName || '--';
-								this.creator = msg.serviceName || '--';
+								this.feedName = msg.feed_name || '--';
+								this.creator = msg.creator || '--';
 								break;
 								case TX_TYPE.edit_feed:
-								this.feedName = msg.serviceName || '--';
-								this.description = msg.serviceName || '--';
-								this.latestHistory = msg.serviceName || '--';
-								this.creator = msg.serviceName || '--';
-								this.providers = msg.serviceName || '--';
-								this.serviceFeeCap = msg.serviceName || '--';
-								this.repeatedFrequency = msg.serviceName || '--';
-								this.responseThreshold = msg.serviceName || '--';
-								this.timeout = msg.serviceName || '--';
+								this.feedName = msg.feed_name || '--';
+								this.description = msg.description || '--';
+								this.latestHistory = msg.latest_history !== 0 ?  msg.latest_history || '--' : '--';
+								this.creator = msg.creator || '--';
+								this.providers = msg.providers || '--';
+								if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
+									let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
+									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
+								} else {
+									this.serviceFeeCap = '--'
+								}
+								this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
+								this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
+								this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
 								break;
 								case TX_TYPE.request_rand:
 								this.blockInterval = msg.block_interval == 0 ? msg.block_interval : msg.block_interval || '--';
@@ -1695,8 +1735,9 @@
 		p {
 			display: flex;
 			margin-bottom: 0.26rem;
-			
+
 			span:nth-of-type(1) {
+				margin-right: 0.15rem;
 				color: $t_second_c;
 				min-width: 1.5rem;
 				text-align: left;
@@ -1711,6 +1752,7 @@
 				font-size: $s14;
 				color: $t_first_c;
 				word-break: break-all;
+				line-height: 0.20rem;
 			}
 		}
 		
