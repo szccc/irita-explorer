@@ -132,7 +132,7 @@
                     <span class="service_information_transaction_condition_count">
                         {{`${txCount} ${$t('ExplorerLang.unit.Txs')}`}}
                     </span>
-                    <el-select v-model="type">
+                    <el-select v-model="type" filterable>
                         <el-option v-for="(item, index) in txTypeOption"
                                    :key="index"
                                    :label="item.label"
@@ -321,7 +321,6 @@
             async getServiceInformation(){
                 const res = await getServiceDetail(this.$route.query.serviceName);
                 try {
-                    console.log('---', res)
                     if(res.msgs && res.msgs.length > 0 && res.msgs[0].msg){
                         const {author, author_description, description, name, schemas, tags} = res.msgs[0].msg;
                         this.author = author;
@@ -343,10 +342,8 @@
             async getServiceBindingList(){
                 try {
                     const serviceList = await getServiceBindingTxList(this.$route.query.serviceName, this.providerPageNum, this.providerPageSize);
-                    console.log(serviceList)
                     if(serviceList && serviceList.data){
                         let bindings = await getServiceBindingByServiceName(this.$route.query.serviceName);
-                        console.log(bindings)
                         if(bindings.result){
                             serviceList.data.forEach((s) =>{
                                 s.bindTime = Tools.getDisplayDate(s.bindTime);
@@ -363,7 +360,6 @@
                                 })
                             })
                         }
-                        console.log(serviceList)
                         this.serviceList = serviceList.data;
                         this.providerCount = Number(serviceList.count);
                         this.providerPageSize = Number(serviceList.pageSize);
@@ -408,7 +404,6 @@
                         };
 
                     });
-                    console.log(this.transactionArray);
                     this.txCount = res.count;
                     this.txPageNum = Number(res.pageNum);
                     this.txPageSize = Number(res.pageSize);

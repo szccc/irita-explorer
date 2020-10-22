@@ -220,7 +220,6 @@
                 };
                 try {
                     const res = await getTxList(params);
-                    // console.log('tx list:',res)
                     if(res){
                         for (let txIndex = 0; txIndex < res.data.length; txIndex++){
                             let lastTxTime = Tools.getTimestamp();
@@ -263,7 +262,6 @@
                     //this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                     console.error(e);
                 }
-
 			},
 			showBlockFadeinAnimation (blockList) {
 				let storedLastBlockHeight = sessionStorage.getItem('lastBlockHeight') ? sessionStorage.getItem('lastBlockHeight') : '';
@@ -291,7 +289,7 @@
 </script>
 
 <style scoped lang="scss">
-	a{
+	a {
 		color: $t_link_c !important;
 	}
 	.home_container{

@@ -17,10 +17,10 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-<!--					<el-table-column label="Website" prop="website"></el-table-column>-->
-<!--					<el-table-column label="Identity" prop="identity"></el-table-column>-->
-<!--					<el-table-column label="Details" prop="detail"></el-table-column>-->
-<!--					<el-table-column label="Proposer Priority" prop="proposerPriority"></el-table-column>-->
+					<!-- <el-table-column label="Website" prop="website"></el-table-column>-->
+					<!--<el-table-column label="Identity" prop="identity"></el-table-column>-->
+					<!--<el-table-column label="Details" prop="detail"></el-table-column>-->
+					<!--<el-table-column label="Proposer Priority" prop="proposerPriority"></el-table-column> -->
 					<el-table-column :min-width="ColumnMinWidth.votingPower" :label="$t('ExplorerLang.table.votingPower')" prop="votingPower"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.publickKey" :label="$t('ExplorerLang.table.pubKey')" prop="pubKey"></el-table-column>
 				</el-table>
@@ -77,7 +77,6 @@
 				this.validatorStatusTitleList.forEach( item => {
 					item.isActive = false
 				});
-				// localStorage.setItem('validatorTabIndex',index);
 				this.validatorStatusTitleList[index].isActive = true;
 				this.status = this.validatorStatusTitleList[index]['name'];
 				// this.getValidatorStatus(index);

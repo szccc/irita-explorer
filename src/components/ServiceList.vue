@@ -115,7 +115,6 @@
                 try {
                     let serviceList = await getAllServiceTxList(this.pageNum,this.pageSize, this.iptVal);
                     if(serviceList && serviceList.data){
-                        console.log(serviceList)
                         for(let service of serviceList.data){
                             let bindings = await getServiceBindingByServiceName(service.serviceName);
 
@@ -133,7 +132,6 @@
                                 })
                             }
                         }
-                        console.log(serviceList)
                         this.serviceList = serviceList.data;
 
                         this.txCount = serviceList.count;
@@ -450,7 +448,7 @@
                 padding:0.28rem 0.28rem 0.18rem 0.28rem;
                 background: $bg_white_c;
                 border-radius:5px;
-                border:1px solid rgba(215,215,215,1);
+                border:1px solid $bd_first_c;
                 .service_information_available_container{
                     display:flex;
                     align-items: center;
