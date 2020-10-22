@@ -88,7 +88,7 @@
 						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
 							<template v-slot:default="{ row }">
 								<div class="common_hover_address_parent skip_route">
-									<router-link v-if="row.OperatorAddress !== '--'"  :to="Tools.addressRoute(row.OperatorAddress)" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
+									<router-link v-if="row.OperatorAddress !== '--'"  :to="Tools.addressRoute(row.OperatorAddress)" style="font-family: Arial" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
 									</router-link>
 									<span v-else>{{ row.OperatorAddress }}</span>
 								</div>

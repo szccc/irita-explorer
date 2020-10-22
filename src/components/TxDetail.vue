@@ -339,7 +339,7 @@ a {
         line-height: 0.21rem;
         margin: 0.3rem 0 0.15rem 0.25rem;
         text-align: left;
-        font-family: PingFangSC-Semibold, PingFang SC;
+        font-family: Arial;
         font-weight: 600;
         .tx_detail_title_first {
           white-space: nowrap;
@@ -347,7 +347,7 @@ a {
         }
         .tx_detail_title_hash {
           font-size: $s14;
-          font-family: PingFangSC-Regular, PingFang SC;
+          font-family: Arial;
           font-weight: 400;
           color: $t_first_c;
           line-height: 0.2rem;
@@ -364,7 +364,7 @@ a {
         border: 1px solid $bd_first_c;
         .tx_information_list_title {
           font-size: $s16;
-          font-family: PingFangSC-Semibold, PingFang SC;
+          font-family: Arial;
           font-weight: 600;
           color: $t_first_c;
           line-height: 22px;
@@ -381,7 +381,7 @@ a {
             color: $t_second_c;
             font-size: $s14;
             line-height: 0.16rem;
-            font-family: PingFangSC-Semibold, PingFang SC;
+            font-family: Arial;
             font-weight: 600;
           }
           span:nth-of-type(2) {
@@ -408,7 +408,7 @@ a {
             text-align: left;
             font-size: $s16;
             font-weight: bold;
-            font-family: PingFangSC-Semibold, PingFang SC;
+            font-family: Arial;
             font-weight: 600;
           }
           .tx_information_tx_message_line {

@@ -66,7 +66,7 @@
 				justify-content: flex-start;
 				font-size:$s14;
 				max-width:12rem;
-				font-family:PingFangSC-Regular,PingFang SC;
+				font-family:Arial;
 				font-weight:400;
 				.footer_content_top_icon{
 					height:0.6rem;
@@ -85,7 +85,7 @@
 				align-items:center;
 				font-size:$s12;
 				max-width:12rem;
-				font-family:ArialMT;
+				font-family: Arial;
 				p {
 					margin:0.05rem 0.15rem;
 				}

@@ -1742,7 +1742,7 @@
 				min-width: 1.5rem;
 				text-align: left;
 				font-size: $s14;
-				font-family: PingFangSC-Semibold, PingFang SC;
+				font-family: Arial;
 				font-weight: 600;
 			}
 			

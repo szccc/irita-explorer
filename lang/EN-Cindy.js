@@ -137,7 +137,8 @@ export const ExplorerLang = {
         status: ' Status',
         // 新增
         delegationTxsList: 'Delegation Txs List',
-        validationTxsList: 'Validation Txs List'
+        validationTxsList: 'Validation Txs List',
+        tooltip: 'Date selection range from the first block to the latest block.'
     },
     validators:{
         bonded:'Active',

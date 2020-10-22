@@ -37,7 +37,7 @@
 									<!-- 待处理 -->
 									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" width="110">
 									  <template v-slot:default="{ row }">
-										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
+										<router-link style="font-family: Arial;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
 									  </template>
 									</el-table-column> -->
 								</el-table>
@@ -70,7 +70,7 @@
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')" align="left"
 									                 :min-width="ColumnMinWidth.blockHeight">
 										<template v-slot:default="{ row }">
-											<router-link style="font-family: Consolas,Menlo;"
+											<router-link style="font-family: Arial;"
 											             :to="'/block/' + row.block"
 											             :style="{ color: '$theme_c !important' }">{{ row.block }}
 											</router-link>

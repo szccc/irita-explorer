@@ -35,7 +35,7 @@
           </el-menu>
         </div>
         <div class="header_mobile_menu" v-if="flShowNetwork">
-          <span v-if="netWorkArray.length !== 0" style="color:white;font-size: 0.12rem;font-family: PingFangSC-Regular, PingFang SC">{{mainnet.network_name}}</span>
+          <span v-if="netWorkArray.length !== 0" style="color:white;font-size: 0.12rem;font-family: Arial">{{mainnet.network_name}}</span>
         </div>
       </div>
       <div class="header_input_content" :style="`background-color:${(prodConfig.nav || {}).bgColor || ''}`" v-if="searchShow">
@@ -348,7 +348,7 @@ export default {
         margin-right: 0.2rem;
         height: 0.6rem;
         font-size: $s12;
-        font-family: PingFangSC-Regular, PingFang SC;
+        font-family: Arial;
         color: $t_white_c;
         text-align: left;
         line-height: 1.3;
@@ -507,7 +507,7 @@ export default {
         cursor: pointer;
         color: inherit;
         font-size: $s14;
-        font-family: PingFangSC-Regular, PingFang SC;
+        font-family: Arial;
         text-align: left;
         padding: 0.05rem 0;
         width: 100%;

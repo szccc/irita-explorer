@@ -8,7 +8,7 @@
             <div class="transaction_list_title_content">
                 <div class="filter_container">
                     <div class="filter_tx_type_statue_content">
-                        <el-select v-model="value" filterable :change="filterTxByTxType(value)">
+                        <el-select popper-class="tooltip" v-model="value" filterable :change="filterTxByTxType(value)">
                             <el-option v-for="(item, index) in txTypeListArray"
                                        :key="index"
                                        :label="item.label"
@@ -16,7 +16,7 @@
                             </el-option>
                         </el-select>
 
-                        <el-select v-model="statusValue" :change="filterTxByStatus(statusValue)">
+                        <el-select popper-class="tooltip" v-model="statusValue" :change="filterTxByStatus(statusValue)">
                             <el-option v-for="(item, index) in status"
                                        :key="index"
                                        :label="item.label"
@@ -25,6 +25,7 @@
                     </div>
                     <div class="select_date_content">
                         <el-date-picker  type="date"
+										 popper-class="tooltip"
                                          v-model="startTime"
                                          @change="getStartTime(startTime)"
                                          :picker-options="PickerOptions"
@@ -34,6 +35,7 @@
                         </el-date-picker>
                         <span class="joint_mark">~</span>
                         <el-date-picker  type="date"
+										 popper-class="tooltip"
                                          v-model="endTime"
                                          :picker-options="PickerOptions"
                                          value-format="yyyy-MM-dd"
@@ -42,7 +44,7 @@
                                          :placeholder="$t('ExplorerLang.common.selectDate')">
                         </el-date-picker>
                         <div class="tooltip_content">
-                            <el-tooltip content="Date selection range from the first block to the latest block.">
+                            <el-tooltip popper-class="tooltip"  :content="$t('ExplorerLang.transactions.tooltip')">
                                 <i class="iconfont iconyiwen"></i>
                             </el-tooltip>
                         </div>

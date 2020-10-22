@@ -341,7 +341,7 @@
 												             :to="`/staking/${row.address}`">
 													{{formatMoniker(row.moniker)}}
 												</router-link>
-												<router-link v-if="!row.moniker" style="font-family:Consolas,Menlo"
+												<router-link v-if="!row.moniker" style="font-family:Arial"
 												             class="address_link" :to="`/staking/${row.address}`">
 													{{formatAddress(row.address)}}
 												</router-link>
@@ -354,7 +354,7 @@
 									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
 										<template v-slot:default="{ row }">
-										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
+										<router-link style="font-family: Arial;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
 										</template>
 									</el-table-column> -->
 								</el-table>
@@ -377,7 +377,7 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link style="font-family: Consolas,Menlo;"
+												<router-link style="font-family: Arial;"
 												             :to="'address/' + row.address"
 												             :style="{ color: '$theme_c !important' }">{{
 													formatAddress(row.address) }}
@@ -390,7 +390,7 @@
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')"
 									                 :min-width="ColumnMinWidth.blockHeight">
 										<template v-slot:default="{ row }">
-											<router-link style="font-family: Consolas,Menlo;"
+											<router-link style="font-family: Arial;"
 											             :to="'/block/' + row.block"
 											             :style="{ color: '$theme_c !important' }">{{ row.block }}
 											</router-link>
@@ -433,7 +433,7 @@
 												             :to="`/staking/${row.address}`">
 													{{formatMoniker(row.moniker)}}
 												</router-link>
-												<router-link v-if="!row.moniker" style="font-family:Consolas,Menlo"
+												<router-link v-if="!row.moniker" style="font-family:Arial"
 												             class="address_link" :to="`/staking/${row.address}`">
 													{{formatAddress(row.address)}}
 												</router-link>
@@ -501,13 +501,13 @@
                     <span class="address_transaction_condition_count">
                         {{ `${totalTxNumber} ${$t('ExplorerLang.unit.Txs')}` }}
                     </span>
-					<el-select v-model="type_temp" filterable>
+					<el-select popper-class="tooltip" v-model="type_temp" filterable>
 						<el-option v-for="(item, index) in txTypeOption"
 						           :key="index"
 						           :label="item.label"
 						           :value="item.value"></el-option>
 					</el-select>
-					<el-select v-model="status_temp">
+					<el-select popper-class="tooltip" v-model="status_temp">
 						<el-option v-for="(item, index) in statusOpt"
 						           :key="index"
 						           :label="item.label"
@@ -1363,7 +1363,7 @@
 				line-height: 0.21rem;
 				margin: 0.3rem 0 0.15rem 0.25rem;
 				text-align: left;
-				font-family: PingFangSC-Semibold, PingFang SC;
+				font-family: Arial;
 				font-weight: 600;
 				
 				.address_content_title_first {
@@ -1373,7 +1373,7 @@
 				
 				.address_content_title_address {
 					font-size: $s16;
-					font-family: ArialMT;
+					font-family: Arial;
 					font-weight: 400;
 					color: $t_first_c;
 					line-height: 0.2rem;
@@ -1570,7 +1570,7 @@
 				margin-bottom: 0.4rem;
 				text-align: left;
 				font-size: $s16;
-				font-family: PingFangSC-Semibold, PingFang SC;
+				font-family: Arial;
 				font-weight: 600;
 				line-height: 22px;
 			}
