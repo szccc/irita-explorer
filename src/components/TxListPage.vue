@@ -462,7 +462,8 @@
 <style scoped lang="scss">
 	.transaction_list_page_container {
 		.title_container {
-			max-width: 12.8rem;
+			// max-width: 12.8rem;
+			max-width: 12rem;
 			margin: 0.3rem auto;
 			margin-bottom: 0rem;
 			text-align: left;
@@ -487,7 +488,8 @@
 				height: 0.7rem;
 				display: flex;
 				align-items: center;
-				max-width: 12.8rem;
+				// max-width: 12.8rem;
+				max-width: 12rem;
 				margin: 0 auto;
 				
 				.filter_container {
@@ -619,7 +621,8 @@
 	}
 	
 	.transaction_list_table_container {
-		max-width: 12.8rem;
+		// max-width: 12.8rem;
+		max-width: 12rem;
 		// padding: 1.24rem 0 0.2rem 0;
 		padding: 0.04rem 0 0.2rem 0;
 		margin: 0 auto;
