@@ -94,7 +94,6 @@
 			async getTokenInformation(){
 				try {
 					let nftDetail = await getNftDetail(this.$route.query.denom, this.$route.query.tokenId);
-					console.log('----',nftDetail)
 
 					if(nftDetail){
 						this.creator = (nftDetail.denomDetail || {}).creator;
@@ -122,10 +121,8 @@
 			async getTokenTx(){
                 const res = await getTokenTxList(this.tokenID,this.$route.query.denom,this.pageNum ,this.pageSize );
                 try {
-                    // console.log(res)
                     this.txListByToken = res.data;
                     this.count = res.count;
-                    // console.log(this.txListByToken)
                 }catch (e) {
                 		console.error(e);
                     this.$message.error(this.$t('ExplorerLang.message.requestFailed'));

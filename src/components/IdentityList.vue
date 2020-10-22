@@ -108,7 +108,6 @@
             async identities(){
                 try {
                     const res = await getIdentities(this.input, this.pageNum, this.pageSize);
-                    console.log(res)
                     if(res && res.data && Array.isArray(res.data) && res.data.length > 0){
                         this.identityList = res.data.map((item)=>{
                             let pubkey = (item.pubkeys || [])[0] || {};

@@ -1,7 +1,7 @@
 <template>
     <div class="copy_container" @click="handleCopy(text,$event)">
         <img src="../../assets/copy_icon.png" alt="copy" />
-        <div class="tips" ref="tip" :class="flShowTips ? 'show_tips' :''">
+        <div class="tips" ref="tip" v-show="flShowTips" :class="flShowTips ? 'show_tips' :''">
             {{tipText}}
             <i></i>
         </div>
@@ -130,7 +130,7 @@ export default {
         border-radius: 0.04rem;
         z-index: 10;
         line-height: 0.32rem;
-        font-size: 0.14rem;
+        font-size: $s14;
         white-space: nowrap;
         i {
             width: 0;
