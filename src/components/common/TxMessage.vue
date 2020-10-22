@@ -692,7 +692,10 @@
 					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
 				</template>
 			</p>
-<!--			<p>原来还有amount,现在msg里面没有这个字段 </p>-->
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{amount}}</span>
+			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
 				<template>
@@ -1455,6 +1458,21 @@
 							case TX_TYPE.withdraw_delegator_reward:
 								this.from = msg.validator_address;
 								this.to = msg.delegator_address;
+								(this.events || []).forEach((item) => {
+									if(item.type === 'withdraw_rewards') {
+										(item.attributes || []).forEach((attr) => {
+											if (attr.key == 'amount') {
+												amount = attr.value || '--';
+											}
+										});
+									}
+								});
+								if( amount && amount !== '--') {
+									amount = await converCoin(amount);
+									this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
+								} else {
+									this.amount = '--'
+								}
 								break;
 							case TX_TYPE.withdraw_validator_commission:
 								this.validatorAddress = msg.validator_address
