@@ -460,6 +460,9 @@
 </script>
 
 <style scoped lang="scss">
+	/deep/ .cell {
+		// padding: 0.01rem;
+	}
 	.transaction_list_page_container {
 		.title_container {
 			// max-width: 12.8rem;

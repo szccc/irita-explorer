@@ -28,7 +28,7 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
+            <el-table-column  :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
                 <template slot-scope="scope">
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>

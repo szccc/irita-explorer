@@ -544,6 +544,7 @@
                 margin-bottom: 0.48rem;
                 border-radius: 5px;
                 border: 1px solid $bd_first_c;
+                overflow-x: auto;
                 .service_information_binding_title {
                     font-size: $s18;
                     color: $t_first_c;
@@ -552,6 +553,7 @@
                     text-align: left;
                 }
                 .service_information_bindings_table_content {
+                    min-width: 11.44rem;
                     background: $bg_white_c;
                     .service_information_available_container {
                         display: flex;
