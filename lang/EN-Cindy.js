@@ -261,16 +261,6 @@ export const ExplorerLang = {
             header:'Header',
         },
         // 新增
-        transactionInformations: {
-            title: 'Transaction Information',
-            block: 'Block',
-            status: 'Status',
-            timestamp: 'Timestamp',
-            fee: 'Fee',
-            gasUsed: 'Gas Used',
-            signer: 'Signer',
-            memo:'Memo'
-        },
         transactionMessage: {
             title: 'Transaction Message or Result',
             TxType: 'TxType :',
@@ -322,7 +312,6 @@ export const ExplorerLang = {
             blockInterval: 'Block_interval',
             oracle: 'Oracle',
         }
-
     },
     addressDetail: {
         addressDetail:'Address Details',

@@ -420,6 +420,9 @@
 					display: flex;
 					align-items: center;
 				}
+				/deep/ .cell {
+					padding: 0 0.04rem;
+				}
 			}
 			
 			.status_icon {

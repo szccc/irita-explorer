@@ -2,7 +2,7 @@
   <div class="delegation_txs_list">
     <div class="delegations_txs_table_container">
       <el-table :data="dataList" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-        <el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
+        <el-table-column prop="Tx_Hash" align="center" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
           <template v-slot:default="{ row }">
             <img class="status_icon" :src="require(`../../assets/${row.Tx_Status == 'Success' ? 'success.png' : 'failed.png'}`)" />
             <el-tooltip :content="`${row.Tx_Hash}`">
@@ -31,8 +31,8 @@
             <span class="no_skip" v-show="/^[0]\d*$/.test(row.From) || row.From === '--'">--</span>
           </template>
         </el-table-column>
-        <el-table-column prop="Amount" :label="$t('ExplorerLang.table.amount')" align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
-        <el-table-column prop="To" :label="$t('ExplorerLang.table.to')" align="left" :min-width="ColumnMinWidth.address">
+        <el-table-column prop="Amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.amount"></el-table-column>
+        <el-table-column prop="To" :label="$t('ExplorerLang.table.to')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
               <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
@@ -55,7 +55,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"> </el-table-column>
+        <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"> </el-table-column>
         <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
         <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
@@ -64,7 +64,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')" :width="ColumnMinWidth.time"></el-table-column>
+        <el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')" :min-width="ColumnMinWidth.time"></el-table-column>
       </el-table>
     </div>
   </div>
@@ -129,7 +129,10 @@ export default {
                 width: 0.13rem;
                 height: 0.13rem;
                 margin-right: 0.05rem;
-			}
+			      }   
+            /deep/ .cell {
+              padding: 0;
+            }
         }
     }
 </style>
