@@ -107,9 +107,9 @@ export const ValidatorStatus = {
 }
 
 export const ColumnMinWidth = {
-  txHash: '120',
+  txHash: '115',
   blockHeight: '60',
-  txType: '188',
+  txType: '192',
   address: '126',
   time: '143',
   txn: '',
@@ -151,7 +151,10 @@ export const ColumnMinWidth = {
   fee: '110',
   consensus: '340',
   proposerPriority: '200',
-  message: '90'
+  message: '90',
+  validatorMoniker: '150',
+  validatorSelfBond: '150',
+
 }
 
 export const ModuleMap = {
