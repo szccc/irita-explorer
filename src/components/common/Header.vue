@@ -11,6 +11,7 @@
         </div>
         <div class="header_menu">
           <el-menu
+            popper-class="tooltip"
             :default-active="activeIndex2"
             class="el-menu-demo"
             mode="horizontal"
@@ -328,6 +329,7 @@ export default {
   top: 0;
   width: 100%;
   z-index: 10000;
+  font-family: Arial;
 
   .header_content {
     max-width: 12rem;
