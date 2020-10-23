@@ -501,12 +501,21 @@
                     <span class="address_transaction_condition_count">
                         {{ `${totalTxNumber} ${$t('ExplorerLang.unit.Txs')}` }}
                     </span>
-					<el-select popper-class="tooltip" v-model="type_temp" filterable>
+					<!-- <el-select popper-class="tooltip" v-model="type_temp" filterable>
 						<el-option v-for="(item, index) in txTypeOption"
 						           :key="index"
 						           :label="item.label"
 						           :value="item.value"></el-option>
-					</el-select>
+					</el-select> -->
+					<el-cascader
+                            popper-class="tooltip"
+                            :placeholder="$t('ExplorerLang.common.allTxType')"
+                            v-model="type_temp"
+                            :options="txTypeOption"
+                            :props="{ expandTrigger: 'hover' }"
+                            :show-all-levels="false"
+                            :filterable="true"
+                            @change="handleChange"></el-cascader>
 					<el-select popper-class="tooltip" v-model="status_temp">
 						<el-option v-for="(item, index) in statusOpt"
 						           :key="index"
@@ -1059,12 +1068,14 @@
 			async getAllTxType () {
 				try {
 					const res = await getAllTxTypes();
-					res.data.forEach((type) => {
-						this.txTypeOption.push({
-							value: type.typeName,
-							item: type.typeName,
-						});
+					const typeList = TxHelper.formatTxType(res.data)
+                    typeList.unshift({
+                        value : '',
+                        label : this.$t('ExplorerLang.common.allTxType'),
+                        slot : 'allTxType'
 					});
+                    this.txTypeOption = typeList;
+
 				} catch (e) {
 					console.error(e);
 				}
@@ -1334,6 +1345,9 @@
 				}
 				return Tools.formatString(moniker, 15, "...");
 			},
+			handleChange(value) {
+                this.type_temp = value[1] ? value[1] : ''
+            }
 		}
 	}
 </script>
@@ -1495,7 +1509,50 @@
 						margin-right: 0.42rem;
 						font-weight: 600;
 					}
-					
+
+					/deep/.el-cascader{
+						width: 1.3rem;
+						margin-right: 0.1rem;
+						.el-input{
+							input::-webkit-input-placeholder{   /* 使用webkit内核的浏览器 */
+								color: $t_first_c;
+							}
+							input:-moz-placeholder{    /* Firefox版本4-18 */
+								color: $t_first_c;
+							}              
+							input::-moz-placeholder{    /* Firefox版本19+ */
+								color: $t_first_c;
+							}              
+							input:-ms-input-placeholder{   /* IE浏览器 */
+								color: $t_first_c;
+							}
+							.el-input__inner{
+								padding-left: 0.07rem;
+								height: 0.32rem;
+								font-size: $s14 !important;
+								line-height: 0.32rem;
+								&::-webkit-input-placeholder{
+									font-size: $s14 !important;
+								}
+							}
+							.el-input__inner:focus{
+								border-color: $theme_c !important;
+							}
+							.el-input__suffix{
+								.el-input__suffix-inner{
+									.el-input__icon{
+										line-height: 0.32rem;
+									}
+								}
+							}
+						}
+						.is-focus{
+							.el-input__inner{
+								border-color: $theme_c !important;
+							}
+						}
+					}
+
 					/deep/ .el-select {
 						width: 1.3rem;
 						margin-right: 0.22rem;

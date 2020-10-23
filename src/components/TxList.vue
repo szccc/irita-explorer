@@ -10,13 +10,16 @@
                                        :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>-->
-                        <el-select popper-class="tooltip"  v-model="txType" filterable>
-                            <el-option v-for="(item, index) in txTypeOption"
-                                       :key="index"
-                                       :label="item.label"
-                                       :value="item.value"></el-option>
-                        </el-select>
-
+                        
+                        <el-cascader
+                            popper-class="tooltip"
+                            :placeholder="$t('ExplorerLang.common.allTxType')"
+                            v-model="txType"
+                            :options="txTypeOption"
+                            :props="{ expandTrigger: 'hover' }"
+                            :show-all-levels="false"
+                            :filterable="true"
+                            @change="handleChange"></el-cascader>
 
                         <!--<el-select  popper-class="tooltip" v-model="statusValue" :change="filterTxByStatus(statusValue)">
                             <el-option v-for="(item, index) in statusOpt"
@@ -25,7 +28,7 @@
                                        :value="item.value"></el-option>
                         </el-select>-->
                         <el-select popper-class="tooltip" v-model="statusValue">
-                            <el-option v-for="(item, index) in statusOpt"
+                            <el-option v-for="(item) in statusOpt"
                                        :key="item.value"
                                        :label="item.label"
                                        :value="item.value"></el-option>
@@ -190,20 +193,14 @@
             async getAllTxType(){
                 try {
                     const res = await getAllTxTypes();
-                    // console.log(res,'获取所有交易类型')
-                    const typeList = res.data.map((type)=>{
-                        return {
-                            value: type.typeName,
-                            label:type.typeName,
-                        }
-                    });
+                    const typeList = TxHelper.formatTxType(res.data)
                     typeList.unshift({
                         value : '',
                         label : this.$t('ExplorerLang.common.allTxType'),
                         slot : 'allTxType'
                     });
-                    // console.log(typeList,'处理数据')
                     this.txTypeOption = typeList;
+
                 }catch (e) {
                     console.error(e);
                     // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
@@ -305,6 +302,9 @@
             formatAddress(address){
                 return Tools.formatValidatorAddress(address)
             },
+            handleChange(value) {
+                this.txType = value[1] ? value[1] : ''
+            }
         }
     }
 </script>
@@ -394,9 +394,51 @@
                         .tooltip_content {
 							padding: 0 0 0 0.1rem;
                         }
-                        /deep/ .el-select {
+                        /deep/.el-cascader{
                             width: 1.3rem;
                             margin-right: 0.1rem;
+                            .el-input{
+                                input::-webkit-input-placeholder{   /* 使用webkit内核的浏览器 */
+                                    color: $t_first_c;
+                                }
+                                input:-moz-placeholder{    /* Firefox版本4-18 */
+                                    color: $t_first_c;
+                                }              
+                                input::-moz-placeholder{    /* Firefox版本19+ */
+                                    color: $t_first_c;
+                                }              
+                                input:-ms-input-placeholder{   /* IE浏览器 */
+                                    color: $t_first_c;
+                                }
+                                .el-input__inner{
+                                    padding-left: 0.07rem;
+                                    height: 0.32rem;
+                                    font-size: $s14 !important;
+                                    line-height: 0.32rem;
+                                    &::-webkit-input-placeholder{
+                                        font-size: $s14 !important;
+                                    }
+                                }
+                                .el-input__inner:focus{
+                                    border-color: $theme_c !important;
+                                }
+                                .el-input__suffix{
+                                    .el-input__suffix-inner{
+                                        .el-input__icon{
+                                            line-height: 0.32rem;
+                                        }
+                                    }
+                                }
+                            }
+                            .is-focus{
+                                .el-input__inner{
+                                    border-color: $theme_c !important;
+                                }
+                            }
+                        }
+                        /deep/ .el-select {
+                            width: 1.3rem;
+                            margin-right: 0.1rem;s
                             .el-input {
                                 .el-input__inner {
                                     padding-left: 0.07rem;
