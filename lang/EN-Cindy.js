@@ -137,7 +137,8 @@ export const ExplorerLang = {
         status: ' Status',
         // 新增
         delegationTxsList: 'Delegation Txs List',
-        validationTxsList: 'Validation Txs List'
+        validationTxsList: 'Validation Txs List',
+        tooltip: 'Date selection range from the first block to the latest block.'
     },
     validators:{
         bonded:'Active',
@@ -201,10 +202,10 @@ export const ExplorerLang = {
         serviceFeeCap: 'Service Fee Cap',
         timeOut: 'Timeout',
         serviceName: 'Service Name',
-        requestContextId: 'Request Id',
-        pricing: 'Cost Per Call',
+        requestContextId: 'Request Context ID', //更改，中文未变
+        pricing: 'Pricing', //更改，中文未变
         owner: 'Owner',
-        qos: 'Minimum Response Time',
+        qos: 'QoS', // 更改，中文未变
         deposit: 'Deposit',
         nftId: 'NFT Id',
         nftName: 'NFT Name',
@@ -228,8 +229,8 @@ export const ExplorerLang = {
             superMode: 'SuperMode',
         },
         respondService:{
-            output: 'Output:',
-            requestId: 'Request Id',
+            output: 'Output',
+            requestId: 'Request Context ID',
             result: 'Result',
         },
         defineService: {
@@ -260,16 +261,6 @@ export const ExplorerLang = {
             header:'Header',
         },
         // 新增
-        transactionInformations: {
-            title: 'Transaction Information',
-            block: 'Block',
-            status: 'Status',
-            timestamp: 'Timestamp',
-            fee: 'Fee',
-            gasUsed: 'Gas Used',
-            signer: 'Signer',
-            memo:'Memo'
-        },
         transactionMessage: {
             title: 'Transaction Message or Result',
             TxType: 'TxType :',
@@ -306,6 +297,20 @@ export const ExplorerLang = {
             withdrawLiquidity: 'Withdraw Liquidity :',
             depositor: 'Depositor :',
             validator: 'Validator: '
+        },
+        oracle: {
+            feedName: 'Feed Name',
+            description: 'Description',
+            latestHistory: 'Latest History',
+            creator: 'Creator',
+            providers: 'Providers',
+            aggregateFunc: 'Aggregate Func',
+            valueJsonPath: 'Value Json Path',    
+            responseThreshold: 'Response Threshold',
+        },
+        random: {
+            blockInterval: 'Block_interval',
+            oracle: 'Oracle',
         }
     },
     addressDetail: {

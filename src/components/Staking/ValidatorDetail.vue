@@ -37,7 +37,7 @@
 									<!-- 待处理 -->
 									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" width="110">
 									  <template v-slot:default="{ row }">
-										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
+										<router-link style="font-family: Arial;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
 									  </template>
 									</el-table-column> -->
 								</el-table>
@@ -70,7 +70,7 @@
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')" align="left"
 									                 :min-width="ColumnMinWidth.blockHeight">
 										<template v-slot:default="{ row }">
-											<router-link style="font-family: Consolas,Menlo;"
+											<router-link style="font-family: Arial;"
 											             :to="'/block/' + row.block"
 											             :style="{ color: '$theme_c !important' }">{{ row.block }}
 											</router-link>
@@ -91,91 +91,7 @@
 					<div class="delegations_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.delegationsTxsTitle') }}</p>
-						<div class="delegations_txs_table_container">
-							<el-table :data="delegationTxs.items" style="width: 100%"
-							          :empty-text="$t('ExplorerLang.table.emptyDescription')">
-								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
-									<template v-slot:default="{ row }">
-										<img class="status_icon"
-                                     		:src="require(`../../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
-										<el-tooltip :content="`${row.Tx_Hash}`">
-											<router-link
-											             :to="`/tx?txHash=${row.Tx_Hash}`"
-											             :style="{ color: '$theme_c !important' }">{{
-												formatTxHash(row.Tx_Hash) }}
-											</router-link>
-										</el-tooltip>
-									</template>
-								</el-table-column>
-								<el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" :min-width="ColumnMinWidth.blockHeight">
-									<template v-slot:default="{ row }">
-										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.Block"
-										             :style="{ color: '$theme_c !important' }">{{ row.Block }}
-										</router-link>
-									</template>
-								</el-table-column>
-								<el-table-column prop="From" :label="$t('ExplorerLang.table.from')" :min-width="ColumnMinWidth.address">
-									<template v-slot:default="{ row }">
-										<span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
-										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>
-										</span>
-										<div class="name_address" v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
-											<span class="remove_default_style skip_route"
-													:class="row.From === $route.params.param ? 'no_skip' : ''">
-												<span style="cursor:pointer;" v-if="row.From === $route.params.param">{{ formatMoniker(row.fromMonikers) || formatAddress(row.From) }}</span>
-												<router-link v-else :to="Tools.addressRoute(row.From)" class="link_style"
-															>{{ formatMoniker(row.fromMonikers) || formatAddress(row.From) }}</router-link>
-											</span>
-										</div>
-										<span class="no_skip"
-										      v-show="/^[0]\d*$/.test(row.From) || row.From === '--'">--</span>
-									</template>
-								</el-table-column>
-								<el-table-column prop="Amount" :label="$t('ExplorerLang.table.amount')" align="right"
-								                 :min-width="ColumnMinWidth.amount"></el-table-column>
-								<el-table-column prop="To" :label="$t('ExplorerLang.table.to')" align="left"
-								                 :min-width="ColumnMinWidth.address">
-									<template v-slot:default="{ row }">
-										<span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
-										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
-										</span>
-										<div class="name_address" v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
-										<span class="remove_default_style skip_route"
-												:class="row.To === $route.params.param ? 'no_skip' : ''">
-											<router-link v-if="!(row.To === $route.params.param)" class="link_style"
-														:to="Tools.addressRoute(row.To)">{{ formatMoniker(row.toMonikers) || formatAddress(row.To) }}</router-link>
-											<span style="cursor:pointer;" v-else>{{ formatMoniker(row.toMonikers) }}</span>
-										</span>
-										</div>
-										<span class="no_skip"
-										      v-show="/^[0]\d*$/.test(row.To) || row.To === '--'">--</span>
-									</template>
-								</el-table-column>
-								<el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')"
-								                 :min-width="ColumnMinWidth.txType">
-									<template v-slot:default="{ row }">
-										<el-tooltip :content="row.Tx_Type.join(',')"
-													placement="top"
-													:disabled="row.Tx_Type.length <= 1">
-											<span>{{getDisplayTxType(row.Tx_Type) }}</span>
-										</el-tooltip>
-									</template>
-								</el-table-column>
-								<el-table-column prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message">
-								</el-table-column>
-								<el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')"
-								                 :min-width="ColumnMinWidth.fee"></el-table-column>
-								<el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
-									<template v-slot:default="{ row }">
-										<router-link :to="Tools.addressRoute(row.Tx_Signer)" class="link_style justify">{{
-											formatAddress(row.Tx_Signer) }}
-										</router-link>
-									</template>
-								</el-table-column>
-								<el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')"
-								                 :width="ColumnMinWidth.time"></el-table-column>
-							</el-table>
-						</div>
+						<DelegationTxsList class="delegations_txs_table_container" :dataList="delegationTxs.items" />
 						<m-pagination v-if="delegationTxs.total > pageSize" :page-size="pageSize"
 						              :total="delegationTxs.total"
 						              :page-change="pageChange('getDelegationTxs')"></m-pagination>
@@ -186,91 +102,7 @@
 					<div class="validation_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.validationTxsTitle') }}</p>
-						<div class="validation_txs_table_container">
-							<el-table :data="validationTxs.items" style="width: 100%"
-							          :empty-text="$t('ExplorerLang.table.emptyDescription')">
-								<el-table-column prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
-									<template v-slot:default="{ row }">
-										<img class="status_icon"
-                                     		:src="require(`../../assets/${row.Tx_Status=='Success' ? 'success.png':'failed.png'}`)"/>
-										<el-tooltip :content="`${row.Tx_Hash}`">
-											<router-link
-											             :to="`/tx?txHash=${row.Tx_Hash}`"
-											             :style="{ color: '$theme_c !important' }">{{
-												formatTxHash(row.Tx_Hash) }}
-											</router-link>
-										</el-tooltip>
-									</template>
-								</el-table-column>
-								<el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" :min-width="ColumnMinWidth.blockHeight">
-									<template v-slot:default="{ row }">
-										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.Block"
-										             :style="{ color: '$theme_c !important' }">{{ row.Block }}
-										</router-link>
-									</template>
-								</el-table-column>
-								<el-table-column prop="Moniker" :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
-									<template v-slot:default="{ row }">
-										<span style="cursor:pointer;" v-if="row.OperatorAddr === $route.params.param || row.OperatorAddr == '--'">{{ row.OperatorMonikers }}</span>
-										<router-link v-else :to="`/address/${row.OperatorAddr}`"
-										             class="link_style justify">{{ formatMoniker(row.OperatorMonikers) }}
-										</router-link>
-									</template>
-								</el-table-column>
-								<el-table-column prop="OperatorAddr" :label="$t('ExplorerLang.table.operator')"
-								                 :min-width="ColumnMinWidth.address">
-									<template v-slot:default="{ row }">
-										<span v-if="/^[1-9]\d*$/.test(row.OperatorAddr)" class="skip_route">
-										<router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.OperatorAddr }} Validators</router-link>
-										</span>
-										<div class="name_address"
-										     v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
-											<el-tooltip :content="`${row.OperatorAddr}`">
-												<span style="cursor:pointer;"
-														v-if="row.OperatorAddr === $route.params.param ">{{ formatAddress(row.OperatorAddr) }}</span>
-												<router-link v-else :to="Tools.addressRoute(row.OperatorAddr)"
-																class="link_style justify">
-																{{ formatAddress(row.OperatorAddr) }}
-												</router-link>
-											</el-tooltip>
-										</div>
-										<span class="no_skip"
-										      v-show="/^[0]\d*$/.test(row.OperatorAddr) || row.OperatorAddr === '--'">--</span>
-									</template>
-								</el-table-column>
-								<el-table-column prop="Self-Bonded" :label="$t('ExplorerLang.table.selfBonded')"
-								                 :min-width="ColumnMinWidth.selfBond">
-									<template v-slot:default="{ row }">
-										<span>{{ row.SelfBonded }}</span>
-									</template>
-								</el-table-column>
-								<el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')"
-								           :min-width="ColumnMinWidth.txType">
-									<template v-slot:default="{ row }">
-										<el-tooltip :content="row.Tx_Type.join(',')"
-													placement="top"
-													:disabled="row.Tx_Type.length <= 1">
-											<span>{{getDisplayTxType(row.Tx_Type) }}</span>
-										</el-tooltip>
-									</template>
-								</el-table-column>
-								<el-table-column prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message">
-								</el-table-column>
-								<el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')"
-								                 :min-width="ColumnMinWidth.fee"></el-table-column>
-								<el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
-									<template v-slot:default="{ row }">
-										<router-link :to="Tools.addressRoute(row.Tx_Signer)" class="link_style justify">{{
-											formatAddress(row.Tx_Signer) }}
-										</router-link>
-									</template>
-								</el-table-column>
-								<!-- <el-table-column prop="Tx_Status" :label="$t('ExplorerLang.table.status')"
-								                 width="73"></el-table-column> -->
-								<el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')"
-								                 :width="ColumnMinWidth.time"></el-table-column>
-							</el-table>
-						</div>
+						<ValidationTxsList class="validation_txs_table_container" :dataList="validationTxs.items" />
 						<m-pagination v-if="validationTxs.total > pageSize" :page-size="pageSize"
 						              :total="validationTxs.total"
 						              :page-change="pageChange('getValidationTxs')"></m-pagination>
@@ -297,10 +129,12 @@
 	import {TxHelper} from '../../helper/TxHelper.js'
 	import { getMainToken, converCoin } from '@/helper/IritaHelper';
 	import { getAmountByTx } from '@/helper/txListAmoutHelper'
+	import DelegationTxsList from '@/components/common/DelegationTxsList'
+	import ValidationTxsList from '@/components/common/ValidationTxsList'
 	
 	export default {
 		name: '',
-		components: {ValidatorInformation, ValidatorCommissionInformation, MPagination},
+		components: {ValidatorInformation, ValidatorCommissionInformation, MPagination,DelegationTxsList,ValidationTxsList},
 		props: {},
 		data () {
 			return {
@@ -619,12 +453,6 @@
 						overflow-x: auto;
 						border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
-						
-						.status_icon{
-							width:0.13rem;
-							height:0.13rem;
-							margin-right:0.05rem;
-						}
 					}
 					
 					.common_pagination_content {

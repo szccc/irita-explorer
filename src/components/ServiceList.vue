@@ -13,7 +13,7 @@
                     <div class="reset_btn" @click="reset"><i class="iconfont iconzhongzhi"></i></div>
                 </div>
             </div>
-			<div class="service_list_content" v-for="service in serviceList">
+			<div class="service_list_content" v-for="(service,index) in serviceList" :key="index">
                 <div class="service_list_top">
                     <span class="service_list_service_name bold_name">
                         <router-link :to="`/service?serviceName=${service.serviceName}`">
@@ -39,7 +39,7 @@
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="180" :label="$t('ExplorerLang.table.respondTimes')">
+					<el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerLang.table.respondTimes')">
 						<template slot-scope="scope">
 							<span>
 								<router-link
@@ -328,6 +328,7 @@
                 /deep/ .el-input{
                     .el-input__inner{
                         font-size: $s14 !important;
+                        border: 0.01rem solid $bd_first_c;
                         &::-webkit-input-placeholder{
                             font-size: $s14 !important;
                         }

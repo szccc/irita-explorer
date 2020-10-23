@@ -1,11 +1,14 @@
 <template>
     <span :class="`tx_message_content_largeStr ${mode=='cell'?'flex-row':'flex-colum'}`">
-            <span class="text" :style="`width:${textWidth || 'auto'}`">
+        <span v-if="!isLarge" ref="text">{{text}}</span>
+        <template v-else>
+            <span class="text" :class=" !showDesc ? 'width': ''" :style="`width:${textWidth || 'auto'}`">
                 {{text_f}}
             </span>
             <span class="tx_message_content_largeStr_btn" v-if="showDescBtn(text)" @click="btnDidClick">
                 {{`${showDesc ? $t('ExplorerLang.common.fewer') : $t('ExplorerLang.common.more')}`}}
             </span>
+        </template>
     </span>
 </template>
 
@@ -33,10 +36,16 @@
                 required:false,
                 default:''
             },
+            minHeight:{
+                type:Number,
+                required:false,
+                default: 0
+            },
         },
         data(){
             return {
                 showDesc:false,
+                isLarge: false,
             }
         },
         computed:{
@@ -45,6 +54,10 @@
             }
         },
         mounted(){
+            this.$nextTick(()=>{ 
+                let height = this.$refs.text.offsetHeight;
+                this.isLarge = height > this.minHeight
+            })
         },
         methods : {
             btnDidClick(){
@@ -73,6 +86,11 @@
         .text {
             overflow-y: auto;
             max-height: 2rem;
+        }
+        .width {
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
         }
     }
     .flex-row{

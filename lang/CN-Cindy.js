@@ -137,7 +137,8 @@ export const ExplorerLang = {
         status: '交易状态',
         // 新增
         delegationTxsList: 'Delegation Txs List',
-        validationTxsList: 'Validation Txs List'
+        validationTxsList: 'Validation Txs List',
+        tooltip: 'Date selection range from the first block to the latest block.'
     },
     validators:{
         bonded:'共识中',
@@ -260,16 +261,6 @@ export const ExplorerLang = {
             header:'区块头',
         },
         // 新增
-        transactionInformations: {
-            title: 'Transaction Information',
-            block: 'Block',
-            status: 'Status',
-            timestamp: 'Timestamp',
-            fee: 'Fee',
-            gasUsed: 'Gas Used',
-            signer: 'Signer',
-            memo:'Memo'
-        },
         transactionMessage: {
             title: 'Transaction Message or Result',
             TxType: 'TxType :',
@@ -306,6 +297,20 @@ export const ExplorerLang = {
             withdrawLiquidity: 'Withdraw Liquidity :',
             depositor: 'Depositor :',
             validator: 'Validator: '
+        },
+        oracle: {
+            feedName: 'Feed Name',
+            description: 'Description',
+            latestHistory: 'Latest History',
+            creator: 'Creator',
+            providers: 'Providers',
+            aggregateFunc: 'Aggregate Func',
+            valueJsonPath: 'Value Json Path',    
+            responseThreshold: 'Response Threshold',
+        },
+        random: {
+            blockInterval: 'Block_interval',
+            oracle: 'Oracle',
         }
     },
     addressDetail: {

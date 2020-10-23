@@ -3,7 +3,7 @@
 		<div class="nft_list_content_wrap">
 			<div class="nft_list_header_content">
 				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerLang.nftAsset.assets')}}</h3>
-				<el-select v-model="denom" >
+				<el-select popper-class="tooltip" v-model="denom" >
 					<el-option v-for="(item, index) in nftList"
 							   :key="index"
 							   :label="item.label"

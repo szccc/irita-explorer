@@ -4,13 +4,13 @@
             <div class="tx_content_header_wrap">
                 <div class="total_tx_content">{{txCount}} {{$t('ExplorerLang.transactions.txs')}}</div>
                     <div class="tx_type_mobile_content">
-                        <!--<el-select v-model="value" filterable :change="filterTxByTxType(value)">
+                        <!--<el-select popper-class="tooltip" v-model="value" filterable :change="filterTxByTxType(value)">
                             <el-option v-for="(item, index) in txTypeOption"
                                        :key="index"
                                        :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>-->
-                        <el-select v-model="txType" filterable>
+                        <el-select popper-class="tooltip"  v-model="txType" filterable>
                             <el-option v-for="(item, index) in txTypeOption"
                                        :key="index"
                                        :label="item.label"
@@ -18,13 +18,13 @@
                         </el-select>
 
 
-                        <!--<el-select v-model="statusValue" :change="filterTxByStatus(statusValue)">
+                        <!--<el-select  popper-class="tooltip" v-model="statusValue" :change="filterTxByStatus(statusValue)">
                             <el-option v-for="(item, index) in statusOpt"
                                        :key="index"
                                        :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>-->
-                        <el-select v-model="statusValue">
+                        <el-select popper-class="tooltip" v-model="statusValue">
                             <el-option v-for="(item, index) in statusOpt"
                                        :key="item.value"
                                        :label="item.label"
@@ -34,6 +34,7 @@
                     </div>
                     <div class="tx_type_mobile_content">
                         <el-date-picker type="date"
+                                        popper-class="tooltip"
                                         v-model="beginTime"
                                         @change="getStartTime(beginTime)"
                                         :picker-options="PickerOptions"
@@ -43,6 +44,7 @@
                         </el-date-picker>
                         <span class="joint_mark">~</span>
                         <el-date-picker type="date"
+                                        popper-class="tooltip"
                                         v-model="endTime"
                                         value-format="yyyy-MM-dd"
                                         @change="getEndTime(endTime)"
@@ -50,6 +52,11 @@
                                         :editable="false"
                                         :placeholder="$t('ExplorerLang.common.selectDate')">
                         </el-date-picker>
+                        <div class="tooltip_content">
+                            <el-tooltip popper-class="tooltip"  :content="$t('ExplorerLang.transactions.tooltip')">
+                                <i class="iconfont iconyiwen"></i>
+                            </el-tooltip>
+                        </div>
                     </div>
                     <div class="tx_type_mobile_content">
                         <div class="search_btn" @click="getFilterTxs">{{$t('ExplorerLang.transactions.search')}}</div>
@@ -384,7 +391,9 @@
                     .tx_type_mobile_content {
                         display: flex;
                         align-items: center;
-
+                        .tooltip_content {
+							padding: 0 0 0 0.1rem;
+                        }
                         /deep/ .el-select {
                             width: 1.3rem;
                             margin-right: 0.1rem;

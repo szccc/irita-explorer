@@ -278,7 +278,7 @@
                 line-height: 0.21rem;
                 margin: 0.3rem 0 0.15rem 0.25rem;
                 text-align: left;
-                font-family: PingFangSC-Semibold, PingFang SC;
+                font-family: Arial;
                 font-weight: 600;
                 .identity_detail_title_first {
                     white-space: nowrap;
@@ -315,7 +315,7 @@
                         color: $t_second_c;
                         font-size: $s14;
                         line-height: 0.16rem;
-                        font-family: PingFangSC-Semibold, PingFang SC;
+                        font-family: Arial;
                         font-weight: 600;
                     }
                     span:nth-of-type(2) {
@@ -371,7 +371,7 @@
                 margin-bottom: 0.4rem;
                 text-align: left;
                 font-size: $s16;
-                font-family:PingFangSC-Semibold,PingFang SC;
+                font-family:Arial;
                 font-weight:600;
                 line-height:22px;
             }
