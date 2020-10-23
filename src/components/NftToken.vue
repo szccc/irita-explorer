@@ -23,11 +23,11 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.schema')}}：</span>
-					<span>{{schema || '--'}}</span>
+					<LargeString v-if="schema" :text="schema" textWidth="980px" :minHeight="80"/>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.data')}}：</span>
-					<span>{{tokenData}}</span>
+					<LargeString v-if="tokenData" :text="tokenData" textWidth="980px" :minHeight="80"/>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.creator')}}：</span>
@@ -59,10 +59,11 @@
 	import { getNftDetail, getTokenTxList } from "../service/api"
 	import Tools from "../util/Tools"
     import MPagination from "./common/MPagination";
-    import { TX_TYPE,TX_STATUS } from '../constant';
+	import { TX_TYPE,TX_STATUS } from '../constant';
+	import LargeString from './common/LargeString';
 	export default {
 		name: "NftToken",
-		components:{ MPagination, TxListComponent },
+		components:{ MPagination, TxListComponent,LargeString },
 		data() {
 			return {
 				TX_TYPE,
@@ -97,7 +98,7 @@
 
 					if(nftDetail){
 						this.creator = (nftDetail.denomDetail || {}).creator;
-						this.schema = (nftDetail.denomDetail || {}).json_schema;
+						this.schema = (nftDetail.denomDetail || {}).json_schema || '--';
 						this.name = nftDetail.denom;
 						this.tokenID = nftDetail.nft_id || '--';
 						this.denomName = nftDetail.denom_name;
@@ -105,8 +106,8 @@
 						this.nftName = nftDetail.nft_name || '--';
 						// this.primaryKey = nftDetail.primary_key;
 						this.owner = nftDetail.owner;
-						this.tokenData = nftDetail.tokenData || '--';;
-						this.tokenUri = nftDetail.tokenUri || '--';;
+						this.tokenData = nftDetail.tokenData || '--';
+						this.tokenUri = nftDetail.tokenUri || '--';
 						
 						this.getTokenTx()
 					}

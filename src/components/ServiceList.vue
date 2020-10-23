@@ -116,8 +116,7 @@
                     let serviceList = await getAllServiceTxList(this.pageNum,this.pageSize, this.iptVal);
                     if(serviceList && serviceList.data){
                         for(let service of serviceList.data){
-                            let bindings = await getServiceBindingByServiceName(service.serviceName);
-
+                            let bindings = await getServiceBindingByServiceName(service.serviceName);                           
                             if(bindings.result){
                                 service.bindList.forEach((s)=>{
                                     s.bindTime = Tools.getDisplayDate(s.bindTime);
