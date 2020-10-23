@@ -609,8 +609,8 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
 				<template>
-					<span v-if="from === '--'">{{from}}</span>
-					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<!-- <p>
@@ -620,8 +620,8 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
 				<template>
-					<span v-if="to === '--'">{{to}}</span>
-					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
 				</template>
 			</p>
 			<!--<p>
@@ -690,8 +690,8 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
 				<template>
-					<span v-if="from === '--'">{{from}}</span>
-					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<p>
@@ -701,8 +701,8 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
 				<template>
-					<span v-if="to === '--'">{{to}}</span>
-					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
 				</template>
 			</p>
 		</div>
@@ -735,8 +735,8 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
 				<template>
-					<span v-if="from === '--'">{{from}}</span>
-					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<p>
@@ -746,8 +746,8 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
 				<template>
-					<span v-if="to === '--'">{{to}}</span>
-					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
 				</template>
 			</p>
 		</div>
@@ -758,6 +758,11 @@
 					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
 				</template>
+				<!-- <template>
+					<span v-if="operMoniker === '--' && operatorAddress === '--' ">{{ operMoniker || operatorAddress }}</span>
+					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{ operMoniker || operatorAddress}}</router-link>
+				</template> -->
+
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.moniker')}}</span>
@@ -785,8 +790,8 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
 				<template>
-					<span v-if="from === '--'">{{from}}</span>
-					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<p>
@@ -796,8 +801,8 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
 				<template>
-					<span v-if="to === '--'">{{to}}</span>
-					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
 				</template>
 			</p>
 		</div>
@@ -1232,6 +1237,9 @@
 				responseThreshold:'',
 				blockInterval:'',
 				oracle:'',
+				toMoniker:'',
+				fromMoniker:'',
+				operMoniker:''
 			}
 		},
 		computed: {
@@ -1470,6 +1478,8 @@
 								// this.shares = '需要取值';
 								this.to = msg.validator_dst_address;
 								// this.endTime = Tools.format2UTC(message.time)
+								this.toMoniker = this.getMoniker(this.to,this.monikers)
+								this.fromMoniker = this.getMoniker(this.from,this.monikers)
 								break;
 							case TX_TYPE.create_validator:
 								this.operatorAddress = msg.validator_address;
@@ -1505,14 +1515,12 @@
 								} else {
 									this.amount = '--'
 								}
+								this.toMoniker = this.getMoniker(this.to,this.monikers)
+								this.fromMoniker = this.getMoniker(this.from,this.monikers)
 								break;
 							case TX_TYPE.withdraw_validator_commission:
 								this.validatorAddress = msg.validator_address
-								if(this.monikers.length) {
-									this.monikers.map( item => {
-										this.moniker = this.moniker || item[this.validatorAddress] || ''
-									})
-								}
+								this.moniker = this.getMoniker(this.validatorAddress,this.monikers)
 								break;
 							case TX_TYPE.set_withdraw_address:
 								this.delegatorAddress = msg.delegator_address;
@@ -1526,6 +1534,8 @@
 								this.amount = this.amount || '--'
 								this.from = msg.validator_address;
 								this.to = msg.delegator_address;
+								this.toMoniker = this.getMoniker(this.to,this.monikers)
+								this.fromMoniker = this.getMoniker(this.from,this.monikers)
 								break;
 							case TX_TYPE.edit_validator:
 								this.operatorAddress = msg.validator_address;
@@ -1534,9 +1544,14 @@
 									this.getKeyBaseName(msg.description.identity)
 								}
 								this.identity = msg.description.identity || '--';
-								this.commissionRate = msg.commission_rate || '--';
+								if(msg.commission_rate) {
+									this.commissionRate = `${Tools.formatPercentage(msg.commission_rate)} %`  || '--';
+								} else {
+									this.commissionRate = '--'
+								}
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
+								this.operMoniker = this.getMoniker(this.operatorAddress,this.monikers)
 								break;
 							case TX_TYPE.delegate:
 								this.from = msg.delegator_address;
@@ -1544,6 +1559,8 @@
 								let delegateAmount = await converCoin(msg.delegation)
 								amount = await converCoin(msg.delegation);
 								this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--'
+								this.toMoniker = this.getMoniker(this.to,this.monikers)
+								this.fromMoniker = this.getMoniker(this.from,this.monikers)
 								break;
 							case TX_TYPE.fund_community_pool:
 								this.depositor = msg.depositor;
@@ -1683,6 +1700,15 @@
 					});
 				}
 			},
+			getMoniker(address,monikers) {
+				let moniker
+				if(monikers.length) {
+					monikers.map( item => {
+						moniker = moniker || item[address] || ''
+					})
+				}
+				return moniker
+			}
 		}
 	}
 </script>
