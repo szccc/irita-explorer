@@ -332,7 +332,7 @@
 	
 	.vaildtor_detail_container {
 		.vaildtor_detail_content {
-			max-width: 12.8rem;
+			max-width: 12rem;
 			margin: 0 auto;
 			padding: 0 0.15rem;
 			text-align: left;
