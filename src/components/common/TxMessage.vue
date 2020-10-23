@@ -1239,7 +1239,8 @@
 				oracle:'',
 				toMoniker:'',
 				fromMoniker:'',
-				operMoniker:''
+				operMoniker:'',
+				minToken:''
 			}
 		},
 		computed: {
@@ -1598,7 +1599,7 @@
 									denom: mainToken.min_unit
 								})
 								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
-								let minToken = await converCoin({
+							    let minToken = await converCoin({
 									amount: msg.min_token,
 									denom: mainToken.min_unit
 								})
