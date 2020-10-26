@@ -16,7 +16,7 @@ export const addrPrefix = {
 }
 
 export const TX_TYPE = {
-  // service
+  // service 
   define_service: 'define_service',
   bind_service: 'bind_service',
   call_service: 'call_service',
@@ -93,6 +93,22 @@ export const TX_TYPE = {
   update_identity: 'update_identity',
   // Random
   request_rand: 'request_rand'
+}
+
+export const LEVEL_TX_TYPE = {
+  Transfer: 'Transfer',
+  Staking: 'Staking',
+  iService: 'iService',
+  NFT: 'NFT',
+  Coinswap: 'Coinswap',
+  Identity: 'Identity',
+  IBC: 'IBC',
+  Oracle: 'Oracle',
+  Random: 'Random',
+  Record: 'Record',
+  Asset: 'Asset',
+  Gov: 'Gov',
+  Other:'Other'
 }
 
 export const TX_STATUS = {

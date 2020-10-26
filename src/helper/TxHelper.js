@@ -1,4 +1,4 @@
-import { TX_TYPE, PubKeyAlgorithm } from "../constant";
+import { TX_TYPE, PubKeyAlgorithm,LEVEL_TX_TYPE } from "../constant";
 
 
 export class TxHelper {
@@ -192,439 +192,439 @@ export class TxHelper {
             return operator
         }
     }
-    static formatTxType(txTypeArray){
+    static formatTxType (txTypeArray) {
 		let allTxType = [],
 			tansferObj = {
-				value:'transfer',
-				label:'Transfer',
+				value: LEVEL_TX_TYPE.Transfer,
+				label: LEVEL_TX_TYPE.Transfer,
 				children:[]
             },
             stakingObj = {
-                value: 'staking',
-                label: 'Staking',
+                value: LEVEL_TX_TYPE.Staking,
+                label: LEVEL_TX_TYPE.Staking,
                 children:[]
             },
             iServiceObj = {
-                value: 'iService',
-                label: 'iService',
+                value: LEVEL_TX_TYPE.iService,
+                label: LEVEL_TX_TYPE.iService,
                 children:[]
             },
             nftObj = {
-                value: 'nft',
-                label: 'NFT',
+                value: LEVEL_TX_TYPE.NFT,
+                label: LEVEL_TX_TYPE.NFT,
                 children:[]
             },
             coinswapObj = {
-                value: 'coinswap',
-                label: 'Coinswap',
+                value: LEVEL_TX_TYPE.Coinswap,
+                label: LEVEL_TX_TYPE.Coinswap,
                 children:[]
             },
             identityObj = {
-                value: 'identity',
-                label: 'Identity',
+                value: LEVEL_TX_TYPE.Identity,
+                label: LEVEL_TX_TYPE.Identity,
                 children:[]
             },
             ibcObj = {
-                value: 'ibc',
-                label: 'IBC',
+                value: LEVEL_TX_TYPE.IBC,
+                label: LEVEL_TX_TYPE.IBC,
                 children:[]
             },
             oracleObj = {
-                value: 'oracle',
-                label: 'Oracle',
+                value: LEVEL_TX_TYPE.Oracle,
+                label: LEVEL_TX_TYPE.Oracle,
                 children:[]
             },
             randomObj = {
-                value: 'random',
-                label: 'Random',
+                value: LEVEL_TX_TYPE.Random,
+                label: LEVEL_TX_TYPE.Random,
                 children:[]
             },
             recordObj = {
-                value: 'record',
-                label: 'Record',
+                value: LEVEL_TX_TYPE.Record,
+                label: LEVEL_TX_TYPE.Record,
                 children:[]
             },
             assetObj = {
-                value: 'asset',
-                label: 'Asset',
+                value: LEVEL_TX_TYPE.Asset,
+                label: LEVEL_TX_TYPE.Asset,
                 children:[]
             },
 			govObj = {
-				value:'gov',
-				label:'Gov',
+				value: LEVEL_TX_TYPE.Gov,
+				label: LEVEL_TX_TYPE.Gov,
 				children:[]
 			},
 			othersObj = {
-				value:'others',
-				label:'Others',
+				value: LEVEL_TX_TYPE.Other,
+				label: LEVEL_TX_TYPE.Other,
 				children:[]
 			};
 		txTypeArray.forEach( item => {
             switch (item.typeName) {
-				case "send":
+				case TX_TYPE.send:
 					tansferObj.children.push({
-						value:'send',
-						label:'send'
+						value: TX_TYPE.send,
+						label: TX_TYPE.send
 					});
 					break;
-				case "multisend":
+				case TX_TYPE.multisend:
 					tansferObj.children.push({
-						value:'multisend',
-						label:'multisend'
+						value: TX_TYPE.multisend,
+						label: TX_TYPE.multisend
 					});
 					break;
-				case "delegate":
+				case TX_TYPE.delegate:
 					stakingObj.children.push({
-						value:'delegate',
-						label:'delegate'
+						value: TX_TYPE.delegate,
+						label: TX_TYPE.delegate
 					});
 					break;
-				case "begin_redelegate":
+				case TX_TYPE.begin_redelegate:
 					stakingObj.children.push({
-						value:'begin_redelegate',
-						label:'begin_redelegate'
+						value: TX_TYPE.begin_redelegate,
+						label: TX_TYPE.begin_redelegate
 					});
 					break;
-				case "set_withdraw_address":
+				case TX_TYPE.set_withdraw_address:
 					stakingObj.children.push({
-						value:'set_withdraw_address',
-						label:'set_withdraw_address'
+						value: TX_TYPE.set_withdraw_address,
+						label: TX_TYPE.set_withdraw_address
 					});
 					break;
-				case "begin_unbonding":
+				case TX_TYPE.begin_unbonding:
 					stakingObj.children.push({
-						value:'begin_unbonding',
-						label:'begin_unbonding'
+						value: TX_TYPE.begin_unbonding,
+						label: TX_TYPE.begin_unbonding
 					});
 					break;
-				case "withdraw_delegator_reward":
+				case TX_TYPE.withdraw_delegator_reward:
 					stakingObj.children.push({
-						value:'withdraw_delegator_reward',
-						label:'withdraw_delegator_reward'
+						value: TX_TYPE.withdraw_delegator_reward,
+						label: TX_TYPE.withdraw_delegator_reward
 					});
 					break;
-				case "fund_community_pool":
+				case TX_TYPE.fund_community_pool:
 					stakingObj.children.push({
-						value:'fund_community_pool',
-						label:'fund_community_pool'
+						value: TX_TYPE.fund_community_pool,
+						label: TX_TYPE.fund_community_pool
 					});
 					break;
-				case "withdraw_validator_commission":
+				case TX_TYPE.withdraw_validator_commission:
 					stakingObj.children.push({
-						value:'withdraw_validator_commission',
-						label:'withdraw_validator_commission'
+						value: TX_TYPE.withdraw_validator_commission,
+						label: TX_TYPE.withdraw_validator_commission
 					});
 					break;
-				case "create_validator":
+				case TX_TYPE.create_validator:
 					stakingObj.children.push({
-						value:'create_validator',
-						label:'create_validator'
+						value: TX_TYPE.create_validator,
+						label: TX_TYPE.create_validator
 					});
 					break;
-				case "edit_validator":
+				case TX_TYPE.edit_validator:
 					stakingObj.children.push({
-						value:'edit_validator',
-						label:'edit_validator'
+						value: TX_TYPE.edit_validator,
+						label: TX_TYPE.edit_validator
 					});
 					break;
-				case "unjail":
+				case TX_TYPE.unjail:
 					stakingObj.children.push({
-						value:'unjail',
-						label:'unjail'
+						value: TX_TYPE.unjail,
+						label: TX_TYPE.unjail
 					});
 					break;
-                case "define_service":
+                case TX_TYPE.define_service:
                     iServiceObj.children.push({
-                        value: 'define_service',
-                        label: 'define_service'
+                        value: TX_TYPE.define_service,
+                        label: TX_TYPE.define_service
                     });
                     break;
-                case "bind_service":
+                case TX_TYPE.bind_service:
                     iServiceObj.children.push({
-                        value: 'bind_service',
-                        label: 'bind_service'
+                        value: TX_TYPE.bind_service,
+                        label: TX_TYPE.bind_service
                     });
                     break;
-                case "call_service":
+                case TX_TYPE.call_service:
                     iServiceObj.children.push({
-                        value: 'call_service',
-                        label: 'call_service'
+                        value: TX_TYPE.call_service,
+                        label: TX_TYPE.call_service
                     });
                     break;
-                case "respond_service":
+                case TX_TYPE.respond_service:
                     iServiceObj.children.push({
-                        value: 'respond_service',
-                        label: 'respond_service'
+                        value: TX_TYPE.respond_service,
+                        label: TX_TYPE.respond_service
                     });
                     break;
-                case "disable_service_binding":
+                case TX_TYPE.disable_service_binding:
                     iServiceObj.children.push({
-                        value: 'disable_service_binding',
-                        label: 'disable_service_binding'
+                        value: TX_TYPE.disable_service_binding,
+                        label: TX_TYPE.disable_service_binding
                     });
                     break;
-                case "enable_service_binding":
+                case TX_TYPE.enable_service_binding:
                     iServiceObj.children.push({
-                        value: 'enable_service_binding',
-                        label: 'enable_service_binding'
+                        value: TX_TYPE.enable_service_binding,
+                        label: TX_TYPE.enable_service_binding
                     });
                     break;
-                case "update_service_binding":
+                case TX_TYPE.update_service_binding:
                     iServiceObj.children.push({
-                        value: 'update_service_binding',
-                        label: 'update_service_binding'
+                        value: TX_TYPE.update_service_binding,
+                        label: TX_TYPE.update_service_binding
                     });
                     break;
-                case "start_request_context":
+                case TX_TYPE.start_request_context:
                     iServiceObj.children.push({
-                        value: 'start_request_context',
-                        label: 'start_request_context'
+                        value: TX_TYPE.start_request_context,
+                        label: TX_TYPE.start_request_context
                     });
                     break;
-                case "kill_request_context":
+                case TX_TYPE.kill_request_context:
                     iServiceObj.children.push({
-                        value: 'kill_request_context',
-                        label: 'kill_request_context'
+                        value: TX_TYPE.kill_request_context,
+                        label: TX_TYPE.kill_request_context
                     });
                     break;
-                case "pause_request_context":
+                case TX_TYPE.pause_request_context:
                     iServiceObj.children.push({
-                        value: 'pause_request_context',
-                        label: 'pause_request_context'
+                        value: TX_TYPE.pause_request_context,
+                        label: TX_TYPE.pause_request_context
                     });
                     break;
-                case "update_request_context":
+                case TX_TYPE.update_request_context:
                     iServiceObj.children.push({
-                        value: 'update_request_context',
-                        label: 'update_request_context'
+                        value: TX_TYPE.update_request_context,
+                        label: TX_TYPE.update_request_context
                     });
                     break;
-                case "service/set_withdraw_addres":
+                case TX_TYPE.service_set_withdraw_address:
                     iServiceObj.children.push({
-                        value: 'service/set_withdraw_addres',
-                        label: 'service/set_withdraw_addres'
+                        value: TX_TYPE.service_set_withdraw_address,
+                        label: TX_TYPE.service_set_withdraw_address
                     });
                     break;
-                case "refund_service_deposit":
+                case TX_TYPE.refund_service_deposit:
                     iServiceObj.children.push({
-                        value: 'refund_service_deposit',
-                        label: 'refund_service_deposit'
+                        value: TX_TYPE.refund_service_deposit,
+                        label: TX_TYPE.refund_service_deposit
                     });
                 break;
-                case "withdraw_earned_fees":
+                case TX_TYPE.withdraw_earned_fees:
                     iServiceObj.children.push({
-                        value: 'withdraw_earned_fees',
-                        label: 'withdraw_earned_fees'
+                        value: TX_TYPE.withdraw_earned_fees,
+                        label: TX_TYPE.withdraw_earned_fees
                     });
                 break;
-                case "issue_denom":
+                case TX_TYPE.issue_denom:
                     nftObj.children.push({
-                        value: 'issue_denom',
-                        label: 'issue_denom'
+                        value: TX_TYPE.issue_denom,
+                        label: TX_TYPE.issue_denom
                     });
                 break;   
-                case "mint_nft":
+                case TX_TYPE.mint_nft:
                     nftObj.children.push({
-                        value: 'mint_nft',
-                        label: 'mint_nft'
+                        value: TX_TYPE.mint_nft,
+                        label: TX_TYPE.mint_nft
                     });
                 break;
-                case "edit_nft":
+                case TX_TYPE.edit_nft:
                     nftObj.children.push({
-                        value: 'edit_nft',
-                        label: 'edit_nft'
+                        value: TX_TYPE.edit_nft,
+                        label: TX_TYPE.edit_nft
                     });
                 break;
-                case "transfer_nft":
+                case TX_TYPE.transfer_nft:
                     nftObj.children.push({
-                        value: 'transfer_nft',
-                        label: 'transfer_nft'
+                        value: TX_TYPE.transfer_nft,
+                        label: TX_TYPE.transfer_nft
                     });
                 break;
-                case "burn_nft":
+                case TX_TYPE.burn_nft:
                     nftObj.children.push({
-                        value: 'burn_nft',
-                        label: 'burn_nft'
+                        value: TX_TYPE.burn_nft,
+                        label: TX_TYPE.burn_nft
                     });
                 break;
-                case "add_liquidity":
+                case TX_TYPE.add_liquidity:
                     coinswapObj.children.push({
-                        value: 'add_liquidity',
-                        label: 'add_liquidity'
+                        value: TX_TYPE.add_liquidity,
+                        label: TX_TYPE.add_liquidity
                     });
                     break;
-                case "remove_liquidity":
+                case TX_TYPE.remove_liquidity:
                     coinswapObj.children.push({
-                        value: 'remove_liquidity',
-                        label: 'remove_liquidity'
+                        value: TX_TYPE.remove_liquidity,
+                        label: TX_TYPE.remove_liquidity
                     });
                 break;
-                case "swap_order":
+                case TX_TYPE.swap_order:
                     coinswapObj.children.push({
-                        value: 'swap_order',
-                        label: 'swap_order'
+                        value: TX_TYPE.swap_order,
+                        label: TX_TYPE.swap_order
                     });
                 break;
-                case "create_identity":
+                case TX_TYPE.create_identity:
                     identityObj.children.push({
-                        value: 'create_identity',
-                        label: 'create_identity'
+                        value: TX_TYPE.create_identity,
+                        label: TX_TYPE.create_identity
                     });
                     break;
-                case "update_identity":
+                case TX_TYPE.update_identity:
                     identityObj.children.push({
-                        value: 'update_identity',
-                        label: 'update_identity'
+                        value: TX_TYPE.update_identity,
+                        label: TX_TYPE.update_identity
                     });
                 break;
-                case "recv_packet":
+                case TX_TYPE.recv_packet:
                     ibcObj.children.push({
-                        value: 'recv_packet',
-                        label: 'recv_packet'
+                        value: TX_TYPE.recv_packet,
+                        label: TX_TYPE.recv_packet
                     });
                     break;
-                case "create_client":
+                case TX_TYPE.create_client:
                     ibcObj.children.push({
-                        value: 'create_client',
-                        label: 'create_client'
+                        value: TX_TYPE.create_client,
+                        label: TX_TYPE.create_client
                     });
                 break;
-                case "update_client":
+                case TX_TYPE.update_client:
                     ibcObj.children.push({
-                        value: 'update_client',
-                        label: 'update_client'
+                        value: TX_TYPE.update_client,
+                        label: TX_TYPE.update_client
                     });
                 break;
-                case "create_feed":
+                case TX_TYPE.create_feed:
                     oracleObj.children.push({
-                        value: 'create_feed',
-                        label: 'create_feed'
+                        value: TX_TYPE.create_feed,
+                        label: TX_TYPE.create_feed
                     });
                 break;
-                case "start_feed":
+                case TX_TYPE.start_feed:
                     oracleObj.children.push({
-                        value: 'start_feed',
-                        label: 'start_feed'
+                        value: TX_TYPE.start_feed,
+                        label: TX_TYPE.start_feed
                     });
                 break;
-                case "edit_feed":
+                case TX_TYPE.edit_feed:
                     oracleObj.children.push({
-                        value: 'edit_feed',
-                        label: 'edit_feed'
+                        value: TX_TYPE.edit_feed,
+                        label: TX_TYPE.edit_feed
                     });
                 break;
-                case "pause_feed":
+                case TX_TYPE.pause_feed:
                     oracleObj.children.push({
-                        value: 'pause_feed',
-                        label: 'pause_feed'
+                        value: TX_TYPE.pause_feed,
+                        label: TX_TYPE.pause_feed
                     });
                 break;
-                case "request_rand":
+                case TX_TYPE.request_rand:
                     randomObj.children.push({
-                        value: 'request_rand',
-                        label: 'request_rand'
+                        value: TX_TYPE.request_rand,
+                        label: TX_TYPE.request_rand
                     });
                 break;
-                case "create_record":
+                case TX_TYPE.create_record:
                     recordObj.children.push({
-                        value: 'create_record',
-                        label: 'create_record'
+                        value: TX_TYPE.create_record,
+                        label: TX_TYPE.create_record
                     });
                 break;
-                case "issue_token":
+                case TX_TYPE.issue_token:
                     assetObj.children.push({
-                        value: 'issue_token',
-                        label: 'issue_token'
+                        value: TX_TYPE.issue_token,
+                        label: TX_TYPE.issue_token
                     });
                 break;
-                case "edit_token":
+                case TX_TYPE.edit_token:
                     assetObj.children.push({
-                        value: 'edit_token',
-                        label: 'edit_token'
+                        value: TX_TYPE.edit_token,
+                        label: TX_TYPE.edit_token
                     });
                 break;
-                case "mint_token":
+                case TX_TYPE.mint_token:
                     assetObj.children.push({
-                        value: 'mint_token',
-                        label: 'mint_token'
+                        value: TX_TYPE.mint_token,
+                        label: TX_TYPE.mint_token
                     });
                 break;
-                case "transfer_token_owner":
+                case TX_TYPE.transfer_token_owner:
                     assetObj.children.push({
-                        value: 'transfer_token_owner',
-                        label: 'transfer_token_owner'
+                        value: TX_TYPE.transfer_token_owner,
+                        label: TX_TYPE.transfer_token_owner
                     });
                 break;
-                case "submit_proposal":
+                case TX_TYPE.submit_proposal:
                     govObj.children.push({
-                        value: 'submit_proposal',
-                        label: 'submit_proposal'
+                        value: TX_TYPE.submit_proposal,
+                        label: TX_TYPE.submit_proposal
                     });
                     break;
-                case "deposit":
+                case TX_TYPE.deposit:
                     govObj.children.push({
-                        value: 'deposit',
-                        label: 'deposit'
+                        value: TX_TYPE.deposit,
+                        label: TX_TYPE.deposit
                     });
                 break;
-                case "vote":
+                case TX_TYPE.vote:
                     govObj.children.push({
-                        value: 'vote',
-                        label: 'vote'
+                        value: TX_TYPE.vote,
+                        label: TX_TYPE.vote
                     });
                 break;
-                case "create_htlc":
+                case TX_TYPE.create_htlc:
                     othersObj.children.push({
-                        value: 'create_htlc',
-                        label: 'create_htlc'
+                        value: TX_TYPE.create_htlc,
+                        label: TX_TYPE.create_htlc
                     });
                 break;
-                case "claim_htlc":
+                case TX_TYPE.claim_htlc:
                     othersObj.children.push({
-                        value: 'claim_htlc',
-                        label: 'claim_htlc'
+                        value: TX_TYPE.claim_htlc,
+                        label: TX_TYPE.claim_htlc
                     });
                 break;
-                case "refund_htlc":
+                case TX_TYPE.refund_htlc:
                     othersObj.children.push({
-                        value: 'refund_htlc',
-                        label: 'refund_htlc'
+                        value: TX_TYPE.refund_htlc,
+                        label: TX_TYPE.refund_htlc
                     });
                 break;
-                case "verify_invariant":
+                case TX_TYPE.verify_invariant:
                     othersObj.children.push({
-                        value: 'verify_invariant',
-                        label: 'verify_invariant'
+                        value: TX_TYPE.verify_invariant,
+                        label: TX_TYPE.verify_invariant
                     });
                 break;
-                case "add_profiler":
+                case TX_TYPE.add_profiler:
                     othersObj.children.push({
-                        value: 'add_profiler',
-                        label: 'add_profiler'
+                        value: TX_TYPE.add_profiler,
+                        label: TX_TYPE.add_profiler
                     });
                 break;
-                case "add_trustee":
+                case TX_TYPE.add_trustee:
                     othersObj.children.push({
-                        value: 'add_trustee',
-                        label: 'add_trustee'
+                        value: TX_TYPE.add_trustee,
+                        label: TX_TYPE.add_trustee
                     });
                 break;
-                case "delete_profiler":
+                case TX_TYPE.delete_profiler:
                     othersObj.children.push({
-                        value: 'delete_profiler',
-                        label: 'delete_profiler'
+                        value: TX_TYPE.delete_profiler,
+                        label: TX_TYPE.delete_profiler
                     });
                 break;
-                case "delete_trustee":
+                case TX_TYPE.delete_trustee:
                     othersObj.children.push({
-                        value: 'delete_trustee',
-                        label: 'delete_trustee'
+                        value: TX_TYPE.delete_trustee,
+                        label: TX_TYPE.delete_trustee
                     });
                 break;
-                case "submit_evidence":
+                case TX_TYPE.submit_evidence:
                     othersObj.children.push({
-                        value: 'submit_evidence',
-                        label: 'submit_evidence'
+                        value: TX_TYPE.submit_evidence,
+                        label: TX_TYPE.submit_evidence
                     });
                 break;
 			}
