@@ -166,7 +166,7 @@ export default {
           this.timestamp = Tools.getDisplayDate(res.time) || '--'
           if(res.fee && res.fee.amount[0]) {
             let fee = await converCoin(res.fee.amount[0])
-            this.fee = `${Tools.formatPriceToFixed(fee.amount,2)} ${fee.denom.toUpperCase()}`
+            this.fee = `${fee.amount} ${fee.denom.toUpperCase()}`
           }
           this.fee = this.fee || '--'
           // this.gasUsed=res.fee.gas || '--' 
