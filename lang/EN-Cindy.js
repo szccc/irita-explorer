@@ -188,12 +188,12 @@ export const ExplorerLang = {
         timestamp: 'Timestamp',
         signer: 'Signer',
         memo: 'Memo',
-        // transactionMessage: 'Transaction Message or Result',
+        transactionMessageTitle: 'Transaction Message or Result',
         relevanceTx:'Related Transaction',
         txType: 'TxType',
         denomId: 'Denom Id',
         denomName: 'Denom Name',
-        from: '  From',
+        from: 'From',
         to: 'To',
         consumer: 'Consumer',
         provider: 'Provider',
@@ -261,9 +261,7 @@ export const ExplorerLang = {
             header:'Header',
         },
         // 新增
-        transactionMessage: {
-            title: 'Transaction Message or Result',
-            TxType: 'TxType :',
+        staking: {
             from: 'From :',
             amount: 'Amount :',
             to: 'To :',
@@ -281,7 +279,10 @@ export const ExplorerLang = {
             commissionRate: 'Commission Rate :',
             website: 'Website :',
             details: 'Details :',
-            // 新的交易类型展示
+            depositor: 'Depositor :',
+            validator: 'Validator: '
+        },
+        coinswap: {
             isBuyOrder: 'isBuyOrder :',
             inputAddress: 'Input Address :',
             Input: 'Input :',
@@ -295,11 +296,10 @@ export const ExplorerLang = {
             minToken: 'Min Token :',
             minLiquidity: 'Min Liquidity :',
             withdrawLiquidity: 'Withdraw Liquidity :',
-            depositor: 'Depositor :',
-            validator: 'Validator: '
         },
         oracle: {
             feedName: 'Feed Name',
+            input: 'Input',
             description: 'Description',
             latestHistory: 'Latest History',
             creator: 'Creator',

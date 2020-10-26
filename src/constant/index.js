@@ -16,7 +16,7 @@ export const addrPrefix = {
 }
 
 export const TX_TYPE = {
-  // service
+  // service 
   define_service: 'define_service',
   bind_service: 'bind_service',
   call_service: 'call_service',
@@ -95,6 +95,22 @@ export const TX_TYPE = {
   request_rand: 'request_rand'
 }
 
+export const LEVEL_TX_TYPE = {
+  Transfer: 'Transfer',
+  Staking: 'Staking',
+  iService: 'iService',
+  NFT: 'NFT',
+  Coinswap: 'Coinswap',
+  Identity: 'Identity',
+  IBC: 'IBC',
+  Oracle: 'Oracle',
+  Random: 'Random',
+  Record: 'Record',
+  Asset: 'Asset',
+  Gov: 'Gov',
+  Other:'Other'
+}
+
 export const TX_STATUS = {
   success: 1,
   fail: 0,
@@ -107,9 +123,9 @@ export const ValidatorStatus = {
 }
 
 export const ColumnMinWidth = {
-  txHash: '115',
+  txHash: '113',
   blockHeight: '60',
-  txType: '192',
+  txType: '194',
   address: '126',
   time: '143',
   txn: '',

@@ -200,3 +200,8 @@ td, th {
     font-family: Arial;
     font-size: 0.14rem !important;
 }
+
+.el-menu--horizontal {
+    font-family: Arial;
+    font-size: 0.14rem !important;
+}

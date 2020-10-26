@@ -18,7 +18,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
-				<LargeString :text="schemas" textWidth="980px" :minHeight="80"/>
+				<LargeString v-if="schemas" :text="schemas" :minHeight="100"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
@@ -148,11 +148,14 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString :text="tokenData" textWidth="980px" :minHeight="80"/>
+				<LargeString v-if="tokenData" :text="tokenData" :minHeight="100"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
-				<span>{{tokenUri}}</span>
+				<template>
+					<a v-if="tokenUri !== '--'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<span v-else>{{tokenUri}}</span>
+				</template>
 			</p>
 		
 		</div>
@@ -189,7 +192,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString :text="tokenData" textWidth="980px" :minHeight="80"/>
+				<LargeString v-if="tokenData" :text="tokenData"  :minHeight="100"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -222,7 +225,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString :text="tokenData" textWidth="980px" :minHeight="80"/>
+				<LargeString v-if="tokenData" :text="tokenData" :minHeight="100"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -240,7 +243,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
-				<LargeString :text="schema" textWidth="980px" :minHeight="80" />
+				<LargeString v-if="schema" :text="schema"  :minHeight="100" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
@@ -514,7 +517,7 @@
 		<div v-if="txType === TX_TYPE.recv_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.packet')}}：</span>
-				<LargeString :text="packet" textWidth="980px" :minHeight="80"/>
+				<LargeString v-if="packet" :text="packet"  :minHeight="100"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proof')}}：</span>
@@ -530,7 +533,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proofData')}}：</span>
-				<LargeString :text="proofData" textWidth="980px" :minHeight="80"/>
+				<LargeString v-if="proofData" :text="proofData"  :minHeight="100"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.clientID')}}：</span>
@@ -558,7 +561,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubkey')}}：</span>
-				<LargeString :text="pubkey" textWidth="980px" :minHeight="80"/>
+				<LargeString  v-if="pubkey" :text="pubkey"  :minHeight="100"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubKeyAlgo')}}：</span>
@@ -566,7 +569,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.certificate')}}：</span>
-				<LargeString :text="certificate" textWidth="980px" :minHeight="80"/>
+				<LargeString v-if="certificate" :text="certificate"  :minHeight="100"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.credentials')}}：</span>
@@ -588,7 +591,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
-				<LargeString :text="header" textWidth="980px" :minHeight="80"/>
+				<LargeString v-if="header" :text="header"  :minHeight="100"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -600,14 +603,14 @@
 		</div>
 		<div v-if="txType === TX_TYPE.begin_redelegate">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
 				<template>
-					<span v-if="from === '--'">{{from}}</span>
-					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<!-- <p>
@@ -615,10 +618,10 @@
 				 <span>{{from}}</span>
 			 </p>-->
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
 				<template>
-					<span v-if="to === '--'">{{to}}</span>
-					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
 				</template>
 			</p>
 			<!--<p>
@@ -632,38 +635,38 @@
 		</div>
 		<div v-if="txType === TX_TYPE.create_validator">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
 				<template>
 					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.moniker')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.moniker')}}</span>
 				<span>{{moniker}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.identity')}}</span>
 				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
 				<span v-else>{{identity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.selfBonded')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.selfBonded')}}</span>
 				<span>{{selfBond}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.ownerAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.ownerAddress')}}</span>
 				<template>
 					<span v-if="ownerAddress === '--'">{{ownerAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(ownerAddress)">{{ownerAddress}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.consensusPubkey')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.consensusPubkey')}}</span>
 				<span>{{consensusPubkey}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
 				<span>{{commissionRate}} 
 					<el-tooltip placement="top" v-if="commissionRate">
   						<div slot="content" >
@@ -675,37 +678,40 @@
 				</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
-				<span class="website_link" @click="openUrl(website)">{{website}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
+				<template>
+					<span v-if="website !== '--'" class="website_link" @click="openUrl(website)">{{website}}</span>
+					<span v-else>{{website}}</span>
+				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.details')}}</span>
 				<span>{{details}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
 				<template>
-					<span v-if="from === '--'">{{from}}</span>
-					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
 				<template>
-					<span v-if="to === '--'">{{to}}</span>
-					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
 				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_validator_commission">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.validator')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.validator')}}</span>
 				<template>
 					<span v-if="moniker === '--' && validatorAddress === '--' ">{{ moniker || validatorAddress }}</span>
 					<router-link v-else :to="Tools.addressRoute(validatorAddress)">{{ moniker || validatorAddress}}</router-link>
@@ -714,14 +720,14 @@
 		</div>
 		<div v-if="txType === TX_TYPE.set_withdraw_address">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.delegatorAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.delegatorAddress')}}</span>
 				<template>
 					<span v-if="delegatorAddress === '--'">{{delegatorAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(delegatorAddress)">{{delegatorAddress}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.withdrawAddress')}}</span>
 				<template>
 					<span v-if="withdrawAddress === '--'">{{withdrawAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(withdrawAddress)">{{withdrawAddress}}</router-link>
@@ -730,81 +736,89 @@
 		</div>
 		<div v-if="txType === TX_TYPE.begin_unbonding">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
 				<template>
-					<span v-if="from === '--'">{{from}}</span>
-					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
 				<template>
-					<span v-if="to === '--'">{{to}}</span>
-					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
 				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.edit_validator">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
 				<template>
 					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
 				</template>
+				<!-- <template>
+					<span v-if="operMoniker === '--' && operatorAddress === '--' ">{{ operMoniker || operatorAddress }}</span>
+					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{ operMoniker || operatorAddress}}</router-link>
+				</template> -->
+
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.moniker')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.moniker')}}</span>
 				<span>{{moniker}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.identity')}}</span>
 				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
 				<span v-else>{{identity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
 				<span>{{commissionRate}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
-				<span class="website_link" @click="openUrl(website)">{{website}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
+				<template>
+					<span v-if="website !== '--'" class="website_link" @click="openUrl(website)">{{website}}</span>
+					<span v-else>{{website}}</span>
+				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.details')}}</span>
 				<span>{{details}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.delegate">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
 				<template>
-					<span v-if="from === '--'">{{from}}</span>
-					<router-link v-else :to="Tools.addressRoute(from)">{{from}}</router-link>
+					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
+					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
 				<template>
-					<span v-if="to === '--'">{{to}}</span>
-					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
 				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.fund_community_pool">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.depositor')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.depositor')}}</span>
 				<template>
 					<span v-if="depositor === '--'">{{depositor}}</span>
 					<router-link :to="Tools.addressRoute(depositor)">{{depositor}}</router-link>
@@ -813,89 +827,89 @@
 		</div>
 		<div v-if="txType === TX_TYPE.swap_order">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.isBuyOrder')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.isBuyOrder')}}</span>
 				<span>{{isBuyOrder}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.inputAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.inputAddress')}}</span>
 				<template>
 					<span v-if="inputAddress === '--'">{{inputAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(inputAddress)">{{ inputAddress }}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.Input')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.Input')}}</span>
 				<span>{{input}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.outputAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.outputAddress')}}</span>
 				<template>
 					<span v-if="outputAddress === '--'">{{outputAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(outputAddress)">{{ outputAddress }}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.output')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.output')}}</span>
 				<span>{{output}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>		
 		</div>
 		<div v-if="txType === TX_TYPE.add_liquidity">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.sender')}}</span>
 				<template>
 					<span v-if="sender === '--'">{{sender}}</span>
 					<router-link v-else :to="Tools.addressRoute(sender)">{{ sender }}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.exactIrisAmt')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.exactIrisAmt')}}</span>
 				<span>{{exactIrisAmt}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.maxToken')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.maxToken')}}</span>
 				<span>{{maxToken}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minLiquidity')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minLiquidity')}}</span>
 				<span>{{minLiquidity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>	
 		</div>
 		<div v-if="txType === TX_TYPE.remove_liquidity">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.sender')}}</span>
 				<template>
 					<span v-if="sender === '--'">{{sender}}</span>
 					<router-link v-else :to="Tools.addressRoute(sender)">{{ sender }}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawLiquidity')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.withdrawLiquidity')}}</span>
 				<span>{{withdrawLiquidity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minIrisAmt')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minIrisAmt')}}</span>
 				<span>{{minIrisAmt}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minToken')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minToken')}}</span>
 				<span>{{minToken}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>	
 		</div>
 		<div v-if="txType === TX_TYPE.unjail">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
 				<template>
 					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
@@ -944,7 +958,7 @@
 				<span v-else>--</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.Input')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.input')}}:</span>
 				<span>{{ input }}</span>
 			</p>
 			<p>
@@ -1064,7 +1078,7 @@
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.withdrawAddress')}}</span>
 				<template>
 					<span v-if="withdrawAddress === '--'">{{withdrawAddress}}</span>
 					<router-link :to="Tools.addressRoute(withdrawAddress)">{{withdrawAddress}}</router-link>
@@ -1229,6 +1243,10 @@
 				responseThreshold:'',
 				blockInterval:'',
 				oracle:'',
+				toMoniker:'',
+				fromMoniker:'',
+				operMoniker:'',
+				minToken:''
 			}
 		},
 		computed: {
@@ -1289,7 +1307,7 @@
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
-									this.deposit = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}` || '--';
+									this.deposit = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
 								}
 								this.deposit = this.deposit || '--'
 								this.owner = msg.owner || '--';
@@ -1301,7 +1319,7 @@
 								this.to = msg.toaddress || '--';
 								if (msg.amount && msg.amount.length) {
 									let amount = await converCoin(msg.amount[0]);
-									this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}` || '--';
+									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
 								}
 								this.amount = this.amount || '--'
 								break;
@@ -1314,7 +1332,7 @@
 								this.repeatedTotal = msg.repeated_total || '--';
 								if (msg.service_fee_cap && msg.service_fee_cap.length) {
 									let serviceFeeCap = await converCoin(msg.service_fee_cap[0]);
-									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toUpperCase()}`;
+									this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toUpperCase()}`;
 								}
 								this.serviceFeeCap = this.serviceFeeCap || '--'
 								this.serviceName = msg.service_name || '--';
@@ -1390,7 +1408,7 @@
 								this.repeatedTotal = msg.repeated_total || '--';
 								if (msg.service_fee_cap && msg.service_fee_cap.length) {
 									let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
-									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toUpperCase()}`;
+									this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toUpperCase()}`;
 								} else {
 									this.serviceFeeCap = '--';
 								}
@@ -1402,7 +1420,7 @@
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
-									this.deposit = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
+									this.deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
 									// this.deposit = `${msg.deposit[0].amount} ${msg.deposit[0].denom}` || '--';
 								}
 								this.deposit = this.deposit || '--'
@@ -1422,7 +1440,7 @@
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
-									this.deposit = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
+									this.deposit = `${amount.amount} ${amount.denom.toUpperCase()}`;
 									// this.deposit = `${msg.deposit[0].amount} ${msg.deposit[0].denom}` || '--';
 								}
 								this.deposit = this.deposit || '--'
@@ -1462,11 +1480,13 @@
 								break;
 							case TX_TYPE.begin_redelegate:
                                 let amount = await converCoin(msg.amount);
-								this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
+								this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
 								this.from = msg.validator_src_address;
 								// this.shares = '需要取值';
 								this.to = msg.validator_dst_address;
 								// this.endTime = Tools.format2UTC(message.time)
+								this.toMoniker = this.getMoniker(this.to,this.monikers)
+								this.fromMoniker = this.getMoniker(this.from,this.monikers)
 								break;
 							case TX_TYPE.create_validator:
 								this.operatorAddress = msg.validator_address;
@@ -1475,8 +1495,8 @@
 									this.getKeyBaseName(msg.description.identity)
 								}
 								this.identity = msg.description.identity || '--';
-								this.selfBond = msg.min_self_delegation;
-								this.ownerAddress = msg.delegator_address;
+								this.selfBond = msg.min_self_delegation ? `${msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--';
+								this.ownerAddress = msg.delegator_address || '--';
 								this.consensusPubkey = msg.pubkey;
 								this.commissionRate = `${Tools.formatPercentage(msg.commission.rate )} %`;
 								this.commissionMaxRate = `${Tools.formatPercentage(msg.commission.max_rate )} %`
@@ -1498,18 +1518,16 @@
 								});
 								if( amount && amount !== '--') {
 									amount = await converCoin(amount);
-									this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
+									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
 								} else {
 									this.amount = '--'
 								}
+								this.toMoniker = this.getMoniker(this.to,this.monikers)
+								this.fromMoniker = this.getMoniker(this.from,this.monikers)
 								break;
 							case TX_TYPE.withdraw_validator_commission:
 								this.validatorAddress = msg.validator_address
-								if(this.monikers.length) {
-									this.monikers.map( item => {
-										this.moniker = this.moniker || item[this.validatorAddress] || ''
-									})
-								}
+								this.moniker = this.getMoniker(this.validatorAddress,this.monikers)
 								break;
 							case TX_TYPE.set_withdraw_address:
 								this.delegatorAddress = msg.delegator_address;
@@ -1518,11 +1536,13 @@
 							case TX_TYPE.begin_unbonding:	
 								if(msg.amount) {
 									let amount = await converCoin(msg.amount);
-									this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}`;
+									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
 								}
 								this.amount = this.amount || '--'
 								this.from = msg.validator_address;
 								this.to = msg.delegator_address;
+								this.toMoniker = this.getMoniker(this.to,this.monikers)
+								this.fromMoniker = this.getMoniker(this.from,this.monikers)
 								break;
 							case TX_TYPE.edit_validator:
 								this.operatorAddress = msg.validator_address;
@@ -1531,30 +1551,37 @@
 									this.getKeyBaseName(msg.description.identity)
 								}
 								this.identity = msg.description.identity || '--';
-								this.commissionRate = msg.commission_rate || '--';
+								if(msg.commission_rate) {
+									this.commissionRate = `${Tools.formatPercentage(msg.commission_rate)} %`  || '--';
+								} else {
+									this.commissionRate = '--'
+								}
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
+								this.operMoniker = this.getMoniker(this.operatorAddress,this.monikers)
 								break;
 							case TX_TYPE.delegate:
 								this.from = msg.delegator_address;
 								this.to = msg.validator_address;
 								let delegateAmount = await converCoin(msg.delegation)
 								amount = await converCoin(msg.delegation);
-								this.amount = `${Tools.formatPriceToFixed(amount.amount,2)} ${amount.denom.toUpperCase()}` || '--'
+								this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--'
+								this.toMoniker = this.getMoniker(this.to,this.monikers)
+								this.fromMoniker = this.getMoniker(this.from,this.monikers)
 								break;
 							case TX_TYPE.fund_community_pool:
 								this.depositor = msg.depositor;
 								let poolAmount = await converCoin(msg.amount[0])
-								this.amount =  `${Tools.formatPriceToFixed(poolAmount.amount,2)} ${poolAmount.denom.toLocaleUpperCase()}`
+								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.swap_order:
 								this.isBuyOrder = msg.is_buy_order;
 								this.inputAddress = msg.input.address || '--';
 								let input = await converCoin(msg.input.coin)
-								this.input = `${Tools.formatPriceToFixed(input.amount,2)} ${input.denom.toLocaleUpperCase()}`;
+								this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
 								this.outputAddress = msg.output.address || '--';
 								let output = await converCoin(msg.output.coin)
-								this.output = `${Tools.formatPriceToFixed(output.amount,2)} ${output.denom.toLocaleUpperCase()}`;
+								this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
 								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
@@ -1563,26 +1590,26 @@
 									amount: msg.exact_iris_amt,
 									denom: mainToken.min_unit
 								})
-								this.exactIrisAmt = `${Tools.formatPriceToFixed(exactIrisAmt.amount,2)} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
+								this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
 								let maxToken = await converCoin(msg.max_token)
-								this.maxToken = `${Tools.formatPriceToFixed(maxToken.amount,2)} ${maxToken.denom.toLocaleUpperCase()}`;
+								this.maxToken = `${maxToken.amount} ${maxToken.denom.toLocaleUpperCase()}`;
 								this.minLiquidity = msg.min_liquidity || '--';
 								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.remove_liquidity:
 								this.sender = msg.sender || '--';
 								let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
-								this.withdrawLiquidity = `${Tools.formatPriceToFixed(withdrawLiquidity.amount,2)} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
+								this.withdrawLiquidity = `${withdrawLiquidity.amount} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
 								let minIrisAmt = await converCoin({
 									amount: msg.min_iris_amt,
 									denom: mainToken.min_unit
 								})
-								this.minIrisAmt = `${Tools.formatPriceToFixed(minIrisAmt.amount,2)} ${minIrisAmt.denom.toLocaleUpperCase()}`;
-								let minToken = await converCoin({
+								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
+							    let minToken = await converCoin({
 									amount: msg.min_token,
 									denom: mainToken.min_unit
 								})
-								this.minToken = `${Tools.formatPriceToFixed(minToken.amount,2)} ${minToken.denom.toLocaleUpperCase()}`;
+								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
 								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
 								case TX_TYPE.unjail:
@@ -1594,11 +1621,11 @@
 								this.description = msg.description || '--';
 								this.latestHistory = msg.latest_history !== 0 ?  msg.latest_history || '--' : '--';
 								this.creator = msg.creator || '--';
-								this.providers = msg.providers || '--'; // 待处理
+								this.providers = msg.providers || '--';
 								this.input = msg.input || '--';
 								if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
 									let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
-									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
+									this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
 								} else {
 									this.serviceFeeCap = '--'
 								}
@@ -1624,7 +1651,7 @@
 								this.providers = msg.providers || '--';
 								if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
 									let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
-									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
+									this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
 								} else {
 									this.serviceFeeCap = '--'
 								}
@@ -1638,7 +1665,7 @@
 								this.oracle = msg.oracle;
 								if (msg.service_fee_cap && msg.service_fee_cap.length) {
 									let serviceFeeCap = await converCoin(msg.service_fee_cap[0]);
-									this.serviceFeeCap = `${Tools.formatPriceToFixed(serviceFeeCap.amount,2)} ${serviceFeeCap.denom.toUpperCase()}`;
+									this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toUpperCase()}`;
 								} else {
 									this.serviceFeeCap = '--';
 								}
@@ -1680,6 +1707,15 @@
 					});
 				}
 			},
+			getMoniker(address,monikers) {
+				let moniker
+				if(monikers.length) {
+					monikers.map( item => {
+						moniker = moniker || item[address] || ''
+					})
+				}
+				return moniker
+			}
 		}
 	}
 </script>
@@ -1775,7 +1811,7 @@
 				.record_content {
 					
 					.record_name {
-						min-width: 1rem;
+						min-width: 1.4rem;
 					}
 					
 					.record_list_content {
@@ -1795,7 +1831,7 @@
 			
 			p {
 				span:nth-of-type(1) {
-					min-width: 1rem;
+					min-width: 1.4rem;
 				}
 				
 				span:nth-of-type(2) {

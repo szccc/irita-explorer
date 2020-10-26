@@ -34,10 +34,10 @@
                         <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.qos')}}:</span>
                         <span>{{`${qos} ${$t('ExplorerLang.unit.blocks')}`}} </span>
                     </p>
-                    <!-- <p class="service_respond_record_text_content">
+                    <p class="service_respond_record_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.deposit')}}:</span>
                         <span>{{deposit}}</span>
-                    </p> -->
+                    </p>
                     <p class="service_respond_record_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.hash')}}:</span>
                         <span>
@@ -161,6 +161,7 @@
         getServiceBindingByServiceName,
     } from "../service/api";
     import { TX_STATUS,ColumnMinWidth } from '../constant';
+    import { converCoin } from '../helper/IritaHelper'
     export default {
         name : "ServiceInformation",
         components : {MPagination},
@@ -206,11 +207,17 @@
                         this.bindTime = Tools.getDisplayDate(serviceInfo.time);
                     }
                     if(bindings && bindings.result){
-                        const {available, pricing, qos, deposit, disabled_time} = bindings.result;
+                        let {available, pricing, qos, deposit, disabled_time} = bindings.result;
                         this.isAvailable = available ? 'True' : 'False';
                         this.price = pricing;
                         this.qos = qos;
-                        this.deposit = `${deposit[0].amount} ${deposit[0].denom}`;
+                        if(deposit && deposit[0]) {
+                            deposit = await converCoin(deposit[0])
+                            this.deposit = `${deposit.amount} ${deposit.denom.toUpperCase()}`;
+                        } else {
+                            this.deposit = '--'
+                        }
+                        
                         this.disabledTime = available ? '--' : Tools.getFormatDate(disabled_time);
                     }
 
@@ -271,7 +278,6 @@
             .service_respond_record_title {
                 padding-left: 0.27rem;
                 .service_respond_record_provider {
-
                     margin-right: 0.15rem;
                 }
                 .service_respond_record_spread {
@@ -310,6 +316,7 @@
             margin: 0 auto;
             display: flex;
             flex-direction: column;
+
             .service_respond_record_title {
                 text-align: left;
                 margin: 0.3rem 0 0.15rem 0;
@@ -356,7 +363,7 @@
                             font-size: $s14;
                             line-height: 0.16rem;
                             color: $t_second_c;
-                            min-width: 1.5rem;
+                            min-width: 1.8rem;
                             text-align: left;
                             font-weight: 600;
                         }

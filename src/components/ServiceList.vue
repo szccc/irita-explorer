@@ -116,20 +116,23 @@
                     let serviceList = await getAllServiceTxList(this.pageNum,this.pageSize, this.iptVal);
                     if(serviceList && serviceList.data){
                         for(let service of serviceList.data){
-                            let bindings = await getServiceBindingByServiceName(service.serviceName);
-
-                            if(bindings.result){
-                                service.bindList.forEach((s)=>{
-                                    s.bindTime = Tools.getDisplayDate(s.bindTime);
-                                    bindings.result.forEach((b)=>{
-                                        if(s.provider === b.provider){
-                                            s.isAvailable = b.available ? 'True' : 'False';
-                                            s.available = b.available;
-                                            s.price = JSON.parse(b.pricing).price;
-                                            s.qos = `${b.qos} ${this.$t('ExplorerLang.unit.blocks')}`;
-                                        }
+                            try {
+                                let bindings = await getServiceBindingByServiceName(service.serviceName);                           
+                                if(bindings.result){
+                                    service.bindList.forEach((s)=>{
+                                        s.bindTime = Tools.getDisplayDate(s.bindTime);
+                                        bindings.result.forEach((b)=>{
+                                            if(s.provider === b.provider){
+                                                s.isAvailable = b.available ? 'True' : 'False';
+                                                s.available = b.available;
+                                                s.price = JSON.parse(b.pricing).price;
+                                                s.qos = `${b.qos} ${this.$t('ExplorerLang.unit.blocks')}`;
+                                            }
+                                        })
                                     })
-                                })
+                                }
+                            } catch (e) {
+                                console.log(e)
                             }
                         }
                         this.serviceList = serviceList.data;
@@ -139,7 +142,7 @@
                     }
                 }catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 			},
 			formatTxHash(TxHash){

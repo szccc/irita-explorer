@@ -83,6 +83,10 @@ export default {
   .el-select-dropdown__item.selected{
     color: $theme_c !important;
   }
+  .el-popper .in-active-path,
+  .el-popper .is-active {
+    color: $theme_c !important;
+  }
   //el-tooltip 适配移动端
   @media screen and (max-width: 768px) {
     .el-tooltip__popper{
