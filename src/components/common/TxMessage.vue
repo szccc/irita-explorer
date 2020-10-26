@@ -680,7 +680,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
 				<template>
-					<span v-if="website !== '--'" class="website_link" @click="openUrl(website)">{{website}}</span>
+					<span v-if="website !== '--' && website !== '[do-not-modify]' " class="website_link" @click="openUrl(website)">{{website}}</span>
 					<span v-else>{{website}}</span>
 				</template>
 			</p>
@@ -783,7 +783,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
 				<template>
-					<span v-if="website !== '--'" class="website_link" @click="openUrl(website)">{{website}}</span>
+					<span v-if="website !== '--' && website !== '[do-not-modify]'" class="website_link" @click="openUrl(website)">{{website}}</span>
 					<span v-else>{{website}}</span>
 				</template>
 			</p>
