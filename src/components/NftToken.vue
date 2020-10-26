@@ -23,11 +23,11 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.schema')}}：</span>
-					<LargeString v-if="schema" :text="schema" :minHeight="80"/>
+					<LargeString v-if="schema" :text="schema" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.data')}}：</span>
-					<LargeString v-if="tokenData" :text="tokenData" :minHeight="80"/>
+					<LargeString v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.creator')}}：</span>
@@ -85,7 +85,9 @@
 				tokenUri:'',
                 denomName:'',
                 nftName:'',
-				denomId:''
+				denomId:'',
+				LargeStringMinHeight: 80,
+				LargeStringLineHeight: 19
 			}
 		},
 		mounted () {

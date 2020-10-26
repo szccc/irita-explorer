@@ -1,12 +1,17 @@
 <template>
     <span :class="`tx_message_content_largeStr ${mode=='cell'?'flex-row':'flex-colum'}`">
-        <span v-if="!isLarge" ref="text">{{text}}</span>
-        <template v-else>
-            <span class="text" :class=" !showDesc ? 'width': ''" :style="`width:${textWidth || 'auto'}`">
+        <template>
+            <span v-if="isLarge" ref="text" :style="`width:${textWidth || 'auto'}`">{{text}}</span>
+            <span v-else class="text" :class=" !showDesc ? 'width': ''" :style="`width:${textWidth || 'auto'}`">
                 {{text_f}}
             </span>
+        </template>
+        <template>
             <span class="tx_message_content_largeStr_btn" v-if="showDescBtn(text)" @click="btnDidClick">
                 {{`${showDesc ? $t('ExplorerLang.common.fewer') : $t('ExplorerLang.common.more')}`}}
+            </span>
+            <span class="tx_message_content_largeStr_btn" v-if="isLarge && mode=='cell'" @click="btnDidClick">
+                {{$t('ExplorerLang.common.fewer')}}
             </span>
         </template>
     </span>
@@ -41,11 +46,16 @@
                 required:false,
                 default: 0
             },
+            lineHeight:{
+                type:Number,
+                default: 0
+            },
         },
         data(){
             return {
                 showDesc:false,
-                isLarge: false,
+                isLarge:true,
+                isHeight:false,
             }
         },
         computed:{
@@ -54,10 +64,18 @@
             }
         },
         mounted(){
-            this.$nextTick(()=>{ 
-                let height = this.$refs.text.offsetHeight;
-                this.isLarge = height > this.minHeight
-            })
+            setTimeout( () => {
+                    this.$nextTick(()=>{ 
+                    let height = this.$refs.text.offsetHeight;
+                    this.showDesc = height <= this.minHeight
+                    this.isLarge = false
+                    if(this.lineHeight) {
+                        this.isHeight  = height > this.lineHeight
+                    }
+                    console.log('文本的高度', this.$refs.text,height,this.lineHeight,this.minHeight)
+                    console.log('文本的宽度',this.$refs.text.offsetWidth)
+                })
+            },0)
         },
         methods : {
             btnDidClick(){
@@ -71,7 +89,11 @@
                 return str || '';
             },
             showDescBtn(str){
-                return str && str.length > this.maxLength;
+                if(this.lineHeight) {
+                    return this.isHeight;
+                } else {
+                    return str && str.length > this.maxLength;
+                }
             }
         }
     }

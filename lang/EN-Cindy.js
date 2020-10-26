@@ -280,7 +280,9 @@ export const ExplorerLang = {
             website: 'Website :',
             details: 'Details :',
             depositor: 'Depositor :',
-            validator: 'Validator: '
+            validator: 'Validator : ',
+            minSelfDelegation: 'Min Self Delegation :',
+            securityContact: 'Security Contact :',
         },
         coinswap: {
             isBuyOrder: 'isBuyOrder :',

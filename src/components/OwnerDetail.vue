@@ -15,7 +15,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="address_content" v-show="moduleSupport('103', prodConfig.navFuncList)&& isNftInfo">
+			<div class="address_content" v-if="moduleSupport('103', prodConfig.navFuncList)&& isNftInfo">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.assets')}}</div>
 				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
@@ -29,9 +29,9 @@
 							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.id)}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
+					<el-table-column :width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
-							<LargeString :text="scope.row.tokenData" :maxLength="Number(50)" mode="cell" textWidth="400px"/>
+							<LargeString v-if="scope.row.tokenData" :text="scope.row.tokenData" mode="cell" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')"
@@ -699,6 +699,8 @@
 					label: this.$t('ExplorerLang.addressInformation.tab.tx'),
 					isActive: false,
 				},
+				LargeStringMinHeight: 69,
+				LargeStringLineHeight:23
 			}
 		},
 		watch: {
@@ -1429,7 +1431,7 @@
 				padding: 0.25rem;
 				border-radius: 0.05rem;
 				border: 0.01rem solid $bd_first_c;
-				margin-bottom: 0.48rem;
+				margin-bottom: 0.48rem;			
 			}
 			
 			.consumer_transaction_content {

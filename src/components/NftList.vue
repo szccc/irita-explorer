@@ -46,7 +46,7 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
-							<LargeString :text="scope.row.tokenData"  mode="cell" textWidth="300px" :maxLength="Number(40)"/>
+							<LargeString v-if="scope.row.tokenData" :text="scope.row.tokenData"  mode="cell" textWidth="300px" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
@@ -99,7 +99,9 @@
 				tokenId: '',
 				owner: '',
 				input:'',
-				allCount:0
+				allCount:0,
+				LargeStringMinHeight: 69,
+				LargeStringLineHeight: 23
 			}
 		},
 		mounted(){

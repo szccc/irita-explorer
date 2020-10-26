@@ -273,14 +273,16 @@ export const ExplorerLang = {
             operatorAddress: 'Operator Address :',
             moniker: 'Moniker :',
             identity: 'Identity :',
-            selfBonded: 'Self-Bonded :',
+            selfBonded: '本次自抵押 :',
             ownerAddress:'Owner Address :',
             consensusPubkey: 'Consensus Pubkey :',
             commissionRate: 'Commission Rate :',
             website: 'Website :',
             details: 'Details :',
             depositor: 'Depositor :',
-            validator: 'Validator: '
+            validator: 'Validator: ',
+            minSelfDelegation: '自抵押最低限额 :',
+            securityContact:'安全联络人 :'
         },
         coinswap: {
             isBuyOrder: '买入订单 :',
