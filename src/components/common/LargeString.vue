@@ -84,6 +84,7 @@
         font-weight: 400;
         color: $t_first_c;
         word-break: break-all;
+        min-width: 0;
         .text {
             overflow-y: auto;
             max-height: 2rem;

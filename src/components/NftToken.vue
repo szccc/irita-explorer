@@ -23,11 +23,11 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.schema')}}：</span>
-					<LargeString v-if="schema" :text="schema" textWidth="980px" :minHeight="80"/>
+					<LargeString v-if="schema" :text="schema" :minHeight="80"/>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.data')}}：</span>
-					<LargeString v-if="tokenData" :text="tokenData" textWidth="980px" :minHeight="80"/>
+					<LargeString v-if="tokenData" :text="tokenData" :minHeight="80"/>
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.creator')}}：</span>
