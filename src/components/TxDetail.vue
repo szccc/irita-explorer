@@ -59,7 +59,7 @@
         <div class="tx_information_tx_message_content" v-if="messages.length !== 0">
           <div class="tx_information_tx_content">
             <div class="tx_information_tx_message_title">
-              {{ $t('ExplorerLang.transactionInformation.transactionMessage.title') }}
+              {{ $t('ExplorerLang.transactionInformation.transactionMessageTitle') }}
             </div>
             <div v-for="(item, index) in messages" :key="index">
               <TxMessage :msg="item" :events="events" :monikers="monikers" />
@@ -430,7 +430,7 @@ a {
         .tx_information_content {
           .tx_information_list_item {
             span:nth-of-type(1) {
-              min-width: 1rem;
+              min-width: 1.4rem;
             }
             span:nth-of-type(2) {
             }

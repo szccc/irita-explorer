@@ -188,7 +188,7 @@ export const ExplorerLang = {
         timestamp: '参考时间',
         signer: '签名者',
         memo: '备注',
-        // transactionMessage: '交易消息',
+        transactionMessageTitle: '交易消息',
         relevanceTx:'关联交易',
         txType: '交易类型',
         denomId: '数据类别标识',
@@ -261,9 +261,7 @@ export const ExplorerLang = {
             header:'区块头',
         },
         // 新增
-        transactionMessage: {
-            title: 'Transaction Message or Result',
-            TxType: 'TxType :',
+        staking: {
             from: 'From :',
             amount: 'Amount :',
             to: 'To :',
@@ -281,7 +279,10 @@ export const ExplorerLang = {
             commissionRate: 'Commission Rate :',
             website: 'Website :',
             details: 'Details :',
-            // 新的交易类型展示
+            depositor: 'Depositor :',
+            validator: 'Validator: '
+        },
+        coinswap: {
             isBuyOrder: '买入订单 :',
             inputAddress: '输入地址 :',
             Input: '输入地址 :',
@@ -295,11 +296,10 @@ export const ExplorerLang = {
             minToken: '最少可兑换数量 :',
             minLiquidity: '流动性凭证 :',
             withdrawLiquidity: '提出流动性凭证 :',
-            depositor: 'Depositor :',
-            validator: 'Validator: '
         },
         oracle: {
             feedName: '任务名称',
+            input: '输入',
             description: '描述',
             latestHistory: '最新历史',
             creator: '创建者',

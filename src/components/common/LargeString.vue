@@ -57,7 +57,6 @@
             this.$nextTick(()=>{ 
                 let height = this.$refs.text.offsetHeight;
                 this.isLarge = height > this.minHeight
-                console.log(height,this.minHeight)
             })
         },
         methods : {

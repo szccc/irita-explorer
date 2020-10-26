@@ -603,11 +603,11 @@
 		</div>
 		<div v-if="txType === TX_TYPE.begin_redelegate">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
 				<template>
 					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
 					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
@@ -618,7 +618,7 @@
 				 <span>{{from}}</span>
 			 </p>-->
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
 				<template>
 					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
 					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
@@ -635,38 +635,38 @@
 		</div>
 		<div v-if="txType === TX_TYPE.create_validator">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
 				<template>
 					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.moniker')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.moniker')}}</span>
 				<span>{{moniker}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.identity')}}</span>
 				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
 				<span v-else>{{identity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.selfBonded')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.selfBonded')}}</span>
 				<span>{{selfBond}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.ownerAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.ownerAddress')}}</span>
 				<template>
 					<span v-if="ownerAddress === '--'">{{ownerAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(ownerAddress)">{{ownerAddress}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.consensusPubkey')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.consensusPubkey')}}</span>
 				<span>{{consensusPubkey}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
 				<span>{{commissionRate}} 
 					<el-tooltip placement="top" v-if="commissionRate">
   						<div slot="content" >
@@ -678,28 +678,31 @@
 				</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
-				<span class="website_link" @click="openUrl(website)">{{website}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
+				<template>
+					<span v-if="website !== '--'" class="website_link" @click="openUrl(website)">{{website}}</span>
+					<span v-else>{{website}}</span>
+				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.details')}}</span>
 				<span>{{details}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
 				<template>
 					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
 					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
 				<template>
 					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
 					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
@@ -708,7 +711,7 @@
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_validator_commission">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.validator')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.validator')}}</span>
 				<template>
 					<span v-if="moniker === '--' && validatorAddress === '--' ">{{ moniker || validatorAddress }}</span>
 					<router-link v-else :to="Tools.addressRoute(validatorAddress)">{{ moniker || validatorAddress}}</router-link>
@@ -717,14 +720,14 @@
 		</div>
 		<div v-if="txType === TX_TYPE.set_withdraw_address">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.delegatorAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.delegatorAddress')}}</span>
 				<template>
 					<span v-if="delegatorAddress === '--'">{{delegatorAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(delegatorAddress)">{{delegatorAddress}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.withdrawAddress')}}</span>
 				<template>
 					<span v-if="withdrawAddress === '--'">{{withdrawAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(withdrawAddress)">{{withdrawAddress}}</router-link>
@@ -733,18 +736,18 @@
 		</div>
 		<div v-if="txType === TX_TYPE.begin_unbonding">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
 				<template>
 					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
 					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
 				<template>
 					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
 					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
@@ -753,7 +756,7 @@
 		</div>
 		<div v-if="txType === TX_TYPE.edit_validator">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
 				<template>
 					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
@@ -765,41 +768,44 @@
 
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.moniker')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.moniker')}}</span>
 				<span>{{moniker}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.identity')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.identity')}}</span>
 				<a class="validation_information_link" v-if="keyBaseName" :href="keyBaseName" target="_blank">{{identity}}</a>
 				<span v-else>{{identity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.commissionRate')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
 				<span>{{commissionRate}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.website')}}</span>
-				<span class="website_link" @click="openUrl(website)">{{website}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
+				<template>
+					<span v-if="website !== '--'" class="website_link" @click="openUrl(website)">{{website}}</span>
+					<span v-else>{{website}}</span>
+				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.details')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.details')}}</span>
 				<span>{{details}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.delegate">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.from')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
 				<template>
 					<span v-if="fromMoniker === '--' && from === '--' ">{{ fromMoniker || from }}</span>
 					<router-link v-else :to="Tools.addressRoute(from)">{{ fromMoniker || from}}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.to')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.to')}}</span>
 				<template>
 					<span v-if="toMoniker === '--' && to === '--' ">{{ toMoniker || to }}</span>
 					<router-link v-else :to="Tools.addressRoute(to)">{{ toMoniker || to}}</router-link>
@@ -808,11 +814,11 @@
 		</div>
 		<div v-if="txType === TX_TYPE.fund_community_pool">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.amount')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
 				<span>{{amount}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.depositor')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.depositor')}}</span>
 				<template>
 					<span v-if="depositor === '--'">{{depositor}}</span>
 					<router-link :to="Tools.addressRoute(depositor)">{{depositor}}</router-link>
@@ -821,89 +827,89 @@
 		</div>
 		<div v-if="txType === TX_TYPE.swap_order">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.isBuyOrder')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.isBuyOrder')}}</span>
 				<span>{{isBuyOrder}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.inputAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.inputAddress')}}</span>
 				<template>
 					<span v-if="inputAddress === '--'">{{inputAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(inputAddress)">{{ inputAddress }}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.Input')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.Input')}}</span>
 				<span>{{input}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.outputAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.outputAddress')}}</span>
 				<template>
 					<span v-if="outputAddress === '--'">{{outputAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(outputAddress)">{{ outputAddress }}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.output')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.output')}}</span>
 				<span>{{output}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>		
 		</div>
 		<div v-if="txType === TX_TYPE.add_liquidity">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.sender')}}</span>
 				<template>
 					<span v-if="sender === '--'">{{sender}}</span>
 					<router-link v-else :to="Tools.addressRoute(sender)">{{ sender }}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.exactIrisAmt')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.exactIrisAmt')}}</span>
 				<span>{{exactIrisAmt}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.maxToken')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.maxToken')}}</span>
 				<span>{{maxToken}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minLiquidity')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minLiquidity')}}</span>
 				<span>{{minLiquidity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>	
 		</div>
 		<div v-if="txType === TX_TYPE.remove_liquidity">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.sender')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.sender')}}</span>
 				<template>
 					<span v-if="sender === '--'">{{sender}}</span>
 					<router-link v-else :to="Tools.addressRoute(sender)">{{ sender }}</router-link>
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawLiquidity')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.withdrawLiquidity')}}</span>
 				<span>{{withdrawLiquidity}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minIrisAmt')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minIrisAmt')}}</span>
 				<span>{{minIrisAmt}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.minToken')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minToken')}}</span>
 				<span>{{minToken}}</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.deadline')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>	
 		</div>
 		<div v-if="txType === TX_TYPE.unjail">
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.operatorAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
 				<template>
 					<span v-if="operatorAddress === '--'">{{operatorAddress}}</span>
 					<router-link v-else :to="Tools.addressRoute(operatorAddress)">{{operatorAddress}}</router-link>
@@ -952,7 +958,7 @@
 				<span v-else>--</span>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.Input')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.oracle.input')}}:</span>
 				<span>{{ input }}</span>
 			</p>
 			<p>
@@ -1072,7 +1078,7 @@
 				</template>
 			</p>
 			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.transactionMessage.withdrawAddress')}}</span>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.withdrawAddress')}}</span>
 				<template>
 					<span v-if="withdrawAddress === '--'">{{withdrawAddress}}</span>
 					<router-link :to="Tools.addressRoute(withdrawAddress)">{{withdrawAddress}}</router-link>
@@ -1489,8 +1495,8 @@
 									this.getKeyBaseName(msg.description.identity)
 								}
 								this.identity = msg.description.identity || '--';
-								this.selfBond = msg.min_self_delegation;
-								this.ownerAddress = msg.delegator_address;
+								this.selfBond = msg.min_self_delegation ? `${msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--';
+								this.ownerAddress = msg.delegator_address || '--';
 								this.consensusPubkey = msg.pubkey;
 								this.commissionRate = `${Tools.formatPercentage(msg.commission.rate )} %`;
 								this.commissionMaxRate = `${Tools.formatPercentage(msg.commission.max_rate )} %`
@@ -1805,7 +1811,7 @@
 				.record_content {
 					
 					.record_name {
-						min-width: 1rem;
+						min-width: 1.4rem;
 					}
 					
 					.record_list_content {
@@ -1825,7 +1831,7 @@
 			
 			p {
 				span:nth-of-type(1) {
-					min-width: 1rem;
+					min-width: 1.4rem;
 				}
 				
 				span:nth-of-type(2) {
