@@ -130,7 +130,7 @@
                 txStatus : '',
                 pageNum: pageNum ? pageNum : 1,
                 pageSize: pageSize ? pageSize : 10,
-                txTypeArray:[]
+                txTypeArray:['']
             }
         },
         mounted(){
@@ -142,8 +142,14 @@
                 this.statusValue = Number(this.statusValue || 0);
                 this.pageNum = 1;
                 let url = `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`;
+                // if(this.txType){
+                //     url += `&txType=${this.txType}`;
+                // }
                 if(this.txType){
                     url += `&txType=${this.txType}`;
+                    this.txTypeArray = TxHelper.getRefUrlTxType(this.txType)
+                } else {
+                    this.txTypeArray=['']
                 }
                 if(this.statusValue){
                     url += `&status=${this.statusValue}`;
@@ -198,7 +204,7 @@
                     typeList.unshift({
                         value : '',
                         label : this.$t('ExplorerLang.common.allTxType'),
-                        slot : 'allTxType'
+                        slot : 'allTxType',
                     });
                     this.txTypeOption = typeList;
 
@@ -240,6 +246,7 @@
                 this.pageSize = 10;
                 this.resetUrl();
                 this.getTxList()
+                this.txTypeArray=['']
             },
             /*getParamsByUrlHash(){
                 let txType,
@@ -282,15 +289,29 @@
                 let url = `/#/txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
                 if(txType){
                     url += `&txType=${txType}`;
+                    this.txTypeArray = TxHelper.getRefUrlTxType(txType)
+                    this.txType = txType
+                } else {
+                    this.txTypeArray=['']
+                    this.txType = ''
                 }
                 if(status){
                     url += `&status=${status}`;
+                    this.statusValue = Number(status)
+                } else {
+                    this.statusValue = 0
                 }
                 if(beginTime){
                     url += `&beginTime=${beginTime}`;
+                    this.beginTime = beginTime
+                } else {
+                    this.beginTime = ''
                 }
                 if(endTime){
                     url += `&endTime=${endTime}`;
+                    this.endTime = endTime
+                } else {
+                    this.endTime = ''
                 }
                 history.pushState(null, null, url);
                 this.getTxList();

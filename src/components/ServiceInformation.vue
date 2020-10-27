@@ -26,7 +26,7 @@
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.schema')}}：</span>
-                        <span>{{schemas}}</span>
+                        <LargeString v-if="schemas" :text="schemas"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.tags')}}：</span>
@@ -247,10 +247,10 @@
         getServiceBindingByServiceName
     } from "../service/api";
     import { TxHelper } from "../helper/TxHelper";
-
+    import LargeString from './common/LargeString';
     export default {
         name : "ServiceInformation",
-        components : {MPagination},
+        components : {MPagination,LargeString},
         data(){
             return {
                 TX_STATUS,
@@ -301,6 +301,8 @@
                         label : this.$t('ExplorerLang.common.allTxType')
                     },
                 ],
+                LargeStringMinHeight: 80,
+                LargeStringLineHeight:16
 
             }
         },
@@ -562,6 +564,7 @@
                 }
             }
             .service_information_transaction_content {
+                margin-bottom: 0.2rem;
                 background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
