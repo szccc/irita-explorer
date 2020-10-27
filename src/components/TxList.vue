@@ -14,7 +14,7 @@
                         <el-cascader
                             popper-class="tooltip"
                             :placeholder="$t('ExplorerLang.common.allTxType')"
-                            v-model="txType"
+                            v-model="txTypeArray"
                             :options="txTypeOption"
                             :props="{ expandTrigger: 'hover' }"
                             :show-all-levels="false"
@@ -130,6 +130,7 @@
                 txStatus : '',
                 pageNum: pageNum ? pageNum : 1,
                 pageSize: pageSize ? pageSize : 10,
+                txTypeArray:[]
             }
         },
         mounted(){

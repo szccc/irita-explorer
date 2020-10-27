@@ -41,9 +41,9 @@
                         <router-link v-if="isValid(scope.row.from)" :to="Tools.addressRoute(scope.row.from)">
                             {{  formatMoniker(scope.row.fromMonikers) || formatAddress(scope.row.from)}}
                         </router-link>
-                        <span v-else>{{'--'}}</span>
                     </el-tooltip>
                     <span v-show="Number(scope.row.msgCount) > 1">--</span>
+                    <span v-if="!isValid(scope.row.from)">--</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">

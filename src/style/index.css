@@ -205,3 +205,8 @@ td, th {
     font-family: Arial;
     font-size: 0.14rem !important;
 }
+
+.el-table__empty-block {
+    min-height: 0.48rem !important;
+    height: 0.48rem !important;
+}
