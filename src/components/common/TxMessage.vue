@@ -18,7 +18,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
-				<LargeString v-if="schemas" :text="schemas" :minHeight="100"/>
+				<LargeString v-if="schemas" :text="schemas" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
@@ -148,7 +148,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString v-if="tokenData" :text="tokenData" :minHeight="100"/>
+				<LargeString v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -192,11 +192,14 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString v-if="tokenData" :text="tokenData"  :minHeight="100"/>
+				<LargeString v-if="tokenData" :text="tokenData"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
-				<span>{{tokenUri}}</span>
+				<template>
+					<a v-if="tokenUri !== '--'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<span v-else>{{tokenUri}}</span>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.edit_nft">
@@ -225,11 +228,14 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString v-if="tokenData" :text="tokenData" :minHeight="100"/>
+				<LargeString v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
-				<span>{{tokenUri}}</span>
+				<template>
+					<a v-if="tokenUri !== '--'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<span v-else>{{tokenUri}}</span>
+				</template>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.issue_denom">
@@ -243,7 +249,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
-				<LargeString v-if="schema" :text="schema"  :minHeight="100" />
+				<LargeString v-if="schema" :text="schema"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
@@ -517,7 +523,7 @@
 		<div v-if="txType === TX_TYPE.recv_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.packet')}}：</span>
-				<LargeString v-if="packet" :text="packet"  :minHeight="100"/>
+				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proof')}}：</span>
@@ -533,7 +539,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proofData')}}：</span>
-				<LargeString v-if="proofData" :text="proofData"  :minHeight="100"/>
+				<LargeString v-if="proofData" :text="proofData"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.clientID')}}：</span>
@@ -561,7 +567,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubkey')}}：</span>
-				<LargeString  v-if="pubkey" :text="pubkey"  :minHeight="100"/>
+				<LargeString  v-if="pubkey" :text="pubkey"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.pubKeyAlgo')}}：</span>
@@ -569,7 +575,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.certificate')}}：</span>
-				<LargeString v-if="certificate" :text="certificate"  :minHeight="100"/>
+				<LargeString v-if="certificate" :text="certificate"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.credentials')}}：</span>
@@ -591,7 +597,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
-				<LargeString v-if="header" :text="header"  :minHeight="100"/>
+				<LargeString v-if="header" :text="header"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -655,6 +661,10 @@
 				<span>{{selfBond}}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.minSelfDelegation')}}</span>
+				<span>{{minSelfDelegation}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.ownerAddress')}}</span>
 				<template>
 					<span v-if="ownerAddress === '--'">{{ownerAddress}}</span>
@@ -680,7 +690,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
 				<template>
-					<span v-if="website !== '--'" class="website_link" @click="openUrl(website)">{{website}}</span>
+					<span v-if="website !== '--' && website !== '[do-not-modify]' " class="website_link" @click="openUrl(website)">{{website}}</span>
 					<span v-else>{{website}}</span>
 				</template>
 			</p>
@@ -777,19 +787,27 @@
 				<span v-else>{{identity}}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.minSelfDelegation')}}</span>
+				<span>{{minSelfDelegation}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
 				<span>{{commissionRate}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
 				<template>
-					<span v-if="website !== '--'" class="website_link" @click="openUrl(website)">{{website}}</span>
+					<span v-if="website !== '--' && website !== '[do-not-modify]'" class="website_link" @click="openUrl(website)">{{website}}</span>
 					<span v-else>{{website}}</span>
 				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.details')}}</span>
 				<span>{{details}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.securityContact')}}</span>
+				<span>{{securityContact}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.delegate">
@@ -1246,7 +1264,11 @@
 				toMoniker:'',
 				fromMoniker:'',
 				operMoniker:'',
-				minToken:''
+				minToken:'',
+				minSelfDelegation:'',
+				securityContact:'',
+				LargeStringMinHeight: 100,
+				LargeStringLineHeight: 20
 			}
 		},
 		computed: {
@@ -1495,7 +1517,12 @@
 									this.getKeyBaseName(msg.description.identity)
 								}
 								this.identity = msg.description.identity || '--';
-								this.selfBond = msg.min_self_delegation ? `${msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--';
+								if(msg && msg.value && msg.value.amount ) {
+									let selfBond = await converCoin(msg.value)
+									this.selfBond = `${selfBond.amount} ${selfBond.denom.toUpperCase()}` || '--'; 
+								}else {
+									this.selfBond = '--'
+								}
 								this.ownerAddress = msg.delegator_address || '--';
 								this.consensusPubkey = msg.pubkey;
 								this.commissionRate = `${Tools.formatPercentage(msg.commission.rate )} %`;
@@ -1503,6 +1530,7 @@
 								this.commissionMaxChangeRate = `${Tools.formatPercentage(msg.commission.max_change_rate )} %`
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
+								this.minSelfDelegation = msg.min_self_delegation ? `${msg.min_self_delegation} ${mainToken.min_unit.toLowerCase()}` : '--'
 								break;
 							case TX_TYPE.withdraw_delegator_reward:
 								this.from = msg.validator_address;
@@ -1558,7 +1586,9 @@
 								}
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
-								this.operMoniker = this.getMoniker(this.operatorAddress,this.monikers)
+								this.operMoniker = this.getMoniker(this.operatorAddress,this.monikers);
+								this.minSelfDelegation = msg.min_self_delegation ? `${msg.min_self_delegation} ${mainToken.min_unit.toLowerCase()}` : '--'
+								this.securityContact = msg.description && msg.description.security_contact || '--'
 								break;
 							case TX_TYPE.delegate:
 								this.from = msg.delegator_address;

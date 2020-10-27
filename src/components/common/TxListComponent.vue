@@ -35,7 +35,7 @@
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
-                    <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
+                    <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
                         <router-link v-if="isValid(scope.row.from)" :to="Tools.addressRoute(scope.row.from)">

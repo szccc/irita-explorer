@@ -438,7 +438,7 @@
                         }
                         /deep/ .el-select {
                             width: 1.3rem;
-                            margin-right: 0.1rem;s
+                            margin-right: 0.1rem;
                             .el-input {
                                 .el-input__inner {
                                     padding-left: 0.07rem;
