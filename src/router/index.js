@@ -56,7 +56,6 @@ const router = new Router({
 			path:'/service/respond/:serviceName/:provider',
 			component: () => import('@/components/ServiceRespondRecord.vue')
 		},
-
 		{
 			path:'/nft/token',
 			component: () => import('@/components/NftToken.vue')

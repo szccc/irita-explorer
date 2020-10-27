@@ -368,7 +368,7 @@ export const ExplorerLang = {
         title: 'Search Results',
         backHome: 'Back Home',
         resultTitle: 'There is no valid result.',
-        searchTip: 'Try to search with Address, Transaction, Block Number, Proposal ID, HashLock.',
+        searchTip: 'Try to search with Address, Transaction, Block Number.',
     },
     // 新增
     // 验证人列表

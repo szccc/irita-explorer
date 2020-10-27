@@ -62,7 +62,6 @@ export default {
       }
     }
   }
-
   .content{
     margin-top: 0.61rem;
     flex: 1;

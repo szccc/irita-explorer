@@ -86,7 +86,7 @@
                 denomName:'',
                 nftName:'',
 				denomId:'',
-				LargeStringMinHeight: 80,
+				LargeStringMinHeight: 95,
 				LargeStringLineHeight: 19
 			}
 		},
