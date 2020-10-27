@@ -72,8 +72,6 @@
                     if(this.lineHeight) {
                         this.isHeight  = height > this.lineHeight
                     }
-                    console.log('文本的高度', this.$refs.text,height,this.lineHeight,this.minHeight)
-                    console.log('文本的宽度',this.$refs.text.offsetWidth)
                 })
             },0)
         },
