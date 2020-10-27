@@ -868,7 +868,7 @@
 			pageChange (pageNum) {
 				this.pageNum = pageNum;
 				this.getTxByAddress()
-				this.type ?  this.txTypeArray= TxHelper.getRefUrlTxType(this.type) : this.txTypeArray = ['']
+				this.type ?  this.txTypeArray= TxHelper.getTxTypeArray(this.txTypeOption,this.type) : this.txTypeArray = ['']
 				this.status_temp = this.status
 				this.type_temp = this.type
 			},

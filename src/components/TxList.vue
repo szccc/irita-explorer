@@ -147,7 +147,7 @@
                 // }
                 if(this.txType){
                     url += `&txType=${this.txType}`;
-                    this.txTypeArray = TxHelper.getRefUrlTxType(this.txType)
+                    this.txTypeArray = TxHelper.getTxTypeArray(this.txTypeOption,this.txType)
                 } else {
                     this.txTypeArray=['']
                 }
@@ -207,7 +207,6 @@
                         slot : 'allTxType',
                     });
                     this.txTypeOption = typeList;
-
                 }catch (e) {
                     console.error(e);
                     // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
@@ -289,7 +288,7 @@
                 let url = `/#/txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
                 if(txType){
                     url += `&txType=${txType}`;
-                    this.txTypeArray = TxHelper.getRefUrlTxType(txType)
+                    this.txTypeArray = TxHelper.getTxTypeArray(this.txTypeOption,txType)
                     this.txType = txType
                 } else {
                     this.txTypeArray=['']
