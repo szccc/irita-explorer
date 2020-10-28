@@ -114,7 +114,11 @@ export const ExplorerLang = {
         viewAll: '查看全部',
         listTransactions: '最近交易',
         tx:'交易#',
-        txn:'交易数量'
+        txn: '交易数量',
+        // 新增
+        ValidatorsTop: 'Validators Top10',
+        ViewAll: 'View All',
+        transactionHistory:'14 day Transaction History'
     },
     block:{
         currentHeight: '当前区块',

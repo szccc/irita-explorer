@@ -134,7 +134,7 @@ export const ColumnMinWidth = {
   votingPower: '120',
   publickKey: '450',
   denom: '150',
-  tokenId: '141',
+  tokenId: '120',
   denomId: '150',
   schema: '380',
   URI: '260',
@@ -170,7 +170,8 @@ export const ColumnMinWidth = {
   message: '90',
   validatorMoniker: '150',
   validatorSelfBond: '150',
-
+  nftListDenom: '100',
+  nftListDate:'280'
 }
 
 export const ModuleMap = {

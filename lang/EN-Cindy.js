@@ -114,7 +114,10 @@ export const ExplorerLang = {
         viewAll: 'View All',
         listTransactions: 'Transactions',
         tx:'TX#',
-        txn:'Txn'
+        txn: 'Txn',
+        ValidatorsTop: 'Validators Top10',
+        ViewAll: 'View All',
+        transactionHistory:'14 day Transaction History'
     },
     block:{
         currentHeight: 'Current Height',
