@@ -633,91 +633,17 @@ export class TxHelper {
         allTxType = allTxType.filter(item => item.children.length)
         return allTxType
     }
-    
-    static getRefUrlTxType (txType) {
-        let refUrlTxType;
-        //下拉框回显项数据结构
-        let UrlTxType = [
-            // Transfer
-            [LEVEL_TX_TYPE.Transfer, TX_TYPE.send],
-            [LEVEL_TX_TYPE.Transfer, TX_TYPE.multisend],
-            // Staking
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.delegate],
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.begin_redelegate],
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.set_withdraw_address],
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.begin_unbonding],
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.withdraw_delegator_reward],
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.fund_community_pool],
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.withdraw_validator_commission],
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.create_validator],
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.edit_validator],
-            [LEVEL_TX_TYPE.Staking, TX_TYPE.unjail],
-            // iService
-            [LEVEL_TX_TYPE.iService, TX_TYPE.define_service],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.bind_service],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.call_service],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.respond_service],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.disable_service_binding],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.enable_service_binding],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.update_service_binding],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.start_request_context],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.kill_request_context],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.pause_request_context],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.update_request_context],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.service_set_withdraw_address],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.refund_service_deposit],
-            [LEVEL_TX_TYPE.iService, TX_TYPE.withdraw_earned_fees],
-            // NFT
-            [LEVEL_TX_TYPE.NFT, TX_TYPE.issue_denom],
-            [LEVEL_TX_TYPE.NFT, TX_TYPE.mint_nft],
-            [LEVEL_TX_TYPE.NFT, TX_TYPE.edit_nft],
-            [LEVEL_TX_TYPE.NFT, TX_TYPE.transfer_nft],
-            [LEVEL_TX_TYPE.NFT, TX_TYPE.burn_nft],
-            // Coinswap
-            [LEVEL_TX_TYPE.Coinswap, TX_TYPE.add_liquidity],
-            [LEVEL_TX_TYPE.Coinswap, TX_TYPE.remove_liquidity],
-            [LEVEL_TX_TYPE.Coinswap, TX_TYPE.swap_order],
-            // Identity
-            [LEVEL_TX_TYPE.Identity, TX_TYPE.create_identity],
-            [LEVEL_TX_TYPE.Identity, TX_TYPE.update_identity],
-            // IBC
-            [LEVEL_TX_TYPE.IBC, TX_TYPE.recv_packet],
-            [LEVEL_TX_TYPE.IBC, TX_TYPE.create_client],
-            [LEVEL_TX_TYPE.IBC, TX_TYPE.update_client],
-            // Oracle
-            [LEVEL_TX_TYPE.Oracle, TX_TYPE.create_feed],
-            [LEVEL_TX_TYPE.Oracle, TX_TYPE.start_feed],
-            [LEVEL_TX_TYPE.Oracle, TX_TYPE.edit_feed],
-            [LEVEL_TX_TYPE.Oracle, TX_TYPE.pause_feed],
-            // Random
-            [LEVEL_TX_TYPE.Random, TX_TYPE.request_rand],
-            // Record
-            [LEVEL_TX_TYPE.Record, TX_TYPE.create_record],
-            // Asset
-            [LEVEL_TX_TYPE.Asset, TX_TYPE.issue_token],
-            [LEVEL_TX_TYPE.Asset, TX_TYPE.edit_token],
-            [LEVEL_TX_TYPE.Asset, TX_TYPE.mint_token],
-            [LEVEL_TX_TYPE.Asset, TX_TYPE.transfer_token_owner],
-            // Gov
-            [LEVEL_TX_TYPE.Gov, TX_TYPE.submit_proposal],
-            [LEVEL_TX_TYPE.Gov, TX_TYPE.deposit],
-            [LEVEL_TX_TYPE.Gov, TX_TYPE.vote],
-            // Other
-			[LEVEL_TX_TYPE.Other,TX_TYPE.create_htlc],
-			[LEVEL_TX_TYPE.Other,TX_TYPE.claim_htlc],
-			[LEVEL_TX_TYPE.Other,TX_TYPE.refund_htlc],
-			[LEVEL_TX_TYPE.Other,TX_TYPE.verify_invariant],
-			[LEVEL_TX_TYPE.Other,TX_TYPE.add_profiler],
-			[LEVEL_TX_TYPE.Other,TX_TYPE.add_trustee],
-			[LEVEL_TX_TYPE.Other,TX_TYPE.delete_profiler],
-			[LEVEL_TX_TYPE.Other,TX_TYPE.delete_trustee],
-			[LEVEL_TX_TYPE.Other,TX_TYPE.submit_evidence],
-		];
-		UrlTxType.forEach( item => {
-			if(item[item.length -1] === txType){
-				refUrlTxType = item
+    static getTxTypeArray (data,value) {
+		let TxTypeArray= [''];
+		data.forEach( item => {
+			if(item.children && item.children.length) {
+				item.children.forEach( it => {
+					if(it.value === value) {
+						TxTypeArray = [item.value,it.value]
+					}
+				})
 			}
 		})
-		return refUrlTxType
-    }
+		return TxTypeArray
+	}
 }
