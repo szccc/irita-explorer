@@ -118,7 +118,8 @@ export const ExplorerLang = {
         // 新增
         ValidatorsTop: 'Validators Top10',
         ViewAll: 'View All',
-        transactionHistory:'14 day Transaction History'
+        transactionHistory: '14 day Transaction History',
+        validatorNumCount: '验证人数量'
     },
     block:{
         currentHeight: '当前区块',

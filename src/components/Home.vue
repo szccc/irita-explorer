@@ -44,6 +44,10 @@
 						<p class="home_content_header_bottom_title"><i class="iconfont iconID"></i>{{$t('ExplorerLang.home.identities')}}</p>
 						<p class="home_content_header_bottom_footer"><router-link :to="`/identities`">{{identityNumber}}</router-link></p>
 					</li>
+					<li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).validators">
+						<p class="home_content_header_bottom_title"><i class="iconfont iconUsers"></i>{{$t('ExplorerLang.home.validatorNumCount')}}</p>
+						<p class="home_content_header_bottom_footer"><router-link :to="`/staking`">{{validatorNumCount}}</router-link></p>
+					</li>
 				</ul>
 			</div>
 			<div class="home_block_and_transaction_content">
@@ -133,6 +137,7 @@
 				latestTransaction:[],
 				blocksTimer: null,
 				transfersTimer:null,
+				validatorNumCount: 0
 			}
 		},
 		mounted () {
@@ -171,7 +176,7 @@
 						this.serverNumber = statistics.serviceCount;
 						this.identityNumber = statistics.identityCount;
 						this.denomNumber = statistics.denomCount;
-						
+						this.validatorNumCount = statistics.validatorNumCount;
 					}
 				}catch(err){
 					console.error(err);
