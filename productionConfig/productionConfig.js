@@ -80,7 +80,9 @@ let config = {
     DenomCount:true,
     assetCount:true,
     identityCount:true,
-    
+    validators: true,
+    votingPower:true,
+    bondedTokens: true
   },
   text: {
     //预设字体颜色
