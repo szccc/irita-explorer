@@ -510,7 +510,7 @@
 					<el-cascader
                             popper-class="tooltip"
                             :placeholder="$t('ExplorerLang.common.allTxType')"
-                            v-model="type_temp"
+                            v-model="txTypeArray"
                             :options="txTypeOption"
                             :props="{ expandTrigger: 'hover' }"
                             :show-all-levels="false"
@@ -611,6 +611,7 @@
 				status: '',
 				type_temp: '',
 				status_temp: '',
+				txTypeArray:[''],
 				statusOpt: [
 					{
 						value: '',
@@ -867,6 +868,9 @@
 			pageChange (pageNum) {
 				this.pageNum = pageNum;
 				this.getTxByAddress()
+				this.type ?  this.txTypeArray= TxHelper.getTxTypeArray(this.txTypeOption,this.type) : this.txTypeArray = ['']
+				this.status_temp = this.status
+				this.type_temp = this.type
 			},
 			//服务调用-消费者
 			async getConsumerTxList () {
@@ -1066,6 +1070,7 @@
 				this.status = '';
 				this.pageNum = 1;
 				this.getTxByAddress();
+				this.txTypeArray=['']
 			},
 			async getAllTxType () {
 				try {
@@ -1348,7 +1353,7 @@
 				return Tools.formatString(moniker, 15, "...");
 			},
 			handleChange(value) {
-                this.type_temp = value[1] ? value[1] : ''
+                value ? this.type_temp = value[1] ? value[1] : '' : ''
             }
 		}
 	}

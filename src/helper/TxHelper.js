@@ -632,5 +632,18 @@ export class TxHelper {
 		allTxType.push(tansferObj,stakingObj,iServiceObj,nftObj,coinswapObj,identityObj,ibcObj,oracleObj,randomObj,recordObj,assetObj,govObj,othersObj);
         allTxType = allTxType.filter(item => item.children.length)
         return allTxType
+    }
+    static getTxTypeArray (data,value) {
+		let TxTypeArray= [''];
+		data.forEach( item => {
+			if(item.children && item.children.length) {
+				item.children.forEach( it => {
+					if(it.value === value) {
+						TxTypeArray = [item.value,it.value]
+					}
+				})
+			}
+		})
+		return TxTypeArray
 	}
 }
