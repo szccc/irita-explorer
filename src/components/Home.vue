@@ -245,7 +245,7 @@
                                 showAnimation: item.showAnimation ? item.showAnimation : '',
                                 hash: item.tx_hash,
                                 time: Tools.getDisplayDate(item.time),
-                                txType: item.type,
+                                txType: item.msgs ? (item.msgs.length > 1 ? '--' : item.msgs[0].type) : '--',
                                 Time: item.time,
                                 txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time*1000,"ago",">")
                             }

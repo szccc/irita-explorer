@@ -393,9 +393,10 @@
                         let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
                         let requestContextId = TxHelper.getContextId(item.msgs[0], item.events) || '--';
                         let from = (addrObj && addrObj.from) ? addrObj.from : '--',
-                            to = (addrObj && addrObj.to) ? addrObj.to : '--';
+                            to = (addrObj && addrObj.to) ? addrObj.to : '--',
+                            msgs = item.msgs || [{}];
                         return {
-                            type : item.type,
+                            type : item.msgs.length > 1 ? '--' : item.msgs[0].type,
                             from,
                             status : item.status,
                             txHash : item.hash,

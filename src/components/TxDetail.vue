@@ -262,7 +262,7 @@ export default {
                 case TX_TYPE.call_service:
                   result.provider = tx.msgs[0].msg.providers
                   tx.events.forEach(item => {
-                    ;(item.attributes || []).forEach(attr => {
+                    (item.attributes || []).forEach(attr => {
                       if (attr.key == 'request_context_id') {
                         result.requestContextId = attr.value
                       }
