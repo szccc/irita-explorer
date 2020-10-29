@@ -118,9 +118,7 @@
     import MClip from "./common/MClip.vue";
     import {TxHelper} from "../helper/TxHelper";
     import TxListComponent from "./common/TxListComponent";
-    import { getTxDetail,
-            getRelevanceTxList,
-            getIdentityDetail,
+    import {getIdentityDetail,
             getPubkeyListByIdentity,
             getCertificateListByIdentity,
             getTxListByIdentity} from "../service/api";

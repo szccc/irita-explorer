@@ -176,10 +176,10 @@ export function getAddressTxList(address, type, status, pageNum=1, pageSize=10){
     return get(url);
 }
 
-export function getDefineServiceTxList(type, status, pageNum, pageSize){
-    let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=${type}&status=${status}`;
-    return get(url);
-}
+// export function getDefineServiceTxList(type, status, pageNum, pageSize){
+//     let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&type=${type}&status=${status}`;
+//     return get(url);
+// }
 
 export function getAllServiceTxList(pageNum, pageSize, iptVal){
     let url = `txs/services?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
