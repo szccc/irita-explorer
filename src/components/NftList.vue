@@ -106,7 +106,7 @@
 				input:'',
 				allCount:0,
 				LargeStringMinHeight: 69,
-				LargeStringLineHeight: 23
+				LargeStringLineHeight: 23,
 			}
 		},
 		mounted(){
@@ -117,6 +117,9 @@
             }
 		},
 		methods:{
+			tableRowKey(row){
+				return `${row.denom_id}-${row.nft_id}`
+			},
 			resetFilterCondition(){
 				this.input = '';
 				this.denom = '';
