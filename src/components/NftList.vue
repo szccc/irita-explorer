@@ -148,7 +148,7 @@
 					if(nftData && nftData.data){
 						this.allCount = nftData.count;
 						nftData.data.forEach(item => {
-							item.update_time || item.create_time ?	item.time = Tools.getDisplayDate(item.update_time || item.create_time) : item.time = '--'
+							item.time ?	item.time = Tools.getDisplayDate(item.time) : item.time = '--'
 						});
 						this.denomArray = nftData.data
 					}else {
