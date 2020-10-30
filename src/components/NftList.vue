@@ -46,7 +46,7 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
-							<LargeString :key="key" v-if="scope.row.tokenData" :text="scope.row.tokenData" mode="cell"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
+							<LargeString v-if="scope.row.tokenData" :text="scope.row.tokenData"  mode="cell" textWidth="300px" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
@@ -102,7 +102,6 @@
 				allCount:0,
 				LargeStringMinHeight: 69,
 				LargeStringLineHeight: 23,
-				key: 0
 			}
 		},
 		mounted(){
@@ -144,7 +143,6 @@
 				}
 				try {
 					let nftData = await getNfts(this.denom, this.tokenId, this.owner, this.currentPageNum, this.pageSize, true);
-					this.key++
 					if(nftData && nftData.data){
 						this.allCount = nftData.count;
 						this.denomArray = nftData.data
