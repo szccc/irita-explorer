@@ -772,7 +772,6 @@
 				this.isIdentity = false
 				this.isAsset = false
 				this.isTx = false
-				console.log('gggggggggg:',this.isAsset)
 				this.tabList.forEach( item => {
 					if(item.isActive){
 						switch (item.moduleNumber) {
