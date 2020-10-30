@@ -26,7 +26,7 @@
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.schema')}}：</span>
-                        <span>{{schemas}}</span>
+                        <LargeString v-if="schemas" :text="schemas"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.tags')}}：</span>
@@ -132,13 +132,13 @@
                     <span class="service_information_transaction_condition_count">
                         {{`${txCount} ${$t('ExplorerLang.unit.Txs')}`}}
                     </span>
-                    <el-select v-model="type" filterable>
+                    <el-select popper-class="tooltip" v-model="type" filterable>
                         <el-option v-for="(item, index) in txTypeOption"
                                    :key="index"
                                    :label="item.label"
                                    :value="item.value"></el-option>
                     </el-select>
-                    <el-select v-model="status">
+                    <el-select popper-class="tooltip" v-model="status">
                         <el-option v-for="(item, index) in statusOpt"
                                    :key="index"
                                    :label="item.label"
@@ -247,10 +247,10 @@
         getServiceBindingByServiceName
     } from "../service/api";
     import { TxHelper } from "../helper/TxHelper";
-
+    import LargeString from './common/LargeString';
     export default {
         name : "ServiceInformation",
-        components : {MPagination},
+        components : {MPagination,LargeString},
         data(){
             return {
                 TX_STATUS,
@@ -301,6 +301,8 @@
                         label : this.$t('ExplorerLang.common.allTxType')
                     },
                 ],
+                LargeStringMinHeight: 80,
+                LargeStringLineHeight:16
 
             }
         },
@@ -336,7 +338,7 @@
 
                 } catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
             },
             async getServiceBindingList(){
@@ -367,7 +369,7 @@
                     }
                 } catch (e) {
                     console.error(e)
-                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 
 
@@ -391,9 +393,10 @@
                         let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
                         let requestContextId = TxHelper.getContextId(item.msgs[0], item.events) || '--';
                         let from = (addrObj && addrObj.from) ? addrObj.from : '--',
-                            to = (addrObj && addrObj.to) ? addrObj.to : '--';
+                            to = (addrObj && addrObj.to) ? addrObj.to : '--',
+                            msgs = item.msgs || [{}];
                         return {
-                            type : item.type,
+                            type : item.msgs.length > 1 ? '--' : item.msgs[0].type,
                             from,
                             status : item.status,
                             txHash : item.hash,
@@ -409,7 +412,7 @@
                     this.txPageSize = Number(res.pageSize);
                 } catch (e) {
                     console.error(e)
-                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
             },
             async getAllTxType(){
@@ -544,6 +547,7 @@
                 margin-bottom: 0.48rem;
                 border-radius: 5px;
                 border: 1px solid $bd_first_c;
+                overflow-x: auto;
                 .service_information_binding_title {
                     font-size: $s18;
                     color: $t_first_c;
@@ -552,6 +556,7 @@
                     text-align: left;
                 }
                 .service_information_bindings_table_content {
+                    min-width: 11.44rem;
                     background: $bg_white_c;
                     .service_information_available_container {
                         display: flex;
@@ -560,6 +565,7 @@
                 }
             }
             .service_information_transaction_content {
+                margin-bottom: 0.2rem;
                 background: $bg_white_c;
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;

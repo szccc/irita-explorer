@@ -72,15 +72,17 @@
 				<div class="block_validator_set_content">
 					<el-table class="table"  :data="validatorSetList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
 						<el-table-column type="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
-						<el-table-column  prop="moniker"  :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
+						<el-table-column prop="moniker"  :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
 							<template v-slot:default="{ row }">
 								<div class="moniker_conent">
 									<div class="proposer_img_content">
 										<img :style="{visibility:row.flProposer ? 'visible' : 'hidden'}" src="../assets/proposer_img.png"/>
 									</div>
 									<span class="skip_route">
-										<router-link v-if="row.moniker !== '--'" :to="`/staking/${row.OperatorAddress}`">{{row.moniker? row.moniker :''}}</router-link>
-										<span v-else>{{ row.moniker }}</span>
+										<el-tooltip popper-class="tooltip" :disabled="!row.isTooltip" :content="row.monikerValue" placement="bottom">
+											<router-link v-if="row.moniker !== '--'" :to="`/staking/${row.OperatorAddress}`">{{row.moniker? row.moniker :''}}</router-link>
+											<span v-else>{{ row.moniker }}</span>
+										</el-tooltip>
 									</span>
 								</div>
 							</template>
@@ -88,7 +90,7 @@
 						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
 							<template v-slot:default="{ row }">
 								<div class="common_hover_address_parent skip_route">
-									<router-link v-if="row.OperatorAddress !== '--'"  :to="Tools.addressRoute(row.OperatorAddress)" style="font-family: Consolas,Menlo" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
+									<router-link v-if="row.OperatorAddress !== '--'"  :to="Tools.addressRoute(row.OperatorAddress)" style="font-family: Arial" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
 									</router-link>
 									<span v-else>{{ row.OperatorAddress }}</span>
 								</div>
@@ -160,6 +162,7 @@
 				validatorSetListCount: 0,
 				pageSize: 10,
 				validatorSetPageNum: 1,
+				cutNumber: 8
 			}
 		},
 		watch: {
@@ -294,12 +297,14 @@
 					if (data.data.length > 0) {
 						this.validatorSetList = data.data.map(item => {
 							return {
-								'moniker': item.moniker || '--',
+								'monikerValue': item.moniker,
+                  				'moniker': Tools.formatString(item.moniker, this.cutNumber, '...') || '--',
 								'OperatorAddress': item.operator_address || '--',
 								'Consensus': item.consensus,
 								'ProposerPriority': item.proposer_priority,
 								'VotingPower': item.voting_power,
-								'flProposer': item.is_proposer
+								'flProposer': item.is_proposer,
+								'isTooltip': item.moniker.length > this.cutNumber,
 							}
 						})
 					}
@@ -419,6 +424,9 @@
 				.tx_transaction_content_hash {
 					display: flex;
 					align-items: center;
+				}
+				/deep/ .cell {
+					padding: 0 0.04rem;
 				}
 			}
 			

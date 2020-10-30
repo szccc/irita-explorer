@@ -4,28 +4,31 @@
             <div class="tx_content_header_wrap">
                 <div class="total_tx_content">{{txCount}} {{$t('ExplorerLang.transactions.txs')}}</div>
                     <div class="tx_type_mobile_content">
-                        <!--<el-select v-model="value" filterable :change="filterTxByTxType(value)">
+                        <!--<el-select popper-class="tooltip" v-model="value" filterable :change="filterTxByTxType(value)">
                             <el-option v-for="(item, index) in txTypeOption"
                                        :key="index"
                                        :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>-->
-                        <el-select v-model="txType" filterable>
-                            <el-option v-for="(item, index) in txTypeOption"
-                                       :key="index"
-                                       :label="item.label"
-                                       :value="item.value"></el-option>
-                        </el-select>
+                        
+                        <el-cascader
+                            popper-class="tooltip"
+                            :placeholder="$t('ExplorerLang.common.allTxType')"
+                            v-model="txTypeArray"
+                            :options="txTypeOption"
+                            :props="{ expandTrigger: 'hover' }"
+                            :show-all-levels="false"
+                            :filterable="true"
+                            @change="handleChange"></el-cascader>
 
-
-                        <!--<el-select v-model="statusValue" :change="filterTxByStatus(statusValue)">
+                        <!--<el-select  popper-class="tooltip" v-model="statusValue" :change="filterTxByStatus(statusValue)">
                             <el-option v-for="(item, index) in statusOpt"
                                        :key="index"
                                        :label="item.label"
                                        :value="item.value"></el-option>
                         </el-select>-->
-                        <el-select v-model="statusValue">
-                            <el-option v-for="(item, index) in statusOpt"
+                        <el-select popper-class="tooltip" v-model="statusValue">
+                            <el-option v-for="(item) in statusOpt"
                                        :key="item.value"
                                        :label="item.label"
                                        :value="item.value"></el-option>
@@ -34,6 +37,7 @@
                     </div>
                     <div class="tx_type_mobile_content">
                         <el-date-picker type="date"
+                                        popper-class="tooltip"
                                         v-model="beginTime"
                                         @change="getStartTime(beginTime)"
                                         :picker-options="PickerOptions"
@@ -43,6 +47,7 @@
                         </el-date-picker>
                         <span class="joint_mark">~</span>
                         <el-date-picker type="date"
+                                        popper-class="tooltip"
                                         v-model="endTime"
                                         value-format="yyyy-MM-dd"
                                         @change="getEndTime(endTime)"
@@ -50,6 +55,11 @@
                                         :editable="false"
                                         :placeholder="$t('ExplorerLang.common.selectDate')">
                         </el-date-picker>
+                        <div class="tooltip_content">
+                            <el-tooltip popper-class="tooltip"  :content="$t('ExplorerLang.transactions.tooltip')">
+                                <i class="iconfont iconyiwen"></i>
+                            </el-tooltip>
+                        </div>
                     </div>
                     <div class="tx_type_mobile_content">
                         <div class="search_btn" @click="getFilterTxs">{{$t('ExplorerLang.transactions.search')}}</div>
@@ -120,6 +130,7 @@
                 txStatus : '',
                 pageNum: pageNum ? pageNum : 1,
                 pageSize: pageSize ? pageSize : 10,
+                txTypeArray:['']
             }
         },
         mounted(){
@@ -131,8 +142,14 @@
                 this.statusValue = Number(this.statusValue || 0);
                 this.pageNum = 1;
                 let url = `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`;
+                // if(this.txType){
+                //     url += `&txType=${this.txType}`;
+                // }
                 if(this.txType){
                     url += `&txType=${this.txType}`;
+                    this.txTypeArray = TxHelper.getTxTypeArray(this.txTypeOption,this.txType)
+                } else {
+                    this.txTypeArray=['']
                 }
                 if(this.statusValue){
                     url += `&status=${this.statusValue}`;
@@ -177,25 +194,18 @@
                     this.pageSize = res.pageSize;
                 }catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
             },
             async getAllTxType(){
                 try {
                     const res = await getAllTxTypes();
-                    // console.log(res,'获取所有交易类型')
-                    const typeList = res.data.map((type)=>{
-                        return {
-                            value: type.typeName,
-                            label:type.typeName,
-                        }
-                    });
+                    const typeList = TxHelper.formatTxType(res.data)
                     typeList.unshift({
                         value : '',
                         label : this.$t('ExplorerLang.common.allTxType'),
-                        slot : 'allTxType'
+                        slot : 'allTxType',
                     });
-                    // console.log(typeList,'处理数据')
                     this.txTypeOption = typeList;
                 }catch (e) {
                     console.error(e);
@@ -235,6 +245,7 @@
                 this.pageSize = 10;
                 this.resetUrl();
                 this.getTxList()
+                this.txTypeArray=['']
             },
             /*getParamsByUrlHash(){
                 let txType,
@@ -277,15 +288,29 @@
                 let url = `/#/txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
                 if(txType){
                     url += `&txType=${txType}`;
+                    this.txTypeArray = TxHelper.getTxTypeArray(this.txTypeOption,txType)
+                    this.txType = txType
+                } else {
+                    this.txTypeArray=['']
+                    this.txType = ''
                 }
                 if(status){
                     url += `&status=${status}`;
+                    this.statusValue = Number(status)
+                } else {
+                    this.statusValue = 0
                 }
                 if(beginTime){
                     url += `&beginTime=${beginTime}`;
+                    this.beginTime = beginTime
+                } else {
+                    this.beginTime = ''
                 }
                 if(endTime){
                     url += `&endTime=${endTime}`;
+                    this.endTime = endTime
+                } else {
+                    this.endTime = ''
                 }
                 history.pushState(null, null, url);
                 this.getTxList();
@@ -298,6 +323,9 @@
             formatAddress(address){
                 return Tools.formatValidatorAddress(address)
             },
+            handleChange(value) {
+                this.txType = value[1] ? value[1] : ''
+            }
         }
     }
 </script>
@@ -384,7 +412,51 @@
                     .tx_type_mobile_content {
                         display: flex;
                         align-items: center;
-
+                        .tooltip_content {
+							padding: 0 0 0 0.1rem;
+                        }
+                        /deep/.el-cascader{
+                            width: 1.3rem;
+                            margin-right: 0.1rem;
+                            .el-input{
+                                input::-webkit-input-placeholder{   /* 使用webkit内核的浏览器 */
+                                    color: $t_first_c;
+                                }
+                                input:-moz-placeholder{    /* Firefox版本4-18 */
+                                    color: $t_first_c;
+                                }              
+                                input::-moz-placeholder{    /* Firefox版本19+ */
+                                    color: $t_first_c;
+                                }              
+                                input:-ms-input-placeholder{   /* IE浏览器 */
+                                    color: $t_first_c;
+                                }
+                                .el-input__inner{
+                                    padding-left: 0.07rem;
+                                    height: 0.32rem;
+                                    font-size: $s14 !important;
+                                    line-height: 0.32rem;
+                                    &::-webkit-input-placeholder{
+                                        font-size: $s14 !important;
+                                    }
+                                }
+                                .el-input__inner:focus{
+                                    border-color: $theme_c !important;
+                                }
+                                .el-input__suffix{
+                                    .el-input__suffix-inner{
+                                        .el-input__icon{
+                                            line-height: 0.32rem;
+                                        }
+                                    }
+                                }
+                            }
+                            .is-focus{
+                                .el-input__inner{
+                                    border-color: $theme_c !important;
+                                }
+                            }
+                        }
                         /deep/ .el-select {
                             width: 1.3rem;
                             margin-right: 0.1rem;

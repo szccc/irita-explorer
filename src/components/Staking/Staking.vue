@@ -10,20 +10,22 @@
       </div>
       <div class="staking_table_list_content">
         <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData" :default-sort="{ prop: 'votingPower', order: 'descending' }">
-          <el-table-column key="1" align="right" type="index" class="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
-          <el-table-column key="2" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatirName" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
+          <el-table-column key="1" align="center" type="index" class="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
+          <el-table-column key="2" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatorMoniker" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
               <div style="display: flex;align-items: center;position: relative">
                 <span class="avatar" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;display: flex;align-items: center;justify-content: center">{{ row.validatorIconSrc }}</span>
                 <img v-if="row.url" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;position: absolute" :src="row.url ? row.url : ''" />
-                <router-link style="margin-left: 0.2rem;" :to="'staking/' + row.operatorAddress" class="link_style">{{ row.moniker }}</router-link>
+                <el-tooltip popper-class="tooltip" :disabled="!row.isTooltip" :content="row.monikerValue" placement="top">
+                  <router-link style="margin-left: 0.2rem;" :to="'staking/' + row.operatorAddress" class="link_style">{{ row.moniker }}</router-link>
+                </el-tooltip>
               </div>
             </template>
           </el-table-column>
-          <el-table-column key="3" prop="operatorAddress" align="center" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
+          <el-table-column key="3" prop="operatorAddress" align="left" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
-                <el-tooltip :content="row.operatorAddress" placement="top">
+                <el-tooltip popper-class="tooltip" :content="row.operatorAddress" placement="top">
                   <router-link :to="'staking/' + row.operatorAddress" class="link_style operator_address_style">
                     {{ formatAddress(row.operatorAddress) }}
                   </router-link>
@@ -35,10 +37,10 @@
           <el-table-column key="5" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="6" class-name="votingPower" v-if="titleStatus === 'Active'" align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="7" v-if="titleStatus === 'Active'" align="right" prop="uptime" :min-width="ColumnMinWidth.uptime" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="8" align="right" prop="selfBond" :min-width="ColumnMinWidth.selfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="9" class-name="delegators" v-if="titleStatus !== 'Jailed'" min-width="ColumnMinWidth.delegators" align="right" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="10" class-name="bondHeight" align="right" prop="bondHeight" :min-width="ColumnMinWidth.bondHeight" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="11" v-if="titleStatus !== 'Active'" align="right" prop="unbondingHeight" :min-width="ColumnMinWidth.unbondingHeight" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="8" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="9" class-name="delegators" v-if="titleStatus !== 'Jailed'" min-width="ColumnMinWidth.delegators" align="center" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="10" class-name="bondHeight" align="center" prop="bondHeight" :min-width="ColumnMinWidth.bondHeight" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="11" align="center" v-if="titleStatus !== 'Active'" prop="unbondingHeight" :width="ColumnMinWidth.unbondingHeight" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
         </el-table>
         <div class="pagination_content">
           <m-pagination :page-size="1" :total="1" :page="1"></m-pagination>
@@ -63,6 +65,9 @@ export default {
   props: {},
   data() {
     return {
+      cutNumber: 8,
+      decimalNamber: 2,
+      percentum:4,
       ColumnMinWidth,
       count: 0,
       titleStatus: this.$t('ExplorerLang.staking.status.active'),
@@ -146,13 +151,15 @@ export default {
                 })
                 return {
                   validatorStatus: status,
-                  moniker: Tools.formatString(item.description.moniker, 10, '...'),
+                  isTooltip: item.description.moniker.length > this.cutNumber,
+                  monikerValue: item.description.moniker,
+                  moniker: Tools.formatString(item.description.moniker, this.cutNumber, '...'),
                   operatorAddress: item.operator_address,
-                  commission: `${(item.commission.commission_rates.rate * 100).toFixed(2)} %`,
-                  bondedToken: `${Tools.subStrings(bondedToken.amount, 2)} ${bondedToken.denom.toLocaleUpperCase()}`,
+                  commission: `${(item.commission.commission_rates.rate * 100).toFixed(this.decimalNamber)} %`,
+                  bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)} ${bondedToken.denom.toLocaleUpperCase()}`,
                   uptime: Tools.FormatUptime(item.uptime),
-                  votingPower: `${(item.voting_rate * 100).toFixed(4)}%`,
-                  selfBond: `${Tools.subStrings(selfBond.amount, 2)} ${selfBond.denom.toLocaleUpperCase()}`,
+                  votingPower: `${(item.voting_rate * 100).toFixed(this.percentum)}%`,
+                  selfBond: `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}`,
                   delegatorNum: item.delegator_num,
                   bondHeight: Number(item.bond_height),
                   unbondingHeight: Number(item.unbonding_height),
@@ -180,7 +187,7 @@ a {
 }
 .staking_container {
   .staking_content {
-    max-width: 12.6rem;
+    max-width: 12rem;
     margin: 0 auto;
     padding: 0 0.15rem;
     text-align: left;
@@ -208,24 +215,26 @@ a {
       .avatar {
         background: $bg_avatar;
       }
+
+      /deep/ .cell {
+        padding: 0;
+      }
       /deep/ .delegators .cell {
         min-width: 1.21rem;
+        padding-right: 0.05rem;
       }
-      /deep/ .bondedToken .cell {
-        min-width: 1.58rem;
-      }
+
       /deep/ .votingPower .cell {
-        min-width: 1.36rem;
+        min-width: 1.30rem;
       }
       /deep/ .bondHeight .cell {
-        min-width: 1.35rem;
+        padding-right: 0.07rem;
       }
       /deep/ .sort_table {
         overflow: auto hidden;
         .sort-caret.ascending,
         .sort-caret.descending {
-          // margin-left: 0.09rem;
-          margin-left: 0.07rem;
+          margin-left: 0.05rem;
         }
       }
       /deep/ .el-table .descending .sort-caret.descending {

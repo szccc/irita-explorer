@@ -23,7 +23,7 @@ export default {
 <style lang="scss">
 @import "style/index.css";
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -62,7 +62,6 @@ export default {
       }
     }
   }
-
   .content{
     margin-top: 0.61rem;
     flex: 1;
@@ -81,6 +80,10 @@ export default {
     justify-content: space-between;
   }*/
   .el-select-dropdown__item.selected{
+    color: $theme_c !important;
+  }
+  .el-popper .in-active-path,
+  .el-popper .is-active {
     color: $theme_c !important;
   }
   //el-tooltip 适配移动端

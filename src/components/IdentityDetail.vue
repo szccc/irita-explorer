@@ -37,9 +37,9 @@
             <div class="identity_detail_bg">
                 <div class="content_title">{{$t('ExplorerLang.identityDetail.credentialsInfo')}}</div>
                 <el-table class="table" :data="pubkeyList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                    <el-table-column :min-width="ColumnMinWidth.idPubKeyFull" :label="$t('ExplorerLang.table.idPubkey')">
+                    <el-table-column :width="ColumnMinWidth.idPubKeyFull" :label="$t('ExplorerLang.table.idPubkey')">
                         <template slot-scope="scope">
-                            <LargeString :text="scope.row.pubkey" mode="cell" textWidth="698px" :maxLength="Number(75)"/>
+                            <LargeString :text="scope.row.pubkey" mode="cell" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.pubKeyAlgo" :label="$t('ExplorerLang.table.pubKeyAlgo')">
@@ -72,7 +72,7 @@
                 <el-table class="table" :data="certificateList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.certificateFull" :label="$t('ExplorerLang.table.certificate')">
                         <template slot-scope="scope">
-                            <LargeString :text="scope.row.certificate" mode="cell" textWidth="550px" :maxLength="Number(60)"/>
+                            <LargeString v-if="scope.row.certificate" :text="scope.row.certificate" mode="cell" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
@@ -118,9 +118,7 @@
     import MClip from "./common/MClip.vue";
     import {TxHelper} from "../helper/TxHelper";
     import TxListComponent from "./common/TxListComponent";
-    import { getTxDetail,
-            getRelevanceTxList,
-            getIdentityDetail,
+    import {getIdentityDetail,
             getPubkeyListByIdentity,
             getCertificateListByIdentity,
             getTxListByIdentity} from "../service/api";
@@ -153,7 +151,8 @@
                 txListPageNum:1,
                 txListPageSize: 10,
                 txListCount:0,
-                
+                LargeStringMinHeight: 69,
+                LargeStringLineHeight:23
             }
         },
         mounted(){
@@ -264,7 +263,9 @@
     a {
         color: $t_link_c !important;
     }
-
+    /deep/ .cell {
+        padding: 0 0.08rem;
+    }
     .identity_detail_container {
         padding: 0 0.15rem;
         .identity_detail_content_wrap {
@@ -278,7 +279,7 @@
                 line-height: 0.21rem;
                 margin: 0.3rem 0 0.15rem 0.25rem;
                 text-align: left;
-                font-family: PingFangSC-Semibold, PingFang SC;
+                font-family: Arial;
                 font-weight: 600;
                 .identity_detail_title_first {
                     white-space: nowrap;
@@ -315,7 +316,7 @@
                         color: $t_second_c;
                         font-size: $s14;
                         line-height: 0.16rem;
-                        font-family: PingFangSC-Semibold, PingFang SC;
+                        font-family: Arial;
                         font-weight: 600;
                     }
                     span:nth-of-type(2) {
@@ -371,7 +372,7 @@
                 margin-bottom: 0.4rem;
                 text-align: left;
                 font-size: $s16;
-                font-family:PingFangSC-Semibold,PingFang SC;
+                font-family:Arial;
                 font-weight:600;
                 line-height:22px;
             }

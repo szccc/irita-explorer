@@ -16,7 +16,7 @@ export const addrPrefix = {
 }
 
 export const TX_TYPE = {
-  // service
+  // service 
   define_service: 'define_service',
   bind_service: 'bind_service',
   call_service: 'call_service',
@@ -30,6 +30,8 @@ export const TX_TYPE = {
   kill_request_context: 'kill_request_context',
   update_request_context: 'update_request_context',
   create_record: 'create_record',
+  service_set_withdraw_address: 'service/set_withdraw_address',
+  withdraw_earned_fees: 'withdraw_earned_fees',
   // nft
   burn_nft: 'burn_nft',
   transfer_nft: 'transfer_nft',
@@ -89,6 +91,24 @@ export const TX_TYPE = {
   update_client: 'update_client',
   create_identity: 'create_identity',
   update_identity: 'update_identity',
+  // Random
+  request_rand: 'request_rand'
+}
+
+export const LEVEL_TX_TYPE = {
+  Transfer: 'Transfer',
+  Staking: 'Staking',
+  iService: 'iService',
+  NFT: 'NFT',
+  Coinswap: 'Coinswap',
+  Identity: 'Identity',
+  IBC: 'IBC',
+  Oracle: 'Oracle',
+  Random: 'Random',
+  Record: 'Record',
+  Asset: 'Asset',
+  Gov: 'Gov',
+  Other:'Other'
 }
 
 export const TX_STATUS = {
@@ -103,16 +123,16 @@ export const ValidatorStatus = {
 }
 
 export const ColumnMinWidth = {
-  txHash: '120',
-  blockHeight: '90',
-  txType: '188',
+  txHash: '103',
+  respondHash:'107',
+  blockHeight: '68',
+  txType: '194',
   address: '126',
-  time: '155',
+  time: '150',
   txn: '',
   blockAge: '120',
-  // validatirName: '120',
-  validatirName: '160',
-  votingPower: '133',
+  validatirName: '120',
+  votingPower: '120',
   publickKey: '450',
   denom: '150',
   tokenId: '141',
@@ -121,7 +141,7 @@ export const ColumnMinWidth = {
   URI: '260',
   respondTimes: '100',
   available: '100',
-  qos: '120',
+  qos: '130',
   requestId: '130',
   state: '120',
   serviceName: '120',
@@ -136,19 +156,22 @@ export const ColumnMinWidth = {
   certificate: '220',
   certificateFull: '650',
   credentials: '220',
-  commission: '129',
-  bondedTokens: '152',
+  commission: '110',
+  bondedTokens: '150',
   uptime: '100',
-  selfBond: '150',
+  selfBond: '110',
   delegators: '121',
-  bondHeight: '132',
-  unbondingHeight: '175',
+  bondHeight: '122',
+  unbondingHeight: '155',
   amount: '110',
   shares: '213',
   fee: '110',
   consensus: '340',
   proposerPriority: '200',
-  message: '90'
+  message: '90',
+  validatorMoniker: '150',
+  validatorSelfBond: '150',
+  timestamp: '145'
 }
 
 export const ModuleMap = {
@@ -194,77 +217,13 @@ export const ModuleMap = {
   },
 }
 
-const Denom = {}
-Denom.IRISATTO = 'iris-atto'
-Denom.IRIS = 'iris'
-
 const CHAINID = {}
 CHAINID.IRISHUB = 'Mainnet IRISHUB'
 CHAINID.FUXI = 'Testnet FUXI'
 CHAINID.NYANCAT = 'Testnet NYANCAT-6'
-CHAINID.QA = 'rainbow-qa'
-CHAINID.DEV = 'rainbow-dev'
 CHAINID.GOZTESTNET = 'Testnet GOZ'
 CHAINID.BIFROST = 'Testnet BIFROST'
 
-
-const TxType = {};
-TxType.TRANSFER = 'Transfer';
-TxType.BURN = 'Burn';
-TxType.SETMEMOREGEXP = 'SetMemoRegexp';
-TxType.CREATEVALIDATOR ='CreateValidator';
-TxType.EDITVALIDATOR = 'EditValidator';
-TxType.UNJAIL = 'Unjail';
-TxType.DELEGATE = 'Delegate';
-TxType.BEGINREDELEGATE = 'BeginRedelegate';
-TxType.SETWITHDRAWADDRESS = 'SetWithdrawAddress';
-TxType.BEGINUNBONDING = 'BeginUnbonding';
-TxType.WITHDRAWDELEGATORREWARD = 'WithdrawDelegatorReward';
-TxType.WITHDRAWDELEGATORREWARDSALL = 'WithdrawDelegatorRewardsAll';
-TxType.WITHDRAWVALIDATORREWARDSALL = 'WithdrawValidatorRewardsAll';
-TxType.SUBMITPROPOSAL = 'SubmitProposal';
-TxType.DEPOSIT = 'Deposit';
-TxType.VOTE = 'Vote';
-TxType.ISSUETOKEN = 'IssueToken';
-TxType.EDITTOKEN = 'EditToken';
-TxType.MINTTOKEN = 'MintToken';
-TxType.TRANSFERTOKENOWNER = 'TransferTokenOwner';
-TxType.CREATEGATEWAY = 'CreateGateway';
-TxType.EDITGATEWAY = 'EditGateway';
-TxType.TRANSFERGATEWAYOWNER = 'TransferGatewayOwner';
-TxType.REQUESTRAND = 'RequestRand';
-TxType.ADDPROFILER = 'AddProfiler';
-TxType.ADDTRUSTEE = 'AddTrustee';
-TxType.DELETEPROFIKER = 'DeleteProfiler';
-TxType.DELETETRUSTEE = 'DeleteTrustee';
-TxType.CLAIMHTLC = 'ClaimHTLC';
-TxType.CREATEHTLC = 'CreateHTLC';
-TxType.REFUNDHTLC = 'RefundHTLC';
-TxType.ADDLIQUIDITY = 'AddLiquidity';
-TxType.REMOVELIQUIDITY = 'RemoveLiquidity';
-TxType.SWAPORDER = 'SwapOrder';
-TxType.TRANSFERS = 'Transfers';
-TxType.WITHDRAWADDRESS = 'WithdrawAddress';
-TxType.STAKES = 'Stakes';
-TxType.GOVERNANCE = 'Governance';
-TxType.DECLARATIONS = 'Declarations';
-
-const RADIXDENOM = {};
-
-RADIXDENOM.IRISATTO = 'iris-atto';
-RADIXDENOM.IRISATTONUMBER = '1000000000000000000';
-RADIXDENOM.IRISMILLI = 'iris-milli';
-RADIXDENOM.IRISMILLINUMBER = '1000000000000000';
-RADIXDENOM.IRISMICRO = 'iris-micro';
-RADIXDENOM.IRISMICRONUMBER = '1000000000000';
-RADIXDENOM.IRISNANO = 'iris-nano';
-RADIXDENOM.IRISNANONUMBER = '1000000000';
-RADIXDENOM.IRISPICO = 'iris-pico';
-RADIXDENOM.IRISPICONUMBER = '1000000';
-RADIXDENOM.IRISFEMTO = 'iris-femto';
-RADIXDENOM.IRISFEMTONUMBER = '1000';
-RADIXDENOM.IRIS = 'iris';
-RADIXDENOM.IRISNUMBER = '1';
 
 export const pageTitleConfig  = {
 	BlockchainBlocks:'Block List',
@@ -296,12 +255,6 @@ export const PubKeyAlgorithm = {
   '5':'SM2',
 }
 
-const ENVCONFIG = {};
-ENVCONFIG.DEV = 'dev';
-ENVCONFIG.QA = 'qa';
-ENVCONFIG.STAGE = 'stage';
-ENVCONFIG.TESTNET = 'testnet';
-ENVCONFIG.MAINNET = 'mainnet';
 
 export const TxStatus = {
   '0':'Fail',
@@ -325,9 +278,5 @@ export const decimals = {
 }
 
 export default {
-  Denom,
-  CHAINID,
-  TxType,
-  RADIXDENOM,
-  ENVCONFIG
+  CHAINID
 }

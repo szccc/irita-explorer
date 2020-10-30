@@ -1,7 +1,7 @@
 <template>
     <div class="tx_list_content">
         <el-table class="table" :data="formatTxData" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-            <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+            <el-table-column align="center" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
                         <img class="status_icon"
@@ -28,22 +28,22 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
+            <el-table-column align="center" :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
                 <template slot-scope="scope">
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
-                    <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
+                    <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
                         <router-link v-if="isValid(scope.row.from)" :to="Tools.addressRoute(scope.row.from)">
                             {{  formatMoniker(scope.row.fromMonikers) || formatAddress(scope.row.from)}}
                         </router-link>
-                        <span v-else>{{'--'}}</span>
                     </el-tooltip>
                     <span v-show="Number(scope.row.msgCount) > 1">--</span>
+                    <span v-if="!isValid(scope.row.from)">--</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
@@ -112,7 +112,7 @@
                         let from = addrObj.from || '--',
                             to =  addrObj.to || '--';
                         let fromMonikers,toMonikers
-                        if(tx.monikers.length) {
+                        if((tx.monikers || {}).length) {
                             tx.monikers.map( item => {
                                 toMonikers = toMonikers || item[to] || ''
                                 fromMonikers = fromMonikers || item[from] || ''
@@ -172,10 +172,6 @@
         color: $t_link_c !important;
     }
     .tx_list_content{
-        .tx_transaction_content_hash{
-            display: flex;
-            align-items: center;
-        }
         .status_icon{
             width:0.13rem;
             height:0.13rem;
@@ -185,6 +181,9 @@
             display: flex;
             justify-content: flex-end;
             margin: 0.1rem 0 0.2rem 0;
+        }
+        /deep/ .cell {
+            padding: 0 0.04rem;
         }
     }
 </style>

@@ -3,7 +3,7 @@
 		<div class="nft_list_content_wrap">
 			<div class="nft_list_header_content">
 				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerLang.nftAsset.assets')}}</h3>
-				<el-select v-model="denom" >
+				<el-select popper-class="tooltip" v-model="denom" >
 					<el-option v-for="(item, index) in nftList"
 							   :key="index"
 							   :label="item.label"
@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div class="nef_list_table_container">
-				<el-table class="table" :data="denomArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+				<el-table class="table" :data="denomArray" :row-key='tableRowKey' :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')">
 						<template slot-scope="scope">
 							{{scope.row.denom_name || scope.row.denom_id}}
@@ -46,7 +46,7 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
-							<LargeString :text="scope.row.tokenData"  mode="cell" textWidth="300px" :maxLength="Number(40)"/>
+							<LargeString v-if="scope.row.tokenData" :text="scope.row.tokenData"  mode="cell" textWidth="300px" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
@@ -99,7 +99,9 @@
 				tokenId: '',
 				owner: '',
 				input:'',
-				allCount:0
+				allCount:0,
+				LargeStringMinHeight: 69,
+				LargeStringLineHeight: 23,
 			}
 		},
 		mounted(){
@@ -110,6 +112,9 @@
             }
 		},
 		methods:{
+			tableRowKey(row){
+				return `${row.denom_id}-${row.nft_id}`
+			},
 			resetFilterCondition(){
 				this.input = '';
 				this.denom = '';

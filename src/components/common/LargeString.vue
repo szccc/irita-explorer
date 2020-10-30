@@ -1,11 +1,19 @@
 <template>
     <span :class="`tx_message_content_largeStr ${mode=='cell'?'flex-row':'flex-colum'}`">
-            <span class="text" :style="`width:${textWidth || 'auto'}`">
+        <template>
+            <span v-if="isLarge" ref="text" :style="`width:${textWidth || 'auto'}`">{{text}}</span>
+            <span v-else class="text" :class=" !showDesc ? 'width': ''" :style="`width:${textWidth || 'auto'}`">
                 {{text_f}}
             </span>
+        </template>
+        <template>
             <span class="tx_message_content_largeStr_btn" v-if="showDescBtn(text)" @click="btnDidClick">
                 {{`${showDesc ? $t('ExplorerLang.common.fewer') : $t('ExplorerLang.common.more')}`}}
             </span>
+            <span class="tx_message_content_largeStr_btn" v-if="isLarge && mode=='cell'" @click="btnDidClick">
+                {{$t('ExplorerLang.common.fewer')}}
+            </span>
+        </template>
     </span>
 </template>
 
@@ -33,10 +41,21 @@
                 required:false,
                 default:''
             },
+            minHeight:{
+                type:Number,
+                required:false,
+                default: 0
+            },
+            lineHeight:{
+                type:Number,
+                default: 0
+            },
         },
         data(){
             return {
                 showDesc:false,
+                isLarge:true,
+                isHeight:false,
             }
         },
         computed:{
@@ -45,6 +64,16 @@
             }
         },
         mounted(){
+            setTimeout( () => {
+                    this.$nextTick(()=>{ 
+                    let height = this.$refs.text.offsetHeight;
+                    this.showDesc = height <= this.minHeight
+                    this.isLarge = false
+                    if(this.lineHeight) {
+                        this.isHeight  = height > this.lineHeight
+                    }
+                })
+            },0)
         },
         methods : {
             btnDidClick(){
@@ -58,7 +87,11 @@
                 return str || '';
             },
             showDescBtn(str){
-                return str && str.length > this.maxLength;
+                if(this.lineHeight) {
+                    return this.isHeight;
+                } else {
+                    return str && str.length > this.maxLength;
+                }
             }
         }
     }
@@ -70,9 +103,15 @@
         font-weight: 400;
         color: $t_first_c;
         word-break: break-all;
+        min-width: 0;
         .text {
             overflow-y: auto;
             max-height: 2rem;
+        }
+        .width {
+            white-space:nowrap;
+            overflow:hidden;
+            text-overflow:ellipsis;
         }
     }
     .flex-row{

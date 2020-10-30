@@ -13,7 +13,7 @@
                     <div class="reset_btn" @click="reset"><i class="iconfont iconzhongzhi"></i></div>
                 </div>
             </div>
-			<div class="service_list_content" v-for="service in serviceList">
+			<div class="service_list_content" v-for="(service,index) in serviceList" :key="index">
                 <div class="service_list_top">
                     <span class="service_list_service_name bold_name">
                         <router-link :to="`/service?serviceName=${service.serviceName}`">
@@ -39,7 +39,7 @@
 							</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="180" :label="$t('ExplorerLang.table.respondTimes')">
+					<el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerLang.table.respondTimes')">
 						<template slot-scope="scope">
 							<span>
 								<router-link
@@ -116,20 +116,23 @@
                     let serviceList = await getAllServiceTxList(this.pageNum,this.pageSize, this.iptVal);
                     if(serviceList && serviceList.data){
                         for(let service of serviceList.data){
-                            let bindings = await getServiceBindingByServiceName(service.serviceName);
-
-                            if(bindings.result){
-                                service.bindList.forEach((s)=>{
-                                    s.bindTime = Tools.getDisplayDate(s.bindTime);
-                                    bindings.result.forEach((b)=>{
-                                        if(s.provider === b.provider){
-                                            s.isAvailable = b.available ? 'True' : 'False';
-                                            s.available = b.available;
-                                            s.price = JSON.parse(b.pricing).price;
-                                            s.qos = `${b.qos} ${this.$t('ExplorerLang.unit.blocks')}`;
-                                        }
+                            try {
+                                let bindings = await getServiceBindingByServiceName(service.serviceName);                           
+                                if(bindings.result){
+                                    service.bindList.forEach((s)=>{
+                                        s.bindTime = Tools.getDisplayDate(s.bindTime);
+                                        bindings.result.forEach((b)=>{
+                                            if(s.provider === b.provider){
+                                                s.isAvailable = b.available ? 'True' : 'False';
+                                                s.available = b.available;
+                                                s.price = JSON.parse(b.pricing).price;
+                                                s.qos = `${b.qos} ${this.$t('ExplorerLang.unit.blocks')}`;
+                                            }
+                                        })
                                     })
-                                })
+                                }
+                            } catch (e) {
+                                console.log(e)
                             }
                         }
                         this.serviceList = serviceList.data;
@@ -139,7 +142,7 @@
                     }
                 }catch (e) {
                     console.error(e);
-                    this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
+                    // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
                 }
 			},
 			formatTxHash(TxHash){
@@ -328,6 +331,7 @@
                 /deep/ .el-input{
                     .el-input__inner{
                         font-size: $s14 !important;
+                        border: 0.01rem solid $bd_first_c;
                         &::-webkit-input-placeholder{
                             font-size: $s14 !important;
                         }

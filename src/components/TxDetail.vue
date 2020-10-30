@@ -59,7 +59,7 @@
         <div class="tx_information_tx_message_content" v-if="messages.length !== 0">
           <div class="tx_information_tx_content">
             <div class="tx_information_tx_message_title">
-              {{ $t('ExplorerLang.transactionInformation.transactionMessage.title') }}
+              {{ $t('ExplorerLang.transactionInformation.transactionMessageTitle') }}
             </div>
             <div v-for="(item, index) in messages" :key="index">
               <TxMessage :msg="item" :events="events" :monikers="monikers" />
@@ -166,13 +166,13 @@ export default {
           this.timestamp = Tools.getDisplayDate(res.time) || '--'
           if(res.fee && res.fee.amount[0]) {
             let fee = await converCoin(res.fee.amount[0])
-            this.fee = `${Tools.formatPriceToFixed(fee.amount,2)} ${fee.denom.toUpperCase()}`
+            this.fee = `${fee.amount} ${fee.denom.toUpperCase()}`
           }
           this.fee = this.fee || '--'
           // this.gasUsed=res.fee.gas || '--' 
-          this.signer = res.signers[0] || '--'
+          this.signer = res.signers && res.signers[0] || '--'
           this.memo = res.memo ? res.memo : '--'
-          this.txType = res.msgs[0].type || '--'
+          this.txType = res.msgs && res.msgs[0] && res.msgs[0].type || '--'
           switch (this.txType) {
             case TX_TYPE.mint_nft:
               break
@@ -262,7 +262,7 @@ export default {
                 case TX_TYPE.call_service:
                   result.provider = tx.msgs[0].msg.providers
                   tx.events.forEach(item => {
-                    ;(item.attributes || []).forEach(attr => {
+                    (item.attributes || []).forEach(attr => {
                       if (attr.key == 'request_context_id') {
                         result.requestContextId = attr.value
                       }
@@ -339,7 +339,7 @@ a {
         line-height: 0.21rem;
         margin: 0.3rem 0 0.15rem 0.25rem;
         text-align: left;
-        font-family: PingFangSC-Semibold, PingFang SC;
+        font-family: Arial;
         font-weight: 600;
         .tx_detail_title_first {
           white-space: nowrap;
@@ -347,7 +347,7 @@ a {
         }
         .tx_detail_title_hash {
           font-size: $s14;
-          font-family: PingFangSC-Regular, PingFang SC;
+          font-family: Arial;
           font-weight: 400;
           color: $t_first_c;
           line-height: 0.2rem;
@@ -364,7 +364,7 @@ a {
         border: 1px solid $bd_first_c;
         .tx_information_list_title {
           font-size: $s16;
-          font-family: PingFangSC-Semibold, PingFang SC;
+          font-family: Arial;
           font-weight: 600;
           color: $t_first_c;
           line-height: 22px;
@@ -381,7 +381,7 @@ a {
             color: $t_second_c;
             font-size: $s14;
             line-height: 0.16rem;
-            font-family: PingFangSC-Semibold, PingFang SC;
+            font-family: Arial;
             font-weight: 600;
           }
           span:nth-of-type(2) {
@@ -408,7 +408,7 @@ a {
             text-align: left;
             font-size: $s16;
             font-weight: bold;
-            font-family: PingFangSC-Semibold, PingFang SC;
+            font-family: Arial;
             font-weight: 600;
           }
           .tx_information_tx_message_line {
@@ -430,7 +430,7 @@ a {
         .tx_information_content {
           .tx_information_list_item {
             span:nth-of-type(1) {
-              min-width: 1rem;
+              min-width: 1.4rem;
             }
             span:nth-of-type(2) {
             }

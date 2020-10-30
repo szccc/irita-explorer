@@ -15,9 +15,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="address_content" v-show="moduleSupport('103', prodConfig.navFuncList)&& isNftInfo">
+			<div class="address_content" v-if="moduleSupport('103', prodConfig.navFuncList)" v-show="isNftInfo">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.assets')}}</div>
-				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+				<el-table class="table" :data="assetArray" row-key="nft_id" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
@@ -29,9 +29,9 @@
 							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.id)}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
+					<el-table-column :width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
-							<LargeString :text="scope.row.tokenData" :maxLength="Number(50)" mode="cell" textWidth="400px"/>
+							<LargeString :key="scope.row.nftName + scope.row.id + nftKey" v-if="scope.row.tokenData" :text="scope.row.tokenData" mode="cell" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')"
@@ -51,7 +51,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="address_content" v-show="moduleSupport('106', prodConfig.navFuncList) && isIdentity">
+			<div class="address_content" v-if="moduleSupport('106', prodConfig.navFuncList)" v-show="isIdentity">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.identities')}}</div>
 				<el-table class="table" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.identity" :label="$t('ExplorerLang.table.identity')">
@@ -69,7 +69,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')"
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')"
 					                 prop="time">
 						<template slot-scope="scope">
 							<span>{{scope.row.time}}</span>
@@ -84,7 +84,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="consumer_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList)&& isIservice">
+			<div class="consumer_transaction_content" v-if="moduleSupport('105', prodConfig.navFuncList)" v-show="isIservice">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.consumerTitle')}}</div>
 				<el-table class="table" :data="consumerTxList"
 				          row-key="txHash"
@@ -164,7 +164,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
@@ -178,7 +178,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="provider_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList) && isIservice">
+			<div class="provider_transaction_content" v-if="moduleSupport('105', prodConfig.navFuncList)" v-show="isIservice">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.providerTitle')}}</div>
 				<el-table class="table" :data="providerTxList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.serviceName"
@@ -229,7 +229,7 @@
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
 						<template slot-scope="scope">
 							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
@@ -253,7 +253,7 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
 					                 prop="type"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.respondHash')">
+					<el-table-column :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
 						<template slot-scope="scope">
 							<div class="respond_transaction_content_hash">
 								<img class="status_icon"
@@ -319,7 +319,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<template v-if="moduleSupport('107', prodConfig.navFuncList) && isAsset">
+			<div v-if="moduleSupport('107', prodConfig.navFuncList)" v-show="isAsset">
 				<!-- 地址详情 -->
 				<address-information-component :address="address" :data="assetsItems" :isProfiler="isProfiler"/>
 				<div class="delegations_wrap">
@@ -341,7 +341,7 @@
 												             :to="`/staking/${row.address}`">
 													{{formatMoniker(row.moniker)}}
 												</router-link>
-												<router-link v-if="!row.moniker" style="font-family:Consolas,Menlo"
+												<router-link v-if="!row.moniker" style="font-family:Arial"
 												             class="address_link" :to="`/staking/${row.address}`">
 													{{formatAddress(row.address)}}
 												</router-link>
@@ -354,7 +354,7 @@
 									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
 										<template v-slot:default="{ row }">
-										<router-link style="font-family: Consolas,Menlo;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
+										<router-link style="font-family: Arial;" :to="'/block/' + row.block" :style="{ color: '$theme_c !important' }">{{ row.block }}</router-link>
 										</template>
 									</el-table-column> -->
 								</el-table>
@@ -377,7 +377,7 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link style="font-family: Consolas,Menlo;"
+												<router-link style="font-family: Arial;"
 												             :to="'address/' + row.address"
 												             :style="{ color: '$theme_c !important' }">{{
 													formatAddress(row.address) }}
@@ -390,7 +390,7 @@
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')"
 									                 :min-width="ColumnMinWidth.blockHeight">
 										<template v-slot:default="{ row }">
-											<router-link style="font-family: Consolas,Menlo;"
+											<router-link style="font-family: Arial;"
 											             :to="'/block/' + row.block"
 											             :style="{ color: '$theme_c !important' }">{{ row.block }}
 											</router-link>
@@ -433,7 +433,7 @@
 												             :to="`/staking/${row.address}`">
 													{{formatMoniker(row.moniker)}}
 												</router-link>
-												<router-link v-if="!row.moniker" style="font-family:Consolas,Menlo"
+												<router-link v-if="!row.moniker" style="font-family:Arial"
 												             class="address_link" :to="`/staking/${row.address}`">
 													{{formatAddress(row.address)}}
 												</router-link>
@@ -494,20 +494,29 @@
 						</ul>
 					</div>
 				</div>
-			</template>
-			<div v-if="isTx" class="address_transaction_content">
+			</div>
+			<div v-show="isTx" class="address_transaction_content">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.txRecord')}}</div>
 				<div class="address_transaction_condition_container">
                     <span class="address_transaction_condition_count">
                         {{ `${totalTxNumber} ${$t('ExplorerLang.unit.Txs')}` }}
                     </span>
-					<el-select v-model="type_temp" filterable>
+					<!-- <el-select popper-class="tooltip" v-model="type_temp" filterable>
 						<el-option v-for="(item, index) in txTypeOption"
 						           :key="index"
 						           :label="item.label"
 						           :value="item.value"></el-option>
-					</el-select>
-					<el-select v-model="status_temp">
+					</el-select> -->
+					<el-cascader
+                            popper-class="tooltip"
+                            :placeholder="$t('ExplorerLang.common.allTxType')"
+                            v-model="txTypeArray"
+                            :options="txTypeOption"
+                            :props="{ expandTrigger: 'hover' }"
+                            :show-all-levels="false"
+                            :filterable="true"
+                            @change="handleChange"></el-cascader>
+					<el-select popper-class="tooltip" v-model="status_temp">
 						<el-option v-for="(item, index) in statusOpt"
 						           :key="index"
 						           :label="item.label"
@@ -602,6 +611,7 @@
 				status: '',
 				type_temp: '',
 				status_temp: '',
+				txTypeArray:[''],
 				statusOpt: [
 					{
 						value: '',
@@ -663,6 +673,7 @@
 				tabList: [],
 				isAsset:false,
 				isNftInfo:false,
+				nftKey:0,
 				isIdentity:false,
 				isIservice:false,
 				isTx:false,
@@ -690,6 +701,8 @@
 					label: this.$t('ExplorerLang.addressInformation.tab.tx'),
 					isActive: false,
 				},
+				LargeStringMinHeight: 69,
+				LargeStringLineHeight:23,
 			}
 		},
 		watch: {
@@ -764,6 +777,7 @@
 					if(item.isActive){
 						switch (item.moduleNumber) {
 							case "103":
+								this.nftKey++;
 								this.isNftInfo = true;
 								break;
 							case "105":
@@ -856,6 +870,9 @@
 			pageChange (pageNum) {
 				this.pageNum = pageNum;
 				this.getTxByAddress()
+				this.type ?  this.txTypeArray= TxHelper.getTxTypeArray(this.txTypeOption,this.type) : this.txTypeArray = ['']
+				this.status_temp = this.status
+				this.type_temp = this.type
 			},
 			//服务调用-消费者
 			async getConsumerTxList () {
@@ -1055,16 +1072,19 @@
 				this.status = '';
 				this.pageNum = 1;
 				this.getTxByAddress();
+				this.txTypeArray=['']
 			},
 			async getAllTxType () {
 				try {
 					const res = await getAllTxTypes();
-					res.data.forEach((type) => {
-						this.txTypeOption.push({
-							value: type.typeName,
-							item: type.typeName,
-						});
+					const typeList = TxHelper.formatTxType(res.data)
+                    typeList.unshift({
+                        value : '',
+                        label : this.$t('ExplorerLang.common.allTxType'),
+                        slot : 'allTxType'
 					});
+                    this.txTypeOption = typeList;
+
 				} catch (e) {
 					console.error(e);
 				}
@@ -1334,6 +1354,9 @@
 				}
 				return Tools.formatString(moniker, 15, "...");
 			},
+			handleChange(value) {
+                value ? this.type_temp = value[1] ? value[1] : '' : ''
+            }
 		}
 	}
 </script>
@@ -1342,7 +1365,7 @@
 	a {
 		color: $t_link_c !important;
 	}
-	
+
 	/deep/ .el-table__empty-block {
 		height: 0.48rem !important;
 		min-height: 0.48rem !important;
@@ -1363,7 +1386,7 @@
 				line-height: 0.21rem;
 				margin: 0.3rem 0 0.15rem 0.25rem;
 				text-align: left;
-				font-family: PingFangSC-Semibold, PingFang SC;
+				font-family: Arial;
 				font-weight: 600;
 				
 				.address_content_title_first {
@@ -1373,7 +1396,7 @@
 				
 				.address_content_title_address {
 					font-size: $s16;
-					font-family: ArialMT;
+					font-family: Arial;
 					font-weight: 400;
 					color: $t_first_c;
 					line-height: 0.2rem;
@@ -1415,7 +1438,7 @@
 				padding: 0.25rem;
 				border-radius: 0.05rem;
 				border: 0.01rem solid $bd_first_c;
-				margin-bottom: 0.48rem;
+				margin-bottom: 0.48rem;			
 			}
 			
 			.consumer_transaction_content {
@@ -1495,7 +1518,50 @@
 						margin-right: 0.42rem;
 						font-weight: 600;
 					}
-					
+
+					/deep/.el-cascader{
+						width: 1.3rem;
+						margin-right: 0.1rem;
+						.el-input{
+							input::-webkit-input-placeholder{   /* 使用webkit内核的浏览器 */
+								color: $t_first_c;
+							}
+							input:-moz-placeholder{    /* Firefox版本4-18 */
+								color: $t_first_c;
+							}              
+							input::-moz-placeholder{    /* Firefox版本19+ */
+								color: $t_first_c;
+							}              
+							input:-ms-input-placeholder{   /* IE浏览器 */
+								color: $t_first_c;
+							}
+							.el-input__inner{
+								padding-left: 0.07rem;
+								height: 0.32rem;
+								font-size: $s14 !important;
+								line-height: 0.32rem;
+								&::-webkit-input-placeholder{
+									font-size: $s14 !important;
+								}
+							}
+							.el-input__inner:focus{
+								border-color: $theme_c !important;
+							}
+							.el-input__suffix{
+								.el-input__suffix-inner{
+									.el-input__icon{
+										line-height: 0.32rem;
+									}
+								}
+							}
+						}
+						.is-focus{
+							.el-input__inner{
+								border-color: $theme_c !important;
+							}
+						}
+					}
+
 					/deep/ .el-select {
 						width: 1.3rem;
 						margin-right: 0.22rem;
@@ -1570,7 +1636,7 @@
 				margin-bottom: 0.4rem;
 				text-align: left;
 				font-size: $s16;
-				font-family: PingFangSC-Semibold, PingFang SC;
+				font-family: Arial;
 				font-weight: 600;
 				line-height: 22px;
 			}
