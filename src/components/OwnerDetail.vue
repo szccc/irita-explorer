@@ -51,7 +51,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="address_content" v-show="moduleSupport('106', prodConfig.navFuncList) && isIdentity">
+			<div class="address_content" v-if="moduleSupport('106', prodConfig.navFuncList) && isIdentity">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.identities')}}</div>
 				<el-table class="table" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.identity" :label="$t('ExplorerLang.table.identity')">
@@ -69,7 +69,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')"
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')"
 					                 prop="time">
 						<template slot-scope="scope">
 							<span>{{scope.row.time}}</span>
@@ -84,7 +84,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="consumer_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList)&& isIservice">
+			<div class="consumer_transaction_content" v-if="moduleSupport('105', prodConfig.navFuncList)&& isIservice">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.consumerTitle')}}</div>
 				<el-table class="table" :data="consumerTxList"
 				          row-key="txHash"
@@ -164,7 +164,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
@@ -178,7 +178,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="provider_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList) && isIservice">
+			<div class="provider_transaction_content" v-if="moduleSupport('105', prodConfig.navFuncList) && isIservice">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.providerTitle')}}</div>
 				<el-table class="table" :data="providerTxList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.serviceName"
@@ -229,7 +229,7 @@
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
 						<template slot-scope="scope">
 							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
