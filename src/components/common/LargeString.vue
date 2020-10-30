@@ -72,6 +72,7 @@
                     if(this.lineHeight) {
                         this.isHeight  = height > this.lineHeight
                     }
+                    console.log(height,this.lineHeight)
                 })
             },0)
         },

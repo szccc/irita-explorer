@@ -1365,7 +1365,7 @@
 	a {
 		color: $t_link_c !important;
 	}
-	
+
 	/deep/ .el-table__empty-block {
 		height: 0.48rem !important;
 		min-height: 0.48rem !important;
