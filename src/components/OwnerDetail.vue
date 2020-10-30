@@ -31,7 +31,7 @@
 					</el-table-column>
 					<el-table-column :width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
-							<LargeString v-if="scope.row.tokenData" :text="scope.row.tokenData" mode="cell" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+							<LargeString :key="scope.row.nftName + scope.row.id + nftKey" v-if="scope.row.tokenData" :text="scope.row.tokenData" mode="cell" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')"
@@ -69,7 +69,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')"
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')"
 					                 prop="time">
 						<template slot-scope="scope">
 							<span>{{scope.row.time}}</span>
@@ -164,7 +164,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')">
 						<template slot-scope="scope">
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
@@ -229,7 +229,7 @@
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
 						<template slot-scope="scope">
 							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
@@ -673,6 +673,7 @@
 				tabList: [],
 				isAsset:false,
 				isNftInfo:false,
+				nftKey:0,
 				isIdentity:false,
 				isIservice:false,
 				isTx:false,
@@ -701,7 +702,7 @@
 					isActive: false,
 				},
 				LargeStringMinHeight: 69,
-				LargeStringLineHeight:23
+				LargeStringLineHeight:23,
 			}
 		},
 		watch: {
@@ -776,6 +777,7 @@
 					if(item.isActive){
 						switch (item.moduleNumber) {
 							case "103":
+								this.nftKey++;
 								this.isNftInfo = true;
 								break;
 							case "105":

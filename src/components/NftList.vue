@@ -101,7 +101,7 @@
 				input:'',
 				allCount:0,
 				LargeStringMinHeight: 69,
-				LargeStringLineHeight: 23
+				LargeStringLineHeight: 23,
 			}
 		},
 		mounted(){
