@@ -263,7 +263,9 @@
     a {
         color: $t_link_c !important;
     }
-
+    /deep/ .cell {
+        padding: 0 0.08rem;
+    }
     .identity_detail_container {
         padding: 0 0.15rem;
         .identity_detail_content_wrap {
