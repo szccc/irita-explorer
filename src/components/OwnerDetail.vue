@@ -15,9 +15,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="address_content" v-if="moduleSupport('103', prodConfig.navFuncList)&& isNftInfo">
+			<div class="address_content" v-if="moduleSupport('103', prodConfig.navFuncList)" v-show="isNftInfo">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.assets')}}</div>
-				<el-table class="table" :data="assetArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+				<el-table class="table" :data="assetArray" row-key="nft_id" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
@@ -51,7 +51,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="address_content" v-show="moduleSupport('106', prodConfig.navFuncList) && isIdentity">
+			<div class="address_content" v-if="moduleSupport('106', prodConfig.navFuncList)" v-show="isIdentity">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.identities')}}</div>
 				<el-table class="table" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.identity" :label="$t('ExplorerLang.table.identity')">
@@ -84,7 +84,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="consumer_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList)&& isIservice">
+			<div class="consumer_transaction_content" v-if="moduleSupport('105', prodConfig.navFuncList)" v-show="isIservice">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.consumerTitle')}}</div>
 				<el-table class="table" :data="consumerTxList"
 				          row-key="txHash"
@@ -178,7 +178,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<div class="provider_transaction_content" v-show="moduleSupport('105', prodConfig.navFuncList) && isIservice">
+			<div class="provider_transaction_content" v-if="moduleSupport('105', prodConfig.navFuncList)" v-show="isIservice">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.providerTitle')}}</div>
 				<el-table class="table" :data="providerTxList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.serviceName"
@@ -319,7 +319,7 @@
 					</m-pagination>
 				</div>
 			</div>
-			<template v-if="moduleSupport('107', prodConfig.navFuncList) && isAsset">
+			<div v-if="moduleSupport('107', prodConfig.navFuncList)" v-show="isAsset">
 				<!-- 地址详情 -->
 				<address-information-component :address="address" :data="assetsItems" :isProfiler="isProfiler"/>
 				<div class="delegations_wrap">
@@ -494,8 +494,8 @@
 						</ul>
 					</div>
 				</div>
-			</template>
-			<div v-if="isTx" class="address_transaction_content">
+			</div>
+			<div v-show="isTx" class="address_transaction_content">
 				<div class="content_title">{{$t('ExplorerLang.addressDetail.txRecord')}}</div>
 				<div class="address_transaction_condition_container">
                     <span class="address_transaction_condition_count">

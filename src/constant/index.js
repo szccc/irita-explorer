@@ -127,7 +127,7 @@ export const ColumnMinWidth = {
   blockHeight: '60',
   txType: '194',
   address: '126',
-  time: '143',
+  time: '150',
   txn: '',
   blockAge: '120',
   validatirName: '120',

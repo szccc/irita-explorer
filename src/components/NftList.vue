@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div class="nef_list_table_container">
-				<el-table class="table" :data="denomArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+				<el-table class="table" :data="denomArray" :row-key='tableRowKey' :empty-text="$t('ExplorerLang.table.emptyDescription')">
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')">
 						<template slot-scope="scope">
 							{{scope.row.denom_name || scope.row.denom_id}}
@@ -112,6 +112,9 @@
             }
 		},
 		methods:{
+			tableRowKey(row){
+				return `${row.denom_id}-${row.nft_id}`
+			},
 			resetFilterCondition(){
 				this.input = '';
 				this.denom = '';
