@@ -123,8 +123,9 @@ export const ValidatorStatus = {
 }
 
 export const ColumnMinWidth = {
-  txHash: '113',
-  blockHeight: '65',
+  txHash: '103',
+  respondHash:'107',
+  blockHeight: '68',
   txType: '194',
   address: '126',
   time: '150',
@@ -140,7 +141,7 @@ export const ColumnMinWidth = {
   URI: '260',
   respondTimes: '100',
   available: '100',
-  qos: '128',
+  qos: '130',
   requestId: '130',
   state: '120',
   serviceName: '120',
@@ -170,7 +171,7 @@ export const ColumnMinWidth = {
   message: '90',
   validatorMoniker: '150',
   validatorSelfBond: '150',
-
+  timestamp: '145'
 }
 
 export const ModuleMap = {

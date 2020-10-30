@@ -253,7 +253,7 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
 					                 prop="type"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.respondHash')">
+					<el-table-column :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
 						<template slot-scope="scope">
 							<div class="respond_transaction_content_hash">
 								<img class="status_icon"
@@ -1365,7 +1365,7 @@
 	a {
 		color: $t_link_c !important;
 	}
-	
+
 	/deep/ .el-table__empty-block {
 		height: 0.48rem !important;
 		min-height: 0.48rem !important;

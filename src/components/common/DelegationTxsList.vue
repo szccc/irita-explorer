@@ -64,7 +64,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')" :min-width="ColumnMinWidth.time"></el-table-column>
+        <el-table-column prop="Timestamp" :label="$t('ExplorerLang.table.txTimestamp')" :min-width="ColumnMinWidth.timestamp"></el-table-column>
       </el-table>
     </div>
   </div>
