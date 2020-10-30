@@ -124,10 +124,10 @@ export const ValidatorStatus = {
 
 export const ColumnMinWidth = {
   txHash: '113',
-  blockHeight: '60',
+  blockHeight: '65',
   txType: '194',
   address: '126',
-  time: '143',
+  time: '150',
   txn: '',
   blockAge: '120',
   validatirName: '120',
@@ -140,7 +140,7 @@ export const ColumnMinWidth = {
   URI: '260',
   respondTimes: '100',
   available: '100',
-  qos: '126',
+  qos: '128',
   requestId: '130',
   state: '120',
   serviceName: '120',
