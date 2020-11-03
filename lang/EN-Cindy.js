@@ -118,7 +118,9 @@ export const ExplorerLang = {
         ValidatorsTop: 'Validators Top10',
         ViewAll: 'View All',
         transactionHistory: '14 day Transaction History',
-        validatorNumCount: '验证人数量'
+        validatorNumCount: '验证人数量',
+        votingPower: '在线投票权',
+        bondedTokens:'质押率'
     },
     block:{
         currentHeight: 'Current Height',
