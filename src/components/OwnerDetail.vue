@@ -21,7 +21,8 @@
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.nftName)}}</router-link>
+							<router-link v-if="formatAddress(scope.row.nftName) != '--'" :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.nftName)}}</router-link>
+							<span v-else>{{'--'}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
@@ -807,7 +808,7 @@
 			},
 			assetPageChange (pageNum) {
 				this.assetPageNum = pageNum;
-				this.getAssetList()
+				this.getNftList()
 			},
 			async getNftList () {
 				try {
@@ -1008,9 +1009,6 @@
 				} else {
 					return '--';
 				}
-			},
-			formatAddress (address) {
-				return Tools.formatValidatorAddress(address) || '--';
 			},
 			getCallProviders (providers) {
 				if (providers && providers.length > 2) {
@@ -1341,12 +1339,7 @@
 				}
 			},
 			formatAddress (address) {
-				return Tools.formatValidatorAddress(address);
-			},
-			formatTxHash (TxHash) {
-				if (TxHash) {
-					return Tools.formatTxHash(TxHash)
-				}
+				return Tools.formatValidatorAddress(address) || '--';
 			},
 			formatMoniker (moniker) {
 				if (!moniker) {
