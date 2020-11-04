@@ -12,6 +12,17 @@
     "1000":"搜索"(排在末尾)
     "1001":"网络切换"(排在末尾)}*/
 
+/*首页指标映射id{
+    "200":"最新区块",
+    "201":"交易数量",
+    "202":"共识节点数",
+    "203":"平均出块时间",
+    "204":"数据对象数量",
+    "205":"数据类别数量",
+    "206":"服务数量",
+    "207":"身份ID数量"
+*/
+
 let config = {
   //国际化 CN / EN 默认CN
   lang: 'CN',
@@ -71,17 +82,7 @@ let config = {
     '1001',
   ],
   //首页卡片配置
-  homeCard: {
-    lestBlock:true,
-    txCount:true,
-    validatorCount:true,
-    avgBlockTime:true,
-    serviceCount:true,
-    DenomCount:true,
-    assetCount:true,
-    identityCount:true,
-    
-  },
+  homeCard:[200,201,202,203,204,205,206,207],
   text: {
     //预设字体颜色
     color: {
