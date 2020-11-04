@@ -23,16 +23,16 @@
 						<p class="home_content_header_top_center_content">{{`${ageTime} ${$t('ExplorerLang.unit.second')}`}}</p>
 						<p class="home_content_header_top_footer_content">{{$t('ExplorerLang.home.last100Blocs')}}</p>
 					</li>
-					<li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).votingPower">
+					<!-- <li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).votingPower">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerLang.home.votingPower')}}</p>
 						<p class="home_content_header_top_center_content">{{votingPowerCenter}}</p>
-						<p class="home_content_header_top_center_content">{{votingPowerFooter}}</p>
-					</li>
-					<li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).bondedTokens">
+						<p class="home_content_header_top_footer_content">{{votingPowerFooter}}</p>
+					</li> -->
+					<!-- <li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).bondedTokens">
 						<p class="home_content_header_top_item_title"><i class="iconfont iconBondedTokens"></i>{{$t('ExplorerLang.home.bondedTokens')}}</p>
 						<p class="home_content_header_top_center_content">{{bondedTokensCenter}}</p>
-						<p class="home_content_header_top_center_content">{{bondedTokensFooter}}</p>
-					</li>
+						<p class="home_content_header_top_footer_content">{{bondedTokensFooter}}</p>
+					</li> -->
 				</ul>
 				<ul class="home_content_header_bottom_content" >
 					<li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).assetCount">
@@ -54,10 +54,10 @@
 						<p class="home_content_header_bottom_title"><i class="iconfont iconID"></i>{{$t('ExplorerLang.home.identities')}}</p>
 						<p class="home_content_header_bottom_footer"><router-link :to="`/identities`">{{identityNumber}}</router-link></p>
 					</li>
-					<li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).validators">
+					<!-- <li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).validators">
 						<p class="home_content_header_bottom_title"><i class="iconfont iconUsers"></i>{{$t('ExplorerLang.home.validatorNumCount')}}</p>
 						<p class="home_content_header_bottom_footer"><router-link :to="`/staking`">{{validatorNumCount}}</router-link></p>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 			<div class="home_block_and_transaction_content">
