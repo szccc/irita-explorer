@@ -2,63 +2,7 @@
 	<div class="home_container">
 		<div class="home_content_wrap">
 			<div class="home_content_header_content">
-				<ul class="home_content_header_top_content">
-					<li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).lestBlock">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>{{$t('ExplorerLang.home.blockHeight')}}</p>
-						<p class="home_content_header_top_center_content"><router-link :to="`block/${block_height}`">{{block_height}}</router-link></p>
-						<p class="home_content_header_top_footer_content"></p>
-					</li>
-					<li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).txCount">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconTransactions"></i>{{$t('ExplorerLang.home.transactions')}}</p>
-						<p class="home_content_header_top_center_content"><router-link :to="`/txs`">{{transactionNumber}}</router-link></p>
-						<p class="home_content_header_top_footer_content">{{transactionTime}}</p>
-					</li>
-					<li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).validatorCount">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconBlocks"></i>{{$t('ExplorerLang.home.validators')}}</p>
-						<p class="home_content_header_top_center_content"><router-link :to="`/validators`">{{validatorNumber}}</router-link></p>
-						<p class="home_content_header_top_footer_content"></p>
-					</li>
-					<li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).avgBlockTime">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconAvgBlockTime"></i>{{$t('ExplorerLang.home.avgBlockTime')}}</p>
-						<p class="home_content_header_top_center_content">{{`${ageTime} ${$t('ExplorerLang.unit.second')}`}}</p>
-						<p class="home_content_header_top_footer_content">{{$t('ExplorerLang.home.last100Blocs')}}</p>
-					</li>
-					<!-- <li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).votingPower">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconVotingPower"></i>{{$t('ExplorerLang.home.votingPower')}}</p>
-						<p class="home_content_header_top_center_content">{{votingPowerCenter}}</p>
-						<p class="home_content_header_top_footer_content">{{votingPowerFooter}}</p>
-					</li> -->
-					<!-- <li class="home_content_header_top_item_content" v-if="(prodConfig.homeCard || {}).bondedTokens">
-						<p class="home_content_header_top_item_title"><i class="iconfont iconBondedTokens"></i>{{$t('ExplorerLang.home.bondedTokens')}}</p>
-						<p class="home_content_header_top_center_content">{{bondedTokensCenter}}</p>
-						<p class="home_content_header_top_footer_content">{{bondedTokensFooter}}</p>
-					</li> -->
-				</ul>
-				<ul class="home_content_header_bottom_content" >
-					<li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).assetCount">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconAssets"></i>{{$t('ExplorerLang.home.assets')}}</p>
-						<p class="home_content_header_bottom_footer"><router-link :to="`/nftAsset`">{{assetsNumber}}</router-link></p>
-					</li>
-					<li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).DenomCount">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconshujuleibie"></i>{{$t('ExplorerLang.home.denoms')}}</p>
-						<p class="home_content_header_bottom_footer"><router-link :to="`/denoms`">{{denomNumber}}</router-link></p>
-					</li>
-					<li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).serviceCount">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconservice"></i>{{$t('ExplorerLang.home.services')}}</p>
-						<p class="home_content_header_bottom_footer">
-							<router-link v-if="serverNumber" :to="`/services`">{{serverNumber}}</router-link>
-							<span v-else >--</span>
-						</p>
-					</li>
-					<li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).identityCount">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconID"></i>{{$t('ExplorerLang.home.identities')}}</p>
-						<p class="home_content_header_bottom_footer"><router-link :to="`/identities`">{{identityNumber}}</router-link></p>
-					</li>
-					<!-- <li class="home_content_header_bottom_item_content" v-if="(prodConfig.homeCard || {}).validators">
-						<p class="home_content_header_bottom_title"><i class="iconfont iconUsers"></i>{{$t('ExplorerLang.home.validatorNumCount')}}</p>
-						<p class="home_content_header_bottom_footer"><router-link :to="`/staking`">{{validatorNumCount}}</router-link></p>
-					</li> -->
-				</ul>
+				<StatisticalBar />
 			</div>
 			<div class="home_block_and_transaction_content">
 				<div class="home_block_content">
@@ -72,7 +16,7 @@
 						</div>
 					</div>
 					<ul class="home_block_bottom_content">
-						<div v-for="item in latestBlockArray" :class="item.flShowTranslationalAnimation ? 'animation ' : '' ">
+						<div v-for="(item,index) in latestBlockArray" :key="index" :class="item.flShowTranslationalAnimation ? 'animation ' : '' ">
 							<li class="home_block_list_item_content"
 							    :class="item.showAnimation === 'show' ? 'fadeIn_animation' : '' ">
 								<p class="home_block_time_content">
@@ -99,7 +43,7 @@
 						</div>
 					</div>
 					<ul class="home_transaction_bottom_content">
-						<li class="home_transaction_list_item_content" v-for="item in latestTransaction">
+						<li class="home_transaction_list_item_content" v-for="(item,index) in latestTransaction" :key="index">
 							<p class="home_transaction_time_content">
 								<span class="home_transaction" >
 									{{$t('ExplorerLang.home.tx')}}<router-link :to="`/tx?txHash=${item.hash}`">{{`${item.hash.substr(0,16)}...`}}</router-link>
@@ -120,47 +64,26 @@
 
 <script>
 	import Tools from "../util/Tools";
-	import prodConfig from "../productionConfig"
-	import { getStatistics, getBlockList } from "../service/api";
+	import { getBlockList } from "../service/api";
 	import {getTxList} from "../service/api";
-	import { TX_TYPE,TX_STATUS } from '../constant';
-
+	import StatisticalBar from './common/StatisticalBar'
     export default {
 		name: "Home",
+		components: {StatisticalBar},
 		data () {
 			return {
-				prodConfig:prodConfig,
-				TX_TYPE,
-				TX_STATUS,
-				block_height: 0,
-				transactionNumber: 0,
-				transactionTime:"",
-				ageTime:"",
-				validatorNumber: 0,
-				userNumber: 0,
-				denomNumber: 0,
-				assetsNumber: 0,
-				serverNumber:0,
-				identityNumber:0,
 				syncTimer:null,
 				latestBlockArray:[],
 				latestTransaction:[],
 				blocksTimer: null,
 				transfersTimer:null,
-				validatorNumCount: 0,
-				votingPowerCenter:'--',
-				votingPowerFooter:'--',
-				bondedTokensCenter:'--',
-				bondedTokensFooter:'--',
 			}
 		},
 		mounted () {
-			this.getNavigation();
 			this.getLastBlocks();
 			this.getTransaction();
 			clearInterval(this.syncTimer )
 			this.syncTimer = setInterval(() => {
-				this.getNavigation();
 				this.getLastBlocks();
 				this.getTransaction();
 			},5000)
@@ -177,25 +100,6 @@
 			}
 		},
 		methods:{
-			async getNavigation(){
-				try{
-					let statistics = await getStatistics();
-					if(statistics){
-						this.block_height = statistics.blockHeight;
-						this.transactionNumber = statistics.txCount;
-						this.validatorNumber = statistics.validatorCount;
-						this.transactionTime = Tools.getDisplayDate(statistics.latestBlockTime);
-						this.ageTime = statistics.avgBlockTime;
-						this.assetsNumber = statistics.assetCount;
-						this.serverNumber = statistics.serviceCount;
-						this.identityNumber = statistics.identityCount;
-						this.denomNumber = statistics.denomCount;
-						this.validatorNumCount = statistics.validatorNumCount;
-					}
-				}catch(err){
-					console.error(err);
-				}
-			},
 			async getLastBlocks(){
 				try{
 					let blockData = await getBlockList(1, 10, false);
@@ -319,76 +223,6 @@
 			.home_content_header_content{
 				display: flex;
 				flex-direction: column;
-				.home_content_header_top_content{
-					display: flex;
-					margin-top: 0.3rem;
-					.home_content_header_top_item_content{
-						flex: 1;
-						max-width:32.3%;
-						margin:0 0.2rem 0 0;
-						border-radius: 0.04rem;
-						border: 0.01rem solid $bd_second_c;
-						background: $bg_white_c;
-						text-align: left;
-						box-sizing: border-box;
-						padding: 0.14rem;
-						font-size: $s14;
-						i{
-							color: $theme_c;
-							margin-right: 0.1rem;
-						}
-						.home_content_header_top_center_content{
-							font-size: $s20;
-							margin-top: 0.35rem;
-						}
-						.home_content_header_top_footer_content{
-							font-size: $s10;
-							color: $t_second_c;
-							margin-top: 0.1rem;
-						}
-					}
-					.home_content_header_top_item_content:first-child{
-						// margin-left: 0;
-					}
-					.home_content_header_top_item_content:last-child{
-						margin-right: 0;
-					}
-				}
-				.home_content_header_bottom_content{
-					display: flex;
-					margin-top: 0.2rem;
-					.home_content_header_bottom_item_content{
-						flex: 1;
-						max-width:32.3%;
-						margin:0 0.2rem 0 0;
-						border-radius: 0.04rem;
-						border: 0.01rem solid $bd_second_c;
-						background: $bg_white_c;
-						text-align: left;
-						box-sizing: border-box;
-						padding: 0.14rem;
-						font-size: $s14;
-						i{
-							color: $theme_c;
-							margin-right: 0.1rem;
-						}
-						.home_content_header_bottom_footer{
-							margin-top: 0.35rem;
-							color: $t_first_c;
-							font-size: $s20;
-							line-height: 0.23rem;
-							a{
-								color: $t_link_c;
-							}
-						}
-					}
-					.home_content_header_bottom_item_content:first-child{
-						// margin-left: 0;
-					}
-					.home_content_header_bottom_item_content:last-child{
-						margin-right: 0;
-					}
-				}
 			}
 			.home_block_and_transaction_content{
 				display: flex;
@@ -546,42 +380,6 @@
 		.home_container{
 			.home_content_wrap{
 				.home_content_header_content{
-					.home_content_header_top_content{
-						margin-top: 0.05rem;
-						flex-direction:column;
-						height:auto;
-						.home_content_header_top_item_content{
-							width:100%;
-							max-width:100%;
-							padding: 0.14rem;
-							margin:0.05rem 0;
-							.home_content_header_top_center_content{
-								margin-top: 0.2rem;
-							}
-						}
-						
-						.home_content_header_top_item_content:last-child{
-						
-						}
-					}
-					.home_content_header_bottom_content{
-						margin-top: 0rem;
-						height:auto;
-						flex-direction:column;
-						.home_content_header_bottom_item_content{
-							width:100%;
-							max-width:100%;
-							padding: 0.14rem;
-							margin:0.05rem 0;
-							.home_content_header_bottom_footer{
-								margin-top: 0.2rem;
-							}
-						}
-						
-						.home_content_header_bottom_item_content:last-child{
-						
-						}
-					}
 				}
 				.home_block_and_transaction_content{
 					flex-direction:column;

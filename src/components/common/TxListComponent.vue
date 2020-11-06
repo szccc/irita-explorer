@@ -38,12 +38,14 @@
                     <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
-                        <router-link v-if="isValid(scope.row.from)" :to="Tools.addressRoute(scope.row.from)">
+                        <router-link v-if="isValid(scope.row.from) && address !== scope.row.from " :to="Tools.addressRoute(scope.row.from)">
                             {{  formatMoniker(scope.row.fromMonikers) || formatAddress(scope.row.from)}}
                         </router-link>
+                        <span v-else>
+                            {{  formatMoniker(scope.row.fromMonikers) || formatAddress(scope.row.from)}}
+                        </span>
                     </el-tooltip>
-                    <span v-show="Number(scope.row.msgCount) > 1">--</span>
-                    <span v-if="!isValid(scope.row.from)">--</span>
+                    <span v-if="!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ">--</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
@@ -52,9 +54,12 @@
                                 placement="top"
                                 :key="Math.random()"
                                 :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
-                        <router-link v-if="typeof scope.row.to=='string' && isValid(scope.row.to)" :to="Tools.addressRoute(scope.row.to)">
+                        <router-link v-if="typeof scope.row.to=='string' && isValid(scope.row.to) && address !== scope.row.to" :to="Tools.addressRoute(scope.row.to)">
                             {{ formatMoniker(scope.row.toMonikers) || formatAddress(scope.row.to)}}
                         </router-link>
+                        <span v-else-if="typeof scope.row.to=='string' && isValid(scope.row.to) && address === scope.row.to">
+                            {{ formatMoniker(scope.row.toMonikers) || formatAddress(scope.row.to)}}
+                        </span>
                         <router-link v-else-if="isValid(scope.row.to)" :to="`/tx?txHash=${scope.row.txHash}`">
                             {{ `${scope.row.to.length} ${$t('ExplorerLang.unit.providers')}`}}
                         </router-link>
@@ -68,8 +73,10 @@
                     <el-tooltip :content="scope.row.signer"
                                 placement="top"
                                 :disabled="!isValid(scope.row.signer)">
-                        <router-link v-if="isValid(scope.row.signer)" :to="Tools.addressRoute(scope.row.signer)">{{formatAddress(scope.row.signer)}}
+                        <router-link v-if="isValid(scope.row.signer) && address !== scope.row.signer" :to="Tools.addressRoute(scope.row.signer)">{{formatAddress(scope.row.signer)}}
                         </router-link>
+                        <span v-else-if="isValid(scope.row.signer) && address === scope.row.signer">{{formatAddress(scope.row.signer)}}
+                        </span>
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
                 </template>
@@ -95,6 +102,10 @@
                 type:Array,
                 required:true,
             },
+            address:{
+                type:String,
+                default:'a'
+            }
         },
         data(){
             return {
@@ -161,7 +172,7 @@
 				if (!moniker) {
 					return ''
 				}
-				return Tools.formatString(moniker, 15, '...')
+				return Tools.formatString(moniker, 8, '...')
 			},
         }
     }
