@@ -314,5 +314,14 @@ export default class Tools {
 			}
 		}
 		return '';
-	}
+  }
+  
+  static formatNumber(value){
+    let million = 1000000;
+    if(value > million){
+      return `${value/million}M`
+            }else {
+      return value
+    }
+  }
 }

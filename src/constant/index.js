@@ -173,7 +173,12 @@ export const ColumnMinWidth = {
   validatorSelfBond: '150',
   nftListDenom: '100',
   nftListDate:'280',
-  timestamp: '145'
+  timestamp: '145',
+  symbol: '121',
+  assetListowner: '430',
+  totalSupply: '160',
+  maxSupply: '127',
+  mintable:'90'
 }
 
 export const ModuleMap = {
@@ -216,6 +221,14 @@ export const ModuleMap = {
   '109': {
     title: 'Validation Txs',
     link: '/txs/validations',
+  },
+  '110': {
+    title: 'Native Asset',
+    link: '/assets/ntvassets',
+  },
+  '111': {
+    title: 'Native Asset',
+    link: '/assets/ntvassetstxs',
   },
 }
 

@@ -129,7 +129,7 @@
                 urlParamsShowEndTime : this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',*/
                 txStatus : '',
                 pageNum: pageNum ? pageNum : 1,
-                pageSize: pageSize ? pageSize : 10,
+                pageSize: pageSize ? pageSize : 30,
                 txTypeArray:['']
             }
         },

@@ -76,6 +76,16 @@ export const ExplorerLang = {
         status: 'Status',
         consensusAddress: 'Consensus Address',
         proposerPriority: 'Proposer Priority',
+        // 新增
+        symbol: 'Symbol',
+        totalSupply: 'TotalSupply',
+        initialSupply: 'InitialSupply',
+        maxSupply: 'MaxSupply',
+        mintable: 'Mintable',
+        token: 'Token',
+        mintTo: 'MintTo',
+        srcOwner:'SrcOwner',
+        dstOwner:'DstOwner',
     },
     unit:{
         ellipsis:' ,...',
@@ -463,5 +473,22 @@ export const ExplorerLang = {
             validatorMoniker: 'Validator Moniker',
             operatorAddress:'Operator Address'
         }
+    },
+    // 新增
+    asset:{
+        nativeAssetsList: 'Native Asset List',
+        nativeAssetTxsList: 'Native Asset Txs List',
+        issueTokenTxs: 'Issue Token Txs',
+        editTokenTxs: 'Edit Token Txs',
+        mintTokenTxs: 'Mint Token Txs',
+        transferOwnerTxs: 'Transfer Owner Txs',
+        detalils: 'Detalils',
+        owner: 'Owner',
+        totalSupply: 'Total Supply',
+        initialSupply: 'Initial Supply',
+        maxSupply: 'Max Supply',
+        mintable: 'Mintable',
+        name: 'Name',
+        decimal:'Decimal'
     }
 }

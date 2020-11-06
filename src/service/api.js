@@ -343,3 +343,23 @@ export function stakingBlockInformation(height) {
 	const url = `/blocks/staking/${height}`
 	return get(url)
 }
+
+export function getNativeAssetsListApi(pageNum, pageSize, useCount) {
+    const url = `/asset/tokens?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`
+	return get(url)
+}
+
+export function getNativeAssetsTxsApi (pageNum, pageSize, useCount, type, symbol) {
+    let url;
+    if (symbol) {
+        url = `/txs/asset?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}&symbol=${symbol}`
+    } else {
+        url = `/txs/asset?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}`
+    }
+	return get(url)
+}
+
+export function getNativeAssetDetailApi (symbol) {
+    let url = `/asset/tokens/${symbol}`
+	return get(url)
+}

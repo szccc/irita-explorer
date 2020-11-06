@@ -9,6 +9,8 @@
     "107":"Vaildators",
     "108":"Delegation Txs",
     "109":"Validation Txs",
+    "110":"Native Asset",
+    "111":"Native Asset Txs",
     "1000":"搜索"(排在末尾)
     "1001":"网络切换"(排在末尾)}*/
 
@@ -76,6 +78,13 @@ let config = {
         { title: 'Vaildators', id: '107' },
         { title: 'Delegation Txs', id: '108' },
         { title: 'Validation Txs', id: '109' },
+      ],
+    },
+    {
+      title: 'Asset',
+      children: [
+        { title: 'Native Asset', id: '110' },
+        { title: 'Native Asset Txs', id: '111' },
       ],
     },
     '1000',
