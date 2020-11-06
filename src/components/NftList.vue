@@ -36,12 +36,14 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
+							<router-link v-if="formatAddress(scope.row.nft_name) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
+							<span v-else>{{formatAddress(scope.row.nft_name)}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
+							<router-link v-if="formatAddress(scope.row.nft_id) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
+							<span v-else>{{formatAddress(scope.row.nft_id)}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.nftListDate" :label="$t('ExplorerLang.table.data')" prop="tokenData">
