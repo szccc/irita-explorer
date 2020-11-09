@@ -1118,7 +1118,7 @@
 			 	for (let key in this.assetList) {
 			 		let item = this.assetList[key];
 			 		let balanceAmount = item && item.amount ? await converCoin(item) : {};
-			 		if (item.denom === this.mainToken.min_unit) {
+			 		if (item && item.denom && item.denom === this.mainToken.min_unit) {
 						assetList.unshift({
 							token: this.mainToken.symbol.toUpperCase(),
 							balance: balanceAmount  && balanceAmount.amount ? `${Tools.formatStringToFixedNumber(balanceAmount.amount, this.fixedNumber)} ${balanceAmount.denom.toUpperCase()}` : 0,
@@ -1134,17 +1134,19 @@
 								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber))).toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
 						});
 					} else {
-						assetList.push( {
-							token: balanceAmount.denom.toUpperCase(),
-							balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
-							delegated: 0,
-							unBonding: 0,
-							rewards: 0,
-							totalAmount: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0
-						});
+						if(balanceAmount && balanceAmount.denom) {
+							assetList.push({
+								token: balanceAmount.denom.toUpperCase(),
+								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
+								delegated: 0,
+								unBonding: 0,
+								rewards: 0,
+								totalAmount: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0
+							});
+						}
 					}
 			 	}
-			 	this.assetsItems = assetList;
+				 this.assetsItems = assetList;
 			},
 			pageNation (dataArray) {
 				let index = 0;

@@ -16,7 +16,7 @@
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
-								<span class="address_information_value">{{ data[0] ? data[0].token : '--' }}</span>
+								<span class="address_information_value">{{ mainToken ||'--' }}</span>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
@@ -113,7 +113,11 @@
 				unbonding:'',
 				rewards:'',
 				otherTokenList:[],
+				mainToken:''
 			}
+		},
+		created() {
+			this.getCurrentMainToken()
 		},
 		watch:{
 			data(){
@@ -134,9 +138,8 @@
 			},
 
 			async formatAssetInformation(assetInformation){
-				let mainToken = await getMainToken();
 				assetInformation.forEach( item => {
-					if(item && item.token === (mainToken.symbol || '').toUpperCase()){
+					if(item && item.token === (this.mainToken || '').toUpperCase()){
 						this.totalAmount = item.totalAmount;
 						this.assetConstitute.forEach( res => {
 							 if(res.status === 'UnBonding'){
@@ -153,7 +156,7 @@
 					}
 				});
 				this.otherTokenList = assetInformation.filter((item) => {
-					return item.token !== (mainToken.symbol || '').toUpperCase()
+					return item.token !== (this.mainToken || '').toUpperCase()
 				})
 			},
 			formatDecimalNumberToFixedNumber(total,data) {
@@ -166,6 +169,10 @@
 					num = this.numFormat.num
 				}
 				return num;
+			},
+			async getCurrentMainToken() {
+				let mainToken = await getMainToken();
+				this.mainToken = mainToken && mainToken.symbol.toUpperCase()
 			}
 		}
 	}

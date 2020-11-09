@@ -99,8 +99,6 @@ export function getAllServiceTxTypes(){
     return get(url);
 }
 
-
-
 export function getTxList(params){
     const {txType, status, beginTime, endTime, pageNum, pageSize} = params;
     let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
@@ -350,11 +348,9 @@ export function getNativeAssetsListApi(pageNum, pageSize, useCount) {
 }
 
 export function getNativeAssetsTxsApi (pageNum, pageSize, useCount, type, symbol) {
-    let url;
+    let url = `/txs/asset?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}`
     if (symbol) {
-        url = `/txs/asset?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}&symbol=${symbol}`
-    } else {
-        url = `/txs/asset?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}`
+        url += `&symbol=${symbol}`
     }
 	return get(url)
 }
