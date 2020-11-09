@@ -126,12 +126,9 @@ export const ExplorerLang = {
         tx:'交易#',
         txn: '交易数量',
         // 新增
-        ValidatorsTop: 'Validators Top10',
-        ViewAll: 'View All',
-        transactionHistory: '14 day Transaction History',
         validatorNumCount: '验证人数量',
+        bondedTokens: '质押率',
         votingPower: '在线投票权',
-        bondedTokens:'质押率'
     },
     block:{
         currentHeight: '当前区块',
@@ -330,6 +327,21 @@ export const ExplorerLang = {
         random: {
             blockInterval: '固定区块数',
             oracle: '预言机模式',
+        },
+        // 新增
+        asset: {
+            symbol: 'Symbol',
+            name: 'Name',
+            decimal: 'Decimal',
+            initialSupply: 'InitialSupply',
+            maxSupply: 'MaxSupply',
+            mintable: 'Mintable',
+            owner: 'Owner',
+            tokenId: 'TokenId',
+            amount: 'Amount',
+            to: 'To',
+            originalOwner: 'Original Owner',
+            newOwner:'New Owner'
         }
     },
     addressDetail: {

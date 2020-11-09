@@ -1277,7 +1277,7 @@
 					if(this.OperatorAddress && this.OperatorAddress !== '--'){
 						let data = await getValidatorRewardsApi(this.OperatorAddress)
 						if (data) {
-							let commission = data.val_commission.commission[0]
+							let commission = data.val_commission && data.val_commission.commission &&  data.val_commission.commission[0]
 							if (commission) {
 								let amount = await converCoin(commission)
 								this.validatorRewardsValue = amount.amount

@@ -125,12 +125,9 @@ export const ExplorerLang = {
         listTransactions: 'Transactions',
         tx:'TX#',
         txn: 'Txn',
-        ValidatorsTop: 'Validators Top10',
-        ViewAll: 'View All',
-        transactionHistory: '14 day Transaction History',
         validatorNumCount: '验证人数量',
+        bondedTokens:'质押率',
         votingPower: '在线投票权',
-        bondedTokens:'质押率'
     },
     block:{
         currentHeight: 'Current Height',
@@ -329,6 +326,20 @@ export const ExplorerLang = {
         random: {
             blockInterval: 'Block_interval',
             oracle: 'Oracle',
+        },
+        asset: {
+            symbol: 'Symbol',
+            name: 'Name',
+            decimal: 'Decimal',
+            initialSupply: 'InitialSupply',
+            maxSupply: 'MaxSupply',
+            mintable: 'Mintable',
+            owner: 'Owner',
+            tokenId: 'TokenId',
+            amount: 'Amount',
+            to: 'To',
+            originalOwner: 'Original Owner',
+            newOwner:'New Owner'
         }
     },
     addressDetail: {
