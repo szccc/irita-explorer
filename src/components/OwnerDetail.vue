@@ -115,12 +115,12 @@
 							<div v-else>--</div>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+					<el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+					<el-table-column :min-width="ColumnMinWidth.addressTxHash" :label="$t('ExplorerLang.table.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<img class="status_icon"
@@ -273,7 +273,7 @@
 							<span>{{formatAddress(scope.row.requestContextId)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+					<el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.height}}</router-link>
 						</template>
@@ -389,7 +389,7 @@
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
 									                 :min-width="ColumnMinWidth.amount"></el-table-column>
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')"
-									                 :min-width="ColumnMinWidth.blockHeight">
+									                 :min-width="ColumnMinWidth.blockListHeight">
 										<template v-slot:default="{ row }">
 											<router-link style="font-family: Arial;"
 											             :to="'/block/' + row.block"
@@ -1489,7 +1489,7 @@
 			}
 			
 			.address_transaction_content {
-				margin-top: 0.48rem;
+				// margin-top: 0.48rem;
 				margin-bottom: 0.2rem;
 				background: $bg_white_c;
 				padding: 0.25rem;
@@ -2052,6 +2052,99 @@
 						/deep/ .el-select {
 							width: 100%;
 							margin-bottom: 0.1rem;
+							
+							.el-input {
+								.el-input__inner {
+								}
+								
+								.el-input__inner:focus {
+								}
+								
+								.el-input__suffix {
+									.el-input__suffix-inner {
+										.el-input__icon {
+										}
+									}
+								}
+							}
+							
+							.is-focus {
+								.el-input__inner {
+								}
+							}
+						}
+						
+						.search_btn {
+						}
+						
+						.reset_btn {
+							i {
+							}
+						}
+					}
+				}
+				
+				.content_title {
+				}
+				
+				.status_icon {
+				}
+				
+				.pagination_content {
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 705px) {
+		.address_container_content {
+			.address_content_wrap {
+				.address_content_title {
+					margin-left: 0rem;
+					.address_content_title_first {
+					}
+					
+					.address_content_title_address {
+					}
+				}
+				.address_tab_container {
+					.address_tab_content {
+						margin-left: 0rem;
+					}
+				}
+				.address_content {
+					
+				}
+				
+				.consumer_transaction_content {
+					.consumer_transaction_content_hash {
+					}
+					
+					.consumer_transaction_content_available {
+						.consumer_transaction_content_available_icon {
+						}
+					}
+				}
+				
+				.provider_transaction_content {
+					.respond_transaction_content_hash {
+					}
+					
+					.provider_transaction_content_available {
+						.provider_transaction_content_available_icon {
+						}
+					}
+				}
+				
+				.address_transaction_content {
+					.address_transaction_content_hash {
+					}
+					
+					.address_transaction_condition_container {
+
+						.address_transaction_condition_count {
+						}
+						
+						/deep/ .el-select {
 							
 							.el-input {
 								.el-input__inner {

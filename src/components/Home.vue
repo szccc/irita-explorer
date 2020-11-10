@@ -46,7 +46,10 @@
 						<li class="home_transaction_list_item_content" v-for="(item,index) in latestTransaction" :key="index">
 							<p class="home_transaction_time_content">
 								<span class="home_transaction" >
-									{{$t('ExplorerLang.home.tx')}}<router-link :to="`/tx?txHash=${item.hash}`">{{`${item.hash.substr(0,16)}...`}}</router-link>
+									{{$t('ExplorerLang.home.tx')}}
+									<el-tooltip effect="dark" :content="item.hash" placement="top">
+										<router-link :to="`/tx?txHash=${item.hash}`">{{`${item.hash.substr(0,hashLength)}...`}}</router-link>
+									</el-tooltip>
 								</span>
 								<span class="home_age_time">{{item.txAgeTime}}</span>
 							</p>
@@ -66,7 +69,7 @@
 	import Tools from "../util/Tools";
 	import { getBlockList } from "../service/api";
 	import {getTxList} from "../service/api";
-	import StatisticalBar from './common/StatisticalBar'
+	import StatisticalBar from './common/StatisticalBar';
     export default {
 		name: "Home",
 		components: {StatisticalBar},
@@ -77,6 +80,7 @@
 				latestTransaction:[],
 				blocksTimer: null,
 				transfersTimer:null,
+				screenWidth: document.body.clientWidth
 			}
 		},
 		mounted () {
@@ -86,7 +90,8 @@
 			this.syncTimer = setInterval(() => {
 				this.getLastBlocks();
 				this.getTransaction();
-			},5000)
+			},5000);
+			window.addEventListener("resize",this.monitorScreenWidth,false)
 		},
 		watch:{
 			latestBlockArray(latestBlockArray){
@@ -97,6 +102,14 @@
 						}
 					})
 				},1000)
+			},
+		},
+		computed: {
+			hashLength() {
+				if(this.screenWidth < 400 ) {
+					return 10
+				}
+				return 16
 			}
 		},
 		methods:{
@@ -201,12 +214,16 @@
 			},
 			componentAgeTime(beginTime,endTime){
 				return ((Number(new Date(beginTime).getTime()) - Number(new Date(endTime).getTime())) /1000/ 100).toFixed(2)
+			},
+			monitorScreenWidth() {
+				this.screenWidth = document.body.clientWidth
 			}
 		},
 		destroyed () {
 			clearInterval(this.blocksTimer);
 			clearInterval(this.transfersTimer);
-			clearInterval(this.syncTimer )
+			clearInterval(this.syncTimer)
+			window.removeEventListener("resize",this.monitorScreenWidth);
 		}
 	}
 </script>
@@ -470,5 +487,96 @@
 			}
 		}
 	}
+	// @media screen and (max-width: 415px) {
+	// 	.home_container{
+	// 		.home_content_wrap{
+	// 			.home_content_header_content{
+	// 			}
+	// 			.home_block_and_transaction_content{
+	// 				.home_block_content{
+	// 					.home_block_top_content{
+	// 						.home_block_top_title{
+	// 							i{
+								
+	// 							}
+	// 							span{
+								
+	// 							}
+	// 						}
+	// 						.home_block_view_all{
+	// 							a{
 
+	// 							}
+	// 						}
+	// 					}
+	// 					.home_block_bottom_content{
+							
+	// 						.home_block_list_item_content{
+								
+	// 							.home_block_time_content{
+									
+	// 								.home_block{
+	// 									a{
+										
+	// 									}
+	// 								}
+	// 							}
+	// 							.home_tx_time_content{
+									
+	// 								.home_tx{
+	// 									span{
+										
+	// 									}
+	// 								}
+	// 							}
+	// 						}
+	// 						.animation{
+							
+	// 						}
+	// 					}
+						
+	// 				}
+	// 				.home_transaction_content{
+	// 					overflow-x: auto;
+	// 					.home_transaction_top_content{
+							
+	// 						.home_transaction_top_title{
+	// 							i{
+								
+	// 							}
+	// 							span{
+								
+	// 							}
+	// 						}
+	// 						.home_transaction_view_all{
+	// 							a{
+								
+	// 							}
+								
+								
+	// 						}
+	// 					}
+	// 					.home_transaction_bottom_content{
+	// 						width: 320px;
+	// 						.home_transaction_list_item_content{
+								
+	// 							.home_transaction_time_content{
+									
+	// 								.home_transaction{
+										
+	// 									a{
+										
+	// 									}
+	// 								}
+	// 							}
+	// 							.home_tx_type_content{
+								
+	// 							}
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 </style>

@@ -477,7 +477,6 @@
 				margin-right: 0.1rem;
 			}
 		}
-		
 		.transaction_list_title_wrap {
 			width: 100%;
 			// position: fixed;
@@ -618,36 +617,81 @@
 				
 			}
 		}
-	}
-	
-	.transaction_list_table_container {
-		// max-width: 12.8rem;
-		max-width: 12rem;
-		// padding: 1.24rem 0 0.2rem 0;
-		padding: 0.04rem 0 0.2rem 0;
-		margin: 0 auto;
-		
-		.transaction_list_table_content {
-			text-align: left;
+		.transaction_list_table_container {
+			// max-width: 12.8rem;
+			max-width: 12rem;
+			// padding: 1.24rem 0 0.2rem 0;
+			padding: 0.04rem 0 0.2rem 0;
+			margin: 0 auto;
 			
-			.table_list_content {
-				width: 100%;
-				overflow-x: auto;
-				padding-top: 0rem;
+			.transaction_list_table_content {
+				text-align: left;
+				
+				.table_list_content {
+					width: 100%;
+					overflow-x: auto;
+					padding-top: 0rem;
+				}
+				
+				.pagination_nav_footer_content {
+					display: flex;
+					justify-content: flex-end;
+					height: 0.7rem;
+					align-items: center;
+				}
+				
 			}
-			
-			.pagination_nav_footer_content {
-				display: flex;
-				justify-content: flex-end;
-				height: 0.7rem;
-				align-items: center;
-			}
-			
 		}
 	}
 	
+	@media screen and (max-width: 1248px) {
+		.transaction_list_page_container {
+			.title_container {
+				margin: 0.3rem 0.24rem 0rem 0.24rem;
+				span {
+				}
+			}
+			.transaction_list_title_wrap {
+				.transaction_list_title_content {
+					margin: 0 0.24rem;
+					.filter_container {		
+						.filter_tx_type_statue_content {
+						}
+						
+						.select_date_content {
+
+						}
+						
+						.reset_search_content {
+							.reset_btn {
+							}
+							
+							.tx_search_btn {
+							}
+						}
+					}
+					
+				}
+			}
+			.transaction_list_table_container {
+				margin: 0 0.24rem;				
+				.transaction_list_table_content {				
+					.table_list_content {
+					}				
+					.pagination_nav_footer_content {
+					}
+					
+				}
+			}
+		}
+	}
+
 	@media screen and (max-width: 910px) {
 		.transaction_list_page_container {
+			.title_container {	
+				span {
+				}
+			}
 			.transaction_list_title_wrap {
 				position: static;
 				padding-top: 0.15rem;
@@ -665,35 +709,28 @@
 					
 					.filter_container {
 						flex-direction: column;
-						margin-left: 0.1rem;
+						width: 100%;
 						
 						.filter_tx_type_statue_content {
 							width: 3.45rem;
 							display: flex;
-							justify-content: space-between;
 							margin-bottom: 0.1rem;
 							
 							.el-select {
 								margin-right: 0;
-								width: 1.6rem;
+								margin-right: 0.26rem;
 							}
 						}
 						
 						.select_date_content {
 							width: 3.45rem;
 							display: flex;
-							justify-content: space-between;
 							margin-bottom: 0.1rem;
-							
-							.el-date-editor {
-								width: 1.6rem;
-							}
 						}
 						
 						.reset_search_content {
-							width: 3.45rem;
 							display: flex;
-							justify-content: space-between;
+							justify-content: flex-end;
 							margin-bottom: 0.1rem;
 							
 							.reset_btn {
@@ -701,7 +738,6 @@
 							}
 							
 							.tx_search_btn {
-								flex: 1;
 								margin-left: 0;
 								margin-right: 0.1rem;
 								text-align: center;
@@ -710,18 +746,60 @@
 					}
 				}
 			}
-		}
-		
-		.transaction_list_table_container {
-			padding-top: 0;
-			padding-left: 0.1rem;
-			padding-right: 0.1rem;
-			
-			.transaction_list_table_content {
-				.table_list_content {
-					padding-top: 0;
+			.transaction_list_table_container {
+				padding-top: 0;
+				// padding-left: 0.1rem;
+				// padding-right: 0.1rem;
+				
+				.transaction_list_table_content {
+					.table_list_content {
+						padding-top: 0;
+					}
 				}
 			}
 		}
 	}
+
+	@media screen and (max-width: 768px) {
+		.transaction_list_page_container {
+			.title_container {
+				margin: 0.3rem 0.12rem 0rem 0.12rem;
+				span {
+				}
+			}
+			.transaction_list_title_wrap {
+				.transaction_list_title_content {
+					margin: 0 0.12rem;
+					.filter_container {		
+						.filter_tx_type_statue_content {
+						}
+						
+						.select_date_content {
+
+						}
+						
+						.reset_search_content {
+							.reset_btn {
+							}
+							
+							.tx_search_btn {
+							}
+						}
+					}
+					
+				}
+			}
+			.transaction_list_table_container {
+				margin: 0 0.12rem;				
+				.transaction_list_table_content {				
+					.table_list_content {
+					}				
+					.pagination_nav_footer_content {
+					}
+					
+				}
+			}
+		}
+	}
+
 </style>

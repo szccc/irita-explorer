@@ -53,4 +53,18 @@ a {
     }
   }
 }
+	@media screen and (max-width: 1265px) {
+    .native_asset_container {
+      .native_asset_content {
+          margin: 0 0.24rem;
+      }
+    }
+	}
+  @media screen and (max-width: 768px) {
+    .native_asset_container {
+      .native_asset_content {
+          margin: 0 0.12rem;
+      }
+    }
+	}
 </style>

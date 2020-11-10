@@ -462,7 +462,6 @@
     @media screen and (max-width: 910px){
         .service_information_content_wrap{
             width:100%;
-            padding:0 0.15rem;
             box-sizing: border-box;
             .service_information_transaction_condition_container{
                 .service_information_transaction_condition_count {

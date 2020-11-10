@@ -1,5 +1,5 @@
 <template>
-  <div class="native_asset_content">
+  <div class="native_assets_content">
     <div class="native_asset_list_table_container" v-if="issueToken.length !== 0">
       <div class="txs_title">{{ $t('ExplorerLang.asset.issueTokenTxs') }}</div>
       <div class="native_asset_list_table_content">
@@ -401,7 +401,7 @@ export default {
 a {
   color: $t_link_c !important;
 }
-  .native_asset_content {
+  .native_assets_content {
     max-width: 12rem;
     margin: 0 auto;
     text-align: left;

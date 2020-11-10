@@ -120,13 +120,10 @@ a {
   color: $t_link_c !important;
 }
 .asset_info_container {
-  width: 100%;
   box-sizing: border-box;
   position: relative;
-  max-width: 12rem;
   text-align: left;
   .asset_info_list_container {
-    width: 100%;
     box-sizing: border-box;
     margin-bottom: 0.2rem;
     max-width: 12rem;
@@ -194,6 +191,13 @@ a {
     }
   }
 }
+@media screen and (max-width: 1248px) {
+  .asset_info_container {
+    .asset_info_list_container {
+      margin: 0 0.24rem;
+    }
+  }
+}
 @media screen and (max-width: 910px) {
   .kflower_content {
     flex-direction: column;
@@ -208,6 +212,13 @@ a {
         flex-direction: column;
         margin-bottom: 0;
       }
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  .asset_info_container {
+    .asset_info_list_container {
+      margin: 0 0.12rem;
     }
   }
 }

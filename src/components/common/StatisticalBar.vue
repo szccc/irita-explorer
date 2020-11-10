@@ -245,7 +245,7 @@ export default {
             padding: .2rem;
             background: $bg_white_c;
             display: grid;
-            grid-template-columns: 27.4% 72.6%;
+            grid-template-columns: 24% 76%;
             border: .01rem solid $bd_second_c;
             .statistical_validator_content{
                 display: flex;
@@ -318,7 +318,7 @@ export default {
                             background: $bg_white_c;
                             text-align: left;
                             box-sizing: border-box;
-                            padding: 0.14rem;
+                            padding: 0.15rem;
                             font-size: $s14;
                             i{
                                 color: $theme_c;
@@ -347,7 +347,69 @@ export default {
             }
         }
     }
-    @media screen and (max-width: 1000px) {
+    @media screen and (max-width: 1178px) {
+        .statistical_bar_container {
+            .statistical_bar_wrap{
+                .statistical_validator_content{
+                    .statistical_validator_top_content{
+                        .statistical_validator_header{
+                        }
+                    }
+                    .statistical_validator_bottom_content{
+                        .statistical_img_content{
+                            a{
+                                .statistical_validator_header_img_content{
+                                    span{
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .statistical_bar_content {
+                    .statistical_list_content{
+                        grid-gap: 0.2rem 0.1rem;
+                        .statistical_item_content{
+                            .statistical_center_content{
+                            }
+                        }
+                    }
+                }
+            }
+        }
+	}
+    @media screen and (max-width: 1123px) {
+        .statistical_bar_container {
+            .statistical_bar_wrap{
+                .statistical_validator_content{
+                    .statistical_validator_top_content{
+                        .statistical_validator_header{
+                        }
+                    }
+                    .statistical_validator_bottom_content{
+                        .statistical_img_content{
+                            a{
+                                .statistical_validator_header_img_content{
+                                    span{
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .statistical_bar_content {
+                    .statistical_list_content{
+                        grid-gap: 0.2rem 0.05rem;
+                        .statistical_item_content{
+                            .statistical_center_content{
+                            }
+                        }
+                    }
+                }
+            }
+        }
+	}
+    @media screen and (max-width: 1050px) {
         .statistical_bar_container {
             .statistical_bar_wrap{
                 margin: 0;
@@ -403,3 +465,4 @@ export default {
         }
 	}
 </style>
+

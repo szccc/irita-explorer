@@ -10,7 +10,7 @@
 						<ul class="address_information_content">
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.address') }}:</span>
-								<p style="min-width: 3.53rem">
+								<p>
 									<span>{{address}}<m-clip :text="address" style="margin-left: 0.09rem"></m-clip><span class="profiler_content" v-if="isProfiler">Profiler</span></span>
 								</p>
 							</li>
@@ -180,7 +180,7 @@
 
 <style scoped lang="scss">
 .address_information_component_container{
-	padding-top: 0.14rem;
+	// padding-top: 0.14rem;
 	.address_information_component_wrap{
 		max-width: 12.8rem;
 		margin: 0 auto;
@@ -399,6 +399,24 @@
 	@media screen and (max-width: 910px){
 		.address_information_component_container{
 			padding-top: 0;
+			.address_information_component_wrap{
+				.address_information_component_content{
+					.address_information_asset_content{
+						.address_information_asset_total_content{
+							.address_information_content{
+								.address_information_item{
+								}
+							}
+						}
+						.address_information_asset_constitute_content{
+							.address_information_asset_constitute_item:first-child{
+							}
+						}
+					}
+					.address_information_asset_list_container{
+					}
+				}
+			}
 		}
 	}
 </style>
