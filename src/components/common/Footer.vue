@@ -4,18 +4,20 @@
 		<div class="footer_content_bg_top"
 			 v-if="logoImg.length"
 		     :style="`background:${(prodConfig.footer || {}).bgColor_top || '#363A3D'}`">
-			<div class="footer_content_top">
-				<img class="footer_content_top_icon" :src="logoImg" alt="">
+			<div class="footer_content_bg_top_container">
+				<div class="footer_content_top">
+					<img class="footer_content_top_icon" :src="logoImg" alt="">
+				</div>
+				<!-- 新增 -->
+				<div class="footer_right_content">
+					<div class="footer_link_wrap">
+						<a href="https://www.irisnet.org/testnets"
+						target="_blank">
+							<span class="footer_link_contact">Use Testnet</span>
+						</a>
+					</div>
+				</div>
 			</div>
-			<!-- 新增 -->
-			<div class="footer_right_content">
-                <div class="footer_link_wrap">
-                    <a href="https://www.irisnet.org/testnets"
-                       target="_blank">
-                        <span class="footer_link_contact">Use Testnet</span>
-                    </a>
-                </div>
-            </div>
 		</div>
 		<div class="footer_content_bg_bottom"
 			 :style="`background:${(prodConfig.footer || {}).bgColor_bottom || '#000000'}`">
@@ -65,29 +67,31 @@
 <style scoped lang="scss">
 	.footer_container{
 		.footer_content_bg_top{
-			display: flex;
-			justify-content: space-between;
 			padding:0 0.15rem;
-			.footer_content_top{
-				display: flex;
-				// flex:1;
-				align-items:center;
-				justify-content: flex-start;
-				font-size:$s14;
+			display: flex;
+			justify-content: center;
+			.footer_content_bg_top_container {
+				flex: 1;
 				max-width:12rem;
-				font-family:Arial;
-				font-weight:400;
-				.footer_content_top_icon{
-					height:0.6rem;
-					margin:0.48rem 0;
-				}
-			}
-			.footer_right_content {
-				padding: 0.18rem;
 				display: flex;
-				align-items: center;
-				a {
-					color: $t_button_c;
+				justify-content: space-between;
+				align-items:center;
+				.footer_content_top{
+					font-size:$s14;
+					font-family:Arial;
+					font-weight:400;
+					.footer_content_top_icon{
+						height:0.6rem;
+						margin:0.48rem 0;
+					}
+				}
+				.footer_right_content {
+					padding: 0.24rem;
+					display: flex;
+					align-items: center;
+					a {
+						color: $t_button_c;
+					}
 				}
 			}
 		}
