@@ -530,7 +530,7 @@
 						<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
 					</div>
 				</div>
-				<TxListComponent :txData="txList"></TxListComponent>
+				<TxListComponent v-if="address" :txData="txList" :address="address"></TxListComponent>
 				<div class="pagination_content" v-show="totalTxNumber > pageSize">
 					<m-pagination :page-size="pageSize"
 					              :total="totalTxNumber"
@@ -1345,7 +1345,7 @@
 				if (!moniker) {
 					return "";
 				}
-				return Tools.formatString(moniker, 15, "...");
+				return Tools.formatString(moniker, 8, "...");
 			},
 			handleChange(value) {
                 value ? this.type_temp = value[1] ? value[1] : '' : ''

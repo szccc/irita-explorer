@@ -19,7 +19,7 @@
           <template v-slot:default="{ row }">
             <el-tooltip :disabled="row.OperatorMonikers === '--' && row.OperatorAddr === '--' " :content="`${row.OperatorAddr}`">
               <span v-if="row.OperatorAddr === $route.params.param || row.OperatorAddr == '--'">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers) : formatAddress(row.OperatorAddr) }}</span>
-              <router-link v-else :to="`/address/${row.OperatorAddr}`" class="link_style justify">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers) : formatAddress(row.OperatorAddr) }}</router-link>
+              <router-link v-else :to="Tools.addressRoute(row.OperatorAddr)" class="link_style justify">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers) : formatAddress(row.OperatorAddr) }}</router-link>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -102,7 +102,7 @@ export default {
       if (!moniker) {
         return ''
       }
-      return Tools.formatString(moniker, 15, '...')
+      return Tools.formatString(moniker, 8, '...')
     },
     getDisplayTxType(types = []) {
       let type = types[0] || ''

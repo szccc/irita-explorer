@@ -312,7 +312,7 @@
 				if (!moniker) {
 					return ''
 				}
-				return Tools.formatString(moniker, 15, '...')
+				return Tools.formatString(moniker, 8, '...')
 			},
 			getDisplayTxType(types=[]){
 				let type = types[0] || '';
