@@ -125,9 +125,9 @@ export const ExplorerLang = {
         listTransactions: 'Transactions',
         tx:'TX#',
         txn: 'Txn',
-        validatorNumCount: '验证人数量',
-        bondedTokens:'质押率',
-        votingPower: '在线投票权',
+        validatorNumCount: 'Validators',
+        bondedTokens:'Bonded Tokens',
+        votingPower: 'Voting Power',
     },
     block:{
         currentHeight: 'Current Height',
