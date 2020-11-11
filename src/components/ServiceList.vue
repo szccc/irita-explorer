@@ -26,49 +26,50 @@
                         </router-link>
                     </span>
                 </div>
+                <div class="table">
+                    <el-table :data="service.bindList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
+                            <template slot-scope="scope">
+                                <span>
+                                    <el-tooltip placement="top" :content="scope.row.provider">
+                                        <router-link :to="`/address/${scope.row.provider}`">
+                                            {{Tools.formatValidatorAddress(scope.row.provider)}}
+                                        </router-link>
+                                    </el-tooltip>
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerLang.table.respondTimes')">
+                            <template slot-scope="scope">
+                                <span>
+                                    <router-link
+                                            :to="`service/respond/${service.serviceName}/${scope.row.provider}`">
+                                            {{`${scope.row.respondTimes} ${$t('ExplorerLang.unit.time')}`}}
+                                        </router-link>
+                                </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerLang.table.isAvailable')">
+                            <template slot-scope="scope">
+                            <div class="service_information_available_container">
+                                <img class="service_tx_status"
+                                    v-if="scope.row.available"
+                                    src="../assets/true.png"/>
+                                <img class="service_tx_status"
+                                    v-else
+                                    src="../assets/false.png"/>
+                                <span>
+                                    {{scope.row.isAvailable}}
+                                </span>
+                            </div>
 
-				<el-table class="table" :data="service.bindList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
-						<template slot-scope="scope">
-							<span>
-                                <el-tooltip placement="top" :content="scope.row.provider">
-                                    <router-link :to="`/address/${scope.row.provider}`">
-                                        {{Tools.formatValidatorAddress(scope.row.provider)}}
-                                    </router-link>
-                                </el-tooltip>
-							</span>
-						</template>
-					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.respondTimes" :label="$t('ExplorerLang.table.respondTimes')">
-						<template slot-scope="scope">
-							<span>
-								<router-link
-                                        :to="`service/respond/${service.serviceName}/${scope.row.provider}`">
-                                        {{`${scope.row.respondTimes} ${$t('ExplorerLang.unit.time')}`}}
-                                    </router-link>
-							</span>
-						</template>
-					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.available" :label="$t('ExplorerLang.table.isAvailable')">
-                        <template slot-scope="scope">
-                        <div class="service_information_available_container">
-                            <img class="service_tx_status"
-                                 v-if="scope.row.available"
-                                 src="../assets/true.png"/>
-                            <img class="service_tx_status"
-                                 v-else
-                                 src="../assets/false.png"/>
-                            <span>
-                                {{scope.row.isAvailable}}
-                            </span>
-                        </div>
-
-                    </template>
-                    </el-table-column>
-                    <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerLang.table.price')" prop="price"></el-table-column> -->
-					<el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerLang.table.minBlock')" prop="qos"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.bindTime')" prop="bindTime"></el-table-column>
-				</el-table>
+                        </template>
+                        </el-table-column>
+                        <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerLang.table.price')" prop="price"></el-table-column> -->
+                        <el-table-column :min-width="ColumnMinWidth.qos" :label="$t('ExplorerLang.table.minBlock')" prop="qos"></el-table-column>
+                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.bindTime')" prop="bindTime"></el-table-column>
+                    </el-table>
+                </div>	
 			</div>
 			<div class="pagination_content" v-if="txCount > pageSize">
 				<m-pagination :page-size="pageSize"
@@ -453,6 +454,7 @@
                 background: $bg_white_c;
                 border-radius:5px;
                 border:1px solid $bd_first_c;
+                overflow-x: auto;
                 .service_information_available_container{
                     display:flex;
                     align-items: center;
@@ -471,7 +473,12 @@
                         font-weight:600;
                     }
                 }
-
+                .table {
+                    overflow-x: auto;
+                    .el-table {
+                        min-width: 10rem;
+                    }
+                }
             }
 		}
 		.pagination_content{

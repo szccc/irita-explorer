@@ -99,8 +99,6 @@ export function getAllServiceTxTypes(){
     return get(url);
 }
 
-
-
 export function getTxList(params){
     const {txType, status, beginTime, endTime, pageNum, pageSize} = params;
     let url = `txs?pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`;
@@ -341,5 +339,23 @@ export function getConfig () {
 
 export function stakingBlockInformation(height) {
 	const url = `/blocks/staking/${height}`
+	return get(url)
+}
+
+export function getNativeAssetsListApi(pageNum, pageSize, useCount) {
+    const url = `/asset/tokens?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`
+	return get(url)
+}
+
+export function getNativeAssetsTxsApi (pageNum, pageSize, useCount, type, symbol) {
+    let url = `/txs/asset?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}`
+    if (symbol) {
+        url += `&symbol=${symbol}`
+    }
+	return get(url)
+}
+
+export function getNativeAssetDetailApi (symbol) {
+    let url = `/asset/tokens/${symbol}`
 	return get(url)
 }

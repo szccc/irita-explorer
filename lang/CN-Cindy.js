@@ -76,6 +76,16 @@ export const ExplorerLang = {
         status: 'Status',
         consensusAddress: 'Consensus Address',
         proposerPriority: 'Proposer Priority',
+        // 新增
+        symbol: 'Symbol',
+        totalSupply: 'TotalSupply',
+        initialSupply: 'InitialSupply',
+        maxSupply: 'MaxSupply',
+        mintable: 'Mintable',
+        token: 'Token',
+        mintTo: 'MintTo',
+        srcOwner:'SrcOwner',
+        dstOwner:'DstOwner',
     },
     unit:{
         ellipsis:' ,...',
@@ -114,7 +124,11 @@ export const ExplorerLang = {
         viewAll: '查看全部',
         listTransactions: '最近交易',
         tx:'交易#',
-        txn:'交易数量'
+        txn: '交易数量',
+        // 新增
+        validatorNumCount: '验证人数量',
+        bondedTokens: '质押率',
+        votingPower: '在线投票权',
     },
     block:{
         currentHeight: '当前区块',
@@ -313,6 +327,21 @@ export const ExplorerLang = {
         random: {
             blockInterval: '固定区块数',
             oracle: '预言机模式',
+        },
+        // 新增
+        asset: {
+            symbol: 'Symbol',
+            name: 'Name',
+            decimal: 'Decimal',
+            initialSupply: 'InitialSupply',
+            maxSupply: 'MaxSupply',
+            mintable: 'Mintable',
+            owner: 'Owner',
+            tokenId: 'TokenId',
+            amount: 'Amount',
+            to: 'To',
+            originalOwner: 'Original Owner',
+            newOwner:'New Owner'
         }
     },
     addressDetail: {
@@ -457,5 +486,22 @@ export const ExplorerLang = {
             validatorMoniker: 'Validator Moniker',
             operatorAddress:'Operator Address'
         }
+    },
+    // 新增
+    asset:{
+        nativeAssetsList: 'Native Asset List',
+        nativeAssetTxsList: 'Native Asset Txs List',
+        issueTokenTxs: 'Issue Token Txs',
+        editTokenTxs: 'Edit Token Txs',
+        mintTokenTxs: 'Mint Token Txs',
+        transferOwnerTxs: 'Transfer Owner Txs',
+        detalils: 'Detalils',
+        owner: 'Owner',
+        totalSupply: 'Total Supply',
+        initialSupply: 'Initial Supply',
+        maxSupply: 'Max Supply',
+        mintable: 'Mintable',
+        name: 'Name',
+        decimal:'Decimal'
     }
 }

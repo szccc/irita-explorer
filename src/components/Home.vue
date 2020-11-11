@@ -46,7 +46,10 @@
 						<li class="home_transaction_list_item_content" v-for="(item,index) in latestTransaction" :key="index">
 							<p class="home_transaction_time_content">
 								<span class="home_transaction" >
-									{{$t('ExplorerLang.home.tx')}}<router-link :to="`/tx?txHash=${item.hash}`">{{`${item.hash.substr(0,16)}...`}}</router-link>
+									{{$t('ExplorerLang.home.tx')}}
+									<el-tooltip effect="dark" :content="item.hash" placement="top">
+										<router-link :to="`/tx?txHash=${item.hash}`">{{`${item.hash.substr(0,hashLength)}...`}}</router-link>
+									</el-tooltip>
 								</span>
 								<span class="home_age_time">{{item.txAgeTime}}</span>
 							</p>
@@ -66,20 +69,18 @@
 	import Tools from "../util/Tools";
 	import { getBlockList } from "../service/api";
 	import {getTxList} from "../service/api";
-	import { TX_TYPE,TX_STATUS } from '../constant';
-	import StatisticalBar from './common/StatisticalBar'
+	import StatisticalBar from './common/StatisticalBar';
     export default {
 		name: "Home",
 		components: {StatisticalBar},
 		data () {
 			return {
-				TX_TYPE,
-				TX_STATUS,
 				syncTimer:null,
 				latestBlockArray:[],
 				latestTransaction:[],
 				blocksTimer: null,
 				transfersTimer:null,
+				screenWidth: document.body.clientWidth
 			}
 		},
 		mounted () {
@@ -89,7 +90,8 @@
 			this.syncTimer = setInterval(() => {
 				this.getLastBlocks();
 				this.getTransaction();
-			},5000)
+			},5000);
+			window.addEventListener("resize",this.monitorScreenWidth,false)
 		},
 		watch:{
 			latestBlockArray(latestBlockArray){
@@ -100,6 +102,14 @@
 						}
 					})
 				},1000)
+			},
+		},
+		computed: {
+			hashLength() {
+				if(this.screenWidth < 400 ) {
+					return 10
+				}
+				return 16
 			}
 		},
 		methods:{
@@ -204,12 +214,16 @@
 			},
 			componentAgeTime(beginTime,endTime){
 				return ((Number(new Date(beginTime).getTime()) - Number(new Date(endTime).getTime())) /1000/ 100).toFixed(2)
+			},
+			monitorScreenWidth() {
+				this.screenWidth = document.body.clientWidth
 			}
 		},
 		destroyed () {
 			clearInterval(this.blocksTimer);
 			clearInterval(this.transfersTimer);
-			clearInterval(this.syncTimer )
+			clearInterval(this.syncTimer)
+			window.removeEventListener("resize",this.monitorScreenWidth);
 		}
 	}
 </script>
@@ -473,5 +487,4 @@
 			}
 		}
 	}
-
 </style>

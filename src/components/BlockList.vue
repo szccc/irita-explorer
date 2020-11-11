@@ -16,7 +16,7 @@
 					</div>
 					<div class="block_list_pagination_content">
 						<el-table class="table"  :data="blockList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
-							<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+							<el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
 								<template slot-scope="scope">
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 								</template>
@@ -165,6 +165,9 @@
 							.el-table__header-wrapper{
 								/*position: fixed;*/
 								/*z-index: 10;*/
+							}
+							/deep/ .el-table__body-wrapper {
+								overflow: hidden;
 							}
 						}
                         @media screen and (min-width: 910px) and (max-width: 1280px){

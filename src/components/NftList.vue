@@ -18,8 +18,8 @@
 				</div>
 			</div>
 			<div class="nef_list_table_container">
-				<el-table class="table" :data="denomArray" :row-key='tableRowKey' :empty-text="$t('ExplorerLang.table.emptyDescription')">
-					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')">
+				<el-table class="table" :data="denomArray" :empty-text="$t('ExplorerLang.table.emptyDescription')" :default-sort="{ prop: 'time', order: 'descending' }">
+					<el-table-column :min-width="ColumnMinWidth.nftListDenom" show-overflow-tooltip :label="$t('ExplorerLang.table.denom')">
 						<template slot-scope="scope">
 							{{scope.row.denom_name || scope.row.denom_id}}
 						</template>
@@ -36,15 +36,17 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
+							<router-link v-if="formatAddress(scope.row.nft_name) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
+							<span v-else>{{formatAddress(scope.row.nft_name)}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
+							<router-link v-if="formatAddress(scope.row.nft_id) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
+							<span v-else>{{formatAddress(scope.row.nft_id)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
+					<el-table-column :min-width="ColumnMinWidth.nftListDate" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
 							<LargeString v-if="scope.row.tokenData" :text="scope.row.tokenData"  mode="cell" textWidth="300px" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 						</template>
@@ -53,6 +55,11 @@
 						<template slot-scope="scope">
 							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
 							<span v-else>--</span>
+						</template>
+					</el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
+						<template slot-scope="scope">
+							<span>{{scope.row.time}}</span>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -145,16 +152,19 @@
 					let nftData = await getNfts(this.denom, this.tokenId, this.owner, this.currentPageNum, this.pageSize, true);
 					if(nftData && nftData.data){
 						this.allCount = nftData.count;
+						nftData.data.forEach(item => {
+							item.time ?	item.time = Tools.getDisplayDate(item.time) : item.time = '--'
+						});
 						this.denomArray = nftData.data
 					}else {
 						this.allCount = 0
 						this.denomArray = []
 					}
-					}catch (e) {
-						this.allCount = 0
-						this.denomArray = []
-						console.error(e)
-					}
+				}catch (e) {
+					this.allCount = 0
+					this.denomArray = []
+					console.error(e)
+				}
 			},
 			formatAddress(address){
 				if (!address) {
@@ -424,6 +434,9 @@
 			}
 			.nef_list_table_container{
 				//margin-top: 0.05rem;
+				/deep/ .cell {
+					padding: 0rem 0.05rem;
+				}
 			}
 			.pagination_content{
 				display: flex;

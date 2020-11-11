@@ -9,13 +9,12 @@
                 </span>
                 <span class="service_respond_record_provider">
                     {{$t('ExplorerLang.serviceDetail.provider')}}
+                    <span class="service_respond_record_provider_content">
+                        <router-link :to="`/address/${$route.params.provider}`">
+                            {{$route.params.provider}}
+                        </router-link>
+                    </span>
                 </span>
-                <span class="service_respond_record_provider_content">
-                    <router-link :to="`/address/${$route.params.provider}`">
-                        {{$route.params.provider}}
-                    </router-link>
-                </span>
-
             </p>
             <div class="service_respond_record_definition_content">
                 <h3 class="service_respond_record_definition_title">
@@ -103,7 +102,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+                        <el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
                             <template slot-scope="scope">
                                 <router-link :to="`/block/${scope.row.height}`">
                                     {{scope.row.height}}

@@ -124,8 +124,10 @@ export const ValidatorStatus = {
 
 export const ColumnMinWidth = {
   txHash: '103',
+  addressTxHash: '114',
   respondHash:'107',
   blockHeight: '68',
+  blockListHeight: '76',
   txType: '194',
   address: '126',
   time: '150',
@@ -135,7 +137,7 @@ export const ColumnMinWidth = {
   votingPower: '120',
   publickKey: '450',
   denom: '150',
-  tokenId: '141',
+  tokenId: '120',
   denomId: '150',
   schema: '380',
   URI: '260',
@@ -144,7 +146,8 @@ export const ColumnMinWidth = {
   qos: '130',
   requestId: '130',
   state: '120',
-  serviceName: '120',
+  // serviceName: '120',
+  serviceName: '135',
   No: '50',
   price: '120',
   deposit: '120',
@@ -171,7 +174,14 @@ export const ColumnMinWidth = {
   message: '90',
   validatorMoniker: '150',
   validatorSelfBond: '150',
-  timestamp: '145'
+  nftListDenom: '100',
+  nftListDate:'280',
+  timestamp: '145',
+  symbol: '121',
+  assetListowner: '430',
+  totalSupply: '160',
+  maxSupply: '127',
+  mintable:'90'
 }
 
 export const ModuleMap = {
@@ -214,6 +224,14 @@ export const ModuleMap = {
   '109': {
     title: 'Validation Txs',
     link: '/txs/validations',
+  },
+  '110': {
+    title: 'Native Asset',
+    link: '/assets/ntvassets',
+  },
+  '111': {
+    title: 'Native Asset',
+    link: '/assets/ntvassetstxs',
   },
 }
 

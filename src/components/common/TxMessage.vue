@@ -1119,6 +1119,121 @@
 				</template>
 			</p>
 		</div>
+
+		<div v-if="txType === TX_TYPE.issue_token">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.symbol')}}: </span>
+				<template>
+					<span v-if="symbol === '--'">{{symbol}}</span>
+					<router-link v-else :to="'/assets/' + symbol">{{symbol}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.name')}}: </span>
+				<span>{{ name }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.decimal')}}: </span>
+				<span>{{ decimal }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.initialSupply')}}: </span>
+				<span>{{ initialSupply }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.maxSupply')}}: </span>
+				<span>{{ maxSupply }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.mintable')}}: </span>
+				<span>{{ mintable }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.owner')}}: </span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.edit_token">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.symbol')}}: </span>
+				<template>
+					<span v-if="symbol === '--'">{{symbol}}</span>
+					<router-link v-else :to="'/assets/' + symbol">{{symbol}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.name')}}: </span>
+				<span>{{ name }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.maxSupply')}}: </span>
+				<span>{{ maxSupply }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.mintable')}}: </span>
+				<span>{{ mintable }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.owner')}}: </span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.mint_token">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.tokenId')}}: </span>
+				<template>
+					<span v-if="symbol === '--'">{{symbol}}</span>
+					<router-link v-else :to="'/assets/' + symbol">{{symbol}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.owner')}}: </span>
+				<template>
+					<span v-if="owner === '--'">{{owner}}</span>
+					<router-link v-else :to="Tools.addressRoute(owner)">{{owner}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.amount')}}: </span>
+				<span>{{ amount }}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.to')}}: </span>
+				<template>
+					<span v-if="to === '--'">{{to}}</span>
+					<router-link v-else :to="Tools.addressRoute(to)">{{to}}</router-link>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.transfer_token_owner">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.tokenId')}}: </span>
+				<template>
+					<span v-if="symbol === '--'">{{symbol}}</span>
+					<router-link v-else :to="'/assets/' + symbol">{{symbol}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.originalOwner')}}: </span>
+				<template>
+					<span v-if="originalOwner === '--'">{{originalOwner}}</span>
+					<router-link v-else :to="Tools.addressRoute(originalOwner)">{{originalOwner}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.newOwner')}}: </span>
+				<template>
+					<span v-if="newOwner === '--'">{{newOwner}}</span>
+					<router-link v-else :to="Tools.addressRoute(newOwner)">{{newOwner}}</router-link>
+				</template>
+			</p>
+		</div>
 	</div>
 </template>
 
@@ -1188,7 +1303,7 @@
 				recordArray: [],
 				amount: '',
 				owner: '',
-				// symbol : '',
+				symbol : '',
 				tokenData: '',
 				recipient: '',
 				tokenUri: '',
@@ -1196,7 +1311,7 @@
 				// srcOwner : '',
 				// minTable : '',
 				schema: '',
-				// initialSupply : '',
+				initialSupply : '',
 				// minUnit : '',
 				// scale : '',
 				pricing: '',
@@ -1268,7 +1383,13 @@
 				minSelfDelegation:'',
 				securityContact:'',
 				LargeStringMinHeight: 100,
-				LargeStringLineHeight: 20
+				LargeStringLineHeight: 20,
+				name:'',
+				decimal:'',
+				maxSupply:'',
+				mintable:'',
+				originalOwner:'',
+				newOwner:''
 			}
 		},
 		computed: {
@@ -1642,72 +1763,99 @@
 								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
 								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
 								break;
-								case TX_TYPE.unjail:
-								this.operatorAddress = msg.address || '--';
-								break;	
-								case TX_TYPE.create_feed:
-								this.serviceName = msg.serviceName || msg.service_name || '--';
-								this.feedName = msg.feed_name || '--';
-								this.description = msg.description || '--';
-								this.latestHistory = msg.latest_history !== 0 ?  msg.latest_history || '--' : '--';
-								this.creator = msg.creator || '--';
-								this.providers = msg.providers || '--';
-								this.input = msg.input || '--';
-								if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
-									let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
-									this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
-								} else {
-									this.serviceFeeCap = '--'
-								}
-								this.aggregateFunc = msg.aggregate_func || '--';
-								this.valueJsonPath = msg.value_json_path || '--';
-								this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
-								this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
-								this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
-								break;	
-								case TX_TYPE.start_feed:
-								this.feedName = msg.feed_name || '--';
-								this.creator = msg.creator || '--';
-								break;
-								case TX_TYPE.pause_feed:
-								this.feedName = msg.feed_name || '--';
-								this.creator = msg.creator || '--';
-								break;
-								case TX_TYPE.edit_feed:
-								this.feedName = msg.feed_name || '--';
-								this.description = msg.description || '--';
-								this.latestHistory = msg.latest_history !== 0 ?  msg.latest_history || '--' : '--';
-								this.creator = msg.creator || '--';
-								this.providers = msg.providers || '--';
-								if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
-									let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
-									this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
-								} else {
-									this.serviceFeeCap = '--'
-								}
-								this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
-								this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
-								this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
-								break;
-								case TX_TYPE.request_rand:
-								this.blockInterval = msg.block_interval == 0 ? msg.block_interval : msg.block_interval || '--';
-								this.consumer = msg.consumer || '--';
-								this.oracle = msg.oracle;
-								if (msg.service_fee_cap && msg.service_fee_cap.length) {
-									let serviceFeeCap = await converCoin(msg.service_fee_cap[0]);
-									this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toUpperCase()}`;
-								} else {
-									this.serviceFeeCap = '--';
-								}
-								break;
-								case TX_TYPE.service_set_withdraw_address:
-								this.owner = msg.owner || '--';
-								this.withdrawAddress = msg.withdraw_address || '--';
-								break;
-								case TX_TYPE.withdraw_earned_fees:
+							case TX_TYPE.unjail:
+							this.operatorAddress = msg.address || '--';
+							break;	
+							case TX_TYPE.create_feed:
+							this.serviceName = msg.serviceName || msg.service_name || '--';
+							this.feedName = msg.feed_name || '--';
+							this.description = msg.description || '--';
+							this.latestHistory = msg.latest_history !== 0 ?  msg.latest_history || '--' : '--';
+							this.creator = msg.creator || '--';
+							this.providers = msg.providers || '--';
+							this.input = msg.input || '--';
+							if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
+								let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
+								this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
+							} else {
+								this.serviceFeeCap = '--'
+							}
+							this.aggregateFunc = msg.aggregate_func || '--';
+							this.valueJsonPath = msg.value_json_path || '--';
+							this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
+							this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
+							this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
+							break;	
+							case TX_TYPE.start_feed:
+							this.feedName = msg.feed_name || '--';
+							this.creator = msg.creator || '--';
+							break;
+							case TX_TYPE.pause_feed:
+							this.feedName = msg.feed_name || '--';
+							this.creator = msg.creator || '--';
+							break;
+							case TX_TYPE.edit_feed:
+							this.feedName = msg.feed_name || '--';
+							this.description = msg.description || '--';
+							this.latestHistory = msg.latest_history !== 0 ?  msg.latest_history || '--' : '--';
+							this.creator = msg.creator || '--';
+							this.providers = msg.providers || '--';
+							if( msg && msg.service_fee_cap && msg.service_fee_cap[0]) {
+								let serviceFeeCap = await converCoin(msg.service_fee_cap[0])
+								this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toLocaleUpperCase()}`;
+							} else {
+								this.serviceFeeCap = '--'
+							}
+							this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
+							this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
+							this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
+							break;
+							case TX_TYPE.request_rand:
+							this.blockInterval = msg.block_interval == 0 ? msg.block_interval : msg.block_interval || '--';
+							this.consumer = msg.consumer || '--';
+							this.oracle = msg.oracle;
+							if (msg.service_fee_cap && msg.service_fee_cap.length) {
+								let serviceFeeCap = await converCoin(msg.service_fee_cap[0]);
+								this.serviceFeeCap = `${serviceFeeCap.amount} ${serviceFeeCap.denom.toUpperCase()}`;
+							} else {
+								this.serviceFeeCap = '--';
+							}
+							break;
+							case TX_TYPE.service_set_withdraw_address:
+							this.owner = msg.owner || '--';
+							this.withdrawAddress = msg.withdraw_address || '--';
+							break;
+							case TX_TYPE.withdraw_earned_fees:
 								this.owner = msg.owner || '--';
 								this.provider = msg.provider || '--';
-								break; 
+							break;
+							case TX_TYPE.issue_token:
+								this.symbol = msg.symbol || '--';
+								this.name = msg.name || '--';
+								this.decimal = msg.scale || '--';
+								this.initialSupply = msg.initial_supply || '--';
+								this.maxSupply = msg.max_supply || '--';
+								this.mintable = msg.mintable;
+								this.owner = msg.owner || '--';
+							break;
+							case TX_TYPE.edit_token:
+								this.symbol = msg.symbol || '--';
+								this.name = msg.name || '--';
+								this.maxSupply = msg.max_supply !== 0 ? msg.max_supply || '--' : msg.max_supply;
+								this.mintable = msg.mintable;
+								this.owner = msg.owner || '--';
+							break;
+							case TX_TYPE.mint_token:
+								this.symbol = msg.symbol || '--';
+								this.owner = msg.owner || '--';
+								this.amount = msg.amount || '--';
+								this.to = msg.to || '--';
+							break;
+							case TX_TYPE.transfer_token_owner:
+								this.symbol = msg.symbol || '--';
+								this.originalOwner = msg.src_owner || '--';
+								this.newOwner = msg.dst_owner || '--';
+							break;
 						}
 					}
 				} catch (e) {
