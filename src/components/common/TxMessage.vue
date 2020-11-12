@@ -1389,7 +1389,8 @@
 				maxSupply:'',
 				mintable:'',
 				originalOwner:'',
-				newOwner:''
+				newOwner:'',
+				superMode:''
 			}
 		},
 		computed: {
@@ -1951,7 +1952,7 @@
 			span:nth-of-type(1) {
 				margin-right: 0.15rem;
 				color: $t_second_c;
-				min-width: 1.5rem;
+				min-width: 1.52rem;
 				text-align: left;
 				font-size: $s14;
 				font-family: Arial;

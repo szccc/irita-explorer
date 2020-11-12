@@ -46,7 +46,7 @@ export const ExplorerLang = {
         bindTime:'Bind Time',
         disabledTime: 'Disabled Time',
         respondHash:'Respond Hash',
-        consumer:'Consumer:',
+        consumer:'Consumer',
         requestHash:'Request Hash',
         requestStatus:'Request Status',
         deposit: 'Deposit',

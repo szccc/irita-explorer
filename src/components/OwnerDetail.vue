@@ -295,7 +295,7 @@
 							<span v-if="!scope.row.consumer">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.requestHash')">
+					<el-table-column :min-width="ColumnMinWidth.requestHash" :label="$t('ExplorerLang.table.requestHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
@@ -339,11 +339,11 @@
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link v-if="row.moniker" class="address_link"
-												             :to="`/staking/${row.address}`">
+												             :to="Tools.addressRoute(row.address)">
 													{{formatMoniker(row.moniker)}}
 												</router-link>
 												<router-link v-if="!row.moniker" style="font-family:Arial"
-												             class="address_link" :to="`/staking/${row.address}`">
+												             class="address_link" :to="Tools.addressRoute(row.address)">
 													{{formatAddress(row.address)}}
 												</router-link>
 											</el-tooltip>
@@ -378,10 +378,13 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link style="font-family: Arial;"
-												             :to="'address/' + row.address"
-												             :style="{ color: '$theme_c !important' }">{{
-													formatAddress(row.address) }}
+												<router-link v-if="row.moniker" class="address_link"
+												             :to="Tools.addressRoute(row.address)">
+													{{formatMoniker(row.moniker)}}
+												</router-link>
+												<router-link v-if="!row.moniker" style="font-family:Arial"
+												             class="address_link" :to="Tools.addressRoute(row.address)">
+													{{formatAddress(row.address)}}
 												</router-link>
 											</el-tooltip>
 										</template>
@@ -485,7 +488,7 @@
 									      v-if="validatorStatus === 'jailed'">{{ $t('ExplorerLang.staking.status.jailed') }}</span>
 								</div>
 							</li>
-							<li class="address_information_detail_option" style="margin-top: 0.05rem">
+							<li class="address_information_detail_option address_information_detail_option_row" style="margin-top: 0.05rem">
 								<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.validatorRewards.operatorAddress') }}:</span>
 								<span class="address_information_detail_option_value">
 									<router-link v-show="OperatorAddress !== '--'" :to="`/staking/${OperatorAddress}`">{{OperatorAddress}}</router-link>
@@ -1963,7 +1966,10 @@
 						.address_information_detail_option {
 							padding-left: 0;
 							display: flex;
-							flex-direction: column;
+							.address_information_detail_option_value {
+								padding-right: 0.1rem;
+								word-break: break-word;
+							}
 						}
 						
 						.address_information_list_content {
@@ -1990,7 +1996,12 @@
 								}
 								
 								.address_information_detail_option_value {
+									word-break: break-word;
+									margin-right: 0;
 								}
+							}
+							.address_information_detail_option_row {
+								flex-direction: row;
 							}
 						}
 					}

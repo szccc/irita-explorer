@@ -32,7 +32,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="Amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.amount"></el-table-column>
-        <el-table-column prop="To" :label="$t('ExplorerLang.table.to')" :min-width="ColumnMinWidth.address">
+        <el-table-column prop="To" row-class-name="left" align="left" :label="$t('ExplorerLang.table.to')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
               <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.To }} Validators</router-link>
