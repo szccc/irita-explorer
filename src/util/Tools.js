@@ -349,7 +349,7 @@ export default class Tools {
       return `${tokens} / ${allTokens}`
   }
 
-  static formatPercentage (numerator,denominator) {
+  static formatPercentageNumbers (numerator,denominator) {
     let part = new BigNumber(numerator)
     let total = new BigNumber(denominator)
     let result = (part.dividedBy(total) * 100).toFixed(2) + '%'

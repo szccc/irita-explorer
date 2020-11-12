@@ -1646,9 +1646,9 @@
 								}
 								this.ownerAddress = msg.delegator_address || '--';
 								this.consensusPubkey = msg.pubkey;
-								this.commissionRate = `${Tools.formatPercentage(msg.commission.rate )} %`;
-								this.commissionMaxRate = `${Tools.formatPercentage(msg.commission.max_rate )} %`
-								this.commissionMaxChangeRate = `${Tools.formatPercentage(msg.commission.max_change_rate )} %`
+								this.commissionRate = `${Tools.formatPercentage(msg.commission.rate)} %`;
+								this.commissionMaxRate = `${Tools.formatPercentage(msg.commission.max_rate)} %`
+								this.commissionMaxChangeRate = `${Tools.formatPercentage(msg.commission.max_change_rate)} %`
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
 								this.minSelfDelegation = msg.min_self_delegation ? `${msg.min_self_delegation} ${mainToken.min_unit.toLowerCase()}` : '--'
