@@ -193,16 +193,16 @@ export default {
                                 itemObj.value = statistics.validatorCount;
                                 break;
                             case 203:
-                                itemObj.value = `${statistics.avgBlockTime} ${this.$t('ExplorerLang.unit.second')}`
+                                itemObj.value = `${statistics.avgBlockTime}s`
                                 break;
                             case 204:
                                 itemObj.value = statistics.assetCount
                                 break;
                             case 205:
-                                itemObj.value = statistics.serviceCount
+                                itemObj.value = statistics.denomCount
                                 break;
                             case 206:
-                                itemObj.value = statistics.denomCount
+                                itemObj.value = statistics.serviceCount
                                 break;
                             case 207:
                                 itemObj.value = statistics.identityCount
@@ -211,7 +211,7 @@ export default {
                                 itemObj.value = statistics.validatorNumCount
                                 break;
                             case 209:
-                                itemObj.value = Tools.formatPercentage(statistics.bonded_tokens,statistics.total_supply)
+                                itemObj.value = Tools.formatPercentageNumbers(statistics.bonded_tokens,statistics.total_supply)
                                 itemObj.footerLabel = Tools.formatBondedTokens(statistics.bonded_tokens,statistics.total_supply)
                                 break;
                         }

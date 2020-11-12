@@ -302,15 +302,11 @@ export default {
             result.map(async item => {
               let mintTokenData = item.msgs && item.msgs[0].msg
               let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
-              let amount = await converCoin({
-                amount: mintTokenData.amount,
-                denom: mainToken.min_unit,
-              })
               return {
                 owner: mintTokenData && mintTokenData.owner,
                 token: mintTokenData && mintTokenData.symbol,
                 mintTo: mintTokenData && mintTokenData.to,
-                amount: amount ? `${Tools.formatPriceToFixed(amount.amount, decimals.fee)} ${amount.denom.toUpperCase()}` || '--' : '--',
+                amount: (mintTokenData && Tools.formatPriceToFixed(mintTokenData.amount, decimals.fee)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
                 fee: fee ? `${Tools.formatPriceToFixed(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',

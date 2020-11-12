@@ -335,7 +335,7 @@
 										if (item.msgs && item.msgs.length === 1) {
 											formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
 											// amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) :'--'
-											amount = item.msgs[0] ? await getAmountByTx(item.msgs[0]) : '--'
+											amount = item.msgs[0] ? await getAmountByTx(item.msgs[0],item.events) : '--'
 										} else {
 											formTO = '--'
 										}

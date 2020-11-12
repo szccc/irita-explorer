@@ -9,7 +9,7 @@
                 <h3 class="service_information_definition_title">
                     {{$t('ExplorerLang.serviceDetail.primary')}}
                 </h3>
-                <div class="service_information_content">
+                <div class="service_information_content" :class="productionConfig.lang === 'CN' ? 'cn': ''">
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.description')}}：</span>
                         <span>{{description}}</span>
@@ -248,12 +248,14 @@
     } from "../service/api";
     import { TxHelper } from "../helper/TxHelper";
     import LargeString from './common/LargeString';
+    import productionConfig from '@/productionConfig.js'
     export default {
         name : "ServiceInformation",
         components : {MPagination,LargeString},
         data(){
             return {
                 TX_STATUS,
+                productionConfig,
                 ColumnMinWidth,
                 from : '',
                 chainId : '',
@@ -530,7 +532,7 @@
                             color: $t_first_c;
                             flex: 1;
                             text-align: left;
-                            word-break: break-all;
+                            word-break: break-word;
                         }
                     }
                     .service_information_text_content:last-child {
@@ -681,6 +683,7 @@
             .service_information_content_wrap {
 
                 .service_information_definition_content {
+                    padding: 0.12rem;
                     .service_information_definition_title {
 
                     }
@@ -689,12 +692,30 @@
                         .service_information_text_content {
 
                             span:nth-of-type(1) {
-                                min-width: 1rem;
+                                min-width: 1.4rem;
+                                margin-right: 0.16rem;
+                                word-break: break-word;
                             }
                             span:last-child {
 
                             }
                         }
+
+                        .service_information_text_content:last-child {
+
+                        }
+                    }
+                    .cn {
+                        .service_information_text_content {
+
+                            span:nth-of-type(1) {
+                                min-width: 0.8rem !important;
+                            }
+                            span:last-child {
+
+                            }
+                        }
+
                         .service_information_text_content:last-child {
 
                         }
