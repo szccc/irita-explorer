@@ -95,7 +95,7 @@ export const ExplorerLang = {
         blocks:'Blocks',
         totalRespond:'Total ${%value%} Responds',
         Txs:'Txs',
-        second:'Second',
+        // second:'Second',
     },
     message:{
         requestFailed:'Failed to get data, please try again later',
@@ -118,7 +118,7 @@ export const ExplorerLang = {
         validators: 'Consensus Nodes',
         services: 'iService',
         denoms:'Denom',
-        assets: 'NFT',
+        assets: 'NFTs',
         identities: 'Idendity',
         blocks: 'Blocks',
         viewAll: 'View All',

@@ -80,19 +80,30 @@ export default class Tools {
   /**
    * 转换时间格式
    * */
+  // static getDisplayDate(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
+  //   return moment(timestamp * 1000)
+  //     .utcOffset(+480)
+  //     .format(format)
+  // }
   static getDisplayDate(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
     return moment(timestamp * 1000)
-      .utcOffset(+480)
+      .local()
       .format(format)
   }
+
+  // static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
+  //   return moment(date)
+  //     .utcOffset(+480)
+  //     .format(format)
+  // }
 
   static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
     return moment(date)
-      .utcOffset(+480)
+      .local()
       .format(format)
   }
 
-  static getTimestamp() {
+  static getTimestamp () {
     return Math.floor(new Date().getTime() / 1000)
   }
 

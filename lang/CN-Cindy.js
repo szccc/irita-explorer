@@ -95,7 +95,7 @@ export const ExplorerLang = {
         blocks:'blocks',
         totalRespond:'共 ${%value%} 条回复',
         Txs:'Txs',
-        second:'秒',
+        // second:'秒',
     },
     message:{
         requestFailed:'数据获取失败,请稍后重试',
