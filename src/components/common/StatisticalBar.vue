@@ -211,12 +211,13 @@ export default {
                                 itemObj.value = statistics.validatorNumCount
                                 break;
                             case 209:
-                                if(total_supply) {
+                                if(statistics.total_supply) {
                                     itemObj.value = Tools.formatPercentageNumbers(statistics.bonded_tokens,statistics.total_supply)
                                     itemObj.footerLabel = Tools.formatBondedTokens(statistics.bonded_tokens,statistics.total_supply)
-                                } 
-                                itemObj.value = '--';
-                                itemObj.footerLabel = `${statistics.bonded_tokens || '--'} / ${statistics.total_supply || '--'}`;
+                                } else {
+                                    itemObj.value = '--';
+                                    itemObj.footerLabel = `${statistics.bonded_tokens || '--'} / ${statistics.total_supply || '--'}`;
+                                }
                                 break;
                         }
                         this.navigationArray.push(itemObj)
