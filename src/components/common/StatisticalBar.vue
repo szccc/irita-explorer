@@ -214,9 +214,10 @@ export default {
                                 if(statistics.total_supply) {
                                     itemObj.value = Tools.formatPercentageNumbers(statistics.bonded_tokens,statistics.total_supply)
                                     itemObj.footerLabel = Tools.formatBondedTokens(statistics.bonded_tokens,statistics.total_supply)
-                                } 
-                                itemObj.value = '--';
-                                itemObj.footerLabel = `${statistics.bonded_tokens || '--'} / ${statistics.total_supply || '--'}`;
+                                } else {
+                                    itemObj.value = '--';
+                                    itemObj.footerLabel = `${statistics.bonded_tokens || '--'} / ${statistics.total_supply || '--'}`;
+                                }
                                 break;
                         }
                         this.navigationArray.push(itemObj)
