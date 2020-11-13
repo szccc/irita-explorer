@@ -243,7 +243,7 @@
 			}
 			.home_block_and_transaction_content{
 				display: flex;
-				margin: 0.2rem 0 1rem 0;
+				margin: 0.2rem 0 0.6rem 0;
 				.home_block_content{
 					flex: 1;
 					margin-right: 0.2rem;
@@ -446,6 +446,100 @@
 					}
 					.home_transaction_content{
 						margin-top:0.2rem;
+						.home_transaction_top_content{
+							
+							.home_transaction_top_title{
+								i{
+								
+								}
+								span{
+								
+								}
+							}
+							.home_transaction_view_all{
+								a{
+								
+								}
+								
+								
+							}
+						}
+						.home_transaction_bottom_content{
+							
+							.home_transaction_list_item_content{
+								
+								.home_transaction_time_content{
+									
+									.home_transaction{
+										
+										a{
+										
+										}
+									}
+								}
+								.home_tx_type_content{
+								
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 405px) {
+		.home_container{
+			.home_content_wrap{
+				.home_content_header_content{
+				}
+				.home_block_and_transaction_content{
+					margin: 0.2rem 0 0.3rem 0;
+					.home_block_content{
+						padding: 0.27rem 0.12rem 0.18rem 0.12rem;
+						.home_block_top_content{
+							.home_block_top_title{
+								i{
+								
+								}
+								span{
+								
+								}
+							}
+							.home_block_view_all{
+								a{
+
+								}
+							}
+						}
+						.home_block_bottom_content{
+							
+							.home_block_list_item_content{
+								
+								.home_block_time_content{
+									
+									.home_block{
+										a{
+										
+										}
+									}
+								}
+								.home_tx_time_content{
+									
+									.home_tx{
+										span{
+										
+										}
+									}
+								}
+							}
+							.animation{
+							
+							}
+						}
+						
+					}
+					.home_transaction_content{
+						padding: 0.27rem 0.12rem 0.18rem 0.12rem;
 						.home_transaction_top_content{
 							
 							.home_transaction_top_title{

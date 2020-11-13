@@ -114,7 +114,7 @@
 						borderWidth: 1,
 						formatter:  (obj) => {
 							let value = obj.value;
-							return `<div>
+							return `<div class='tooltip'>
 										<p>${value[2]}</p>
 										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.commissionRate')}:${value[0]}%</p>
 										<p>${this.$t('ExplorerLang.validatorDetail.commissionInfo.scatter.tooltip.bondedTokens')}:<br/>${new bigNumber(value[1]).toFormat()} ${mainToken.symbol.toUpperCase()}</p>
