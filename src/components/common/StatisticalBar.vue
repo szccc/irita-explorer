@@ -211,8 +211,12 @@ export default {
                                 itemObj.value = statistics.validatorNumCount
                                 break;
                             case 209:
-                                itemObj.value = Tools.formatPercentageNumbers(statistics.bonded_tokens,statistics.total_supply)
-                                itemObj.footerLabel = Tools.formatBondedTokens(statistics.bonded_tokens,statistics.total_supply)
+                                if(total_supply) {
+                                    itemObj.value = Tools.formatPercentageNumbers(statistics.bonded_tokens,statistics.total_supply)
+                                    itemObj.footerLabel = Tools.formatBondedTokens(statistics.bonded_tokens,statistics.total_supply)
+                                } 
+                                itemObj.value = '--';
+                                itemObj.footerLabel = `${statistics.bonded_tokens || '--'} / ${statistics.total_supply || '--'}`;
                                 break;
                         }
                         this.navigationArray.push(itemObj)

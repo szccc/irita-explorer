@@ -62,7 +62,6 @@
                                     {{scope.row.isAvailable}}
                                 </span>
                             </div>
-
                         </template>
                         </el-table-column>
                         <!-- <el-table-column :min-width="ColumnMinWidth.price" :label="$t('ExplorerLang.table.price')" prop="price"></el-table-column> -->
@@ -478,6 +477,11 @@
                     .el-table {
                         min-width: 10rem;
                     }
+                }
+            }
+            @media (max-width: 767px) {
+                .service_list_content {
+                    padding: 0.28rem 0.12rem 0.18rem 0.12rem;
                 }
             }
 		}
