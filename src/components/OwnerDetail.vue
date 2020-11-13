@@ -488,7 +488,7 @@
 									      v-if="validatorStatus === 'jailed'">{{ $t('ExplorerLang.staking.status.jailed') }}</span>
 								</div>
 							</li>
-							<li class="address_information_detail_option address_information_detail_option_row" style="margin-top: 0.05rem">
+							<li class="address_information_detail_option" style="margin-top: 0.05rem">
 								<span class="address_information_detail_option_name">{{ $t('ExplorerLang.addressInformation.validatorRewards.operatorAddress') }}:</span>
 								<span class="address_information_detail_option_value">
 									<router-link v-show="OperatorAddress !== '--'" :to="`/staking/${OperatorAddress}`">{{OperatorAddress}}</router-link>
@@ -1728,7 +1728,6 @@
 						
 						.address_information_detail_option_value {
 							font-size: $s14;
-							
 							a {
 								color: $theme_c !important;
 							}
@@ -1781,7 +1780,7 @@
 							align-items: center;
 							
 							.address_information_detail_option_name {
-								width: 1.3rem;
+								min-width: 1.3rem;
 								font-size: $s14;
 								color: $t_second_c;
 								line-height: 0.16rem;
@@ -1987,9 +1986,11 @@
 						.address_information_detail_content {
 							.address_information_detail_option {
 								display: flex;
-								align-items: flex-start;
-								flex-direction: column;
-								
+								align-items: center;
+								flex-direction: row;
+								.address_information_detail_option_name {
+									margin-right: 0.05rem;
+								}
 								.validator_status_content {
 									display: flex;
 									margin: 0.05rem 0;
@@ -1997,11 +1998,7 @@
 								
 								.address_information_detail_option_value {
 									word-break: break-word;
-									margin-right: 0;
 								}
-							}
-							.address_information_detail_option_row {
-								flex-direction: row;
 							}
 						}
 					}
@@ -2195,6 +2192,154 @@
 				}
 				
 				.pagination_content {
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 551px) {
+		.address_container_content {
+			.address_content_wrap {
+				.address_content_title {
+					.address_content_title_first {
+					}
+					
+					.address_content_title_address {
+					}
+				}
+				
+				.address_asset_content {
+				}
+				
+				.consumer_transaction_content {
+					.consumer_transaction_content_hash {
+					}
+					
+					.consumer_transaction_content_available {
+						.consumer_transaction_content_available_icon {
+						}
+					}
+					
+					.pagination_content {
+					}
+				}
+				
+				.provider_transaction_content {
+					.respond_transaction_content_hash {
+					}
+					
+					.provider_transaction_content_available {
+						.provider_transaction_content_available_icon {
+						}
+					}
+					
+					.pagination_content {
+					}
+				}
+				
+				.address_transaction_content {
+					.address_transaction_content_hash {
+					}
+					
+					.address_transaction_condition_container {
+						.address_transaction_condition_count {
+						}
+						
+						/deep/ .el-select {
+							.el-input {
+								.el-input__inner {
+								}
+								
+								.el-input__inner:focus {
+								}
+								
+								.el-input__suffix {
+									.el-input__suffix-inner {
+										.el-input__icon {
+										}
+									}
+								}
+							}
+							
+							.is-focus {
+								.el-input__inner {
+								}
+							}
+						}
+						
+						.search_btn {
+						}
+						
+						.reset_btn {
+							i {
+							}
+						}
+					}
+					
+					.pagination_content {
+					}
+				}
+				
+				.content_title {
+				}
+				
+				.status_icon {
+				}
+				
+				.delegations_wrap {
+					.delegations_container {
+						.validator_information_content_title {
+						}
+						
+						.one_table_container {
+						}
+						
+						.second_table_container {
+						}
+						
+						.delegations_table_container {
+						}
+						
+						.common_pagination_content {
+						}
+					}
+				}
+				
+				.address_information_redelegation_header_title {
+				}
+				
+				.address_information_redelegation_tx_container {
+					.address_information_delegator_rewards_content {				
+						.address_information_detail_option {
+							.address_information_detail_option_value {
+							}
+						}
+						
+						.address_information_list_content {
+						}
+					}
+					
+					.address_information_detail_container {
+						.address_information_redelegation_title {
+						}
+						
+						.address_information_detail_content {
+							.address_information_detail_option {
+								
+								.address_information_detail_option_name {
+									min-width: 1.2rem;
+									margin-right: 0.01rem;
+								}
+								.validator_status_content {
+								}
+								
+								.address_information_detail_option_value {
+								}
+							}
+						}
+					}
+					
+					.hide_style {
+					}
 				}
 			}
 		}
