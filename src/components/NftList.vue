@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<div class="nef_list_table_container">
-				<el-table class="table" :data="denomArray" :empty-text="$t('ExplorerLang.table.emptyDescription')" :default-sort="{ prop: 'time', order: 'descending' }">
+				<el-table class="table" :data="denomArray" :empty-text="$t('ExplorerLang.table.emptyDescription')" :default-sort="{ prop: 'last_block_time', order: 'descending' }">
 					<el-table-column :min-width="ColumnMinWidth.nftListDenom" show-overflow-tooltip :label="$t('ExplorerLang.table.denom')">
 						<template slot-scope="scope">
 							{{scope.row.denom_name || scope.row.denom_id}}
@@ -26,11 +26,14 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.owner')" >
 						<template slot-scope="scope">
-							<el-tooltip :content="scope.row.owner"
+							<el-tooltip 
+										:content="scope.row.owner"
 										class="item"
 										placement="top"
-										effect="dark">
-								<router-link :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
+										effect="dark"
+										:disabled="!scope.row.owner">
+								<span v-if="!scope.row.owner">{{formatAddress(scope.row.owner)}}</span>
+								<router-link v-else :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
 							</el-tooltip>
 						</template>
 					</el-table-column>
@@ -57,9 +60,9 @@
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
+					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="last_block_time">
 						<template slot-scope="scope">
-							<span>{{scope.row.time}}</span>
+							<span>{{scope.row.last_block_time}}</span>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -153,7 +156,7 @@
 					if(nftData && nftData.data){
 						this.allCount = nftData.count;
 						nftData.data.forEach(item => {
-							item.time ?	item.time = Tools.getDisplayDate(item.time) : item.time = '--'
+							item.last_block_time ?	item.last_block_time = Tools.getDisplayDate(item.last_block_time) : item.last_block_time = '--'
 						});
 						this.denomArray = nftData.data
 					}else {
