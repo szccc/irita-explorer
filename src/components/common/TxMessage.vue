@@ -153,7 +153,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					<a v-if="tokenUri !== '--'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					<span v-else>{{tokenUri}}</span>
 				</template>
 			</p>
@@ -197,7 +197,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					<a v-if="tokenUri !== '--'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					<span v-else>{{tokenUri}}</span>
 				</template>
 			</p>
@@ -233,7 +233,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					<a v-if="tokenUri !== '--'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					<span v-else>{{tokenUri}}</span>
 				</template>
 			</p>
