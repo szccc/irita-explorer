@@ -67,7 +67,7 @@
 				<TxListComponent :txData="transactionArray"></TxListComponent>
 			</div>
 			<!-- Validator Set 表格 -->
-			<div class="block_validator_set_container">
+			<div class="block_validator_set_container" v-if="moduleSupport('107', prodConfig.navFuncList)">
 				<div class="block_validator_set_title">{{$t('ExplorerLang.blockDetail.validatorSet')}}</div>
 				<div class="block_validator_set_content">
 					<el-table class="table"  :data="validatorSetList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
