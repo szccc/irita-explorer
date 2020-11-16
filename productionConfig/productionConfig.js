@@ -9,8 +9,23 @@
     "107":"Vaildators",
     "108":"Delegation Txs",
     "109":"Validation Txs",
+    "110":"Native Asset",
+    "111":"Native Asset Txs",
     "1000":"搜索"(排在末尾)
     "1001":"网络切换"(排在末尾)}*/
+
+/*首页指标映射id{
+    "200":"最新区块"(排在首位),
+    "201":"交易数量",
+    "202":"共识节点数",
+    "203":"平均出块时间",
+    "204":"数据对象数量",
+    "205":"数据类别数量",
+    "206":"服务数量",
+    "207":"身份ID数量",
+    "208":"验证人数量",
+    "209":"质押率",
+*/
 
 let config = {
   //国际化 CN / EN 默认CN
@@ -67,21 +82,18 @@ let config = {
         { title: 'Validation Txs', id: '109' },
       ],
     },
+    {
+      title: 'Asset',
+      children: [
+        { title: 'Native Asset', id: '110' },
+        { title: 'Native Asset Txs', id: '111' },
+      ],
+    },
     '1000',
     '1001',
   ],
   //首页卡片配置
-  homeCard: {
-    lestBlock:true,
-    txCount:true,
-    validatorCount:true,
-    avgBlockTime:true,
-    serviceCount:true,
-    DenomCount:true,
-    assetCount:true,
-    identityCount:true,
-    
-  },
+  homeCard:[200,201,202,203,204,205,206,207,208,209],
   text: {
     //预设字体颜色
     color: {

@@ -10,13 +10,13 @@
 						<ul class="address_information_content">
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.address') }}:</span>
-								<p style="min-width: 3.53rem">
+								<p>
 									<span>{{address}}<m-clip :text="address" style="margin-left: 0.09rem"></m-clip><span class="profiler_content" v-if="isProfiler">Profiler</span></span>
 								</p>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
-								<span class="address_information_value">{{ data[0] ? data[0].token : '--' }}</span>
+								<span class="address_information_value">{{ mainToken ||'--' }}</span>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
@@ -113,7 +113,11 @@
 				unbonding:'',
 				rewards:'',
 				otherTokenList:[],
+				mainToken:''
 			}
+		},
+		created() {
+			this.getCurrentMainToken()
 		},
 		watch:{
 			data(){
@@ -134,9 +138,8 @@
 			},
 
 			async formatAssetInformation(assetInformation){
-				let mainToken = await getMainToken();
 				assetInformation.forEach( item => {
-					if(item && item.token === (mainToken.symbol || '').toUpperCase()){
+					if(item && item.token === (this.mainToken || '').toUpperCase()){
 						this.totalAmount = item.totalAmount;
 						this.assetConstitute.forEach( res => {
 							 if(res.status === 'UnBonding'){
@@ -153,7 +156,7 @@
 					}
 				});
 				this.otherTokenList = assetInformation.filter((item) => {
-					return item.token !== (mainToken.symbol || '').toUpperCase()
+					return item.token !== (this.mainToken || '').toUpperCase()
 				})
 			},
 			formatDecimalNumberToFixedNumber(total,data) {
@@ -166,6 +169,10 @@
 					num = this.numFormat.num
 				}
 				return num;
+			},
+			async getCurrentMainToken() {
+				let mainToken = await getMainToken();
+				this.mainToken = mainToken && mainToken.symbol.toUpperCase()
 			}
 		}
 	}
@@ -173,7 +180,7 @@
 
 <style scoped lang="scss">
 .address_information_component_container{
-	padding-top: 0.14rem;
+	// padding-top: 0.14rem;
 	.address_information_component_wrap{
 		max-width: 12.8rem;
 		margin: 0 auto;
@@ -392,6 +399,24 @@
 	@media screen and (max-width: 910px){
 		.address_information_component_container{
 			padding-top: 0;
+			.address_information_component_wrap{
+				.address_information_component_content{
+					.address_information_asset_content{
+						.address_information_asset_total_content{
+							.address_information_content{
+								.address_information_item{
+								}
+							}
+						}
+						.address_information_asset_constitute_content{
+							.address_information_asset_constitute_item:first-child{
+							}
+						}
+					}
+					.address_information_asset_list_container{
+					}
+				}
+			}
 		}
 	}
 </style>

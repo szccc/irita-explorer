@@ -12,6 +12,7 @@
                         </el-select>-->
                         
                         <el-cascader
+                            class="tx_type_transactions"
                             popper-class="tooltip"
                             :placeholder="$t('ExplorerLang.common.allTxType')"
                             v-model="txTypeArray"
@@ -129,7 +130,7 @@
                 urlParamsShowEndTime : this.getParamsByUrlHash().urlParamShowEndTime ? this.getParamsByUrlHash().urlParamShowEndTime : '',*/
                 txStatus : '',
                 pageNum: pageNum ? pageNum : 1,
-                pageSize: pageSize ? pageSize : 10,
+                pageSize: pageSize ? pageSize : 30,
                 txTypeArray:['']
             }
         },
@@ -364,7 +365,9 @@
                                 margin-left:0;
                             }
                         }
-
+                        .tx_type_transactions {
+                            margin-right: 0.26rem !important;
+                        }
                     }
                 }
             }

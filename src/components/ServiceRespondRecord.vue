@@ -9,19 +9,18 @@
                 </span>
                 <span class="service_respond_record_provider">
                     {{$t('ExplorerLang.serviceDetail.provider')}}
+                    <span class="service_respond_record_provider_content">
+                        <router-link :to="`/address/${$route.params.provider}`">
+                            {{$route.params.provider}}
+                        </router-link>
+                    </span>
                 </span>
-                <span class="service_respond_record_provider_content">
-                    <router-link :to="`/address/${$route.params.provider}`">
-                        {{$route.params.provider}}
-                    </router-link>
-                </span>
-
             </p>
             <div class="service_respond_record_definition_content">
                 <h3 class="service_respond_record_definition_title">
                     {{$t('ExplorerLang.serviceDetail.primary')}}
                 </h3>
-                <div class="service_respond_record_content">
+                <div class="service_respond_record_content" :class="productionConfig.lang === 'CN' ? 'cn': ''">
                     <p class="service_respond_record_text_content">
                         <span>{{$t('ExplorerLang.table.isAvailable')}}:</span>
                         <span>{{isAvailable}}</span>
@@ -72,7 +71,7 @@
                 </h3>
                 <div class="service_respond_record_transaction_table_content">
                     <el-table class="table" :data="txList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.respondHash')">
+                        <el-table-column :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.respondStatus === TX_STATUS.success"
@@ -103,7 +102,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+                        <el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
                             <template slot-scope="scope">
                                 <router-link :to="`/block/${scope.row.height}`">
                                     {{scope.row.height}}
@@ -122,7 +121,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.txHash"
+                        <el-table-column :min-width="ColumnMinWidth.requestHash"
                                          :label="$t('ExplorerLang.table.requestHash')">
                                 <template slot-scope="scope">
                                     <img class="service_tx_status"
@@ -161,13 +160,15 @@
         getServiceBindingByServiceName,
     } from "../service/api";
     import { TX_STATUS,ColumnMinWidth } from '../constant';
-    import { converCoin } from '../helper/IritaHelper'
+    import { converCoin } from '../helper/IritaHelper';
+    import productionConfig from '@/productionConfig.js';
     export default {
         name : "ServiceInformation",
         components : {MPagination},
         data(){
             return {
                 TX_STATUS,
+                productionConfig,
                 ColumnMinWidth,
                 txList : [],
                 txPageSize : 10,
@@ -334,7 +335,7 @@
                 }
                 .service_respond_record_provider_content {
                     font-size: $s14;
-
+                    word-break: break-word;
                 }
 
             }
@@ -484,10 +485,26 @@
             .service_respond_record_content_wrap {
 
                 .service_respond_record_definition_content {
+                    padding: 0.12rem;
                     .service_respond_record_definition_title {
 
                     }
                     .service_respond_record_content {
+
+                        .service_respond_record_text_content {
+
+                            span:nth-of-type(1) {
+                                min-width: 1.8rem;
+                            }
+                            span:last-child {
+
+                            }
+                        }
+                        .service_respond_record_text_content:last-child {
+
+                        }
+                    }
+                    .cn {
 
                         .service_respond_record_text_content {
 
@@ -504,6 +521,7 @@
                     }
                 }
                 .service_respond_record_transaction_content {
+                    padding: 0.12rem;
                     .service_respond_record_transaction_title {
 
                     }

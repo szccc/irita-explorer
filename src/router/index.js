@@ -86,6 +86,18 @@ const router = new Router({
 			path: '/staking/:param',
 			component: () => import('@/components/Staking/ValidatorDetail.vue'),
 		},
+		{
+			path: '/assets/ntvassets',
+			component: () => import('@/components/Asset/NativeAssetsList.vue'),
+		},
+		{
+			path: '/assets/ntvassetstxs',
+			component: () => import('@/components/Asset/NativeAssetsTxs.vue'),
+		},
+		{
+			path: '/assets/:param',
+			component: () => import('@/components/Asset/AssetInformation.vue'),
+		},
 	]
 })
 export default router

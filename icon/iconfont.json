@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17954118",
+      "name": "Bonded Tokens",
+      "font_class": "BondedTokens",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
       "icon_id": "17473004",
       "name": " 数据类别",
       "font_class": "shujuleibie",

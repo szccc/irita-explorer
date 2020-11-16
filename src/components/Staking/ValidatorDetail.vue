@@ -231,13 +231,13 @@
 				const res = await getDelegationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.delegationTxs.total = res.count
 				this.delegationTxs.items = []
-				res.data.forEach(async (item) => {
+				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
 					let amount = '--'
 					if (item.msgs && item.msgs.length === 1) {
 						formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
 						// amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) :'--'
-						amount = item.msgs[0] ? await getAmountByTx(item.msgs[0]) : '--'
+						amount = item.msgs[0] ? await getAmountByTx(item.msgs[0],item.events) : '--'
 					} else {
 						formTO = '--'
 					}
@@ -264,14 +264,14 @@
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
-					})
-				})
+					})					
+				}
 			},
 			async getValidationTxs (page = 1) {
 				const res = await getValidationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.validationTxs.total = res.count
 				this.validationTxs.items = []
-				res.data.forEach(async (item) => {
+				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0
 					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 					const time = Tools.getDisplayDate(item.time)
@@ -283,7 +283,6 @@
 							OperatorMonikers = OperatorMonikers || it[OperatorAddr] || ''
 						})
 					}
-					// console.log('OperatorAddr:',OperatorAddr,'OperatorMonikers',OperatorMonikers)
 					this.validationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
@@ -297,8 +296,8 @@
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,
-					})
-				})
+					})				
+				}
 			},
 			formatAddress (address) {
 				return Tools.formatValidatorAddress(address)
@@ -312,7 +311,7 @@
 				if (!moniker) {
 					return ''
 				}
-				return Tools.formatString(moniker, 15, '...')
+				return Tools.formatString(moniker, 8, '...')
 			},
 			getDisplayTxType(types=[]){
 				let type = types[0] || '';
@@ -416,14 +415,6 @@
 							width:0.13rem;
 							height:0.13rem;
 							margin-right:0.05rem;
-						}
-						
-						/deep/ .el-table_3_column_12 {
-							text-align: right;
-						}
-						
-						/deep/ .el-table_3_column_13 {
-							text-align: left;
 						}
 					}
 					

@@ -124,27 +124,31 @@ export const ValidatorStatus = {
 
 export const ColumnMinWidth = {
   txHash: '103',
-  respondHash:'107',
+  addressTxHash: '114',
+  respondHash:'128',
+  requestHash:'118',
   blockHeight: '68',
+  blockListHeight: '76',
   txType: '194',
   address: '126',
-  time: '150',
-  txn: '',
+  // time: '150',
+  time: '155',
+  txn: '115',
   blockAge: '120',
   validatirName: '120',
   votingPower: '120',
   publickKey: '450',
   denom: '150',
-  tokenId: '141',
+  tokenId: '120',
   denomId: '150',
   schema: '380',
   URI: '260',
-  respondTimes: '100',
+  respondTimes: '129',
   available: '100',
-  qos: '130',
+  qos: '195',
   requestId: '130',
-  state: '120',
-  serviceName: '120',
+  state: '127',
+  serviceName: '135',
   No: '50',
   price: '120',
   deposit: '120',
@@ -164,6 +168,8 @@ export const ColumnMinWidth = {
   bondHeight: '122',
   unbondingHeight: '155',
   amount: '110',
+  delegationTxsAmount: '155',
+  delegationTxsFrom: '90',
   shares: '213',
   fee: '110',
   consensus: '340',
@@ -171,7 +177,14 @@ export const ColumnMinWidth = {
   message: '90',
   validatorMoniker: '150',
   validatorSelfBond: '150',
-  timestamp: '145'
+  nftListDenom: '100',
+  nftListDate:'280',
+  timestamp: '145',
+  symbol: '121',
+  assetListowner: '430',
+  totalSupply: '160',
+  maxSupply: '127',
+  mintable:'90'
 }
 
 export const ModuleMap = {
@@ -214,6 +227,14 @@ export const ModuleMap = {
   '109': {
     title: 'Validation Txs',
     link: '/txs/validations',
+  },
+  '110': {
+    title: 'Native Asset',
+    link: '/assets/ntvassets',
+  },
+  '111': {
+    title: 'Native Asset',
+    link: '/assets/ntvassetstxs',
   },
 }
 

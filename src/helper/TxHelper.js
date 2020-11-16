@@ -105,6 +105,20 @@ export class TxHelper {
                 res.from = msg.validator_src_address;
                 res.to = msg.validator_dst_address;
                 break;
+            case TX_TYPE.issue_token:
+                res.from = msg.owner;
+                break;
+            case TX_TYPE.edit_token:
+                res.from = msg.owner;
+                break;
+            case TX_TYPE.mint_token:
+                res.from = msg.owner;
+                res.to = msg.to;
+                break;
+            case TX_TYPE.transfer_token_owner:
+                res.from = msg.src_owner;
+                res.to = msg.dst_owner;
+                break;   
         }
         return res;
     }

@@ -1,7 +1,7 @@
 import {TX_TYPE,decimals} from "../constant";
 import { converCoin } from "../helper/IritaHelper"
 import Tools from '@/util/Tools'
-export async function getAmountByTx (message) {
+export async function getAmountByTx (message,events) {
 	let amountDecimals = decimals.amount
 	if (message ) {
 		let msg = message.msg;
@@ -46,6 +46,22 @@ export async function getAmountByTx (message) {
 				break;
 			case TX_TYPE.create_validator:
 			case TX_TYPE.withdraw_delegator_reward:
+				(events || []).forEach((item) => {
+					if(item.type === 'withdraw_rewards') {
+						(item.attributes || []).forEach((attr) => {
+							if (attr.key == 'amount') {
+								amount = attr.value || '--';
+							}
+						});
+					}
+				});
+				if( amount && amount !== '--' && typeof amount !== 'object') {
+					amount = await converCoin(amount);
+					amount = `${Tools.formatPriceToFixed(amount.amount,amountDecimals)} ${amount.denom.toUpperCase()}`;
+				} else {
+					amount = '--'
+				}
+				break;
 			case TX_TYPE.withdraw_validator_commission:
 			case TX_TYPE.set_withdraw_address:
 			case TX_TYPE.begin_unbonding:

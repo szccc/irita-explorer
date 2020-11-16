@@ -109,7 +109,8 @@
 				],
 				listTitleName: "",
 				count: sessionStorage.getItem("txTotal") ? Number(sessionStorage.getItem("txTotal")) : 0,
-				pageSize: 30,
+				pageSize: 10,
+				delegationPageSize:10,
 				showNoData: false,
 				flShowLoading: false,
 				value: this.getParamsByUrlHash().txType ? this.getParamsByUrlHash().txType : 'allTxType',
@@ -199,7 +200,7 @@
 				this.currentPageNum = 1;
 				sessionStorage.setItem('txpagenum', 1);
 				history.pushState(null, null, `/#${this.$route.path}?txType=${this.TxType}&status=${this.txStatus}&startTime=${this.urlParamsShowStartTime}&endTime=${this.urlParamsShowEndTime}&page=1`);
-				this.getTxListByFilterCondition();
+				this.getTxListByFilterCondition();		
 			},
 			resetUrl () {
 				this.value = 'allTxType';
@@ -328,46 +329,43 @@
 							sessionStorage.setItem('txpagenum', JSON.stringify(this.totalPageNum));
 							if (res.data) {
 								this.txList = []
-								// let amount = '--'
-								res.data.forEach(async (item) => {
-									setTimeout(async()=> {
-										if(item) {
-											let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
-											let amount = '--'
-											if (item.msgs && item.msgs.length === 1) {
-												formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
-												// amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) :'--'
-												amount = item.msgs[0] ? await getAmountByTx(item.msgs[0]) : '--'
-											} else {
-												formTO = '--'
-											}
-											let fromMonikers,toMonikers
-											if(item.monikers.length) {
-												item.monikers.map( it => {
-													toMonikers = toMonikers|| it[formTO.to] || ''
-													fromMonikers = fromMonikers || it[formTO.from] || ''
-												})
-											}
-											const time = Tools.getDisplayDate(item.time)
-											const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
-											this.txList.push({
-												Tx_Hash: item.tx_hash,
-												Block: item.height,
-												From: formTO.from || "--",
-												fromMonikers,
-												Amount: amount,
-												To: formTO.to || '--',
-												toMonikers,
-												Tx_Type: (item.msgs || []).map(item=>item.type),
-												MsgsNum: msgsNumber,
-												Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
-												Tx_Signer: item.signers[0] ? item.signers[0] : '--',
-												Tx_Status: TxStatus[item.status],
-												Timestamp: time,
+								for (const item of res.data) {
+									if(item) {
+										let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
+										let amount = '--'
+										if (item.msgs && item.msgs.length === 1) {
+											formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
+											// amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) :'--'
+											amount = item.msgs[0] ? await getAmountByTx(item.msgs[0],item.events) : '--'
+										} else {
+											formTO = '--'
+										}
+										let fromMonikers,toMonikers
+										if(item.monikers.length) {
+											item.monikers.map( it => {
+												toMonikers = toMonikers|| it[formTO.to] || ''
+												fromMonikers = fromMonikers || it[formTO.from] || ''
 											})
 										}
-									},0)
-								})
+										const time = Tools.getDisplayDate(item.time)
+										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+										this.txList.push({
+											Tx_Hash: item.tx_hash,
+											Block: item.height,
+											From: formTO.from || "--",
+											fromMonikers,
+											Amount: amount,
+											To: formTO.to || '--',
+											toMonikers,
+											Tx_Type: (item.msgs || []).map(item=>item.type),
+											MsgsNum: msgsNumber,
+											Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+											Tx_Signer: item.signers[0] ? item.signers[0] : '--',
+											Tx_Status: TxStatus[item.status],
+											Timestamp: time,
+										})
+									}
+								}
 							} else {
 								this.txList = [];
 								this.showNoData = true;
@@ -392,33 +390,35 @@
 							sessionStorage.setItem('txpagenum', JSON.stringify(this.totalPageNum));
 							if (res.data) {
 								this.txList = []
-								res.data.forEach(async (item) => {
-									let msgsNumber = item.msgs ? item.msgs.length : 0
-									const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
-									const time = Tools.getDisplayDate(item.time)
-									// let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--'
-									let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
-									let OperatorMonikers
-									if(item.monikers.length) {
-										item.monikers.map( it => {
-											OperatorMonikers = OperatorMonikers || it[OperatorAddr] || ''
+								for (const item of res.data) {
+									if(item) {
+										let msgsNumber = item.msgs ? item.msgs.length : 0
+										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+										const time = Tools.getDisplayDate(item.time)
+										// let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--'
+										let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
+										let OperatorMonikers
+										if(item.monikers.length) {
+											item.monikers.map( it => {
+												OperatorMonikers = OperatorMonikers || it[OperatorAddr] || ''
+											})
+										}
+										this.txList.push({
+												Tx_Hash: item.tx_hash,
+												Block: item.height,
+												// Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
+												OperatorAddr,
+												OperatorMonikers: OperatorMonikers || '--',
+												SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--' : '--',
+												'Tx_Type': (item.msgs || []).map(item=>item.type),
+												MsgsNum: msgsNumber,
+												'Tx_Fee': fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+												'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
+												'Tx_Status': TxStatus[item.status],
+												Timestamp: time,
 										})
 									}
-									this.txList.push({
-											Tx_Hash: item.tx_hash,
-											Block: item.height,
-											// Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
-											OperatorAddr,
-											OperatorMonikers: OperatorMonikers || '--',
-											SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--' : '--',
-											'Tx_Type': (item.msgs || []).map(item=>item.type),
-											MsgsNum: msgsNumber,
-											'Tx_Fee': fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
-											'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
-											'Tx_Status': TxStatus[item.status],
-											Timestamp: time,
-									})
-								})
+								}
 							} else {
 								this.txList = [];
 								this.showNoData = true;
@@ -447,7 +447,7 @@
 				if (!moniker) {
 					return ''
 				}
-				return Tools.formatString(moniker, 15, '...')
+				return Tools.formatString(moniker, 8, '...')
 			},
 			getDisplayTxType(types=[]){
 				let type = types[0] || '';
@@ -478,7 +478,6 @@
 				margin-right: 0.1rem;
 			}
 		}
-		
 		.transaction_list_title_wrap {
 			width: 100%;
 			// position: fixed;
@@ -619,36 +618,81 @@
 				
 			}
 		}
-	}
-	
-	.transaction_list_table_container {
-		// max-width: 12.8rem;
-		max-width: 12rem;
-		// padding: 1.24rem 0 0.2rem 0;
-		padding: 0.04rem 0 0.2rem 0;
-		margin: 0 auto;
-		
-		.transaction_list_table_content {
-			text-align: left;
+		.transaction_list_table_container {
+			// max-width: 12.8rem;
+			max-width: 12rem;
+			// padding: 1.24rem 0 0.2rem 0;
+			padding: 0.04rem 0 0.2rem 0;
+			margin: 0 auto;
 			
-			.table_list_content {
-				width: 100%;
-				overflow-x: auto;
-				padding-top: 0rem;
+			.transaction_list_table_content {
+				text-align: left;
+				
+				.table_list_content {
+					width: 100%;
+					overflow-x: auto;
+					padding-top: 0rem;
+				}
+				
+				.pagination_nav_footer_content {
+					display: flex;
+					justify-content: flex-end;
+					height: 0.7rem;
+					align-items: center;
+				}
+				
 			}
-			
-			.pagination_nav_footer_content {
-				display: flex;
-				justify-content: flex-end;
-				height: 0.7rem;
-				align-items: center;
-			}
-			
 		}
 	}
 	
+	@media screen and (max-width: 1248px) {
+		.transaction_list_page_container {
+			.title_container {
+				margin: 0.3rem 0.24rem 0rem 0.24rem;
+				span {
+				}
+			}
+			.transaction_list_title_wrap {
+				.transaction_list_title_content {
+					margin: 0 0.24rem;
+					.filter_container {		
+						.filter_tx_type_statue_content {
+						}
+						
+						.select_date_content {
+
+						}
+						
+						.reset_search_content {
+							.reset_btn {
+							}
+							
+							.tx_search_btn {
+							}
+						}
+					}
+					
+				}
+			}
+			.transaction_list_table_container {
+				margin: 0 0.24rem;				
+				.transaction_list_table_content {				
+					.table_list_content {
+					}				
+					.pagination_nav_footer_content {
+					}
+					
+				}
+			}
+		}
+	}
+
 	@media screen and (max-width: 910px) {
 		.transaction_list_page_container {
+			.title_container {	
+				span {
+				}
+			}
 			.transaction_list_title_wrap {
 				position: static;
 				padding-top: 0.15rem;
@@ -666,35 +710,28 @@
 					
 					.filter_container {
 						flex-direction: column;
-						margin-left: 0.1rem;
+						width: 100%;
 						
 						.filter_tx_type_statue_content {
 							width: 3.45rem;
 							display: flex;
-							justify-content: space-between;
 							margin-bottom: 0.1rem;
 							
 							.el-select {
 								margin-right: 0;
-								width: 1.6rem;
+								margin-right: 0.26rem;
 							}
 						}
 						
 						.select_date_content {
 							width: 3.45rem;
 							display: flex;
-							justify-content: space-between;
 							margin-bottom: 0.1rem;
-							
-							.el-date-editor {
-								width: 1.6rem;
-							}
 						}
 						
 						.reset_search_content {
-							width: 3.45rem;
 							display: flex;
-							justify-content: space-between;
+							justify-content: flex-end;
 							margin-bottom: 0.1rem;
 							
 							.reset_btn {
@@ -702,7 +739,6 @@
 							}
 							
 							.tx_search_btn {
-								flex: 1;
 								margin-left: 0;
 								margin-right: 0.1rem;
 								text-align: center;
@@ -711,18 +747,60 @@
 					}
 				}
 			}
-		}
-		
-		.transaction_list_table_container {
-			padding-top: 0;
-			padding-left: 0.1rem;
-			padding-right: 0.1rem;
-			
-			.transaction_list_table_content {
-				.table_list_content {
-					padding-top: 0;
+			.transaction_list_table_container {
+				padding-top: 0;
+				// padding-left: 0.1rem;
+				// padding-right: 0.1rem;
+				
+				.transaction_list_table_content {
+					.table_list_content {
+						padding-top: 0;
+					}
 				}
 			}
 		}
 	}
+
+	@media screen and (max-width: 768px) {
+		.transaction_list_page_container {
+			.title_container {
+				margin: 0.3rem 0.12rem 0rem 0.12rem;
+				span {
+				}
+			}
+			.transaction_list_title_wrap {
+				.transaction_list_title_content {
+					margin: 0 0.12rem;
+					.filter_container {		
+						.filter_tx_type_statue_content {
+						}
+						
+						.select_date_content {
+
+						}
+						
+						.reset_search_content {
+							.reset_btn {
+							}
+							
+							.tx_search_btn {
+							}
+						}
+					}
+					
+				}
+			}
+			.transaction_list_table_container {
+				margin: 0 0.12rem;				
+				.transaction_list_table_content {				
+					.table_list_content {
+					}				
+					.pagination_nav_footer_content {
+					}
+					
+				}
+			}
+		}
+	}
+
 </style>

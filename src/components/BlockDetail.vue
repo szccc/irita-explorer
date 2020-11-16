@@ -529,7 +529,7 @@
 				.block_detail_content {
 					
 					.block_information_item {
-						
+						word-break: break-all;
 						span:nth-of-type(1) {
 							min-width: 1rem;
 						}

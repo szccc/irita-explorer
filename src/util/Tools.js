@@ -80,19 +80,30 @@ export default class Tools {
   /**
    * 转换时间格式
    * */
+  // static getDisplayDate(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
+  //   return moment(timestamp * 1000)
+  //     .utcOffset(+480)
+  //     .format(format)
+  // }
   static getDisplayDate(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
     return moment(timestamp * 1000)
-      .utcOffset(+480)
+      .local()
       .format(format)
   }
+
+  // static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
+  //   return moment(date)
+  //     .utcOffset(+480)
+  //     .format(format)
+  // }
 
   static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
     return moment(date)
-      .utcOffset(+480)
+      .local()
       .format(format)
   }
 
-  static getTimestamp() {
+  static getTimestamp () {
     return Math.floor(new Date().getTime() / 1000)
   }
 
@@ -314,5 +325,46 @@ export default class Tools {
 			}
 		}
 		return '';
-	}
+  }
+  
+  static formatNumber(value){
+    let million = 1000000;
+    if(value > million){
+      return `${value/million}M`
+            }else {
+      return value
+    }
+  }
+
+  static formatBondedTokens(bondedTokens,totalTokens){
+      let tokens,allTokens,thousand = 1000,million = 1000000,billion = 1000000000;
+      if(bondedTokens >= billion){
+          tokens = `${(Number(bondedTokens) / billion).toFixed(2)}B`
+      }else if(bondedTokens >= million){
+          tokens = `${(Number(bondedTokens) / million).toFixed(2)}M`
+      }else if(bondedTokens >= thousand){
+          tokens = `${(Number(bondedTokens) / thousand).toFixed(2)}k`
+      }else {
+          tokens = `${Number(bondedTokens).toFixed(2)}`
+      }
+      
+      if(totalTokens >= billion){
+          allTokens = `${(Number(totalTokens) / billion).toFixed(2)}B`
+      }else if(totalTokens >= million){
+          allTokens = `${(Number(totalTokens) / million).toFixed(2)}M`
+      }else if(totalTokens >= thousand){
+          allTokens = `${(Number(totalTokens) / thousand).toFixed(2)}k`
+      }else {
+          allTokens = `${Number(totalTokens).toFixed(2)}`
+      }
+      return `${tokens} / ${allTokens}`
+  }
+
+  static formatPercentageNumbers (numerator,denominator) {
+    let part = new BigNumber(numerator)
+    let total = new BigNumber(denominator)
+    let result = (part.dividedBy(total) * 100).toFixed(2) + '%'
+    return result
+  }
+
 }

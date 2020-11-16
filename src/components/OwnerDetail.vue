@@ -21,7 +21,8 @@
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.nftName)}}</router-link>
+							<router-link v-if="formatAddress(scope.row.nftName) != '--'" :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.nftName)}}</router-link>
+							<span v-else>{{'--'}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
@@ -114,12 +115,12 @@
 							<div v-else>--</div>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+					<el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+					<el-table-column :min-width="ColumnMinWidth.addressTxHash" :label="$t('ExplorerLang.table.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<img class="status_icon"
@@ -272,7 +273,7 @@
 							<span>{{formatAddress(scope.row.requestContextId)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+					<el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
 						<template slot-scope="scope">
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.height}}</router-link>
 						</template>
@@ -294,7 +295,7 @@
 							<span v-if="!scope.row.consumer">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.requestHash')">
+					<el-table-column :min-width="ColumnMinWidth.requestHash" :label="$t('ExplorerLang.table.requestHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
@@ -338,11 +339,11 @@
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<router-link v-if="row.moniker" class="address_link"
-												             :to="`/staking/${row.address}`">
+												             :to="Tools.addressRoute(row.address)">
 													{{formatMoniker(row.moniker)}}
 												</router-link>
 												<router-link v-if="!row.moniker" style="font-family:Arial"
-												             class="address_link" :to="`/staking/${row.address}`">
+												             class="address_link" :to="Tools.addressRoute(row.address)">
 													{{formatAddress(row.address)}}
 												</router-link>
 											</el-tooltip>
@@ -377,10 +378,13 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link style="font-family: Arial;"
-												             :to="'address/' + row.address"
-												             :style="{ color: '$theme_c !important' }">{{
-													formatAddress(row.address) }}
+												<router-link v-if="row.moniker" class="address_link"
+												             :to="Tools.addressRoute(row.address)">
+													{{formatMoniker(row.moniker)}}
+												</router-link>
+												<router-link v-if="!row.moniker" style="font-family:Arial"
+												             class="address_link" :to="Tools.addressRoute(row.address)">
+													{{formatAddress(row.address)}}
 												</router-link>
 											</el-tooltip>
 										</template>
@@ -388,7 +392,7 @@
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
 									                 :min-width="ColumnMinWidth.amount"></el-table-column>
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')"
-									                 :min-width="ColumnMinWidth.blockHeight">
+									                 :min-width="ColumnMinWidth.blockListHeight">
 										<template v-slot:default="{ row }">
 											<router-link style="font-family: Arial;"
 											             :to="'/block/' + row.block"
@@ -529,7 +533,7 @@
 						<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
 					</div>
 				</div>
-				<TxListComponent :txData="txList"></TxListComponent>
+				<TxListComponent v-if="address" :txData="txList" :address="address"></TxListComponent>
 				<div class="pagination_content" v-show="totalTxNumber > pageSize">
 					<m-pagination :page-size="pageSize"
 					              :total="totalTxNumber"
@@ -807,7 +811,7 @@
 			},
 			assetPageChange (pageNum) {
 				this.assetPageNum = pageNum;
-				this.getAssetList()
+				this.getNftList()
 			},
 			async getNftList () {
 				try {
@@ -1009,9 +1013,6 @@
 					return '--';
 				}
 			},
-			formatAddress (address) {
-				return Tools.formatValidatorAddress(address) || '--';
-			},
 			getCallProviders (providers) {
 				if (providers && providers.length > 2) {
 					return providers.slice(0, 2);
@@ -1120,7 +1121,7 @@
 			 	for (let key in this.assetList) {
 			 		let item = this.assetList[key];
 			 		let balanceAmount = item && item.amount ? await converCoin(item) : {};
-			 		if (item.denom === this.mainToken.min_unit) {
+			 		if (item && item.denom && item.denom === this.mainToken.min_unit) {
 						assetList.unshift({
 							token: this.mainToken.symbol.toUpperCase(),
 							balance: balanceAmount  && balanceAmount.amount ? `${Tools.formatStringToFixedNumber(balanceAmount.amount, this.fixedNumber)} ${balanceAmount.denom.toUpperCase()}` : 0,
@@ -1136,17 +1137,19 @@
 								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber))).toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
 						});
 					} else {
-						assetList.push( {
-							token: balanceAmount.denom.toUpperCase(),
-							balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
-							delegated: 0,
-							unBonding: 0,
-							rewards: 0,
-							totalAmount: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0
-						});
+						if(balanceAmount && balanceAmount.denom) {
+							assetList.push({
+								token: balanceAmount.denom.toUpperCase(),
+								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
+								delegated: 0,
+								unBonding: 0,
+								rewards: 0,
+								totalAmount: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0
+							});
+						}
 					}
 			 	}
-			 	this.assetsItems = assetList;
+				 this.assetsItems = assetList;
 			},
 			pageNation (dataArray) {
 				let index = 0;
@@ -1277,7 +1280,7 @@
 					if(this.OperatorAddress && this.OperatorAddress !== '--'){
 						let data = await getValidatorRewardsApi(this.OperatorAddress)
 						if (data) {
-							let commission = data.val_commission.commission[0]
+							let commission = data.val_commission && data.val_commission.commission &&  data.val_commission.commission[0]
 							if (commission) {
 								let amount = await converCoin(commission)
 								this.validatorRewardsValue = amount.amount
@@ -1341,18 +1344,13 @@
 				}
 			},
 			formatAddress (address) {
-				return Tools.formatValidatorAddress(address);
-			},
-			formatTxHash (TxHash) {
-				if (TxHash) {
-					return Tools.formatTxHash(TxHash)
-				}
+				return Tools.formatValidatorAddress(address) || '--';
 			},
 			formatMoniker (moniker) {
 				if (!moniker) {
 					return "";
 				}
-				return Tools.formatString(moniker, 15, "...");
+				return Tools.formatString(moniker, 8, "...");
 			},
 			handleChange(value) {
                 value ? this.type_temp = value[1] ? value[1] : '' : ''
@@ -1494,7 +1492,7 @@
 			}
 			
 			.address_transaction_content {
-				margin-top: 0.48rem;
+				// margin-top: 0.48rem;
 				margin-bottom: 0.2rem;
 				background: $bg_white_c;
 				padding: 0.25rem;
@@ -1730,7 +1728,6 @@
 						
 						.address_information_detail_option_value {
 							font-size: $s14;
-							
 							a {
 								color: $theme_c !important;
 							}
@@ -1783,7 +1780,7 @@
 							align-items: center;
 							
 							.address_information_detail_option_name {
-								width: 1.3rem;
+								min-width: 1.3rem;
 								font-size: $s14;
 								color: $t_second_c;
 								line-height: 0.16rem;
@@ -1968,7 +1965,10 @@
 						.address_information_detail_option {
 							padding-left: 0;
 							display: flex;
-							flex-direction: column;
+							.address_information_detail_option_value {
+								padding-right: 0.1rem;
+								word-break: break-word;
+							}
 						}
 						
 						.address_information_list_content {
@@ -1986,15 +1986,18 @@
 						.address_information_detail_content {
 							.address_information_detail_option {
 								display: flex;
-								align-items: flex-start;
-								flex-direction: column;
-								
+								align-items: center;
+								flex-direction: row;
+								.address_information_detail_option_name {
+									margin-right: 0.05rem;
+								}
 								.validator_status_content {
 									display: flex;
 									margin: 0.05rem 0;
 								}
 								
 								.address_information_detail_option_value {
+									word-break: break-word;
 								}
 							}
 						}
@@ -2096,6 +2099,247 @@
 				}
 				
 				.pagination_content {
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 705px) {
+		.address_container_content {
+			.address_content_wrap {
+				.address_content_title {
+					margin-left: 0rem;
+					.address_content_title_first {
+					}
+					
+					.address_content_title_address {
+					}
+				}
+				.address_tab_container {
+					.address_tab_content {
+						margin-left: 0rem;
+					}
+				}
+				.address_content {
+					
+				}
+				
+				.consumer_transaction_content {
+					.consumer_transaction_content_hash {
+					}
+					
+					.consumer_transaction_content_available {
+						.consumer_transaction_content_available_icon {
+						}
+					}
+				}
+				
+				.provider_transaction_content {
+					.respond_transaction_content_hash {
+					}
+					
+					.provider_transaction_content_available {
+						.provider_transaction_content_available_icon {
+						}
+					}
+				}
+				
+				.address_transaction_content {
+					.address_transaction_content_hash {
+					}
+					
+					.address_transaction_condition_container {
+
+						.address_transaction_condition_count {
+						}
+						
+						/deep/ .el-select {
+							
+							.el-input {
+								.el-input__inner {
+								}
+								
+								.el-input__inner:focus {
+								}
+								
+								.el-input__suffix {
+									.el-input__suffix-inner {
+										.el-input__icon {
+										}
+									}
+								}
+							}
+							
+							.is-focus {
+								.el-input__inner {
+								}
+							}
+						}
+						
+						.search_btn {
+						}
+						
+						.reset_btn {
+							i {
+							}
+						}
+					}
+				}
+				
+				.content_title {
+				}
+				
+				.status_icon {
+				}
+				
+				.pagination_content {
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 551px) {
+		.address_container_content {
+			.address_content_wrap {
+				.address_content_title {
+					.address_content_title_first {
+					}
+					
+					.address_content_title_address {
+					}
+				}
+				
+				.address_asset_content {
+				}
+				
+				.consumer_transaction_content {
+					.consumer_transaction_content_hash {
+					}
+					
+					.consumer_transaction_content_available {
+						.consumer_transaction_content_available_icon {
+						}
+					}
+					
+					.pagination_content {
+					}
+				}
+				
+				.provider_transaction_content {
+					.respond_transaction_content_hash {
+					}
+					
+					.provider_transaction_content_available {
+						.provider_transaction_content_available_icon {
+						}
+					}
+					
+					.pagination_content {
+					}
+				}
+				
+				.address_transaction_content {
+					.address_transaction_content_hash {
+					}
+					
+					.address_transaction_condition_container {
+						.address_transaction_condition_count {
+						}
+						
+						/deep/ .el-select {
+							.el-input {
+								.el-input__inner {
+								}
+								
+								.el-input__inner:focus {
+								}
+								
+								.el-input__suffix {
+									.el-input__suffix-inner {
+										.el-input__icon {
+										}
+									}
+								}
+							}
+							
+							.is-focus {
+								.el-input__inner {
+								}
+							}
+						}
+						
+						.search_btn {
+						}
+						
+						.reset_btn {
+							i {
+							}
+						}
+					}
+					
+					.pagination_content {
+					}
+				}
+				
+				.content_title {
+				}
+				
+				.status_icon {
+				}
+				
+				.delegations_wrap {
+					.delegations_container {
+						.validator_information_content_title {
+						}
+						
+						.one_table_container {
+						}
+						
+						.second_table_container {
+						}
+						
+						.delegations_table_container {
+						}
+						
+						.common_pagination_content {
+						}
+					}
+				}
+				
+				.address_information_redelegation_header_title {
+				}
+				
+				.address_information_redelegation_tx_container {
+					.address_information_delegator_rewards_content {				
+						.address_information_detail_option {
+							.address_information_detail_option_value {
+							}
+						}
+						
+						.address_information_list_content {
+						}
+					}
+					
+					.address_information_detail_container {
+						.address_information_redelegation_title {
+						}
+						
+						.address_information_detail_content {
+							.address_information_detail_option {
+								
+								.address_information_detail_option_name {
+									min-width: 1.2rem;
+									margin-right: 0.01rem;
+								}
+								.validator_status_content {
+								}
+								
+								.address_information_detail_option_value {
+								}
+							}
+						}
+					}
+					
+					.hide_style {
+					}
 				}
 			}
 		}
