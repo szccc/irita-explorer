@@ -52,6 +52,7 @@
 					<el-table-column :min-width="ColumnMinWidth.nftListDate" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
 							<LargeString :key="scope.row.tokenData" v-if="scope.row.tokenData" :text="scope.row.tokenData"  mode="cell" textWidth="300px" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
+							<span v-else>--</span>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
