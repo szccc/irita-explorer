@@ -1,7 +1,7 @@
 <template>
   <div class="statistical_bar_container">
-      <div class="statistical_bar_wrap">
-        <div class="statistical_validator_content">
+      <div class="statistical_bar_wrap" :class="{noStaking: !moduleSupport('107', prodConfig.navFuncList)}">
+        <div class="statistical_validator_content" v-if=" moduleSupport('107', prodConfig.navFuncList)">
             <div class="statistical_validator_top_content">
                 <p class="statistical_validator_header">
                     <span class="iconfont iconBlocks"></span>
@@ -50,10 +50,13 @@
 import prodConfig from "../../productionConfig"
 import { getStatistics } from "../../service/api";
 import Tools from "../../util/Tools";
+import {moduleSupport} from "../../helper/ModulesHelper";
 export default {
   name: 'StatisticalBar',
   data () {
     return {
+        prodConfig,
+        moduleSupport,
         Tools,
         navigationObj:{
             201: {
@@ -222,6 +225,16 @@ export default {
                         }
                         this.navigationArray.push(itemObj)
                     })
+                    if(!moduleSupport('107', prodConfig.navFuncList)) {
+                        this.navigationArray.unshift({
+                            id:200,
+                            iconClass:'iconfont iconBlocks',
+                            label: this.$t('ExplorerLang.home.blockHeight'),
+                            footerLabel:'',
+                            value: this.currentBlockHeight,
+                            to: `/block/${this.currentBlockHeight}`,
+                        })
+                    }
                 }
             }catch(err){
                 console.error(err);
@@ -350,6 +363,9 @@ export default {
                         grid-template-columns: repeat(5,1fr);
                     }
             }
+        }
+        .noStaking {
+            display: block;
         }
     }
     @media screen and (max-width: 1178px) {
