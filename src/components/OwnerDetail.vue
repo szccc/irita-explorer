@@ -1292,7 +1292,6 @@
 								this.totalValidatorRewards = '--'
 							}
 							this.allRewardsValue = `${Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
-							console.log('getValidatorRewards',this.allRewardsValue)
 							this.getAssetList()
 						}
 					}
