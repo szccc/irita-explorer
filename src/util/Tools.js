@@ -318,7 +318,7 @@ export default class Tools {
   static addressRoute(address) {
 		if(address) {
 			// if (address.substring(0, 3) === this.$Crypto.config.iris.bech32.valAddr || address.substring(1, 3) === 'va') {
-			if (address.substring(0, 3) === 'iva' || address.substring(1, 3) === 'va') {
+			if (address.substring(0, 3) === 'iva' || address.substring(1, 3) === 'va' || address.substring(0, 13) === 'cosmosvaloper') {
 				return `/staking/${address}`;
 			} else {
 				return `/address/${address}`;

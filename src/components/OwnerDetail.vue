@@ -1101,7 +1101,9 @@
 									arrayIndexOneData = item
 								}
 							});
-							res.amount.unshift(arrayIndexOneData);
+							if(arrayIndexOneData) {
+								res.amount.unshift(arrayIndexOneData);
+							}
 							res.amount = Array.from(new Set(res.amount));
 							this.assetList = res.amount;
 						}
@@ -1267,7 +1269,7 @@
 						this.rewardsDelegationCountNum = res.rewards.length;
 						this.rewardsDelegationPageChange(this.rewardsDelegationCurrentPage);
 						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
-						this.allRewardsAmountValue = this.delegatorRewardsValue + this.validatorRewardsValue
+						this.allRewardsAmountValue = Number(this.delegatorRewardsValue) + Number(this.validatorRewardsValue)
 						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(this.allRewardsAmountValue.toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 						this.getAssetList()
 					}
@@ -1290,6 +1292,7 @@
 								this.totalValidatorRewards = '--'
 							}
 							this.allRewardsValue = `${Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
+							console.log('getValidatorRewards',this.allRewardsValue)
 							this.getAssetList()
 						}
 					}
