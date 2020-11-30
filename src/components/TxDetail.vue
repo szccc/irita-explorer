@@ -47,8 +47,7 @@
 
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.signer') }}：</span>
-            <span style="word-break:break-all;"><router-link :to="Tools.addressRoute(signer)">{{ signer }}</router-link></span
-            >
+            <span style="word-break:break-all;"><span class="address_link" @click="addressRoute(signer)">{{ signer }}</span></span>
           </p>
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.memo') }}：</span>
@@ -81,7 +80,7 @@ import { getTxDetail, getRelevanceTxList } from '../service/api'
 import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant'
 import { moduleSupport } from '../helper/ModulesHelper'
 import slef_axios from "../axios"
-import { getMainToken,converCoin } from '@/helper/IritaHelper';
+import { getMainToken,converCoin,addressRoute } from '@/helper/IritaHelper';
 export default {
   name: 'TxDetail',
   components: { MPagination, MClip, TxMessage },
@@ -89,6 +88,7 @@ export default {
     return {
       Tools,
       moduleSupport,
+      addressRoute,
       TX_TYPE,
       TX_STATUS,
       ColumnMinWidth,

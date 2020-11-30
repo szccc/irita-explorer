@@ -13,15 +13,15 @@
             </div>
             <div class="statistical_validator_bottom_content">
                 <div class="statistical_img_content">
-                    <router-link :to="Tools.addressRoute(proposerAddress)">
+                    <a @click="addressRoute(proposerAddress)">
                         <div class="statistical_validator_header_img_content">
                             <span >{{validatorHeaderImgSrc}}</span>
                             <img v-show="validatorHeaderImgHref" :src="validatorHeaderImgHref"  @error="imgLoadError()">
                         </div>
-                    </router-link>
+                    </a>
                 </div>
                 <p class="statistical_moniker_content skip_route">
-                    <router-link :to="Tools.addressRoute(proposerAddress)">{{moniker}}</router-link>
+                    <span class="address_link" @click="addressRoute(proposerAddress)">{{moniker}}</span>
                 </p>
             </div>
         </div>
@@ -51,6 +51,7 @@ import prodConfig from "../../productionConfig"
 import { getStatistics } from "../../service/api";
 import Tools from "../../util/Tools";
 import {moduleSupport} from "../../helper/ModulesHelper";
+import { addressRoute } from '@/helper/IritaHelper'
 export default {
   name: 'StatisticalBar',
   data () {
@@ -58,6 +59,7 @@ export default {
         prodConfig,
         moduleSupport,
         Tools,
+        addressRoute,
         navigationObj:{
             201: {
                 id:201,

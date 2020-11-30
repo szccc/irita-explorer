@@ -315,18 +315,6 @@ export default class Tools {
     return new BigNumber(number).multipliedBy(100)
   }
 
-  static addressRoute(address) {
-		if(address) {
-			// if (address.substring(0, 3) === this.$Crypto.config.iris.bech32.valAddr || address.substring(1, 3) === 'va') {
-			if (address.substring(0, 3) === 'iva' || address.substring(1, 3) === 'va' || address.substring(0, 13) === 'cosmosvaloper') {
-				return `/staking/${address}`;
-			} else {
-				return `/address/${address}`;
-			}
-		}
-		return '';
-  }
-  
   static formatNumber(value){
     let million = 1000000;
     if(value > million){

@@ -338,14 +338,14 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link v-if="row.moniker" class="address_link"
-												             :to="Tools.addressRoute(row.address)">
+												<span v-if="row.moniker" class="address_link"
+												             @click="addressRoute(row.address)">
 													{{formatMoniker(row.moniker)}}
-												</router-link>
-												<router-link v-if="!row.moniker" style="font-family:Arial"
-												             class="address_link" :to="Tools.addressRoute(row.address)">
+												</span>
+												<span v-if="!row.moniker" style="font-family:Arial"
+												             class="address_link" @click="addressRoute(row.address)">
 													{{formatAddress(row.address)}}
-												</router-link>
+												</span>
 											</el-tooltip>
 										</template>
 									</el-table-column>
@@ -378,14 +378,14 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link v-if="row.moniker" class="address_link"
-												             :to="Tools.addressRoute(row.address)">
+												<span v-if="row.moniker" class="address_link"
+												             @click="addressRoute(row.address)">
 													{{formatMoniker(row.moniker)}}
-												</router-link>
-												<router-link v-if="!row.moniker" style="font-family:Arial"
-												             class="address_link" :to="Tools.addressRoute(row.address)">
+												</span>
+												<span v-if="!row.moniker" style="font-family:Arial"
+												             class="address_link" @click="addressRoute(row.address)">
 													{{formatAddress(row.address)}}
-												</router-link>
+												</span>
 											</el-tooltip>
 										</template>
 									</el-table-column>
@@ -558,6 +558,7 @@
 	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth} from '../constant';
 	import AddressInformationComponent from "./AddressInformationComponent";
 	import LargeString from './common/LargeString';
+	import { addressRoute } from '@/helper/IritaHelper'
 	import {
 		getNfts,
 		getAddressTxList,
@@ -582,6 +583,7 @@
 		components: {MPagination, TxListComponent, AddressInformationComponent, LargeString},
 		data () {
 			return {
+				addressRoute,
 				TX_TYPE,
 				TX_STATUS,
 				ColumnMinWidth,

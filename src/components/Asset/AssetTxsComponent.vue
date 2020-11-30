@@ -8,9 +8,9 @@
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.owner" placement="top">
-                  <router-link :to="Tools.addressRoute(row.owner)">
+                  <span class="address_link" @click="addressRoute(row.owner)">
                     {{ Tools.formatValidatorAddress(row.owner) }}
-                  </router-link>
+                  </span>
                 </el-tooltip>
               </span>
             </template>
@@ -56,9 +56,9 @@
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.owner" placement="top">
-                  <router-link :to="Tools.addressRoute(row.owner)">
+                  <span class="address_link"  @click="addressRoute(row.owner)">
                     {{ Tools.formatValidatorAddress(row.owner) }}
-                  </router-link>
+                  </span>
                 </el-tooltip>
               </span>
             </template>
@@ -97,9 +97,9 @@
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.owner" placement="top">
-                  <router-link :to="Tools.addressRoute(row.owner)">
+                  <span class="address_link"  @click="addressRoute(row.owner)">
                     {{ Tools.formatValidatorAddress(row.owner) }}
-                  </router-link>
+                  </span>
                 </el-tooltip>
               </span>
             </template>
@@ -108,9 +108,9 @@
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.mintTo" placement="top">
-                  <router-link :to="Tools.addressRoute(row.mintTo)">
+                  <span class="address_link"  @click="addressRoute(row.mintTo)">
                     {{ Tools.formatValidatorAddress(row.mintTo) }}
-                  </router-link>
+                  </span>
                 </el-tooltip>
               </span>
             </template>
@@ -149,18 +149,18 @@
           <el-table-column :label="$t('ExplorerLang.table.srcOwner')" prop="srcOwner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <el-tooltip popper-class="tooltip" :content="row.srcOwner" placement="top">
-                <router-link :to="Tools.addressRoute(row.srcOwner)">
+                <span class="address_link"  @click="addressRoute(row.srcOwner)">
                   {{ Tools.formatValidatorAddress(row.srcOwner) }}
-                </router-link>
+                </span>
               </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.dstOwner')" prop="dstOwner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <el-tooltip popper-class="tooltip" :content="row.dstOwner" placement="top">
-                <router-link :to="Tools.addressRoute(row.dstOwner)">
+                <span class="address_link"  @click="addressRoute(row.dstOwner)">
                   {{ Tools.formatValidatorAddress(row.dstOwner) }}
-                </router-link>
+                </span>
               </el-tooltip>
             </template>
           </el-table-column>
@@ -194,7 +194,7 @@ import Tools from '../../util/Tools'
 import { getNativeAssetsTxsApi } from '@/service/api'
 import productionConfig from '@/productionConfig.js'
 import { ColumnMinWidth, TX_TYPE, decimals } from '@/constant'
-import { converCoin, getMainToken } from '../../helper/IritaHelper'
+import { converCoin, getMainToken,addressRoute } from '../../helper/IritaHelper'
 export default {
   name: 'AssetTxsComponent',
   components: { MPagination },
@@ -207,6 +207,7 @@ export default {
   data() {
     return {
       Tools,
+      addressRoute,
       ColumnMinWidth,
       issueToken: [],
       editToken: [],

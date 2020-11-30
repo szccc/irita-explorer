@@ -24,7 +24,7 @@
               <span class="remove_default_style skip_route" :class="row.From === $route.params.param ? 'no_skip' : ''">
                 <el-tooltip :content="`${row.From}`">
                     <span v-if="row.From === $route.params.param">{{ formatMoniker(row.fromMonikers) || formatAddress(row.From) }}</span>
-                    <router-link v-else :to="Tools.addressRoute(row.From)" class="link_style">{{ formatMoniker(row.fromMonikers) || formatAddress(row.From) }}</router-link>
+                    <span v-else @click="addressRoute(row.From)" class="address_link link_style">{{ formatMoniker(row.fromMonikers) || formatAddress(row.From) }}</span>
                 </el-tooltip>
               </span>
             </div>
@@ -40,7 +40,7 @@
             <div class="name_address" v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
               <span class="remove_default_style skip_route" :class="row.To === $route.params.param ? 'no_skip' : ''">
                 <el-tooltip :content="`${row.To}`">
-                    <router-link v-if="!(row.To === $route.params.param)" class="link_style" :to="Tools.addressRoute(row.To)">{{ formatMoniker(row.toMonikers) || formatAddress(row.To) }}</router-link>
+                    <span v-if="!(row.To === $route.params.param)" class="address_link link_style" @click="addressRoute(row.To)">{{ formatMoniker(row.toMonikers) || formatAddress(row.To) }}</span>
                     <span v-else>{{ formatMoniker(row.toMonikers) }}</span>
                 </el-tooltip>
               </span>
@@ -60,7 +60,7 @@
         <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <el-tooltip :content="`${row.Tx_Signer}`">
-                <router-link :to="Tools.addressRoute(row.Tx_Signer)" class="link_style justify">{{ formatAddress(row.Tx_Signer) }} </router-link>
+                <span @click="addressRoute(row.Tx_Signer)" class="address_link link_style justify">{{ formatAddress(row.Tx_Signer) }} </span>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -73,7 +73,7 @@
 <script>
 import Tools from '@/util/Tools'
 import { ColumnMinWidth } from '@/constant'
-
+import { addressRoute } from '@/helper/IritaHelper'
 export default {
   name: 'DelegationTxsList',
   components: {},
@@ -86,7 +86,8 @@ export default {
   data() {
     return {
         ColumnMinWidth,
-        Tools
+        Tools,
+        addressRoute
     }
   },
   computed: {},

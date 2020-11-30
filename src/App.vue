@@ -14,7 +14,7 @@ export default {
   components:{Footer, Header},
   data (){
     return {
-      key: new Date()
+      key: new Date(),
     }
   }
 }
@@ -92,5 +92,8 @@ export default {
       max-width: 3.2rem;
     }
   }
- 
+  .address_link {
+    color: $t_link_c !important;
+    cursor:pointer
+  }
 </style>

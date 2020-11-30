@@ -19,7 +19,7 @@
           <template v-slot:default="{ row }">
             <el-tooltip :disabled="row.OperatorMonikers === '--' && row.OperatorAddr === '--' " :content="`${row.OperatorAddr}`">
               <span v-if="row.OperatorAddr === $route.params.param || row.OperatorAddr == '--'">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers) : formatAddress(row.OperatorAddr) }}</span>
-              <router-link v-else :to="Tools.addressRoute(row.OperatorAddr)" class="link_style justify">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers) : formatAddress(row.OperatorAddr) }}</router-link>
+              <span v-else @click="addressRoute(row.OperatorAddr)" class="address_link link_style justify">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers) : formatAddress(row.OperatorAddr) }}</span>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -31,9 +31,9 @@
             <div class="name_address" v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
               <el-tooltip :content="`${row.OperatorAddr}`">
                 <span v-if="row.OperatorAddr === $route.params.param">{{ formatAddress(row.OperatorAddr) }}</span>
-                <router-link v-else :to="Tools.addressRoute(row.OperatorAddr)" class="link_style justify">
+                <span v-else @click="addressRoute(row.OperatorAddr)" class="address_link link_style justify">
                   {{ formatAddress(row.OperatorAddr) }}
-                </router-link>
+                </span>
               </el-tooltip>
             </div>
             <span class="no_skip" v-show="/^[0]\d*$/.test(row.OperatorAddr) || row.OperatorAddr === '--'">--</span>
@@ -56,7 +56,7 @@
         <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <el-tooltip :disabled="row.Tx_Signer === '--'" :content="`${row.Tx_Signer}`">
-              <router-link :to="Tools.addressRoute(row.Tx_Signer)" class="link_style justify">{{ formatAddress(row.Tx_Signer) }} </router-link>
+              <span @click="addressRoute(row.Tx_Signer)" class="address_link link_style justify">{{ formatAddress(row.Tx_Signer) }} </span>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -69,7 +69,7 @@
 <script>
 import Tools from '@/util/Tools'
 import { ColumnMinWidth } from '@/constant'
-
+import { addressRoute } from '@/helper/IritaHelper'
 export default {
   name: 'ValidationTxsList',
   components: {},
@@ -83,6 +83,7 @@ export default {
     return {
       ColumnMinWidth,
       Tools,
+      addressRoute
     }
   },
   computed: {},

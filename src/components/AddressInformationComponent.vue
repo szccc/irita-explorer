@@ -335,6 +335,7 @@
 						margin-bottom: 0.05rem;
 						.address_information_token_img_content{
 							// padding-left: 0.2rem;
+							word-break:break-all;
 							.address_information_token_name{
 								font-size: $s14;
 								line-height: 0.16rem;
@@ -346,6 +347,7 @@
 							font-size: $s14;
 							line-height: 0.16rem;
 							color: $t_first_c;
+							word-break:break-all;
 						}
 					}
 					.address_information_asset_list_item:last-child{
@@ -356,7 +358,7 @@
 		}
 	}
 }
-	@media screen and (max-width: 1108px){
+	@media screen and (max-width: 1198px){
 		.address_information_component_container{
 			padding-top: 0.1rem;
 			.address_information_component_wrap{
