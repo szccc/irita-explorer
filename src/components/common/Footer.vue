@@ -33,7 +33,7 @@
 <script>
 	import prodConfig from "../../productionConfig"
 	import { getNodeInfo } from "../../service/api"
-	import {moduleSupport} from "../../helper/ModulesHelper";
+	import {moduleSupport} from "../../helper/ModulesHelper"
 	export default {
 		name: "Footer",
 		data(){
