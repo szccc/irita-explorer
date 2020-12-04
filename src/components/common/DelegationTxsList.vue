@@ -15,7 +15,7 @@
             <router-link style="font-family: Arial;" :to="'/block/' + row.Block" :style="{ color: '$theme_c !important' }">{{ row.Block }} </router-link>
           </template>
         </el-table-column>
-        <el-table-column prop="From" :label="$t('ExplorerLang.table.from')" :min-width="ColumnMinWidth.address">
+        <el-table-column prop="From" :label="$t('ExplorerLang.table.from')" :min-width="ColumnMinWidth.delegationTxsFrom">
           <template v-slot:default="{ row }">
             <span v-if="/^[1-9]\d*$/.test(row.From)" class="skip_route">
               <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.From }} Validators</router-link>

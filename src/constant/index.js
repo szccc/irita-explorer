@@ -169,7 +169,7 @@ export const ColumnMinWidth = {
   unbondingHeight: '155',
   amount: '110',
   delegationTxsAmount: '155',
-  delegationTxsFrom: '90',
+  delegationTxsFrom: '93',
   shares: '213',
   fee: '110',
   consensus: '340',
