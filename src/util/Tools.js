@@ -355,4 +355,8 @@ export default class Tools {
     return result
   }
 
+  static testUrl(url) {
+    let reg = new RegExp('[a-zA-z]+://[^\s]*')
+    return reg.test(url)
+  }
 }

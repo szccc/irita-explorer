@@ -59,6 +59,7 @@ let config = {
     copyright: 'copyright © 2020 边界智能',
     chainIdShow: true,
     versionShow: true,
+    linkShow: true,
   },
   //导航栏功能列表 详见 导航栏功能映射 注：title为配置文案暂不支持国际化
   navFuncList: [
