@@ -13,7 +13,7 @@
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.assetListowner">
             <template v-slot:default="{ row }">
-                  <router-link :to="Tools.addressRoute(row.owner)"> {{row.owner}}</router-link>
+                  <span class="address_link" @click="addressRoute(row.owner)"> {{row.owner}}</span>
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.totalSupply')" prop="totalSupply" :min-width="ColumnMinWidth.totalSupply"></el-table-column>
@@ -35,6 +35,7 @@ import Tools from '../../util/Tools'
 import { getNativeAssetsListApi } from "@/service/api"
 import productionConfig from '@/productionConfig.js'
 import { ColumnMinWidth } from '@/constant'
+import { addressRoute } from '@/helper/IritaHelper'
 export default {
   name: 'NativeAssetsList',
   components: { MPagination },
@@ -42,6 +43,7 @@ export default {
   data() {
     return {
       Tools,
+      addressRoute,
       ColumnMinWidth,
       tableData: [],
       pageSize:30,

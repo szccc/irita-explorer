@@ -338,14 +338,14 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link v-if="row.moniker" class="address_link"
-												             :to="Tools.addressRoute(row.address)">
+												<span v-if="row.moniker" class="address_link"
+												             @click="addressRoute(row.address)">
 													{{formatMoniker(row.moniker)}}
-												</router-link>
-												<router-link v-if="!row.moniker" style="font-family:Arial"
-												             class="address_link" :to="Tools.addressRoute(row.address)">
+												</span>
+												<span v-if="!row.moniker" style="font-family:Arial"
+												             class="address_link" @click="addressRoute(row.address)">
 													{{formatAddress(row.address)}}
-												</router-link>
+												</span>
 											</el-tooltip>
 										</template>
 									</el-table-column>
@@ -378,14 +378,14 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link v-if="row.moniker" class="address_link"
-												             :to="Tools.addressRoute(row.address)">
+												<span v-if="row.moniker" class="address_link"
+												             @click="addressRoute(row.address)">
 													{{formatMoniker(row.moniker)}}
-												</router-link>
-												<router-link v-if="!row.moniker" style="font-family:Arial"
-												             class="address_link" :to="Tools.addressRoute(row.address)">
+												</span>
+												<span v-if="!row.moniker" style="font-family:Arial"
+												             class="address_link" @click="addressRoute(row.address)">
 													{{formatAddress(row.address)}}
-												</router-link>
+												</span>
 											</el-tooltip>
 										</template>
 									</el-table-column>
@@ -558,6 +558,7 @@
 	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth} from '../constant';
 	import AddressInformationComponent from "./AddressInformationComponent";
 	import LargeString from './common/LargeString';
+	import { addressRoute } from '@/helper/IritaHelper'
 	import {
 		getNfts,
 		getAddressTxList,
@@ -582,6 +583,7 @@
 		components: {MPagination, TxListComponent, AddressInformationComponent, LargeString},
 		data () {
 			return {
+				addressRoute,
 				TX_TYPE,
 				TX_STATUS,
 				ColumnMinWidth,
@@ -1101,7 +1103,9 @@
 									arrayIndexOneData = item
 								}
 							});
-							res.amount.unshift(arrayIndexOneData);
+							if(arrayIndexOneData) {
+								res.amount.unshift(arrayIndexOneData);
+							}
 							res.amount = Array.from(new Set(res.amount));
 							this.assetList = res.amount;
 						}
@@ -1267,7 +1271,7 @@
 						this.rewardsDelegationCountNum = res.rewards.length;
 						this.rewardsDelegationPageChange(this.rewardsDelegationCurrentPage);
 						this.totalDelegatorRewardValue = `${Tools.formatStringToFixedNumber(new BigNumber(moveDecimal(this.totalDelegatorReward.toString(), 0)).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
-						this.allRewardsAmountValue = this.delegatorRewardsValue + this.validatorRewardsValue
+						this.allRewardsAmountValue = Number(this.delegatorRewardsValue) + Number(this.validatorRewardsValue)
 						this.allRewardsValue = `${Tools.formatStringToFixedNumber(new BigNumber(this.allRewardsAmountValue.toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`
 						this.getAssetList()
 					}

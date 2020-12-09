@@ -38,9 +38,9 @@
                     <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
-                        <router-link v-if="isValid(scope.row.from) && address !== scope.row.from " :to="Tools.addressRoute(scope.row.from)">
+                        <span v-if="isValid(scope.row.from) && address !== scope.row.from " class="address_link" @click="addressRoute(scope.row.from)">
                             {{  formatMoniker(scope.row.fromMonikers) || formatAddress(scope.row.from)}}
-                        </router-link>
+                        </span>
                         <span v-else>
                             {{  formatMoniker(scope.row.fromMonikers) || formatAddress(scope.row.from)}}
                         </span>
@@ -54,9 +54,9 @@
                                 placement="top"
                                 :key="Math.random()"
                                 :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
-                        <router-link v-if="typeof scope.row.to=='string' && isValid(scope.row.to) && address !== scope.row.to" :to="Tools.addressRoute(scope.row.to)">
+                        <span v-if="typeof scope.row.to=='string' && isValid(scope.row.to) && address !== scope.row.to" class="address_link" @click="addressRoute(scope.row.to)">
                             {{ formatMoniker(scope.row.toMonikers) || formatAddress(scope.row.to)}}
-                        </router-link>
+                        </span>
                         <span v-else-if="typeof scope.row.to=='string' && isValid(scope.row.to) && address === scope.row.to">
                             {{ formatMoniker(scope.row.toMonikers) || formatAddress(scope.row.to)}}
                         </span>
@@ -73,8 +73,8 @@
                     <el-tooltip :content="scope.row.signer"
                                 placement="top"
                                 :disabled="!isValid(scope.row.signer)">
-                        <router-link v-if="isValid(scope.row.signer) && address !== scope.row.signer" :to="Tools.addressRoute(scope.row.signer)">{{formatAddress(scope.row.signer)}}
-                        </router-link>
+                        <span v-if="isValid(scope.row.signer) && address !== scope.row.signer" class="address_link" @click="addressRoute(scope.row.signer)">{{formatAddress(scope.row.signer)}}
+                        </span>
                         <span v-else-if="isValid(scope.row.signer) && address === scope.row.signer">{{formatAddress(scope.row.signer)}}
                         </span>
                         <span v-else>{{'--'}}</span>
@@ -94,6 +94,7 @@
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
     import { TX_TYPE,TX_STATUS,ColumnMinWidth } from '../../constant';
+    import { addressRoute } from '@/helper/IritaHelper'
     export default {
         name : "TxList",
         components : {},
@@ -112,7 +113,8 @@
                 TX_TYPE,
                 TX_STATUS,
                 ColumnMinWidth,
-                Tools
+                Tools,
+                addressRoute
             }
         },
         computed:{

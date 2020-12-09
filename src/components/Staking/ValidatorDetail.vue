@@ -22,11 +22,12 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link
-												             :to="Tools.addressRoute(row.address)"
+												<span
+												             @click="addressRoute(row.address)"
+															 class="address_link"
 												             :style="{ color: '$theme_c !important' }">{{
 													formatAddress(row.address) }}
-												</router-link>
+												</span>
 											</el-tooltip>
 										</template>
 									</el-table-column>
@@ -57,11 +58,12 @@
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<router-link 
-												             :to="Tools.addressRoute(row.address)"
+												<span 
+												             @click="addressRoute(row.address)"
+															 class="address_link"
 												             :style="{ color: '$theme_c !important' }">{{
 													formatAddress(row.address) }}
-												</router-link>
+												</span>
 											</el-tooltip>
 										</template>
 									</el-table-column>
@@ -127,7 +129,7 @@
 		getValidationTxsApi
 	} from "@/service/api"
 	import {TxHelper} from '../../helper/TxHelper.js'
-	import { getMainToken, converCoin } from '@/helper/IritaHelper';
+	import { getMainToken, converCoin,addressRoute } from '@/helper/IritaHelper';
 	import { getAmountByTx } from '@/helper/txListAmoutHelper'
 	import DelegationTxsList from '@/components/common/DelegationTxsList'
 	import ValidationTxsList from '@/components/common/ValidationTxsList'
@@ -142,6 +144,7 @@
 				amountDecimals: decimals.amount,
 				sharesDecimals: decimals.shares,
 				ColumnMinWidth,
+				addressRoute,
 				validationInformation: {},
 				validatorStatus: '',
 				pageSize: 5,
