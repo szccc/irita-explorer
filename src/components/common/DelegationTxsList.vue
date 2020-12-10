@@ -56,7 +56,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"></el-table-column>
-        <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
+        <el-table-column prop="Tx_Fee" v-if="prodConfig.shielding.fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
         <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <el-tooltip :content="`${row.Tx_Signer}`">
@@ -74,6 +74,7 @@
 import Tools from '@/util/Tools'
 import { ColumnMinWidth } from '@/constant'
 import { addressRoute } from '@/helper/IritaHelper'
+import prodConfig from "@/productionConfig"
 export default {
   name: 'DelegationTxsList',
   components: {},
@@ -86,6 +87,7 @@ export default {
   data() {
     return {
         ColumnMinWidth,
+        prodConfig,
         Tools,
         addressRoute
     }

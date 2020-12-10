@@ -35,7 +35,7 @@
             <span>{{ timestamp }}</span>
           </p>
 
-          <p class="tx_information_list_item">
+          <p class="tx_information_list_item" v-if="prodConfig.shielding.fee">
             <span>{{ $t('ExplorerLang.transactionInformation.fee') }}：</span>
             <span>{{ fee }}</span>
           </p>
@@ -80,13 +80,15 @@ import { getTxDetail, getRelevanceTxList } from '../service/api'
 import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant'
 import { moduleSupport } from '../helper/ModulesHelper'
 import slef_axios from "../axios"
-import { getMainToken,converCoin,addressRoute } from '@/helper/IritaHelper';
+import { getMainToken,converCoin,addressRoute } from '@/helper/IritaHelper'
+import prodConfig from "@/productionConfig"
 export default {
   name: 'TxDetail',
   components: { MPagination, MClip, TxMessage },
   data() {
     return {
       Tools,
+      prodConfig,
       moduleSupport,
       addressRoute,
       TX_TYPE,
