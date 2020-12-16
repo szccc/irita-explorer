@@ -48,7 +48,7 @@
 
 <script>
 import prodConfig from "../../productionConfig"
-import { getStatistics,getPledgeRate } from "../../service/api";
+import { getDbStatistics,getNetworkStatistics } from "../../service/api";
 import Tools from "../../util/Tools";
 import {moduleSupport} from "../../helper/ModulesHelper";
 import { addressRoute } from '@/helper/IritaHelper'
@@ -174,63 +174,63 @@ export default {
   methods: {
         async getNavigation(){
             try{
-                let statistics,pledgeRate;
-                if(prodConfig.homeCard.includes(209)) {
-                    let HomeCardArray = prodConfig.homeCard.filter( item => {
-                        return item !== 209
-                    })
-                    statistics = await getStatistics(HomeCardArray)
-                    pledgeRate = await getPledgeRate()
-                } else {
-                    statistics = await getStatistics(prodConfig.homeCard)
-                }
-                if(statistics) {
+                let HomeCardArrayDb=[],HomeCardArrayNetwork=[];
+                prodConfig.homeCard.forEach(code => {
+                    if(code == 200 || code == 201 || code == 209) {
+                        HomeCardArrayNetwork.push(code)
+                    } else {
+                        HomeCardArrayDb.push(code)
+                    }
+                })
+                let statisticsDb = await getDbStatistics(HomeCardArrayDb)
+                let statisticsNetwork = await getNetworkStatistics(HomeCardArrayNetwork)
+                this.navigationArray=[]
+                if(statisticsDb && statisticsNetwork) {
                     this.validatorHeaderImgHref = ''
                     //先通过正则剔除符号空格及表情，只保留数字字母汉字
                     let regex =  /[^\w\u4e00-\u9fa50-9a-zA-Z]/g;
-                    let replaceMoniker = statistics.moniker.replace(regex,'');
-                    this.validatorHeaderImgHref = statistics.validator_icon ? statistics.validator_icon : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
+                    let replaceMoniker = statisticsNetwork.moniker.replace(regex,'');
+                    this.validatorHeaderImgHref = statisticsNetwork.validator_icon ? statisticsNetwork.validator_icon : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
                     this.validatorHeaderImgSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : '';
-                    this.moniker = Tools.formatString(statistics.moniker,this.monikerStringLength,'...');
-                    this.proposerAddress = statistics.operator_addr;
-                    this.currentBlockHeight = statistics.blockHeight;
-                    this.navigationArray=[]
+                    this.moniker = Tools.formatString(statisticsNetwork.moniker,this.monikerStringLength,'...');
+                    this.proposerAddress = statisticsNetwork.operator_addr;
+                    this.currentBlockHeight = statisticsNetwork.blockHeight;
                     prodConfig.homeCard.forEach(item => {
                         if(item === 200) return
                         let itemObj = this.navigationObj[item]
                         switch(item) {
                             case 201:
-                                itemObj.value = statistics.txCount;
-                                itemObj.footerLabel = Tools.getDisplayDate(statistics.latestBlockTime) 
-                                break;                        
-                            case 202:
-                                itemObj.value = statistics.validatorCount;
+                                itemObj.value = statisticsNetwork.txCount;
+                                itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime) 
+                                break;
+                             case 202:
+                                itemObj.value = statisticsDb.validatorCount;
                                 break;
                             case 203:
-                                itemObj.value = `${statistics.avgBlockTime}s`
+                                itemObj.value = `${statisticsDb.avgBlockTime}s`
                                 break;
                             case 204:
-                                itemObj.value = statistics.assetCount
+                                itemObj.value = statisticsDb.assetCount
                                 break;
                             case 205:
-                                itemObj.value = statistics.denomCount
+                                itemObj.value = statisticsDb.denomCount
                                 break;
                             case 206:
-                                itemObj.value = statistics.serviceCount
+                                itemObj.value = statisticsDb.serviceCount
                                 break;
                             case 207:
-                                itemObj.value = statistics.identityCount
+                                itemObj.value = statisticsDb.identityCount
                                 break;
                             case 208:
-                                itemObj.value = statistics.validatorNumCount
-                                break;
+                                itemObj.value = statisticsDb.validatorNumCount
+                                break;                      
                             case 209:
-                                if(pledgeRate.total_supply) {
-                                    itemObj.value = Tools.formatPercentageNumbers(pledgeRate.bonded_tokens,pledgeRate.total_supply)
-                                    itemObj.footerLabel = Tools.formatBondedTokens(pledgeRate.bonded_tokens,pledgeRate.total_supply)
+                                if(statisticsNetwork.total_supply) {
+                                    itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
+                                    itemObj.footerLabel = Tools.formatBondedTokens(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
                                 } else {
                                     itemObj.value = '--';
-                                    itemObj.footerLabel = `${pledgeRate.bonded_tokens || '--'} / ${pledgeRate.total_supply || '--'}`;
+                                    itemObj.footerLabel = `${statisticsNetwork.bonded_tokens || '--'} / ${statisticsNetwork.total_supply || '--'}`;
                                 }
                                 break;
                         }

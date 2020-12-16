@@ -39,13 +39,13 @@ function getFromLcd(url){
 	})
 }
 
-export function getStatistics(params){
-	let url = `statistics?params=${params}`;
+export function getDbStatistics(params){
+	let url = `statistics/db?params=${params}`;
 	return get(url);
 }
 
-export function getPledgeRate(){
-	let url = `statistics/pledge_rate`;
+export function getNetworkStatistics(params){
+	let url = `statistics/network?params=${params}`;
 	return get(url);
 }
 
