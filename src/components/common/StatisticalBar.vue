@@ -8,7 +8,8 @@
                     <span class="statistical_validator_header_label">{{$t('ExplorerLang.home.blockHeight')}}</span>
                 </p>
                 <p class="statistical_current_block skip_route">
-                    <router-link :to="`/block/${currentBlockHeight}`">{{currentBlockHeight}}</router-link>
+                    <router-link v-if="currentBlockHeight" :to="`/block/${currentBlockHeight}`">{{currentBlockHeight}}</router-link>
+                    <span v-else>--</span>
                 </p>
             </div>
             <div class="statistical_validator_bottom_content">
@@ -33,7 +34,7 @@
                         <span class="statistical_content">{{item.label}}</span>
                     </p>
                     <p class="statistical_center_content">
-                        <router-link v-if="item.to" :to="item.to">{{item.value}}</router-link>
+                        <router-link v-if="item.to && item.value !== '--'" :to="item.to">{{item.value}}</router-link>
                         <span v-else>{{item.value}}</span>
                     </p>
                     <p class="statistical_footer_content">
