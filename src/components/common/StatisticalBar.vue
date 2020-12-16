@@ -1,7 +1,7 @@
 <template>
   <div class="statistical_bar_container">
       <div class="statistical_bar_wrap" :class="{noStaking: !moduleSupport('107', prodConfig.navFuncList)}">
-        <div class="statistical_validator_content" v-if=" moduleSupport('107', prodConfig.navFuncList)">
+        <div class="statistical_validator_content" v-if="moduleSupport('107', prodConfig.navFuncList)">
             <div class="statistical_validator_top_content">
                 <p class="statistical_validator_header">
                     <span class="iconfont iconBlocks"></span>
@@ -48,7 +48,7 @@
 
 <script>
 import prodConfig from "../../productionConfig"
-import { getStatistics } from "../../service/api";
+import { getStatistics,getPledgeRate } from "../../service/api";
 import Tools from "../../util/Tools";
 import {moduleSupport} from "../../helper/ModulesHelper";
 import { addressRoute } from '@/helper/IritaHelper'
@@ -146,10 +146,10 @@ export default {
   },
   computed: {
       lineNum() {
-          prodConfig.homeCard = prodConfig.homeCard.filter( item => {
+          let HomeCardArray = prodConfig.homeCard.filter( item => {
               return item !== 200
           })
-          let num = prodConfig.homeCard.length
+          let num = HomeCardArray.length
           if(num <= 4) {
               return ''
           } else if ( num <= 6) {
@@ -174,8 +174,17 @@ export default {
   methods: {
         async getNavigation(){
             try{
-                let statistics = await getStatistics();
-                if(statistics){
+                let statistics,pledgeRate;
+                if(prodConfig.homeCard.includes(209)) {
+                    let HomeCardArray = prodConfig.homeCard.filter( item => {
+                        return item !== 209
+                    })
+                    statistics = await getStatistics(HomeCardArray)
+                    pledgeRate = await getPledgeRate()
+                } else {
+                    statistics = await getStatistics(prodConfig.homeCard)
+                }
+                if(statistics) {
                     this.validatorHeaderImgHref = ''
                     //先通过正则剔除符号空格及表情，只保留数字字母汉字
                     let regex =  /[^\w\u4e00-\u9fa50-9a-zA-Z]/g;
@@ -216,12 +225,12 @@ export default {
                                 itemObj.value = statistics.validatorNumCount
                                 break;
                             case 209:
-                                if(statistics.total_supply) {
-                                    itemObj.value = Tools.formatPercentageNumbers(statistics.bonded_tokens,statistics.total_supply)
-                                    itemObj.footerLabel = Tools.formatBondedTokens(statistics.bonded_tokens,statistics.total_supply)
+                                if(pledgeRate.total_supply) {
+                                    itemObj.value = Tools.formatPercentageNumbers(pledgeRate.bonded_tokens,pledgeRate.total_supply)
+                                    itemObj.footerLabel = Tools.formatBondedTokens(pledgeRate.bonded_tokens,pledgeRate.total_supply)
                                 } else {
                                     itemObj.value = '--';
-                                    itemObj.footerLabel = `${statistics.bonded_tokens || '--'} / ${statistics.total_supply || '--'}`;
+                                    itemObj.footerLabel = `${pledgeRate.bonded_tokens || '--'} / ${pledgeRate.total_supply || '--'}`;
                                 }
                                 break;
                         }
