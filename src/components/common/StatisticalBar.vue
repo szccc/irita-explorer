@@ -190,10 +190,12 @@ export default {
                     this.validatorHeaderImgHref = ''
                     //先通过正则剔除符号空格及表情，只保留数字字母汉字
                     let regex =  /[^\w\u4e00-\u9fa50-9a-zA-Z]/g;
-                    let replaceMoniker = statisticsNetwork.moniker.replace(regex,'');
-                    this.validatorHeaderImgHref = statisticsNetwork.validator_icon ? statisticsNetwork.validator_icon : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
-                    this.validatorHeaderImgSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : '';
-                    this.moniker = Tools.formatString(statisticsNetwork.moniker,this.monikerStringLength,'...');
+                    if(statisticsNetwork.moniker) {
+                        let replaceMoniker = statisticsNetwork.moniker && statisticsNetwork.moniker.replace(regex,'');
+                        this.validatorHeaderImgHref = statisticsNetwork.validator_icon ? statisticsNetwork.validator_icon : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
+                        this.validatorHeaderImgSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : '';
+                        this.moniker = Tools.formatString(statisticsNetwork.moniker,this.monikerStringLength,'...');
+                    }
                     this.proposerAddress = statisticsNetwork.operator_addr;
                     this.currentBlockHeight = statisticsNetwork.blockHeight;
                     prodConfig.homeCard.forEach(item => {

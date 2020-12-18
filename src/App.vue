@@ -94,6 +94,7 @@ export default {
   }
   .address_link {
     color: $t_link_c !important;
-    cursor:pointer
+    cursor:pointer;
+    font-weight: normal !important;
   }
 </style>

@@ -68,7 +68,7 @@
 
 <script>
 import Tools from '@/util/Tools'
-import { ColumnMinWidth } from '@/constant'
+import { ColumnMinWidth,monikerNum } from '@/constant'
 import { addressRoute } from '@/helper/IritaHelper'
 export default {
   name: 'ValidationTxsList',
@@ -103,7 +103,7 @@ export default {
       if (!moniker) {
         return ''
       }
-      return Tools.formatString(moniker, 8, '...')
+      return Tools.formatString(moniker, monikerNum, '...')
     },
     getDisplayTxType(types = []) {
       let type = types[0] || ''

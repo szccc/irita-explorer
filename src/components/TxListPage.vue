@@ -77,7 +77,7 @@
 <script>
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
-	import {pageTitleConfig, TxStatus,decimals} from "../constant";
+	import {pageTitleConfig, TxStatus,decimals,monikerNum} from "../constant";
 	import {TxHelper} from '@/helper/TxHelper.js'
 	import {getTypeStakingApi, getTypeDeclarationApi, getDelegationTxsApi, getValidationTxsApi} from "@/service/api";
 	import {converCoin,getMainToken} from "../helper/IritaHelper";
@@ -447,7 +447,7 @@
 				if (!moniker) {
 					return ''
 				}
-				return Tools.formatString(moniker, 8, '...')
+				return Tools.formatString(moniker, monikerNum, '...')
 			},
 			getDisplayTxType(types=[]){
 				let type = types[0] || '';

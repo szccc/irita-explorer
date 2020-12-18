@@ -120,7 +120,7 @@
 	import ValidatorCommissionInformation from './ValidatorCommissionInformation'
 	import MPagination from '../common/MPagination'
 	import Tools from '../../util/Tools.js'
-	import Constants,{ TxStatus,ColumnMinWidth,decimals } from '../../constant/index.js'
+	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum } from '../../constant/index.js'
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
@@ -314,7 +314,7 @@
 				if (!moniker) {
 					return ''
 				}
-				return Tools.formatString(moniker, 8, '...')
+				return Tools.formatString(moniker, monikerNum, '...')
 			},
 			getDisplayTxType(types=[]){
 				let type = types[0] || '';
