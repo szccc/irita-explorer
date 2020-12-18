@@ -555,7 +555,7 @@
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
-	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth} from '../constant';
+	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth,monikerNum} from '../constant';
 	import AddressInformationComponent from "./AddressInformationComponent";
 	import LargeString from './common/LargeString';
 	import { addressRoute } from '@/helper/IritaHelper'
@@ -1354,7 +1354,7 @@
 				if (!moniker) {
 					return "";
 				}
-				return Tools.formatString(moniker, 8, "...");
+				return Tools.formatString(moniker, monikerNum, "...");
 			},
 			handleChange(value) {
                 value ? this.type_temp = value[1] ? value[1] : '' : ''

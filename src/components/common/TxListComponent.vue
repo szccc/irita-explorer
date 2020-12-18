@@ -93,7 +93,7 @@
 <script>
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
-    import { TX_TYPE,TX_STATUS,ColumnMinWidth } from '../../constant';
+    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum } from '../../constant';
     import { addressRoute } from '@/helper/IritaHelper'
     export default {
         name : "TxList",
@@ -174,7 +174,7 @@
 				if (!moniker) {
 					return ''
 				}
-				return Tools.formatString(moniker, 8, '...')
+				return Tools.formatString(moniker, monikerNum, '...')
 			},
         }
     }

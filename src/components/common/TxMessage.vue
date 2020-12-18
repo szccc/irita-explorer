@@ -1654,7 +1654,7 @@
 								this.commissionMaxChangeRate = `${Tools.formatPercentage(msg.commission.max_change_rate)} %`
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
-								this.minSelfDelegation = msg.min_self_delegation ? `${msg.min_self_delegation} ${mainToken.min_unit.toLowerCase()}` : '--'
+								this.minSelfDelegation = msg.min_self_delegation || '--'
 								break;
 							case TX_TYPE.withdraw_delegator_reward:
 								this.from = msg.validator_address;
@@ -1711,7 +1711,7 @@
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
 								this.operMoniker = this.getMoniker(this.operatorAddress,this.monikers);
-								this.minSelfDelegation = msg.min_self_delegation ? `${msg.min_self_delegation} ${mainToken.min_unit.toLowerCase()}` : '--'
+								this.minSelfDelegation = msg.min_self_delegation || '--'
 								this.securityContact = msg.description && msg.description.security_contact || '--'
 								break;
 							case TX_TYPE.delegate:
