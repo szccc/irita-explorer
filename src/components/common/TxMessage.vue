@@ -1969,6 +1969,10 @@
 				word-break: break-all;
 				line-height: 0.20rem;
 			}
+			
+			a {
+				word-break: break-all;
+			}
 		}
 		
 		p:last-child {
