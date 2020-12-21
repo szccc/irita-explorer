@@ -1,5 +1,6 @@
 import { getConfig as getConfigApi } from "@/service/api";
 import moveDecimal from 'move-decimal-point'
+import Tools from "../util/Tools";
 
 export async function getConfig(){
     let config = window.sessionStorage.getItem('config');
@@ -76,4 +77,11 @@ export async function addressRoute (address) {
         }
     }
     return '';
+}
+
+export function formatMoniker (moniker,monikerNum) {
+    if (!moniker) {
+        return "";
+    }
+    return Tools.formatString(moniker.trim(), monikerNum, "...");
 }

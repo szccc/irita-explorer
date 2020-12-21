@@ -70,7 +70,7 @@
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
 									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')" align="left"
-									                 :min-width="ColumnMinWidth.blockHeight">
+									                 :min-width="ColumnMinWidth.blockListHeight">
 										<template v-slot:default="{ row }">
 											<router-link style="font-family: Arial;"
 											             :to="'/block/' + row.block"
@@ -120,7 +120,7 @@
 	import ValidatorCommissionInformation from './ValidatorCommissionInformation'
 	import MPagination from '../common/MPagination'
 	import Tools from '../../util/Tools.js'
-	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum } from '../../constant/index.js'
+	import Constants,{ TxStatus,ColumnMinWidth,decimals } from '../../constant/index.js'
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
@@ -309,12 +309,6 @@
 				if (TxHash) {
 					return Tools.formatTxHash(TxHash)
 				}
-			},
-			formatMoniker (moniker) {
-				if (!moniker) {
-					return ''
-				}
-				return Tools.formatString(moniker, monikerNum, '...')
 			},
 			getDisplayTxType(types=[]){
 				let type = types[0] || '';

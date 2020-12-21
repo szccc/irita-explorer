@@ -39,10 +39,10 @@
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
                         <span v-if="isValid(scope.row.from) && address !== scope.row.from " class="address_link" @click="addressRoute(scope.row.from)">
-                            {{  formatMoniker(scope.row.fromMonikers) || formatAddress(scope.row.from)}}
+                            {{  formatMoniker(scope.row.fromMonikers,monikerNum.otherTable) || formatAddress(scope.row.from)}}
                         </span>
                         <span v-else>
-                            {{  formatMoniker(scope.row.fromMonikers) || formatAddress(scope.row.from)}}
+                            {{  formatMoniker(scope.row.fromMonikers,monikerNum.otherTable) || formatAddress(scope.row.from)}}
                         </span>
                     </el-tooltip>
                     <span v-if="!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ">--</span>
@@ -55,10 +55,10 @@
                                 :key="Math.random()"
                                 :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
                         <span v-if="typeof scope.row.to=='string' && isValid(scope.row.to) && address !== scope.row.to" class="address_link" @click="addressRoute(scope.row.to)">
-                            {{ formatMoniker(scope.row.toMonikers) || formatAddress(scope.row.to)}}
+                            {{ formatMoniker(scope.row.toMonikers,monikerNum.otherTable) || formatAddress(scope.row.to)}}
                         </span>
                         <span v-else-if="typeof scope.row.to=='string' && isValid(scope.row.to) && address === scope.row.to">
-                            {{ formatMoniker(scope.row.toMonikers) || formatAddress(scope.row.to)}}
+                            {{ formatMoniker(scope.row.toMonikers,monikerNum.otherTable) || formatAddress(scope.row.to)}}
                         </span>
                         <router-link v-else-if="isValid(scope.row.to)" :to="`/tx?txHash=${scope.row.txHash}`">
                             {{ `${scope.row.to.length} ${$t('ExplorerLang.unit.providers')}`}}
@@ -94,7 +94,7 @@
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
     import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum } from '../../constant';
-    import { addressRoute } from '@/helper/IritaHelper'
+    import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
     export default {
         name : "TxList",
         components : {},
@@ -114,7 +114,9 @@
                 TX_STATUS,
                 ColumnMinWidth,
                 Tools,
-                addressRoute
+                addressRoute,
+                formatMoniker,
+                monikerNum
             }
         },
         computed:{
@@ -169,13 +171,7 @@
             },
             formatAddress(address){
                 return Tools.formatValidatorAddress(address)
-            },
-            formatMoniker (moniker) {
-				if (!moniker) {
-					return ''
-				}
-				return Tools.formatString(moniker, monikerNum, '...')
-			},
+            }
         }
     }
 </script>

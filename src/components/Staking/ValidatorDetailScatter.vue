@@ -60,12 +60,15 @@
 			}
 		},
 		watch:{
-			validatorStatus(){
-				if(this.validatorStatus === this.validator_Status.jailed || this.validatorStatus === this.validator_Status.candidate){
-					this.tipColor = "#101149"
-				}else {
-					this.tipColor = "#FF5C01"
-				}
+			validatorStatus: {
+				handler() {
+					if(this.validatorStatus === this.validator_Status.jailed || this.validatorStatus === this.validator_Status.candidate){
+						this.tipColor = "#101149"
+					}else {
+						this.tipColor = "#FF5C01"
+					}
+				},
+				immediate:true
 			}
 		},
 		mounted () {
@@ -88,7 +91,7 @@
 			async initCharts(){
 				let mainToken = await getMainToken();
 				let itemStyle = {
-					opacity: 0.5,
+					opacity: 0.4,
 					shadowOffsetX: 0,
 					shadowOffsetY: 0,
 				};
@@ -170,7 +173,11 @@
 						}
 					]
 				};
-				echartsOption.color = this.mainnetThemeStyle
+				if(this.validatorStatus === this.validator_Status.active){
+					echartsOption.color = this.mainnetThemeStyle
+				}else {
+					echartsOption.color = this.mainnetJailedThemeStyle
+				}
 				echartsData.setOption(echartsOption)
 			},
 			async getValidatorCommissionInfo(){

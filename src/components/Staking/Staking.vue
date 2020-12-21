@@ -57,15 +57,14 @@ import Tools from '../../util/Tools'
 import BigNumber from 'bignumber.js'
 import { getValidatorsListApi } from "@/service/api"
 import productionConfig from '@/productionConfig.js'
-import { getMainToken,converCoin } from '@/helper/IritaHelper';
-import { ColumnMinWidth } from '@/constant'
+import { getMainToken,converCoin,formatMoniker } from '@/helper/IritaHelper';
+import { ColumnMinWidth,monikerNum } from '@/constant'
 export default {
   name: 'Staking',
   components: { MTabs, MPagination },
   props: {},
   data() {
     return {
-      cutNumber: 8,
       decimalNamber: 2,
       percentum:4,
       ColumnMinWidth,
@@ -153,7 +152,7 @@ export default {
                   validatorStatus: status,
                   isTooltip: item.description.moniker.length > this.cutNumber,
                   monikerValue: item.description.moniker,
-                  moniker: Tools.formatString(item.description.moniker, this.cutNumber, '...'),
+                  moniker: formatMoniker(item.description.moniker, monikerNum.validatorList),
                   operatorAddress: item.operator_address,
                   commission: `${(item.commission.commission_rates.rate * 100).toFixed(this.decimalNamber)} %`,
                   bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)} ${bondedToken.denom.toLocaleUpperCase()}`,
