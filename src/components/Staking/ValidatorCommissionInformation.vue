@@ -11,7 +11,7 @@
 					<!-- 散点图标题 -->
 					<p class="validator_commission_information_scatter_title">{{ $t('ExplorerLang.validatorDetail.commissionInfo.scatter.title') }}</p>
 					<!-- 散点图 -->
-					<validator-detail-scatter :jailedData="jailedData" :validatorStatus="validatorStatus"></validator-detail-scatter>
+					<validator-detail-scatter v-if="validatorStatus && jailedData" :jailedData="jailedData" :validatorStatus="validatorStatus"></validator-detail-scatter>
 				</div>
 				<!-- 右侧详细信息 -->
 				<div class="validator_commission_bonded_container">
