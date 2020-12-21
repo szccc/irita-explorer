@@ -169,7 +169,7 @@ export const ColumnMinWidth = {
   unbondingHeight: '155',
   amount: '110',
   delegationTxsAmount: '155',
-  delegationTxsFrom: '93',
+  delegationTxsFrom: '126',
   shares: '213',
   fee: '110',
   consensus: '340',
@@ -300,4 +300,9 @@ export const decimals = {
 
 export default {
   CHAINID
+}
+
+export const monikerNum = {
+  validatorList: 8,
+  otherTable: 15
 }
