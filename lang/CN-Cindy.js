@@ -98,7 +98,8 @@ export const ExplorerLang = {
         // second:'秒',
     },
     message:{
-        requestFailed:'数据获取失败,请稍后重试',
+        requestFailed: '数据获取失败,请稍后重试',
+        noTransaction: '暂无交易记录'
     },
     Navigation:{
         block: '区块浏览',

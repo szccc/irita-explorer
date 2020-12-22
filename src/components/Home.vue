@@ -42,7 +42,7 @@
 							<router-link :to="`/txs`">{{$t('ExplorerLang.home.viewAll')}}</router-link>
 						</div>
 					</div>
-					<ul class="home_transaction_bottom_content">
+					<ul class="home_transaction_bottom_content" v-if="latestTransaction && latestTransaction.length">
 						<li class="home_transaction_list_item_content" v-for="(item,index) in latestTransaction" :key="index">
 							<p class="home_transaction_time_content">
 								<span class="home_transaction" >
@@ -63,6 +63,9 @@
 								<span class="home_tx_time">{{item.time}}</span>
 							</p>
 						</li>
+					</ul>
+					<ul class="home_transaction_bottom_content" v-else>
+						<li style="padding-top: 15px">{{$t('ExplorerLang.message.noTransaction')}}</li>
 					</ul>
 				</div>
 			</div>
