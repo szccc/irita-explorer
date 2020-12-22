@@ -52,7 +52,8 @@ import prodConfig from "../../productionConfig"
 import { getDbStatistics,getNetworkStatistics } from "../../service/api";
 import Tools from "../../util/Tools";
 import {moduleSupport} from "../../helper/ModulesHelper";
-import { addressRoute } from '@/helper/IritaHelper'
+import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
+import { monikerNum } from '../../constant'
 export default {
   name: 'StatisticalBar',
   data () {
@@ -141,8 +142,7 @@ export default {
         validatorHeaderImgSrc:'',
         validatorHeaderImgHref:'',
         moniker:'',
-        proposerAddress:'',
-        monikerStringLength:8
+        proposerAddress:''
     }
   },
   computed: {
@@ -194,7 +194,7 @@ export default {
                         let replaceMoniker = statisticsNetwork.moniker && statisticsNetwork.moniker.replace(regex,'');
                         this.validatorHeaderImgHref = statisticsNetwork.validator_icon ? statisticsNetwork.validator_icon : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
                         this.validatorHeaderImgSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : '';
-                        this.moniker = Tools.formatString(statisticsNetwork.moniker,this.monikerStringLength,'...');
+                        this.moniker = formatMoniker(statisticsNetwork.moniker,monikerNum.home);
                     }
                     this.proposerAddress = statisticsNetwork.operator_addr;
                     this.currentBlockHeight = statisticsNetwork.blockHeight;

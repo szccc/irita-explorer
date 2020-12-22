@@ -19,12 +19,13 @@
                 <el-table class="table" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.identity" :label="$t('ExplorerLang.table.identity')">
                         <template slot-scope="scope">
-                            <el-tooltip :content="scope.row.id"
+                            <!-- <el-tooltip :content="scope.row.id"
                                         placement="top"
                                         effect="dark"
                                         :disabled="!Tools.isValid(scope.row.id)">
                                 <router-link :to="`/identity/${scope.row.id}`">{{formatStr20(scope.row.id)}}</router-link>
-                            </el-tooltip>
+                            </el-tooltip> -->
+                            <router-link :to="`/identity/${scope.row.id}`">{{scope.row.id}}</router-link>
                         </template>
                     </el-table-column>
                     <el-table-column :min-width="ColumnMinWidth.address"
@@ -143,12 +144,12 @@
                     return Tools.formatTxHash(TxHash)
                 }
             },
-            formatStr20(str){
-                if (str && str.length > 20) {
-                    return `${str.substr(0,20)}...`;
-                }
-                return str || '';
-            },
+            // formatStr20(str){
+            //     if (str && str.length > 20) {
+            //         return `${str.substr(0,20)}...`;
+            //     }
+            //     return str || '';
+            // },
             formatUrl(url){
                 if (!(/^http:\/\/|^https:\/\//).test(url)) {
                     return `http://${url}`;

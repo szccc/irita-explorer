@@ -153,7 +153,7 @@ export const ColumnMinWidth = {
   price: '120',
   deposit: '120',
   nftCount: '100',
-  identity: '220',
+  identity: '300',
   idPubKey: '220',
   idPubKeyFull:'650',
   pubKeyAlgo: '120',
@@ -304,5 +304,6 @@ export default {
 
 export const monikerNum = {
   validatorList: 8,
+  home:12,
   otherTable: 15
 }
