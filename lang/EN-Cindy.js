@@ -98,7 +98,8 @@ export const ExplorerLang = {
         // second:'Second',
     },
     message:{
-        requestFailed:'Failed to get data, please try again later',
+        requestFailed: 'Failed to get data, please try again later',
+        noTransaction: 'No Transaction'
     },
     Navigation:{
         block: 'Blockchain',
