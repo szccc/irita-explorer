@@ -210,6 +210,7 @@
 						// block: item.block,
 					})
 				})
+				
 			},
 			async getUnbondingDelegations (page = 1) {
 				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, true)
