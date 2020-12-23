@@ -1,5 +1,6 @@
 import { getConfig as getConfigApi } from "@/service/api";
 import moveDecimal from 'move-decimal-point'
+import Tools from "../util/Tools";
 
 export async function getConfig(){
     let config = window.sessionStorage.getItem('config');
@@ -61,4 +62,26 @@ export async function converCoin(_coin){
         return coin;
     }
     return displayCoin;
+}
+
+export async function addressRoute (address) {
+    let { addressPrefix = {} } = await getConfig();
+    if (addressPrefix.iva) {
+        let length = addressPrefix.iva.length 
+        if(address) {
+            if (address.substring(0, length) === addressPrefix.iva) {
+                return this.$router.push(`/staking/${address}`)
+            } else {
+                return this.$router.push(`/address/${address}`)
+            }
+        }
+    }
+    return '';
+}
+
+export function formatMoniker (moniker,monikerNum) {
+    if (!moniker) {
+        return "";
+    }
+    return Tools.formatString(moniker.trim(), monikerNum, "...");
 }

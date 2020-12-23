@@ -1,27 +1,28 @@
 <template>
   <div class="statistical_bar_container">
       <div class="statistical_bar_wrap" :class="{noStaking: !moduleSupport('107', prodConfig.navFuncList)}">
-        <div class="statistical_validator_content" v-if=" moduleSupport('107', prodConfig.navFuncList)">
+        <div class="statistical_validator_content" v-if="moduleSupport('107', prodConfig.navFuncList)">
             <div class="statistical_validator_top_content">
                 <p class="statistical_validator_header">
                     <span class="iconfont iconBlocks"></span>
                     <span class="statistical_validator_header_label">{{$t('ExplorerLang.home.blockHeight')}}</span>
                 </p>
                 <p class="statistical_current_block skip_route">
-                    <router-link :to="`/block/${currentBlockHeight}`">{{currentBlockHeight}}</router-link>
+                    <router-link v-if="currentBlockHeight" :to="`/block/${currentBlockHeight}`">{{currentBlockHeight}}</router-link>
+                    <span v-else>--</span>
                 </p>
             </div>
             <div class="statistical_validator_bottom_content">
                 <div class="statistical_img_content">
-                    <router-link :to="Tools.addressRoute(proposerAddress)">
+                    <a @click="addressRoute(proposerAddress)">
                         <div class="statistical_validator_header_img_content">
                             <span >{{validatorHeaderImgSrc}}</span>
                             <img v-show="validatorHeaderImgHref" :src="validatorHeaderImgHref"  @error="imgLoadError()">
                         </div>
-                    </router-link>
+                    </a>
                 </div>
                 <p class="statistical_moniker_content skip_route">
-                    <router-link :to="Tools.addressRoute(proposerAddress)">{{moniker}}</router-link>
+                    <span class="address_link" @click="addressRoute(proposerAddress)">{{moniker}}</span>
                 </p>
             </div>
         </div>
@@ -33,7 +34,7 @@
                         <span class="statistical_content">{{item.label}}</span>
                     </p>
                     <p class="statistical_center_content">
-                        <router-link v-if="item.to" :to="item.to">{{item.value}}</router-link>
+                        <router-link v-if="item.to && item.value !== '--'" :to="item.to">{{item.value}}</router-link>
                         <span v-else>{{item.value}}</span>
                     </p>
                     <p class="statistical_footer_content">
@@ -48,9 +49,11 @@
 
 <script>
 import prodConfig from "../../productionConfig"
-import { getStatistics } from "../../service/api";
+import { getDbStatistics,getNetworkStatistics } from "../../service/api";
 import Tools from "../../util/Tools";
 import {moduleSupport} from "../../helper/ModulesHelper";
+import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
+import { monikerNum } from '../../constant'
 export default {
   name: 'StatisticalBar',
   data () {
@@ -58,6 +61,7 @@ export default {
         prodConfig,
         moduleSupport,
         Tools,
+        addressRoute,
         navigationObj:{
             201: {
                 id:201,
@@ -138,16 +142,15 @@ export default {
         validatorHeaderImgSrc:'',
         validatorHeaderImgHref:'',
         moniker:'',
-        proposerAddress:'',
-        monikerStringLength:8
+        proposerAddress:''
     }
   },
   computed: {
       lineNum() {
-          prodConfig.homeCard = prodConfig.homeCard.filter( item => {
+          let HomeCardArray = prodConfig.homeCard.filter( item => {
               return item !== 200
           })
-          let num = prodConfig.homeCard.length
+          let num = HomeCardArray.length
           if(num <= 4) {
               return ''
           } else if ( num <= 6) {
@@ -172,54 +175,65 @@ export default {
   methods: {
         async getNavigation(){
             try{
-                let statistics = await getStatistics();
-                if(statistics){
+                let HomeCardArrayDb=[],HomeCardArrayNetwork=[];
+                prodConfig.homeCard.forEach(code => {
+                    if(code == 200 || code == 201 || code == 209) {
+                        HomeCardArrayNetwork.push(code)
+                    } else {
+                        HomeCardArrayDb.push(code)
+                    }
+                })
+                let statisticsDb = await getDbStatistics(HomeCardArrayDb)
+                let statisticsNetwork = await getNetworkStatistics(HomeCardArrayNetwork)
+                this.navigationArray=[]
+                if(statisticsDb && statisticsNetwork) {
                     this.validatorHeaderImgHref = ''
                     //先通过正则剔除符号空格及表情，只保留数字字母汉字
                     let regex =  /[^\w\u4e00-\u9fa50-9a-zA-Z]/g;
-                    let replaceMoniker = statistics.moniker.replace(regex,'');
-                    this.validatorHeaderImgHref = statistics.validator_icon ? statistics.validator_icon : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
-                    this.validatorHeaderImgSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : '';
-                    this.moniker = Tools.formatString(statistics.moniker,this.monikerStringLength,'...');
-                    this.proposerAddress = statistics.operator_addr;
-                    this.currentBlockHeight = statistics.blockHeight;
-                    this.navigationArray=[]
+                    if(statisticsNetwork.moniker) {
+                        let replaceMoniker = statisticsNetwork.moniker && statisticsNetwork.moniker.replace(regex,'');
+                        this.validatorHeaderImgHref = statisticsNetwork.validator_icon ? statisticsNetwork.validator_icon : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
+                        this.validatorHeaderImgSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : '';
+                        this.moniker = formatMoniker(statisticsNetwork.moniker,monikerNum.home);
+                    }
+                    this.proposerAddress = statisticsNetwork.operator_addr;
+                    this.currentBlockHeight = statisticsNetwork.blockHeight;
                     prodConfig.homeCard.forEach(item => {
                         if(item === 200) return
                         let itemObj = this.navigationObj[item]
                         switch(item) {
                             case 201:
-                                itemObj.value = statistics.txCount;
-                                itemObj.footerLabel = Tools.getDisplayDate(statistics.latestBlockTime) 
-                                break;                        
-                            case 202:
-                                itemObj.value = statistics.validatorCount;
+                                itemObj.value = statisticsNetwork.txCount;
+                                itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime) 
+                                break;
+                             case 202:
+                                itemObj.value = statisticsDb.validatorCount;
                                 break;
                             case 203:
-                                itemObj.value = `${statistics.avgBlockTime}s`
+                                itemObj.value = `${statisticsDb.avgBlockTime}s`
                                 break;
                             case 204:
-                                itemObj.value = statistics.assetCount
+                                itemObj.value = statisticsDb.assetCount
                                 break;
                             case 205:
-                                itemObj.value = statistics.denomCount
+                                itemObj.value = statisticsDb.denomCount
                                 break;
                             case 206:
-                                itemObj.value = statistics.serviceCount
+                                itemObj.value = statisticsDb.serviceCount
                                 break;
                             case 207:
-                                itemObj.value = statistics.identityCount
+                                itemObj.value = statisticsDb.identityCount
                                 break;
                             case 208:
-                                itemObj.value = statistics.validatorNumCount
-                                break;
+                                itemObj.value = statisticsDb.validatorNumCount
+                                break;                      
                             case 209:
-                                if(statistics.total_supply) {
-                                    itemObj.value = Tools.formatPercentageNumbers(statistics.bonded_tokens,statistics.total_supply)
-                                    itemObj.footerLabel = Tools.formatBondedTokens(statistics.bonded_tokens,statistics.total_supply)
+                                if(statisticsNetwork.total_supply) {
+                                    itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
+                                    itemObj.footerLabel = Tools.formatBondedTokens(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
                                 } else {
                                     itemObj.value = '--';
-                                    itemObj.footerLabel = `${statistics.bonded_tokens || '--'} / ${statistics.total_supply || '--'}`;
+                                    itemObj.footerLabel = `${statisticsNetwork.bonded_tokens || '--'} / ${statisticsNetwork.total_supply || '--'}`;
                                 }
                                 break;
                         }

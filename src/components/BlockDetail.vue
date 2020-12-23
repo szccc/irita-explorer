@@ -34,7 +34,7 @@
 				</div>
 				<div class="block_information_item">
 					<span>{{$t('ExplorerLang.blockDetail.proposer')}}</span>
-					<span v-if="proposerAddress !== ''&& proposerAddress !== '--'"><router-link class="common_link_style" :to="`/staking/${proposerAddress}`">{{proposerValue}}</router-link></span>
+					<span v-if="proposerAddress !== '' && proposerAddress !== '--'"><router-link class="common_link_style" :to="`/staking/${proposerAddress}`">{{proposerValue}}</router-link></span>
 					<span v-if="proposerAddress === '' && proposerValue">{{proposerValue}}</span>
 					<span v-if="proposerAddress === '--'">--</span>
 				</div>
@@ -90,8 +90,8 @@
 						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
 							<template v-slot:default="{ row }">
 								<div class="common_hover_address_parent skip_route">
-									<router-link v-if="row.OperatorAddress !== '--'"  :to="Tools.addressRoute(row.OperatorAddress)" style="font-family: Arial" class="link_style common_font_style">{{formatAddress(row.OperatorAddress)}}
-									</router-link>
+									<span v-if="row.OperatorAddress !== '--'"  @click="addressRoute(row.OperatorAddress)" style="font-family: Arial" class="link_style common_font_style address_link">{{formatAddress(row.OperatorAddress)}}
+									</span>
 									<span v-else>{{ row.OperatorAddress }}</span>
 								</div>
 							</template>
@@ -129,13 +129,14 @@
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import prodConfig from "../productionConfig"
 	import MPagination from "./common/MPagination";
-	
+	import { addressRoute } from '@/helper/IritaHelper'
 	export default {
 		name: "BlockDetail",
 		components: {TxListComponent, MPagination},
 		data () {
 			return {
 				Tools,
+				addressRoute,
 				ColumnMinWidth,
 				moduleSupport,
 				prodConfig,
@@ -204,7 +205,7 @@
 					const height = this.$route.params.height
 					let res = await stakingBlockInformation(height)
 					if(res) {
-						this.proposerAddress = res.proposer_addr;
+						this.proposerAddress = res.proposer_addr || '--';
 						this.blockStakingHash = res.hash;
 						this.proposerValue = res.proposer_moniker || ( res.proposer_addr || '--');
 						this.validatorValue =`${res.precommit_validator_num || 0} / ${res.total_validator_num || 0}`;

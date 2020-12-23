@@ -11,7 +11,7 @@
               <li class="kflower_list_item" v-for="item in leftInfoContentArray" :key="item.key">
                 <span class="kflower_item_name">{{ item.key }}:</span>
                 <span class="kflower_item_value">
-                  <router-link v-if="item.address" :to="Tools.addressRoute(item.address)">{{ item.address }}</router-link>
+                  <router-link v-if="item.address" @click="addressRoute(item.address)" class="address_link">{{ item.address }}</router-link>
                   <span v-if="item.value">{{ item.value }}</span>
                 </span>
               </li>
@@ -34,6 +34,7 @@
 import Tools from '../../util/Tools'
 import AssetTxsComponent from './AssetTxsComponent'
 import { getNativeAssetDetailApi } from '@/service/api'
+import { addressRoute } from '@/helper/IritaHelper'
 export default {
   name: 'AssetInformation',
   components: {AssetTxsComponent},
@@ -41,6 +42,7 @@ export default {
   data() {
     return {
       Tools,
+      addressRoute,
       tokenID: this.$route.params.param,
       leftInfoContentArray: [
         {

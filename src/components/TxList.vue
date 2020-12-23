@@ -135,11 +135,11 @@
             }
         },
         mounted(){
-            this.getFilterTxs();
+            this.getFilterTxs('init');
             this.getAllTxType();
         },
         methods : {
-            getFilterTxs(){
+            getFilterTxs(param){
                 this.statusValue = Number(this.statusValue || 0);
                 this.pageNum = 1;
                 let url = `/#/txs?pageNum=${this.pageNum}&pageSize=${this.pageSize}&useCount=true`;
@@ -161,7 +161,7 @@
                 if(this.endTime){
                     url += `&endTime=${this.endTime}`;
                 }
-                history.pushState(null, null, url);
+                param == 'init' ? history.replaceState(null, null, url) : history.pushState(null, null, url);
                 this.getTxList();
             },
             /*filterTxByTxType(e){
