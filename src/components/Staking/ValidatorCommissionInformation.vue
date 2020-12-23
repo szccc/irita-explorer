@@ -171,12 +171,12 @@ import { converCoin } from '../../helper/IritaHelper.js';
 						};
 						item.children.unshift(selfBonded,delegatorBonded)
 					}else if(item.dataName === 'delegator_shares'){
-						let delegator_shares = await converCoin({
-							amount: dataInfomation.delegator_shares,
-							denom: mainToken.min_unit
-						})
+						// let delegator_shares = await converCoin({
+						// 	amount: dataInfomation.delegator_shares,
+						// 	denom: mainToken.min_unit
+						// })
 						// item.value = `${this.$options.filters.amountFromat(delegator_shares.amount, "", this.irisTokenFixedNumber)}`
-						item.value = `${Tools.formatPriceToFixed(delegator_shares.amount,this.irisTokenFixedNumber)} ${delegator_shares.denom.toUpperCase()}`
+						item.value = `${Tools.formatPriceToFixed(dataInfomation.delegator_shares,this.irisTokenFixedNumber)}`
 					}else if(item.dataName === 'commission_rate'){
 						item.value = `${Tools.formatPerNumber(Number(dataInfomation.commission_rate) * 100)} %`
 					}else {
