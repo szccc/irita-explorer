@@ -297,15 +297,28 @@ export default class Tools {
     }
     return flag
   }
+  // 保留小数，不使用四舍五入
+  static toDecimal (num, decimal) {
+    num = this.FormatScientificNotationToNumber(num).toString();
+    let index = num.indexOf('.');
+    if (index !== -1) {
+      num = num.substring(0, decimal + index + 1)
+    } else {
+      num = num.substring(0)
+    }
+    return parseFloat(num).toFixed(decimal)
+  }
 
   static formatPerNumber (num) {
     if (typeof num === 'number' && !Object.is(num, NaN)) {
       let afterPoint = String(num).split('.')[1]
       let afterPointLong = (afterPoint && afterPoint.length) || 0
       if (afterPointLong > 2 && num !== 0) {
-        return num.toFixed(4)
+        // return num.toFixed(4)
+        return this.toDecimal(num,4)
       } else {
-        return num.toFixed(2)
+        // return num.toFixed(2)
+        return this.toDecimal(num,2)
       }
     }
     return num

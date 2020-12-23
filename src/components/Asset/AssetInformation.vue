@@ -97,7 +97,7 @@ export default {
         let res = await getNativeAssetDetailApi(this.$route.params.param)
         this.leftInfoContentArray.forEach(item => {
           if (item.id === 'owner') {
-            item.address = res[item.id]
+            item.value = res[item.id]
           } else if (item.id === 'total_supply' || item.id === 'initial_supply' || item.id === 'max_supply') {
             item.value = res[item.id] ? Tools.formatNumber(res[item.id]) : '--'
           } else if (item.id === 'mintable') {
