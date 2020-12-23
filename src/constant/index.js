@@ -153,7 +153,7 @@ export const ColumnMinWidth = {
   price: '120',
   deposit: '120',
   nftCount: '100',
-  identity: '220',
+  identity: '300',
   idPubKey: '220',
   idPubKeyFull:'650',
   pubKeyAlgo: '120',
@@ -169,7 +169,7 @@ export const ColumnMinWidth = {
   unbondingHeight: '155',
   amount: '110',
   delegationTxsAmount: '155',
-  delegationTxsFrom: '93',
+  delegationTxsFrom: '126',
   shares: '213',
   fee: '110',
   consensus: '340',
@@ -300,4 +300,10 @@ export const decimals = {
 
 export default {
   CHAINID
+}
+
+export const monikerNum = {
+  validatorList: 8,
+  home:12,
+  otherTable: 15
 }

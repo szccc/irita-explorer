@@ -340,7 +340,7 @@
 											<el-tooltip :content="`${row.address}`">
 												<span v-if="row.moniker" class="address_link"
 												             @click="addressRoute(row.address)">
-													{{formatMoniker(row.moniker)}}
+													{{formatMoniker(row.moniker,monikerNum.otherTable)}}
 												</span>
 												<span v-if="!row.moniker" style="font-family:Arial"
 												             class="address_link" @click="addressRoute(row.address)">
@@ -380,7 +380,7 @@
 											<el-tooltip :content="`${row.address}`">
 												<span v-if="row.moniker" class="address_link"
 												             @click="addressRoute(row.address)">
-													{{formatMoniker(row.moniker)}}
+													{{formatMoniker(row.moniker,monikerNum.otherTable)}}
 												</span>
 												<span v-if="!row.moniker" style="font-family:Arial"
 												             class="address_link" @click="addressRoute(row.address)">
@@ -435,7 +435,7 @@
 											<el-tooltip :content="`${row.address}`">
 												<router-link v-if="row.moniker" class="address_link"
 												             :to="`/staking/${row.address}`">
-													{{formatMoniker(row.moniker)}}
+													{{formatMoniker(row.moniker,monikerNum.otherTable)}}
 												</router-link>
 												<router-link v-if="!row.moniker" style="font-family:Arial"
 												             class="address_link" :to="`/staking/${row.address}`">
@@ -555,10 +555,10 @@
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
-	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth} from '../constant';
+	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth,monikerNum} from '../constant';
 	import AddressInformationComponent from "./AddressInformationComponent";
 	import LargeString from './common/LargeString';
-	import { addressRoute } from '@/helper/IritaHelper'
+	import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
 	import {
 		getNfts,
 		getAddressTxList,
@@ -584,6 +584,8 @@
 		data () {
 			return {
 				addressRoute,
+				formatMoniker,
+				monikerNum,
 				TX_TYPE,
 				TX_STATUS,
 				ColumnMinWidth,
@@ -1349,12 +1351,6 @@
 			},
 			formatAddress (address) {
 				return Tools.formatValidatorAddress(address) || '--';
-			},
-			formatMoniker (moniker) {
-				if (!moniker) {
-					return "";
-				}
-				return Tools.formatString(moniker, 8, "...");
 			},
 			handleChange(value) {
                 value ? this.type_temp = value[1] ? value[1] : '' : ''

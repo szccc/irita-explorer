@@ -18,8 +18,8 @@
         <el-table-column  :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
           <template v-slot:default="{ row }">
             <el-tooltip :disabled="row.OperatorMonikers === '--' && row.OperatorAddr === '--' " :content="`${row.OperatorAddr}`">
-              <span v-if="row.OperatorAddr === $route.params.param || row.OperatorAddr == '--'">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers) : formatAddress(row.OperatorAddr) }}</span>
-              <span v-else @click="addressRoute(row.OperatorAddr)" class="address_link link_style justify">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers) : formatAddress(row.OperatorAddr) }}</span>
+              <span v-if="row.OperatorAddr === $route.params.param || row.OperatorAddr == '--'">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers,monikerNum.otherTable) : formatAddress(row.OperatorAddr) }}</span>
+              <span v-else @click="addressRoute(row.OperatorAddr)" class="address_link link_style justify">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers,monikerNum.otherTable) : formatAddress(row.OperatorAddr) }}</span>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -68,9 +68,9 @@
 
 <script>
 import Tools from '@/util/Tools'
-import { ColumnMinWidth } from '@/constant'
-import { addressRoute } from '@/helper/IritaHelper'
 import prodConfig from "@/productionConfig"
+import { ColumnMinWidth,monikerNum } from '@/constant'
+import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
 export default {
   name: 'ValidationTxsList',
   components: {},
@@ -85,7 +85,9 @@ export default {
       ColumnMinWidth,
       Tools,
       prodConfig,
-      addressRoute
+      addressRoute,
+      formatMoniker,
+      monikerNum
     }
   },
   computed: {},
@@ -100,12 +102,6 @@ export default {
       if (TxHash) {
         return Tools.formatTxHash(TxHash)
       }
-    },
-    formatMoniker(moniker) {
-      if (!moniker) {
-        return ''
-      }
-      return Tools.formatString(moniker, 8, '...')
     },
     getDisplayTxType(types = []) {
       let type = types[0] || ''

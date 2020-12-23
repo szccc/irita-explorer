@@ -42,7 +42,7 @@
 							<router-link :to="`/txs`">{{$t('ExplorerLang.home.viewAll')}}</router-link>
 						</div>
 					</div>
-					<ul class="home_transaction_bottom_content">
+					<ul class="home_transaction_bottom_content" v-if="latestTransaction && latestTransaction.length">
 						<li class="home_transaction_list_item_content" v-for="(item,index) in latestTransaction" :key="index">
 							<p class="home_transaction_time_content">
 								<span class="home_transaction" >
@@ -54,10 +54,18 @@
 								<span class="home_age_time">{{item.txAgeTime}}</span>
 							</p>
 							<p class="home_tx_type_content">
-								<span class="home_tx_type">{{item.txType}}</span>
+								<!-- <span class="home_tx_type">{{item.txType}}</span> -->
+								<el-tooltip :content="item.txType.join(',')"
+											placement="top"
+											:disabled="item.txType.length <= 1">
+									<span class="home_tx_type">{{getDisplayTxType(item.txType)}}</span>
+								</el-tooltip>
 								<span class="home_tx_time">{{item.time}}</span>
 							</p>
 						</li>
+					</ul>
+					<ul class="home_transaction_bottom_content" v-else>
+						<li style="padding-top: 15px">{{$t('ExplorerLang.message.noTransaction')}}</li>
 					</ul>
 				</div>
 			</div>
@@ -113,6 +121,13 @@
 			}
 		},
 		methods:{
+			getDisplayTxType(types=[]){
+                let type = types[0] || '';
+                if (type && types.length > 1) {
+                    type += this.$t('ExplorerLang.unit.ellipsis');
+                }
+                return type;
+            },
 			async getLastBlocks(){
 				try{
 					let blockData = await getBlockList(1, 10, false);
@@ -181,11 +196,12 @@
                                 showAnimation: item.showAnimation ? item.showAnimation : '',
                                 hash: item.tx_hash,
                                 time: Tools.getDisplayDate(item.time),
-                                txType: item.msgs ? (item.msgs.length > 1 ? '--' : item.msgs[0].type) : '--',
+                                // txType: item.msgs ? (item.msgs.length > 1 ? '--' : item.msgs[0].type) : '--',
+                                txType: (item.msgs || []).map(item=>item.type),
                                 Time: item.time,
                                 txAgeTime: Tools.formatAge(Tools.getTimestamp(),item.time*1000,"ago",">")
                             }
-                        });
+						});
                         clearInterval(this.transfersTimer);
                         this.transfersTimer = setInterval(()=> {
                             this.latestTransaction = this.latestTransaction.map(item => {

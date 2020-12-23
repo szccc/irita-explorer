@@ -443,12 +443,6 @@
 					return Tools.formatTxHash(TxHash)
 				}
 			},
-			formatMoniker (moniker) {
-				if (!moniker) {
-					return ''
-				}
-				return Tools.formatString(moniker, 8, '...')
-			},
 			getDisplayTxType(types=[]){
 				let type = types[0] || '';
                 if (type && types.length > 1) {

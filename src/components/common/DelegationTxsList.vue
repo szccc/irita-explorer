@@ -23,8 +23,8 @@
             <div class="name_address" v-if="!/^[0-9]\d*$/.test(row.From) && row.From && row.From !== '--'">
               <span class="remove_default_style skip_route" :class="row.From === $route.params.param ? 'no_skip' : ''">
                 <el-tooltip :content="`${row.From}`">
-                    <span v-if="row.From === $route.params.param">{{ formatMoniker(row.fromMonikers) || formatAddress(row.From) }}</span>
-                    <span v-else @click="addressRoute(row.From)" class="address_link link_style">{{ formatMoniker(row.fromMonikers) || formatAddress(row.From) }}</span>
+                    <span v-if="row.From === $route.params.param">{{ formatMoniker(row.fromMonikers,monikerNum.otherTable) || formatAddress(row.From) }}</span>
+                    <span v-else @click="addressRoute(row.From)" class="address_link link_style">{{ formatMoniker(row.fromMonikers,monikerNum.otherTable) || formatAddress(row.From) }}</span>
                 </el-tooltip>
               </span>
             </div>
@@ -40,8 +40,8 @@
             <div class="name_address" v-show="!/^[0-9]\d*$/.test(row.To) && row.To && row.To !== '--'">
               <span class="remove_default_style skip_route" :class="row.To === $route.params.param ? 'no_skip' : ''">
                 <el-tooltip :content="`${row.To}`">
-                    <span v-if="!(row.To === $route.params.param)" class="address_link link_style" @click="addressRoute(row.To)">{{ formatMoniker(row.toMonikers) || formatAddress(row.To) }}</span>
-                    <span v-else>{{ formatMoniker(row.toMonikers) }}</span>
+                    <span v-if="!(row.To === $route.params.param)" class="address_link link_style" @click="addressRoute(row.To)">{{ formatMoniker(row.toMonikers,monikerNum.otherTable) || formatAddress(row.To) }}</span>
+                    <span v-else>{{ formatMoniker(row.toMonikers,monikerNum.otherTable) }}</span>
                 </el-tooltip>
               </span>
             </div>
@@ -72,9 +72,9 @@
 
 <script>
 import Tools from '@/util/Tools'
-import { ColumnMinWidth } from '@/constant'
-import { addressRoute } from '@/helper/IritaHelper'
 import prodConfig from "@/productionConfig"
+import { ColumnMinWidth,monikerNum } from '@/constant'
+import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
 export default {
   name: 'DelegationTxsList',
   components: {},
@@ -89,7 +89,9 @@ export default {
         ColumnMinWidth,
         prodConfig,
         Tools,
-        addressRoute
+        addressRoute,
+        formatMoniker,
+        monikerNum
     }
   },
   computed: {},
@@ -104,12 +106,6 @@ export default {
       if (TxHash) {
         return Tools.formatTxHash(TxHash)
       }
-    },
-    formatMoniker(moniker) {
-      if (!moniker) {
-        return ''
-      }
-      return Tools.formatString(moniker, 8, '...')
     },
     getDisplayTxType(types = []) {
       let type = types[0] || ''
