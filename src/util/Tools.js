@@ -56,7 +56,7 @@ export default class Tools {
   static format38(str) {
     if (str && str.length > 11) {
       return `${str.substring(0, 3)}...${str.substring(str.length - 8)}`
-    } else if (str && str.length < 11) {
+    } else if (str && str.length <= 11) {
       return str
     }
     return ''
