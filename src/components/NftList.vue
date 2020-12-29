@@ -439,7 +439,8 @@
 			.nef_list_table_container{
 				//margin-top: 0.05rem;
 				/deep/ .cell {
-					padding: 0rem 0.05rem;
+					// padding: 0rem 0.05rem;
+					padding: 0rem 0rem 0rem 0.15rem;
 				}
 			}
 			.pagination_content{
