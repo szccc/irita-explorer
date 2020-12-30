@@ -28,10 +28,9 @@
 						<template slot-scope="scope">
 							<el-tooltip 
 										:content="scope.row.owner"
-										class="item"
 										placement="top"
 										effect="dark"
-										:disabled="!scope.row.owner">
+										:disabled="Tools.disabled(scope.row.owner)">
 								<span v-if="!scope.row.owner">{{formatAddress(scope.row.owner)}}</span>
 								<router-link v-else :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
 							</el-tooltip>
@@ -39,14 +38,26 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link v-if="formatAddress(scope.row.nft_name) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
-							<span v-else>{{formatAddress(scope.row.nft_name)}}</span>
+							<el-tooltip 
+										:content="scope.row.nft_name"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.nft_name)">
+								<router-link v-if="formatAddress(scope.row.nft_name) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
+								<span v-else>{{formatAddress(scope.row.nft_name)}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
 						<template slot-scope="scope">
-							<router-link v-if="formatAddress(scope.row.nft_id) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
-							<span v-else>{{formatAddress(scope.row.nft_id)}}</span>
+							<el-tooltip 
+										:content="scope.row.nft_name"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.nft_id)">
+								<router-link v-if="formatAddress(scope.row.nft_id) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
+								<span v-else>{{formatAddress(scope.row.nft_id)}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.nftListDate" :label="$t('ExplorerLang.table.data')" prop="tokenData">
@@ -113,6 +124,7 @@
 				allCount:0,
 				LargeStringMinHeight: 69,
 				LargeStringLineHeight: 23,
+				Tools
 			}
 		},
 		mounted(){
@@ -191,7 +203,7 @@
 					}catch (e) {
 						console.error(e)
 					}
-			},
+			}
 		}
 	}
 </script>

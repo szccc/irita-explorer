@@ -90,9 +90,15 @@
 						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
 							<template v-slot:default="{ row }">
 								<div class="common_hover_address_parent skip_route">
-									<span v-if="row.OperatorAddress !== '--'"  @click="addressRoute(row.OperatorAddress)" style="font-family: Arial" class="link_style common_font_style address_link">{{formatAddress(row.OperatorAddress)}}
-									</span>
-									<span v-else>{{ row.OperatorAddress }}</span>
+									<el-tooltip 
+										:content="row.OperatorAddress"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(row.OperatorAddress)">
+										<span v-if="row.OperatorAddress !== '--'"  @click="addressRoute(row.OperatorAddress)" style="font-family: Arial" class="link_style common_font_style address_link">{{formatAddress(row.OperatorAddress)}}
+										</span>
+										<span v-else>{{ row.OperatorAddress }}</span>
+									</el-tooltip>
 								</div>
 							</template>
 						</el-table-column>

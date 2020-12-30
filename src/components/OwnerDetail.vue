@@ -21,13 +21,25 @@
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link v-if="formatAddress(scope.row.nftName) != '--'" :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.nftName)}}</router-link>
-							<span v-else>{{'--'}}</span>
+							<el-tooltip 
+										:content="scope.row.nftName"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.nftName)">
+								<router-link v-if="formatAddress(scope.row.nftName) != '--'" :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.nftName)}}</router-link>
+								<span v-else>{{'--'}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.id)}}</router-link>
+							<el-tooltip 
+										:content="scope.row.id"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.id)">
+								<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.id)}}</router-link>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
@@ -136,7 +148,13 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
-							<span>{{formatAddress(scope.row.requestContextId)}}</span>
+							<el-tooltip 
+										:content="scope.row.requestContextId"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.requestContextId)">
+								<span>{{formatAddress(scope.row.requestContextId)}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
@@ -270,7 +288,13 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
-							<span>{{formatAddress(scope.row.requestContextId)}}</span>
+							<el-tooltip 
+										:content="scope.row.requestContextId"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.requestContextId)">
+								<span>{{formatAddress(scope.row.requestContextId)}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
