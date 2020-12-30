@@ -234,12 +234,14 @@
 			},
 			formatStartTime (time) {
 				this.urlParamsShowStartTime = time
-				return Number(new Date(time).getTime() / 1000)
+				let offest = 8 * 60 * 60
+				return Number(new Date(time).getTime() / 1000) - Number(offest)
 			},
 			formatEndTime (time) {
 				this.urlParamsShowEndTime = time
-				let oneDaySeconds = 24 * 60 * 60;
-				return Number(new Date(time).getTime() / 1000) + Number(oneDaySeconds)
+				let offest = 8 * 60 * 60
+				let oneDaySeconds = 24 * 60 * 60
+				return Number(new Date(time).getTime() / 1000) + Number(oneDaySeconds) - Number(offest)
 			},
 			resetFilterCondition () {
 				this.getType();
