@@ -132,7 +132,7 @@
                                     })
                                 }
                             } catch (e) {
-                                console.log(e)
+                                console.error(e)
                             }
                         }
                         this.serviceList = serviceList.data;

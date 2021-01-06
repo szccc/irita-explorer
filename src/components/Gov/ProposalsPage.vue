@@ -40,7 +40,7 @@
         </div>
         <div class="proposals_list_table_content">
           <el-table class="proposals_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
-            <el-table-column prop="id" :min-width="ColumnMinWidth.proposalID" :label="$t('ExplorerLang.table.proposalId')">
+            <el-table-column prop="id" :min-width="ColumnMinWidth.proposalId" :label="$t('ExplorerLang.table.proposalId')">
               <template v-slot:default="{ row }">
                 <router-link :to="`/ProposalsDetail/${row.id}`">{{ row.id }}</router-link>
               </template>
@@ -51,7 +51,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="type" :min-width="ColumnMinWidth.proposalType" :label="$t('ExplorerLang.table.type')"></el-table-column>
-            <el-table-column prop="status" :width="ColumnMinWidth.proposalStatus" :label="$t('ExplorerLang.table.status')">
+            <el-table-column prop="status" :width="ColumnMinWidth.proposalStatusIcon" :label="$t('ExplorerLang.table.status')">
               <template v-slot:default="{ row }">
                 <img class="status_icon" v-if="row.status === proposalStatus.passed" src="../../assets/pass.png" />
                 <img class="status_icon" v-if="row.status === proposalStatus.rejected" src="../../assets/rejected.png" />

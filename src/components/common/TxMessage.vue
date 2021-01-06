@@ -1235,11 +1235,51 @@
 				</template>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.deposit">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.depositor')}}: </span>
+				<template>
+					<span v-if="depositor === '--'">{{depositor}}</span>
+					<span v-else @click="addressRoute(depositor)" class="address_link">{{depositor}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.proposalID')}}: </span>
+				<template>
+					<span v-if="proposalID === '--'">{{proposalID}}</span>
+					<router-link :to="`/ProposalsDetail/${proposalID}`">{{proposalID}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.deposit')}}: </span>
+				<span>{{deposit}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.vote">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.voter')}}: </span>
+				<template>
+					<span v-if="voter === '--'">{{voter}}</span>
+					<span v-else @click="addressRoute(voter)" class="address_link">{{voter}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.proposalID')}}: </span>
+				<template>
+					<span v-if="proposalID === '--'">{{proposalID}}</span>
+					<router-link :to="`/ProposalsDetail/${proposalID}`">{{proposalID}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.option')}}: </span>
+				<span>{{option}}</span>
+			</p>
+		</div>
 	</div>
 </template>
 
 <script>
-	import {TX_TYPE} from '../../constant';
+	import {TX_TYPE,voteOptions} from '../../constant';
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
@@ -1392,7 +1432,10 @@
 				mintable:'',
 				originalOwner:'',
 				newOwner:'',
-				superMode:''
+				superMode:'',
+				proposalID:'',
+				option: '',
+				voter: '',
 			}
 		},
 		computed: {
@@ -1408,6 +1451,7 @@
 			async getTransactionInformation () {
 				try {
 					const message = this.msg;
+					console.log(message)
 					let mainToken = await getMainToken()
 					if (message) {
 						let msg = message.msg;
@@ -1858,6 +1902,21 @@
 								this.symbol = msg.symbol || '--';
 								this.originalOwner = msg.src_owner || '--';
 								this.newOwner = msg.dst_owner || '--';
+							break;
+							case TX_TYPE.deposit:
+								if(msg.amount && msg.amount.length > 0) {
+									let deposit = await converCoin(msg.amount[0]);
+									this.deposit = `${deposit.amount} ${deposit.denom.toUpperCase()}`;
+								} else {
+									this.deposit = '--'
+								}
+								this.depositor = msg.depositor || '--';
+								this.proposalID = msg.proposal_id || '--';
+							break;
+							case TX_TYPE.vote:
+								this.voter = msg.voter || '--';
+								this.proposalID = msg.proposal_id || '--';
+								this.option = voteOptions[msg.option] || '--'
 							break;
 						}
 					}

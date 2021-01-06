@@ -185,11 +185,15 @@ export const ColumnMinWidth = {
   totalSupply: '160',
   maxSupply: '127',
   mintable: '90',
-  proposalID: '80',
+  proposalId: '80',
+  proposalID: '100',
   proposalTitle: '170',
-  proposalType: '230',
-  proposalStatus: '133',
+  proposalType: '165',
+  proposalStatusIcon: '133',
+  proposalStatus: '115',
   strip: '120',
+  voteOption: '120',
+  submited: '85',
 }
 
 export const ModuleMap = {
@@ -327,9 +331,16 @@ export const proposalStatus = {
 }
 
 export const proposalType = {
-  ParameterChangeProposal: 'ParameterChangeProposal',
-  SoftwareUpgradeProposal: 'SoftwareUpgradeProposal',
-  CancelSoftwareUpgradeProposal: 'CancelSoftwareUpgradeProposal',
-  CommunityPoolSpendProposal: 'CommunityPoolSpendProposal',
-  TextProposal:'TextProposal'
+  ParameterChangeProposal: 'ParameterChange',
+  SoftwareUpgradeProposal: 'SoftwareUpgrade',
+  CancelSoftwareUpgradeProposal: 'CancelSoftwareUpgrade',
+  CommunityPoolSpendProposal: 'CommunityPoolSpend',
+  TextProposal:'Text'
+}
+
+export const voteOptions = {
+  1: 'yes',
+  2: 'abstain',
+  3: 'no',
+  4: 'no_with_veto'
 }

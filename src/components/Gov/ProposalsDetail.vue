@@ -171,27 +171,121 @@
           </div>
         </div>
       </div>
+
+      <div class="proposal_table">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div class="proposals_table_title_div" style="margin-top: 0;">Voters</div>
+          <ul class="filter_content">
+            <li class="tab_option" v-for="(item, index) in filterTabArr" :key="index" :class="item.isActive ? 'blue_style' : ''" @click="filterVoteTx(item.key, index)">
+              <span>{{ item.label }} {{ item.value }}</span> <span>|</span>
+            </li>
+          </ul>
+          <div class="voting_options">
+            <span>
+              <i class="yes_option_style"></i>Yes: <span>{{ voteDetailsYes }}</span> </span
+            >|
+            <span>
+              <i class="no_option_style"></i>No: <span>{{ voteDetailsNo }}</span> </span
+            >|
+            <span>
+              <i class="no_with_veto_option_style"></i>NoWithVeto: <span>{{ voteDetailsNoWithVeto }} </span> </span
+            >|
+            <span>
+              <i class="abstain_option_style"></i>Abstain:<span>{{ voteDetailsAbstain }}</span>
+            </span>
+          </div>
+        </div>
+        <div class="proposals_detail_table_wrap">
+          <el-table class="proposals_voter_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="voterData">
+            <el-table-column prop="voter" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.voter')">
+              <template v-slot:default="{ row }">
+                <el-tooltip v-if="row.isValidator" :content="row.address" placement="top">
+                  <router-link :to="`/staking/${row.address}`">{{ formatMoniker(row.moniker, monikerNum.otherTable) || formatAddress(row.address) }}</router-link>
+                </el-tooltip>
+                <el-tooltip v-else :content="row.voter" placement="top">
+                  <router-link :to="`/address/${row.voter}`">{{ formatAddress(row.voter) }}</router-link>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column prop="option" :min-width="ColumnMinWidth.voteOption" :label="$t('ExplorerLang.table.voteOption')"></el-table-column>
+            <el-table-column prop="block" :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
+              <template v-slot:default="{ row }">
+                <router-link :to="`/block/${row.block}`">{{ row.block }}</router-link>
+              </template>
+            </el-table-column>
+            <el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+              <template v-slot:default="{ row }">
+                <el-tooltip :content="row.hash" placement="top" :disabled="!isValid(row.hash)">
+                  <router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column prop="time" align="right" :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.time')"></el-table-column>
+          </el-table>
+        </div>
+        <div class="table_pagination">
+          <keep-alive>
+            <m-pagination :pageSize="pageSize" :total="voterCount" :page="currentVoterPageNum" :page-change="pageChangeVoter"></m-pagination>
+          </keep-alive>
+        </div>
+      </div>
+
+      <!-- <div class="proposal_table" v-if="depositorData.length !== 0"> -->
+      <div class="proposal_table">
+        <div class="proposals_table_title_div" style="margin-top: 0;">Depositors</div>
+        <div class="proposals_detail_table_wrap">
+          <el-table class="proposals_voter_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="depositorData">
+            <el-table-column prop="depositor" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.voter')">
+              <template v-slot:default="{ row }">
+                <el-tooltip :content="row.depositor" placement="top" :disabled="isValid(row.moniker)">
+                  <router-link :to="`/address/${row.depositor}`">{{ formatMoniker(row.moniker, monikerNum.otherTable) || formatAddress(row.depositor) }}</router-link>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column prop="amount" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')"></el-table-column>
+            <el-table-column prop="type" :min-width="ColumnMinWidth.type" :label="$t('ExplorerLang.table.type')"></el-table-column>
+            <el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+              <template v-slot:default="{ row }">
+                <el-tooltip :content="row.hash" placement="top" :disabled="!isValid(row.hash)">
+                  <router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column prop="time" align="right" :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.time')"></el-table-column>
+          </el-table>
+        </div>
+        <div class="table_pagination">
+          <keep-alive>
+            <m-pagination :pageSize="pageSize" :total="depositorCount" :page="currentDepositorPageNum" :page-change="pageChangeDepositor"></m-pagination>
+          </keep-alive>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { proposalStatus, proposalType } from '../../constant'
+import { proposalStatus, proposalType, ColumnMinWidth, monikerNum,decimals } from '../../constant'
 import Tools from '../../util/Tools'
-import { getProposalsDetailApi } from '../../service/api'
-import { addressRoute, converCoin } from '@/helper/IritaHelper'
+import { getProposalsDetailApi, getProposalDetailVotersApi, getProposalDetailDepositorApi } from '../../service/api'
+import { addressRoute, converCoin, formatMoniker } from '@/helper/IritaHelper'
 import MDepositCard from '../common/MDepositCard'
 import MVotingCard from '../common/MVotingCard'
+import MPagination from '.././common/MPagination'
 
 export default {
   name: '',
   components: {
     MDepositCard,
-    MVotingCard
+    MVotingCard,
+    MPagination,
   },
   props: {},
   data() {
     return {
+      formatMoniker,
+      monikerNum,
+      ColumnMinWidth,
       addressRoute,
       proposalStatus,
       proposalType,
@@ -233,13 +327,47 @@ export default {
       currentAbstainValue: '',
       depositorObj: {},
       burnPercent: 0,
-      votingObj:{},
+      votingObj: {},
+      filterTabArr: [
+        {
+          label: 'All: ',
+          key: 'all',
+          value: '',
+          isActive: true,
+        },
+        {
+          label: 'Validator: ',
+          key: 'validator',
+          value: '',
+          isActive: false,
+        },
+        {
+          label: 'Delegator: ',
+          key: 'delegator',
+          value: '',
+          isActive: false,
+        },
+      ],
+      filterTab: 'all',
+      pageSize: 10,
+      voterCount: 0,
+      currentVoterPageNum: 1,
+      voteDetailsYes: '',
+      voteDetailsNo: '',
+      voteDetailsNoWithVeto: '',
+      voteDetailsAbstain: '',
+      voterData: [],
+      depositorCount: 0,
+      currentDepositorPageNum: 1,
+      depositorData: [],
     }
   },
   computed: {},
   watch: {},
   created() {
     this.getProposalsDetail()
+    this.getVoter()
+    this.getDepositor()
   },
   mounted() {},
   methods: {
@@ -356,6 +484,100 @@ export default {
         }, 1000)
       }
     },
+    pageChangeVoter(pageNum) {
+      this.currentVoterPageNum = pageNum
+      this.getVoter()
+    },
+    pageChangeDepositor(pageNum) {
+      this.currentDepositorPageNum = pageNum
+      this.getDepositor()
+    },
+    async filterVoteTx(item, index) {
+      this.currentVoterPageNum = 1
+      this.filterTab = item
+      this.resetActiveStyle()
+      this.filterTabArr[index].isActive = true
+      await this.getVoter()
+    },
+    resetActiveStyle() {
+      this.filterTabArr.map(item => {
+        return (item.isActive = false)
+      })
+    },
+    isValid(value) {
+      return !value || !value.length || value == '--' ? false : true
+    },
+    formatTxHash(TxHash) {
+      if (TxHash) {
+        return Tools.formatTxHash(TxHash)
+      }
+    },
+    formatAddress(address) {
+      return Tools.formatValidatorAddress(address)
+    },
+    async getVoter() {
+      try {
+        let res = await getProposalDetailVotersApi(this.$route.params.proposal_id, this.currentVoterPageNum, this.pageSize, true, this.filterTab)
+        if (res) {
+          this.voterCount = res.count
+          this.voterData = []
+          if (res.data && res.data.length > 0) {
+            this.voterData = res.data.map(voter => {
+              return {
+                voter: voter.voter,
+                address: voter.address,
+                isValidator: voter.isValidator,
+                moniker: voter.moniker,
+                option: voter.option,
+                block: voter.height,
+                hash: voter.hash,
+                time: voter.timestamp ? Tools.getDisplayDate(voter.timestamp) : '--',
+              }
+            })
+          }
+          let statistical = res.statistical
+          if (statistical) {
+            this.filterTabArr.forEach(item => {
+              item.value = statistical[item.key]
+            })
+            this.voteDetailsYes = statistical.yes
+            this.voteDetailsNo = statistical.no
+            this.voteDetailsNoWithVeto = statistical.no_with_veto
+            this.voteDetailsAbstain = statistical.abstain
+          }
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async getDepositor() {
+      try {
+        let res = await getProposalDetailDepositorApi(this.$route.params.proposal_id, this.currentDepositorPageNum, this.pageSize, true)
+        if (res) {
+          this.depositorCount = res.count
+          this.depositorData = []
+          if (res.data && res.data.length > 0) {
+            for (const depositor of res.data) {
+              let amount = '--'
+              if (depositor.amount && depositor.amount.length > 0) {
+                let n = await converCoin(depositor.amount[0])
+                amount = `${Tools.formatPriceToFixed(n.amount,decimals.amount)} ${n.denom.toLocaleUpperCase()}`
+              }
+              this.depositorData.push({
+                depositor: depositor.address,
+                moniker: depositor.moniker,
+                amount,
+                type: depositor.type,
+                hash: depositor.hash,
+                time: depositor.timestamp ? Tools.getDisplayDate(depositor.timestamp) : '--',
+              })
+            }
+          }
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    },
   },
 }
 </script>
@@ -454,6 +676,90 @@ a {
     }
     .voting_mobile_content {
       margin-left: 0.1rem;
+    }
+  }
+  .proposal_table {
+    margin: 0.2rem 0;
+    .proposals_table_title_div {
+      font-size: $s18;
+      margin: 0.3rem 0.2rem 0.1rem;
+      color: $t_first_c;
+    }
+    .filter_content {
+      flex: 1;
+      display: flex;
+      .tab_option {
+        font-size: $s12;
+        margin: 0 0 0.1rem;
+        cursor: pointer;
+        span {
+          padding-right: 0.1rem;
+        }
+      }
+      .tab_option:last-child {
+        span:last-child {
+          display: none;
+        }
+      }
+      .blue_style {
+        color: $theme_c;
+      }
+    }
+    .voting_options {
+      display: flex;
+      color: $t_second_c;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      .yes_option_style {
+        display: inline-block;
+        width: 0.12rem;
+        height: 0.12rem;
+        border-radius: 0.02rem;
+        background: $theme_c;
+        margin-right: 0.1rem;
+      }
+      .no_option_style {
+        display: inline-block;
+        width: 0.12rem;
+        height: 0.12rem;
+        border-radius: 0.02rem;
+        background: #ffcf65;
+        margin-right: 0.1rem;
+      }
+      .no_with_veto_option_style {
+        display: inline-block;
+        width: 0.12rem;
+        height: 0.12rem;
+        border-radius: 0.02rem;
+        background: #fe8a8a;
+        margin-right: 0.1rem;
+      }
+      .abstain_option_style {
+        display: inline-block;
+        width: 0.12rem;
+        height: 0.12rem;
+        border-radius: 0.02rem;
+        background: #ccdcff;
+        margin-right: 0.1rem;
+      }
+      & > span {
+        font-size: 0.14rem;
+        color: $t_second_c;
+        padding: 0 0.18rem;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        line-height: 0.3rem;
+        & > span {
+          color: $t_second_c;
+        }
+      }
+    }
+    .table_pagination {
+      margin: 0.1rem 0;
+      display: flex;
+      justify-content: flex-end;
     }
   }
 }
