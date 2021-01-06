@@ -63,6 +63,14 @@ export default class Tools {
   }
 
   /**
+   * 
+   * 是否显示tooltip
+   */
+  static disabled (str) {
+    return str && str.length <= 11
+  }
+  
+  /**
    * 格式化空格
    */
   static removeAllSpace(str) {

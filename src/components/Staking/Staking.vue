@@ -246,7 +246,7 @@ a {
         width: 100%;
         display: flex;
         justify-content: flex-end;
-        margin: 0.05rem 0 0.2rem 0;
+        margin: 0.1rem 0 0.2rem 0;
       }
     }
   }

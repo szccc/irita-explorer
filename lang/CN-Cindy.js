@@ -85,7 +85,13 @@ export const ExplorerLang = {
         token: 'Token',
         mintTo: 'MintTo',
         srcOwner:'SrcOwner',
-        dstOwner:'DstOwner',
+        dstOwner: 'DstOwner',
+        proposalId: 'ID',
+        title: 'Title',
+        type: 'Type',
+        submitTime: 'Submit Time',
+        depositEndTime: 'Deposit Endtime',
+        votingEndTime: 'Voting Endtime'
     },
     unit:{
         ellipsis:' ,...',
@@ -504,5 +510,24 @@ export const ExplorerLang = {
         mintable: 'Mintable',
         name: 'Name',
         decimal:'Decimal'
+    },
+    // 新增
+    gov: {
+        proposalsTitle: 'Proposal List',
+        proposals: 'Proposals',
+        proposalOption: {
+            yes: 'Yes',
+            abstain: 'Abstain',
+            no: 'No',
+            noWithVeto:'NoWithVeto'
+        },
+        proposalsType: {
+            DepositPeriod: 'DepositPeriod',
+            VotingPeriod: 'VotingPeriod'
+        },
+        CurrentDeposit: 'CurrentDeposit',
+        InitialDeposit: 'InitialDeposit',
+        MinDeposit: 'MinDeposit',
+        proposalDetails:'Proposal Details'
     }
 }

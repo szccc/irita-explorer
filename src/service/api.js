@@ -362,3 +362,13 @@ export function getNativeAssetDetailApi (symbol) {
     let url = `/asset/tokens/${symbol}`
 	return get(url)
 }
+
+export function getProposalsListApi (pageNum, pageSize, useCount) {
+    let url = `/gov/proposals?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`
+	return get(url)
+}
+
+export function getProposalsDetailApi (id) {
+    let url = `/gov/proposals/${id}`
+	return get(url)
+}

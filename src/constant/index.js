@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import prodConfig from "../productionConfig.js";
+import prodConfig from '../productionConfig.js'
 Vue.use(VueI18n)
 
 const i18n = new VueI18n({
-  locale:prodConfig.lang == 'EN' ? 'EN' : 'CN',
+  locale: prodConfig.lang == 'EN' ? 'EN' : 'CN',
   messages: {
-    "CN" : require('../../lang/CN-Cindy'),
-    "EN" : require('../../lang/EN-Cindy')
-  }
+    CN: require('../../lang/CN-Cindy'),
+    EN: require('../../lang/EN-Cindy'),
+  },
 })
 
 export const addrPrefix = {
@@ -16,7 +16,7 @@ export const addrPrefix = {
 }
 
 export const TX_TYPE = {
-  // service 
+  // service
   define_service: 'define_service',
   bind_service: 'bind_service',
   call_service: 'call_service',
@@ -92,7 +92,7 @@ export const TX_TYPE = {
   create_identity: 'create_identity',
   update_identity: 'update_identity',
   // Random
-  request_rand: 'request_rand'
+  request_rand: 'request_rand',
 }
 
 export const LEVEL_TX_TYPE = {
@@ -108,7 +108,7 @@ export const LEVEL_TX_TYPE = {
   Record: 'Record',
   Asset: 'Asset',
   Gov: 'Gov',
-  Other:'Other'
+  Other: 'Other',
 }
 
 export const TX_STATUS = {
@@ -125,8 +125,8 @@ export const ValidatorStatus = {
 export const ColumnMinWidth = {
   txHash: '103',
   addressTxHash: '114',
-  respondHash:'128',
-  requestHash:'118',
+  respondHash: '128',
+  requestHash: '118',
   blockHeight: '68',
   blockListHeight: '76',
   txType: '194',
@@ -155,7 +155,7 @@ export const ColumnMinWidth = {
   nftCount: '100',
   identity: '300',
   idPubKey: '220',
-  idPubKeyFull:'650',
+  idPubKeyFull: '650',
   pubKeyAlgo: '120',
   certificate: '220',
   certificateFull: '650',
@@ -178,13 +178,18 @@ export const ColumnMinWidth = {
   validatorMoniker: '150',
   validatorSelfBond: '150',
   nftListDenom: '100',
-  nftListDate:'280',
+  nftListDate: '280',
   timestamp: '145',
   symbol: '121',
   assetListowner: '430',
   totalSupply: '160',
   maxSupply: '127',
-  mintable:'90'
+  mintable: '90',
+  proposalID: '80',
+  proposalTitle: '170',
+  proposalType: '230',
+  proposalStatus: '133',
+  strip: '120',
 }
 
 export const ModuleMap = {
@@ -236,6 +241,14 @@ export const ModuleMap = {
     title: 'Native Asset',
     link: '/assets/ntvassetstxs',
   },
+  '112': {
+    title: 'Proposals',
+    link: '/gov/proposals',
+  },
+  '113': {
+    title: 'Gov Txs',
+    link: '/txs/governance',
+  },
 }
 
 const CHAINID = {}
@@ -245,65 +258,78 @@ CHAINID.NYANCAT = 'Testnet NYANCAT-6'
 CHAINID.GOZTESTNET = 'Testnet GOZ'
 CHAINID.BIFROST = 'Testnet BIFROST'
 
-
-export const pageTitleConfig  = {
-	BlockchainBlocks:'Block List',
-	BlockchainBlocksBlockDetails:'Block Details',
-	BlockchainTransactions:'Transaction List',
-	BlockchainTransactionsTransactionDetails:'Transaction Details',
-	StakingValidators:'Validator List',
-	StakingValidatorsValidatorDetails:'Validator Details',
-	StakingDelegationTxs:'Delegation Txs List',
-	StakingValidationTxs:'Validation Txs List',
-	Transfer:'Transfer List',
-	AssetNativeAsset:'Native Asset List',
-	AssetNativeAssetTxs:'Native Asset Txs List',
-	GovParameters:'Parameter List',
-	GovProposals:'Proposal List',
-	GovProposalsProposalDetails:'Proposal Details',
-	GovGovTxs:'Gov Txs List',
-	StatsIRISRichList:'IRIS Rich List',
-	StatsIRISRichListAddress:'Address',
-	StatsIRISStats:'IRIS Stats Analyse',
+export const pageTitleConfig = {
+  BlockchainBlocks: 'Block List',
+  BlockchainBlocksBlockDetails: 'Block Details',
+  BlockchainTransactions: 'Transaction List',
+  BlockchainTransactionsTransactionDetails: 'Transaction Details',
+  StakingValidators: 'Validator List',
+  StakingValidatorsValidatorDetails: 'Validator Details',
+  StakingDelegationTxs: 'Delegation Txs List',
+  StakingValidationTxs: 'Validation Txs List',
+  Transfer: 'Transfer List',
+  AssetNativeAsset: 'Native Asset List',
+  AssetNativeAssetTxs: 'Native Asset Txs List',
+  GovParameters: 'Parameter List',
+  GovProposals: 'Proposal List',
+  GovProposalsProposalDetails: 'Proposal Details',
+  GovGovTxs: 'Gov Txs List',
+  StatsIRISRichList: 'IRIS Rich List',
+  StatsIRISRichListAddress: 'Address',
+  StatsIRISStats: 'IRIS Stats Analyse',
 }
 
 export const PubKeyAlgorithm = {
-  '0':'UnknownPubKeyAlgorithm',
-  '1':'RSA',
-  '2':'DSA',
-  '3':'ECDSA',
-  '4':'ED25519',
-  '5':'SM2',
+  '0': 'UnknownPubKeyAlgorithm',
+  '1': 'RSA',
+  '2': 'DSA',
+  '3': 'ECDSA',
+  '4': 'ED25519',
+  '5': 'SM2',
 }
 
-
 export const TxStatus = {
-  '0':'Fail',
-  '1':'Success'
+  '0': 'Fail',
+  '1': 'Success',
 }
 
 export const numFormat = {
-  num: '0.00'
+  num: '0.00',
 }
 
 export const validator_Status = {
-  active:'Active',
-  candidate:'Candidate',
-  jailed:'Jailed',
+  active: 'Active',
+  candidate: 'Candidate',
+  jailed: 'Jailed',
 }
 
 export const decimals = {
   amount: 2,
   fee: 2,
-  shares: 4
+  shares: 4,
 }
 
 export default {
-  CHAINID
+  CHAINID,
 }
 
 export const monikerNum = {
   validatorList: 8,
-  home:12,
-  otherTable: 15
+  home: 12,
+  otherTable: 15,
+}
+
+export const proposalStatus = {
+  passed: 'Passed',
+  rejected: 'Rejected',
+  votingPeriod: 'VotingPeriod',
+  depositPeriod: 'DepositPeriod',
+}
+
+export const proposalType = {
+  ParameterChangeProposal: 'ParameterChangeProposal',
+  SoftwareUpgradeProposal: 'SoftwareUpgradeProposal',
+  CancelSoftwareUpgradeProposal: 'CancelSoftwareUpgradeProposal',
+  CommunityPoolSpendProposal: 'CommunityPoolSpendProposal',
+  TextProposal:'TextProposal'
 }
