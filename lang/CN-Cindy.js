@@ -91,7 +91,18 @@ export const ExplorerLang = {
         type: 'Type',
         submitTime: 'Submit Time',
         depositEndTime: 'Deposit Endtime',
-        votingEndTime: 'Voting Endtime'
+        votingEndTime: 'Voting Endtime',
+        voter: 'Voter',
+        voteOption: 'Vote Option',
+        time: 'Time',
+        proposalType: 'Proposal_Type',
+        proposalID: 'Proposal_ID',
+        proposalTitle: 'Proposal_Title',
+        proposer: 'Proposer',
+        deposit: 'Deposit',
+        submited: 'Submited',
+        proposalStatus: 'Status',
+        voted:'voted'
     },
     unit:{
         ellipsis:' ,...',
@@ -159,7 +170,8 @@ export const ExplorerLang = {
         // 新增
         delegationTxsList: 'Delegation Txs List',
         validationTxsList: 'Validation Txs List',
-        tooltip: 'Date selection range from the first block to the latest block.'
+        tooltip: 'Date selection range from the first block to the latest block.',
+        govTxsList: 'Gov Txs List'
     },
     validators:{
         bonded:'共识中',
@@ -349,6 +361,13 @@ export const ExplorerLang = {
             to: 'To',
             originalOwner: 'Original Owner',
             newOwner:'New Owner'
+        },
+        gov: {
+            depositor: 'Depositor',
+            proposalID: 'Proposal ID',
+            deposit: 'Deposit',
+            voter: 'Voter',
+            option: 'Option'
         }
     },
     addressDetail: {
@@ -464,7 +483,10 @@ export const ExplorerLang = {
         delegationsTitle: 'Delegations',
         unbondingDelegationsTitle: 'Unbonding Delegations',
         delegationsTxsTitle: 'Delegation Txs',
-        validationTxsTitle: 'Validation Txs'
+        validationTxsTitle: 'Validation Txs',
+        depositedProposalsTitle: 'Deposited Proposals',
+        votedProposalsTitle: 'Voted Proposals',
+        govTxsTitle: 'Gov Txs',
     },
     // 普通地址详情
     addressInformation: {
