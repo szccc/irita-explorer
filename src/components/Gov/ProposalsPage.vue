@@ -129,7 +129,7 @@ import Tools from '../../util/Tools'
 import { converCoin, getMainToken } from '../../helper/IritaHelper'
 import MProposalsCard from '../common/MProposalsCard'
 import MProposalsEchart from '../common/MProposalsEchart'
-import { proposalStatus } from '../../constant'
+import { proposalStatus,voteOptions } from '../../constant'
 export default {
   name: '',
   components: {
@@ -203,7 +203,7 @@ export default {
               finalVotes,
             }
           })
-          let depositPeriodDatas = res.data.filter(v => v.status === 'DepositPeriod')
+          let depositPeriodDatas = res.data.filter(v => v.status === proposalStatus.depositPeriod)
           let mainToken = await getMainToken()
           for (const v of depositPeriodDatas) {
             v.proposal_id = v.id
@@ -233,7 +233,7 @@ export default {
           this.depositPeriodDatas = depositPeriodDatas.sort((a, b) => {
             return b.proposal_id - a.proposal_id
           })
-          let votingPeriodDatas = res.data.filter(v => v.status === 'VotingPeriod')
+          let votingPeriodDatas = res.data.filter(v => v.status === proposalStatus.votingPeriod)
           this.votingPeriodDatas = votingPeriodDatas.map(item => {
             let o = {}
             o.proposal_id = item.id
@@ -243,13 +243,13 @@ export default {
             o.status = item.status
             o.votingEndTime = item.voting_end_time
             let all = item.current_tally_result && item.current_tally_result.system_voting_power
-            let yesArr = item.tally_details.filter(v => v.vote === 'yes')
+            let yesArr = item.tally_details.filter(v => v.vote === voteOptions[1])
             let yes = item.current_tally_result && item.current_tally_result.yes
-            let noArr = item.tally_details.filter(v => v.vote === 'no')
+            let noArr = item.tally_details.filter(v => v.vote === voteOptions[3])
             let no = item.current_tally_result && item.current_tally_result.no
-            let abstainArr = item.tally_details.filter(v => v.vote === 'abstain')
+            let abstainArr = item.tally_details.filter(v => v.vote === voteOptions[2])
             let abstain = item.current_tally_result && item.current_tally_result.abstain
-            let noWithVetoArr = item.tally_details.filter(v => v.vote === 'no_with_veto')
+            let noWithVetoArr = item.tally_details.filter(v => v.vote === voteOptions[4])
             let noWithVeto = item.current_tally_result && item.current_tally_result.no_with_veto
             let votes = item.current_tally_result && item.current_tally_result.total_voting_power
             o.participationNum = item.quorum && Tools.formatPerNumber(item.quorum * 100)

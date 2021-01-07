@@ -56,6 +56,7 @@
 <script>
 import Tools from '../../util/Tools'
 import { getMainToken, converCoin } from '@/helper/IritaHelper'
+import { proposalStatus } from '../../constant'
 export default {
   name: 'MDepositCard',
   props: {
@@ -129,9 +130,9 @@ export default {
       this.flShowBurn(burnPercent)
     },
     status(status) {
-      if (status === 'Passed') {
+      if (status === proposalStatus.passed) {
         this.flShowPass = true
-      } else if (status === 'Rejected') {
+      } else if (status === proposalStatus.rejected) {
         this.flShowReject = true
       }
     },
