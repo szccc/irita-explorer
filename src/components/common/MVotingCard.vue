@@ -8,16 +8,16 @@
                 </router-link>
             </div>
             <div class="view_all_content">
-                <span><router-link :to="`/gov/proposals`">View All</router-link></span>
+                <span><router-link :to="`/gov/proposals`">{{ $t('ExplorerLang.gov.proposalDetail.viewAll') }}</router-link></span>
             </div>
         </div>
         <div class="voting_title_container" :class="showTitle ? 'home_style': ''">
             <div>
-                <span><i :style="{color:flHighlightParticipation ? 'var(--bgColor)' : '#D7DCE0'}" class="iconfont iconBondedTokens"></i>Participation {{participationThreshold}}</span>
-                <span><i :style="{color:flShowPassThreshold ? 'var(--bgColor)' : '#D7DCE0'}" class="iconfont iconBondedTokens"></i>Pass Threshold {{passThreshold}}</span>
+                <span><i :style="{color:flHighlightParticipation ? 'var(--bgColor)' : '#D7DCE0'}" class="iconfont iconBondedTokens"></i>{{ $t('ExplorerLang.gov.participation') }} {{participationThreshold}}</span>
+                <span><i :style="{color:flShowPassThreshold ? 'var(--bgColor)' : '#D7DCE0'}" class="iconfont iconBondedTokens"></i>{{ $t('ExplorerLang.gov.passThreshold') }} {{passThreshold}}</span>
             </div>
             <div class="voting_card_right_content">
-                <span><i :style="{color:flShowVoteThreshold ? '#FE8A8A' : '#D7DCE0'}" class="iconfont iconBondedTokens"></i>Veto Threshold {{voteThreshold}}</span>
+                <span><i :style="{color:flShowVoteThreshold ? '#FE8A8A' : '#D7DCE0'}" class="iconfont iconBondedTokens"></i>{{ $t('ExplorerLang.gov.vetoThreshold') }} {{voteThreshold}}</span>
                 <div v-if="flShowHourLeft">
                     <span><i style="color:#5AC8FA;" class="iconfont iconHoursLeft"></i>{{hourLeft}} Left</span>
                 </div>
@@ -27,8 +27,8 @@
             <div class="voting_left_container">
                 <span class="delegator_voted_content" v-show="flShowTotalVoted">0.00%</span>
                 <span class="delegator_voted_content" v-show="!flShowTotalVoted">0.00%</span>
-                <span class="yes_content">Yes {{yesVotingPowerWidth === 'NaN' ? '0.00' : yesVotingPowerWidth ? yesVotingPowerWidth : '0.00'}}</span>
-                <span class="no_content">No {{noVotingPowerWidth === 'NaN' ? '0.00' : noVotingPowerWidth ? noVotingPowerWidth : '0.00'}}</span>
+                <span class="yes_content">{{ $t('ExplorerLang.gov.proposalDetail.yes') }} {{yesVotingPowerWidth === 'NaN' ? '0.00' : yesVotingPowerWidth ? yesVotingPowerWidth : '0.00'}}</span>
+                <span class="no_content">{{ $t('ExplorerLang.gov.proposalDetail.no') }} {{noVotingPowerWidth === 'NaN' ? '0.00' : noVotingPowerWidth ? noVotingPowerWidth : '0.00'}}</span>
             </div>
             <div class="voting_center_container">
                 <div class="voting_progress_bar_content">
@@ -46,10 +46,10 @@
                 </div>
             </div>
             <div class="voting_right_container">
-                <span class="participation_threshold_content" v-show="flShowTotalVoted">{{totalVoted ? totalVoted : '0.00'}} Participation</span>
-                <span class="participation_threshold_content" v-show="!flShowTotalVoted">{{delegatorVoted ? delegatorVoted : '0.00'}} Participation</span>
-                <span class="veto_content">{{vetoVotingPowerWidth === 'NaN' ? '0.00' : vetoVotingPowerWidth ? vetoVotingPowerWidth : '0.00'}} NoWithVeto</span>
-                <span class="abstain_content">{{abstainVotingPowerWidth === 'NaN' ? '0.00' : abstainVotingPowerWidth ? abstainVotingPowerWidth : '0.00'}} Abstain</span>
+                <span class="participation_threshold_content" v-show="flShowTotalVoted">{{totalVoted ? totalVoted : '0.00'}} {{ $t('ExplorerLang.gov.proposalDetail.participation') }}</span>
+                <span class="participation_threshold_content" v-show="!flShowTotalVoted">{{delegatorVoted ? delegatorVoted : '0.00'}} {{ $t('ExplorerLang.gov.proposalDetail.participation') }}</span>
+                <span class="veto_content">{{vetoVotingPowerWidth === 'NaN' ? '0.00' : vetoVotingPowerWidth ? vetoVotingPowerWidth : '0.00'}} {{ $t('ExplorerLang.gov.proposalDetail.noWithVeto') }}</span>
+                <span class="abstain_content">{{abstainVotingPowerWidth === 'NaN' ? '0.00' : abstainVotingPowerWidth ? abstainVotingPowerWidth : '0.00'}} {{ $t('ExplorerLang.gov.proposalDetail.abstain') }}</span>
             </div>
         </div>
     </div>
@@ -146,6 +146,7 @@
                         this.$set(this.abstainVotingPowerStyleObj,'width',`${this.abstainVotingPowerWidth}`);
                         this.totalVoted = Tools.formatPercentageNumbers(currentTally.total_voting_power,currentTally.system_voting_power);
                         this.delegatorVoted = Tools.formatPercentageNumbers(currentTally.total_voting_power,currentTally.system_voting_power);
+                        this.$set(this.minTotalTipStyleNumber,'left',`${this.delegatorVoted}`);
                     }
 		        }
             },

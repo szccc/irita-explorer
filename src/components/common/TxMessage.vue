@@ -1451,7 +1451,6 @@
 			async getTransactionInformation () {
 				try {
 					const message = this.msg;
-					console.log(message)
 					let mainToken = await getMainToken()
 					if (message) {
 						let msg = message.msg;

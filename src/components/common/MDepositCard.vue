@@ -8,7 +8,7 @@
         </router-link>
       </div>
       <div class="view_all_content">
-        <span><router-link :to="`/gov/proposals`">View All</router-link></span>
+        <span><router-link :to="`/gov/proposals`">{{ $t('ExplorerLang.gov.proposalDetail.viewAll') }}</router-link></span>
       </div>
     </div>
     <div class="deposit_title_container">
@@ -28,10 +28,10 @@
         <span class="initial_value_content">0</span>
         <div class="progress_bar_content">
           <span v-show="!flShowBurnAll" class="min_value_content" :style="minValueStyleObj">
-            <span class="min_value_title">Total Deposit {{ totalDeposit }}</span>
+            <span class="min_value_title">{{ $t('ExplorerLang.gov.proposalDetail.totalDeposit') }} {{ totalDeposit }}</span>
           </span>
           <span v-show="flShowBurnAll" class="min_value_content" :style="burnTipStyle0bj">
-            <span class="min_value_title">Burned Deposit {{ burnValue }}</span>
+            <span class="min_value_title">{{ $t('ExplorerLang.gov.proposalDetail.burnedDeposit') }} {{ burnValue }}</span>
           </span>
           <div class="default_progress_bar_content" v-show="!flBurnAll" :class="flShowDiffStyle ? 'diff_blue' : ''"></div>
           <div class="default_progress_bar_content" v-show="flBurnAll" :class="flBurnAll ? 'diff_burn_red' : ''"></div>
@@ -41,13 +41,13 @@
           <div class="total_deposit_bar_content"></div>
           <div class="init_content"></div>
           <span v-show="!flShowBurnAll" class="max_value_content" :style="initialDepositStyleObj">
-            <span class="max_value_title">Initial Deposit {{ initialDeposit }}</span>
+            <span class="max_value_title">{{ $t('ExplorerLang.gov.proposalDetail.initialDeposit') }} {{ initialDeposit }}</span>
           </span>
           <span v-show="flShowBurnAll" class="max_value_content no_tool_tip_style" :style="minValueStyleObj">
-            <span class="max_value_title">Total Deposit {{ totalDeposit }}</span>
+            <span class="max_value_title">{{ $t('ExplorerLang.gov.proposalDetail.totalDeposit') }} {{ totalDeposit }}</span>
           </span>
         </div>
-        <span class="total_value_content">{{ minDepositToken }} {{ minDepositTokenDenom }} MinDeposit</span>
+        <span class="total_value_content">{{ minDepositToken }} {{ minDepositTokenDenom }} {{ $t('ExplorerLang.gov.proposalDetail.minDeposit') }}</span>
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@ export default {
       flBurnAll: false,
       burnValue: '',
       flTotalGreaterThanMin: false,
-      flShowBurnAll: true,
+      flShowBurnAll: false,
       localBurnPercent: '',
       flShowPass: false,
       flShowReject: false,
@@ -233,16 +233,12 @@ export default {
       }
     },
     flShowBurn(burnPercent) {
-      if (burnPercent == 0) {
-        this.flShowBurnAll = true
-      } else if (burnPercent == 1) {
         this.burnValue = this.totalDeposit
         this.$set(this.burnStyle0bj, 'width', `${((this.minDepositToken / this.totalDeposit) * 100).toFixed(2)}%`)
         this.$set(this.burnTipStyle0bj, 'left', '100%')
         this.flShowDiffStyle = true
         this.flBurnAll = true
         this.flShowBurnAll = true
-      }
     },
   },
   async mounted() {

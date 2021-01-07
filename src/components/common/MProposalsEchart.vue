@@ -1,5 +1,5 @@
 <template>
-  <div :class="['propsals_echart_container', $store.state.isMobile ? 'mobile_propsals_echart_container' : '']">
+  <div class="propsals_echart_container">
     <div class="text">
       <div class="top">
         <span class="title">#{{data.proposal_id}}</span>
@@ -15,46 +15,46 @@
         <div class="content_div">
           <div class="content_header_content">
             <div>
-              <span>{{data.type}}</span>
+              <span style="margin-left: 0.22rem;">{{data.type}}</span>
             </div>
-            <div class="deposit_period_content" style="margin-top: 12px;display: flex;align-items: center;" v-show="data.status === 'DepositPeriod'">
+            <div class="deposit_period_content" style="margin-top: 0.12rem;display: flex;align-items: center;" v-show="data.status === 'DepositPeriod'">
               <i class="iconfont iconDepositPeriod-liebiao" style="color: var(--bgColor)"></i>
-              <span>DepositPeriod</span>
+              <span>{{ $t('ExplorerLang.gov.proposalsType.DepositPeriod') }}</span>
             </div>
-            <div class="voting_period_content" style="margin-top: 12px;display: flex;align-items: center;" v-show="data.status === 'VotingPeriod'">
+            <div class="voting_period_content" style="margin-top: 0.12rem;display: flex;align-items: center;" v-show="data.status === 'VotingPeriod'">
               <i class="iconfont iconDepositPeriod" style="color: var(--bgColor)"></i>
-              <span>VotingPeriod</span>
+              <span>{{ $t('ExplorerLang.gov.proposalsType.VotingPeriod') }}</span>
             </div>
-            <div class="voting_period_content" style="margin-top: 12px;display: flex;align-items: center;" v-show="flShowTime">
+            <div class="voting_period_content" style="margin-top: 0.12rem;display: flex;align-items: center;" v-show="flShowTime">
               <i class="iconfont iconHoursLeft" style="color: rgb(90, 200, 250)"></i>
               <span>{{votingHourLeft}} Left</span>
             </div>
           </div>
           <div class="per_div">
-            <div class="per_title">Gov Tallying</div>
-            <div style="margin-top: 16px;">
+            <div class="per_title">{{ $t('ExplorerLang.gov.govTallying') }}</div>
+            <div style="margin-top: 0.16rem;">
               <p>
                 <img v-if="data.participation > data.participationNum" src="../../assets/participant.png"/>
                 <img v-if="data.participation <= data.participationNum" src="../../assets/no_threshold.png"/>
-                <span>Participation</span>
+                <span>{{ $t('ExplorerLang.gov.participation') }}</span>
               </p>
-              <span style="margin-left: 20px;">{{data.participationNum}} %</span>
+              <span style="margin-left: 0.2rem;">{{data.participationNum}} %</span>
             </div>
-            <div style="margin-top: 16px;">
+            <div style="margin-top: 0.16rem;">
               <p>
                 <img v-if="data.passThreshold > data.passThresholdNum" src="../../assets/pass_threshold.png"/>
                 <img v-if="data.passThreshold <= data.passThresholdNum" src="../../assets/no_threshold.png"/>
-                <span>Pass Threshold</span>
+                <span>{{ $t('ExplorerLang.gov.passThreshold') }}</span>
               </p>
-              <span style="margin-left: 20px;">{{data.passThresholdNum}} %</span>
+              <span style="margin-left:0.2rem;">{{data.passThresholdNum}} %</span>
             </div>
-            <div style="margin-top: 16px;">
+            <div style="margin-top: 0.16rem;">
               <p>
                 <img v-if="data.vetoThreshold > data.vetoThresholdNum" src="../../assets/veto_threshold.png"/>
                 <img v-if="data.vetoThreshold <= data.vetoThresholdNum" src="../../assets/no_threshold.png"/>
-                <span>Veto Threshold</span>
+                <span>{{ $t('ExplorerLang.gov.vetoThreshold') }}</span>
               </p>
-              <span style="margin-left: 20px;">{{data.vetoThresholdNum}} %</span>
+              <span style="margin-left: 0.2rem;">{{data.vetoThresholdNum}} %</span>
             </div>
           </div>
         </div>
@@ -121,18 +121,18 @@ export default {
     getVotingEndTime(time){
       if(time){
         let that = this;
-        let currentServerTime = new Date().getTime() + this.diffMilliseconds;
+        let currentServerTime = Tools.getTimestamp();
         if(new Date(time).getTime() >  currentServerTime){
           that.flShowTime = true;
-          that.votingHourLeft =  Tools.formatAge(new Date(time).getTime(),currentServerTime);
+          that.votingHourLeft =  Tools.formatAge(new Date(time).getTime(),currentServerTime * 1000);
         }else {
         }
         clearInterval(this.votingTimer);
         this.votingTimer = setInterval(() => {
-          currentServerTime = new Date().getTime() + this.diffMilliseconds;
+          currentServerTime = Tools.getTimestamp();
           if(new Date(time).getTime() >  currentServerTime){
             that.flShowTime = true;
-            that.votingHourLeft =  Tools.formatAge(new Date(time).getTime(),currentServerTime);
+            that.votingHourLeft =  Tools.formatAge(new Date(time).getTime(),currentServerTime * 1000);
           }else {
           }
         },1000);
@@ -148,7 +148,7 @@ export default {
           radius: ['0%', '100%'],
           label: {
             rotate: '0',
-            textBorderColor: 'var(--contentColor)',
+            textBorderColor: '#787C99',
             textBorderWidth: 1,
             fontWeight: 600,
             fontFamily: 'Arial'
@@ -158,14 +158,16 @@ export default {
           nodeClick: false,
           levels: levels
         },
-        color: ['rgba(254, 138, 138, 0.6)'],
         tooltip: {
           confine: true,
           formatter: function(v) {
             let info = v.data.info;
             that.levelName = v.name;
             if (v.data.info) {
-              return `${v.marker}${info.voter_moniker || info.voter}: ${info.voting_power} (${v.data.per} %)`;
+              if(info.isValidator) {
+                return `${v.marker}${info.moniker || info.address}: ${info.notVoteVotingPower + info.selfDelVotingPower } (${v.data.per} %)`;
+              }
+              return `${v.marker}${Tools.formatValidatorAddress(info.address)}: ${info.delVotingPower} (${v.data.per} %)`;
             } else {
               if (v.dataIndex === 1 || !v.name) {
                 return `${v.marker}${v.data.tipName || v.name}: ${v.value} (${v.data.perData} %)`;
@@ -186,7 +188,7 @@ export default {
         data.forEach(v => {
           let per = v.value / all;
           v.itemStyle.borderWidth = per < 1 ? 0.5 : 0;
-          v.per = Tools.formatDecimalNumberToFixedNumber(per * 100);
+          v.per = Tools.formatPerNumber(per * 100);
           v.children && this.forChildrenBorderWidth(v.children, all);
         })
       }
@@ -265,14 +267,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  a {
+    color: $t_link_c !important;
+  }
   .propsals_echart_container {
     width: 6.3rem;
     height: 4.2rem;
-    border-radius: 1px;
-    border: 1px solid #D7D9E0;
+    border-radius: 0.01rem;
+    border: 0.01rem solid  $bd_second_c;
     display: flex;
     flex-direction: column;
-      background: #fff;
+      background: $bg_white_c;
     .text {
       width: 100%;
       height: 100%;
@@ -281,26 +286,26 @@ export default {
       flex-direction: column;
       .top {
         padding: 0.3rem 0.3rem 0.22rem;
-        font-size: 18px;
+        font-size: $s18;
         white-space: nowrap;
         display: flex;
         .title {
-          color: var(--contentColor);
+          color: $t_second_c;
           white-space: nowrap;
         }
         .value {
-          margin-left: 6px;
-          color: var(--bgColor);
+          margin-left: 0.06rem;
+          color: $theme_c;
           white-space: nowrap;
         }
         .title_value_content {
-          width: 1px;
+          width: 0.01rem;
           flex: 1;
           display: flex;
           position: relative;
           cursor: pointer;
           .title_value {
-            width: 1px;
+            width: 0.01rem;
             flex: 1;
             display: block;
             overflow: hidden;
@@ -322,13 +327,13 @@ export default {
           display: inline-block;
 
           div.per_title {
-            margin-top: 30px;
-            font-size: 14px;
-            color: var(--contentColor);
+            margin-top: 0.3rem;
+            font-size: $s14;
+            color: $t_second_c$t_second_c;
           }
           & > div {
-            font-size: 12px;
-            color: var(--contentColor);
+            font-size: $s12;
+            color: $t_second_c;
             vertical-align: middle;
             img {
               width: 0.14rem;
@@ -336,10 +341,10 @@ export default {
             }
             span {
               vertical-align: middle;
-              margin-left: 8px;
+              margin-left: 0.08rem;
             }
             p {
-              margin-bottom: 6px !important;
+              margin-bottom: 0.06rem !important;
             }
           }
         }
@@ -350,9 +355,9 @@ export default {
       display: flex;
       justify-content: center;
       .propsals_echart {
-        width: calc(100% - 20px);
+        width: calc(100% - 0.2rem);
         max-width: 3.2rem;
-        height: calc(100% - 20px);
+        height: calc(100% - 0.2rem);
         max-height: 3.2rem;
         .propsals_echart_center {
           width: 0.8rem;
@@ -363,22 +368,22 @@ export default {
   }
   .tooltip_span {
     width: 100%;
-    max-width: calc(100% + 40px);
+    max-width: calc(100% + 0.4rem);
     display: none;
     position: absolute;
     z-index: 1000;
-    bottom: calc(100% + 4px);
+    bottom: calc(100% + 0.04rem);
     left: 50%;
     transform: translateX(-50%);
-    color: #ffffff;
+    color: $bg_white_c;
     background-color: #000000;
     border-radius: 0.04rem;
     word-wrap: break-word;
     white-space: normal;
-    font-size: 12px;
-    line-height: 16px;
+    font-size: $s12;
+    line-height: 0.16rem;
     div {
-      padding: 8px 15px;
+      padding: 0.08rem 0.15rem;
     }
     &::after {
       width: 0;
@@ -389,76 +394,7 @@ export default {
       position: absolute;
       border-top-color: #000000;
       left: 50%;
-      margin-left: -6px;
-    }
-  }
-  .mobile_propsals_echart_container {
-    .text {
-      .top {
-        padding: 0.15rem;
-      }
-    }
-    .content {
-      flex-direction: column;
-      div.content_div {
-        margin-left: 0.15rem!important;
-        margin-right: 0.15rem!important;
-        & > div:nth-child(1) {
-          display: inline;
-        }
-        & > div:nth-child(2) {
-          display: inline;
-          margin-top: 0!important;
-          margin-left: 0.38rem;
-        }
-        .per_div {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          .per_title {
-            width: 100%;
-            flex: 1 0 100%;
-            margin-top: 0.15rem!important;
-          }
-        }
-      }
-      .propsals_echart_content {
-        align-items: center;
-        .propsals_echart {
-          height: 100%;
-          width: 100%;
-        }
-      }
-    }
-  }
-  @media screen and (max-width: 910px){
-    .mobile_propsals_echart_container{
-        background: #fff;
-      .text{
-        .content{
-          .content_div{
-            .content_header_content{
-              display: flex;
-                flex-direction: column;
-
-              align-items: flex-start;
-              .deposit_period_content{
-                margin-top: 0!important;
-              }
-              .voting_period_content{
-                  padding: 0.04rem 0;
-                margin-top: 0!important;
-              }
-              .voting_period_content:last-child{
-                  padding: 0;
-              }
-            }
-            .per_div{
-              margin-left: 0!important;
-            }
-          }
-        }
-      }
+      margin-left: -0.06rem;
     }
   }
 </style>

@@ -85,7 +85,24 @@ export const ExplorerLang = {
         token: 'Token',
         mintTo: 'MintTo',
         srcOwner:'SrcOwner',
-        dstOwner:'DstOwner',
+        dstOwner: 'DstOwner',
+        proposalId: 'ID',
+        title: 'Title',
+        type: 'Type',
+        submitTime: 'Submit Time',
+        depositEndTime: 'Deposit Endtime',
+        votingEndTime: 'Voting Endtime',
+        voter: 'Voter',
+        voteOption: 'Vote Option',
+        time: 'Time',
+        proposalType: 'Proposal_Type',
+        proposalID: 'Proposal_ID',
+        proposalTitle: 'Proposal_Title',
+        proposer: 'Proposer',
+        deposit: 'Deposit',
+        submited: 'Submited',
+        proposalStatus: 'Status',
+        voted:'voted'
     },
     unit:{
         ellipsis:' ,...',
@@ -328,6 +345,7 @@ export const ExplorerLang = {
             blockInterval: 'Block_interval',
             oracle: 'Oracle',
         },
+        // 新增
         asset: {
             symbol: 'Symbol',
             name: 'Name',
@@ -341,6 +359,13 @@ export const ExplorerLang = {
             to: 'To',
             originalOwner: 'Original Owner',
             newOwner:'New Owner'
+        },
+        gov: {
+            depositor: 'Depositor',
+            proposalID: 'Proposal ID',
+            deposit: 'Deposit',
+            voter: 'Voter',
+            option: 'Option'
         }
     },
     addressDetail: {
@@ -502,5 +527,58 @@ export const ExplorerLang = {
         mintable: 'Mintable',
         name: 'Name',
         decimal:'Decimal'
+    },
+    // 新增
+    gov: {
+        proposalsTitle: 'Proposal List',
+        proposals: 'Proposals',
+        proposalOption: {
+            yes: 'Yes',
+            abstain: 'Abstain',
+            no: 'No',
+            noWithVeto:'NoWithVeto'
+        },
+        proposalsType: {
+            DepositPeriod: 'DepositPeriod',
+            VotingPeriod: 'VotingPeriod'
+        },
+        CurrentDeposit: 'CurrentDeposit',
+        InitialDeposit: 'InitialDeposit',
+        MinDeposit: 'MinDeposit',
+        proposalDetails: 'Proposal Details',
+        govTallying: 'Gov Tallying',
+        participation: 'Participation',
+        passThreshold: 'Pass Threshold',
+        vetoThreshold: 'Veto Threshold',
+        proposalDetail: {
+            proposer: 'Proposer',
+            submitHash: 'Submit Hash',
+            type: 'Type',
+            recipient: 'Recipient',
+            amount: 'Amount',
+            description: 'Description',
+            name: 'Name',
+            height: 'Height',
+            info: 'Info',
+            time: 'Time',
+            parameterDetails: 'Parameter Details',
+            submitTime: 'Submit Time',
+            depositEndTime: 'Deposit End Time',
+            totalDeposit: 'Total Deposit',
+            burned: 'Burned',
+            votingStartTime: 'Voting Start Time',
+            votingEndTime: 'Voting End Time',
+            status: 'Status',
+            participation: 'Participation',
+            yes: 'Yes',
+            no: 'No',
+            noWithVeto: 'NoWithVeto',
+            abstain: 'Abstain',
+            viewAll: 'View All',
+            totalDeposit: 'Total Deposit',
+            burnedDeposit: 'Burned Deposit',
+            initialDeposit: 'Initial Deposit',
+            minDeposit: 'MinDeposit',
+        }
     }
 }

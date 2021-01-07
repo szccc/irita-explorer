@@ -8,9 +8,9 @@
       <div class="graph_containers">
         <div class="graph_container">
           <!-- 投票期提案 -->
-          <!-- <div v-for="v in votingPeriodDatas" :key="v.proposal_id">
+          <div v-for="v in votingPeriodDatas" :key="v.proposal_id">
             <m-proposals-echart :data="v" v-if="v"></m-proposals-echart>
-          </div> -->
+          </div>
           <!-- 质押期提案 -->
           <div v-for="v in depositPeriodDatas" :key="v.proposal_id">
             <m-proposals-card :data="v" v-if="v"></m-proposals-card>
@@ -98,12 +98,14 @@ import { getProposalsListApi } from '@/service/api.js'
 import Tools from '../../util/Tools'
 import { converCoin, getMainToken } from '../../helper/IritaHelper'
 import MProposalsCard from '../common/MProposalsCard'
+import MProposalsEchart from '../common/MProposalsEchart'
 import { proposalStatus } from '../../constant'
 export default {
   name: '',
   components: {
     MPagination,
     MProposalsCard,
+    MProposalsEchart
   },
   props: {},
   data() {
@@ -201,165 +203,140 @@ export default {
           this.depositPeriodDatas = depositPeriodDatas.sort((a, b) => {
             return b.proposal_id - a.proposal_id
           })
-          // let votingPeriodDatas = res.data.filter(v => v.status === 'VotingPeriod')
-          // this.votingPeriodDatas = votingPeriodDatas.map(item => {
-          //   let o = {}
-          //   o.proposal_id = item.id
-          //   o.title = item.content &&  item.content.title
-          //   // o.level = item.level && item.level.name
-          //   o.type = item.content &&  item.content.type
-          //   o.status = item.status
-          //   o.votingEndTime = item.voting_end_time
-          //   let all = item.current_tally_result && item.current_tally_result.system_voting_power
-          //   let yesArr = item.tally_details.filter(v => v.vote === 'yes')
-          //   let yes = yesArr.reduce((init, v) => {
-          //     return v.voting_power + init
-          //   }, 0)
-          //   let noArr = item.tally_details.filter(v => v.vote === 'no')
-          //   let no = noArr.reduce((init, v) => {
-          //     return v.voting_power + init
-          //   }, 0)
-          //   let abstainArr = item.tally_details.filter(v => v.vote === 'abstain')
-          //   let abstain = abstainArr.reduce((init, v) => {
-          //     return v.voting_power + init
-          //   }, 0)
-          //   let noWithVetoArr = item.tally_details.filter(v => v.vote === 'no_with_veto')
-          //   let noWithVeto = noWithVetoArr.reduce((init, v) => {
-          //     return v.voting_power + init
-          //   }, 0)
-          //   let votes = yes + no + abstain + noWithVeto
-          //   o.participationNum = item.level && item.level.gov_param && item.level.gov_param.participation && this.formatNumber(item.level.gov_param.participation)
-          //   o.passThresholdNum = item.level && item.level.gov_param && item.level.gov_param.pass_threshold && this.formatNumber(item.level.gov_param.pass_threshold)
-          //   o.vetoThresholdNum = item.level && item.level.gov_param && item.level.gov_param.veto_threshold && this.formatNumber(item.level.gov_param.veto_threshold)
-          //   o.participation = all ? (votes / all) * 100 : 0
-          //   o.passThreshold = votes ? (yes / votes) * 100 : 0
-          //   o.vetoThreshold = votes ? (noWithVeto / votes) * 100 : 0
-          //   let nonparticipantPer = Tools.formatDecimalNumberToFixedNumber(((all - votes) / all) * 100)
-          //   let data = [
-          //     {
-          //       name: 'Participant',
-          //       value: votes,
-          //       perData: Tools.formatDecimalNumberToFixedNumber((votes / all) * 100),
-          //       itemStyle: {
-          //         // color: '#3598DB',
-          //         borderColor: '#ECEFFF',
-          //         borderWidth: 0,
-          //       },
-          //       children: [
-          //         {
-          //           name: 'Yes',
-          //           value: yes,
-          //           perData: Tools.formatDecimalNumberToFixedNumber((yes / votes) * 100),
-          //           itemStyle: {
-          //             // color: '#45B4FF',
-          //             borderColor: '#ECEFFF',
-          //             borderWidth: 0,
-          //           },
-          //           // children: this.formatGrahpChildren(yesArr, {h: [205, 204], s: [100, 100], l: [79, 35]})
-          //         },
-          //         {
-          //           name: 'Abstain',
-          //           value: abstain,
-          //           perData: Tools.formatDecimalNumberToFixedNumber((abstain / votes) * 100),
-          //           itemStyle: {
-          //             color: '#CCDCFF',
-          //             borderColor: '#ECEFFF',
-          //             borderWidth: 0,
-          //           },
-          //           children: this.formatGrahpChildren(abstainArr, { h: [222, 221], s: [100, 44], l: [86, 58] }),
-          //         },
-          //         {
-          //           name: 'No',
-          //           value: no,
-          //           perData: Tools.formatDecimalNumberToFixedNumber((no / votes) * 100),
-          //           itemStyle: {
-          //             color: '#FFCF65',
-          //             borderColor: '#ECEFFF',
-          //             borderWidth: 0,
-          //           },
-          //           children: this.formatGrahpChildren(noArr, { h: [36, 36], s: [100, 100], l: [77, 48] }),
-          //         },
-          //         {
-          //           name: 'NoWithVeto',
-          //           value: noWithVeto,
-          //           perData: Tools.formatDecimalNumberToFixedNumber((noWithVeto / votes) * 100),
-          //           itemStyle: {
-          //             color: '#FE8A8A',
-          //             borderColor: '#ECEFFF',
-          //             borderWidth: 0,
-          //           },
-          //           children: this.formatGrahpChildren(noWithVetoArr, { h: [21, 21], s: [100, 100], l: [79, 50] }),
-          //         },
-          //       ],
-          //     },
-          //     {
-          //       name: 'Nonparticipant',
-          //       value: all - votes,
-          //       perData: nonparticipantPer,
-          //       nodeClick: false,
-          //       itemStyle: {
-          //         color: '#E5E9FB',
-          //         borderColor: '#E5E9FB',
-          //         borderWidth: 0,
-          //       },
-          //       label: {
-          //         color: '#51A9FF',
-          //         textBorderWidth: 0,
-          //         fontWeight: 600,
-          //       },
-          //       children: [
-          //         {
-          //           name: '',
-          //           tipName: 'Nonparticipant',
-          //           value: all - votes,
-          //           perData: nonparticipantPer,
-          //           nodeClick: false,
-          //           itemStyle: {
-          //             color: '#E5E9FB',
-          //             borderColor: '#E5E9FB',
-          //             borderWidth: 0,
-          //           },
-          //           children: [
-          //             {
-          //               name: '',
-          //               tipName: 'Nonparticipant',
-          //               value: all - votes,
-          //               perData: nonparticipantPer,
-          //               nodeClick: false,
-          //               itemStyle: {
-          //                 color: '#E5E9FB',
-          //                 borderColor: '#E5E9FB',
-          //                 borderWidth: 0,
-          //               },
-          //             },
-          //           ],
-          //         },
-          //       ],
-          //     },
-          //   ]
-          //   if (this.$store.state.currentSkinStyle === Constant.CHAINID.IRISHUB) {
-          //     data[0].itemStyle.color = skinStyle.skinStyle.MAINNETBGCOLOR
-          //     data[0].children[0].itemStyle.color = '#4371FF'
-          //     data[0].children[0].children = this.formatGrahpChildren(yesArr, { h: [223, 222], s: [100, 100], l: [75, 35] })
-          //   } else if (this.$store.state.currentSkinStyle === Constant.CHAINID.FUXI) {
-          //     data[0].children[0].itemStyle.color = '#004EAA'
-          //     data[0].itemStyle.color = skinStyle.skinStyle.TESTNETBGCOLOR
-          //     data[0].children[0].children = this.formatGrahpChildren(yesArr, { h: [213, 212], s: [100, 100], l: [75, 35] })
-          //   } else if (this.$store.state.currentSkinStyle === Constant.CHAINID.NYANCAT) {
-          //     data[0].children[0].itemStyle.color = '#06A79A'
-          //     data[0].itemStyle.color = skinStyle.skinStyle.NYANCATTESTNETBGCOLOR
-          //     data[0].children[0].children = this.formatGrahpChildren(yesArr, { h: [175, 174], s: [100, 100], l: [75, 35] })
-          //   } else {
-          //     data[0].children[0].itemStyle.color = '#008CEA'
-          //     data[0].itemStyle.color = skinStyle.skinStyle.DEFAULTBGCOLOR
-          //     data[0].children[0].children = this.formatGrahpChildren(yesArr, { h: [196, 195], s: [100, 100], l: [75, 35] })
-          //   }
-          //   o.data = data
-          //   return o
-          // })
-          // this.votingPeriodDatas = this.votingPeriodDatas.sort((a, b) => {
-          //   return b.proposal_id - a.proposal_id
-          // })
+          let votingPeriodDatas = res.data.filter(v => v.status === 'VotingPeriod')
+          this.votingPeriodDatas = votingPeriodDatas.map(item => {
+            let o = {}
+            o.proposal_id = item.id
+            o.title = item.content && item.content.title
+            // o.level = item.level && item.level.name
+            o.type = item.content && item.content.type
+            o.status = item.status
+            o.votingEndTime = item.voting_end_time
+            let all = item.current_tally_result && item.current_tally_result.system_voting_power
+            let yesArr = item.tally_details.filter(v => v.vote === 'yes')
+            let yes = item.current_tally_result && item.current_tally_result.yes
+            let noArr = item.tally_details.filter(v => v.vote === 'no')
+            let no = item.current_tally_result && item.current_tally_result.no
+            let abstainArr = item.tally_details.filter(v => v.vote === 'abstain')
+            let abstain = item.current_tally_result && item.current_tally_result.abstain
+            let noWithVetoArr = item.tally_details.filter(v => v.vote === 'no_with_veto')
+            let noWithVeto = item.current_tally_result && item.current_tally_result.no_with_veto
+            let votes = item.current_tally_result && item.current_tally_result.total_voting_power
+            o.participationNum = item.quorum && Tools.formatPerNumber(item.quorum * 100)
+            o.passThresholdNum = item.threshold && Tools.formatPerNumber(item.threshold * 100)
+            o.vetoThresholdNum = item.veto_threshold && Tools.formatPerNumber(item.veto_threshold * 100)
+            o.participation = all ? (votes / all) * 100 : 0
+            o.passThreshold = votes ? (yes / votes) * 100 : 0
+            o.vetoThreshold = votes ? (noWithVeto / votes) * 100 : 0
+            let nonparticipantPer = Tools.formatPerNumber(((all - votes) / all) * 100)
+            let data = [
+              {
+                name: 'Participant',
+                value: votes,
+                perData: Tools.formatPerNumber((votes / all) * 100),
+                itemStyle: {
+                  color: '#3264fd',
+                  borderColor: '#ECEFFF',
+                  borderWidth: 0,
+                },
+                children: [
+                  {
+                    name: 'Yes',
+                    value: yes,
+                    perData: Tools.formatPerNumber((yes / votes) * 100),
+                    itemStyle: {
+                      color: '#45B4FF',
+                      borderColor: '#ECEFFF',
+                      borderWidth: 0,
+                    },
+                    children: this.formatGrahpChildren(yesArr, { h: [205, 204], s: [100, 100], l: [79, 35] }),
+                  },
+                  {
+                    name: 'Abstain',
+                    value: abstain,
+                    perData: Tools.formatPerNumber((abstain / votes) * 100),
+                    itemStyle: {
+                      color: '#CCDCFF',
+                      borderColor: '#ECEFFF',
+                      borderWidth: 0,
+                    },
+                    children: this.formatGrahpChildren(abstainArr, { h: [222, 221], s: [100, 44], l: [86, 58] }),
+                  },
+                  {
+                    name: 'No',
+                    value: no,
+                    perData: Tools.formatPerNumber((no / votes) * 100),
+                    itemStyle: {
+                      color: '#FFCF65',
+                      borderColor: '#ECEFFF',
+                      borderWidth: 0,
+                    },
+                    children: this.formatGrahpChildren(noArr, { h: [36, 36], s: [100, 100], l: [77, 48] }),
+                  },
+                  {
+                    name: 'NoWithVeto',
+                    value: noWithVeto,
+                    perData: Tools.formatPerNumber((noWithVeto / votes) * 100),
+                    itemStyle: {
+                      color: '#FE8A8A',
+                      borderColor: '#ECEFFF',
+                      borderWidth: 0,
+                    },
+                    children: this.formatGrahpChildren(noWithVetoArr, { h: [21, 21], s: [100, 100], l: [79, 50] }),
+                  },
+                ],
+              },
+              {
+                name: 'Nonparticipant',
+                value: all - votes,
+                perData: nonparticipantPer,
+                nodeClick: false,
+                itemStyle: {
+                  color: '#E5E9FB',
+                  borderColor: '#E5E9FB',
+                  borderWidth: 0,
+                },
+                label: {
+                  color: '#51A9FF',
+                  textBorderWidth: 0,
+                  fontWeight: 600,
+                },
+                children: [
+                  {
+                    name: '',
+                    tipName: 'Nonparticipant',
+                    value: all - votes,
+                    perData: nonparticipantPer,
+                    nodeClick: false,
+                    itemStyle: {
+                      color: '#E5E9FB',
+                      borderColor: '#E5E9FB',
+                      borderWidth: 0,
+                    },
+                    children: [
+                      {
+                        name: '',
+                        tipName: 'Nonparticipant',
+                        value: all - votes,
+                        perData: nonparticipantPer,
+                        nodeClick: false,
+                        itemStyle: {
+                          color: '#E5E9FB',
+                          borderColor: '#E5E9FB',
+                          borderWidth: 0,
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ]
+            o.data = data
+            return o
+          })
+          this.votingPeriodDatas = this.votingPeriodDatas.sort((a, b) => {
+            return b.proposal_id - a.proposal_id
+          })
         }
       } catch (e) {
         console.error(e)
@@ -382,6 +359,42 @@ export default {
       }
       this.pageNum = pageNum
       this.getProposalsList()
+    },
+    formatGrahpChildren(arr, color) {
+      let hStep = (color.h[1] - color.h[0]) / 100
+      let sStep = (color.s[1] - color.s[0]) / 100
+      let lStep = (color.l[1] - color.l[0]) / 100
+      let result = []
+      arr.forEach((v,i) => {
+        let h = color.h[0] + hStep * i
+        let s = color.s[0] + sStep * i
+        let l = color.l[0] + lStep * i
+        if(v.isValidator && (v.notVoteVotingPower || v.selfDelVotingPower)) {
+          result.push({
+            value: v.notVoteVotingPower + v.selfDelVotingPower,
+            info: v,
+            nodeClick: false,
+            itemStyle: {
+              color: `hsla(${h},${s}%,${l}%, 1)`,
+              borderColor: '#ECEFFF',
+              borderWidth: 0,
+            }
+          })
+        }
+        if(v.delVotingPower) {
+          result.push({
+            value: v.delVotingPower,
+            info: v,
+            nodeClick: false,
+            itemStyle: {
+              color: `hsla(${h},${s}%,${l}%, 1)`,
+              borderColor: '#ECEFFF',
+              borderWidth: 0,
+            }
+          })
+        }
+      });
+      return result
     },
   },
 }

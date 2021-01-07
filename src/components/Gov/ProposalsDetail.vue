@@ -26,62 +26,62 @@
         </div>
         <div class="proposals_detail_information_wrap">
           <div class="information_props_wrap">
-            <span class="information_props">Proposer :</span>
-            <span v-show="proposer !== '--'" class="information_value information_show_trim jump_route">
-              <span style="font-family:Arial" class="address_link" @click="addressRoute(proposer)">
+            <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.proposer') }} :</span>
+            <span v-show="proposer !== '--'" class="information_value information_show_trim">
+              <span style="font-family:Arial" class="address_link jump_route" @click="addressRoute(proposer)">
                 {{ proposer }}
               </span>
             </span>
             <span v-show="proposer == '--'" class="information_value information_show_trim ">{{ proposer }}</span>
           </div>
           <div class="information_props_wrap">
-            <span class="information_props">Submit Hash :</span>
-            <span v-show="submitHash !== '--'" class="information_value information_show_trim jump_route">
-              <router-link :to="`/tx?txHash=${submitHash}`">{{ submitHash }}</router-link>
+            <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.submitHash') }} :</span>
+            <span v-show="submitHash !== '--'" class="information_value information_show_trim">
+              <router-link class="jump_route" :to="`/tx?txHash=${submitHash}`">{{ submitHash }}</router-link>
             </span>
             <span v-show="submitHash == '--'" class="information_value information_show_trim ">{{ submitHash }}</span>
           </div>
           <div class="information_props_wrap">
-            <span class="information_props">Type :</span>
+            <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.type') }} :</span>
             <span class="information_value">{{ type }}</span>
           </div>
           <div v-show="type === 'proposalType.CommunityPoolSpendProposal'">
             <div class="information_props_wrap">
-              <span class="information_props">Recipient :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.recipient') }} :</span>
               <span class="information_value">{{ recipient }}</span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Amount :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.amount') }} :</span>
               <span class="information_value">{{ amount }}</span>
             </div>
           </div>
           <div class="information_props_wrap">
-            <span class="information_props">Description :</span>
+            <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.description') }} :</span>
             <span class="information_value">
               <pre class="information_pre information_show_trim" v-html="description"></pre>
             </span>
           </div>
           <div v-show="type === proposalType.SoftwareUpgradeProposal">
             <div class="information_props_wrap">
-              <span class="information_props">Name :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.name') }} :</span>
               <span class="information_value information_show_trim">
                 <span class="information_pre">{{ name }}</span>
               </span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Height :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.height') }} :</span>
               <span class="information_value information_show_trim">
                 <span class="information_pre">{{ height }}</span>
               </span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Info :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.info') }} :</span>
               <span class="information_value information_show_trim">
                 <span class="information_pre">{{ info }}</span>
               </span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Time :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.time') }} :</span>
               <span class="information_value information_show_trim">
                 <span class="information_pre">{{ time }}</span>
               </span>
@@ -89,7 +89,7 @@
           </div>
           <div class="parameter_container" v-show="type === proposalType.ParameterChangeProposal">
             <div class="information_props_wrap">
-              <span class="information_props">Parameter Details :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.parameterDetails') }} :</span>
               <span v-html="parameterValue"></span>
             </div>
           </div>
@@ -97,11 +97,11 @@
         <div class="proposal_detail_content">
           <div class="proposals_detail_information_wrap">
             <div class="information_props_wrap">
-              <span class="information_props">Submit Time :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.submitTime') }} :</span>
               <span class="information_value">{{ submitAge }} <span v-show="submitAge">(</span>{{ submitTime }}<span v-show="submitAge">)</span></span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Deposit End Time :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.depositEndTime') }} :</span>
               <span class="information_value"
                 >{{ depositEndAge }}
                 <span v-show="flShowDepositHourLeft">{{ depositHourLeft }} left </span>
@@ -109,18 +109,18 @@
               </span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Total Deposit :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.totalDeposit') }} :</span>
               <span class="information_value">
                 {{ totalDeposit }}
-                <span v-show="burnValue">({{ burnValue }}% Burned)</span>
+                <span v-show="burnValue">({{ burnValue }}% {{ $t('ExplorerLang.gov.proposalDetail.burned') }})</span>
               </span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Voting Start Time :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.votingStartTime') }} :</span>
               <span class="information_value">{{ votingStartAge }} <span v-show="votingStartAge">(</span>{{ votingStartTime }}<span v-show="votingStartAge">)</span> </span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Voting End Time :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.votingEndTime') }} :</span>
               <span class="information_value"
                 >{{ votingEndAge }}
                 <span v-show="flShowVotingHourLeft">{{ votingHourLeft }} left </span>
@@ -130,27 +130,27 @@
           </div>
           <div class="proposals_detail_information_wrap">
             <div class="information_props_wrap">
-              <span class="information_props">Status :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.status') }} :</span>
               <span class="information_value">{{ status }}</span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Participation :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.participation') }} :</span>
               <span class="information_value">{{ currentParticipationValue }} (Threshold {{ participationValue }})</span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Yes :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.yes') }} :</span>
               <span class="information_value">{{ currentYesValue }} (Threshold {{ yesThresholdValue }})</span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">No :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.no') }} :</span>
               <span class="information_value">{{ currentNoValue }}</span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">NoWithVeto :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.noWithVeto') }} :</span>
               <span class="information_value">{{ currentNoWithVetoValue }} (Threshold {{ vetoThresholdValue }})</span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">Abstain :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.abstain') }} :</span>
               <span class="information_value">{{ currentAbstainValue }}</span>
             </div>
           </div>
@@ -173,7 +173,7 @@
       </div>
 
       <div class="proposal_table">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div class="proposal_table_title">
           <div class="proposals_table_title_div" style="margin-top: 0;">Voters</div>
           <ul class="filter_content">
             <li class="tab_option" v-for="(item, index) in filterTabArr" :key="index" :class="item.isActive ? 'blue_style' : ''" @click="filterVoteTx(item.key, index)">
@@ -182,16 +182,16 @@
           </ul>
           <div class="voting_options">
             <span>
-              <i class="yes_option_style"></i>Yes: <span>{{ voteDetailsYes }}</span> </span
+              <i class="yes_option_style"></i>{{ $t('ExplorerLang.gov.proposalDetail.yes') }}: <span>{{ voteDetailsYes }}</span> </span
             >|
             <span>
-              <i class="no_option_style"></i>No: <span>{{ voteDetailsNo }}</span> </span
+              <i class="no_option_style"></i>{{ $t('ExplorerLang.gov.proposalDetail.no') }}: <span>{{ voteDetailsNo }}</span> </span
             >|
             <span>
-              <i class="no_with_veto_option_style"></i>NoWithVeto: <span>{{ voteDetailsNoWithVeto }} </span> </span
+              <i class="no_with_veto_option_style"></i>{{ $t('ExplorerLang.gov.proposalDetail.noWithVeto') }}: <span>{{ voteDetailsNoWithVeto }} </span> </span
             >|
             <span>
-              <i class="abstain_option_style"></i>Abstain:<span>{{ voteDetailsAbstain }}</span>
+              <i class="abstain_option_style"></i>{{ $t('ExplorerLang.gov.proposalDetail.abstain') }}:<span>{{ voteDetailsAbstain }}</span>
             </span>
           </div>
         </div>
@@ -644,6 +644,9 @@ a {
           min-width: 1.5rem;
           color: $t_second_c;
         }
+        .jump_route {
+            word-break: break-all
+        }
       }
     }
   }
@@ -672,7 +675,7 @@ a {
       padding: 0;
     }
     .voting_proposal_card_content {
-      min-width: 5rem;
+      // min-width: 5rem;
     }
     .voting_mobile_content {
       margin-left: 0.1rem;
@@ -680,6 +683,11 @@ a {
   }
   .proposal_table {
     margin: 0.2rem 0;
+    .proposal_table_title{
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+    }
     .proposals_table_title_div {
       font-size: $s18;
       margin: 0.3rem 0.2rem 0.1rem;
@@ -761,6 +769,40 @@ a {
       display: flex;
       justify-content: flex-end;
     }
+  }
+}
+@media screen and (max-width: 910px) {
+  .proposals_detail_wrap {
+      .proposal_detail_content {
+        display: block;
+        .proposals_detail_information_wrap {
+          margin-right: 0 !important;
+          margin-bottom: 0.1rem;
+        }
+      }
+      .card_container {
+        display: block;
+        .voting_mobile_content {
+          margin-left: 0;
+        }
+      }
+  }
+}
+@media screen and (max-width: 845px) {
+  .proposals_detail_wrap {
+      .proposal_table {
+        .proposal_table_title{
+          display: block; 
+          .filter_content {
+            margin-left: 0.2rem;
+          }
+        }
+      }
+  }
+}
+@media screen and (max-width: 469px) {
+  .information_props {
+    min-width: 1.2rem !important;
   }
 }
 </style>
