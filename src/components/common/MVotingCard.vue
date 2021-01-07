@@ -27,18 +27,18 @@
             <div class="voting_left_container">
                 <span class="delegator_voted_content" v-show="flShowTotalVoted">0.00%</span>
                 <span class="delegator_voted_content" v-show="!flShowTotalVoted">0.00%</span>
-                <span class="yes_content">{{ $t('ExplorerLang.gov.proposalDetail.yes') }} {{yesVotingPowerWidth === 'NaN' ? '0.00' : yesVotingPowerWidth ? yesVotingPowerWidth : '0.00'}}</span>
-                <span class="no_content">{{ $t('ExplorerLang.gov.proposalDetail.no') }} {{noVotingPowerWidth === 'NaN' ? '0.00' : noVotingPowerWidth ? noVotingPowerWidth : '0.00'}}</span>
+                <span class="yes_content">{{ $t('ExplorerLang.gov.proposalDetail.yes') }} {{yesVotingPowerWidth}}</span>
+                <span class="no_content">{{ $t('ExplorerLang.gov.proposalDetail.no') }} {{noVotingPowerWidth}}</span>
             </div>
             <div class="voting_center_container">
                 <div class="voting_progress_bar_content">
                     <span class="min_value_content" :style="minTotalTipStyleNumber" v-show="flShowTotalVoted">
                         <span class="min_value_title">{{delegatorVoted}}% by Delegator</span>
                     </span>
-                    <div class="default_progress_bar_content" :style="{background: totalVoted || delegatorVoted ? 'var(--bgColor)' : ''}"></div>
+                    <div class="default_progress_bar_content" :style="{background: totalVoted !== '0.00%' || delegatorVoted !== '0.00%' ? 'var(--bgColor)' : ''}"></div>
                     <div class="min_deposit_bar_content" :style="minVotingPowerStyleObj"></div>
                 </div>
-                <div class="voting_bottom_progress_bar_content" :style="minVotingPowerStyleObj">
+                <div class="voting_bottom_progress_bar_content" :style="{background: totalVoted !== '0.00%' || delegatorVoted !== '0.00%' ? 'var(--bgColor)' : '#E5E9FB'}">
                     <div class="voting_bottom_min_deposit_bar_content" :style="yesVotingPowerStyleObj"></div>
                     <div class="voting_bottom_total_deposit_bar_content" :style="noVotingPowerStyleObj"></div>
                     <div class="voting_bottom_default_progress_bar_content" :style="abstainVotingPowerStyleObj"></div>
@@ -48,8 +48,8 @@
             <div class="voting_right_container">
                 <span class="participation_threshold_content" v-show="flShowTotalVoted">{{totalVoted ? totalVoted : '0.00'}} {{ $t('ExplorerLang.gov.proposalDetail.participation') }}</span>
                 <span class="participation_threshold_content" v-show="!flShowTotalVoted">{{delegatorVoted ? delegatorVoted : '0.00'}} {{ $t('ExplorerLang.gov.proposalDetail.participation') }}</span>
-                <span class="veto_content">{{vetoVotingPowerWidth === 'NaN' ? '0.00' : vetoVotingPowerWidth ? vetoVotingPowerWidth : '0.00'}} {{ $t('ExplorerLang.gov.proposalDetail.noWithVeto') }}</span>
-                <span class="abstain_content">{{abstainVotingPowerWidth === 'NaN' ? '0.00' : abstainVotingPowerWidth ? abstainVotingPowerWidth : '0.00'}} {{ $t('ExplorerLang.gov.proposalDetail.abstain') }}</span>
+                <span class="veto_content">{{vetoVotingPowerWidth}} {{ $t('ExplorerLang.gov.proposalDetail.noWithVeto') }}</span>
+                <span class="abstain_content">{{abstainVotingPowerWidth}} {{ $t('ExplorerLang.gov.proposalDetail.abstain') }}</span>
             </div>
         </div>
     </div>
@@ -136,16 +136,16 @@
                     let currentTally = votingBarObj.current_tally_result;
                     if(currentTally) {
                         this.systemVotingPower =currentTally.system_voting_power;
-                        this.yesVotingPowerWidth = Tools.formatPercentageNumbers(currentTally.yes,currentTally.total_voting_power);
+                        this.yesVotingPowerWidth = currentTally.yes ? Tools.formatPercentageNumbers(currentTally.yes,currentTally.total_voting_power): '0.00%';
                         this.$set(this.yesVotingPowerStyleObj,'width',`${this.yesVotingPowerWidth}`);
-                        this.noVotingPowerWidth =  Tools.formatPercentageNumbers(currentTally.no,currentTally.total_voting_power);
+                        this.noVotingPowerWidth = currentTally.no ? Tools.formatPercentageNumbers(currentTally.no,currentTally.total_voting_power) : '0.00%';
                         this.$set(this.noVotingPowerStyleObj,'width',`${this.noVotingPowerWidth}`);
-                        this.vetoVotingPowerWidth = Tools.formatPercentageNumbers(currentTally.no_with_veto,currentTally.total_voting_power);
+                        this.vetoVotingPowerWidth = currentTally.no_with_veto ? Tools.formatPercentageNumbers(currentTally.no_with_veto,currentTally.total_voting_power) :'0.00%';
                         this.$set(this.vetoVotingPowerStyleObj,'width',`${this.vetoVotingPowerWidth}`);
-                        this.abstainVotingPowerWidth = Tools.formatPercentageNumbers(currentTally.abstain,currentTally.total_voting_power);
+                        this.abstainVotingPowerWidth = currentTally.abstain ? Tools.formatPercentageNumbers(currentTally.abstain,currentTally.total_voting_power) :'0.00%';
                         this.$set(this.abstainVotingPowerStyleObj,'width',`${this.abstainVotingPowerWidth}`);
-                        this.totalVoted = Tools.formatPercentageNumbers(currentTally.total_voting_power,currentTally.system_voting_power);
-                        this.delegatorVoted = Tools.formatPercentageNumbers(currentTally.total_voting_power,currentTally.system_voting_power);
+                        this.totalVoted = currentTally.total_voting_power ? Tools.formatPercentageNumbers(currentTally.total_voting_power,currentTally.system_voting_power) : '0.00%';
+                        this.delegatorVoted = currentTally.total_voting_power ? Tools.formatPercentageNumbers(currentTally.total_voting_power,currentTally.system_voting_power) : '0.00%';
                         this.$set(this.minTotalTipStyleNumber,'left',`${this.delegatorVoted}`);
                     }
 		        }

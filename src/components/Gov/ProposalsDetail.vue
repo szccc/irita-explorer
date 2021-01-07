@@ -45,10 +45,15 @@
             <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.type') }} :</span>
             <span class="information_value">{{ type }}</span>
           </div>
-          <div v-show="type === 'proposalType.CommunityPoolSpendProposal'">
+          <div v-show="type === proposalType.CommunityPoolSpendProposal">
             <div class="information_props_wrap">
               <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.recipient') }} :</span>
-              <span class="information_value">{{ recipient }}</span>
+              <template>
+                <span v-if="recipient" class="information_value information_show_trim">
+                  <router-link class="jump_route" :to="`/address/${recipient}`">{{ recipient }}</router-link>
+                </span>
+               <span v-else class="information_value information_show_trim ">--</span>
+              </template>
             </div>
             <div class="information_props_wrap">
               <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.amount') }} :</span>
@@ -243,7 +248,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="amount" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')"></el-table-column>
-            <el-table-column prop="type" :min-width="ColumnMinWidth.type" :label="$t('ExplorerLang.table.type')"></el-table-column>
+            <el-table-column prop="type" :min-width="ColumnMinWidth.proposalType" :label="$t('ExplorerLang.table.type')"></el-table-column>
             <el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
               <template v-slot:default="{ row }">
                 <el-tooltip :content="row.hash" placement="top" :disabled="!isValid(row.hash)">
@@ -311,20 +316,20 @@ export default {
       depositHourTimer: null,
       flShowVotingHourLeft: '',
       votingHourLeft: '',
-      totalDeposit: '',
+      totalDeposit: 0,
       burnValue: '',
       votingStartAge: '',
       votingStartTime: '',
       votingEndAge: '',
       votingEndTime: '',
-      participationValue: '',
-      yesThresholdValue: '',
-      vetoThresholdValue: '',
-      currentParticipationValue: '',
-      currentYesValue: '',
-      currentNoValue: '',
-      currentNoWithVetoValue: '',
-      currentAbstainValue: '',
+      participationValue: 0,
+      yesThresholdValue: 0,
+      vetoThresholdValue: 0,
+      currentParticipationValue: 0,
+      currentYesValue: 0,
+      currentNoValue: 0,
+      currentNoWithVetoValue: 0,
+      currentAbstainValue: 0,
       depositorObj: {},
       burnPercent: 0,
       votingObj: {},
@@ -382,15 +387,15 @@ export default {
           let content = res.content
           if (content) {
             this.type = content.type
-            this.description = content.description
-            switch (this.status) {
-              case proposalType.ParameterChangeProposal:
-                this.recipient = content.value && content.value.recipient
-                let amount = await converCoin(content.value && content.value.amount && res.content.value.amount[0])
+            this.description = content.description && content.description.trim()
+            switch (content.type) {
+              case proposalType.CommunityPoolSpendProposal:
+                this.recipient = content.recipient
+                let amount = await converCoin(content.amount && content.amount[0])
                 this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`
                 break
               case proposalType.SoftwareUpgradeProposal:
-                let plan = content.value && content.value.plan
+                let plan = content.plan
                 if (plan) {
                   this.name = plan.name
                   this.height = plan.height
@@ -400,7 +405,7 @@ export default {
                 }
                 break
               case proposalType.ParameterChangeProposal:
-                ;(content.value.changes || []).forEach(param => {
+                ;(content.changes || []).forEach(param => {
                   this.parameterValue += `${param.subspace}/${param.key} = ${param.value}\n`
                 })
                 break
@@ -426,11 +431,11 @@ export default {
           this.vetoThresholdValue = res.veto_threshold && `${(Number(res.veto_threshold) * 100).toFixed(2)}%`
           if (res.current_tally_result) {
             let tally = res.current_tally_result
-            this.currentParticipationValue = Tools.formatPercentageNumbers(tally.total_voting_power, tally.system_voting_power)
-            this.currentYesValue = Tools.formatPercentageNumbers(tally.yes, tally.total_voting_power)
-            this.currentNoValue = Tools.formatPercentageNumbers(tally.no, tally.total_voting_power)
-            this.currentNoWithVetoValue = Tools.formatPercentageNumbers(tally.no_with_veto, tally.total_voting_power)
-            this.currentAbstainValue = Tools.formatPercentageNumbers(tally.abstain, tally.total_voting_power)
+            this.currentParticipationValue = tally.total_voting_power ? Tools.formatPercentageNumbers(tally.total_voting_power, tally.system_voting_power) : '0.00%'
+            this.currentYesValue = tally.yes ? Tools.formatPercentageNumbers(tally.yes, tally.total_voting_power) : '0.00%'
+            this.currentNoValue = tally.no ? Tools.formatPercentageNumbers(tally.no, tally.total_voting_power) : '0.00%'
+            this.currentNoWithVetoValue = tally.no_with_veto ? Tools.formatPercentageNumbers(tally.no_with_veto, tally.total_voting_power) : '0.00%'
+            this.currentAbstainValue = tally.abstain ? Tools.formatPercentageNumbers(tally.abstain, tally.total_voting_power) : '0.00%'
           }
           this.burnPercent = Number(res.burned_rate)
           this.depositorObj = res

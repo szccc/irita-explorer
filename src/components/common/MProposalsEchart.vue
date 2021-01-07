@@ -102,7 +102,7 @@ export default {
         },
         {
           r0: '75%',
-          r: '100%'
+          r: '100%',
         }
       ],
       bundClickEventFun: function() {},
