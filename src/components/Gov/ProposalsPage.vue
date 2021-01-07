@@ -6,14 +6,44 @@
         <span>{{ count }} {{ $t('ExplorerLang.gov.proposals') }}</span>
       </div>
       <div class="graph_containers">
-        <div class="graph_container">
-          <!-- 投票期提案 -->
+        <!-- PC端 一个投票期-多个质押期或没有质押期 -->
+        <div class="graph_container votingPeriodDatas_one" v-if="votingPeriodDatas.length === 1 && (depositPeriodDatas.length === 0 || depositPeriodDatas.length > 1)">
           <div v-for="v in votingPeriodDatas" :key="v.proposal_id">
             <m-proposals-echart :data="v" v-if="v"></m-proposals-echart>
           </div>
-          <!-- 质押期提案 -->
           <div v-for="v in depositPeriodDatas" :key="v.proposal_id">
             <m-proposals-card :data="v" v-if="v"></m-proposals-card>
+          </div>
+        </div>
+
+        <!--PC端 没有投票期且只有一个质押期 -->
+        <div class="graph_container depositPeriodDatas_one" v-if="votingPeriodDatas.length === 0 && depositPeriodDatas.length === 1">
+          <div v-for="v in depositPeriodDatas" :key="v.proposal_id">
+            <m-proposals-card :data="v" v-if="v"></m-proposals-card>
+          </div>
+        </div>
+
+        <!--PC端 一个投票期一个质押期 -->
+        <div class="graph_container votingPeriodDatas_one_depositPeriodDatas_one" v-if="votingPeriodDatas.length === 1 && depositPeriodDatas.length === 1">
+          <div v-for="v in votingPeriodDatas" :key="v.proposal_id">
+            <m-proposals-echart :data="v" v-if="v"></m-proposals-echart>
+          </div>
+          <div v-for="v in depositPeriodDatas" :key="v.proposal_id">
+            <m-proposals-card :data="v" v-if="v"></m-proposals-card>
+          </div>
+        </div>
+
+        <!-- PC端 多个质押期提案且投票期为0或多个 -->
+        <div class="graph_container votingPeriodDatas_depositPeriodDatas" v-if="votingPeriodDatas.length !== 1 && (depositPeriodDatas.length > 1 || votingPeriodDatas.length > 1)">
+          <div>
+            <div v-for="v in votingPeriodDatas" :key="v.proposal_id">
+              <m-proposals-echart :data="v" v-if="v"></m-proposals-echart>
+            </div>
+          </div>
+          <div>
+            <div v-for="v in depositPeriodDatas" :key="v.proposal_id">
+              <m-proposals-card :data="v" v-if="v"></m-proposals-card>
+            </div>
           </div>
         </div>
       </div>
@@ -105,7 +135,7 @@ export default {
   components: {
     MPagination,
     MProposalsCard,
-    MProposalsEchart
+    MProposalsEchart,
   },
   props: {},
   data() {
@@ -365,11 +395,11 @@ export default {
       let sStep = (color.s[1] - color.s[0]) / 100
       let lStep = (color.l[1] - color.l[0]) / 100
       let result = []
-      arr.forEach((v,i) => {
+      arr.forEach((v, i) => {
         let h = color.h[0] + hStep * i
         let s = color.s[0] + sStep * i
         let l = color.l[0] + lStep * i
-        if(v.isValidator && (v.notVoteVotingPower || v.selfDelVotingPower)) {
+        if (v.isValidator && (v.notVoteVotingPower || v.selfDelVotingPower)) {
           result.push({
             value: v.notVoteVotingPower + v.selfDelVotingPower,
             info: v,
@@ -378,10 +408,10 @@ export default {
               color: `hsla(${h},${s}%,${l}%, 1)`,
               borderColor: '#ECEFFF',
               borderWidth: 0,
-            }
+            },
           })
         }
-        if(v.delVotingPower) {
+        if (v.delVotingPower) {
           result.push({
             value: v.delVotingPower,
             info: v,
@@ -390,10 +420,10 @@ export default {
               color: `hsla(${h},${s}%,${l}%, 1)`,
               borderColor: '#ECEFFF',
               borderWidth: 0,
-            }
+            },
           })
         }
-      });
+      })
       return result
     },
   },
@@ -411,7 +441,7 @@ a {
     padding: 0 0.15rem;
     text-align: left;
     .proposals_title_container {
-      margin: 0.28rem 0 0.1rem 0;
+      margin: 0.28rem 0 0 0;
       text-align: left;
       display: flex;
       line-height: 0.3rem;
@@ -423,7 +453,72 @@ a {
       }
     }
     .graph_containers {
+      width: 100%;
+      position: relative;
+      z-index: 1;
+      padding-top: 10rem;
+      margin-top: -10rem;
+      overflow-x: auto;
       .graph_container {
+        display: flex;
+        width: 12rem;
+        flex-wrap: wrap;
+        margin: 0rem auto 0.1rem;
+        &:nth-last-of-type(1) {
+          margin-bottom: 0;
+        }
+      }
+      .votingPeriodDatas_one {
+        justify-content: space-between;
+        & > div {
+          margin-top: 0.2rem !important;
+          width: calc(50% - 0.1rem);
+          .propsals_card_container {
+            height: 2.5rem;
+          }
+        }
+        & > div:nth-child(1) {
+          width: 100%;
+          margin-top: 0rem !important;
+          .propsals_echart_container {
+            width: 100%;
+            background: $t_white_c;
+          }
+        }
+      }
+      .depositPeriodDatas_one {
+        height: 2.2rem;
+        & > div {
+          width: 100%;
+          display: flex;
+          & > div {
+            flex: 1;
+          }
+        }
+      }
+      .votingPeriodDatas_one_depositPeriodDatas_one {
+        justify-content: space-between;
+        & > div {
+          width: calc(50% - 0.1rem);
+        }
+      }
+      .votingPeriodDatas_depositPeriodDatas {
+        flex-direction: column;
+        display: flex;
+        // margin-top: 0.54rem;
+        & > div {
+          flex-direction: row;
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          & > div {
+            width: calc(50% - 0.1rem);
+            margin-top: 0.2rem;
+            .propsals_card_container {
+              height: 2.5rem;
+            }
+          }
+        }
       }
     }
     .proposals_list {

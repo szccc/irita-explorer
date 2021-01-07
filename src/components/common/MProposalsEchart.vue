@@ -271,7 +271,8 @@ export default {
     color: $t_link_c !important;
   }
   .propsals_echart_container {
-    width: 6.3rem;
+    box-sizing: border-box;
+    width: 5.9rem;
     height: 4.2rem;
     border-radius: 0.01rem;
     border: 0.01rem solid  $bd_second_c;

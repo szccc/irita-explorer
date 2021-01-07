@@ -67,6 +67,7 @@ a {
 }
 .propsals_card_container {
   width: 5.9rem;
+  box-sizing: border-box;
   height: 100%;
   border-radius: 1px;
   border: 1px solid $bd_first_c;
