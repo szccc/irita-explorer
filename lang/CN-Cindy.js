@@ -367,7 +367,19 @@ export const ExplorerLang = {
             proposalID: 'Proposal ID',
             deposit: 'Deposit',
             voter: 'Voter',
-            option: 'Option'
+            option: 'Option',
+            proposer: 'Proposer',
+            title: 'Title',
+            initialDeposit: 'Initial Deposit',
+            description: 'Description',
+            parameter: 'Parameter',
+            name: 'Name',
+            time: 'Time',
+            switchHeight: 'Switch Height',
+            info: 'Info',
+            recipient: 'Recipient',
+            amount: 'Amount',
+            upgradedClientState: 'Upgraded Client State',
         }
     },
     addressDetail: {
@@ -563,7 +575,7 @@ export const ExplorerLang = {
             amount: 'Amount',
             description: 'Description',
             name: 'Name',
-            height: 'Height',
+            switchHeight: 'Switch Height',
             info: 'Info',
             time: 'Time',
             parameterDetails: 'Parameter Details',
@@ -584,6 +596,7 @@ export const ExplorerLang = {
             burnedDeposit: 'Burned Deposit',
             initialDeposit: 'Initial Deposit',
             minDeposit: 'MinDeposit',
+            upgradedClientState: 'Upgraded Client State',
         }
     }
 }

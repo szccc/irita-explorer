@@ -74,7 +74,7 @@
               </span>
             </div>
             <div class="information_props_wrap">
-              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.height') }} :</span>
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.switchHeight') }} :</span>
               <span class="information_value information_show_trim">
                 <span class="information_pre">{{ height }}</span>
               </span>
@@ -89,6 +89,12 @@
               <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.time') }} :</span>
               <span class="information_value information_show_trim">
                 <span class="information_pre">{{ time }}</span>
+              </span>
+            </div>
+            <div class="information_props_wrap">
+              <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.upgradedClientState') }} :</span>
+              <span class="information_value information_show_trim">
+                <span class="information_pre">{{ upgradedClientState }}</span>
               </span>
             </div>
           </div>
@@ -365,6 +371,7 @@ export default {
       depositorCount: 0,
       currentDepositorPageNum: 1,
       depositorData: [],
+      upgradedClientState:''
     }
   },
   computed: {},
@@ -402,6 +409,7 @@ export default {
                   this.info = plan.info
                   let timestamp = plan.time && Math.floor(new Date(plan.time).getTime() / 1000)
                   this.time = timestamp && Tools.getDisplayDate(timestamp)
+                  this.upgradedClientState = plan.upgraded_client_state || '--'
                 }
                 break
               case proposalType.ParameterChangeProposal:
@@ -646,7 +654,7 @@ a {
         line-height: 0.2rem;
         margin-bottom: 0.12rem;
         .information_props {
-          min-width: 1.5rem;
+          min-width: 1.6rem;
           color: $t_second_c;
         }
         .jump_route {
@@ -807,7 +815,7 @@ a {
 }
 @media screen and (max-width: 469px) {
   .information_props {
-    min-width: 1.2rem !important;
+    min-width: 1.5rem !important;
   }
 }
 </style>
