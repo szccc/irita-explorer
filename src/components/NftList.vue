@@ -68,7 +68,11 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
-							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+							<div v-if="scope.row.tokenUri">
+								<a v-if="Tools.testUrl(scope.row.tokenUri)" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+								<a v-else-if="startStr(scope.row.tokenUri)" :href="'http://' + scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+								<span v-else>{{scope.row.tokenUri}}</span>
+							</div>
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
@@ -108,6 +112,7 @@
             }
 			return {
 				ColumnMinWidth,
+				Tools,
 				nftList: [
 					{
 						value:'',
@@ -135,6 +140,9 @@
             }
 		},
 		methods:{
+			startStr(url){
+				return url.startsWith('www.')
+			},
 			tableRowKey(row){
 				return `${row.denom_id}-${row.nft_id}`
 			},
