@@ -536,7 +536,7 @@ export const ExplorerLang = {
         editTokenTxs: 'Edit Token Txs',
         mintTokenTxs: 'Mint Token Txs',
         transferOwnerTxs: 'Transfer Owner Txs',
-        detalils: 'Detalils',
+        details: 'Details',
         owner: 'Owner',
         totalSupply: 'Total Supply',
         initialSupply: 'Initial Supply',

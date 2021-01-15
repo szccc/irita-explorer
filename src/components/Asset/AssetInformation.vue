@@ -2,7 +2,7 @@
   <div class="asset_info_container">
     <div class="asset_info_list_container">
       <div class="asset_title_container">
-        <span>{{ tokenID }} {{ $t('ExplorerLang.asset.detalils') }}</span>
+        <span>{{ tokenID }} {{ $t('ExplorerLang.asset.details') }}</span>
       </div>
       <div class="asset_info_list_content">
         <div class="asset_info_kflower_contennt">
