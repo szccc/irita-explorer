@@ -1235,11 +1235,104 @@
 				</template>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.deposit">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.depositor')}}: </span>
+				<template>
+					<span v-if="depositor === '--'">{{depositor}}</span>
+					<span v-else @click="addressRoute(depositor)" class="address_link">{{depositor}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.proposalID')}}: </span>
+				<template>
+					<span v-if="proposalID === '--'">{{proposalID}}</span>
+					<router-link :to="`/ProposalsDetail/${proposalID}`">{{proposalID}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.deposit')}}: </span>
+				<span>{{deposit}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.vote">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.voter')}}: </span>
+				<template>
+					<span v-if="voter === '--'">{{voter}}</span>
+					<span v-else @click="addressRoute(voter)" class="address_link">{{voter}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.proposalID')}}: </span>
+				<template>
+					<span v-if="proposalID === '--'">{{proposalID}}</span>
+					<router-link :to="`/ProposalsDetail/${proposalID}`">{{proposalID}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.option')}}: </span>
+				<span>{{option}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.submit_proposal">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.proposer')}} : </span>
+				<template>
+					<span v-if="proposer === '--'">{{proposer}}</span>
+					<span v-else @click="addressRoute(proposer)" class="address_link">{{proposer}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.title')}}: </span>
+				<span>{{title}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.initialDeposit')}}: </span>
+				<span>{{initialDeposit}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.description')}} : </span>
+				<span>{{description}}</span>
+			</p>
+			<p v-if="parameter">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.parameter')}} : </span>
+				<span>{{parameter}}</span>
+			</p>
+			<p v-if="name">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.name')}} : </span>
+				<span>{{name}}</span>
+			</p>
+			<p v-if="time">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.time')}} : </span>
+				<span>{{time}}</span>
+			</p>
+			<p v-if="switchHeight">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.switchHeight')}} : </span>
+				<span>{{switchHeight}}</span>
+			</p>
+			<p v-if="info">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.info')}} : </span>
+				<span>{{info}}</span>
+			</p>
+			<p v-if="switchHeight">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.upgradedClientState')}} : </span>
+				<span>{{upgradedClientState}}</span>
+			</p>
+			<p v-if="recipient">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.recipient')}} : </span>
+				<span>{{recipient}}</span>
+			</p>
+			<p v-if="amount">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.amount')}} : </span>
+				<span>{{amount}}</span>
+			</p>
+		</div>
 	</div>
 </template>
 
 <script>
-	import {TX_TYPE} from '../../constant';
+	import {TX_TYPE,voteOptions} from '../../constant';
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
@@ -1392,7 +1485,20 @@
 				mintable:'',
 				originalOwner:'',
 				newOwner:'',
-				superMode:''
+				superMode:'',
+				proposalID:'',
+				option: '',
+				voter: '',
+				proposer:'',
+				title:'',
+				initialDeposit: '',
+				description: '',
+				parameter:'',
+				time: '',
+				switchHeight: '',
+				info: '',
+				recipient:'',
+				upgradedClientState:''
 			}
 		},
 		computed: {
@@ -1858,6 +1964,53 @@
 								this.symbol = msg.symbol || '--';
 								this.originalOwner = msg.src_owner || '--';
 								this.newOwner = msg.dst_owner || '--';
+							break;
+							case TX_TYPE.deposit:
+								if(msg.amount && msg.amount.length > 0) {
+									let deposit = await converCoin(msg.amount[0]);
+									this.deposit = `${deposit.amount} ${deposit.denom.toUpperCase()}`;
+								} else {
+									this.deposit = '--'
+								}
+								this.depositor = msg.depositor || '--';
+								this.proposalID = msg.proposal_id || '--';
+							break;
+							case TX_TYPE.vote:
+								this.voter = msg.voter || '--';
+								this.proposalID = msg.proposal_id || '--';
+								this.option = voteOptions[msg.option] || '--'
+							break;
+							case TX_TYPE.submit_proposal:
+								this.proposer = msg.proposer || '--';
+								if(msg.initial_deposit && msg.initial_deposit.length > 0) {
+									let initialDeposit = await converCoin(msg.initial_deposit[0]);
+									this.initialDeposit = `${initialDeposit.amount} ${initialDeposit.denom.toUpperCase()}`;
+								} else {
+									this.initialDeposit = '--'
+								}
+								this.title = msg.content && msg.content.title || '--'
+								this.description = msg.content && msg.content.description || '--'
+								this.parameter = msg.content && msg.content.changes
+								let plan = msg.content &&  msg.content.plan
+								if(plan) {
+									this.name = plan.name
+									let timestamp = plan.time  && Math.floor(new Date(plan.time).getTime() / 1000)
+									this.time = timestamp && Tools.getDisplayDate(timestamp)
+									this.switchHeight= plan.height
+									this.info = plan.info
+									this.upgradedClientState = plan.upgradedclientstate || '--'
+								}
+								this.recipient = msg.content && msg.content.recipient
+								let n = msg.content && msg.content.amount && msg.content.amount[0]
+								if(n) {
+									n = await converCoin(n)
+									if(n.amount !== '0') {
+										this.amount = `${n.amount} ${n.denom.toUpperCase()}`
+									} else {
+										this.amount = '--'
+									}
+									
+								}
 							break;
 						}
 					}

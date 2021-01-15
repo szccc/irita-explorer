@@ -118,7 +118,16 @@ export class TxHelper {
             case TX_TYPE.transfer_token_owner:
                 res.from = msg.src_owner;
                 res.to = msg.dst_owner;
-                break;   
+                break; 
+            case TX_TYPE.deposit:
+                res.from = msg.depositor;
+                break;
+            case TX_TYPE.vote:
+                res.from = msg.voter;
+                break;
+            case TX_TYPE.submit_proposal:
+                res.from = msg.proposer;
+                break;
         }
         return res;
     }

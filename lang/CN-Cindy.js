@@ -85,7 +85,24 @@ export const ExplorerLang = {
         token: 'Token',
         mintTo: 'MintTo',
         srcOwner:'SrcOwner',
-        dstOwner:'DstOwner',
+        dstOwner: 'DstOwner',
+        proposalId: 'ID',
+        title: 'Title',
+        type: 'Type',
+        submitTime: 'Submit Time',
+        depositEndTime: 'Deposit Endtime',
+        votingEndTime: 'Voting Endtime',
+        voter: 'Voter',
+        voteOption: 'Vote Option',
+        time: 'Time',
+        proposalType: 'Proposal_Type',
+        proposalID: 'Proposal_ID',
+        proposalTitle: 'Proposal_Title',
+        proposer: 'Proposer',
+        deposit: 'Deposit',
+        submited: 'Submited',
+        proposalStatus: 'Status',
+        voted:'voted'
     },
     unit:{
         ellipsis:' ,...',
@@ -153,7 +170,8 @@ export const ExplorerLang = {
         // 新增
         delegationTxsList: 'Delegation Txs List',
         validationTxsList: 'Validation Txs List',
-        tooltip: 'Date selection range from the first block to the latest block.'
+        tooltip: 'Date selection range from the first block to the latest block.',
+        govTxsList: 'Gov Txs List'
     },
     validators:{
         bonded:'共识中',
@@ -343,6 +361,25 @@ export const ExplorerLang = {
             to: 'To',
             originalOwner: 'Original Owner',
             newOwner:'New Owner'
+        },
+        gov: {
+            depositor: 'Depositor',
+            proposalID: 'Proposal ID',
+            deposit: 'Deposit',
+            voter: 'Voter',
+            option: 'Option',
+            proposer: 'Proposer',
+            title: 'Title',
+            initialDeposit: 'Initial Deposit',
+            description: 'Description',
+            parameter: 'Parameter',
+            name: 'Name',
+            time: 'Time',
+            switchHeight: 'Switch Height',
+            info: 'Info',
+            recipient: 'Recipient',
+            amount: 'Amount',
+            upgradedClientState: 'Upgraded Client State',
         }
     },
     addressDetail: {
@@ -458,7 +495,10 @@ export const ExplorerLang = {
         delegationsTitle: 'Delegations',
         unbondingDelegationsTitle: 'Unbonding Delegations',
         delegationsTxsTitle: 'Delegation Txs',
-        validationTxsTitle: 'Validation Txs'
+        validationTxsTitle: 'Validation Txs',
+        depositedProposalsTitle: 'Deposited Proposals',
+        votedProposalsTitle: 'Voted Proposals',
+        govTxsTitle: 'Gov Txs',
     },
     // 普通地址详情
     addressInformation: {
@@ -504,5 +544,59 @@ export const ExplorerLang = {
         mintable: 'Mintable',
         name: 'Name',
         decimal:'Decimal'
+    },
+    // 新增
+    gov: {
+        proposalsTitle: 'Proposal List',
+        proposals: 'Proposals',
+        proposalOption: {
+            yes: 'Yes',
+            abstain: 'Abstain',
+            no: 'No',
+            noWithVeto:'NoWithVeto'
+        },
+        proposalsType: {
+            DepositPeriod: 'DepositPeriod',
+            VotingPeriod: 'VotingPeriod'
+        },
+        CurrentDeposit: 'CurrentDeposit',
+        InitialDeposit: 'InitialDeposit',
+        MinDeposit: 'MinDeposit',
+        proposalDetails: 'Proposal Details',
+        govTallying: 'Gov Tallying',
+        participation: 'Participation',
+        passThreshold: 'Pass Threshold',
+        vetoThreshold: 'Veto Threshold',
+        proposalDetail: {
+            proposer: 'Proposer',
+            submitHash: 'Submit Hash',
+            type: 'Type',
+            recipient: 'Recipient',
+            amount: 'Amount',
+            description: 'Description',
+            name: 'Name',
+            switchHeight: 'Switch Height',
+            info: 'Info',
+            time: 'Time',
+            parameterDetails: 'Parameter Details',
+            submitTime: 'Submit Time',
+            depositEndTime: 'Deposit End Time',
+            totalDeposit: 'Total Deposit',
+            burned: 'Burned',
+            votingStartTime: 'Voting Start Time',
+            votingEndTime: 'Voting End Time',
+            status: 'Status',
+            participation: 'Participation',
+            yes: 'Yes',
+            no: 'No',
+            noWithVeto: 'NoWithVeto',
+            abstain: 'Abstain',
+            viewAll: 'View All',
+            totalDeposit: 'Total Deposit',
+            burnedDeposit: 'Burned Deposit',
+            initialDeposit: 'Initial Deposit',
+            minDeposit: 'MinDeposit',
+            upgradedClientState: 'Upgraded Client State',
+        }
     }
 }

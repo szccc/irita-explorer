@@ -196,7 +196,7 @@ td, th {
     zoom:1
 }
 
-.tooltip {
+.tooltip,.el-tooltip__popper {
     font-family: Arial;
     font-size: 0.14rem !important;
 }

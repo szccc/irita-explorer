@@ -9,7 +9,7 @@
 					<img class="footer_content_top_icon" :src="logoImg" alt="">
 				</div>
 				<!-- 新增 -->
-				<div v-if="moduleSupport('107', prodConfig.navFuncList)" class="footer_right_content">
+				<div v-if="prodConfig.footer.linkShow" class="footer_right_content">
 					<div class="footer_link_wrap">
 						<a href="https://www.irisnet.org/testnets"
 						target="_blank">

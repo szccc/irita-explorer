@@ -143,7 +143,7 @@ export default {
                 let regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g
                 let replaceMoniker = item.description.moniker.replace(regex, '')
                 let validatorIconSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : ''
-                let selfBond = await converCoin(item.self_bond)
+                let selfBond =item.self_bond && item.self_bond.amount && await converCoin(item.self_bond)
                 let bondedToken = await converCoin({
                   amount: item.tokens,
                   denom: mainToken.min_unit
@@ -158,7 +158,7 @@ export default {
                   bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)} ${bondedToken.denom.toLocaleUpperCase()}`,
                   uptime: Tools.FormatUptime(item.uptime),
                   votingPower: `${(item.voting_rate * 100).toFixed(this.percentum)}%`,
-                  selfBond: `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}`,
+                  selfBond: selfBond ? `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}` : `0.00 ${mainToken.symbol.toLocaleUpperCase()}`,
                   delegatorNum: item.delegator_num,
                   bondHeight: Number(item.bond_height),
                   unbondingHeight: Number(item.unbonding_height),
@@ -246,7 +246,7 @@ a {
         width: 100%;
         display: flex;
         justify-content: flex-end;
-        margin: 0.05rem 0 0.2rem 0;
+        margin: 0.1rem 0 0.2rem 0;
       }
     }
   }

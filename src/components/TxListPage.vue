@@ -1,8 +1,10 @@
 <template>
     <div class="transaction_list_page_container">
         <div class="title_container">
-            <span>{{ $route.params.txType === 'delegations' ? $t('ExplorerLang.transactions.delegationTxsList') : $t('ExplorerLang.transactions.validationTxsList')}}</span>
-            <span>{{ count }} {{$t('ExplorerLang.transactions.txs')}}</span>
+            <span v-if="$route.params.txType === 'delegations'">{{ $t('ExplorerLang.transactions.delegationTxsList')}}</span>
+            <span v-if="$route.params.txType === 'validations'">{{$t('ExplorerLang.transactions.validationTxsList')}}</span>
+            <span v-if="$route.params.txType === 'governance'">{{$t('ExplorerLang.transactions.govTxsList')}}</span>
+			<span>{{ count }} {{$t('ExplorerLang.transactions.txs')}}</span>
         </div>
         <div class="transaction_list_title_wrap">
             <div class="transaction_list_title_content">
@@ -62,7 +64,9 @@
                     <!-- Delegation Txs -->
 					<DelegationTxsList :dataList="txList" v-if="this.$route.params.txType === 'delegations'" />
                     <!-- Validation Txs -->
-					<ValidationTxsList :dataList="txList" v-else />
+					<ValidationTxsList :dataList="txList" v-if="this.$route.params.txType === 'validations'" />
+					<!-- Gov Txs -->
+					<GovTxsList :dataList="txList" v-if="this.$route.params.txType === 'governance'" />
                 </div>
                 <div class="pagination_nav_footer_content">
                     <keep-alive>
@@ -79,16 +83,18 @@
 	import MPagination from "./common/MPagination";
 	import {pageTitleConfig, TxStatus,decimals} from "../constant";
 	import {TxHelper} from '@/helper/TxHelper.js'
-	import {getTypeStakingApi, getTypeDeclarationApi, getDelegationTxsApi, getValidationTxsApi} from "@/service/api";
+	import {getTypeStakingApi, getTypeDeclarationApi, getDelegationTxsApi, getValidationTxsApi,getGovTxsApi,getTypeGovApi} from "@/service/api";
 	import {converCoin,getMainToken} from "../helper/IritaHelper";
 	import {getAmountByTx} from "../helper/txListAmoutHelper";
 	import DelegationTxsList from '@/components/common/DelegationTxsList'
 	import ValidationTxsList from '@/components/common/ValidationTxsList'
+	import GovTxsList from '@/components/common/GovTxsList'
 	export default {
 		name: "TransactionListPage",
-		components: {MPagination,DelegationTxsList,ValidationTxsList},
+		components: {MPagination,DelegationTxsList,ValidationTxsList,GovTxsList},
 		data () {
 			return {
+				proposalTitleNum: 20,
 				amountDecimals: decimals.amount,
                 pageTitle:'',
 				totalPageNum: sessionStorage.getItem("txpagenum") ? JSON.parse(sessionStorage.getItem("txpagenum")) : 1,
@@ -234,12 +240,14 @@
 			},
 			formatStartTime (time) {
 				this.urlParamsShowStartTime = time
-				return Number(new Date(time).getTime() / 1000)
+				let offest = 8 * 60 * 60
+				return Number(new Date(time).getTime() / 1000) - Number(offest)
 			},
 			formatEndTime (time) {
 				this.urlParamsShowEndTime = time
-				let oneDaySeconds = 24 * 60 * 60;
-				return Number(new Date(time).getTime() / 1000) + Number(oneDaySeconds)
+				let offest = 8 * 60 * 60
+				let oneDaySeconds = 24 * 60 * 60
+				return Number(new Date(time).getTime() / 1000) + Number(oneDaySeconds) - Number(offest)
 			},
 			resetFilterCondition () {
 				this.getType();
@@ -278,7 +286,12 @@
 					data.forEach(item => {
 						res.push(item.typeName)
 					})
-				}
+				} else if (this.type === 'gov') {
+					const data = await getTypeGovApi()
+					data.forEach(item => {
+						res.push(item.typeName)
+					})
+				} 
 				try {
 					if (res) {
 						let typeArray;
@@ -431,6 +444,50 @@
 						}
 					} catch (e) {
 						this.showNoData = true;
+						console.error(e)
+					}
+				} else if (this.type === 'gov') {
+					try {
+						let res = await getGovTxsApi('', param.pageNumber, param.pageSize, true, param.txType, param.status, param.beginTime, param.endTime)
+						this.txList = [];
+						if(res.data && res.data.length > 0) {
+							this.count = res.count
+							for (const item of res.data) {
+								let msgsNumber = item.msgs ? item.msgs.length : 0
+								const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+								const time = Tools.getDisplayDate(item.time)
+								let amount = null
+								let msg = item.msgs && item.msgs[0]
+								if(msg) {
+									if(msg.type == "deposit") {
+										let unit = msg.msg && msg.msg.amount && msg.msg.amount[0]
+										if(unit) {
+											amount = await converCoin(unit)
+										}
+									} else {
+										let unit = msg.msg && msg.msg.initial_deposit && msg.msg.initial_deposit[0]
+										if(unit) {
+											amount = await converCoin(unit)
+										}
+									}
+								}
+								this.txList.push({
+									Tx_Hash: item.tx_hash,
+									Block: item.height,
+									proposalType: item.ex && item.ex.type,
+									proposalId: item.ex && item.ex.id,
+									proposalTitle: item.ex && item.ex.title && Tools.formatString(item.ex.title, this.proposalTitleNum, '...'),
+									amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
+									'Tx_Type': (item.msgs || []).map(item=>item.type),
+									MsgsNum: msgsNumber,
+									'Tx_Fee': fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+									'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
+									'Tx_Status': TxStatus[item.status],
+									Timestamp: time,
+								})
+							}
+						}
+					} catch(e) {
 						console.error(e)
 					}
 				}

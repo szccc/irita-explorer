@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "19203289",
+      "name": "Initial Deposit",
+      "font_class": "InitialDeposit",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "19203290",
+      "name": "Veto",
+      "font_class": "Veto",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "19203291",
+      "name": "DepositPeriod",
+      "font_class": "DepositPeriod",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "19203292",
+      "name": "4 Hours Left",
+      "font_class": "4HoursLeft",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "19203293",
+      "name": "DepositPeriod-liebiao",
+      "font_class": "DepositPeriod-liebiao",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "19203294",
+      "name": "Pass",
+      "font_class": "Pass",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
       "icon_id": "17954118",
       "name": "Bonded Tokens",
       "font_class": "BondedTokens",
