@@ -493,7 +493,10 @@ export const ExplorerLang = {
         delegationsTitle: 'Delegations',
         unbondingDelegationsTitle: 'Unbonding Delegations',
         delegationsTxsTitle: 'Delegation Txs',
-        validationTxsTitle: 'Validation Txs'
+        validationTxsTitle: 'Validation Txs',
+        depositedProposalsTitle: 'Deposited Proposals',
+        votedProposalsTitle: 'Voted Proposals',
+        govTxsTitle: 'Gov Txs',
     },
     // 普通地址详情
     addressInformation: {
