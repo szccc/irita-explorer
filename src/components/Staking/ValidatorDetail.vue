@@ -12,7 +12,7 @@
 				<div class="delegations_wrap">
 					<div class="delegations_container">
 						<!-- Delegations -->
-						<div class="one_table_container">
+						<div class="one_table_container" v-if="delegations.items && delegations.items.length > 0">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.delegationsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -48,7 +48,7 @@
 							              :page-change="pageChange('getDelegations')"></m-pagination>
 						</div>
 						<!-- Unbonding Delegations -->
-						<div class="second_table_container">
+						<div class="second_table_container" v-if="unbondingDelegations.items && unbondingDelegations.items.length > 0" :style="!(delegations.items && delegations.items.length > 0) ? 'margin-left:0rem': ''" >
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -92,7 +92,7 @@
 				<div class="delegations_wrap">
 					<div class="delegations_container">
 						<!-- Deposited Proposals -->
-						<div class="one_table_container">
+						<div class="one_table_container" v-if="depositedProposals.items && depositedProposals.items.length > 0">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.depositedProposalsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -129,7 +129,7 @@
 							              :page-change="pageChange('getDepositedProposals')"></m-pagination>
 						</div>
 						<!-- Voted Proposals -->
-						<div class="second_table_container">
+						<div class="second_table_container" v-if="votedProposals.items && votedProposals.items.length > 0" :style="!(depositedProposals.items && depositedProposals.items.length > 0) ? 'margin-left:0rem': ''">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.votedProposalsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -163,7 +163,7 @@
 				</div>
 
 				<!-- Delegation Txs -->
-				<div class="delegations_txs_wrap">
+				<div class="delegations_txs_wrap" v-if="delegationTxs.items && delegationTxs.items.length > 0">
 					<div class="delegations_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.delegationsTxsTitle') }}</p>
@@ -174,7 +174,7 @@
 					</div>
 				</div>
 				<!-- Validation Txs -->
-				<div class="validation_txs_wrap">
+				<div class="validation_txs_wrap" v-if="validationTxs.items && validationTxs.items.length > 0">
 					<div class="validation_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.validationTxsTitle') }}</p>
@@ -185,7 +185,7 @@
 					</div>
 				</div>
 				<!-- Gov Txs -->
-				<div class="gov_txs_wrap">
+				<div class="gov_txs_wrap" v-if="govTxs.items && govTxs.items.length > 0">
 					<div class="gov_txs_container">
 						<p class="gov_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.govTxsTitle') }}</p>
