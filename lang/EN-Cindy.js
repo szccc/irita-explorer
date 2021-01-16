@@ -160,7 +160,7 @@ export const ExplorerLang = {
         validators: 'Validators:',
         votingPower: 'Voting Power:',
         inflation: 'Inflation:',
-        validatorSet:'Validator Set'
+        validatorSet: 'Validator Set'
     },
     transactions:{
         txs: 'Txs',
@@ -169,7 +169,8 @@ export const ExplorerLang = {
         // 新增
         delegationTxsList: 'Delegation Txs List',
         validationTxsList: 'Validation Txs List',
-        tooltip: 'Date selection range from the first block to the latest block.'
+        tooltip: 'Date selection range from the first block to the latest block.',
+        govTxsList: 'Gov Txs List'
     },
     validators:{
         bonded:'Active',
