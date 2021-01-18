@@ -12,7 +12,7 @@
 				<div class="delegations_wrap">
 					<div class="delegations_container">
 						<!-- Delegations -->
-						<div class="one_table_container" v-if="delegations.items && delegations.items.length > 0">
+						<div class="one_table_container">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.delegationsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -48,7 +48,7 @@
 							              :page-change="pageChange('getDelegations')"></m-pagination>
 						</div>
 						<!-- Unbonding Delegations -->
-						<div class="second_table_container" v-if="unbondingDelegations.items && unbondingDelegations.items.length > 0" :style="!(delegations.items && delegations.items.length > 0) ? 'margin-left:0rem': ''" >
+						<div class="second_table_container">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -320,7 +320,6 @@
 						// block: item.block,
 					})
 				})
-				
 			},
 			async getUnbondingDelegations (page = 1) {
 				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, true)
@@ -332,6 +331,7 @@
 						denom: this.mainToken.min_unit
 					})
 					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					
 					item.until = Tools.format2UTC(item.until)
 					this.unbondingDelegations.items.push({
 						address: item.address,
@@ -558,7 +558,7 @@
 			
 			.delegations_wrap {
 				margin: 0 auto;
-				
+				margin-top: 0.2rem ;
 				.delegations_container {
 					display: flex;
 					

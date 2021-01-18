@@ -102,7 +102,10 @@ export const ExplorerLang = {
         deposit: 'Deposit',
         submited: 'Submited',
         proposalStatus: 'Status',
-        voted:'voted'
+        voted: 'voted',
+        proposer: 'Proposer',
+        validators: 'Validators',
+        votingPower:'Voting_Power'
     },
     unit:{
         ellipsis:' ,...',
@@ -359,7 +362,8 @@ export const ExplorerLang = {
             amount: 'Amount',
             to: 'To',
             originalOwner: 'Original Owner',
-            newOwner:'New Owner'
+            newOwner: 'New Owner',
+            minUnit: 'MinUnit'
         },
         gov: {
             depositor: 'Depositor',

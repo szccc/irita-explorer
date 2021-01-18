@@ -109,7 +109,7 @@ import constant,{ addrPrefix, ModuleMap } from '../../constant'
 import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
-import { getConfig } from "@/helper/IritaHelper"
+import { getConfig,addressRoute } from "@/helper/IritaHelper"
 export default {
   data() {
     return {
@@ -254,7 +254,7 @@ export default {
       try {
         const res = await getAddressTxList(this.searchInputValue, '', '', 1, 10)
         if (res) {
-          this.$router.push(`/address/${this.searchInputValue}`)
+          addressRoute.call(this,this.searchInputValue)
           this.clearSearchContent()
         } else {
           this.toSearchResultPage()

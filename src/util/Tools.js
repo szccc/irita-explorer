@@ -317,16 +317,20 @@ export default class Tools {
     return parseFloat(num).toFixed(decimal)
   }
 
-  static formatPerNumber (num) {
+  static formatPerNumber (num,model="decimal") {
     if (typeof num === 'number' && !Object.is(num, NaN)) {
       let afterPoint = String(num).split('.')[1]
       let afterPointLong = (afterPoint && afterPoint.length) || 0
       if (afterPointLong > 2 && num !== 0) {
-        // return num.toFixed(4)
-        return this.toDecimal(num,4)
+        if (model = "decimal") {
+          return this.toDecimal(num,4)
+        }
+        return num.toFixed(4)
       } else {
-        // return num.toFixed(2)
-        return this.toDecimal(num,2)
+        if (model = "decimal") {
+          return this.toDecimal(num,2)
+        }
+        return num.toFixed(2)
       }
     }
     return num
@@ -369,10 +373,10 @@ export default class Tools {
       return `${tokens} / ${allTokens}`
   }
 
-  static formatPercentageNumbers (numerator,denominator) {
+  static formatPercentageNumbers (numerator,denominator,symbol='%') {
     let part = new BigNumber(numerator)
     let total = new BigNumber(denominator)
-    let result = (part.dividedBy(total) * 100).toFixed(2) + '%'
+    let result = (part.dividedBy(total) * 100).toFixed(2) + symbol
     return result
   }
 

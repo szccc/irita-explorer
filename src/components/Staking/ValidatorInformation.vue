@@ -27,6 +27,8 @@
 					</p>
 					<!-- details 详情 -->
 					<p class="validation_information_details" v-if="details">{{details}}</p>
+					<!-- security_contact  -->
+					<p class="validation_information_details" v-if="securityContact">{{securityContact}}</p>
 					<!-- 没有网站、身份、详情，则显示没有信息 -->
 					<p class="validation_information_no_more" v-if="!website && !identity && !details">~ {{$t('ExplorerLang.validatorDetail.validatorInformation.validatorTip')}} ~</p>
 				</div>
@@ -124,6 +126,7 @@
 				identity:'',
 				// 详情
 				details:'',
+				securityContact:'',
 				// 验证人的状态
 				validationStatus:'',
 				// 是否有链接需跳转
@@ -187,14 +190,14 @@
 						isCopyIcon:false,
 						flAddressLink:false,
 					},
-					{
-						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.bondHeight'),
-						dataName:'bond_height',
-						value:'',
-						isToolTip:false,
-						isCopyIcon:false,
-						flAddressLink:false,
-					},
+					// {
+					// 	label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.bondHeight'),
+					// 	dataName:'bond_height',
+					// 	value:'',
+					// 	isToolTip:false,
+					// 	isCopyIcon:false,
+					// 	flAddressLink:false,
+					// },
 					{
 						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.unbondingHeight'),
 						dataName:'unbonding_height',
@@ -264,6 +267,7 @@
 				this.validatorIconHref = information.icons ? information.icons : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
 				this.moniker = information.description.moniker;
 				this.website = information.description.website ? information.description.website : '';
+				this.securityContact = information.description.security_contact ? information.description.security_contact : '';
 				if(information.description.identity){
 					// 如果有identity数据，发送请求，拿到keyBaseName
 					this.getKeyBaseName(information.description.identity)

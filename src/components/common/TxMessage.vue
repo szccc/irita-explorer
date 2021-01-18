@@ -58,9 +58,12 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-				<span><span v-for="(item,index) in provider" :key="index"
+				<span>
+					<!-- <span v-for="(item,index) in provider" :key="index"
 				                   @click="addressRoute(item)" class="address_link">{{item}}
-								   </span></span>
+					</span> -->
+					<span @click="addressRoute(provider)" class="address_link">{{provider}} </span>
+				</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
@@ -154,8 +157,15 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					<a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
-					<span v-else>{{tokenUri}}</span>
+					<!-- <a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<span v-else>{{tokenUri}}</span> -->
+					<div v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span v-else>{{tokenUri}}</span>
+					</div>
+					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
+					<span v-else>--</span>
 				</template>
 			</p>
 		
@@ -198,8 +208,15 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					<a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
-					<span v-else>{{tokenUri}}</span>
+					<!-- <a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<span v-else>{{tokenUri}}</span> -->
+					<div v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span v-else>{{tokenUri}}</span>
+					</div>
+					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
+					<span v-else>--</span>
 				</template>
 			</p>
 		</div>
@@ -234,8 +251,16 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					<a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
-					<span v-else>{{tokenUri}}</span>
+					<!-- <a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<span v-else>{{tokenUri}}</span> -->
+
+					<div v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span v-else>{{tokenUri}}</span>
+					</div>
+					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
+					<span v-else>--</span>
 				</template>
 			</p>
 		</div>
@@ -1134,6 +1159,10 @@
 				<span>{{ name }}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.minUnit')}}: </span>
+				<span>{{ minUnit }}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.asset.decimal')}}: </span>
 				<span>{{ decimal }}</span>
 			</p>
@@ -1498,7 +1527,8 @@
 				switchHeight: '',
 				info: '',
 				recipient:'',
-				upgradedClientState:''
+				upgradedClientState:'',
+				minUnit:'',
 			}
 		},
 		computed: {
@@ -1556,6 +1586,7 @@
 								break;
 							case TX_TYPE.bind_service:
 								this.defineName = msg.service_name || '--';
+								console.log(msg)
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
@@ -1767,11 +1798,17 @@
 								this.to = msg.delegator_address;
 								(this.events || []).forEach((item) => {
 									if(item.type === 'withdraw_rewards') {
-										(item.attributes || []).forEach((attr) => {
-											if (attr.key == 'amount') {
-												amount = attr.value || '--';
-											}
-										});
+										let isAmount = (item.attributes || []).some(item => {
+											return item.value == msg.validator_address
+										})
+										if(isAmount) {
+											(item.attributes || []).forEach((attr) => {
+												if (attr.key == 'amount') {
+													console.log(msg.validator_address,item)
+													amount = attr.value || '--';
+												}
+											});
+										}
 									}
 								});
 								if( amount && amount !== '--') {
@@ -1823,8 +1860,7 @@
 							case TX_TYPE.delegate:
 								this.from = msg.delegator_address;
 								this.to = msg.validator_address;
-								let delegateAmount = await converCoin(msg.delegation)
-								amount = await converCoin(msg.delegation);
+								amount = await converCoin(msg.amount);
 								this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--'
 								this.toMoniker = this.getMoniker(this.to,this.monikers)
 								this.fromMoniker = this.getMoniker(this.from,this.monikers)
@@ -1939,6 +1975,7 @@
 								this.provider = msg.provider || '--';
 							break;
 							case TX_TYPE.issue_token:
+								console.log(msg)
 								this.symbol = msg.symbol || '--';
 								this.name = msg.name || '--';
 								this.decimal = msg.scale || '--';
@@ -1946,6 +1983,7 @@
 								this.maxSupply = msg.max_supply || '--';
 								this.mintable = msg.mintable;
 								this.owner = msg.owner || '--';
+								this.minUnit = msg.min_unit || '--';
 							break;
 							case TX_TYPE.edit_token:
 								this.symbol = msg.symbol || '--';
@@ -2049,7 +2087,10 @@
 					})
 				}
 				return moniker
-			}
+			},
+			startStr(url){
+				return url.startsWith('www.')
+			},
 		}
 	}
 </script>

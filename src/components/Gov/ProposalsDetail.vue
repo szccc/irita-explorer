@@ -276,7 +276,7 @@
 </template>
 
 <script>
-import { proposalStatus, proposalType, ColumnMinWidth, monikerNum,decimals } from '../../constant'
+import { proposalStatus, proposalType, ColumnMinWidth, monikerNum,decimals,formatVoteOptions } from '../../constant'
 import Tools from '../../util/Tools'
 import { getProposalsDetailApi, getProposalDetailVotersApi, getProposalDetailDepositorApi } from '../../service/api'
 import { addressRoute, converCoin, formatMoniker } from '@/helper/IritaHelper'
@@ -429,11 +429,16 @@ export default {
             this.totalDeposit = `${amount.amount} ${amount.denom.toUpperCase()}`
           }
           this.burnValue = `${(Number(res.burned_rate) * 100).toFixed(2)}`
-          this.votingStartTime = res.voting_start_time ? Tools.getDisplayDate(res.voting_start_time) : ''
-          this.votingStartAge = res.voting_start_time ? Tools.formatAge(Tools.getTimestamp(), res.voting_start_time * 1000, 'ago') : ''
-          this.votingEndTime = res.voting_end_time ? Tools.getDisplayDate(res.voting_end_time) : ''
-          this.votingEndAge = res.voting_end_time ? Tools.formatAge(Tools.getTimestamp(), res.voting_end_time * 1000, 'ago') : ''
-          res.voting_end_time ? this.getVotingEndTime(res.voting_end_time) : ''
+          if(res.status !== proposalStatus.depositPeriod) {
+            this.votingStartTime = res.voting_start_time ? Tools.getDisplayDate(res.voting_start_time) : ''
+            this.votingStartAge = res.voting_start_time ? Tools.formatAge(Tools.getTimestamp(), res.voting_start_time * 1000, 'ago') : ''
+            this.votingEndTime = res.voting_end_time ? Tools.getDisplayDate(res.voting_end_time) : ''
+            this.votingEndAge = res.voting_end_time ? Tools.formatAge(Tools.getTimestamp(), res.voting_end_time * 1000, 'ago') : ''
+            res.voting_end_time ? this.getVotingEndTime(res.voting_end_time) : ''
+          } else {
+            this.votingStartTime = '--',
+            this.votingEndTime = '--'
+          }
           this.participationValue = res.quorum && `${(Number(res.quorum) * 100).toFixed(2)}%`
           this.yesThresholdValue = res.threshold && `${(Number(res.threshold) * 100).toFixed(2)}%`
           this.vetoThresholdValue = res.veto_threshold && `${(Number(res.veto_threshold) * 100).toFixed(2)}%`
@@ -541,7 +546,7 @@ export default {
                 address: voter.address,
                 isValidator: voter.isValidator,
                 moniker: voter.moniker,
-                option: voter.option,
+                option: formatVoteOptions[voter.option],
                 block: voter.height,
                 hash: voter.hash,
                 time: voter.timestamp ? Tools.getDisplayDate(voter.timestamp) : '--',
