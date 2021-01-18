@@ -1661,7 +1661,7 @@
 								this.requestContextId = (msg.ex || {}).request_context_id || '--';
 								this.result = msg.result || '--';
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								break;
 							case TX_TYPE.pause_request_context:
 								// this.serviceName = (msg.ex || {}).service_name || '--';

@@ -1352,7 +1352,8 @@
 						address: item.address,
 						amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)} ${amount.denom.toUpperCase()}`,
 						block: item.height,
-						endTime: Tools.format2UTC(item.end_time),
+						// endTime: Tools.format2UTC(item.end_time),
+						endTime: Tools.getFormatDate(new Date(item.end_time).getTime()),
 						moniker: item.moniker
 					});
 				}

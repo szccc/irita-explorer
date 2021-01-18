@@ -331,8 +331,7 @@
 						denom: this.mainToken.min_unit
 					})
 					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
-					
-					item.until = Tools.format2UTC(item.until)
+					item.until = Tools.getFormatDate(new Date(item.until).getTime())
 					this.unbondingDelegations.items.push({
 						address: item.address,
 						amount: item.amount,
