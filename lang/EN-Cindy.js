@@ -102,7 +102,10 @@ export const ExplorerLang = {
         deposit: 'Deposit',
         submited: 'Submited',
         proposalStatus: 'Status',
-        voted:'voted'
+        voted: 'voted',
+        proposer: 'Proposer',
+        validators: 'Validators',
+        votingPower:'Voting_Power'
     },
     unit:{
         ellipsis:' ,...',
@@ -160,7 +163,7 @@ export const ExplorerLang = {
         validators: 'Validators:',
         votingPower: 'Voting Power:',
         inflation: 'Inflation:',
-        validatorSet:'Validator Set'
+        validatorSet: 'Validator Set'
     },
     transactions:{
         txs: 'Txs',
@@ -169,7 +172,8 @@ export const ExplorerLang = {
         // 新增
         delegationTxsList: 'Delegation Txs List',
         validationTxsList: 'Validation Txs List',
-        tooltip: 'Date selection range from the first block to the latest block.'
+        tooltip: 'Date selection range from the first block to the latest block.',
+        govTxsList: 'Gov Txs List'
     },
     validators:{
         bonded:'Active',
@@ -358,7 +362,8 @@ export const ExplorerLang = {
             amount: 'Amount',
             to: 'To',
             originalOwner: 'Original Owner',
-            newOwner:'New Owner'
+            newOwner: 'New Owner',
+            minUnit: 'MinUnit'
         },
         gov: {
             depositor: 'Depositor',
@@ -493,7 +498,10 @@ export const ExplorerLang = {
         delegationsTitle: 'Delegations',
         unbondingDelegationsTitle: 'Unbonding Delegations',
         delegationsTxsTitle: 'Delegation Txs',
-        validationTxsTitle: 'Validation Txs'
+        validationTxsTitle: 'Validation Txs',
+        depositedProposalsTitle: 'Deposited Proposals',
+        votedProposalsTitle: 'Voted Proposals',
+        govTxsTitle: 'Gov Txs',
     },
     // 普通地址详情
     addressInformation: {
@@ -531,7 +539,7 @@ export const ExplorerLang = {
         editTokenTxs: 'Edit Token Txs',
         mintTokenTxs: 'Mint Token Txs',
         transferOwnerTxs: 'Transfer Owner Txs',
-        detalils: 'Detalils',
+        details: 'Details',
         owner: 'Owner',
         totalSupply: 'Total Supply',
         initialSupply: 'Initial Supply',

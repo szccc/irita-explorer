@@ -34,24 +34,27 @@
             <div class="per_title">{{ $t('ExplorerLang.gov.govTallying') }}</div>
             <div style="margin-top: 0.16rem;">
               <p>
-                <img v-if="data.participation > data.participationNum" src="../../assets/participant.png"/>
-                <img v-if="data.participation <= data.participationNum" src="../../assets/no_threshold.png"/>
+                <!-- <img v-if="data.participation > data.participationNum" src="../../assets/participant.png"/>
+                <img v-if="data.participation <= data.participationNum" src="../../assets/no_threshold.png"/> -->
+                <i :style="{color: data.participation > data.participationNum ? 'var(--bgColor)' : '#D7DCE0'}" class="iconfont iconBondedTokens icon"></i>
                 <span>{{ $t('ExplorerLang.gov.participation') }}</span>
               </p>
               <span style="margin-left: 0.2rem;">{{data.participationNum}} %</span>
             </div>
             <div style="margin-top: 0.16rem;">
               <p>
-                <img v-if="data.passThreshold > data.passThresholdNum" src="../../assets/pass_threshold.png"/>
-                <img v-if="data.passThreshold <= data.passThresholdNum" src="../../assets/no_threshold.png"/>
+                <!-- <img v-if="data.passThreshold > data.passThresholdNum" src="../../assets/pass_threshold.png"/>
+                <img v-if="data.passThreshold <= data.passThresholdNum" src="../../assets/no_threshold.png"/> -->
+                <i :style="{color: data.passThreshold > data.passThresholdNum ? 'var(--bgColor)' : '#D7DCE0'}" class="iconfont iconBondedTokens"></i>
                 <span>{{ $t('ExplorerLang.gov.passThreshold') }}</span>
               </p>
               <span style="margin-left:0.2rem;">{{data.passThresholdNum}} %</span>
             </div>
             <div style="margin-top: 0.16rem;">
               <p>
-                <img v-if="data.vetoThreshold > data.vetoThresholdNum" src="../../assets/veto_threshold.png"/>
-                <img v-if="data.vetoThreshold <= data.vetoThresholdNum" src="../../assets/no_threshold.png"/>
+                <!-- <img v-if="data.vetoThreshold > data.vetoThresholdNum" src="../../assets/veto_threshold.png"/>
+                <img v-if="data.vetoThreshold <= data.vetoThresholdNum" src="../../assets/no_threshold.png"/> -->
+                <i :style="{color: data.vetoThreshold > data.vetoThresholdNum ? '#FE8A8A' : '#D7DCE0'}" class="iconfont iconBondedTokens"></i>
                 <span>{{ $t('ExplorerLang.gov.vetoThreshold') }}</span>
               </p>
               <span style="margin-left: 0.2rem;">{{data.vetoThresholdNum}} %</span>
@@ -336,12 +339,12 @@ export default {
             font-size: $s12;
             color: $t_second_c;
             vertical-align: middle;
-            img {
-              width: 0.14rem;
-              vertical-align: middle;
-            }
+            // img {
+            //   width: 0.14rem;
+            //   vertical-align: middle;
+            // }
             span {
-              vertical-align: middle;
+              // vertical-align: middle;
               margin-left: 0.08rem;
             }
             p {

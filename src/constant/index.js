@@ -188,12 +188,15 @@ export const ColumnMinWidth = {
   proposalId: '60',
   proposalID: '100',
   proposalTitle: '185',
-  proposalType: '165',
+  proposalType: '173',
   proposalStatusIcon: '133',
   proposalStatus: '115',
   strip: '120',
   voteOption: '120',
   submited: '85',
+  proposer: '245',
+  validatorValue: '120',
+  votingPowerValue:'120'
 }
 
 export const ModuleMap = {
@@ -343,4 +346,11 @@ export const voteOptions = {
   2: 'abstain',
   3: 'no',
   4: 'no_with_veto'
+}
+
+export const formatVoteOptions = {
+  'yes': 'Yes',
+  'abstain': 'Abstain',
+  'no': 'No',
+  'no_with_veto': 'NoWithVeto'
 }

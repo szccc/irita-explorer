@@ -137,18 +137,29 @@
                     if(currentTally) {
                         this.systemVotingPower =currentTally.system_voting_power;
                         this.yesVotingPowerWidth = currentTally.yes ? Tools.formatPercentageNumbers(currentTally.yes,currentTally.total_voting_power): '0.00%';
+                        if(Tools.formatPercentageNumbers(currentTally.yes,currentTally.total_voting_power,'') > Number(votingBarObj.threshold)*100) {
+                            this.flShowPassThreshold = true
+                        }
+                        console.log('yes',Tools.formatPercentageNumbers(currentTally.yes,currentTally.total_voting_power,''))
                         this.$set(this.yesVotingPowerStyleObj,'width',`${this.yesVotingPowerWidth}`);
                         this.noVotingPowerWidth = currentTally.no ? Tools.formatPercentageNumbers(currentTally.no,currentTally.total_voting_power) : '0.00%';
                         this.$set(this.noVotingPowerStyleObj,'width',`${this.noVotingPowerWidth}`);
                         this.vetoVotingPowerWidth = currentTally.no_with_veto ? Tools.formatPercentageNumbers(currentTally.no_with_veto,currentTally.total_voting_power) :'0.00%';
+                        if(Tools.formatPercentageNumbers(currentTally.no_with_veto,currentTally.total_voting_power,'') > Number(votingBarObj.veto_threshold)*100) {
+                            this.flShowVoteThreshold = true
+                        }
+                        console.log('不同意',Tools.formatPercentageNumbers(currentTally.no_with_veto,currentTally.total_voting_power,''))
                         this.$set(this.vetoVotingPowerStyleObj,'width',`${this.vetoVotingPowerWidth}`);
                         this.abstainVotingPowerWidth = currentTally.abstain ? Tools.formatPercentageNumbers(currentTally.abstain,currentTally.total_voting_power) :'0.00%';
                         this.$set(this.abstainVotingPowerStyleObj,'width',`${this.abstainVotingPowerWidth}`);
                         this.totalVoted = currentTally.total_voting_power ? Tools.formatPercentageNumbers(currentTally.total_voting_power,currentTally.system_voting_power) : '0.00%';
+                        if(Tools.formatPercentageNumbers(currentTally.total_voting_power,currentTally.system_voting_power,'') > Number(votingBarObj.quorum)*100) {
+                            this.flHighlightParticipation = true
+                        }
                         this.delegatorVoted = currentTally.total_voting_power ? Tools.formatPercentageNumbers(currentTally.total_voting_power,currentTally.system_voting_power) : '0.00%';
                         this.$set(this.minTotalTipStyleNumber,'left',`${this.delegatorVoted}`);
                     }
-		        }
+                }
             },
 	        getVotingEndTime(time){
 		        if(time){

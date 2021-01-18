@@ -118,6 +118,7 @@ a {
       span {
         vertical-align: middle;
         margin-left: 0.08rem;
+        margin-right: 0.3rem;
       }
     }
     & > div:nth-child(2) {
@@ -125,7 +126,7 @@ a {
     }
   }
   .content {
-    margin: 0.3rem 0rem 0.42rem;
+    margin: 0.57rem 0rem 0.42rem;
     width: 100%;
     display: flex;
     flex: 1;
@@ -179,6 +180,7 @@ a {
             font-size: 12px;
             transform: translateX(-50%);
             color: #ff9942;
+            margin-left: 0.35rem;
           }
         }
       }
@@ -201,6 +203,7 @@ a {
           span {
             display: inline-block;
             padding-top: 2px;
+            margin-left: 0.3rem;
           }
           &::before {
             display: block;

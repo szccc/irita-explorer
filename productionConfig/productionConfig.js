@@ -11,9 +11,8 @@
     "109":"Validation Txs",
     "110":"Native Asset",
     "111":"Native Asset Txs",
-    "112":"Parameters",
-    "113":"Proposals",
-    "114":"Gov Txs",
+    "112":"Proposals",
+    "113":"Gov Txs",
     "1000":"搜索"(排在末尾)
     "1001":"网络切换"(排在末尾)}*/
 
@@ -130,6 +129,12 @@ let config = {
     bgColor: {
       common: '',
     },
+  },
+  // 区块列表页面是否显示 Proposer、Validtors、Voting_Power
+  blockList: {
+    proposer: true,
+    validtors: true,
+    votingPower:true
   }
 }
 module.exports = config

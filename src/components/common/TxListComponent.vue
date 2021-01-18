@@ -1,6 +1,6 @@
 <template>
-    <div class="tx_list_content">
-        <el-table class="table" :data="formatTxData" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+    <div class="tx_list_content" v-if="txDataList && txDataList.length > 0">
+        <el-table class="table" :data="txDataList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
             <el-table-column align="center" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
@@ -33,6 +33,7 @@
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>
             </el-table-column>
+            <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
                     <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
@@ -93,8 +94,8 @@
 <script>
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
-    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum } from '../../constant';
-    import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
+    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals } from '../../constant';
+    import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper'
     export default {
         name : "TxList",
         components : {},
@@ -116,42 +117,18 @@
                 Tools,
                 addressRoute,
                 formatMoniker,
-                monikerNum
+                monikerNum,
+                amountDecimals: decimals.amount,
+                txDataList: []
             }
         },
-        computed:{
-            formatTxData(){
-                let result = this.txData.map((tx)=>{
-                    if(tx) {
-                        let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
-                        let from = addrObj.from || '--',
-                            to =  addrObj.to || '--';
-                        let fromMonikers,toMonikers
-                        if((tx.monikers || {}).length) {
-                            tx.monikers.map( item => {
-                                toMonikers = toMonikers || item[to] || ''
-                                fromMonikers = fromMonikers || item[from] || ''
-                            })
-                        }
-                        return {
-                            txHash : tx.tx_hash,
-                            blockHeight : tx.height,
-                            txType :(tx.msgs || []).map(item=>item.type),
-                            from,
-                            fromMonikers,
-                            toMonikers,
-                            to,
-                            signer : tx.signers[0],
-                            status : tx.status,
-                            msgCount : tx.msgs.length,
-                            time :Tools.getDisplayDate(tx.time),
-                        }
-                    }
-                });
-                return result;
+        watch:{
+            txData() {
+                this.formatTxData()
             }
         },
-        mounted(){
+        created(){
+            this.formatTxData()
         },
         methods : {
             isValid(value){
@@ -171,6 +148,38 @@
             },
             formatAddress(address){
                 return Tools.formatValidatorAddress(address)
+            },
+            async formatTxData() {
+                if(this.txData && this.txData.length) {
+                    this.txDataList = []
+                    for (const tx of this.txData) {
+                        let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
+                        let from = addrObj.from || '--',
+                            to =  addrObj.to || '--';
+                        let fromMonikers,toMonikers
+                        if((tx.monikers || {}).length) {
+                            tx.monikers.map( item => {
+                                toMonikers = toMonikers || item[to] || ''
+                                fromMonikers = fromMonikers || item[from] || ''
+                            })
+                        }
+                        const fee = tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? await converCoin(tx.fee.amount[0]) :'--'
+                        this.txDataList.push({
+                                txHash : tx.tx_hash,
+                                blockHeight : tx.height,
+                                txType :(tx.msgs || []).map(item=>item.type),
+                                from,
+                                fromMonikers,
+                                toMonikers,
+                                to,
+                                signer : tx.signers[0],
+                                status : tx.status,
+                                msgCount : tx.msgs.length,
+                                time :Tools.getDisplayDate(tx.time),
+                                Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+                            })
+                    }
+                }
             }
         }
     }

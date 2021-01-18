@@ -6,6 +6,16 @@
         <span>{{ count }} {{ $t('ExplorerLang.gov.proposals') }}</span>
       </div>
       <div class="graph_containers">
+        <!-- <div class="graph_container">
+          <div v-for="v in votingPeriodDatas" :key="v.proposal_id">
+            <m-proposals-echart :data="v" v-if="v"></m-proposals-echart>
+          </div>
+          <div v-for="v in depositPeriodDatas" :key="v.proposal_id">
+            <m-proposals-card :data="v" v-if="v"></m-proposals-card>
+          </div>
+        </div> -->
+
+        
         <!-- PC端 一个投票期-多个质押期或没有质押期 -->
         <div class="graph_container votingPeriodDatas_one" v-if="votingPeriodDatas.length === 1 && (depositPeriodDatas.length === 0 || depositPeriodDatas.length > 1)">
           <div v-for="v in votingPeriodDatas" :key="v.proposal_id">
@@ -46,6 +56,7 @@
             </div>
           </div>
         </div>
+        
       </div>
       <div class="proposals_list">
         <div class="proposals_icon">
@@ -381,7 +392,7 @@ export default {
       }
     },
     formatNum(num) {
-      return Tools.formatPerNumber(num)
+      return num.toFixed(2)
     },
     pageChange(pageNum) {
       if (this.pageNum == pageNum) {
@@ -399,9 +410,9 @@ export default {
         let h = color.h[0] + hStep * i
         let s = color.s[0] + sStep * i
         let l = color.l[0] + lStep * i
-        if (v.isValidator && (v.notVoteVotingPower || v.selfDelVotingPower)) {
+        if (v.isValidator && (v.notVoteVotingPower || v.selfDelVotingPower || v.delVotingPower)) {
           result.push({
-            value: v.notVoteVotingPower + v.selfDelVotingPower,
+            value: v.notVoteVotingPower + v.selfDelVotingPower + v.delVotingPower,
             info: v,
             nodeClick: false,
             itemStyle: {
@@ -410,8 +421,7 @@ export default {
               borderWidth: 0,
             },
           })
-        }
-        if (v.delVotingPower) {
+        } else if(v.delVotingPower) {
           result.push({
             value: v.delVotingPower,
             info: v,
@@ -487,6 +497,7 @@ a {
         }
       }
       .depositPeriodDatas_one {
+        margin-top: 0.2rem;
         height: 2.2rem;
         & > div {
           width: 100%;
