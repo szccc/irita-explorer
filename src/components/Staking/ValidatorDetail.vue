@@ -532,6 +532,7 @@
 	}
 	
 	.vaildtor_detail_container {
+		margin-bottom: 0.2rem;
 		.vaildtor_detail_content {
 			max-width: 12rem;
 			margin: 0 auto;
