@@ -331,8 +331,7 @@
 						denom: this.mainToken.min_unit
 					})
 					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
-					
-					item.until = Tools.format2UTC(item.until)
+					item.until = Tools.getFormatDate(new Date(item.until).getTime())
 					this.unbondingDelegations.items.push({
 						address: item.address,
 						amount: item.amount,
@@ -532,6 +531,7 @@
 	}
 	
 	.vaildtor_detail_container {
+		margin-bottom: 0.2rem;
 		.vaildtor_detail_content {
 			max-width: 12rem;
 			margin: 0 auto;
@@ -558,7 +558,7 @@
 			
 			.delegations_wrap {
 				margin: 0 auto;
-				margin-top: 0.2rem ;
+				margin-top: 0.1rem;
 				.delegations_container {
 					display: flex;
 					
@@ -567,7 +567,7 @@
 						line-height: 0.2rem;
 						color: $t_first_c;
 						font-size:  $s18;
-						margin-top: 0.3rem;
+						margin-top: 0.2rem;
 						padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
@@ -596,14 +596,14 @@
 			
 			.delegations_txs_wrap {
 				margin: 0 auto;
-				
+				margin-top: 0.1rem;
 				.delegations_txs_container {
 					.validator_information_content_title {
 						height: 0.2rem;
 						line-height: 0.2rem;
 						color: $t_first_c;
 						font-size:  $s18;
-						margin-top: 0.3rem;
+						margin-top: 0.2rem;
 						padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
@@ -629,7 +629,7 @@
 			
 			.validation_txs_wrap {
 				margin: 0 auto;
-				margin-bottom: 0.5rem;
+				margin-top: 0.1rem;
 				
 				.validation_txs_container {
 					.validator_information_content_title {
@@ -637,7 +637,7 @@
 						line-height: 0.2rem;
 						color: $t_first_c;
 						font-size:  $s18;
-						margin-top: 0.3rem;
+						margin-top: 0.2rem;
 						padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
@@ -658,7 +658,8 @@
 
 			.gov_txs_wrap {
 				margin: 0 auto;
-				margin-bottom: 0.5rem;
+				margin-top: 0.1rem;
+				margin-bottom: 0.2rem;
 				
 				.gov_txs_container {
 					.gov_information_content_title {
@@ -666,7 +667,7 @@
 						line-height: 0.2rem;
 						color: $t_first_c;
 						font-size:  $s18;
-						margin-top: 0.3rem;
+						margin-top: 0.2rem;
 						padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}

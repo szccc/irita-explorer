@@ -59,7 +59,7 @@
 				let nodeInfo = await getNodeInfo();
 				if (nodeInfo) {
 					this.chainId = `Chain ID ${nodeInfo.node_info.network || '--'}`;
-					this.version = `Node Version ${nodeInfo.application_version.version || '--'} | Tendermint Version ${nodeInfo.node_info.version || '--'}`;
+					this.version = `Node Version ${nodeInfo.application_version.version || '--'}`;
 				}
 			}
 		}
