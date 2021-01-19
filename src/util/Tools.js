@@ -376,7 +376,8 @@ export default class Tools {
   static formatPercentageNumbers (numerator,denominator,symbol='%') {
     let part = new BigNumber(numerator)
     let total = new BigNumber(denominator)
-    let result = (part.dividedBy(total) * 100).toFixed(2) + symbol
+    // let result = (part.dividedBy(total) * 100).toFixed(2) + symbol
+    let result = this.toDecimal(part.dividedBy(total) * 100,2) + symbol
     return result
   }
 

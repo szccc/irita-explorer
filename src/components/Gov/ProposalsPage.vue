@@ -231,6 +231,8 @@ export default {
               v.initial_deposit_number = Number(initial_deposit.amount)
               let n = await converCoin(initial_deposit)
               v.initial_deposit_format = `${n.amount} ${n.denom.toUpperCase()}`
+            } else {
+              v.initial_deposit_format = `0 ${mainToken.symbol.toUpperCase()}`
             }
             if (v.total_deposit && v.total_deposit[0] && v.total_deposit[0].amount) {
               let total_deposit = v.total_deposit[0]
@@ -249,7 +251,6 @@ export default {
             let o = {}
             o.proposal_id = item.id
             o.title = item.content && item.content.title
-            // o.level = item.level && item.level.name
             o.type = item.content && item.content.type
             o.status = item.status
             o.votingEndTime = item.voting_end_time
@@ -411,6 +412,7 @@ export default {
         let s = color.s[0] + sStep * i
         let l = color.l[0] + lStep * i
         if (v.isValidator && (v.notVoteVotingPower || v.selfDelVotingPower || v.delVotingPower)) {
+          console.log(v.moniker + v.address,'value',v.notVoteVotingPower + v.selfDelVotingPower + v.delVotingPower)
           result.push({
             value: v.notVoteVotingPower + v.selfDelVotingPower + v.delVotingPower,
             info: v,
@@ -422,6 +424,7 @@ export default {
             },
           })
         } else if(v.delVotingPower) {
+          console.log(v.moniker + v.address,'value',v.delVotingPower)
           result.push({
             value: v.delVotingPower,
             info: v,
@@ -508,9 +511,15 @@ a {
         }
       }
       .votingPeriodDatas_one_depositPeriodDatas_one {
+        flex-direction:column;
         justify-content: space-between;
         & > div {
-          width: calc(50% - 0.1rem);
+          margin-bottom: 0.2rem;
+          // width: calc(50% - 0.1rem);
+        }
+        .propsals_echart_container,
+        .propsals_card_container {
+          width: 100%;
         }
       }
       .votingPeriodDatas_depositPeriodDatas {

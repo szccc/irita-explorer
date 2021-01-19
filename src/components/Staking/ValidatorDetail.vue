@@ -32,7 +32,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.delegationsAmount"></el-table-column>
 									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
 									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- 待处理 -->
@@ -579,6 +579,9 @@
 					.second_table_container {
 						margin-left: 0.2rem;
 						width: calc(50% - 0.1rem);
+						.validator_information_content_title {
+							white-space: nowrap;
+						}
 					}
 					
 					.delegations_table_container {
@@ -779,6 +782,40 @@
 				.gov_txs_wrap {
 					.gov_txs_container {
 						margin: 0 0.1rem;
+					}
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 510px){
+		.vaildtor_detail_container {
+			.vaildtor_detail_content {
+				.delegations_wrap {
+					.delegations_container{
+						.validator_information_content_title {
+							padding-left: 0.05rem;
+						}
+					}
+				}
+				.delegations_txs_wrap {
+					.delegations_txs_container{
+						.validator_information_content_title {
+							padding-left: 0.05rem;
+						}
+					}
+				}
+				.validation_txs_wrap {
+					.validation_txs_container {
+						.validator_information_content_title {
+							padding-left: 0.05rem;
+						}
+					}
+				}
+				.gov_txs_wrap {
+					.gov_txs_container {
+						.validator_information_content_title {
+							padding-left: 0.05rem;
+						}
 					}
 				}
 			}

@@ -66,6 +66,10 @@
 				</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.bindService.options')}}：</span>
+				<span>{{options}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
 				<template>
 					<span v-if="owner === '--'">{{owner}}</span>
@@ -159,10 +163,10 @@
 				<template>
 					<!-- <a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					<span v-else>{{tokenUri}}</span> -->
-					<div v-if="tokenUri && tokenUri !== '[do-not-modify]'">
-								<a v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
-								<a v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
-								<span v-else>{{tokenUri}}</span>
+					<div class="wrap" v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a class="text" v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a class="text" v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span class="text" v-else>{{tokenUri}}</span>
 					</div>
 					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
 					<span v-else>--</span>
@@ -210,10 +214,10 @@
 				<template>
 					<!-- <a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					<span v-else>{{tokenUri}}</span> -->
-					<div v-if="tokenUri && tokenUri !== '[do-not-modify]'">
-								<a v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
-								<a v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
-								<span v-else>{{tokenUri}}</span>
+					<div class="wrap" v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a class="text" v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a class="text" v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span class="text" v-else>{{tokenUri}}</span>
 					</div>
 					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
 					<span v-else>--</span>
@@ -253,11 +257,10 @@
 				<template>
 					<!-- <a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					<span v-else>{{tokenUri}}</span> -->
-
-					<div v-if="tokenUri && tokenUri !== '[do-not-modify]'">
-								<a v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
-								<a v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
-								<span v-else>{{tokenUri}}</span>
+					<div class="wrap" v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a class="text" v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a class="text" v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span class="text" v-else>{{tokenUri}}</span>
 					</div>
 					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
 					<span v-else>--</span>
@@ -313,9 +316,13 @@
 				</router-link>
 				<span v-if="serviceName == '--'"> -- </span>
 			</p>
-			<p>
+			<!-- <p>
 				<span>{{$t('ExplorerLang.transactionInformation.respondService.requestId')}}：</span>
 				<span>{{(requestId || '').toUpperCase()}}</span>
+			</p> -->
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
+				<span>{{(requestContextId || '').toUpperCase()}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
@@ -1529,6 +1536,7 @@
 				recipient:'',
 				upgradedClientState:'',
 				minUnit:'',
+				options: '',
 			}
 		},
 		computed: {
@@ -1585,8 +1593,8 @@
 								this.schemas = msg.schemas || '--';
 								break;
 							case TX_TYPE.bind_service:
-								this.defineName = msg.service_name || '--';
 								console.log(msg)
+								this.defineName = msg.service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
@@ -1596,6 +1604,7 @@
 								this.owner = msg.owner || '--';
 								this.pricing = msg.pricing || '--';
 								this.qos = msg.qos || '--';
+								this.options = msg.options || '--';
 								break;
 							case TX_TYPE.send:
 								this.from = msg.fromaddress || '--';
@@ -1655,6 +1664,7 @@
 								this.sender = msg.sender || '--';
 								break;
 							case TX_TYPE.respond_service:
+								console.log(msg)
 								this.output = msg.output || '--';
 								this.provider = msg.provider || '--';
 								this.requestId = msg.request_id || '--';
@@ -1665,25 +1675,25 @@
 								break;
 							case TX_TYPE.pause_request_context:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.start_request_context:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name || (msg.ex || {}).service_name  || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.kill_request_context:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.update_request_context:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								this.provider = msg.providers || '--';
@@ -1699,7 +1709,7 @@
 								break;
 							case TX_TYPE.update_service_binding:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
@@ -1713,13 +1723,13 @@
 								break;
 							case TX_TYPE.disable_service_binding:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.enable_service_binding:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
@@ -1731,7 +1741,7 @@
 								break;
 							case TX_TYPE.refund_service_deposit:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								this.owner = msg.owner || '--';
 								break;
@@ -1804,7 +1814,6 @@
 										if(isAmount) {
 											(item.attributes || []).forEach((attr) => {
 												if (attr.key == 'amount') {
-													console.log(msg.validator_address,item)
 													amount = attr.value || '--';
 												}
 											});
@@ -1975,7 +1984,6 @@
 								this.provider = msg.provider || '--';
 							break;
 							case TX_TYPE.issue_token:
-								console.log(msg)
 								this.symbol = msg.symbol || '--';
 								this.name = msg.name || '--';
 								this.decimal = msg.scale || '--';
@@ -2034,7 +2042,12 @@
 									this.name = plan.name
 									let timestamp = plan.time  && Math.floor(new Date(plan.time).getTime() / 1000)
 									this.time = timestamp && Tools.getDisplayDate(timestamp)
-									this.switchHeight= plan.height
+									this.switchHeight = plan.height || '--'
+									if(this.switchHeight) {
+										this.time = '--'
+									} else {
+										this.time = timestamp && Tools.getDisplayDate(timestamp)
+									}
 									this.info = plan.info
 									this.upgradedClientState = plan.upgradedclientstate || '--'
 								}
@@ -2163,7 +2176,17 @@
 				word-break: break-all;
 				line-height: 0.20rem;
 			}
-			
+			.wrap {
+				.text {
+					flex: 1;
+					text-align: left;
+					font-size: $s14;
+					color: $t_first_c;
+					word-break: break-all;
+					line-height: 0.20rem;
+					font-weight: normal;
+				}
+			}
 			a {
 				word-break: break-all;
 			}

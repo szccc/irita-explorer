@@ -58,7 +58,7 @@ let config = {
     //页脚背景颜色 下半部分
     bgColor_bottom: '',
     //页脚版权信息   必填
-    copyright: 'copyright © 2020 边界智能',
+    copyright: 'copyright © 2021 边界智能',
     chainIdShow: true,
     versionShow: true,
     //页脚右侧是否显示跳转链接

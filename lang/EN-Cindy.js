@@ -383,6 +383,9 @@ export const ExplorerLang = {
             recipient: 'Recipient',
             amount: 'Amount',
             upgradedClientState: 'Upgraded Client State',
+        },
+        bindService: {
+            options: 'options',
         }
     },
     addressDetail: {
@@ -546,7 +549,8 @@ export const ExplorerLang = {
         maxSupply: 'Max Supply',
         mintable: 'Mintable',
         name: 'Name',
-        decimal:'Decimal'
+        decimal: 'Decimal',
+        minUnit: 'Min Unit'
     },
     // 新增
     gov: {
