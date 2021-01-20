@@ -37,9 +37,17 @@
 				</div>
 				<div class="nft_token_information_item">
 					<span>{{$t('ExplorerLang.nftDetail.uri')}}：</span>
-					<span v-if="tokenUri && tokenUri !== '--'">
+					<!-- <span v-if="tokenUri && tokenUri !== '--'">
 						<a :href="tokenUri" target="_blank">{{tokenUri}}</a>
 					</span>
+					<span v-else>--</span> -->
+
+					<div class="wrap" v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a class="text" v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a class="text" v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span class="text" v-else>{{tokenUri}}</span>
+					</div>
+					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
 					<span v-else>--</span>
 				</div>
 			</div>
@@ -66,6 +74,7 @@
 		components:{ MPagination, TxListComponent,LargeString },
 		data() {
 			return {
+				Tools,
 				TX_TYPE,
 				TX_STATUS,
 				owner:'',
@@ -110,7 +119,6 @@
 						this.owner = nftDetail.owner;
 						this.tokenData = nftDetail.tokenData || '--';
 						this.tokenUri = nftDetail.tokenUri || '--';
-						
 						this.getTokenTx()
 					}
 				}catch (e) {
@@ -138,6 +146,9 @@
 			},
 			formatAddress(address){
 				return Tools.formatValidatorAddress(address)
+			},
+			startStr(url){
+				return url.startsWith('www.')
 			},
 		}
 	}
@@ -182,6 +193,17 @@
 						color: $t_first_c;
 						flex: 1;
 						word-break:break-all;
+					}
+					.wrap {
+						.text {
+							flex: 1;
+							text-align: left;
+							font-size: $s14;
+							color: $t_first_c;
+							word-break: break-all;
+							line-height: 0.20rem;
+							font-weight: normal;
+						}
 					}
 				}
 				.nft_token_information_item:last-child{

@@ -148,7 +148,7 @@
                         if(Tools.formatPercentageNumbers(currentTally.no_with_veto,currentTally.total_voting_power,'') > Number(votingBarObj.veto_threshold)*100) {
                             this.flShowVoteThreshold = true
                         }
-                        console.log('不同意',Tools.formatPercentageNumbers(currentTally.no_with_veto,currentTally.total_voting_power,''))
+                        // console.log('不同意',Tools.formatPercentageNumbers(currentTally.no_with_veto,currentTally.total_voting_power,''))
                         this.$set(this.vetoVotingPowerStyleObj,'width',`${this.vetoVotingPowerWidth}`);
                         this.abstainVotingPowerWidth = currentTally.abstain ? Tools.formatPercentageNumbers(currentTally.abstain,currentTally.total_voting_power) :'0.00%';
                         this.$set(this.abstainVotingPowerStyleObj,'width',`${this.abstainVotingPowerWidth}`);

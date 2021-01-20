@@ -454,7 +454,7 @@ a {
 						.validation_information_item_value_content{
 							display: flex;
 							span{
-								word-break: break-all;
+								word-break: break-word;
 							}
 							.validation_information_item_value{
 								margin-right: 0.06rem;

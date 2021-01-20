@@ -347,4 +347,11 @@ import { converCoin } from '../../helper/IritaHelper.js';
 			}
 		}
 	}
+	@media screen and (max-width: 510px){
+		.validator_commission_information_title {
+			span {
+				padding-left: 0.15rem !important;
+			}
+		}
+	}
 </style>

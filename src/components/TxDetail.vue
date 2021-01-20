@@ -47,7 +47,9 @@
 
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.signer') }}：</span>
-            <span style="word-break:break-all;"><span class="address_link" @click="addressRoute(signer)">{{ signer }}</span></span>
+            <span style="word-break:break-all;">
+              <p style="margin-bottom: 0.05rem" v-for="item in signer" :key= "item" class="address_link" @click="addressRoute(item)">{{ item }}</p>
+            </span>
           </p>
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.memo') }}：</span>
@@ -170,7 +172,10 @@ export default {
           }
           this.fee = this.fee || '--'
           // this.gasUsed=res.fee.gas || '--' 
-          this.signer = res.signers && res.signers[0] || '--'
+          // this.signer = res.signers && res.signers[0] || '--'
+          if(res.signers && res.signers.length > 0) {
+            this.signer = res.signers
+          }
           this.memo = res.memo ? res.memo : '--'
           this.txType = res.msgs && res.msgs[0] && res.msgs[0].type || '--'
           switch (this.txType) {

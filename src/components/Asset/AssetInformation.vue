@@ -82,6 +82,11 @@ export default {
           key: this.$t('ExplorerLang.asset.decimal'),
           value: '',
         },
+        {
+          id: 'min_unit',
+          key: this.$t('ExplorerLang.asset.minUnit'),
+          value: '',
+        },
       ],
     }
   },

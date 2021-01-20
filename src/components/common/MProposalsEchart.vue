@@ -168,7 +168,7 @@ export default {
             that.levelName = v.name;
             if (v.data.info) {
               if(info.isValidator) {
-                return `${v.marker}${info.moniker || info.address}: ${info.notVoteVotingPower + info.selfDelVotingPower } (${v.data.per} %)`;
+                return `${v.marker}${info.moniker || info.address}: ${info.notVoteVotingPower + info.selfDelVotingPower + info.delVotingPower } (${v.data.per} %)`;
               }
               return `${v.marker}${Tools.formatValidatorAddress(info.address)}: ${info.delVotingPower} (${v.data.per} %)`;
             } else {

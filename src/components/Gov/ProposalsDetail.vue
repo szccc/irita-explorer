@@ -405,10 +405,14 @@ export default {
                 let plan = content.plan
                 if (plan) {
                   this.name = plan.name
-                  this.height = plan.height
+                  this.height = plan.height || '--'
                   this.info = plan.info
-                  let timestamp = plan.time && Math.floor(new Date(plan.time).getTime() / 1000)
-                  this.time = timestamp && Tools.getDisplayDate(timestamp)
+                  if(this.height) {
+                    this.time = '--'
+                  } else {
+                    let timestamp = plan.time && Math.floor(new Date(plan.time).getTime() / 1000)
+                    this.time = timestamp && Tools.getDisplayDate(timestamp)
+                  }
                   this.upgradedClientState = plan.upgraded_client_state || '--'
                 }
                 break

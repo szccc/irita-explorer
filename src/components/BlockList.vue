@@ -21,7 +21,7 @@
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 								</template>
 							</el-table-column>
-							<!-- <el-table-column v-if="productionConfig.blockList.proposer" :min-width="ColumnMinWidth.proposer" :label="$t('ExplorerLang.table.proposer')">
+							<el-table-column v-if="productionConfig.blockList.proposer" :min-width="ColumnMinWidth.proposer" :label="$t('ExplorerLang.table.proposer')">
 								<template slot-scope="scope">
 										<span v-if="scope.row.proposerAddress !== '' && scope.row.proposerAddress !== '--'">
 											<router-link class="common_link_style" :to="`/staking/${scope.row.proposerAddress}`">{{scope.row.proposerValue}}</router-link>
@@ -29,7 +29,7 @@
 										<span v-if="scope.row.proposerAddress === '' && scope.row.proposerValue">{{scope.row.proposerValue}}</span>
 										<span v-if="scope.row.proposerAddress === '--'">--</span>
 								</template>
-							</el-table-column> -->
+							</el-table-column>
 							<el-table-column :min-width="ColumnMinWidth.txn" prop="numTxs" :label="$t('ExplorerLang.table.transactions')"></el-table-column>
 							<!-- <el-table-column v-if="productionConfig.blockList.validtors" :min-width="ColumnMinWidth.validatorValue" prop="validatorValue" :label="$t('ExplorerLang.table.validators')"></el-table-column> -->
 							<!-- <el-table-column v-if="productionConfig.blockList.votingPower" :min-width="ColumnMinWidth.votingPowerValue" prop="votingPowerValue" :label="$t('ExplorerLang.table.votingPower')"></el-table-column> -->
@@ -80,8 +80,8 @@
 						this.dataCount = blockData.count;
 						this.blockList = blockData.data.map( item => {
 							return{
-								// proposerAddress:item.proposer_addr || '--',
-								// proposerValue: item.proposer_moniker || ( item.proposer_addr || '--'),
+								proposerAddress:item.proposer_addr || '--',
+								proposerValue: item.proposer_moniker || ( item.proposer_addr || '--'),
 								// validatorValue: `${item.precommit_validator_num || 0} / ${item.total_validator_num || 0}`,
 								// votingPowerValue: item.precommit_voting_power ? `${Tools.formatPerNumber((Number(item.precommit_voting_power) / item.total_voting_power) * 100)} %` : '--',
 								height: item.height,

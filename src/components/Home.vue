@@ -69,19 +69,34 @@
 					</ul>
 				</div>
 			</div>
-			
+			<!-- <div class="home_proposal_container" style="text-align: left">
+                <div class="home_proposal_container_content" v-for="item in votingPeriodDatas" :key="item.proposal_id">
+                    <div class="home_proposal_item_bar">
+                        <m-voting-card :votingBarObj="item" :showTitle="true"></m-voting-card>
+                    </div>
+                </div>
+                <div class="home_proposal_container_content"  v-for="v in depositPeriodDatas" :key="v.proposal_id">
+                    <div class="home_proposal_item_bar">
+                        <m-deposit-card :depositObj="v" :showTitle="true"></m-deposit-card>
+                    </div>
+                </div>
+            </div> -->
 		</div>
 	</div>
 </template>
 
 <script>
 	import Tools from "../util/Tools";
-	import { getBlockList } from "../service/api";
-	import {getTxList} from "../service/api";
+	import { getBlockList,getTxList } from "../service/api";
 	import StatisticalBar from './common/StatisticalBar';
+	import MDepositCard from "./common/MDepositCard";
+	import MVotingCard from "./common/MVotingCard";
+	import { getProposalsListApi } from '@/service/api.js';
+	import {proposalStatus} from '../constant';
+	import { converCoin, getMainToken } from '../helper/IritaHelper'
     export default {
 		name: "Home",
-		components: {StatisticalBar},
+		components: {StatisticalBar,MDepositCard,MVotingCard},
 		data () {
 			return {
 				syncTimer:null,
@@ -89,16 +104,20 @@
 				latestTransaction:[],
 				blocksTimer: null,
 				transfersTimer:null,
-				screenWidth: document.body.clientWidth
+				screenWidth: document.body.clientWidth,
+				depositPeriodDatas:[],
+				votingPeriodDatas: []
 			}
 		},
 		mounted () {
 			this.getLastBlocks();
 			this.getTransaction();
+			// this.getProposalsList();
 			clearInterval(this.syncTimer )
 			this.syncTimer = setInterval(() => {
 				this.getLastBlocks();
 				this.getTransaction();
+				// this.getProposalsList();
 			},5000);
 			window.addEventListener("resize",this.monitorScreenWidth,false)
 		},
@@ -234,7 +253,24 @@
 			},
 			monitorScreenWidth() {
 				this.screenWidth = document.body.clientWidth
-			}
+			},
+			// async getProposalsList() {
+			// 	try {
+			// 		let res = await getProposalsListApi(1, 10, true)
+			// 		if (res && res.data && res.data.length > 0) {
+			// 			this.depositPeriodDatas = res.data.filter(v => v.status === proposalStatus.depositPeriod)
+			// 			this.depositPeriodDatas = this.depositPeriodDatas.sort((a, b) => {
+			// 				return b.proposal_id - a.proposal_id
+			// 			})
+			// 			this.votingPeriodDatas = res.data.filter(v => v.status === proposalStatus.votingPeriod)
+			// 			this.votingPeriodDatas = this.votingPeriodDatas.sort((a, b) => {
+			// 				return b.proposal_id - a.proposal_id
+			// 			})
+			// 		}
+			// 	} catch (e) {
+			// 		console.error(e)
+			// 	}
+			// },
 		},
 		destroyed () {
 			clearInterval(this.blocksTimer);
