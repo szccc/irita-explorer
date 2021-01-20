@@ -202,6 +202,9 @@ export default {
                 finalVotes[k] = (Number(finalVotes[k]) / finalTotalVotes) * 100
               }
             }
+            if(votingEndTime === '0001-01-01 08:05:43') {
+              votingEndTime = '--'
+            }
             return {
               id,
               title,
@@ -247,6 +250,7 @@ export default {
             return b.proposal_id - a.proposal_id
           })
           let votingPeriodDatas = res.data.filter(v => v.status === proposalStatus.votingPeriod)
+          // console.log('votingPeriodDatas',JSON.stringify(votingPeriodDatas))
           this.votingPeriodDatas = votingPeriodDatas.map(item => {
             let o = {}
             o.proposal_id = item.id
@@ -374,6 +378,7 @@ export default {
               },
             ]
             o.data = data
+            // console.log('DATA',JSON.stringify(data))
             return o
           })
           this.votingPeriodDatas = this.votingPeriodDatas.sort((a, b) => {
@@ -601,6 +606,29 @@ a {
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 615px) {
+  .proposals_list_page_wrap {
+    .proposals_list_content  {
+      .proposals_list {
+        .proposals_icon {
+          .icon_list {
+              div {
+                i {
+                  margin-left: 0.1rem;
+                }
+                img {
+                }
+                span {
+                }
+              }
+          }
+        }
+      }
+    }
+
   }
 }
 </style>
