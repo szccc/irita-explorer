@@ -404,10 +404,10 @@ export default {
               case proposalType.SoftwareUpgradeProposal:
                 let plan = content.plan
                 if (plan) {
-                  this.name = plan.name
-                  this.height = plan.height || '--'
-                  this.info = plan.info
-                  if(this.height) {
+                  this.name = plan.name;
+                  this.height = plan.height && plan.height !== '0' ? plan.height : '--';
+                  this.info = plan.info;
+                  if(this.height && this.height !== '--') {
                     this.time = '--'
                   } else {
                     let timestamp = plan.time && Math.floor(new Date(plan.time).getTime() / 1000)
@@ -814,9 +814,45 @@ a {
   .proposals_detail_wrap {
       .proposal_table {
         .proposal_table_title{
-          display: block; 
+          display: block;
+          .proposals_table_title_div {
+            margin: 0.3rem 0.1rem 0.1rem;
+          }
           .filter_content {
-            margin-left: 0.2rem;
+            margin-left: 0.1rem;
+          }
+          .voting_options {
+            span {
+              padding: 0 0.08rem;
+            }
+          }
+        }
+        .proposals_table_title_div {
+          margin: 0.3rem 0.1rem 0.1rem;
+        }
+      }
+  }
+}
+@media screen and (max-width: 555px) {
+  .proposals_detail_wrap {
+      .proposal_detail_content {
+        display: block;
+        .proposals_detail_information_wrap {
+          .information_props_wrap {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+      }
+      .card_container {
+        .voting_mobile_content {
+        }
+      }
+      .proposals_detail_information {
+        .proposals_detail_information_wrap {
+          .information_props_wrap {
+            display: flex;
+            flex-direction: column;
           }
         }
       }
@@ -827,4 +863,5 @@ a {
     min-width: 1.5rem !important;
   }
 }
+
 </style>

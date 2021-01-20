@@ -316,14 +316,14 @@
 				</router-link>
 				<span v-if="serviceName == '--'"> -- </span>
 			</p>
-			<!-- <p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.respondService.requestId')}}：</span>
 				<span>{{(requestId || '').toUpperCase()}}</span>
-			</p> -->
-			<p>
+			</p>
+			<!-- <p>
 				<span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
 				<span>{{(requestContextId || '').toUpperCase()}}</span>
-			</p>
+			</p> -->
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
 				<template>
@@ -1664,7 +1664,6 @@
 								this.sender = msg.sender || '--';
 								break;
 							case TX_TYPE.respond_service:
-								console.log(msg)
 								this.output = msg.output || '--';
 								this.provider = msg.provider || '--';
 								this.requestId = msg.request_id || '--';
@@ -2042,8 +2041,8 @@
 									this.name = plan.name
 									let timestamp = plan.time  && Math.floor(new Date(plan.time).getTime() / 1000)
 									this.time = timestamp && Tools.getDisplayDate(timestamp)
-									this.switchHeight = plan.height || '--'
-									if(this.switchHeight) {
+									this.switchHeight = plan.height ? plan.height : '--'
+									if(this.switchHeight && this.switchHeight !== '--') {
 										this.time = '--'
 									} else {
 										this.time = timestamp && Tools.getDisplayDate(timestamp)

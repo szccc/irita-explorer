@@ -265,7 +265,7 @@ export const ExplorerLang = {
         },
         respondService:{
             output: 'Output',
-            requestId: 'Request Context ID',
+            requestId: 'Request ID',
             result: 'Result',
         },
         defineService: {

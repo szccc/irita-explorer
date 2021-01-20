@@ -180,12 +180,13 @@
                         width:100%;
                         overflow-x: auto;
 						.el-table{
+							overflow-x: auto;
 							.el-table__header-wrapper{
 								/*position: fixed;*/
 								/*z-index: 10;*/
 							}
 							/deep/ .el-table__body-wrapper {
-								overflow: hidden;
+								overflow: auto;
 							}
 						}
                         @media screen and (min-width: 910px) and (max-width: 1280px){
