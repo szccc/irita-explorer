@@ -234,7 +234,7 @@
                 color: $t_second_c;
             }
             span{
-                margin-right: 0.12rem;
+                margin-right: 0.08rem;
                 color: $t_first_c;
             }
             .voting_card_right_content{
