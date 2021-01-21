@@ -85,12 +85,39 @@ export const TX_TYPE = {
   start_feed: 'start_feed',
   pause_feed: 'pause_feed',
   edit_feed: 'edit_feed',
-  // IBC
-  recv_packet: 'recv_packet',
-  create_client: 'create_client',
-  update_client: 'update_client',
-  create_identity: 'create_identity',
-  update_identity: 'update_identity',
+  // IBC 联盟链
+  recv_packet: 'recv_packet', //原有
+  create_client: 'create_client', // 原有
+  update_client: 'update_client', // 原有
+  create_identity: 'create_identity', 
+  update_identity: 'update_identity', 
+
+  
+  // IBC transfer
+  transfer: 'transfer',
+  // recv_packet: 'recv_packet',
+
+  // IBC client
+  // create_client: 'create_client',
+  // update_client: 'update_client',
+  upgrade_client: 'upgrade_client',
+  submit_misbehaviour: 'submit_misbehaviour',
+  // IBC connection
+  connection_open_init: 'connection_open_init',
+  connection_open_try: 'connection_open_try',
+  connection_open_ack: 'connection_open_ack',
+  connection_open_confirm: 'connection_open_confirm',
+  // IBC channel
+  channel_open_init: 'channel_open_init',
+  channel_open_try: 'channel_open_try',
+  channel_open_ack: 'channel_open_ack',
+  channel_open_confirm: 'channel_open_confirm',
+  channel_close_init: 'channel_close_init',
+  channel_close_confirm: 'channel_close_confirm',
+  timeout_packet: 'timeout_packet',
+  timeout_on_close_packet: 'timeout_on_close_packet',
+  acknowledge_packet: 'acknowledge_packet',
+  
   // Random
   request_rand: 'request_rand',
 }

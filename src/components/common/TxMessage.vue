@@ -553,7 +553,7 @@
 				</template>
 			</p>
 		</div>
-		<div v-if="txType === TX_TYPE.recv_packet">
+		<div v-if="txType === TX_TYPE.recv_packet && prodConfig.txDetail && prodConfig.txDetail.ibc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.packet')}}：</span>
 				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
@@ -590,6 +590,58 @@
 				</template>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.recv_packet && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
+				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofCommitment')}}：</span>
+				<span>{{proofCommitment}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<!-- MsgTypeIBCTransfer -->
+		<div v-if="txType === TX_TYPE.transfer">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.sourcePort')}}：</span>
+				<span>{{sourcePort}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.sourceChannel')}}：</span>
+				<span>{{sourceChannel}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.token')}}：</span>
+				<LargeString v-if="token" :text="token"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.sender')}}：</span>
+				<span>{{sender}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.receiver')}}：</span>
+				<span>{{receiver}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.timeoutHeight')}}：</span>
+				<span>{{timeoutHeight}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.timeoutTimestamp')}}：</span>
+				<span>{{timeoutTimestamp}}</span>
+			</p>
+		</div>
 		<div v-if="txType === TX_TYPE.create_identity || txType === TX_TYPE.update_identity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.id')}}：</span>
@@ -623,7 +675,7 @@
 				</template>
 			</p>
 		</div>
-		<div v-if="txType === TX_TYPE.create_client || txType === TX_TYPE.update_client">
+		<div v-if="txType === TX_TYPE.create_client && prodConfig.txDetail && prodConfig.txDetail.ibc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.clientID')}}：</span>
 				<span>{{clientID}}</span>
@@ -640,6 +692,460 @@
 				</template>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.create_client && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
+				<span>{{clientState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusState')}}：</span>
+				<span>{{consensusState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.update_client">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.client.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
+				<LargeString v-if="header" :text="header"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.upgrade_client">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
+				<span>{{clientState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusState')}}：</span>
+				<span>{{consensusState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUpgradeClient')}}：</span>
+				<span>{{proofUpgradeClient}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUpgradeConsensusState')}}：</span>
+				<span>{{proofUpgradeConsensusState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.submit_misbehaviour">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.misbehaviour')}}：</span>
+				<span>{{misbehaviour}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.connection_open_init">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterparty')}}：</span>
+				<LargeString v-if="counterparty" :text="counterparty"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.version')}}：</span>
+				<LargeString v-if="version" :text="version"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.delayPeriod')}}：</span>
+				<span>{{delayPeriod}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.connection_open_try">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.previousConnectionId')}}：</span>
+				<span>{{previousConnectionId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
+				<span>{{clientState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterparty')}}：</span>
+				<LargeString v-if="counterparty" :text="counterparty"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.delayPeriod')}}：</span>
+				<span>{{delayPeriod}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyVersions')}}：</span>
+				<LargeString v-if="counterpartyVersions" :text="counterpartyVersions"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofInit')}}：</span>
+				<span>{{proofInit}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofClient')}}：</span>
+				<span>{{proofClient}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofConsensus')}}：</span>
+				<span>{{proofConsensus}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusHeight')}}：</span>
+				<LargeString v-if="consensusHeight" :text="consensusHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.connection_open_ack">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.connectionId')}}：</span>
+				<span>{{connectionId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyConnectionId')}}：</span>
+				<span>{{counterpartyConnectionId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.version')}}：</span>
+				<LargeString v-if="version" :text="version"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
+				<span>{{clientState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofTry')}}：</span>
+				<span>{{proofTry}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofClient')}}：</span>
+				<span>{{proofClient}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofConsensus')}}：</span>
+				<span>{{proofConsensus}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusHeight')}}：</span>
+				<LargeString v-if="consensusHeight" :text="consensusHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.connection_open_confirm">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.connectionId')}}：</span>
+				<span>{{connectionId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofAck')}}：</span>
+				<span>{{proofAck}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_open_init">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channel')}}：</span>
+				<LargeString v-if="channel" :text="channel"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_open_try">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.previousChannelId')}}：</span>
+				<span>{{previousChannelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channel')}}：</span>
+				<LargeString v-if="channel" :text="channel"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion')}}：</span>
+				<span>{{counterpartyVersion}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofInit')}}：</span>
+				<span>{{proofInit}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_open_ack">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channelId')}}：</span>
+				<span>{{channelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyChannelId')}}：</span>
+				<span>{{counterpartyChannelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion')}}：</span>
+				<span>{{counterpartyVersion}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofTry')}}：</span>
+				<span>{{proofTry}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_open_confirm">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channelId')}}：</span>
+				<span>{{channelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofAck')}}：</span>
+				<span>{{proofAck}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_close_init">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channelId')}}：</span>
+				<span>{{channelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_close_confirm">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channelId')}}：</span>
+				<span>{{channelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofInit')}}：</span>
+				<span>{{proofInit}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.timeout_packet">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
+				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
+				<span>{{proofUnreceived}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv')}}：</span>
+				<span>{{nextSequenceRecv}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.timeout_on_close_packet">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
+				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
+				<span>{{proofUnreceived}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofClose')}}：</span>
+				<span>{{proofClose}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv')}}：</span>
+				<span>{{nextSequenceRecv}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>		
+		<div v-if="txType === TX_TYPE.acknowledge_packet">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
+				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.acknowledgement')}}：</span>
+				<span>{{acknowledgement}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofAcked')}}：</span>
+				<span>{{proofAcked}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+
 		<div v-if="txType === TX_TYPE.begin_redelegate">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
@@ -1372,8 +1878,9 @@
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
-	import { converCoin,getMainToken,addressRoute } from "../../helper/IritaHelper"
-	import axios from '@/axios'
+	import { converCoin,getMainToken,addressRoute } from "../../helper/IritaHelper";
+	import prodConfig from "../../productionConfig";
+	import axios from '@/axios';
 	export default {
 		name: "txMessage",
 		components: {LargeString},
@@ -1394,6 +1901,7 @@
 		data () {
 			return {
 				Tools,
+				prodConfig,
 				addressRoute,
 				TX_TYPE,
 				// txHash : '',
@@ -1537,6 +2045,45 @@
 				upgradedClientState:'',
 				minUnit:'',
 				options: '',
+				clientState:'',
+				consensusState: '',
+				proofUpgradeClient:'',
+				proofUpgradeConsensusState :'',
+				misbehaviour:'',
+				counterparty:'',
+				version:'',
+				delayPeriod:'',
+				previousConnectionId:'',
+				counterpartyVersions:'',
+				proofHeight:'',
+				proofInit:'',
+				proofClient:'',
+				proofConsensus:'',
+				consensusHeight:'',
+				connectionId:'',
+				counterpartyConnectionId:'',
+				proofTry:'',
+				proofAck:'',
+				portId: '',
+				channel:'',
+				previousChannelId: '',
+				counterpartyVersion: '',
+				channelId: '',
+				counterpartyChannelId: '',
+				packet: '',
+				proofUnreceived: '',
+				nextSequenceRecv: '',
+				proofClose:'',
+				acknowledgement: '',
+				proofAcked: '',
+				proofCommitment:'',
+				sourcePort: '',
+				sourceChannel: '',
+				token: '',
+				sender: '',
+				receiver: '',
+				timeoutHeight: '',
+				timeoutTimestamp: '',
 			}
 		},
 		computed: {
@@ -1593,7 +2140,6 @@
 								this.schemas = msg.schemas || '--';
 								break;
 							case TX_TYPE.bind_service:
-								console.log(msg)
 								this.defineName = msg.service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
@@ -1745,14 +2291,21 @@
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.recv_packet:
-								this.packet = JSON.stringify(msg.packet || {}) || '--';
-								this.proof = msg.proof || '--';
-								this.proofHeight = msg.proof_height || '--';
-								this.proofPath = JSON.stringify(msg.proof_path || []) || '--';
-								this.proofData = msg.proof_data || '--';
-								this.clientID = msg.client_id || '--';
-								this.module = msg.module || '--';
-								this.signer = msg.signer || '--';
+								if(prodConfig.txDetail && prodConfig.txDetail.ibc) {
+									this.packet = JSON.stringify(msg.packet || {}) || '--';
+									this.proof = msg.proof || '--';
+									this.proofHeight = msg.proof_height || '--';
+									this.proofPath = JSON.stringify(msg.proof_path || []) || '--';
+									this.proofData = msg.proof_data || '--';
+									this.clientID = msg.client_id || '--';
+									this.module = msg.module || '--';
+									this.signer = msg.signer || '--';
+								} else {
+									this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
+									this.proofCommitment = msg.proof_commitment || '--';
+									this.proofHeight = msg.proofHeight ? JSON.stringify(msg.proofHeight) : '--';
+									this.signer = msg.signer || '--';
+								}
 								break;
 							case TX_TYPE.create_identity:
 							case TX_TYPE.update_identity:
@@ -1765,6 +2318,16 @@
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.create_client:
+								if(prodConfig.txDetail && prodConfig.txDetail.ibc) {
+									this.clientID = msg.client_id || '--';
+									this.header = JSON.stringify(msg.header || {}) || '--';
+									this.signer = msg.signer || '--';
+								} else {
+									this.clientState = msg.client_state || '--';
+									this.consensusState = msg.consensus_state || '--';
+									this.signer = msg.signer || '--';
+								}
+								break;
 							case TX_TYPE.update_client:
 								this.clientID = msg.client_id || '--';
 								this.header = JSON.stringify(msg.header || {}) || '--';
@@ -2061,6 +2624,133 @@
 									}
 									
 								}
+							break;
+							case TX_TYPE.upgrade_client:
+								this.clientID = msg.client_id || '--';
+								this.clientState = msg.client_state || '--';
+								this.consensusState = msg.consensus_state || '--';
+								this.proofUpgradeClient = msg.proof_upgrade_client || '--';
+								this.proofUpgradeConsensusState = msg.proof_upgrade_consensus_state || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.submit_misbehaviour:
+								this.clientID = msg.client_id || '--';
+								this.misbehaviour = msg.misbehaviour || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.connection_open_init:
+								this.clientID = msg.client_id || '--';
+								this.counterparty = msg.counterparty ? JSON.stringify(msg.counterparty) : '--';
+								this.version = msg.version ? JSON.stringify(msg.version) : '--';
+								this.delayPeriod = msg.delay_period || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.connection_open_try:
+								this.clientID = msg.client_id || '--';
+								this.previousConnectionId  = msg.previous_connection_id  || '--';
+								this.clientState = msg.client_state || '--';
+								this.counterparty = msg.counterparty ? JSON.stringify(msg.counterparty) : '--';
+								this.delayPeriod = msg.delay_period || '--';
+								this.counterpartyVersions = msg.counterparty_versions ? JSON.stringify(msg.counterparty_versions) : '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.proofInit = msg.proof_init || '--';
+								this.proofClient = msg.proof_client || '--';
+								this.proofConsensus = msg.proof_consensus || '--';
+								this.consensusHeight = msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.connection_open_ack:
+								this.connectionId = msg.connection_id || '--';
+								this.counterpartyConnectionId = msg.counterparty_connection_id || '--';
+								this.version = msg.version ? JSON.stringify(msg.version) : '--';
+								this.clientState = msg.client_state  || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.proofTry = msg.proof_try || '--';
+								this.proofClient = msg.proof_client || '--';
+								this.proofConsensus = msg.proof_consensus || '--';
+								this.consensusHeight = msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.connection_open_confirm:
+								this.connectionId = msg.connection_id || '--';
+								this.proofAck = msg.proof_ack || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_open_init:
+								this.portId = msg.port_id || '--';
+								this.channel = msg.channel ? JSON.stringify(msg.channel) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_open_try:
+								this.portId = msg.port_id || '--';
+								this.previousChannelId = msg.previous_channel_id || '--';
+								this.channel = msg.channel ? JSON.stringify(msg.channel) : '--';
+								this.counterpartyVersion = msg.counterparty_version || '--';
+								this.proofInit  = msg.proof_init || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_open_ack:
+								this.portId = msg.port_id || '--';
+								this.channelId = msg.channel_id || '--';
+								this.counterpartyChannelId = msg.counterparty_channel_id || '--',
+								this.counterpartyVersion = msg.counterparty_version || '--',
+								this.proofTry = msg.proof_try || '--',
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_open_confirm:
+								this.portId = msg.port_id || '--';
+								this.channelId = msg.channel_id || '--';
+								this.proofAck = msg.proof_ack || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_close_init:
+								this.portId = msg.port_id || '--';
+								this.channelId = msg.channel_id || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_close_confirm:
+								this.portId = msg.port_id || '--';
+								this.channelId = msg.channel_id || '--';
+								this.proofInit = msg.proof_init || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.timeout_packet:
+								this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
+								this.proofUnreceived = msg.proof_unreceived || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.nextSequenceRecv = msg.next_sequence_recv || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.timeout_on_close_packet:
+								this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
+								this.proofUnreceived = msg.proof_unreceived || '--';
+								this.proofClose = msg.proof_close || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.nextSequenceRecv = msg.next_sequence_recv || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.acknowledge_packet:
+								this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
+								this.acknowledgement = msg.acknowledgement || '--';
+								this.proofAcked = msg.proof_acked || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							// MsgTypeIBCTransfer
+							case TX_TYPE.transfer:
+								this.sourcePort = msg.source_port || '--';
+								this.sourceChannel = msg.source_channel || '--';
+								this.token = msg.token ? JSON.stringify(msg.token) : '--';
+								this.sender = msg.sender || '--';
+								this.receiver = msg.receiver || '--';
+								this.timeoutHeight = msg.timeout_height ? JSON.stringify(msg.timeout_height) : '--';
+								let timeoutTimestamp = msg.timeout_timestamp  && Math.floor(new Date(msg.timeout_timestamp).getTime() / 1000);
+								timeoutTimestamp ? this.timeoutTimestamp = Tools.getDisplayDate(timeoutTimestamp) : this.timeoutTimestamp ='--';
 							break;
 						}
 					}
