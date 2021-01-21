@@ -163,7 +163,9 @@
                                 fromMonikers = fromMonikers || item[from] || ''
                             })
                         }
+                        
                         const fee = tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? await converCoin(tx.fee.amount[0]) :'--'
+                        
                         this.txDataList.push({
                                 txHash : tx.tx_hash,
                                 blockHeight : tx.height,
@@ -176,8 +178,8 @@
                                 status : tx.status,
                                 msgCount : tx.msgs.length,
                                 time :Tools.getDisplayDate(tx.time),
-                                Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
-                            })
+                                Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+                        })
                     }
                 }
             }
