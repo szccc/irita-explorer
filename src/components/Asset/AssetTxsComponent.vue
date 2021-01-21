@@ -251,7 +251,7 @@ export default {
                 mintable: issueTokenData && Tools.firstWordUpperCase(String(issueTokenData.mintable)),
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.formatPriceToFixed(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -279,7 +279,7 @@ export default {
                 token: editTokenData && editTokenData.symbol,
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.formatPriceToFixed(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -307,10 +307,10 @@ export default {
                 owner: mintTokenData && mintTokenData.owner,
                 token: mintTokenData && mintTokenData.symbol,
                 mintTo: mintTokenData && mintTokenData.to,
-                amount: (mintTokenData && Tools.formatPriceToFixed(mintTokenData.amount, decimals.fee)) || '--',
+                amount: (mintTokenData && Tools.toDecimal(mintTokenData.amount, decimals.fee)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.formatPriceToFixed(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -340,7 +340,7 @@ export default {
                 dstOwner: transferTokenData && transferTokenData.dst_owner,
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.formatPriceToFixed(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
