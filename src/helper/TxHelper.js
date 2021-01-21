@@ -1,4 +1,5 @@
 import { TX_TYPE, PubKeyAlgorithm,LEVEL_TX_TYPE } from "../constant";
+import prodConfig from '../productionConfig'
 
 
 export class TxHelper {
@@ -284,78 +285,78 @@ export class TxHelper {
 			};
 		txTypeArray.forEach( item => {
             switch (item.typeName) {
-				case TX_TYPE.send:
-					tansferObj.children.push({
-						value: TX_TYPE.send,
-						label: TX_TYPE.send
-					});
-					break;
-				case TX_TYPE.multisend:
-					tansferObj.children.push({
-						value: TX_TYPE.multisend,
-						label: TX_TYPE.multisend
-					});
-					break;
-				case TX_TYPE.delegate:
-					stakingObj.children.push({
-						value: TX_TYPE.delegate,
-						label: TX_TYPE.delegate
-					});
-					break;
-				case TX_TYPE.begin_redelegate:
-					stakingObj.children.push({
-						value: TX_TYPE.begin_redelegate,
-						label: TX_TYPE.begin_redelegate
-					});
-					break;
-				case TX_TYPE.set_withdraw_address:
-					stakingObj.children.push({
-						value: TX_TYPE.set_withdraw_address,
-						label: TX_TYPE.set_withdraw_address
-					});
-					break;
-				case TX_TYPE.begin_unbonding:
-					stakingObj.children.push({
-						value: TX_TYPE.begin_unbonding,
-						label: TX_TYPE.begin_unbonding
-					});
-					break;
-				case TX_TYPE.withdraw_delegator_reward:
-					stakingObj.children.push({
-						value: TX_TYPE.withdraw_delegator_reward,
-						label: TX_TYPE.withdraw_delegator_reward
-					});
-					break;
-				case TX_TYPE.fund_community_pool:
-					stakingObj.children.push({
-						value: TX_TYPE.fund_community_pool,
-						label: TX_TYPE.fund_community_pool
-					});
-					break;
-				case TX_TYPE.withdraw_validator_commission:
-					stakingObj.children.push({
-						value: TX_TYPE.withdraw_validator_commission,
-						label: TX_TYPE.withdraw_validator_commission
-					});
-					break;
-				case TX_TYPE.create_validator:
-					stakingObj.children.push({
-						value: TX_TYPE.create_validator,
-						label: TX_TYPE.create_validator
-					});
-					break;
-				case TX_TYPE.edit_validator:
-					stakingObj.children.push({
-						value: TX_TYPE.edit_validator,
-						label: TX_TYPE.edit_validator
-					});
-					break;
-				case TX_TYPE.unjail:
-					stakingObj.children.push({
-						value: TX_TYPE.unjail,
-						label: TX_TYPE.unjail
-					});
-					break;
+                case TX_TYPE.send:
+                    tansferObj.children.push({
+                        value: TX_TYPE.send,
+                        label: TX_TYPE.send
+                    });
+                    break;
+                case TX_TYPE.multisend:
+                    tansferObj.children.push({
+                        value: TX_TYPE.multisend,
+                        label: TX_TYPE.multisend
+                    });
+                    break;
+                case TX_TYPE.delegate:
+                    stakingObj.children.push({
+                        value: TX_TYPE.delegate,
+                        label: TX_TYPE.delegate
+                    });
+                    break;
+                case TX_TYPE.begin_redelegate:
+                    stakingObj.children.push({
+                        value: TX_TYPE.begin_redelegate,
+                        label: TX_TYPE.begin_redelegate
+                    });
+                    break;
+                case TX_TYPE.set_withdraw_address:
+                    stakingObj.children.push({
+                        value: TX_TYPE.set_withdraw_address,
+                        label: TX_TYPE.set_withdraw_address
+                    });
+                    break;
+                case TX_TYPE.begin_unbonding:
+                    stakingObj.children.push({
+                        value: TX_TYPE.begin_unbonding,
+                        label: TX_TYPE.begin_unbonding
+                    });
+                    break;
+                case TX_TYPE.withdraw_delegator_reward:
+                    stakingObj.children.push({
+                        value: TX_TYPE.withdraw_delegator_reward,
+                        label: TX_TYPE.withdraw_delegator_reward
+                    });
+                    break;
+                case TX_TYPE.fund_community_pool:
+                    stakingObj.children.push({
+                        value: TX_TYPE.fund_community_pool,
+                        label: TX_TYPE.fund_community_pool
+                    });
+                    break;
+                case TX_TYPE.withdraw_validator_commission:
+                    stakingObj.children.push({
+                        value: TX_TYPE.withdraw_validator_commission,
+                        label: TX_TYPE.withdraw_validator_commission
+                    });
+                    break;
+                case TX_TYPE.create_validator:
+                    stakingObj.children.push({
+                        value: TX_TYPE.create_validator,
+                        label: TX_TYPE.create_validator
+                    });
+                    break;
+                case TX_TYPE.edit_validator:
+                    stakingObj.children.push({
+                        value: TX_TYPE.edit_validator,
+                        label: TX_TYPE.edit_validator
+                    });
+                    break;
+                case TX_TYPE.unjail:
+                    stakingObj.children.push({
+                        value: TX_TYPE.unjail,
+                        label: TX_TYPE.unjail
+                    });
+                    break;
                 case TX_TYPE.define_service:
                     iServiceObj.children.push({
                         value: TX_TYPE.define_service,
@@ -433,43 +434,43 @@ export class TxHelper {
                         value: TX_TYPE.refund_service_deposit,
                         label: TX_TYPE.refund_service_deposit
                     });
-                break;
+                    break;
                 case TX_TYPE.withdraw_earned_fees:
                     iServiceObj.children.push({
                         value: TX_TYPE.withdraw_earned_fees,
                         label: TX_TYPE.withdraw_earned_fees
                     });
-                break;
+                    break;
                 case TX_TYPE.issue_denom:
                     nftObj.children.push({
                         value: TX_TYPE.issue_denom,
                         label: TX_TYPE.issue_denom
                     });
-                break;   
+                    break;
                 case TX_TYPE.mint_nft:
                     nftObj.children.push({
                         value: TX_TYPE.mint_nft,
                         label: TX_TYPE.mint_nft
                     });
-                break;
+                    break;
                 case TX_TYPE.edit_nft:
                     nftObj.children.push({
                         value: TX_TYPE.edit_nft,
                         label: TX_TYPE.edit_nft
                     });
-                break;
+                    break;
                 case TX_TYPE.transfer_nft:
                     nftObj.children.push({
                         value: TX_TYPE.transfer_nft,
                         label: TX_TYPE.transfer_nft
                     });
-                break;
+                    break;
                 case TX_TYPE.burn_nft:
                     nftObj.children.push({
                         value: TX_TYPE.burn_nft,
                         label: TX_TYPE.burn_nft
                     });
-                break;
+                    break;
                 case TX_TYPE.add_liquidity:
                     coinswapObj.children.push({
                         value: TX_TYPE.add_liquidity,
@@ -481,13 +482,13 @@ export class TxHelper {
                         value: TX_TYPE.remove_liquidity,
                         label: TX_TYPE.remove_liquidity
                     });
-                break;
+                    break;
                 case TX_TYPE.swap_order:
                     coinswapObj.children.push({
                         value: TX_TYPE.swap_order,
                         label: TX_TYPE.swap_order
                     });
-                break;
+                    break;
                 case TX_TYPE.create_identity:
                     identityObj.children.push({
                         value: TX_TYPE.create_identity,
@@ -499,24 +500,66 @@ export class TxHelper {
                         value: TX_TYPE.update_identity,
                         label: TX_TYPE.update_identity
                     });
-                break;
+                    break;
                 case TX_TYPE.recv_packet:
                     ibcObj.children.push({
                         value: TX_TYPE.recv_packet,
                         label: TX_TYPE.recv_packet
                     });
                     break;
-                case TX_TYPE.create_client:
-                    ibcObj.children.push({
-                        value: TX_TYPE.create_client,
-                        label: TX_TYPE.create_client
-                    });
+                case TX_TYPE.transfer:
+                    if (prodConfig && prodConfig.txDetail && prodConfig.txDetail.ibc) {
+                        othersObj.children.push({
+                            value: TX_TYPE.transfer,
+                            label: TX_TYPE.transfer
+                        });
+                    } else {
+                        ibcObj.children.push({
+                            value: TX_TYPE.transfer,
+                            label: TX_TYPE.transfer
+                        });
+                    }
                 break;
+                case TX_TYPE.timeout_packet:
+                    if (prodConfig && prodConfig.txDetail && prodConfig.txDetail.ibc) {
+                        othersObj.children.push({
+                            value: TX_TYPE.timeout_packet,
+                            label: TX_TYPE.timeout_packet
+                        });
+                    } else {
+                        ibcObj.children.push({
+                            value: TX_TYPE.timeout_packet,
+                            label: TX_TYPE.timeout_packet
+                        });
+                    }
+                break;
+                // prodConfig.txDetail.ibc
+                case TX_TYPE.create_client:
+                    if (prodConfig && prodConfig.txDetail && prodConfig.txDetail.ibc) {
+                        ibcObj.children.push({
+                            value: TX_TYPE.create_client,
+                            label: TX_TYPE.create_client
+                        });
+                    } else {
+                        othersObj.children.push({
+                            value: TX_TYPE.create_client,
+                            label: TX_TYPE.create_client
+                        });
+                    }
+                    break;
+                // prodConfig.txDetail.ibc
                 case TX_TYPE.update_client:
-                    ibcObj.children.push({
-                        value: TX_TYPE.update_client,
-                        label: TX_TYPE.update_client
-                    });
+                    if (prodConfig && prodConfig.txDetail && prodConfig.txDetail.ibc) {
+                        ibcObj.children.push({
+                            value: TX_TYPE.update_client,
+                            label: TX_TYPE.update_client
+                        });
+                    } else {
+                        othersObj.children.push({
+                            value: TX_TYPE.update_client,
+                            label: TX_TYPE.update_client
+                        });
+                    }
                 break;
                 case TX_TYPE.create_feed:
                     oracleObj.children.push({
@@ -650,13 +693,98 @@ export class TxHelper {
                         label: TX_TYPE.submit_evidence
                     });
                 break;
+                case TX_TYPE.upgrade_client:
+                    othersObj.children.push({
+                        value: TX_TYPE.upgrade_client,
+                        label: TX_TYPE.upgrade_client
+                    });
+                break;
+                case TX_TYPE.submit_misbehaviour:
+                    othersObj.children.push({
+                        value: TX_TYPE.submit_misbehaviour,
+                        label: TX_TYPE.submit_misbehaviour
+                    });
+                break;  
+                case TX_TYPE.connection_open_init:
+                    othersObj.children.push({
+                        value: TX_TYPE.connection_open_init,
+                        label: TX_TYPE.connection_open_init
+                    });
+                break;  
+                case TX_TYPE.connection_open_try:
+                    othersObj.children.push({
+                        value: TX_TYPE.connection_open_try,
+                        label: TX_TYPE.connection_open_try
+                    });
+                break;
+                case TX_TYPE.connection_open_ack:
+                    othersObj.children.push({
+                        value: TX_TYPE.connection_open_ack,
+                        label: TX_TYPE.connection_open_ack
+                    });
+                break;
+                case TX_TYPE.connection_open_confirm:
+                    othersObj.children.push({
+                        value: TX_TYPE.connection_open_confirm,
+                        label: TX_TYPE.connection_open_confirm
+                    });
+                break;
+                case TX_TYPE.channel_open_init:
+                    othersObj.children.push({
+                        value: TX_TYPE.channel_open_init,
+                        label: TX_TYPE.channel_open_init
+                    });
+                break;
+                case TX_TYPE.channel_open_try:
+                    othersObj.children.push({
+                        value: TX_TYPE.channel_open_try,
+                        label: TX_TYPE.channel_open_try
+                    });
+                break;
+                case TX_TYPE.channel_open_ack:
+                    othersObj.children.push({
+                        value: TX_TYPE.channel_open_ack,
+                        label: TX_TYPE.channel_open_ack
+                    });
+                break;
+                case TX_TYPE.channel_open_confirm:
+                    othersObj.children.push({
+                        value: TX_TYPE.channel_open_confirm,
+                        label: TX_TYPE.channel_open_confirm
+                    });
+                break;
+                case TX_TYPE.channel_close_init:
+                    othersObj.children.push({
+                        value: TX_TYPE.channel_close_init,
+                        label: TX_TYPE.channel_close_init
+                    });
+                break;
+                case TX_TYPE.channel_close_confirm:
+                    othersObj.children.push({
+                        value: TX_TYPE.channel_close_confirm,
+                        label: TX_TYPE.channel_close_confirm
+                    });
+                break;
+                case TX_TYPE.timeout_on_close_packet:
+                    othersObj.children.push({
+                        value: TX_TYPE.timeout_on_close_packet,
+                        label: TX_TYPE.timeout_on_close_packet
+                    });
+                break;
+                case TX_TYPE.acknowledge_packet:
+                    othersObj.children.push({
+                        value: TX_TYPE.acknowledge_packet,
+                        label: TX_TYPE.acknowledge_packet
+                    });
+                break;
+                
 			}
         });
 		allTxType.push(tansferObj,stakingObj,iServiceObj,nftObj,coinswapObj,identityObj,ibcObj,oracleObj,randomObj,recordObj,assetObj,govObj,othersObj);
         allTxType = allTxType.filter(item => item.children.length)
         return allTxType
     }
-    static getTxTypeArray (data,value) {
+    static getTxTypeArray (data, value) {
 		let TxTypeArray= [''];
 		data.forEach( item => {
 			if(item.children && item.children.length) {
