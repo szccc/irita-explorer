@@ -368,8 +368,8 @@ export function getNativeAssetDetailApi (symbol) {
 	return get(url)
 }
 
-export function getProposalsListApi (pageNum, pageSize, useCount) {
-    let url = `/gov/proposals?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`
+export function getProposalsListApi (status,pageNum="",pageSize="", useCount=true) {
+    let url = `/gov/proposals?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&status=${status}`
 	return get(url)
 }
 

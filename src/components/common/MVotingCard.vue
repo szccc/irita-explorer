@@ -140,7 +140,7 @@
                         if(Tools.formatPercentageNumbers(currentTally.yes,currentTally.total_voting_power,'') > Number(votingBarObj.threshold)*100) {
                             this.flShowPassThreshold = true
                         }
-                        console.log('yes',Tools.formatPercentageNumbers(currentTally.yes,currentTally.total_voting_power,''))
+                        // console.log('yes',Tools.formatPercentageNumbers(currentTally.yes,currentTally.total_voting_power,''))
                         this.$set(this.yesVotingPowerStyleObj,'width',`${this.yesVotingPowerWidth}`);
                         this.noVotingPowerWidth = currentTally.no ? Tools.formatPercentageNumbers(currentTally.no,currentTally.total_voting_power) : '0.00%';
                         this.$set(this.noVotingPowerStyleObj,'width',`${this.noVotingPowerWidth}`);

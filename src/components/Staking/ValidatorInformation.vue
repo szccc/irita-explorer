@@ -276,7 +276,6 @@
 				this.details = information.description.details ? information.description.details : '';
 				// 处理右侧需渲染的详细数据，设置value
 				this.validationAssetInfoArr.forEach( item => {
-					// console.log(information,'取值')
 					if(item.dataName !== 'address'){
 						if(item.dataName === 'uptime'){
 							item.value = Tools.FormatUptime(information[item.dataName]);
@@ -293,7 +292,6 @@
 						}
 					}
 				})
-				// console.log(this.validationAssetInfoArr,2)
 			},
 			// 处理需打开的网站地址
 			openUrl(url) {
