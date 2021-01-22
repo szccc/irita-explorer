@@ -60,14 +60,14 @@ export const ExplorerLang = {
         certificate:'证书',
         credentials: '身份凭证',
         updateTime:'更新时间',
-        // 新增 全局表格中的表头
+        // 新增 
         commission: 'Commission',
         bondedTokens: 'Bonded_Tokens',
         uptime: 'Uptime',
         selfBonded: 'Self-Bonded',
         delegators: 'Delegators',
         bondHeight: 'Bond_Height',
-        unbondingHeight: 'Unbonding_Height', // 新增
+        unbondingHeight: 'Unbonding_Height',
         address: 'Address',
         amount: 'Amount',
         shares: 'Shares',
@@ -76,7 +76,6 @@ export const ExplorerLang = {
         status: 'Status',
         consensusAddress: 'Consensus Address',
         proposerPriority: 'Proposer Priority',
-        // 新增
         symbol: 'Symbol',
         totalSupply: 'TotalSupply',
         initialSupply: 'InitialSupply',
@@ -146,7 +145,6 @@ export const ExplorerLang = {
         listTransactions: '最近交易',
         tx:'交易#',
         txn: '交易数量',
-        // 新增
         validatorNumCount: '验证人数量',
         bondedTokens: '质押率',
         votingPower: '在线投票权',
@@ -296,7 +294,6 @@ export const ExplorerLang = {
             clientID:'客户端ID',
             header:'区块头',
         },
-        // 新增
         staking: {
             from: '发送者 :',
             amount: '数量 :',
@@ -577,7 +574,6 @@ export const ExplorerLang = {
             operatorAddress:'Operator Address'
         }
     },
-    // 新增
     asset:{
         nativeAssetsList: 'Native Asset List',
         nativeAssetTxsList: 'Native Asset Txs List',
@@ -595,7 +591,6 @@ export const ExplorerLang = {
         decimal: 'Decimal',
         minUnit: 'Min Unit'
     },
-    // 新增
     gov: {
         proposalsTitle: 'Proposal List',
         proposals: 'Proposals',
