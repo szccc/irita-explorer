@@ -342,13 +342,16 @@
 							sessionStorage.setItem('txpagenum', JSON.stringify(this.totalPageNum));
 							if (res.data) {
 								this.txList = []
+								// let fees = []
+								// let amounts = []
+								// console.time('fee')
 								for (const item of res.data) {
 									if(item) {
 										let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
 										let amount = '--'
 										if (item.msgs && item.msgs.length === 1) {
 											formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
-											// amount = item.msgs[0].msg && item.msgs[0].msg.amount ? await converCoin(item.msgs[0].msg.amount) :'--'
+											// amounts.push(item.msgs[0] ? getAmountByTx(item.msgs[0],item.events) : '--')
 											amount = item.msgs[0] ? await getAmountByTx(item.msgs[0],item.events) : '--'
 										} else {
 											formTO = '--'
@@ -361,6 +364,7 @@
 											})
 										}
 										const time = Tools.getDisplayDate(item.time)
+										// fees.push(item.fee && item.fee.amount && item.fee.amount.length > 0 ? converCoin(item.fee.amount[0]) :'--')
 										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 										this.txList.push({
 											Tx_Hash: item.tx_hash,
@@ -368,17 +372,28 @@
 											From: formTO.from || "--",
 											fromMonikers,
 											Amount: amount,
+											// Amount: '',
 											To: formTO.to || '--',
 											toMonikers,
 											Tx_Type: (item.msgs || []).map(item=>item.type),
 											MsgsNum: msgsNumber,
 											Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+											// Tx_Fee: '',
 											Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 											Tx_Status: TxStatus[item.status],
 											Timestamp: time,
 										})
 									}
+									// if((fees && fees.length > 0) || (amounts && amounts.length > 0)  ) {
+									// 	let fee = await Promise.all(fees);
+										// let amount = await Promise.all(amounts);
+										// this.txList.forEach((item,index) => {
+										// 		this.txList[index].Tx_Fee = fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.amountDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : '--';
+												// this.txList[index].Amount = amount[index] ? amount[index] : '--';
+									// 	})
+									// }
 								}
+								// console.timeEnd('fee')
 							} else {
 								this.txList = [];
 								this.showNoData = true;
@@ -408,7 +423,6 @@
 										let msgsNumber = item.msgs ? item.msgs.length : 0
 										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 										const time = Tools.getDisplayDate(item.time)
-										// let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--'
 										let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
 										let OperatorMonikers
 										if(item.monikers.length) {
@@ -419,7 +433,6 @@
 										this.txList.push({
 												Tx_Hash: item.tx_hash,
 												Block: item.height,
-												// Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
 												OperatorAddr,
 												OperatorMonikers: OperatorMonikers || '--',
 												SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--' : '--',
