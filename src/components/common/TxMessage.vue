@@ -2303,7 +2303,7 @@
 								} else {
 									this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
 									this.proofCommitment = msg.proof_commitment || '--';
-									this.proofHeight = msg.proofHeight ? JSON.stringify(msg.proofHeight) : '--';
+									this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
 									this.signer = msg.signer || '--';
 								}
 								break;
