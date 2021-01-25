@@ -13,7 +13,7 @@
         <span>{{data.type}}</span>
       </div>
       <div>
-        <img src="../../assets/deposit_period.png" />
+        <i class="iconfont iconDepositPeriod-liebiao" style="color: var(--bgColor)"></i>
         <span>{{ $t('ExplorerLang.gov.proposalsType.DepositPeriod') }}</span>
       </div>
     </div>
@@ -113,10 +113,8 @@ a {
     div {
       img {
         width: 0.14rem;
-        vertical-align: middle;
       }
       span {
-        vertical-align: middle;
         margin-left: 0.08rem;
         margin-right: 0.3rem;
       }

@@ -92,11 +92,11 @@
             <el-table-column prop="type" :min-width="ColumnMinWidth.proposalType" :label="$t('ExplorerLang.table.type')"></el-table-column>
             <el-table-column prop="status" :width="ColumnMinWidth.proposalStatusIcon" :label="$t('ExplorerLang.table.status')">
               <template v-slot:default="{ row }">
-                <img class="status_icon" v-if="row.status === proposalStatus.passed" src="../../assets/pass.png" />
-                <img class="status_icon" v-if="row.status === proposalStatus.rejected" src="../../assets/rejected.png" />
-                <img class="status_icon" v-if="row.status === proposalStatus.votingPeriod" src="../../assets/voting_period.png" />
-                <img class="status_icon" v-if="row.status === proposalStatus.depositPeriod" src="../../assets/deposit_period.png" />
-                <span>{{ row.status }}</span>
+                <i class="iconfont iconPass" v-if="row.status === proposalStatus.passed" style="color:#44C190;"></i>
+                <i class="iconfont iconVeto" v-if="row.status === proposalStatus.rejected" style="color:rgb(254, 138, 138);"></i>
+                <i class="iconfont iconDepositPeriod-liebiao" style="color: var(--bgColor)" v-if="row.status === proposalStatus.depositPeriod"></i>
+                <i class="iconfont iconDepositPeriod" style="color: var(--bgColor)" v-if="row.status === proposalStatus.votingPeriod"></i>
+                <span style="margin-left:0.06rem">{{ row.status }}</span>
               </template>
             </el-table-column>
             <el-table-column :width="ColumnMinWidth.strip">
