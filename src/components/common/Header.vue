@@ -5,8 +5,8 @@
         <div class="header_logo_content" @click="logoClick">
           <img class="header_logo_content_icon" v-if="logoImg.length" :src="logoImg" alt="" />
           <div :style="`color:${(prodConfig.nav || {}).color || ''}`">
-            <p>{{ (prodConfig.logo || {}).title || 'CSChain-Bond' }}</p>
-            <p>{{ (prodConfig.logo || {}).subTitle || '债券应用链浏览器' }}</p>
+            <p class="header_logo_content_title">{{ (prodConfig.logo || {}).title || 'CSChain-Bond' }}</p>
+            <p class="header_logo_content_subTitle">{{ (prodConfig.logo || {}).subTitle || '债券应用链浏览器' }}</p>
           </div>
         </div>
         <div class="header_menu">
@@ -105,7 +105,7 @@
 </template>
 <script>
 import Tools from '../../util/Tools'
-import constant,{ addrPrefix, ModuleMap } from '../../constant'
+import constant,{ ModuleMap,product } from '../../constant'
 import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
@@ -293,7 +293,6 @@ export default {
         this.handleConfigs(config.networkData);
     },
     handleConfigs (configs=[]) {
-      let flag = false;
       this.netWorkArray = configs.map(item => {
           if(item.network_id === constant.CHAINID.IRISHUB){
                 item.icon = 'iconfont iconiris'
@@ -307,17 +306,22 @@ export default {
               item.icon = 'iconfont iconBI-01'
           }
           if (item.is_main) {
-              flag = true
               this.mainnet = {...item};
           }
           return item
       })
-      if(!flag) {
-        this.mainnet = {icon:'iconfont iconStargate'};
+      switch (prodConfig.product) {
+        case product.bifrost:
+          break;
+        case product.stargate:
+          this.mainnet = {icon:'iconfont iconStargate'};
+          break;
+        default:
+          break;
       }
     },
     windowOpenUrl (url) {
-		window.open(url)
+		  window.open(url)
     },
     flShowNetWork() {
       this.flShowNetWorkMenu = !this.flShowNetWorkMenu
@@ -364,8 +368,11 @@ export default {
           margin-right: 0.12rem;
         }
         .header_logo_content_title {
+            font-weight: bold;
+            letter-spacing: 0.011rem;
         }
         .header_logo_content_subTitle {
+          color:rgba(255,255,255,0.85)
         }
       }
 

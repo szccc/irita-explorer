@@ -172,7 +172,7 @@ export const ColumnMinWidth = {
   respondTimes: '129',
   available: '100',
   qos: '195',
-  requestId: '130',
+  requestId: '150',
   state: '127',
   serviceName: '135',
   No: '50',
@@ -381,4 +381,9 @@ export const formatVoteOptions = {
   'abstain': 'Abstain',
   'no': 'No',
   'no_with_veto': 'NoWithVeto'
+}
+
+export const product = {
+  bifrost: 'Bifrost',
+  stargate: 'STARGATE'
 }
