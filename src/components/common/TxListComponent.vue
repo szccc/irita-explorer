@@ -152,6 +152,7 @@
             async formatTxData() {
                 if(this.txData && this.txData.length) {
                     this.txDataList = []
+                    let fees = []
                     for (const tx of this.txData) {
                         let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
                         let from = addrObj.from || '--',
@@ -163,9 +164,8 @@
                                 fromMonikers = fromMonikers || item[from] || ''
                             })
                         }
-                        
-                        const fee = tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? await converCoin(tx.fee.amount[0]) :'--'
-                        
+                        fees.push(tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? converCoin(tx.fee.amount[0]) :'--')
+                        // const fee = tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? await converCoin(tx.fee.amount[0]) :'--'
                         this.txDataList.push({
                                 txHash : tx.tx_hash,
                                 blockHeight : tx.height,
@@ -178,7 +178,14 @@
                                 status : tx.status,
                                 msgCount : tx.msgs.length,
                                 time :Tools.getDisplayDate(tx.time),
-                                Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+                                // Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+                                Tx_Fee: '',
+                        })
+                    }
+                    if(fees && fees.length > 0) {
+                        let fee = await Promise.all(fees);
+                        this.txDataList.forEach((item,index) => {
+                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.amountDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : '--';
                         })
                     }
                 }

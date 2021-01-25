@@ -69,7 +69,7 @@
 					</ul>
 				</div>
 			</div>
-			<!-- <div class="home_proposal_container" style="text-align: left">
+			<div class="home_proposal_container">
                 <div class="home_proposal_container_content" v-for="item in votingPeriodDatas" :key="item.proposal_id">
                     <div class="home_proposal_item_bar">
                         <m-voting-card :votingBarObj="item" :showTitle="true"></m-voting-card>
@@ -80,7 +80,7 @@
                         <m-deposit-card :depositObj="v" :showTitle="true"></m-deposit-card>
                     </div>
                 </div>
-            </div> -->
+            </div>
 		</div>
 	</div>
 </template>
@@ -93,7 +93,6 @@
 	import MVotingCard from "./common/MVotingCard";
 	import { getProposalsListApi } from '@/service/api.js';
 	import {proposalStatus} from '../constant';
-	import { converCoin, getMainToken } from '../helper/IritaHelper'
     export default {
 		name: "Home",
 		components: {StatisticalBar,MDepositCard,MVotingCard},
@@ -112,12 +111,12 @@
 		mounted () {
 			this.getLastBlocks();
 			this.getTransaction();
-			// this.getProposalsList();
+			this.getProposalsByStatus();
 			clearInterval(this.syncTimer )
 			this.syncTimer = setInterval(() => {
 				this.getLastBlocks();
 				this.getTransaction();
-				// this.getProposalsList();
+				this.getProposalsByStatus();
 			},5000);
 			window.addEventListener("resize",this.monitorScreenWidth,false)
 		},
@@ -254,23 +253,23 @@
 			monitorScreenWidth() {
 				this.screenWidth = document.body.clientWidth
 			},
-			// async getProposalsList() {
-			// 	try {
-			// 		let res = await getProposalsListApi(1, 10, true)
-			// 		if (res && res.data && res.data.length > 0) {
-			// 			this.depositPeriodDatas = res.data.filter(v => v.status === proposalStatus.depositPeriod)
-			// 			this.depositPeriodDatas = this.depositPeriodDatas.sort((a, b) => {
-			// 				return b.proposal_id - a.proposal_id
-			// 			})
-			// 			this.votingPeriodDatas = res.data.filter(v => v.status === proposalStatus.votingPeriod)
-			// 			this.votingPeriodDatas = this.votingPeriodDatas.sort((a, b) => {
-			// 				return b.proposal_id - a.proposal_id
-			// 			})
-			// 		}
-			// 	} catch (e) {
-			// 		console.error(e)
-			// 	}
-			// },
+			async getProposalsByStatus() {
+				try {
+					let res = await getProposalsListApi(`${proposalStatus.votingPeriod},${proposalStatus.depositPeriod}`)
+					if (res && res.data && res.data.length > 0) {
+						this.depositPeriodDatas = res.data.filter(v => v.status === proposalStatus.depositPeriod)
+						this.depositPeriodDatas = this.depositPeriodDatas.sort((a, b) => {
+							return b.proposal_id - a.proposal_id
+						})
+						this.votingPeriodDatas = res.data.filter(v => v.status === proposalStatus.votingPeriod)
+						this.votingPeriodDatas = this.votingPeriodDatas.sort((a, b) => {
+							return b.proposal_id - a.proposal_id
+						})
+					}
+				} catch (e) {
+					console.error(e)
+				}
+			},
 		},
 		destroyed () {
 			clearInterval(this.blocksTimer);
@@ -423,6 +422,13 @@
 							}
 						}
 					}
+				}
+			}
+			.home_proposal_container {
+					text-align: left;
+					margin: -0.2rem 0 0.4rem;
+				.home_proposal_container_content {
+					margin-bottom: 0.2rem;
 				}
 			}
 		}

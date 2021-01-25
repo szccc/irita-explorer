@@ -1,5 +1,5 @@
 <template>
-    <div class="copy_container" @click="handleCopy(text,$event)">
+    <div class="copy_container icon" @click="handleCopy(text,$event)">
         <img src="../../assets/copy_icon.png" alt="copy" />
         <div class="tips" ref="tip" v-show="flShowTips" :class="flShowTips ? 'show_tips' :''">
             {{tipText}}
@@ -107,6 +107,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+// 处理Firefox鼠标左键复制交易哈希，粘贴时结果会带copy文字
+.icon {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently not supported by any browser */
+}
+
 .copy_container {
     position: relative;
     display: inline;
