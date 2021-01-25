@@ -201,7 +201,7 @@ export default {
                 finalVotes[k] = (Number(finalVotes[k]) / finalTotalVotes) * 100;
               }
             }
-            if (votingEndTime === "0001-01-01 08:05:43") {
+            if (votingEndTime === "0001-01-01 08:05:43" || proposal.voting_end_time === -62135596800.0) {
               votingEndTime = "--";
             }
             return {
