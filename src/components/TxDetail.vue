@@ -7,8 +7,10 @@
           <div class="tx_detail_title_first">
             {{ `${$t('ExplorerLang.transactionInformation.transactionInformation')} |` }}
           </div>
-          <div class="tx_detail_title_hash">{{ txHash }}</div>
-          <MClip :text="txHash"></MClip>
+          <div class="tx_detail_title_hash">
+            {{ txHash }}
+            <MClip style="margin-left:0.01rem" :text="txHash"></MClip>
+          </div>
         </div>
         <div class="tx_information_content">
           <p class="tx_information_list_title">{{ $t('ExplorerLang.transactionInformation.baseInfo') }}</p>
@@ -53,7 +55,7 @@
           </p>
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.memo') }}：</span>
-            <span>{{ memo }}</span>
+            <span style="word-break:break-all;">{{ memo }}</span>
           </p>
         </div>
         <!-- 交易消息 -->
@@ -424,6 +426,39 @@ a {
       }
     }
   }
+}
+@media screen and (max-width: 865px) {
+  .tx_detail_container {
+  .tx_detail_content_wrap {
+    .tx_detail_content {
+      .tx_detail_title {
+        display: block;
+        margin: 0.3rem 0 0.15rem 0.05rem;
+        .tx_detail_title_first {
+        }
+        .tx_detail_title_hash {
+
+        }
+      }
+      .tx_information_content {
+        .tx_information_list_title {
+        }
+        .tx_information_list_item {
+        }
+        .tx_information_list_item:last-child {
+        }
+      }
+      .tx_information_tx_message_content {
+        .tx_information_tx_content {
+          .tx_information_tx_message_title {
+          }
+          .tx_information_tx_message_line {
+          }
+        }
+      }
+    }
+  }
+}
 }
 
 @media screen and (max-width: 768px) {
