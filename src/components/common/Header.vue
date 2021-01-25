@@ -293,24 +293,28 @@ export default {
         this.handleConfigs(config.networkData);
     },
     handleConfigs (configs=[]) {
-
-		this.netWorkArray = configs.map(item => {
-			if(item.network_id === constant.CHAINID.IRISHUB){
+      let flag = false;
+      this.netWorkArray = configs.map(item => {
+          if(item.network_id === constant.CHAINID.IRISHUB){
                 item.icon = 'iconfont iconiris'
-            }else if(item.network_id === constant.CHAINID.FUXI){
-                item.icon = 'iconfont iconfuxi1'
-            }else if(item.network_id === constant.CHAINID.NYANCAT){
-                item.icon = 'iconfont iconcaihongmao'
-            }else if(item.network_id === constant.CHAINID.GOZTESTNET){
-                item.icon = 'iconfont iconGOZ'
-            } else if (item.network_id === constant.CHAINID.BIFROST) {
-                item.icon = 'iconfont iconBI-01'
-            }
-            if (item.is_main) {
-                this.mainnet = {...item};
-            }
-			      return item
-        });
+          }else if(item.network_id === constant.CHAINID.FUXI){
+              item.icon = 'iconfont iconfuxi1'
+          }else if(item.network_id === constant.CHAINID.NYANCAT){
+              item.icon = 'iconfont iconcaihongmao'
+          }else if(item.network_id === constant.CHAINID.GOZTESTNET){
+              item.icon = 'iconfont iconGOZ'
+          } else if (item.network_id === constant.CHAINID.BIFROST) {
+              item.icon = 'iconfont iconBI-01'
+          }
+          if (item.is_main) {
+              flag = true
+              this.mainnet = {...item};
+          }
+          return item
+      })
+      if(!flag) {
+        this.mainnet = {icon:'iconfont iconStargate'};
+      }
     },
     windowOpenUrl (url) {
 		window.open(url)

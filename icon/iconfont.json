@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "19617453",
+      "name": "Stargate",
+      "font_class": "Stargate",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
       "icon_id": "19203289",
       "name": "Initial Deposit",
       "font_class": "InitialDeposit",

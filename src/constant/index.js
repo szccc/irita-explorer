@@ -292,6 +292,7 @@ CHAINID.NYANCAT = 'Testnet NYANCAT-6'
 CHAINID.GOZTESTNET = 'Testnet GOZ'
 CHAINID.BIFROST = 'Testnet BIFROST'
 
+
 export const pageTitleConfig = {
   BlockchainBlocks: 'Block List',
   BlockchainBlocksBlockDetails: 'Block Details',
