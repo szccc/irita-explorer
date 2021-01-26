@@ -132,13 +132,14 @@
 
 <script>
 import MPagination from ".././common/MPagination";
-import { ColumnMinWidth } from "@/constant";
+import { ColumnMinWidth,product } from "@/constant";
 import { getProposalsListApi } from "@/service/api.js";
 import Tools from "../../util/Tools";
 import { converCoin, getMainToken } from "../../helper/IritaHelper";
 import MProposalsCard from "../common/MProposalsCard";
 import MProposalsEchart from "../common/MProposalsEchart";
 import { proposalStatus, voteOptions } from "../../constant";
+import productionConfig from '@/productionConfig.js';
 export default {
   name: "",
   components: {
@@ -288,7 +289,8 @@ export default {
                 value: votes,
                 perData: Tools.formatPerNumber((votes / all) * 100),
                 itemStyle: {
-                  color: "#3264fd",
+                  // color: "#3264fd",
+                  color: productionConfig.themeColor,
                   borderColor: "#ECEFFF",
                   borderWidth: 0,
                 },
