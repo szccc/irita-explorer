@@ -381,6 +381,7 @@ export const formatVoteOptions = {
   'no_with_veto': 'NoWithVeto'
 }
 
+// 需和配置文件的产品名一致
 export const product = {
   bifrost: 'Bifrost',
   stargate: 'STARGATE'
