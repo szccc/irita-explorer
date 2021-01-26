@@ -92,11 +92,11 @@
             <el-table-column prop="type" :min-width="ColumnMinWidth.proposalType" :label="$t('ExplorerLang.table.type')"></el-table-column>
             <el-table-column prop="status" :width="ColumnMinWidth.proposalStatusIcon" :label="$t('ExplorerLang.table.status')">
               <template v-slot:default="{ row }">
-                <img class="status_icon" v-if="row.status === proposalStatus.passed" src="../../assets/pass.png" />
-                <img class="status_icon" v-if="row.status === proposalStatus.rejected" src="../../assets/rejected.png" />
-                <img class="status_icon" v-if="row.status === proposalStatus.votingPeriod" src="../../assets/voting_period.png" />
-                <img class="status_icon" v-if="row.status === proposalStatus.depositPeriod" src="../../assets/deposit_period.png" />
-                <span>{{ row.status }}</span>
+                <i class="iconfont iconPass" v-if="row.status === proposalStatus.passed" style="color:#44C190;"></i>
+                <i class="iconfont iconVeto" v-if="row.status === proposalStatus.rejected" style="color:rgb(254, 138, 138);"></i>
+                <i class="iconfont iconDepositPeriod-liebiao" style="color: var(--bgColor)" v-if="row.status === proposalStatus.depositPeriod"></i>
+                <i class="iconfont iconDepositPeriod" style="color: var(--bgColor)" v-if="row.status === proposalStatus.votingPeriod"></i>
+                <span style="margin-left:0.06rem">{{ row.status }}</span>
               </template>
             </el-table-column>
             <el-table-column :width="ColumnMinWidth.strip">
@@ -132,13 +132,14 @@
 
 <script>
 import MPagination from ".././common/MPagination";
-import { ColumnMinWidth } from "@/constant";
+import { ColumnMinWidth,product } from "@/constant";
 import { getProposalsListApi } from "@/service/api.js";
 import Tools from "../../util/Tools";
 import { converCoin, getMainToken } from "../../helper/IritaHelper";
 import MProposalsCard from "../common/MProposalsCard";
 import MProposalsEchart from "../common/MProposalsEchart";
 import { proposalStatus, voteOptions } from "../../constant";
+import productionConfig from '@/productionConfig.js';
 export default {
   name: "",
   components: {
@@ -201,7 +202,7 @@ export default {
                 finalVotes[k] = (Number(finalVotes[k]) / finalTotalVotes) * 100;
               }
             }
-            if (votingEndTime === "0001-01-01 08:05:43") {
+            if (votingEndTime === "0001-01-01 08:05:43" || proposal.voting_end_time === -62135596800.0) {
               votingEndTime = "--";
             }
             return {
@@ -288,7 +289,8 @@ export default {
                 value: votes,
                 perData: Tools.formatPerNumber((votes / all) * 100),
                 itemStyle: {
-                  color: "#3264fd",
+                  // color: "#3264fd",
+                  color: productionConfig.themeColor,
                   borderColor: "#ECEFFF",
                   borderWidth: 0,
                 },

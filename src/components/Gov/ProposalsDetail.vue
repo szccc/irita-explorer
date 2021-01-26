@@ -15,8 +15,8 @@
           <div class="step_content">
             <i v-if="status === proposalStatus.passed" style="color:#44C190;" class="iconfont iconPass"></i>
             <i v-if="status === proposalStatus.rejected" style="color:rgb(254, 138, 138);" class="iconfont iconVeto"></i>
-            <i v-if="status === proposalStatus.votingPeriod" style="color:rgb(5, 128, 211);" class="iconfont iconDepositPeriod"></i>
-            <i v-if="status === proposalStatus.depositPeriod" style="color:rgb(5, 128, 211);" class="iconfont iconDepositPeriod-liebiao"></i>
+            <i v-if="status === proposalStatus.votingPeriod" style="color: var(--bgColor)" class="iconfont iconDepositPeriod"></i>
+            <i v-if="status === proposalStatus.depositPeriod" style="color: var(--bgColor)" class="iconfont iconDepositPeriod-liebiao"></i>
             <span>{{ status }}</span>
           </div>
           <div class="time_content">

@@ -364,6 +364,8 @@ export default {
                                 font-size: $s10;
                                 color: $t_second_c;
                                 margin-top: 0.1rem;
+                                -webkit-transform:scale(0.83);
+                                -webkit-transform-origin-X: left;
                             }
                         }
                     }

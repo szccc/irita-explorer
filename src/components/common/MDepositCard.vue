@@ -14,8 +14,8 @@
     <div class="deposit_title_container">
       <div class="header_title_content">
         <span>{{ proposalType }}</span>
-        <span v-show="flShowVotingPeriod"><i class="iconfont iconDepositPeriod"></i>VotingPeriod</span>
-        <span v-show="!flShowPass && !flShowReject && !flShowVotingPeriod"><i style="color:#0580d3" class="iconfont iconDepositPeriod-liebiao"></i>DepositPeriod</span>
+        <span v-show="flShowVotingPeriod"><i class="iconfont iconDepositPeriod" style="color: var(--bgColor)"></i>VotingPeriod</span>
+        <span v-show="!flShowPass && !flShowReject && !flShowVotingPeriod"><i style="color: var(--bgColor)" class="iconfont iconDepositPeriod-liebiao"></i>DepositPeriod</span>
         <span v-show="flShowPass"><i class="iconfont iconPass"></i>Passed</span>
         <span v-show="flShowReject"><i class="iconfont iconVeto"></i>Rejected</span>
       </div>

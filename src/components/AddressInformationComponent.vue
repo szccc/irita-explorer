@@ -58,11 +58,12 @@
 
 <script>
 	import MClip from "./common/MClip";
-	import Tools from "../util/Tools"
+	import Tools from "../util/Tools";
 	import AddressInformationPie from "./AddressInformationPie";
-	import moveDecimal from 'move-decimal-point'
-	import { validatorStatus,numFormat } from '@/constant'
+	import moveDecimal from 'move-decimal-point';
+	import { validatorStatus,numFormat,product } from '@/constant';
 	import { getMainToken } from '@/helper/IritaHelper';
+	import productionConfig from '@/productionConfig.js';
 	export default {
 		name: "AddressInformationComponent",
 		components: {AddressInformationPie, MClip},
@@ -146,7 +147,20 @@
 								res.value = item.unBonding || "--";
 								res.numberValue = item.unBonding ? item.unBonding.replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
-							}else {
+							}else if(res.status === 'Rewards') {
+								res.value = item[Tools.firstWordLowerCase(res.status)] && item[Tools.firstWordLowerCase(res.status)] !== 0 ? item[Tools.firstWordLowerCase(res.status)] : "--";
+								res.numberValue = item[Tools.firstWordLowerCase(res.status)] ?
+									item[Tools.firstWordLowerCase(res.status)].replace(/[^\d.]/g,"") : 0;
+								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
+								switch (productionConfig.product) {
+									case product.stargate:
+										res.color = '#5A9FFF'
+										break;
+									default:
+										break;
+								}
+							}
+							else {
 								res.value = item[Tools.firstWordLowerCase(res.status)] && item[Tools.firstWordLowerCase(res.status)] !== 0 ? item[Tools.firstWordLowerCase(res.status)] : "--";
 								res.numberValue = item[Tools.firstWordLowerCase(res.status)] ?
 									item[Tools.firstWordLowerCase(res.status)].replace(/[^\d.]/g,"") : 0;

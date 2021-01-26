@@ -3,7 +3,8 @@
 </template>
 
 <script>
-	import Constant from "../constant"
+	import Constant,{ product } from "../constant"
+	import productionConfig from '@/productionConfig.js';
 	import bigNumber from "bignumber.js"
 	import Tools from "@/util/Tools"
 	import { getMainToken } from '@/helper/IritaHelper';
@@ -24,6 +25,7 @@
 				testnetFuXiThemeStyle:["#0C4282","#FFA300","#67E523","#8E66FF"],
 				testnetNyancatThemeStyle:["#0D9388","#FFA300","#67E523","#8E66FF"],
 				defaultThemeStyle:["#0580D3","#FFA300","#67E523","#8E66FF"],
+				stargateThemeStyle:["#6958CA","#FFA300","#67E523","#5A9FFF"],
 			}
 		},
 		watch:{
@@ -83,7 +85,14 @@
 						}
 					]
 				};
-				this.themeStyleArray = this.mainnetThemeStyle;
+				switch (productionConfig.product) {
+					case product.stargate:
+						this.themeStyleArray = this.stargateThemeStyle;
+						break;
+					default:
+						this.themeStyleArray = this.mainnetThemeStyle;
+						break;
+				}
 				let seriesData = this.echartData.map( (item,index )=> {
 					return {
 						value: item.numberValue,

@@ -11,10 +11,6 @@ const i18n = new VueI18n({
   },
 })
 
-export const addrPrefix = {
-  accAddr: 'caa',
-}
-
 export const TX_TYPE = {
   // service
   define_service: 'define_service',
@@ -157,11 +153,13 @@ export const ColumnMinWidth = {
   blockHeight: '68',
   blockListHeight: '76',
   txType: '194',
-  address: '126',
+  // address: '126',
+  address: '136',
   time: '155',
   txn: '115',
   blockAge: '120',
-  validatirName: '120',
+  // validatirName: '120',
+  validatirName: '155',
   votingPower: '120',
   publickKey: '450',
   denom: '150',
@@ -172,7 +170,7 @@ export const ColumnMinWidth = {
   respondTimes: '129',
   available: '100',
   qos: '195',
-  requestId: '130',
+  requestId: '150',
   state: '127',
   serviceName: '135',
   No: '50',
@@ -292,6 +290,7 @@ CHAINID.NYANCAT = 'Testnet NYANCAT-6'
 CHAINID.GOZTESTNET = 'Testnet GOZ'
 CHAINID.BIFROST = 'Testnet BIFROST'
 
+
 export const pageTitleConfig = {
   BlockchainBlocks: 'Block List',
   BlockchainBlocksBlockDetails: 'Block Details',
@@ -380,4 +379,9 @@ export const formatVoteOptions = {
   'abstain': 'Abstain',
   'no': 'No',
   'no_with_veto': 'NoWithVeto'
+}
+
+export const product = {
+  bifrost: 'Bifrost',
+  stargate: 'STARGATE'
 }

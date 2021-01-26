@@ -101,12 +101,14 @@
 			padding:0 0.15rem;
 			display: flex;
 			justify-content: center;
+			height: 0.48rem;
 			.footer_content_bottom{
 				display: flex;
 				flex:1;
 				justify-content: space-between;
 				align-items:center;
-				font-size:$s12;
+				// font-size:$s12;
+				font-size:$s14;
 				max-width:12rem;
 				font-family: Arial;
 				p {
