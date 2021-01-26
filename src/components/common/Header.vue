@@ -370,9 +370,11 @@ export default {
         .header_logo_content_title {
             font-weight: bold;
             letter-spacing: 0.011rem;
+            font-size: $s14;
         }
         .header_logo_content_subTitle {
-          color:rgba(255,255,255,0.85)
+          color:rgba(255,255,255,0.85);
+          font-size: $s12;
         }
       }
 
