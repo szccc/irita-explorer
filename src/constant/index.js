@@ -11,10 +11,6 @@ const i18n = new VueI18n({
   },
 })
 
-export const addrPrefix = {
-  accAddr: 'caa',
-}
-
 export const TX_TYPE = {
   // service
   define_service: 'define_service',
@@ -157,11 +153,13 @@ export const ColumnMinWidth = {
   blockHeight: '68',
   blockListHeight: '76',
   txType: '194',
-  address: '126',
+  // address: '126',
+  address: '136',
   time: '155',
   txn: '115',
   blockAge: '120',
-  validatirName: '120',
+  // validatirName: '120',
+  validatirName: '155',
   votingPower: '120',
   publickKey: '450',
   denom: '150',
