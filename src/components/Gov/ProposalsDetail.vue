@@ -2,8 +2,7 @@
   <div class="proposals_detail_wrap">
     <div class="proposals_detail_content">
       <div class="proposals_detail_title_container">
-        <span>{{ $t('ExplorerLang.gov.proposalDetails') }}</span>
-        <span> | </span>
+        <span>{{ $t('ExplorerLang.gov.proposalDetails') }} | </span>
         <span>{{ title }}</span>
       </div>
 
@@ -859,6 +858,17 @@ a {
   }
 }
 @media screen and (max-width: 469px) {
+  .proposals_detail_wrap {
+    .proposals_detail_content {
+      .proposals_detail_title_container {
+        display: block;
+        margin-left: 0.18rem;
+        span {
+          display: block;
+        }
+      }
+    }
+  }
   .information_props {
     min-width: 1.5rem !important;
   }

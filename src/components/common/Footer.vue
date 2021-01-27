@@ -101,7 +101,7 @@
 			padding:0 0.15rem;
 			display: flex;
 			justify-content: center;
-			height: 0.48rem;
+			min-height: 0.48rem;
 			.footer_content_bottom{
 				display: flex;
 				flex:1;
@@ -168,7 +168,8 @@
 			.footer_content_bottom{
 				flex-direction:column;
 				p {
-					margin:0.03rem;
+					margin:0.03rem !important;
+					text-align: center;
 				}
 			}
 		}

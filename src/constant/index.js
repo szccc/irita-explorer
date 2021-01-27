@@ -154,7 +154,7 @@ export const ColumnMinWidth = {
   blockListHeight: '76',
   txType: '194',
   // address: '126',
-  address: '136',
+  address: '155',
   time: '155',
   txn: '115',
   blockAge: '120',
@@ -381,6 +381,7 @@ export const formatVoteOptions = {
   'no_with_veto': 'NoWithVeto'
 }
 
+// 需和配置文件的产品名一致
 export const product = {
   bifrost: 'Bifrost',
   stargate: 'STARGATE'

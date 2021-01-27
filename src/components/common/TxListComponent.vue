@@ -4,12 +4,16 @@
             <el-table-column align="center" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
-                        <img class="status_icon"
+                        <div class="status">
+                            <img class="status_icon"
                                      :src="require(`../../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
+                        </div>
                         <el-tooltip :content="scope.row.txHash"
                                     placement="top"
                                     :disabled="!isValid(scope.row.txHash)">
-                            <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+                            <div>
+                                <router-link :to="`/tx?txHash=${scope.row.txHash}`">{{formatTxHash(scope.row.txHash)}}</router-link>
+                            </div>
                         </el-tooltip>
                     </div>
                 </template>
@@ -199,10 +203,16 @@
         color: $t_link_c !important;
     }
     .tx_list_content{
-        .status_icon{
-            width:0.13rem;
-            height:0.13rem;
-            margin-right:0.05rem;
+        .tx_transaction_content_hash {
+            display: flex;
+            .status {
+                margin-left: 0.05rem;
+                .status_icon{
+                    width:0.13rem;
+                    height:0.13rem;
+                    margin-right:0.05rem;
+                }
+            }
         }
         .pagination_content {
             display: flex;
