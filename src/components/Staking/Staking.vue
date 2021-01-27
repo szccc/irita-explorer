@@ -191,10 +191,9 @@ a {
     padding: 0 0.15rem;
     text-align: left;
     .staking_title_container {
-      margin: 0.28rem 0 0.1rem 0;
+      margin: 0.28rem 0 0rem 0;
       text-align: left;
       display: flex;
-      line-height: 0.3rem;
       color: $t_first_c;
       font-size: $s18;
       font-weight: bold;
@@ -203,7 +202,7 @@ a {
       }
     }
     .staking_tab_content {
-      margin-bottom: 0.1rem;
+      margin: 0.16rem 0rem;
       .staking_m_tabs {
         margin-top: -0.2rem;
       }

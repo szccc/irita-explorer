@@ -1,7 +1,7 @@
 <template>
     <div class="tx_list_content" v-if="txDataList && txDataList.length > 0">
         <el-table class="table" :data="txDataList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-            <el-table-column align="center" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+            <el-table-column class-name="hash_status" align="left" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
                         <div class="status">
@@ -202,11 +202,15 @@
     a {
         color: $t_link_c !important;
     }
+    /deep/ .hash_status {
+        .cell {
+            margin-left: 0.05rem;
+        }
+    }
     .tx_list_content{
         .tx_transaction_content_hash {
             display: flex;
             .status {
-                margin-left: 0.05rem;
                 .status_icon{
                     width:0.13rem;
                     height:0.13rem;

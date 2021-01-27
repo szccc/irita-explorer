@@ -1237,6 +1237,10 @@
 				<span>{{$t('ExplorerLang.transactionInformation.staking.details')}}</span>
 				<span>{{details}}</span>
 			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.securityContact')}}</span>
+				<span>{{securityContact}}</span>
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
 			<p>
@@ -1874,7 +1878,7 @@
 </template>
 
 <script>
-	import {TX_TYPE,voteOptions} from '../../constant';
+	import {TX_TYPE,voteOptions,formatVoteOptions} from '../../constant';
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
@@ -2363,7 +2367,8 @@
 								this.commissionMaxChangeRate = `${Tools.formatPercentage(msg.commission.max_change_rate)} %`
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
-								this.minSelfDelegation = msg.min_self_delegation || '--'
+								this.minSelfDelegation = msg.min_self_delegation || '--';
+								this.securityContact = msg.description && msg.description.security_contact || '--';
 								break;
 							case TX_TYPE.withdraw_delegator_reward:
 								this.from = msg.validator_address;
@@ -2586,7 +2591,7 @@
 							case TX_TYPE.vote:
 								this.voter = msg.voter || '--';
 								this.proposalID = msg.proposal_id || '--';
-								this.option = voteOptions[msg.option] || '--'
+								this.option = msg.option ? formatVoteOptions[voteOptions[msg.option]] : '--';
 							break;
 							case TX_TYPE.submit_proposal:
 								this.proposer = msg.proposer || '--';

@@ -549,7 +549,7 @@
 			background-color: $bg_cancel_c;
 			// padding-top: 0.54rem;
 			.transaction_list_title_content {
-				height: 0.7rem;
+				height: 0.64rem;
 				display: flex;
 				align-items: center;
 				// max-width: 12.8rem;

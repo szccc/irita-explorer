@@ -401,12 +401,12 @@
                     align-items: center;
                 }
                 .total_tx_content {
-                    height: 0.61rem;
-                    line-height: 0.61rem;
+                    // height: 0.64rem;
+                    // line-height: 0.64rem;
                     color: $t_first_c;
                     font-size: $s18;
                     font-weight: bold;
-                    margin-right: 0.2rem;
+                    margin:0.16rem 0.2rem 0.16rem 0rem;
                    //text-indent: 0.2rem;
                 }
                 /*.filer_content {

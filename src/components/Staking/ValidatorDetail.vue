@@ -568,7 +568,7 @@
 						color: $t_first_c;
 						font-size:  $s18;
 						margin-top: 0.2rem;
-						padding-left: 0.2rem;
+						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
 					
@@ -607,7 +607,7 @@
 						color: $t_first_c;
 						font-size:  $s18;
 						margin-top: 0.2rem;
-						padding-left: 0.2rem;
+						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
 					
@@ -641,7 +641,7 @@
 						color: $t_first_c;
 						font-size:  $s18;
 						margin-top: 0.2rem;
-						padding-left: 0.2rem;
+						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
 					
@@ -762,7 +762,7 @@
 		.vaildtor_detail_container {
 			.vaildtor_detail_content {
 				.vaildtor_detail_title_container {
-					margin-left: 0.2rem;
+					margin-left: 0.1rem;
 				}
 				.delegations_wrap {
 					.delegations_container{
@@ -793,28 +793,28 @@
 				.delegations_wrap {
 					.delegations_container{
 						.validator_information_content_title {
-							padding-left: 0.05rem;
+							// padding-left: 0.05rem;
 						}
 					}
 				}
 				.delegations_txs_wrap {
 					.delegations_txs_container{
 						.validator_information_content_title {
-							padding-left: 0.05rem;
+							// padding-left: 0.05rem;
 						}
 					}
 				}
 				.validation_txs_wrap {
 					.validation_txs_container {
 						.validator_information_content_title {
-							padding-left: 0.05rem;
+							// padding-left: 0.05rem;
 						}
 					}
 				}
 				.gov_txs_wrap {
 					.gov_txs_container {
 						.validator_information_content_title {
-							padding-left: 0.05rem;
+							// padding-left: 0.05rem;
 						}
 					}
 				}

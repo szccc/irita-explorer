@@ -223,7 +223,7 @@
             padding:0 0.15rem;
             .denom_list_header_content{
                 width: 100%;
-                margin: 0.3rem 0 0.1rem 0;
+                margin: 0.3rem 0 0.16rem 0;
                 .denom_list_header_title{
                     font-size: $s18;
                     color: $t_first_c;

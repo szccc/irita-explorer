@@ -559,8 +559,7 @@ a {
         justify-content: flex-end;
         .icon_list {
           display: flex;
-          height: 0.7rem;
-          padding: 0.04rem 0;
+          padding: 0.16rem 0;
           div {
             font-size: $s14;
             color: $t_second_c;

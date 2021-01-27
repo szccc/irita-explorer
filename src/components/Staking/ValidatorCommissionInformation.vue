@@ -226,7 +226,7 @@ import { converCoin } from '../../helper/IritaHelper.js';
 				color: $t_first_c;
 				font-size: $s18;
 				line-height: 0.21rem;
-				padding-left: 0.2rem;
+				// padding-left: 0.2rem;
 			}
 		}
 		.validator_commission_information_wrap{
@@ -308,6 +308,11 @@ import { converCoin } from '../../helper/IritaHelper.js';
 	}
 	@media screen and (max-width: 1050px){
 		.validator_commission_information_container{
+			.validator_commission_information_title{
+				span{
+					padding-left: 0.2rem;
+				}
+			}
 			.validator_commission_information_wrap{
 				margin: 0 0.2rem;
 				
@@ -335,6 +340,11 @@ import { converCoin } from '../../helper/IritaHelper.js';
 	}
 	@media screen and (max-width: 750px){
 		.validator_commission_information_container{
+			.validator_commission_information_title{
+				span{
+					padding-left: 0.15rem!important;
+				}
+			}
 			.validator_commission_information_wrap{
 				margin: 0 0.1rem;
 				overflow-x: auto;

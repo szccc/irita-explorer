@@ -2,7 +2,7 @@
   <div class="delegation_txs_list">
     <div class="delegations_txs_table_container">
       <el-table :data="dataList" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-        <el-table-column prop="Tx_Hash" align="center" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.addressTxHash">
+        <el-table-column class-name="hash_status" prop="Tx_Hash" align="left" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.addressTxHash">
           <template v-slot:default="{ row }">
             <div class="delegations_txs_table_container_status">
               <div class="status">
@@ -123,6 +123,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    /deep/ .hash_status {
+        .cell {
+            margin-left: 0.1rem;
+        }
+    }
     .delegation_txs_list {
         .delegations_txs_table_container {
             a {
@@ -131,7 +136,7 @@ export default {
             .delegations_txs_table_container_status {
                 display: flex;
                 .status {
-                    margin-left: 0.1rem;
+                    // margin-left: 0.1rem;
                     .status_icon{
                         width:0.13rem;
                         height:0.13rem;
