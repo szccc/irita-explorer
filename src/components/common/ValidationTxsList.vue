@@ -2,7 +2,7 @@
   <div class="validation_txs_list">
     <div class="validation_txs_table_container">
       <el-table :data="dataList" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-        <el-table-column align="center" prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
+        <el-table-column class-name="hash_status"  align="left" prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
           <template v-slot:default="{ row }">
             <div class="validation_txs_table_container_status">
               <div class="status">
@@ -124,10 +124,14 @@ export default {
     a {
       color: $t_link_c !important;
     }
+    /deep/ .hash_status {
+        .cell {
+            margin-left: 0.1rem;
+        }
+    }
     .validation_txs_table_container_status {
         display: flex;
         .status {
-            margin-left: 0.1rem;
             .status_icon{
                 width:0.13rem;
                 height:0.13rem;

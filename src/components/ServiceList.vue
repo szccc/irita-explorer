@@ -304,7 +304,7 @@
 
 			.service_list_title{
                 text-align: left;
-                margin: 0.3rem 0 0.15rem 0;
+                margin: 0.3rem 0 0rem 0;
                 width: 100%;
                 box-sizing: border-box;
                 font-size: $s18;
@@ -313,7 +313,7 @@
 			}
             .nft_list_header_content{
                 width: 100%;
-                margin: 0.3rem 0 0.1rem 0;
+                margin: 0.16rem 0 0.16rem 0;
                 .el-select{
                     /deep/ .el-input{
                         .el-input__inner{

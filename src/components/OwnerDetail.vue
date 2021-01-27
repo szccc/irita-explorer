@@ -974,7 +974,6 @@
 					console.error(e);
 					this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
 				}
-				
 			},
 			consumerTxPageChange (pageNum) {
 				this.consumerTxPageNum = pageNum;
@@ -1419,7 +1418,7 @@
 				color: $t_first_c;
 				font-size: $s18;
 				line-height: 0.21rem;
-				margin: 0.3rem 0 0.15rem 0.25rem;
+				margin: 0.3rem 0 0.15rem 0rem;
 				text-align: left;
 				font-family: Arial;
 				font-weight: 600;
@@ -1444,7 +1443,7 @@
 				
 				.address_tab_content {
 					display: flex;
-					margin-left: 0.28rem;
+					// margin-left: 0.28rem;
 					
 					.address_tab_item {
 						cursor: pointer;
@@ -1522,9 +1521,7 @@
 				
 				.respond_transaction_content_hash {
 					display: flex;
-					// align-items: center;
 					.status {
-						margin-left: 0.05rem;
 						.status_icon{
 							width:0.13rem;
 							height:0.13rem;
@@ -1535,7 +1532,6 @@
 				.address_transaction_content_hash {
 					display: flex;
 					.status {
-						margin-left: 0.05rem;
 						.status_icon{
 							width:0.13rem;
 							height:0.13rem;
@@ -1722,7 +1718,7 @@
 						color: $t_first_c;
 						font-size: $s18;
 						margin-top: 0.3rem;
-						padding-left: 0.2rem;
+						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 						text-align: left;
 						
@@ -1764,7 +1760,7 @@
 				font-size: $s18;
 				color: $t_first_c;
 				line-height: 0.21rem;
-				margin: 0.27rem 0 0 0.2rem;
+				margin: 0.27rem 0 0 0rem;
 				
 				.address_information_redelegation_rewards_value {
 					font-size: $s14;
@@ -1783,7 +1779,7 @@
 					margin-right: 0.2rem;
 					
 					.address_information_detail_option {
-						padding: 0 0 0.1rem 0.2rem;
+						padding: 0 0 0.1rem 0rem;
 						
 						.address_information_detail_option_name {
 							font-size: $s14;
@@ -1822,7 +1818,7 @@
 						width: 100%;
 						font-size: $s18;
 						color: $t_first_c;
-						padding: 0 0 0.06rem 0.2rem;
+						padding: 0 0 0.06rem 0rem;
 						
 						.address_information_validator_rewards_value {
 							font-size: $s14;
@@ -1996,7 +1992,7 @@
 						display: block;
 						// margin-left: 0.2rem;
 						.validator_information_content_title {
-							padding-left: 0rem;
+							// padding-left: 0rem;
 						}
 						
 						.one_table_container {
@@ -2265,6 +2261,7 @@
 		.address_container_content {
 			.address_content_wrap {
 				.address_content_title {
+					display: block;
 					.address_content_title_first {
 					}
 					
@@ -2375,7 +2372,9 @@
 				.address_information_redelegation_tx_container {
 					.address_information_delegator_rewards_content {				
 						.address_information_detail_option {
+							display: block;
 							.address_information_detail_option_value {
+								display: block;
 							}
 						}
 						
@@ -2389,7 +2388,6 @@
 						
 						.address_information_detail_content {
 							.address_information_detail_option {
-								
 								.address_information_detail_option_name {
 									min-width: 1.2rem;
 									margin-right: 0.01rem;

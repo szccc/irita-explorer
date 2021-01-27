@@ -136,7 +136,7 @@ a {
     max-width: 12rem;
     margin: 0 auto;
     .asset_title_container {
-      margin: 0.28rem 0 0.1rem 0;
+      margin: 0.28rem 0 0.16rem 0;
       text-align: left;
       display: flex;
       line-height: 0.3rem;

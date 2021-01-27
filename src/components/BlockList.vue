@@ -203,7 +203,7 @@
 
 
 					.block_list_current_height_content{
-						padding:0.3rem 0 0.1rem 0.1rem;
+						padding:0.3rem 0 0.16rem 0;
 						text-align: left;
                         display:flex;
                         align-items: center;

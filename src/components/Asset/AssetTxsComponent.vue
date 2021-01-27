@@ -403,7 +403,7 @@ a {
     margin: 0 auto;
     text-align: left;
     .native_asset_title_container {
-      margin: 0.28rem 0 0.1rem 0;
+      margin: 0.28rem 0 0.16rem 0;
       text-align: left;
       display: flex;
       line-height: 0.3rem;
@@ -416,7 +416,7 @@ a {
     }
     .native_asset_list_table_container {
       .txs_title {
-        padding: 0.15rem 0px;
+        padding: 0 0 0.16rem 0;
         margin-left: 0.1rem;
       }
       .native_asset_list_table_content {
