@@ -4,10 +4,16 @@
       <el-table :data="dataList" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
         <el-table-column align="center" prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
           <template v-slot:default="{ row }">
-            <img class="status_icon" :src="require(`../../assets/${row.Tx_Status == 'Success' ? 'success.png' : 'failed.png'}`)" />
-            <el-tooltip :content="`${row.Tx_Hash}`">
-              <router-link :to="`/tx?txHash=${row.Tx_Hash}`" :style="{ color: '$theme_c !important' }">{{ formatTxHash(row.Tx_Hash) }} </router-link>
-            </el-tooltip>
+            <div class="validation_txs_table_container_status">
+              <div class="status">
+                <img class="status_icon" :src="require(`../../assets/${row.Tx_Status == 'Success' ? 'success.png' : 'failed.png'}`)" />
+              </div>
+              <el-tooltip :content="`${row.Tx_Hash}`">
+                <div>
+                  <router-link :to="`/tx?txHash=${row.Tx_Hash}`" :style="{ color: '$theme_c !important' }">{{ formatTxHash(row.Tx_Hash) }} </router-link>
+                </div>
+              </el-tooltip>
+            </div>
           </template>
         </el-table-column>
         <el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" :min-width="ColumnMinWidth.blockHeight">
@@ -118,10 +124,16 @@ export default {
     a {
       color: $t_link_c !important;
     }
-    .status_icon {
-      width: 0.13rem;
-      height: 0.13rem;
-      margin-right: 0.05rem;
+    .validation_txs_table_container_status {
+        display: flex;
+        .status {
+            margin-left: 0.1rem;
+            .status_icon{
+                width:0.13rem;
+                height:0.13rem;
+                margin-right:0.05rem;
+            }
+        }
     }
     /deep/ .cell {
       padding: 0;

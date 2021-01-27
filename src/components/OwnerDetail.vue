@@ -135,13 +135,17 @@
 					<el-table-column :min-width="ColumnMinWidth.addressTxHash" :label="$t('ExplorerLang.table.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
-								<img class="status_icon"
-								     :src="require(`../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
+								<div class="status">
+									<img class="status_icon"
+										:src="require(`../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
+								</div>
 								<el-tooltip :content="scope.row.txHash"
 								            placement="top">
-									<router-link :to="`/tx?txHash=${scope.row.txHash}`">
-										{{formatTxHash(scope.row.txHash)}}
-									</router-link>
+									<div>
+										<router-link :to="`/tx?txHash=${scope.row.txHash}`">
+											{{formatTxHash(scope.row.txHash)}}
+										</router-link>
+									</div>
 								</el-tooltip>
 							</div>
 						</template>
@@ -275,13 +279,17 @@
 					<el-table-column :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
 						<template slot-scope="scope">
 							<div class="respond_transaction_content_hash">
-								<img class="status_icon"
+								<div class="status">
+									<img class="status_icon"
 								     :src="require(`../assets/${scope.row.respondStatus==TX_STATUS.success?'success.png':'failed.png'}`)"/>
+								</div>
 								<el-tooltip :content="scope.row.respondHash"
 								            placement="top">
-									<router-link :to="`/tx?txHash=${scope.row.respondHash}`">
-										{{formatTxHash(scope.row.respondHash)}}
-									</router-link>
+									<div>
+										<router-link :to="`/tx?txHash=${scope.row.respondHash}`">
+											{{formatTxHash(scope.row.respondHash)}}
+										</router-link>
+									</div>	
 								</el-tooltip>
 							</div>
 						</template>
@@ -322,14 +330,18 @@
 					<el-table-column :min-width="ColumnMinWidth.requestHash" :label="$t('ExplorerLang.table.requestHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
-								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
+								<div class="status">
+									<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
 								     src="../assets/success.png"/>
+								</div>
 								<el-tooltip v-if="scope.row.requestHash && scope.row.requestHash != '--'"
 								            :content="scope.row.requestHash"
 								            placement="top">
-									<router-link :to="`/tx?txHash=${scope.row.requestHash}`">
-										{{formatTxHash(scope.row.requestHash)}}
-									</router-link>
+									<div>
+										<router-link :to="`/tx?txHash=${scope.row.requestHash}`">
+											{{formatTxHash(scope.row.requestHash)}}
+										</router-link>
+									</div>
 								</el-tooltip>
 								<span v-else>{{'--'}}</span>
 							</div>
@@ -1470,6 +1482,16 @@
 				padding: 0.25rem;
 				border-radius: 0.05rem;
 				border: 0.01rem solid $bd_first_c;
+				.address_transaction_content_hash {
+					display: flex;
+					.status {
+						.status_icon{
+							width:0.13rem;
+							height:0.13rem;
+							margin-right:0.05rem;
+						}
+					}
+				}
 				.serviceNameText {
 					color: $t_second_c;
 				}
@@ -1500,9 +1522,27 @@
 				
 				.respond_transaction_content_hash {
 					display: flex;
-					align-items: center;
+					// align-items: center;
+					.status {
+						margin-left: 0.05rem;
+						.status_icon{
+							width:0.13rem;
+							height:0.13rem;
+							margin-right:0.05rem;
+						}
+					}
 				}
-				
+				.address_transaction_content_hash {
+					display: flex;
+					.status {
+						margin-left: 0.05rem;
+						.status_icon{
+							width:0.13rem;
+							height:0.13rem;
+							margin-right:0.05rem;
+						}
+					}
+				}
 				.provider_transaction_content_available {
 					display: flex;
 					align-items: center;
