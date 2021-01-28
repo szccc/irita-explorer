@@ -497,6 +497,7 @@
 									'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 									'Tx_Status': TxStatus[item.status],
 									Timestamp: time,
+									proposalLink: item.ex && item.ex.proposal_link
 								})
 							}
 						}
