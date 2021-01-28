@@ -199,7 +199,7 @@
 		max-width: 12.8rem;
 		margin: 0 auto;
 		.address_information_component_content{
-			border: 0.01rem solid $bd_first_c;
+			// border: 0.01rem solid $bd_first_c;
 			.address_information_component_title{
 				color:$t_first_c;
 				font-size: $s18;

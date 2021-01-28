@@ -368,7 +368,7 @@ a {
         background: $bg_white_c;
         text-align: left;
         border-radius: 0.05rem;
-        border: 1px solid $bd_first_c;
+        // border: 1px solid $bd_first_c;
         .tx_information_list_title {
           font-size: $s16;
           font-family: Arial;
@@ -410,7 +410,7 @@ a {
           padding: 0.25rem;
           background: $bg_white_c;
           border-radius: 0.05rem;
-          border: 1px solid $bd_first_c;
+          // border: 1px solid $bd_first_c;
           .tx_information_tx_message_title {
             text-align: left;
             font-size: $s16;

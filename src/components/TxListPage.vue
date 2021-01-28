@@ -686,7 +686,7 @@
 			// max-width: 12.8rem;
 			max-width: 12rem;
 			// padding: 1.24rem 0 0.2rem 0;
-			padding: 0.04rem 0 0.2rem 0;
+			padding: 0rem 0 0.2rem 0;
 			margin: 0 auto;
 			
 			.transaction_list_table_content {

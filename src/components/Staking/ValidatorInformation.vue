@@ -348,7 +348,7 @@ a {
 	.validation_information_wrap{
 		max-width: 12.8rem;
 		margin: 0 auto;
-		border:0.01rem solid $bd_first_c;
+		// border:0.01rem solid $bd_first_c;
 		.validation_information_content{
 			width: 100%;
 			background: $bg_white_c;

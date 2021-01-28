@@ -278,7 +278,7 @@ export default {
             background: $bg_white_c;
             display: grid;
             grid-template-columns: 24% 76%;
-            border: .01rem solid $bd_second_c;
+            // border: .01rem solid $bd_second_c;
             .statistical_validator_content{
                 display: flex;
                 flex-direction: column;

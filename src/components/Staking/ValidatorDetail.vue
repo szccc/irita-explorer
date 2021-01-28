@@ -586,7 +586,7 @@
 					
 					.delegations_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 					}
 				}
@@ -613,7 +613,7 @@
 					
 					.delegations_txs_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 
 						.status_icon{
@@ -647,7 +647,7 @@
 					
 					.validation_txs_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 					}
 					

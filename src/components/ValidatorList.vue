@@ -186,7 +186,7 @@
             box-sizing: border-box;
 			.validator_table_list_content{
 				background: $bg_white_c;
-				margin-top: 0.1rem;
+				margin-top: 0.16rem;
 			}
 		}
 	}

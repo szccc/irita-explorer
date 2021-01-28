@@ -218,7 +218,7 @@
             margin: 0 auto;
             padding:0 0.15rem;
             .identity_list_header_title{
-                margin: 0.3rem 0 0.1rem 0.27rem;
+                margin: 0.3rem 0 0.16rem 0rem;
                 font-size: $s18;
                 color: $t_first_c;
                 line-height: 0.21rem;
@@ -268,8 +268,8 @@
             /deep/ .nef_list_table_container{
                 background: $bg_white_c;
                 border-radius: 0.05rem;
-                border: 0.01rem solid $bd_first_c;
-                margin: 0.2rem 0;
+                // border: 0.01rem solid $bd_first_c;
+                // margin: 0.2rem 0;
                 padding: 0.24rem 0.28rem 0.36rem 0.28rem;
                 a{
                     cursor:pointer;

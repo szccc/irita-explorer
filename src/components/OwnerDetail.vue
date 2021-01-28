@@ -1471,7 +1471,7 @@
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
-				border: 0.01rem solid $bd_first_c;
+				// border: 0.01rem solid $bd_first_c;
 				margin-bottom: 0.48rem;			
 			}
 			
@@ -1480,7 +1480,7 @@
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
-				border: 0.01rem solid $bd_first_c;
+				// border: 0.01rem solid $bd_first_c;
 				.address_transaction_content_hash {
 					display: flex;
 					.status {
@@ -1517,7 +1517,7 @@
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
-				border: 0.01rem solid $bd_first_c;
+				// border: 0.01rem solid $bd_first_c;
 				
 				.respond_transaction_content_hash {
 					display: flex;
@@ -1558,7 +1558,7 @@
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
-				border: 0.01rem solid $bd_first_c;
+				// border: 0.01rem solid $bd_first_c;
 				
 				.address_transaction_content_hash {
 					display: flex;
@@ -1743,7 +1743,7 @@
 					.delegations_table_container {
 						overflow-x: auto;
 						border-radius: 0.05rem;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						min-height: 2.34rem;
 						background: $bg_white_c;
 					}
@@ -1799,7 +1799,7 @@
 						overflow-x: auto;
 						box-sizing: border-box;
 						border-radius: 0.05rem;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						min-height: 2.34rem;
 						background: $bg_white_c;
 					}
@@ -1829,7 +1829,7 @@
 					}
 					
 					.address_information_detail_content {
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						border-radius: 0.05rem;
 						background: $bg_white_c;
 						box-sizing: border-box;
