@@ -233,7 +233,7 @@ import { converCoin } from '../../helper/IritaHelper.js';
 			max-width: 12.8rem;
 			margin: 0 auto;
 			background: $bg_white_c;
-			border: 0.01rem solid $bd_first_c;
+			// border: 0.01rem solid $bd_first_c;
 			.validator_commission_information_content{
 				display: grid;
 				grid-template-columns: repeat(1,50% 50%);

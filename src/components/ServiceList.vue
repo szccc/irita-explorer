@@ -452,7 +452,7 @@
                 padding:0.28rem 0.28rem 0.18rem 0.28rem;
                 background: $bg_white_c;
                 border-radius:5px;
-                border:1px solid $bd_first_c;
+                // border:1px solid $bd_first_c;
                 overflow-x: auto;
                 .service_information_available_container{
                     display:flex;

@@ -395,18 +395,18 @@
                 height:0.13rem;
             }
             .tx_content_header_wrap {
-                padding-top:0.15rem;
+                padding:0.13rem 0;
                 .tx_transaction_content_hash{
                     display: flex;
                     align-items: center;
                 }
                 .total_tx_content {
                     // height: 0.64rem;
-                    // line-height: 0.64rem;
+                    line-height: 0.4rem;
                     color: $t_first_c;
                     font-size: $s18;
                     font-weight: bold;
-                    margin:0.16rem 0.2rem 0.16rem 0rem;
+                    margin:0rem 0.2rem 0rem 0rem;
                    //text-indent: 0.2rem;
                 }
                 /*.filer_content {
