@@ -29,14 +29,14 @@
         </el-table-column>
         <el-table-column prop="proposalId" :label="$t('ExplorerLang.table.proposalID')" :min-width="ColumnMinWidth.proposalID">
           <template v-slot:default="{ row }">
-            <router-link v-if="row.proposalId" :to="`/ProposalsDetail/${row.proposalId}`">{{ row.proposalId }}</router-link>
-            <span v-else>--</span>
+            <router-link v-if="row.proposalId && row.proposalLink" :to="`/ProposalsDetail/${row.proposalId}`">{{ row.proposalId }}</router-link>
+            <span v-else>{{ row.proposalId || '--'}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="proposalTitle" :label="$t('ExplorerLang.table.proposalTitle')" :min-width="ColumnMinWidth.proposalTitle">
           <template v-slot:default="{ row }">
-            <router-link v-if="row.proposalTitle" :to="`/ProposalsDetail/${row.proposalId}`">{{ row.proposalTitle }}</router-link>
-            <span v-else>--</span>
+            <router-link v-if="row.proposalTitle && row.proposalLink" :to="`/ProposalsDetail/${row.proposalId}`">{{ row.proposalTitle }}</router-link>
+            <span v-else>{{row.proposalTitle || '--'}}</span>
           </template>
         </el-table-column>
         <el-table-column class-name="amount" prop="amount" align="right" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')"></el-table-column>
