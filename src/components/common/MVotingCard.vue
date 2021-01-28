@@ -193,7 +193,7 @@
         background: $bg_white_c;
         box-sizing: border-box;
         padding: 0.2rem;
-        border: 0.01rem solid $bd_second_c;
+        // border: 0.01rem solid $bd_second_c;
         margin: 0 0 0.2rem 0;
         .title_container{
             display: flex;

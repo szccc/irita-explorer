@@ -191,7 +191,7 @@
             </li>
           </ul>
           <div class="voting_options">
-            <span>
+            <span class="first">
               <i class="yes_option_style"></i>{{ $t('ExplorerLang.gov.proposalDetail.yes') }}: <span>{{ voteDetailsYes }}</span> </span
             >|
             <span>
@@ -633,7 +633,7 @@ a {
       display: flex;
       margin: 0 0 0.1rem 0;
       .proposals_detail_type {
-        margin: 0 0.2rem 0 0.2rem;
+        margin: 0 0.2rem 0 0rem;
         i {
           padding-right: 0.1rem;
         }
@@ -655,7 +655,7 @@ a {
     }
     .proposals_detail_information_wrap {
       padding: 0.2rem 0.2rem 0.08rem;
-      border: 1px solid $bd_second_c;
+      // border: 1px solid $bd_second_c;
       background: $bg_white_c;
       .information_props_wrap {
         display: flex;
@@ -676,7 +676,7 @@ a {
     margin-top: 0.2rem;
     .proposals_detail_information_wrap {
       flex: 1;
-      border: 0.01rem solid $bd_second_c;
+      // border: 0.01rem solid $bd_second_c;
       background: $bg_white_c;
     }
     .proposals_detail_information_wrap:first-child {
@@ -711,7 +711,7 @@ a {
     }
     .proposals_table_title_div {
       font-size: $s18;
-      margin: 0.3rem 0.2rem 0.1rem;
+      margin: 0.3rem 0.2rem 0.1rem 0rem;
       color: $t_first_c;
     }
     .filter_content {
@@ -815,19 +815,22 @@ a {
         .proposal_table_title{
           display: block;
           .proposals_table_title_div {
-            margin: 0.3rem 0.1rem 0.1rem;
+            margin: 0.3rem 0.1rem 0.1rem 0rem;
           }
           .filter_content {
-            margin-left: 0.1rem;
+            // margin-left: 0.1rem;
           }
           .voting_options {
             span {
               padding: 0 0.08rem;
             }
+            .first {
+              padding: 0 0.08rem 0 0;
+            }
           }
         }
         .proposals_table_title_div {
-          margin: 0.3rem 0.1rem 0.1rem;
+          margin: 0.3rem 0.1rem 0.1rem 0rem;
         }
       }
   }
