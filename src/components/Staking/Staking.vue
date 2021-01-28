@@ -43,7 +43,7 @@
           <el-table-column key="unbondingHeight" align="center" v-if="titleStatus !== 'Active'" prop="unbondingHeight" :width="ColumnMinWidth.unbondingHeight" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
         </el-table>
         <div class="pagination_content">
-          <m-pagination :page-size="1" :total="1" :page="1"></m-pagination>
+          <m-pagination :page-size="pageSize" :total="count" :page="pageNum" :page-change="pageChange"></m-pagination>
         </div>
       </div>
     </div>
@@ -69,6 +69,8 @@ export default {
       percentum:4,
       ColumnMinWidth,
       count: 0,
+      pageSize: 100,
+      pageNum: 1,
       titleStatus: this.$t('ExplorerLang.staking.status.active'),
       stakingStatusTitleList: [
         {
@@ -129,12 +131,20 @@ export default {
     },
     selectStakingStatus(i, v) {
       this.titleStatus = v.title
+      this.pageNum = 1
+      this.tableData = []
       this.getValidatorsList(v.name)
     },
+    pageChange(pageNum){
+				if (this.pageNum == pageNum) {return;}
+				this.pageNum = pageNum;
+				this.getValidatorsList(this.titleStatus)
+		},
     async getValidatorsList(type) {
       let mainToken = await getMainToken();
       try{
-          let res = await getValidatorsListApi(1,100,true,type)
+          let res = await getValidatorsListApi(this.pageNum,this.pageSize,true,type)
+          this.titleStatus = type
           this.count = res && res.count ? res.count : 0
           let result = res && res.data ? res.data : null
           if (result) {
