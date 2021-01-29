@@ -201,7 +201,7 @@ a {
     padding: 0 0.15rem;
     text-align: left;
     .staking_title_container {
-      margin: 0.28rem 0 0rem 0;
+      margin: 0.30rem 0 0rem 0;
       text-align: left;
       display: flex;
       color: $t_first_c;

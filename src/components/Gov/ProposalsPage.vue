@@ -466,7 +466,7 @@ a {
     padding: 0 0.15rem;
     text-align: left;
     .proposals_title_container {
-      margin: 0.28rem 0 0 0;
+      margin: 0.3rem 0 0 0;
       text-align: left;
       display: flex;
       line-height: 0.3rem;

@@ -181,7 +181,7 @@
 
         }
 		.validator_list_content_wrap{
-			padding:0.05rem 0.15rem 0 0.15rem;
+			padding:0rem 0.15rem 0 0.15rem;
 			margin: 0 auto;
             box-sizing: border-box;
 			.validator_table_list_content{
