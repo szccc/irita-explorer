@@ -395,7 +395,7 @@
                 height:0.13rem;
             }
             .tx_content_header_wrap {
-                padding:0.13rem 0;
+                padding: 0.3rem 0 0.13rem 0;
                 .tx_transaction_content_hash{
                     display: flex;
                     align-items: center;
