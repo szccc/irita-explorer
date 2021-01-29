@@ -263,7 +263,7 @@ export default {
   background: $t_white_c;
   box-sizing: border-box;
   padding: 0.2rem;
-  border: 0.01rem solid $bd_second_c;
+  // border: 0.01rem solid $bd_second_c;
   margin-bottom: 0.3rem;
   .title_container {
     margin-bottom: 0.2rem;

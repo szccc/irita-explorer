@@ -672,13 +672,13 @@
 						color: $t_first_c;
 						font-size:  $s18;
 						margin-top: 0.2rem;
-						padding-left: 0.2rem;
+						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
 					
 					.gov_txs_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 					}
 					

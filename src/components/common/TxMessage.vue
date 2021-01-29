@@ -2808,7 +2808,7 @@
 	}
 	
 	.tx_message_content {
-		padding: 0.48rem 0;
+		padding: 0.36rem 0;
 		background: $bg_white_c;
 		font-size: $s14;
 		.record_container {

@@ -37,7 +37,7 @@
                         <router-link v-if="item.to && item.value !== '--'" :to="item.to">{{item.value}}</router-link>
                         <span v-else>{{item.value}}</span>
                     </p>
-                    <p class="statistical_footer_content">
+                    <p class="statistical_footer_content" :class="isChrome ? 'chrome' : ''">
                         {{item.footerLabel}}
                     </p>
                 </li>
@@ -142,7 +142,8 @@ export default {
         validatorHeaderImgSrc:'',
         validatorHeaderImgHref:'',
         moniker:'',
-        proposerAddress:''
+        proposerAddress:'',
+        isChrome: window.navigator.userAgent.indexOf("Chrome") > -1,
     }
   },
   computed: {
@@ -364,6 +365,8 @@ export default {
                                 font-size: $s10;
                                 color: $t_second_c;
                                 margin-top: 0.1rem;
+                            }
+                            .chrome {
                                 -webkit-transform:scale(0.83);
                                 -webkit-transform-origin-X: left;
                             }

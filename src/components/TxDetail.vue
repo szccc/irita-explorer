@@ -344,7 +344,7 @@ a {
         color: $t_first_c;
         font-size: $s18;
         line-height: 0.21rem;
-        margin: 0.3rem 0 0.15rem 0.25rem;
+        margin: 0.3rem 0 0.15rem 0rem;
         text-align: left;
         font-family: Arial;
         font-weight: 600;
@@ -375,7 +375,7 @@ a {
           font-weight: 600;
           color: $t_first_c;
           line-height: 22px;
-          margin-bottom: 0.48rem;
+          margin-bottom: 0.36rem;
         }
         .tx_information_list_item {
           display: flex;
