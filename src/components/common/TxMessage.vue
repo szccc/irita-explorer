@@ -1874,6 +1874,26 @@
 				<span>{{amount}}</span>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.multisend">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.multisend.inputs')}}: </span>
+				<span>
+					<p v-for="(input,index) in inputs" :key="index">
+						<span @click="addressRoute(input.address)" class="address_link">{{input.address}}</span>
+						<span>{{input.amount}}</span>
+					</p>
+				</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.multisend.outputs')}}: </span>
+				<span>
+					<p v-for="(output,index) in outputs" :key="index">
+						<span @click="addressRoute(output.address)" class="address_link">{{output.address}}</span>
+						<span>{{output.amount}}</span>
+					</p>
+				</span>
+			</p>
+		</div>
 	</div>
 </template>
 
@@ -2088,6 +2108,8 @@
 				receiver: '',
 				timeoutHeight: '',
 				timeoutTimestamp: '',
+				inputs:[],
+				outputs:[]
 			}
 		},
 		computed: {
@@ -2756,6 +2778,26 @@
 								this.timeoutHeight = msg.timeout_height ? JSON.stringify(msg.timeout_height) : '--';
 								let timeoutTimestamp = msg.timeout_timestamp  && Math.floor(new Date(msg.timeout_timestamp).getTime() / 1000);
 								timeoutTimestamp ? this.timeoutTimestamp = Tools.getDisplayDate(timeoutTimestamp) : this.timeoutTimestamp ='--';
+							break;
+							case TX_TYPE.multisend:
+								this.inputs = [];
+								this.outputs = [];
+								if(msg && msg.inputs.length >0) {
+									for (const input of msg.inputs) {
+										let n = input.coins && input.coins[0] && await converCoin(input.coins[0])
+										this.inputs.push({
+											address: input.address,
+											amount: n ? `${n.amount} ${n.denom.toUpperCase()}` : '--'
+										})
+									}
+									for (const output of msg.outputs) {
+										let n = output.coins && output.coins[0] && await converCoin(output.coins[0])
+										this.outputs.push({
+											address: output.address,
+											amount: n ? `${n.amount} ${n.denom.toUpperCase()}` : '--'
+										})
+									}
+								}
 							break;
 						}
 					}

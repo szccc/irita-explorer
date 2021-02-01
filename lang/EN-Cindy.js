@@ -429,6 +429,10 @@ export const ExplorerLang = {
             receiver: 'Receiver',
             timeoutHeight: 'TimeoutHeight',
             timeoutTimestamp: 'TimeoutTimestamp'
+        },
+        multisend: {
+            inputs: 'Inputs',
+            outputs: 'Outputs'
         }
     },
     addressDetail: {

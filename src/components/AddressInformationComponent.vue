@@ -5,7 +5,7 @@
 				<div class="address_information_asset_content">
 					<!-- 左侧 -->
 					<div class="address_information_asset_total_content">
-						<img src="../assets/iris_token_logo.svg" alt="">
+						<img :src="logoImg" alt="">
 						<!-- 信息展示 -->
 						<ul class="address_information_content">
 							<li class="address_information_item">
@@ -188,7 +188,16 @@
 				let mainToken = await getMainToken();
 				this.mainToken = mainToken && mainToken.symbol.toUpperCase()
 			}
-		}
+		},
+		computed: {
+			logoImg() {
+				let img = ''
+				try {
+					img = require('../assets/token_logo.svg')
+				} catch (e) {}
+				return img
+			},
+		},
 	}
 </script>
 

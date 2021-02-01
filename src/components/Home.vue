@@ -425,12 +425,33 @@
 				}
 			}
 			.home_proposal_container {
-					text-align: left;
-					margin: -0.2rem 0 0.4rem;
-				.home_proposal_container_content {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                box-sizing: border-box;
+				   text-align: left;
+				   margin: -0.2rem 0 0.4rem;
+                .home_proposal_container_content{
 					margin-bottom: 0.2rem;
-				}
-			}
+                    .home_proposal_item_bar {
+                        min-width: 5.9rem;
+                        flex: 1;
+                        width: auto;
+                        margin-right: 0.4rem;
+						.deposit_card_content {
+							min-height: 2.1rem !important;
+						}
+                    }
+
+                    .home_proposal_item_bar:nth-child(even) {
+                        margin-right: 0;
+                    }
+
+                    .home_proposal_item_bar:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
 		}
 	}
 	.fadeIn_animation{
@@ -542,6 +563,65 @@
 							}
 						}
 					}
+				}
+				.home_proposal_container{
+					display: flex;
+					flex-direction: column;
+					.home_proposal_item_bar{
+						margin-right: 0;
+					}
+					.home_proposal_item_bar:nth-child(even){
+						margin-right: 0;
+					}
+					.home_proposal_item_bar:last-child{
+						margin-right: 0;
+					}
+				}
+			}
+		}
+	}
+	@media screen and (min-width: 1000px) and (max-width: 1248px){
+		.home_container{
+			.home_content_wrap {
+				.home_proposal_container{
+					display: flex;
+					flex-direction: column;
+					.home_proposal_item_bar{
+						margin-right: 0;
+					}
+					.home_proposal_item_bar:nth-child(even){
+						margin-right: 0;
+					}
+					.home_proposal_item_bar:last-child{
+						margin-right: 0;
+					}
+				}
+			}
+		}
+
+	}
+	@media screen and (max-width: 910px){
+		.home_container{
+			.home_content_wrap{
+				.home_proposal_container{
+					display: flex;
+					flex-direction: column;
+					margin-bottom: 0.2rem;
+					.home_proposal_container_content{
+						width: 100%;
+						overflow-x: auto;
+						overflow-y: hidden;
+						.home_proposal_item_bar{
+							margin-right: 0;
+							margin-bottom: 0.2rem;
+							min-width: 3.45rem;
+							.deposit_card_content{
+								margin-bottom: 0;
+							}
+						}
+
+					}
+
 				}
 			}
 		}
