@@ -1,7 +1,7 @@
 <template>
   <div class="gov_txs_list">
     <div class="gov_txs_table_container">
-      <el-table :data="dataList" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+      <el-table :data="dataList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
         <el-table-column class-name="hash_status" align="left" prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
           <template v-slot:default="{ row }">
             <div class="gov_txs_table_container_status">

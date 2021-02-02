@@ -189,7 +189,7 @@
 					<div class="gov_txs_container">
 						<p class="gov_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.govTxsTitle') }}</p>
-						<GovTxsList class="gov_txs_table_container" :dataList="govTxs.items" />
+						<GovTxsList class="gov_txs_table_containers" :dataList="govTxs.items" />
 						<m-pagination v-if="govTxs.total > pageSize" :page-size="pageSize"
 						              :total="govTxs.total"
 						              :page-change="pageChange('getGovTxs')"></m-pagination>
@@ -676,10 +676,11 @@
 						margin-bottom: 0.2rem !important;
 					}
 					
-					.gov_txs_table_container {
-						overflow-x: auto;
+					.gov_txs_table_containers {
+						// width: 100%;
+						// overflow-x: auto;
 						// border: 0.01rem solid $bd_first_c;
-						background: $bg_white_c;
+						// background: $bg_white_c;
 					}
 					
 					.common_pagination_content {
