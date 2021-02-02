@@ -253,6 +253,11 @@ export class TxHelper {
                 label: LEVEL_TX_TYPE.IBC,
                 children:[]
             },
+            crossChainObj = {
+                value: LEVEL_TX_TYPE.crossChain,
+                label: LEVEL_TX_TYPE.crossChain,
+                children:[]
+            },
             oracleObj = {
                 value: LEVEL_TX_TYPE.Oracle,
                 label: LEVEL_TX_TYPE.Oracle,
@@ -502,10 +507,17 @@ export class TxHelper {
                     });
                     break;
                 case TX_TYPE.recv_packet:
-                    ibcObj.children.push({
-                        value: TX_TYPE.recv_packet,
-                        label: TX_TYPE.recv_packet
-                    });
+                    if (prodConfig && prodConfig.txDetail && prodConfig.txDetail.ibc) {
+                        crossChainObj.children.push({
+                            value: TX_TYPE.recv_packet,
+                            label: TX_TYPE.recv_packet
+                        });
+                    } else {
+                        ibcObj.children.push({
+                            value: TX_TYPE.recv_packet,
+                            label: TX_TYPE.recv_packet
+                        });
+                    }
                     break;
                 case TX_TYPE.transfer:
                     if (prodConfig && prodConfig.txDetail && prodConfig.txDetail.ibc) {
@@ -536,7 +548,7 @@ export class TxHelper {
                 // prodConfig.txDetail.ibc
                 case TX_TYPE.create_client:
                     if (prodConfig && prodConfig.txDetail && prodConfig.txDetail.ibc) {
-                        ibcObj.children.push({
+                        crossChainObj.children.push({
                             value: TX_TYPE.create_client,
                             label: TX_TYPE.create_client
                         });
@@ -550,7 +562,7 @@ export class TxHelper {
                 // prodConfig.txDetail.ibc
                 case TX_TYPE.update_client:
                     if (prodConfig && prodConfig.txDetail && prodConfig.txDetail.ibc) {
-                        ibcObj.children.push({
+                        crossChainObj.children.push({
                             value: TX_TYPE.update_client,
                             label: TX_TYPE.update_client
                         });
@@ -780,7 +792,7 @@ export class TxHelper {
                 
 			}
         });
-		allTxType.push(tansferObj,stakingObj,iServiceObj,nftObj,coinswapObj,identityObj,ibcObj,oracleObj,randomObj,recordObj,assetObj,govObj,othersObj);
+		allTxType.push(tansferObj,stakingObj,iServiceObj,nftObj,coinswapObj,identityObj,ibcObj,crossChainObj,oracleObj,randomObj,recordObj,assetObj,govObj,othersObj);
         allTxType = allTxType.filter(item => item.children.length)
         return allTxType
     }

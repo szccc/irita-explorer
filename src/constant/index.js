@@ -81,36 +81,33 @@ export const TX_TYPE = {
   start_feed: 'start_feed',
   pause_feed: 'pause_feed',
   edit_feed: 'edit_feed',
-  // IBC 联盟链
-  recv_packet: 'recv_packet', //原有
-  create_client: 'create_client', // 原有
-  update_client: 'update_client', // 原有
+  // CrossChain 联盟链
+  recv_packet: 'recv_packet',     //和公有链ibc交易类型名称一致
+  create_client: 'create_client', //和公有链ibc交易类型名称一致
+  update_client: 'update_client', //和公有链ibc交易类型名称一致
+  // Identity
   create_identity: 'create_identity', 
   update_identity: 'update_identity', 
-
-  
-  // IBC transfer
+  // IBC 
   transfer: 'transfer',
+  timeout_packet: 'timeout_packet',
   // recv_packet: 'recv_packet',
-
-  // IBC client
+  
+  // IBC => Other
   // create_client: 'create_client',
   // update_client: 'update_client',
   upgrade_client: 'upgrade_client',
   submit_misbehaviour: 'submit_misbehaviour',
-  // IBC connection
   connection_open_init: 'connection_open_init',
   connection_open_try: 'connection_open_try',
   connection_open_ack: 'connection_open_ack',
   connection_open_confirm: 'connection_open_confirm',
-  // IBC channel
   channel_open_init: 'channel_open_init',
   channel_open_try: 'channel_open_try',
   channel_open_ack: 'channel_open_ack',
   channel_open_confirm: 'channel_open_confirm',
   channel_close_init: 'channel_close_init',
   channel_close_confirm: 'channel_close_confirm',
-  timeout_packet: 'timeout_packet',
   timeout_on_close_packet: 'timeout_on_close_packet',
   acknowledge_packet: 'acknowledge_packet',
   
@@ -132,6 +129,7 @@ export const LEVEL_TX_TYPE = {
   Asset: 'Asset',
   Gov: 'Gov',
   Other: 'Other',
+  crossChain: 'CrossChain'
 }
 
 export const TX_STATUS = {
