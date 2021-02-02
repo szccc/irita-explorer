@@ -170,6 +170,7 @@
 						<DelegationTxsList class="delegations_txs_table_container" :dataList="delegationTxs.items" />
 						<m-pagination v-if="delegationTxs.total > pageSize" :page-size="pageSize"
 						              :total="delegationTxs.total"
+									  :page="delegationTxs.currentPage"
 						              :page-change="pageChange('getDelegationTxs')"></m-pagination>
 					</div>
 				</div>
@@ -181,6 +182,7 @@
 						<ValidationTxsList class="validation_txs_table_container" :dataList="validationTxs.items" />
 						<m-pagination v-if="validationTxs.total > pageSize" :page-size="pageSize"
 						              :total="validationTxs.total"
+									  :page="validationTxs.currentPage"
 						              :page-change="pageChange('getValidationTxs')"></m-pagination>
 					</div>
 				</div>
@@ -191,6 +193,7 @@
 							$t('ExplorerLang.validatorDetail.govTxsTitle') }}</p>
 						<GovTxsList class="gov_txs_table_containers" :dataList="govTxs.items" />
 						<m-pagination v-if="govTxs.total > pageSize" :page-size="pageSize"
+									  :page="govTxs.currentPage"
 						              :total="govTxs.total"
 						              :page-change="pageChange('getGovTxs')"></m-pagination>
 					</div>
@@ -343,6 +346,7 @@
 			async getDelegationTxs (page = 1) {
 				const res = await getDelegationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.delegationTxs.total = res.count
+				this.delegationTxs.currentPage = res.pageNum
 				this.delegationTxs.items = []
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
@@ -383,6 +387,7 @@
 			async getValidationTxs (page = 1) {
 				const res = await getValidationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.validationTxs.total = res.count
+				this.validationTxs.currentPage = res.pageNum
 				this.validationTxs.items = []
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0
@@ -467,6 +472,7 @@
 						this.govTxs.items = [];
 						if(res.data && res.data.length > 0) {
 							this.govTxs.total = res.count
+							this.govTxs.currentPage = res.pageNum
 							for (const item of res.data) {
 								let msgsNumber = item.msgs ? item.msgs.length : 0
 								const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
