@@ -12,7 +12,7 @@
 				<div class="delegations_wrap">
 					<div class="delegations_container">
 						<!-- Delegations -->
-						<div class="one_table_container">
+						<div class="one_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.delegationsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -48,7 +48,7 @@
 							              :page-change="pageChange('getDelegations')"></m-pagination>
 						</div>
 						<!-- Unbonding Delegations -->
-						<div class="second_table_container">
+						<div class="second_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -90,7 +90,7 @@
 				</div>
 
 				<div class="delegations_wrap">
-					<div class="delegations_container">
+					<div class="delegations_container clearfloat">
 						<!-- Deposited Proposals -->
 						<div class="one_table_container" v-if="depositedProposals.items && depositedProposals.items.length > 0">
 							<p class="validator_information_content_title">{{
@@ -163,34 +163,37 @@
 				</div>
 
 				<!-- Delegation Txs -->
-				<div class="delegations_txs_wrap" v-if="delegationTxs.items && delegationTxs.items.length > 0">
+				<div class="delegations_txs_wrap clearfloat" v-if="delegationTxs.items && delegationTxs.items.length > 0">
 					<div class="delegations_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.delegationsTxsTitle') }}</p>
 						<DelegationTxsList class="delegations_txs_table_container" :dataList="delegationTxs.items" />
 						<m-pagination v-if="delegationTxs.total > pageSize" :page-size="pageSize"
 						              :total="delegationTxs.total"
+									  :page="delegationTxs.currentPage"
 						              :page-change="pageChange('getDelegationTxs')"></m-pagination>
 					</div>
 				</div>
 				<!-- Validation Txs -->
-				<div class="validation_txs_wrap" v-if="validationTxs.items && validationTxs.items.length > 0">
+				<div class="validation_txs_wrap clearfloat" v-if="validationTxs.items && validationTxs.items.length > 0">
 					<div class="validation_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.validationTxsTitle') }}</p>
 						<ValidationTxsList class="validation_txs_table_container" :dataList="validationTxs.items" />
 						<m-pagination v-if="validationTxs.total > pageSize" :page-size="pageSize"
 						              :total="validationTxs.total"
+									  :page="validationTxs.currentPage"
 						              :page-change="pageChange('getValidationTxs')"></m-pagination>
 					</div>
 				</div>
 				<!-- Gov Txs -->
-				<div class="gov_txs_wrap" v-if="govTxs.items && govTxs.items.length > 0">
+				<div class="gov_txs_wrap clearfloat" v-if="govTxs.items && govTxs.items.length > 0">
 					<div class="gov_txs_container">
 						<p class="gov_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.govTxsTitle') }}</p>
 						<GovTxsList class="gov_txs_table_containers" :dataList="govTxs.items" />
 						<m-pagination v-if="govTxs.total > pageSize" :page-size="pageSize"
+									  :page="govTxs.currentPage"
 						              :total="govTxs.total"
 						              :page-change="pageChange('getGovTxs')"></m-pagination>
 					</div>
@@ -343,6 +346,7 @@
 			async getDelegationTxs (page = 1) {
 				const res = await getDelegationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.delegationTxs.total = res.count
+				this.delegationTxs.currentPage = res.pageNum
 				this.delegationTxs.items = []
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
@@ -383,6 +387,7 @@
 			async getValidationTxs (page = 1) {
 				const res = await getValidationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.validationTxs.total = res.count
+				this.validationTxs.currentPage = res.pageNum
 				this.validationTxs.items = []
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0
@@ -467,6 +472,7 @@
 						this.govTxs.items = [];
 						if(res.data && res.data.length > 0) {
 							this.govTxs.total = res.count
+							this.govTxs.currentPage = res.pageNum
 							for (const item of res.data) {
 								let msgsNumber = item.msgs ? item.msgs.length : 0
 								const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
@@ -655,7 +661,7 @@
 					.common_pagination_content {
 						margin-top: 0.2rem;
 						float: right;
-						margin-bottom: 0.5rem;
+						// margin-bottom: 0.5rem;
 					}
 				}
 			}
