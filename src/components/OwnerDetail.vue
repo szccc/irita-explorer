@@ -1181,7 +1181,8 @@
 						if(balanceAmount && balanceAmount.denom) {
 							assetList.push({
 								token: balanceAmount.denom.toUpperCase(),
-								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
+								// balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
+								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()}` : 0,
 								delegated: 0,
 								unBonding: 0,
 								rewards: 0,
