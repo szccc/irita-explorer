@@ -1,5 +1,5 @@
 <template>
-    <div class="tx_list_content" v-if="txDataList && txDataList.length > 0">
+    <div class="tx_list_content">
         <el-table class="table" :data="txDataList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
             <el-table-column class-name="hash_status" align="left" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                 <template slot-scope="scope">
@@ -154,8 +154,8 @@
                 return Tools.formatValidatorAddress(address)
             },
             async formatTxData() {
+                this.txDataList = []
                 if(this.txData && this.txData.length) {
-                    this.txDataList = []
                     let fees = []
                     for (const tx of this.txData) {
                         let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
