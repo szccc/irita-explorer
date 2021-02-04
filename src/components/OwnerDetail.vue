@@ -635,7 +635,7 @@
 				denomArray: [],
 				address: '',
 				pageNum: 1,
-				pageSize: 10,
+				pageSize: 5,
 				txList: [],
 				totalTxNumber: 0,
 				providerTxList: [],
