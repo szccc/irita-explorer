@@ -13,8 +13,8 @@ export class TxHelper {
         const {type, msg} = msgs;
         switch (type){
             case TX_TYPE.send:
-                res.from = msg.fromaddress;
-                res.to = msg.toaddress;
+                res.from = msg.from_address;
+                res.to = msg.to_address;
                 break;
             case TX_TYPE.define_service:
                 res.from = msg.author;

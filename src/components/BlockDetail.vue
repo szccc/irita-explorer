@@ -70,13 +70,13 @@
 			<div class="block_validator_set_container" v-if="moduleSupport('107', prodConfig.navFuncList)">
 				<div class="block_validator_set_title">{{$t('ExplorerLang.blockDetail.validatorSet')}}</div>
 				<div class="block_validator_set_content">
-					<el-table class="table"  :data="validatorSetList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table class="table"  :data="validatorSetList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 						<el-table-column type="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
 						<el-table-column prop="moniker"  :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
 							<template v-slot:default="{ row }">
 								<div class="moniker_conent">
-									<div class="proposer_img_content">
-										<img :style="{visibility:row.flProposer ? 'visible' : 'hidden'}" src="../assets/proposer_img.png"/>
+									<div class="proposer_img_content" v-if="row.flProposer">
+										<img src="../assets/proposer_img.png"/>
 									</div>
 									<span class="skip_route">
 										<el-tooltip popper-class="tooltip" :disabled="!row.isTooltip" :content="row.monikerValue" placement="bottom">
@@ -444,7 +444,7 @@
 			}
 			
 			.block_validator_set_container {
-				margin-top: 0.1rem;
+				margin: 0.1rem 0rem 0.2rem 0rem;
 				padding-bottom: 0.01rem;
 				
 				.block_validator_set_title {
