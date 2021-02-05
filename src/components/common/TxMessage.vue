@@ -2179,8 +2179,10 @@
 								this.options = msg.options || '--';
 								break;
 							case TX_TYPE.send:
-								this.from = msg.fromaddress || '--';
-								this.to = msg.toaddress || '--';
+								// this.from = msg.fromaddress || '--';
+								// this.to = msg.toaddress || '--';
+								this.from = msg.from_address || '--';
+								this.to = msg.to_address || '--';
 								if (msg.amount && msg.amount.length) {
 									let amount = await converCoin(msg.amount[0]);
 									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
