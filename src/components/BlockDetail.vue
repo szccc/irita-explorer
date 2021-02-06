@@ -106,11 +106,10 @@
 						<el-table-column  align="right" prop="ProposerPriority" :min-width="ColumnMinWidth.proposerPriority" :label="$t('ExplorerLang.table.proposerPriority')"></el-table-column>
 						<el-table-column  align="right" prop="VotingPower" :min-width="ColumnMinWidth.votingPower" :label="$t('ExplorerLang.table.votingPower')"></el-table-column>
 					</el-table>
-
 				</div>
-				<div class="pagination" style='margin-top:0.2rem;margin-bottom: 0.2rem;'
-				     v-if="flShowValidatorListSetPagination">
-					<m-pagination :total="validatorSetListCount"
+				<div class="pagination" style='margin-top:0.2rem;margin-bottom: 0.2rem;'>
+					<m-pagination v-show="validatorSetListCount > pageSize"
+								  :total="validatorSetListCount"
 					              :pageSize="pageSize"
 					              :page="validatorSetPageNum"
 					              :page-change="pageChangeValidatorSet">
@@ -165,7 +164,6 @@
 				inflationValue: null,
 				timestampValue: '',
 				validatorSetList: [],
-				flShowValidatorListSetPagination: false,
 				validatorSetListCount: 0,
 				pageSize: 10,
 				validatorSetPageNum: 1,
@@ -301,7 +299,8 @@
 			async getValidatorSetList () {
 				try {
 					let data = await getValidatorSetList(this.validatorSetPageNum, this.pageSize, this.$route.params.height)
-					if (data.data.length > 0) {
+					if (data && data.data && data.data.length > 0) {
+						this.validatorSetListCount = data.count;
 						this.validatorSetList = data.data.map(item => {
 							return {
 								'monikerValue': item.moniker,
