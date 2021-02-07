@@ -163,37 +163,34 @@
 				</div>
 
 				<!-- Delegation Txs -->
-				<div class="delegations_txs_wrap clearfloat" v-if="delegationTxs.items && delegationTxs.items.length > 0">
+				<div class="delegations_txs_wrap clearfloat" v-show="delegationTxs.items && delegationTxs.items.length > 0">
 					<div class="delegations_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.delegationsTxsTitle') }}</p>
 						<DelegationTxsList class="delegations_txs_table_container" :dataList="delegationTxs.items" />
 						<m-pagination v-if="delegationTxs.total > pageSize" :page-size="pageSize"
 						              :total="delegationTxs.total"
-									  :page="delegationTxs.currentPage"
 						              :page-change="pageChange('getDelegationTxs')"></m-pagination>
 					</div>
 				</div>
 				<!-- Validation Txs -->
-				<div class="validation_txs_wrap clearfloat" v-if="validationTxs.items && validationTxs.items.length > 0">
+				<div class="validation_txs_wrap clearfloat" v-show="validationTxs.items && validationTxs.items.length > 0">
 					<div class="validation_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.validationTxsTitle') }}</p>
 						<ValidationTxsList class="validation_txs_table_container" :dataList="validationTxs.items" />
 						<m-pagination v-if="validationTxs.total > pageSize" :page-size="pageSize"
 						              :total="validationTxs.total"
-									  :page="validationTxs.currentPage"
 						              :page-change="pageChange('getValidationTxs')"></m-pagination>
 					</div>
 				</div>
 				<!-- Gov Txs -->
-				<div class="gov_txs_wrap clearfloat" v-if="govTxs.items && govTxs.items.length > 0">
+				<div class="gov_txs_wrap clearfloat" v-show="govTxs.items && govTxs.items.length > 0">
 					<div class="gov_txs_container">
 						<p class="gov_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.govTxsTitle') }}</p>
 						<GovTxsList class="gov_txs_table_containers" :dataList="govTxs.items" />
 						<m-pagination v-if="govTxs.total > pageSize" :page-size="pageSize"
-									  :page="govTxs.currentPage"
 						              :total="govTxs.total"
 						              :page-change="pageChange('getGovTxs')"></m-pagination>
 					</div>
