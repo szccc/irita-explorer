@@ -430,6 +430,16 @@ export const ExplorerLang = {
         multisend: {
             inputs: 'Inputs',
             outputs: 'Outputs'
+        },
+        htlc: {
+            sender: 'Sender',
+            to: 'To',
+            receiverOnOtherChain: 'ReceiverOnOtherChain',
+            amount: 'Amount',
+            hashLock: 'HashLock',
+            timestamp: 'Timestamp',
+            timeLock: 'TimeLock',
+            secret: 'Secret',
         }
     },
     addressDetail: {

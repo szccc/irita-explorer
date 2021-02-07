@@ -365,6 +365,7 @@ export default {
                                 font-size: $s10;
                                 color: $t_second_c;
                                 margin-top: 0.1rem;
+                                white-space: nowrap;
                             }
                             .chrome {
                                 -webkit-transform:scale(0.83);
