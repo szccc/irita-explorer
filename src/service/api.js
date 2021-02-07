@@ -402,3 +402,8 @@ export function getVotedProposalsApi (valAddress,pageNum,pageSize,useCount) {
     let url = `/staking/validators/${valAddress}/votes?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
     return get(url);
 }
+
+export function getIbcTransferByHash(hash){
+    let url = `ibc/applications/transfer/v1beta1/denom_traces/${hash}`;
+    return getFromLcd(url);
+}

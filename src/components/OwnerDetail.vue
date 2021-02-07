@@ -591,10 +591,10 @@
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
-	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth,monikerNum} from '../constant';
+	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth,monikerNum,ibcDenomPrefix} from '../constant';
 	import AddressInformationComponent from "./AddressInformationComponent";
 	import LargeString from './common/LargeString';
-	import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
+	import { addressRoute,formatMoniker } from '@/helper/IritaHelper';
 	import {
 		getNfts,
 		getAddressTxList,
@@ -610,6 +610,7 @@
 		getUnBondingDelegationListApi,
 		getRewardsItemsApi,
 		getValidatorRewardsApi,
+		getIbcTransferByHash
 	} from "@/service/api";
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
@@ -1179,10 +1180,17 @@
 						});
 					} else {
 						if(balanceAmount && balanceAmount.denom) {
+							let denom = balanceAmount.denom;
+							if(denom.startsWith(ibcDenomPrefix)){
+								let hash = denom.replace(ibcDenomPrefix,'')
+								let res = await getIbcTransferByHash(hash)
+								if(res && res.denom_trace && res.denom_trace.base_denom) {
+									denom = res.denom_trace.base_denom.toUpperCase()
+								}
+							}
 							assetList.push({
 								token: balanceAmount.denom.toUpperCase(),
-								// balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
-								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()}` : 0,
+								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${denom.toUpperCase()}` : 0,
 								delegated: 0,
 								unBonding: 0,
 								rewards: 0,

@@ -384,3 +384,5 @@ export const product = {
   bifrost: 'Bifrost',
   stargate: 'STARGATE'
 }
+
+export const ibcDenomPrefix = 'ibc/'

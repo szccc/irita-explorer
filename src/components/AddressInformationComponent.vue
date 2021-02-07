@@ -219,27 +219,31 @@
 				}
 			}
 			.address_information_asset_content{
-				max-width: 12.8rem;
+				max-width: 12rem;
 				box-sizing: border-box;
 				background: $bg_white_c;
-				padding: 0.3rem 0.2rem 0.2rem 0.2rem;
+				padding: 0.3rem 0rem;
 				display: grid;
 				grid-template-columns: repeat(3,50% 30% 20%);
 				.address_information_asset_total_content{
 					display: grid;
-					grid-template-columns: repeat(1,0.5rem auto);
-					margin-right: 0.15rem;
+					grid-template-columns: repeat(1,1rem auto);
+					border-right: 0.01rem dashed $bd_second_c;
 					img{
-						width: 0.4rem;
+						width: 0.55rem;
+						height: 0.55rem;
+						justify-self: center;
+  						align-self: center;
 					}
 					.address_information_content{
 						text-align: left;
 						.address_information_item{
 							display: grid;
 							grid-template-columns: repeat(1,1.1rem auto);
-							margin-top: 0.14rem;
+							// margin-top: 0.14rem;
+							margin-top: 0.25rem;
 							.address_information_label{
-								width: 1.1rem;
+								// width: 1.1rem;
 								color: $t_second_c;
 								font-size: $s14;
 								line-height: 0.16rem;
@@ -248,7 +252,7 @@
 								display: flex;
 								color: $t_first_c;
 								font-size: $s14;
-								line-height: 0.2rem;
+								line-height: 0.16rem;
 								padding-right: 0.01rem;
 									.profiler_content{
 										padding: 0 0.12rem;
@@ -290,10 +294,11 @@
 					}
 				}
 				.address_information_asset_constitute_content{
-					display: grid;
-					grid-template-columns: repeat(1,auto);
-					grid-template-rows: repeat(4,auto);
+					// display: grid;
+					// grid-template-columns: repeat(1,auto);
+					// grid-template-rows: repeat(4,auto);
 					text-align: left;
+					margin-left: 0.78rem;
 					&:nth-of-type(1) {
 						span:nth-of-type(1){
 							background: $theme_c
@@ -302,7 +307,7 @@
 					.address_information_asset_constitute_item{
 						display: flex;
 						align-items: center;
-						margin-bottom: 0.1rem;
+						margin-top: 0.12rem;
 						span:nth-of-type(1){
 							display: inline-block;
 							width: 0.1rem;
@@ -318,6 +323,9 @@
 							font-size: $s14;
 							line-height: 0.16rem;
 						}
+					}
+					.address_information_asset_constitute_item:first-child{
+						margin-top: 0;
 					}
 				}
 				.address_information_asset_pir_content{
@@ -392,6 +400,10 @@
 						padding: 0.1rem;
 						grid-template-columns: repeat(1,auto);
 						.address_information_asset_total_content{
+							border: none;
+							img {
+								justify-self: start;
+							}
 							width: 100%;
 							grid-template-columns: repeat(1,auto);
 							.address_information_content{
@@ -406,7 +418,7 @@
 							}
 						}
 						.address_information_asset_constitute_content{
-							margin-top: 0.3rem;
+							margin: 0.3rem 0 0 0;
 							border-top: 0.01rem solid $bd_first_c;
 							width: 100%;
 							.address_information_asset_constitute_item:first-child{
