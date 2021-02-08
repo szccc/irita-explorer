@@ -1185,7 +1185,7 @@
 								let hash = denom.replace(ibcDenomPrefix,'')
 								let res = await getIbcTransferByHash(hash)
 								if(res && res.denom_trace && res.denom_trace.base_denom) {
-									denom = res.denom_trace.base_denom.toUpperCase()
+									denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase()
 								}
 							}
 							assetList.push({
