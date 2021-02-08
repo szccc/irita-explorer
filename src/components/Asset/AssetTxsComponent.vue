@@ -137,6 +137,48 @@
         </div>
       </div>
     </div>
+    <div class="native_asset_list_table_container" v-if="burnToken.length !== 0">
+      <div class="txs_title">{{ $t('ExplorerLang.asset.burnTokenTxs') }}</div>
+      <div class="native_asset_list_table_content">
+        <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="burnToken">
+          <el-table-column :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
+            <template v-slot:default="{ row }">
+              <router-link :to="'/assets/' + row.token"> {{ row.token }}</router-link>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.sender')" prop="sender" :min-width="ColumnMinWidth.address">
+            <template v-slot:default="{ row }">
+              <span class="remove_default_style">
+                <el-tooltip popper-class="tooltip" :content="row.sender" placement="top">
+                  <span class="address_link"  @click="addressRoute(row.sender)">
+                    {{ Tools.formatValidatorAddress(row.sender) }}
+                  </span>
+                </el-tooltip>
+              </span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.block')" prop="block" :min-width="ColumnMinWidth.block">
+            <template v-slot:default="{ row }">
+              <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+            <template v-slot:default="{ row }">
+              <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
+              <el-tooltip :content="`${row.txHash}`">
+                <router-link :to="`/tx?txHash=${row.txHash}`">{{ Tools.formatTxHash(row.txHash) }} </router-link>
+              </el-tooltip>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :min-width="ColumnMinWidth.time"></el-table-column>
+        </el-table>
+        <div class="pagination_content">
+          <m-pagination :total="burnTokenTotalPageNum" :page-size="pageSize" :page="burnTokenCurrentPageNum" :page-change="burnTokenPageChange"></m-pagination>
+        </div>
+      </div>
+    </div>
     <div class="native_asset_list_table_container" v-if="transferToken.length !== 0">
       <div class="txs_title">{{ $t('ExplorerLang.asset.transferOwnerTxs') }}</div>
       <div class="native_asset_list_table_content" >
@@ -192,9 +234,8 @@
 import MPagination from '.././common/MPagination'
 import Tools from '../../util/Tools'
 import { getNativeAssetsTxsApi } from '@/service/api'
-import productionConfig from '@/productionConfig.js'
 import { ColumnMinWidth, TX_TYPE, decimals } from '@/constant'
-import { converCoin, getMainToken,addressRoute } from '../../helper/IritaHelper'
+import { converCoin,addressRoute } from '../../helper/IritaHelper'
 export default {
   name: 'AssetTxsComponent',
   components: { MPagination },
@@ -212,6 +253,7 @@ export default {
       issueToken: [],
       editToken: [],
       mintToken: [],
+      burnToken: [],
       transferToken: [],
       issueTokenTotalPageNum: 0,
       editTokenTotalPageNum: 0,
@@ -220,6 +262,7 @@ export default {
       issueTokenCurrentPageNum: 1,
       editTokenCurrentPageNum: 1,
       mintTokenCurrentPageNum: 1,
+      burnTokenCurrentPageNum: 1,
       transferTokenCurrentPageNum: 1,
       pageSize: 10,
     }
@@ -231,6 +274,7 @@ export default {
     this.getIssueToken()
     this.getEditToken()
     this.getMintToken()
+    this.getBurnToken()
     this.getTransferToken()
   },
   methods: {
@@ -297,7 +341,6 @@ export default {
         let res = await this.getNativeAssets(this.issueTokenCurrentPageNum, this.pageSize, true, TX_TYPE.mint_token,this.symbol)
         this.mintTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
-        let mainToken = await getMainToken()
         if (result) {
           this.mintToken = await Promise.all(
             result.map(async item => {
@@ -323,12 +366,40 @@ export default {
         console.error(err)
       }
     },
+    async getBurnToken() {
+      try {
+        let res = await this.getNativeAssets(this.burnTokenCurrentPageNum, this.pageSize, true, TX_TYPE.burn_token,this.symbol)
+        this.burnTokenTotalPageNum = res && res.count ? res.count : 0
+        let result = res && res.data ? res.data : null
+        if (result) {
+          this.burnToken = await Promise.all(
+            result.map(async item => {
+              let burnTokenData = item.msgs && item.msgs[0].msg
+              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              return {
+                token: burnTokenData && burnTokenData.symbol,
+                sender: burnTokenData && burnTokenData.sender,
+                amount: (burnTokenData && Tools.toDecimal(burnTokenData.amount, decimals.fee)) || '--',
+                block: item.height,
+                txHash: item.tx_hash,
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                time: Tools.getDisplayDate(item.time),
+                status: item.status,
+              }
+            })
+          )
+        } else {
+          this.burnToken = []
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    },
     async getTransferToken() {
       try {
         let res = await this.getNativeAssets(this.issueTokenCurrentPageNum, this.pageSize, true, TX_TYPE.transfer_token_owner,this.symbol)
         this.transferTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
-        let mainToken = await getMainToken()
         if (result) {
           this.transferToken = await Promise.all(
             result.map(async item => {
@@ -382,6 +453,13 @@ export default {
       }
       this.mintTokenCurrentPageNum = pageNum
       this.getMintToken()
+    },
+    burnTokenPageChange(pageNum) {
+      if (this.burnTokenCurrentPageNum == pageNum) {
+        return
+      }
+      this.burnTokenCurrentPageNum = pageNum
+      this.getBurnToken()
     },
     transferTokenPageChange(pageNum) {
       if (this.transferTokenCurrentPageNum == pageNum) {

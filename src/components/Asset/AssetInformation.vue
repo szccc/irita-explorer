@@ -152,8 +152,7 @@ a {
         box-sizing: border-box;
         padding: 0.2rem;
         display: flex;
-        // border: 0.01rem solid #e7e9eb;
-        margin-top: 0.1rem;
+        margin: 0.1rem 0 0.2rem 0;
         background: #fff;
         .kflower_left_content {
           flex: 1;

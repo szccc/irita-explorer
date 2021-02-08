@@ -597,7 +597,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofCommitment')}}：</span>
-				<span>{{proofCommitment}}</span>
+				<LargeString v-if="proofCommitment" :text="proofCommitment"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
@@ -627,7 +627,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.sender')}}：</span>
-				<span>{{sender}}</span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.receiver')}}：</span>
@@ -695,7 +698,7 @@
 		<div v-if="txType === TX_TYPE.create_client && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
-				<span>{{clientState}}</span>
+				<LargeString v-if="clientState" :text="clientState"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusState')}}：</span>
@@ -983,9 +986,13 @@
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion')}}：</span>
 				<span>{{counterpartyVersion}}</span>
 			</p>
-			<p>
+			<!-- <p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofTry')}}：</span>
 				<span>{{proofTry}}</span>
+			</p> -->
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofTry')}}：</span>
+				<LargeString v-if="proofTry" :text="proofTry"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
@@ -1781,6 +1788,26 @@
 				</template>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.burn_token">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.symbol')}}: </span>
+				<template>
+					<span v-if="symbol === '--'">{{symbol}}</span>
+					<router-link v-else :to="'/assets/' + symbol">{{symbol}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.sender')}}: </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.amount')}}: </span>
+				<span>{{ amount }}</span>
+			</p>
+		</div>
 		<div v-if="txType === TX_TYPE.deposit">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.gov.depositor')}}: </span>
@@ -1892,6 +1919,72 @@
 						<span>{{output.amount}}</span>
 					</p>
 				</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.create_htlc">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.to')}} : </span>
+				<template>
+					<span v-if="to === '--'">{{to}}</span>
+					<span v-else @click="addressRoute(to)" class="address_link">{{to}}</span>
+				</template>
+			</p>
+			<p v-if="receiverOnOtherChain">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.receiverOnOtherChain')}} : </span>
+				<span>{{receiverOnOtherChain}}</span>
+			</p>
+			<p v-if="amount">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
+				<span>{{amount}}</span>
+			</p>
+			<p v-if="hashLock">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
+				<span>{{hashLock}}</span>
+			</p>
+			<p v-if="timestamp">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.timestamp')}} : </span>
+				<span>{{timestamp}}</span>
+			</p>
+			<p v-if="timeLock">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.timeLock')}} : </span>
+				<span>{{timeLock}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.claim_htlc">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p v-if="hashLock">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
+				<span>{{hashLock}}</span>
+			</p>
+			<p v-if="secret">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.secret')}} : </span>
+				<span>{{secret}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.refund_htlc">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p v-if="hashLock">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
+				<span>{{hashLock}}</span>
 			</p>
 		</div>
 	</div>
@@ -2109,7 +2202,12 @@
 				timeoutHeight: '',
 				timeoutTimestamp: '',
 				inputs:[],
-				outputs:[]
+				outputs:[],
+				receiverOnOtherChain:'',
+				hashLock:'',
+				timestamp:'',
+				timeLock:'',
+				secret:''
 			}
 		},
 		computed: {
@@ -2602,6 +2700,11 @@
 								this.originalOwner = msg.src_owner || '--';
 								this.newOwner = msg.dst_owner || '--';
 							break;
+							case TX_TYPE.burn_token:
+								this.symbol = msg.symbol || '--';
+								this.sender = msg.sender || '--';
+								this.amount = msg.amount || '--';
+							break;
 							case TX_TYPE.deposit:
 								if(msg.amount && msg.amount.length > 0) {
 									let deposit = await converCoin(msg.amount[0]);
@@ -2800,6 +2903,31 @@
 										})
 									}
 								}
+							break;
+							case TX_TYPE.create_htlc:
+								this.sender = msg.sender || '--';
+								this.to = msg.to || '--';
+								this.receiverOnOtherChain = msg.receiverOnOtherChain || '--';
+								if(msg.amount && msg.amount[0]) {
+									let amount = await converCoin(msg.amount[0]);
+									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
+								} else {
+									this.amount = '--';
+								}
+								this.hashLock = msg.hashLock || '--';
+								let timestamp = msg.timestamp  && Math.floor(new Date(msg.timestamp).getTime() / 1000);
+								timestamp ? this.timestamp = Tools.getDisplayDate(timestamp) : this.timestamp ='--';
+								let timeLock = msg.timeLock  && Math.floor(new Date(msg.timeLock).getTime() / 1000);
+								timeLock ? this.timeLock = Tools.getDisplayDate(timeLock) : this.timeLock ='--';
+							break;
+							case TX_TYPE.claim_htlc:
+								this.sender = msg.sender || '--';
+								this.hashLock = msg.hashLock || '--';
+								this.secret = msg.secret || '--';
+							break;
+							case TX_TYPE.refund_htlc:
+								this.sender = msg.sender || '--';
+								this.hashLock = msg.hashLock || '--';
 							break;
 						}
 					}

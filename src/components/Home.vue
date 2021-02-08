@@ -93,6 +93,8 @@
 	import MVotingCard from "./common/MVotingCard";
 	import { getProposalsListApi } from '@/service/api.js';
 	import {proposalStatus} from '../constant';
+	import {moduleSupport} from "../helper/ModulesHelper";
+	import prodConfig from "../productionConfig";
     export default {
 		name: "Home",
 		components: {StatisticalBar,MDepositCard,MVotingCard},
@@ -111,12 +113,12 @@
 		mounted () {
 			this.getLastBlocks();
 			this.getTransaction();
-			this.getProposalsByStatus();
+			this.gov();
 			clearInterval(this.syncTimer )
 			this.syncTimer = setInterval(() => {
 				this.getLastBlocks();
 				this.getTransaction();
-				this.getProposalsByStatus();
+				this.gov();
 			},5000);
 			window.addEventListener("resize",this.monitorScreenWidth,false)
 		},
@@ -270,6 +272,11 @@
 					console.error(e)
 				}
 			},
+			gov() {
+				if(moduleSupport('112', prodConfig.navFuncList)) {
+					this.getProposalsByStatus();
+				}
+			}
 		},
 		destroyed () {
 			clearInterval(this.blocksTimer);

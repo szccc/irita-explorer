@@ -39,6 +39,7 @@ export const TX_TYPE = {
   edit_token: 'edit_token',
   mint_token: 'mint_token',
   transfer_token_owner: 'transfer_token_owner',
+  burn_token: 'burn_token',
   //Bank
   send: 'send',
   multisend: 'multisend',
