@@ -627,6 +627,12 @@ export class TxHelper {
                         label: TX_TYPE.mint_token
                     });
                 break;
+                case TX_TYPE.burn_token:
+                    assetObj.children.push({
+                        value: TX_TYPE.burn_token,
+                        label: TX_TYPE.burn_token
+                    });
+                break;
                 case TX_TYPE.transfer_token_owner:
                     assetObj.children.push({
                         value: TX_TYPE.transfer_token_owner,

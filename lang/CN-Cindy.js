@@ -104,7 +104,8 @@ export const ExplorerLang = {
         voted: 'voted',
         proposer: 'Proposer',
         validators: 'Validators',
-        votingPower:'Voting_Power'
+        votingPower: 'Voting_Power',
+        sender: 'Sender'
     },
     unit:{
         ellipsis:' ,...',
@@ -361,7 +362,8 @@ export const ExplorerLang = {
             to: 'To',
             originalOwner: 'Original Owner',
             newOwner: 'New Owner',
-            minUnit: 'MinUnit'
+            minUnit: 'MinUnit',
+            sender: 'Sender',
         },
         gov: {
             depositor: 'Depositor',
@@ -594,6 +596,7 @@ export const ExplorerLang = {
         issueTokenTxs: 'Issue Token Txs',
         editTokenTxs: 'Edit Token Txs',
         mintTokenTxs: 'Mint Token Txs',
+        burnTokenTxs: 'Burn Token Txs',
         transferOwnerTxs: 'Transfer Owner Txs',
         details: 'Details',
         owner: 'Owner',

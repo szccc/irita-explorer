@@ -1788,6 +1788,26 @@
 				</template>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.burn_token">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.symbol')}}: </span>
+				<template>
+					<span v-if="symbol === '--'">{{symbol}}</span>
+					<router-link v-else :to="'/assets/' + symbol">{{symbol}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.sender')}}: </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.amount')}}: </span>
+				<span>{{ amount }}</span>
+			</p>
+		</div>
 		<div v-if="txType === TX_TYPE.deposit">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.gov.depositor')}}: </span>
@@ -2679,6 +2699,11 @@
 								this.symbol = msg.symbol || '--';
 								this.originalOwner = msg.src_owner || '--';
 								this.newOwner = msg.dst_owner || '--';
+							break;
+							case TX_TYPE.burn_token:
+								this.symbol = msg.symbol || '--';
+								this.sender = msg.sender || '--';
+								this.amount = msg.amount || '--';
 							break;
 							case TX_TYPE.deposit:
 								if(msg.amount && msg.amount.length > 0) {
