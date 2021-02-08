@@ -406,7 +406,7 @@ export default {
                 if (plan) {
                   this.name = plan.name;
                   this.height = plan.height && plan.height !== '0' ? plan.height : '--';
-                  this.info = plan.info;
+                  this.info = plan.info || '--';
                   if(this.height && this.height !== '--') {
                     this.time = '--'
                   } else {
