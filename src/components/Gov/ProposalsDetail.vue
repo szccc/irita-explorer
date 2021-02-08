@@ -62,7 +62,8 @@
           <div class="information_props_wrap">
             <span class="information_props">{{ $t('ExplorerLang.gov.proposalDetail.description') }} :</span>
             <span class="information_value">
-              <pre class="information_pre information_show_trim" v-html="description"></pre>
+              <!-- <pre class="information_pre information_show_trim" v-html="description"></pre> -->
+              {{description}}
             </span>
           </div>
           <div v-show="type === proposalType.SoftwareUpgradeProposal">
@@ -661,6 +662,9 @@ a {
         display: flex;
         line-height: 0.2rem;
         margin-bottom: 0.12rem;
+        .information_value {
+          word-break: break-all;
+        }
         .information_props {
           min-width: 1.6rem;
           color: $t_second_c;
