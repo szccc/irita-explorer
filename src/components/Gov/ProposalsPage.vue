@@ -198,8 +198,10 @@ export default {
               for (let k in proposal.final_tally_result) {
                 finalTotalVotes += Number(proposal.final_tally_result[k]);
               }
-              for (let k in finalVotes) {
-                finalVotes[k] = (Number(finalVotes[k]) / finalTotalVotes) * 100;
+              if(finalTotalVotes > 0) {
+                for (let k in finalVotes) {
+                  finalVotes[k] = (Number(finalVotes[k]) / finalTotalVotes) * 100;
+                }
               }
             }
             if (votingEndTime === "0001-01-01 08:05:43" || proposal.voting_end_time === -62135596800.0) {
