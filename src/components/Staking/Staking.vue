@@ -9,7 +9,7 @@
         <m-tabs class="staking_m_tabs" :data="stakingStatusTitleList" :chose="selectStakingStatus"></m-tabs>
       </div>
       <div class="staking_table_list_content">
-        <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData" :default-sort="{ prop: 'votingPower', order: 'descending' }">
+        <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
           <el-table-column key="index" align="center" type="index" class="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
           <el-table-column key="moniker" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatorMoniker" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
@@ -35,7 +35,7 @@
           </el-table-column>
           <el-table-column key="commission" align="center" prop="commission" :min-width="ColumnMinWidth.commission" :sort-method="commissionSort" :label="$t('ExplorerLang.table.commission')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="bondedToken" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="votingPower" class-name="votingPower" v-if="titleStatus === 'Active'" align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="votingPower" v-if="titleStatus === 'Active'" class-name="votingPower"  align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="uptime" v-if="titleStatus === 'Active'" align="right" prop="uptime" :min-width="ColumnMinWidth.uptime" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="selfBond" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="delegators" class-name="delegators" v-if="titleStatus !== 'Jailed'" min-width="ColumnMinWidth.delegators" align="center" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
@@ -90,6 +90,7 @@ export default {
         },
       ],
       tableData: [],
+      type:''
     }
   },
   computed: {},
@@ -133,18 +134,19 @@ export default {
       this.titleStatus = v.title
       this.pageNum = 1
       this.tableData = []
+      this.count=0
       this.getValidatorsList(v.name)
     },
     pageChange(pageNum){
 				if (this.pageNum == pageNum) {return;}
 				this.pageNum = pageNum;
-				this.getValidatorsList(this.titleStatus)
+				this.getValidatorsList(this.type)
 		},
     async getValidatorsList(type) {
       let mainToken = await getMainToken();
       try{
           let res = await getValidatorsListApi(this.pageNum,this.pageSize,true,type)
-          this.titleStatus = type
+          this.type = type
           this.count = res && res.count ? res.count : 0
           let result = res && res.data ? res.data : null
           if (result) {
