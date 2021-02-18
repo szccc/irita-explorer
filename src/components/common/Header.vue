@@ -316,6 +316,9 @@ export default {
         case product.stargate:
           this.mainnet = {icon:'iconfont iconStargate'};
           break;
+        case product.cosmosHub:
+          this.mainnet = {icon:'iconfont iconCosmosHub'};
+          break;
         default:
           break;
       }
