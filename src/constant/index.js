@@ -129,7 +129,7 @@ export const LEVEL_TX_TYPE = {
   Record: 'Record',
   Asset: 'Asset',
   Gov: 'Gov',
-  Other: 'Other',
+  Other: 'Others',
   crossChain: 'CrossChain'
 }
 
@@ -383,7 +383,8 @@ export const formatVoteOptions = {
 // 需和配置文件的产品名一致
 export const product = {
   bifrost: 'Bifrost',
-  stargate: 'STARGATE'
+  stargate: 'STARGATE',
+  cosmosHub: 'Cosmos Hub'
 }
 
 export const ibcDenomPrefix = 'ibc/'
