@@ -92,7 +92,7 @@
 				<div class="delegations_wrap">
 					<div class="delegations_container clearfloat">
 						<!-- Deposited Proposals -->
-						<div class="one_table_container" v-if="depositedProposals.items && depositedProposals.items.length > 0">
+						<div class="one_table_container clearfloat" v-show="depositedProposals.items && depositedProposals.items.length > 0">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.depositedProposalsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -101,13 +101,15 @@
 									<el-table-column prop="id" :label="$t('ExplorerLang.table.proposalId')"
 									                 :min-width="ColumnMinWidth.proposalId">
 										 <template v-slot:default="{ row }">
-											<router-link :to="`/ProposalsDetail/${row.id}`">{{ row.id }}</router-link>
+											<router-link v-if="row.link" :to="`/ProposalsDetail/${row.id}`">{{ row.id }}</router-link>
+											<span v-else>{{ row.id }}</span>
 										</template>
 									</el-table-column>
 									<el-table-column prop="proposer" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.proposer')">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="row.proposer" placement="top" :disabled="Boolean(row.moniker)">
-												<router-link :to="`/address/${row.proposer}`">{{ formatMoniker(row.moniker, monikerNum.otherTable) || formatAddress(row.proposer) }}</router-link>
+												<router-link v-if="row.link" :to="`/address/${row.proposer}`">{{ formatMoniker(row.moniker, monikerNum.otherTable) || formatAddress(row.proposer) }}</router-link>
+												<span v-else>{{ formatMoniker(row.moniker, monikerNum.otherTable) || formatAddress(row.proposer) }}</span>
 											</el-tooltip>
 										</template>
 									</el-table-column>
@@ -129,7 +131,7 @@
 							              :page-change="pageChange('getDepositedProposals')"></m-pagination>
 						</div>
 						<!-- Voted Proposals -->
-						<div class="second_table_container" v-if="votedProposals.items && votedProposals.items.length > 0" :style="!(depositedProposals.items && depositedProposals.items.length > 0) ? 'margin-left:0rem': ''">
+						<div class="second_table_container clearfloat" v-show="votedProposals.items && votedProposals.items.length > 0" :style="!(depositedProposals.items && depositedProposals.items.length > 0) ? 'margin-left:0rem': ''">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.votedProposalsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -138,8 +140,9 @@
 									<el-table-column prop="id" :label="$t('ExplorerLang.table.proposalId')"
 									                 :min-width="ColumnMinWidth.proposalId">
 										 <template v-slot:default="{ row }">
-											<router-link :to="`/ProposalsDetail/${row.id}`">{{ row.id }}</router-link>
-										</template>
+											<router-link v-if="row.link" :to="`/ProposalsDetail/${row.id}`">{{ row.id }}</router-link>
+										 	<span v-else>{{ row.id }}</span>
+										 </template>
 									</el-table-column>
 									<el-table-column prop="title" :min-width="ColumnMinWidth.proposalTitle" :label="$t('ExplorerLang.table.title')"></el-table-column>
 									<el-table-column prop="status" :label="$t('ExplorerLang.table.proposalStatus')"
@@ -432,7 +435,8 @@
 									moniker: deposit.moniker,
 									submited: String(deposit.submited),
 									hash: deposit.tx_hash,
-									deposit: deposits ? `${Tools.formatPriceToFixed(deposits.amount,this.amountDecimals)} ${deposits.denom.toLocaleUpperCase()}` : '--'
+									deposit: deposits ? `${Tools.formatPriceToFixed(deposits.amount,this.amountDecimals)} ${deposits.denom.toLocaleUpperCase()}` : '--',
+									link: deposit.proposal_link,
 								})
 							}
 						}
@@ -454,7 +458,8 @@
 									title: Tools.formatString(vote.title, this.proposalTitleNum, '...'),
 									status: vote.status,
 									voted: vote.voted,
-									hash: vote.tx_hash
+									hash: vote.tx_hash,
+									link: vote.proposal_link,
 								}
 							})
 						}
