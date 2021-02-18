@@ -129,7 +129,7 @@ export const LEVEL_TX_TYPE = {
   Record: 'Record',
   Asset: 'Asset',
   Gov: 'Gov',
-  Other: 'Other',
+  Other: 'Others',
   crossChain: 'CrossChain'
 }
 
