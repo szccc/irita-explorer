@@ -378,7 +378,7 @@
 							font-size: $s14;
 							line-height: 0.16rem;
 							color: $t_first_c;
-							word-break:break-all;
+							word-break:break-word;
 						}
 					}
 					.address_information_asset_list_item:last-child{

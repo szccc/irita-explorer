@@ -92,7 +92,7 @@
 				<div class="delegations_wrap">
 					<div class="delegations_container clearfloat">
 						<!-- Deposited Proposals -->
-						<div class="one_table_container" v-if="depositedProposals.items && depositedProposals.items.length > 0">
+						<div class="one_table_container" v-show="depositedProposals.items && depositedProposals.items.length > 0">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.depositedProposalsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -129,7 +129,7 @@
 							              :page-change="pageChange('getDepositedProposals')"></m-pagination>
 						</div>
 						<!-- Voted Proposals -->
-						<div class="second_table_container" v-if="votedProposals.items && votedProposals.items.length > 0" :style="!(depositedProposals.items && depositedProposals.items.length > 0) ? 'margin-left:0rem': ''">
+						<div class="second_table_container" v-show="votedProposals.items && votedProposals.items.length > 0" :style="!(depositedProposals.items && depositedProposals.items.length > 0) ? 'margin-left:0rem': ''">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.votedProposalsTitle') }}</p>
 							<div class="delegations_table_container">
