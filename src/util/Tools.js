@@ -5,7 +5,7 @@ import bech32 from 'bech32'
 import moveDecimal from 'move-decimal-point'
 import Constant from '../constant/index.js'
 import { getConfig } from '@/helper/IritaHelper'
-
+import { utcOffset,isShowUTC } from '../productionConfig'
 export default class Tools {
   /**
    * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -88,28 +88,56 @@ export default class Tools {
   /**
    * 转换时间格式
    * */
+  static getDisplayDate (timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
+    let offset = utcOffset || '+0';
+    let isShow = isShowUTC === false ? false : true;
+    if (isShow) {
+      if (offset && offset !=="+0") {
+        return moment(timestamp * 1000)
+        .utcOffset(Number(offset))
+        .format(format) + ' UTC' + offset
+      } else {
+        return moment(timestamp * 1000)
+        .utcOffset(Number(offset))
+        .format(format) + ' UTC'
+      }
+    } else {
+        return moment(timestamp * 1000)
+        .utcOffset(Number(offset))
+        .format(format)
+    }
+  }
   // static getDisplayDate(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
   //   return moment(timestamp * 1000)
-  //     .utcOffset(+480)
-  //     .format(format)
-  // }
-  static getDisplayDate(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
-    return moment(timestamp * 1000)
-      .local()
-      .format(format)
-  }
-
-  // static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
-  //   return moment(date)
-  //     .utcOffset(+480)
+  //     .local()
   //     .format(format)
   // }
 
   static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
-    return moment(date)
-      .local()
-      .format(format)
+    let offset = utcOffset || '+0';
+    let isShow = isShowUTC === false ? false : true;
+    if (isShow) {
+      if (offset && offset !=="+0") {
+        return moment(date)
+        .utcOffset(Number(offset))
+        .format(format) + ' UTC' + offset
+      } else {
+        return moment(date)
+        .utcOffset(Number(offset))
+        .format(format) + ' UTC'
+      }
+    } else {
+        return moment(date)
+        .utcOffset(Number(offset))
+        .format(format)
+    }
   }
+
+  // static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
+  //   return moment(date)
+  //     .local()
+  //     .format(format)
+  // }
 
   static getTimestamp () {
     return Math.floor(new Date().getTime() / 1000)

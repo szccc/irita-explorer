@@ -1189,13 +1189,13 @@
 					} else {
 						if(balanceAmount && balanceAmount.denom) {
 							let denom = balanceAmount.denom;
-							// if(denom.startsWith(ibcDenomPrefix)){
-							// 	let hash = denom.replace(ibcDenomPrefix,'')
-							// 	let res = await getIbcTransferByHash(hash)
-							// 	if(res && res.denom_trace && res.denom_trace.base_denom) {
-							// 		denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase()
-							// 	}
-							// }
+							if(denom.startsWith(ibcDenomPrefix)){
+								let hash = denom.replace(ibcDenomPrefix,'')
+								let res = await getIbcTransferByHash(hash)
+								if(res && res.denom_trace && res.denom_trace.base_denom) {
+									denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase()
+								}
+							}
 							assetList.push({
 								token: item.denom.toUpperCase(),
 								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${denom.toUpperCase()}` : 0,
