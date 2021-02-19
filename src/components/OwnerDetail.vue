@@ -115,7 +115,7 @@
 							<span class="serviceNameText" v-if="scope.row.isChildren && scope.row.index==0">{{getRespondCount(scope.row.count)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
+					<el-table-column class-name="tx_type" :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
 					                 prop="txType"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.state" :label="$t('ExplorerLang.table.requestStatus')">
 						<template slot-scope="scope">
@@ -274,7 +274,7 @@
 							<span v-if="!scope.row.serviceName">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
+					<el-table-column class-name="tx_type" :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
 					                 prop="type"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
 						<template slot-scope="scope">
@@ -1160,9 +1160,17 @@
 			},
 			async getAssetList () {
 				let assetList = [];
+				let balanceAmountsArr = [];
+				// console.time('amount')
+				for (let key in this.assetList) {
+					let item = this.assetList[key];
+					balanceAmountsArr.push(item && item.amount ? converCoin(item) : {});
+				}
+				let balanceAmounts = await Promise.all(balanceAmountsArr);
 			 	for (let key in this.assetList) {
 			 		let item = this.assetList[key];
-			 		let balanceAmount = item && item.amount ? await converCoin(item) : {};
+			 		// let balanceAmount = item && item.amount ? await converCoin(item) : {};
+			 		let balanceAmount = balanceAmounts[key]
 			 		if (item && item.denom && item.denom === this.mainToken.min_unit) {
 						assetList.unshift({
 							token: this.mainToken.symbol.toUpperCase(),
@@ -1181,15 +1189,15 @@
 					} else {
 						if(balanceAmount && balanceAmount.denom) {
 							let denom = balanceAmount.denom;
-							if(denom.startsWith(ibcDenomPrefix)){
-								let hash = denom.replace(ibcDenomPrefix,'')
-								let res = await getIbcTransferByHash(hash)
-								if(res && res.denom_trace && res.denom_trace.base_denom) {
-									denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase()
-								}
-							}
+							// if(denom.startsWith(ibcDenomPrefix)){
+							// 	let hash = denom.replace(ibcDenomPrefix,'')
+							// 	let res = await getIbcTransferByHash(hash)
+							// 	if(res && res.denom_trace && res.denom_trace.base_denom) {
+							// 		denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase()
+							// 	}
+							// }
 							assetList.push({
-								token: balanceAmount.denom.toUpperCase(),
+								token: item.denom.toUpperCase(),
 								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${denom.toUpperCase()}` : 0,
 								delegated: 0,
 								unBonding: 0,
@@ -1199,7 +1207,8 @@
 						}
 					}
 			 	}
-				 this.assetsItems = assetList;
+				this.assetsItems = assetList;
+				//  console.timeEnd('amount')
 			},
 			pageNation (dataArray) {
 				let index = 0;

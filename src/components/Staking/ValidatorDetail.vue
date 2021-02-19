@@ -113,7 +113,7 @@
 											</el-tooltip>
 										</template>
 									</el-table-column>
-									<el-table-column prop="deposit" :label="$t('ExplorerLang.table.deposit')"
+									<el-table-column prop="deposit" align="right" :label="$t('ExplorerLang.table.deposit')"
 									                :min-width="ColumnMinWidth.amount"></el-table-column>
 									<el-table-column prop="submited" :label="$t('ExplorerLang.table.submited')"
 									                  :min-width="ColumnMinWidth.submited"></el-table-column>

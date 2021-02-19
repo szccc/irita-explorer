@@ -239,7 +239,7 @@
 						text-align: left;
 						.address_information_item{
 							display: grid;
-							grid-template-columns: repeat(1,1.1rem auto);
+							grid-template-columns: repeat(1,0.95rem auto);
 							// margin-top: 0.14rem;
 							margin-top: 0.25rem;
 							.address_information_label{
