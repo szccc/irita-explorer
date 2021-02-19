@@ -54,7 +54,7 @@
             <span class="no_skip" v-show="/^[0]\d*$/.test(row.To) || row.To === '--'">--</span>
           </template>
         </el-table-column>
-        <el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :min-width="ColumnMinWidth.txType">
+        <el-table-column class-name="tx_type" prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :min-width="ColumnMinWidth.txType">
           <template v-slot:default="{ row }">
             <el-tooltip :content="row.Tx_Type.join(',')" placement="top" :disabled="row.Tx_Type.length <= 1">
               <span>{{ getDisplayTxType(row.Tx_Type) }}</span>

@@ -190,6 +190,7 @@ export default class Tools {
   static subStrings(value, afterPointLength) {
     //截取指定小数位长度字符串
     if (value) {
+      value = String(value)
       let arr = value.split('.')
       arr[1] = arr[1] || ''
       if (arr[1].toString().length > afterPointLength) {
