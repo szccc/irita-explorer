@@ -288,6 +288,7 @@ CHAINID.FUXI = 'Testnet FUXI'
 CHAINID.NYANCAT = 'Testnet NYANCAT-6'
 CHAINID.GOZTESTNET = 'Testnet GOZ'
 CHAINID.BIFROST = 'Testnet BIFROST'
+CHAINID.STARGATE= 'Testnet STARGATE'
 
 
 export const pageTitleConfig = {

@@ -57,6 +57,7 @@
           </span>
           <ul class="network_list_container" v-show="flShowNetworkLogo && netWorkArray.length !== 0" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
               <li class="network_list_item"
+                  :class="item.network_id == constant.CHAINID.STARGATE ? 'stargate_icon' : ''"
                   v-for="item in netWorkArray"
                   :key="item.network_id"
                   @click="windowOpenUrl(item.uri)"><i :class="item.icon"></i>{{item.network_name}}</li>
@@ -128,6 +129,7 @@ export default {
       // currentNetworkClass:'',
       flShowNetWorkMenu:false,
       mainnet:{},
+      constant
     }
   },
   computed: {
@@ -304,6 +306,8 @@ export default {
               item.icon = 'iconfont iconGOZ'
           } else if (item.network_id === constant.CHAINID.BIFROST) {
               item.icon = 'iconfont iconBI-01'
+          } else if (item.network_id === constant.CHAINID.STARGATE) {
+              item.icon = 'iconfont iconStargate'
           }
           if (item.is_main) {
               this.mainnet = {...item};
@@ -507,6 +511,11 @@ export default {
                   color: var(--titleColor);
                   padding-right: 0.2rem;
               }
+          }
+          .stargate_icon {
+            i {
+              font-size: $s14;
+            }
           }
           .network_list_item:last-child{
               padding-bottom: 0.05rem;
