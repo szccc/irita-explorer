@@ -129,7 +129,7 @@
 	        	if(votingBarObj){
 			        this.title = votingBarObj.content && votingBarObj.content.title;
 			        this.proposalId = votingBarObj.id;
-			        // this.participationThreshold = votingBarObj.quorum && `${(Number(votingBarObj.quorum) * 100).toFixed(2)}%`;
+			        this.participationThreshold = votingBarObj.quorum && `${(Number(votingBarObj.quorum) * 100).toFixed(2)}%`;
 			        this.passThreshold = votingBarObj.threshold && `${(Number(votingBarObj.threshold) * 100).toFixed(2)}%`;
 			        this.voteThreshold = votingBarObj.veto_threshold && `${(Number(votingBarObj.veto_threshold) * 100).toFixed(2)}%`;
                     this.getVotingEndTime(votingBarObj.voting_end_time);
