@@ -308,7 +308,9 @@ export default {
               item.icon = 'iconfont iconBI-01'
           } else if (item.network_id === constant.CHAINID.STARGATE) {
               item.icon = 'iconfont iconStargate'
-          }
+          } else if (item.network_id === constant.CHAINID.COSMOSHUB) {
+              item.icon = 'iconfont iconCosmosHub'
+          } 
           if (item.is_main) {
               this.mainnet = {...item};
           }
@@ -322,6 +324,9 @@ export default {
           break;
         case product.cosmosHub:
           this.mainnet = {icon:'iconfont iconCosmosHub'};
+          break;
+        case product.nyancat:
+          this.mainnet = {icon:'iconfont iconcaihongmao'};
           break;
         default:
           break;
