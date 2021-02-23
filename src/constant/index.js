@@ -289,8 +289,8 @@ CHAINID.FUXI = 'Testnet FUXI'
 CHAINID.NYANCAT = 'Testnet NYANCAT-6'
 CHAINID.GOZTESTNET = 'Testnet GOZ'
 CHAINID.BIFROST = 'Testnet BIFROST'
-CHAINID.STARGATE= 'Testnet STARGATE'
-
+CHAINID.STARGATE = 'Testnet STARGATE'
+CHAINID.COSMOSHUB = 'Mainnet CosmosHub'
 
 export const pageTitleConfig = {
   BlockchainBlocks: 'Block List',
@@ -386,7 +386,8 @@ export const formatVoteOptions = {
 export const product = {
   bifrost: 'Bifrost',
   stargate: 'STARGATE',
-  cosmosHub: 'Cosmos Hub'
+  cosmosHub: 'Cosmos Hub',
+  nyancat:'NYANCAT'
 }
 
 export const ibcDenomPrefix = 'ibc/'
