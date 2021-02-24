@@ -36,7 +36,7 @@
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :min-width="ColumnMinWidth.time"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
           <m-pagination :total="issueTokenTotalPageNum" :page-size="pageSize" :page="issueTokenCurrentPageNum" :page-change="issueTokenPageChange"></m-pagination>
@@ -77,7 +77,7 @@
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :min-width="ColumnMinWidth.time"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
           <m-pagination :total="editTokenTotalPageNum" :page-size="pageSize" :page="editTokenCurrentPageNum" :page-change="editTokenPageChange"></m-pagination>
@@ -130,7 +130,7 @@
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :min-width="ColumnMinWidth.time"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
           <m-pagination :total="mintTokenTotalPageNum" :page-size="pageSize" :page="mintTokenCurrentPageNum" :page-change="mintTokenPageChange"></m-pagination>
@@ -172,7 +172,7 @@
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :min-width="ColumnMinWidth.time"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
           <m-pagination :total="burnTokenTotalPageNum" :page-size="pageSize" :page="burnTokenCurrentPageNum" :page-change="burnTokenPageChange"></m-pagination>
@@ -220,7 +220,7 @@
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :min-width="ColumnMinWidth.time"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
           <m-pagination :total="transferTokenTotalPageNum" :page-size="pageSize" :page="transferTokenCurrentPageNum" :page-change="transferTokenPageChange"></m-pagination>

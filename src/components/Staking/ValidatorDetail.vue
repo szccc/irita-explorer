@@ -245,11 +245,13 @@
 				delegations: {
 					total: 0,
 					currentPage: 1,
+					useCount: true,
 					items: [],
 				},
 				unbondingDelegations: {
 					total: 0,
 					currentPage: 1,
+					useCount: true,
 					items: [],
 				},
 				delegationTxs: {
@@ -308,8 +310,11 @@
 				this.validatorStatus = Tools.firstWordUpperCase(res.status)
 			},
 			async getDelegations (page = 1) {
-				const res = await getValidatorsDelegationsApi(this.$route.params.param, page, this.pageSize, true)
-				this.delegations.total = res.count
+				const res = await getValidatorsDelegationsApi(this.$route.params.param, page, this.pageSize, this.delegations.useCount)
+				if(res.count) {
+					this.delegations.total = res.count;
+					this.delegations.useCount = false;
+				}
 				this.delegations.items = []
 				res.data.forEach( async item => {
 					let amount = await converCoin(item.amount)
@@ -325,8 +330,11 @@
 				})
 			},
 			async getUnbondingDelegations (page = 1) {
-				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, true)
-				this.unbondingDelegations.total = res.count
+				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, this.unbondingDelegations.useCount)
+				if(res.count) {
+					this.unbondingDelegations.total = res.count;
+					this.unbondingDelegations.useCount = false;
+				}
 				this.unbondingDelegations.items = []
 				res.data.forEach(async item => {
 					let amount = await converCoin({

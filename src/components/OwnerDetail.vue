@@ -1737,7 +1737,7 @@
 						font-size: $s18;
 						margin-top: 0.3rem;
 						// padding-left: 0.2rem;
-						margin-bottom: 0.2rem !important;
+						margin-bottom: 0.06rem !important;
 						text-align: left;
 						
 						.address_information_delegation_value,
