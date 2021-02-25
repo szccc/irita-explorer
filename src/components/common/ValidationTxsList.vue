@@ -58,7 +58,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"> </el-table-column>
-        <el-table-column v-if="prodConfig.shielding.fee" prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
+        <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
         <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <el-tooltip :disabled="row.Tx_Signer === '--'" :content="`${row.Tx_Signer}`">
@@ -74,7 +74,6 @@
 
 <script>
 import Tools from '@/util/Tools'
-import prodConfig from "@/productionConfig"
 import { ColumnMinWidth,monikerNum } from '@/constant'
 import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
 export default {
@@ -90,7 +89,6 @@ export default {
     return {
       ColumnMinWidth,
       Tools,
-      prodConfig,
       addressRoute,
       formatMoniker,
       monikerNum

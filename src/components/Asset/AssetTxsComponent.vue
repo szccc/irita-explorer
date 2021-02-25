@@ -115,7 +115,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column v-if="productionConfig.shielding.fee" :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.fee"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.block')" prop="block" :min-width="ColumnMinWidth.block">
             <template v-slot:default="{ row }">
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
@@ -248,7 +248,6 @@ export default {
   data() {
     return {
       Tools,
-      productionConfig,
       addressRoute,
       ColumnMinWidth,
       issueToken: [],
