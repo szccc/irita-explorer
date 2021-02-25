@@ -286,7 +286,7 @@ export const ModuleMap = {
 const CHAINID = {}
 CHAINID.IRISHUB = 'Mainnet IRISHUB'
 CHAINID.FUXI = 'Testnet FUXI'
-CHAINID.NYANCAT = 'Testnet NYANCAT-6'
+CHAINID.NYANCAT = 'Testnet NYANCAT'
 CHAINID.GOZTESTNET = 'Testnet GOZ'
 CHAINID.BIFROST = 'Testnet BIFROST'
 CHAINID.STARGATE = 'Testnet STARGATE'
@@ -387,7 +387,8 @@ export const product = {
   bifrost: 'Bifrost',
   stargate: 'STARGATE',
   cosmosHub: 'Cosmos Hub',
-  nyancat:'NYANCAT'
+  nyancat: 'NYANCAT',
+  irishub: 'IRISHUB'
 }
 
 export const ibcDenomPrefix = 'ibc/'
