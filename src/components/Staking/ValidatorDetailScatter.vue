@@ -21,7 +21,8 @@
 
 <script>
 	import Tools from "../../util/Tools.js"
-	import Constant,{ validator_Status } from "../../constant/index.js"
+	import productionConfig from '@/productionConfig.js';
+	import Constant,{ validator_Status,product } from "../../constant/index.js"
 	import bigNumber from "bignumber.js"
 	import { getValidatorCommissionInfoApi } from "@/service/api"
 	import { getMainToken,converCoin } from '@/helper/IritaHelper';
@@ -53,6 +54,8 @@
 				mainnetJailedThemeStyle:['#3264FD',"#101149"],
 				testnetFuXiJailedThemeStyle:['#0C4282',"#101149"],
 				testnetNyancatJailedThemeStyle:['#0D9388',"#101149"],
+				stargateThemeStyle:["#6958CA","#FF5C01"],
+				stargateJailedThemeStyle:['#6958CA',"#101149"],
 				chartOptionColor:'',
 				currentMoniker:'',
 				tipColor:'',
@@ -174,9 +177,23 @@
 					]
 				};
 				if(this.validatorStatus === this.validator_Status.active){
-					echartsOption.color = this.mainnetThemeStyle
+					switch (productionConfig.product) {
+						case product.stargate:
+							echartsOption.color = this.stargateThemeStyle
+							break;
+						default:
+							echartsOption.color = this.mainnetThemeStyle
+							break;
+					}
 				}else {
-					echartsOption.color = this.mainnetJailedThemeStyle
+					switch (productionConfig.product) {
+						case product.stargate:
+							echartsOption.color = this.stargateJailedThemeStyle
+							break;
+						default:
+							echartsOption.color = this.mainnetJailedThemeStyle
+							break;
+					}
 				}
 				echartsData.setOption(echartsOption)
 			},

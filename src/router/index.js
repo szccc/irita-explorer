@@ -98,6 +98,14 @@ const router = new Router({
 			path: '/assets/:param',
 			component: () => import('@/components/Asset/AssetInformation.vue'),
 		},
+		{
+			path: '/gov/proposals',
+			component: () => import('@/components/Gov/ProposalsPage.vue')
+		},
+		{
+			path: '/ProposalsDetail/:proposal_id',
+			component: () => import('@/components/Gov/ProposalsDetail.vue')
+		}
 	]
 })
 export default router

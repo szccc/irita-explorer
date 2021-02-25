@@ -5,8 +5,8 @@
         <div class="header_logo_content" @click="logoClick">
           <img class="header_logo_content_icon" v-if="logoImg.length" :src="logoImg" alt="" />
           <div :style="`color:${(prodConfig.nav || {}).color || ''}`">
-            <p>{{ (prodConfig.logo || {}).title || 'CSChain-Bond' }}</p>
-            <p>{{ (prodConfig.logo || {}).subTitle || '债券应用链浏览器' }}</p>
+            <p class="header_logo_content_title">{{ (prodConfig.logo || {}).title || 'CSChain-Bond' }}</p>
+            <p class="header_logo_content_subTitle">{{ (prodConfig.logo || {}).subTitle || '债券应用链浏览器' }}</p>
           </div>
         </div>
         <div class="header_menu">
@@ -57,6 +57,7 @@
           </span>
           <ul class="network_list_container" v-show="flShowNetworkLogo && netWorkArray.length !== 0" @mouseenter="showNetWorkLogo()" @mouseleave="hideNetWorkLogo()">
               <li class="network_list_item"
+                  :class="item.network_id == constant.CHAINID.STARGATE ? 'stargate_icon' : ''"
                   v-for="item in netWorkArray"
                   :key="item.network_id"
                   @click="windowOpenUrl(item.uri)"><i :class="item.icon"></i>{{item.network_name}}</li>
@@ -105,11 +106,11 @@
 </template>
 <script>
 import Tools from '../../util/Tools'
-import constant,{ addrPrefix, ModuleMap } from '../../constant'
+import constant,{ ModuleMap,product } from '../../constant'
 import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
-import { getConfig } from "@/helper/IritaHelper"
+import { getConfig,addressRoute } from "@/helper/IritaHelper"
 export default {
   data() {
     return {
@@ -128,6 +129,7 @@ export default {
       // currentNetworkClass:'',
       flShowNetWorkMenu:false,
       mainnet:{},
+      constant
     }
   },
   computed: {
@@ -254,7 +256,7 @@ export default {
       try {
         const res = await getAddressTxList(this.searchInputValue, '', '', 1, 10)
         if (res) {
-          this.$router.push(`/address/${this.searchInputValue}`)
+          addressRoute.call(this,this.searchInputValue)
           this.clearSearchContent()
         } else {
           this.toSearchResultPage()
@@ -293,27 +295,45 @@ export default {
         this.handleConfigs(config.networkData);
     },
     handleConfigs (configs=[]) {
-
-		this.netWorkArray = configs.map(item => {
-			if(item.network_id === constant.CHAINID.IRISHUB){
+      this.netWorkArray = configs.map(item => {
+          if(item.network_id === constant.CHAINID.IRISHUB){
                 item.icon = 'iconfont iconiris'
-            }else if(item.network_id === constant.CHAINID.FUXI){
-                item.icon = 'iconfont iconfuxi1'
-            }else if(item.network_id === constant.CHAINID.NYANCAT){
-                item.icon = 'iconfont iconcaihongmao'
-            }else if(item.network_id === constant.CHAINID.GOZTESTNET){
-                item.icon = 'iconfont iconGOZ'
-            } else if (item.network_id === constant.CHAINID.BIFROST) {
-                item.icon = 'iconfont iconBI-01'
-            }
-            if (item.is_main) {
-                this.mainnet = {...item};
-            }
-			      return item
-        });
+          }else if(item.network_id === constant.CHAINID.FUXI){
+              item.icon = 'iconfont iconfuxi1'
+          }else if(item.network_id === constant.CHAINID.NYANCAT){
+              item.icon = 'iconfont iconcaihongmao'
+          }else if(item.network_id === constant.CHAINID.GOZTESTNET){
+              item.icon = 'iconfont iconGOZ'
+          } else if (item.network_id === constant.CHAINID.BIFROST) {
+              item.icon = 'iconfont iconBI-01'
+          } else if (item.network_id === constant.CHAINID.STARGATE) {
+              item.icon = 'iconfont iconStargate'
+          } else if (item.network_id === constant.CHAINID.COSMOSHUB) {
+              item.icon = 'iconfont iconCosmosHub'
+          } 
+          if (item.is_main) {
+              this.mainnet = {...item};
+          }
+          return item
+      })
+      switch (prodConfig.product) {
+        case product.bifrost:
+          break;
+        case product.stargate:
+          this.mainnet = {icon:'iconfont iconStargate'};
+          break;
+        case product.cosmosHub:
+          this.mainnet = {icon:'iconfont iconCosmosHub'};
+          break;
+        case product.nyancat:
+          this.mainnet = {icon:'iconfont iconcaihongmao'};
+          break;
+        default:
+          break;
+      }
     },
     windowOpenUrl (url) {
-		window.open(url)
+		  window.open(url)
     },
     flShowNetWork() {
       this.flShowNetWorkMenu = !this.flShowNetWorkMenu
@@ -360,8 +380,13 @@ export default {
           margin-right: 0.12rem;
         }
         .header_logo_content_title {
+            font-weight: bold;
+            letter-spacing: 0.011rem;
+            font-size: $s14;
         }
         .header_logo_content_subTitle {
+          color:rgba(255,255,255,0.85);
+          font-size: $s12;
         }
       }
 
@@ -491,6 +516,11 @@ export default {
                   color: var(--titleColor);
                   padding-right: 0.2rem;
               }
+          }
+          .stargate_icon {
+            i {
+              font-size: $s14;
+            }
           }
           .network_list_item:last-child{
               padding-bottom: 0.05rem;

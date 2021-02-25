@@ -22,7 +22,7 @@
 		<div class="footer_content_bg_bottom"
 			 :style="`background:${(prodConfig.footer || {}).bgColor_bottom || '#000000'}`">
 			<div class="footer_content_bottom" >
-				<p>{{(prodConfig.footer || {}).copyright || 'copyright © 2020 边界智能'}}</p>
+				<p>{{(prodConfig.footer || {}).copyright || 'copyright © 2021 边界智能'}}</p>
 				<p v-if="(prodConfig.footer || {}).chainIdShow">{{chainId}}</p>
 				<p v-if="(prodConfig.footer || {}).versionShow">{{version}}</p>
 			</div>
@@ -34,6 +34,7 @@
 	import prodConfig from "../../productionConfig"
 	import { getNodeInfo } from "../../service/api"
 	import {moduleSupport} from "../../helper/ModulesHelper"
+	import {product} from '../../constant'
 	export default {
 		name: "Footer",
 		data(){
@@ -59,7 +60,13 @@
 				let nodeInfo = await getNodeInfo();
 				if (nodeInfo) {
 					this.chainId = `Chain ID ${nodeInfo.node_info.network || '--'}`;
-					this.version = `Node Version ${nodeInfo.application_version.version || '--'} | Tendermint Version ${nodeInfo.node_info.version || '--'}`;
+					if(prodConfig.product == product.cosmosHub) {
+						this.version = `Node Version ${nodeInfo.application_version.name} v${nodeInfo.application_version.version || '--'}`;
+					} else if (prodConfig.product == product.nyancat || prodConfig.product == product.irishub) {
+						this.version = `Node Version irishub ${nodeInfo.application_version.version || '--'}`;
+					} else {
+						this.version = `Node Version ${nodeInfo.application_version.version || '--'}`;
+					}
 				}
 			}
 		}
@@ -101,12 +108,14 @@
 			padding:0 0.15rem;
 			display: flex;
 			justify-content: center;
+			min-height: 0.48rem;
 			.footer_content_bottom{
 				display: flex;
 				flex:1;
 				justify-content: space-between;
 				align-items:center;
-				font-size:$s12;
+				// font-size:$s12;
+				font-size:$s14;
 				max-width:12rem;
 				font-family: Arial;
 				p {
@@ -166,7 +175,8 @@
 			.footer_content_bottom{
 				flex-direction:column;
 				p {
-					margin:0.03rem;
+					margin:0.03rem !important;
+					text-align: center;
 				}
 			}
 		}

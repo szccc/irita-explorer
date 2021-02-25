@@ -37,7 +37,7 @@
                         <router-link v-if="item.to && item.value !== '--'" :to="item.to">{{item.value}}</router-link>
                         <span v-else>{{item.value}}</span>
                     </p>
-                    <p class="statistical_footer_content">
+                    <p class="statistical_footer_content" :class="isChrome ? 'chrome' : ''">
                         {{item.footerLabel}}
                     </p>
                 </li>
@@ -142,7 +142,8 @@ export default {
         validatorHeaderImgSrc:'',
         validatorHeaderImgHref:'',
         moniker:'',
-        proposerAddress:''
+        proposerAddress:'',
+        isChrome: window.navigator.userAgent.indexOf("Chrome") > -1,
     }
   },
   computed: {
@@ -184,9 +185,74 @@ export default {
                     }
                 })
                 let statisticsDb = await getDbStatistics(HomeCardArrayDb)
-                let statisticsNetwork = await getNetworkStatistics(HomeCardArrayNetwork)
                 this.navigationArray=[]
+                if(statisticsDb) {
+                    // this.validatorHeaderImgHref = ''
+                    // //先通过正则剔除符号空格及表情，只保留数字字母汉字
+                    // let regex =  /[^\w\u4e00-\u9fa50-9a-zA-Z]/g;
+                    // if(statisticsNetwork.moniker) {
+                    //     let replaceMoniker = statisticsNetwork.moniker && statisticsNetwork.moniker.replace(regex,'');
+                    //     this.validatorHeaderImgHref = statisticsNetwork.validator_icon ? statisticsNetwork.validator_icon : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
+                    //     this.validatorHeaderImgSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : '';
+                    //     this.moniker = formatMoniker(statisticsNetwork.moniker,monikerNum.home);
+                    // }
+                    // this.proposerAddress = statisticsNetwork.operator_addr;
+                    // this.currentBlockHeight = statisticsNetwork.blockHeight;
+                    prodConfig.homeCard.forEach(item => {
+                        if(item === 200) return
+                        let itemObj = this.navigationObj[item]
+                        switch(item) {
+                            case 201:
+                                // itemObj.value = statisticsNetwork.txCount;
+                                // itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime) 
+                                break;
+                             case 202:
+                                itemObj.value = statisticsDb.validatorCount;
+                                break;
+                            case 203:
+                                itemObj.value = `${statisticsDb.avgBlockTime}s`
+                                break;
+                            case 204:
+                                itemObj.value = statisticsDb.assetCount
+                                break;
+                            case 205:
+                                itemObj.value = statisticsDb.denomCount
+                                break;
+                            case 206:
+                                itemObj.value = statisticsDb.serviceCount
+                                break;
+                            case 207:
+                                itemObj.value = statisticsDb.identityCount
+                                break;
+                            case 208:
+                                itemObj.value = statisticsDb.validatorNumCount
+                                break;                      
+                            case 209:
+                                // if(statisticsNetwork.total_supply) {
+                                //     itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
+                                //     itemObj.footerLabel = Tools.formatBondedTokens(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
+                                // } else {
+                                //     itemObj.value = '--';
+                                //     itemObj.footerLabel = `${statisticsNetwork.bonded_tokens || '--'} / ${statisticsNetwork.total_supply || '--'}`;
+                                // }
+                                break;
+                        }
+                        this.navigationArray.push(itemObj)
+                    })
+                    if(!moduleSupport('107', prodConfig.navFuncList)) {
+                        this.navigationArray.unshift({
+                            id:200,
+                            iconClass:'iconfont iconBlocks',
+                            label: this.$t('ExplorerLang.home.blockHeight'),
+                            footerLabel:'',
+                            value: this.currentBlockHeight,
+                            to: `/block/${this.currentBlockHeight}`,
+                        })
+                    }
+                }
+                let statisticsNetwork = await getNetworkStatistics(HomeCardArrayNetwork)
                 if(statisticsDb && statisticsNetwork) {
+                    this.navigationArray=[];
                     this.validatorHeaderImgHref = ''
                     //先通过正则剔除符号空格及表情，只保留数字字母汉字
                     let regex =  /[^\w\u4e00-\u9fa50-9a-zA-Z]/g;
@@ -278,7 +344,7 @@ export default {
             background: $bg_white_c;
             display: grid;
             grid-template-columns: 24% 76%;
-            border: .01rem solid $bd_second_c;
+            // border: .01rem solid $bd_second_c;
             .statistical_validator_content{
                 display: flex;
                 flex-direction: column;
@@ -364,6 +430,11 @@ export default {
                                 font-size: $s10;
                                 color: $t_second_c;
                                 margin-top: 0.1rem;
+                                white-space: nowrap;
+                            }
+                            .chrome {
+                                -webkit-transform:scale(0.83);
+                                -webkit-transform-origin-X: left;
                             }
                         }
                     }
@@ -500,4 +571,3 @@ export default {
         }
 	}
 </style>
-

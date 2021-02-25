@@ -7,8 +7,10 @@
           <div class="tx_detail_title_first">
             {{ `${$t('ExplorerLang.transactionInformation.transactionInformation')} |` }}
           </div>
-          <div class="tx_detail_title_hash">{{ txHash }}</div>
-          <MClip :text="txHash"></MClip>
+          <div class="tx_detail_title_hash">
+            {{ txHash }}
+            <MClip style="margin-left:0.01rem" :text="txHash"></MClip>
+          </div>
         </div>
         <div class="tx_information_content">
           <p class="tx_information_list_title">{{ $t('ExplorerLang.transactionInformation.baseInfo') }}</p>
@@ -47,11 +49,13 @@
 
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.signer') }}：</span>
-            <span style="word-break:break-all;"><span class="address_link" @click="addressRoute(signer)">{{ signer }}</span></span>
+            <span style="word-break:break-all;">
+              <p style="margin-bottom: 0.05rem" v-for="item in signer" :key= "item" class="address_link" @click="addressRoute(item)">{{ item }}</p>
+            </span>
           </p>
           <p class="tx_information_list_item">
             <span>{{ $t('ExplorerLang.transactionInformation.memo') }}：</span>
-            <span>{{ memo }}</span>
+            <span style="word-break:break-all;">{{ memo }}</span>
           </p>
         </div>
         <!-- 交易消息 -->
@@ -172,7 +176,10 @@ export default {
           }
           this.fee = this.fee || '--'
           // this.gasUsed=res.fee.gas || '--' 
-          this.signer = res.signers && res.signers[0] || '--'
+          // this.signer = res.signers && res.signers[0] || '--'
+          if(res.signers && res.signers.length > 0) {
+            this.signer = res.signers
+          }
           this.memo = res.memo ? res.memo : '--'
           this.txType = res.msgs && res.msgs[0] && res.msgs[0].type || '--'
           switch (this.txType) {
@@ -339,7 +346,7 @@ a {
         color: $t_first_c;
         font-size: $s18;
         line-height: 0.21rem;
-        margin: 0.3rem 0 0.15rem 0.25rem;
+        margin: 0.3rem 0 0.15rem 0rem;
         text-align: left;
         font-family: Arial;
         font-weight: 600;
@@ -363,14 +370,14 @@ a {
         background: $bg_white_c;
         text-align: left;
         border-radius: 0.05rem;
-        border: 1px solid $bd_first_c;
+        // border: 1px solid $bd_first_c;
         .tx_information_list_title {
           font-size: $s16;
           font-family: Arial;
           font-weight: 600;
           color: $t_first_c;
           line-height: 22px;
-          margin-bottom: 0.48rem;
+          margin-bottom: 0.36rem;
         }
         .tx_information_list_item {
           display: flex;
@@ -405,7 +412,7 @@ a {
           padding: 0.25rem;
           background: $bg_white_c;
           border-radius: 0.05rem;
-          border: 1px solid $bd_first_c;
+          // border: 1px solid $bd_first_c;
           .tx_information_tx_message_title {
             text-align: left;
             font-size: $s16;
@@ -421,6 +428,39 @@ a {
       }
     }
   }
+}
+@media screen and (max-width: 865px) {
+  .tx_detail_container {
+  .tx_detail_content_wrap {
+    .tx_detail_content {
+      .tx_detail_title {
+        display: block;
+        margin: 0.3rem 0 0.15rem 0.05rem;
+        .tx_detail_title_first {
+        }
+        .tx_detail_title_hash {
+
+        }
+      }
+      .tx_information_content {
+        .tx_information_list_title {
+        }
+        .tx_information_list_item {
+        }
+        .tx_information_list_item:last-child {
+        }
+      }
+      .tx_information_tx_message_content {
+        .tx_information_tx_content {
+          .tx_information_tx_message_title {
+          }
+          .tx_information_tx_message_line {
+          }
+        }
+      }
+    }
+  }
+}
 }
 
 @media screen and (max-width: 768px) {

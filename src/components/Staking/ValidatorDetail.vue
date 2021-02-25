@@ -12,7 +12,7 @@
 				<div class="delegations_wrap">
 					<div class="delegations_container">
 						<!-- Delegations -->
-						<div class="one_table_container">
+						<div class="one_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.delegationsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -32,7 +32,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.delegationsAmount"></el-table-column>
 									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
 									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- 待处理 -->
@@ -48,7 +48,7 @@
 							              :page-change="pageChange('getDelegations')"></m-pagination>
 						</div>
 						<!-- Unbonding Delegations -->
-						<div class="second_table_container">
+						<div class="second_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}</p>
 							<div class="delegations_table_container">
@@ -88,8 +88,85 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="delegations_wrap">
+					<div class="delegations_container clearfloat">
+						<!-- Deposited Proposals -->
+						<div class="one_table_container clearfloat" v-show="depositedProposals.items && depositedProposals.items.length > 0">
+							<p class="validator_information_content_title">{{
+								$t('ExplorerLang.validatorDetail.depositedProposalsTitle') }}</p>
+							<div class="delegations_table_container">
+								<el-table :data="depositedProposals.items" style="width: 100%"
+								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
+									<el-table-column prop="id" :label="$t('ExplorerLang.table.proposalId')"
+									                 :min-width="ColumnMinWidth.proposalId">
+										 <template v-slot:default="{ row }">
+											<router-link v-if="row.link" :to="`/ProposalsDetail/${row.id}`">{{ row.id }}</router-link>
+											<span v-else>{{ row.id }}</span>
+										</template>
+									</el-table-column>
+									<el-table-column prop="proposer" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.proposer')">
+										<template v-slot:default="{ row }">
+											<el-tooltip :content="row.proposer" placement="top" :disabled="Boolean(row.moniker)">
+												<router-link v-if="row.link" :to="`/address/${row.proposer}`">{{ formatMoniker(row.moniker, monikerNum.otherTable) || formatAddress(row.proposer) }}</router-link>
+												<span v-else>{{ formatMoniker(row.moniker, monikerNum.otherTable) || formatAddress(row.proposer) }}</span>
+											</el-tooltip>
+										</template>
+									</el-table-column>
+									<el-table-column prop="deposit" align="right" :label="$t('ExplorerLang.table.deposit')"
+									                :min-width="ColumnMinWidth.amount"></el-table-column>
+									<el-table-column prop="submited" :label="$t('ExplorerLang.table.submited')"
+									                  :min-width="ColumnMinWidth.submited"></el-table-column>
+									<el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+										<template v-slot:default="{ row }">
+											<el-tooltip :content="row.hash" placement="top" :disabled="!Boolean(row.hash)">
+												<router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>
+											</el-tooltip>
+										</template>
+									</el-table-column>
+								</el-table>
+							</div>
+							<m-pagination v-if="depositedProposals.total > pageSize" :page-size="pageSize"
+							              :total="depositedProposals.total"
+							              :page-change="pageChange('getDepositedProposals')"></m-pagination>
+						</div>
+						<!-- Voted Proposals -->
+						<div class="second_table_container clearfloat" v-show="votedProposals.items && votedProposals.items.length > 0" :style="!(depositedProposals.items && depositedProposals.items.length > 0) ? 'margin-left:0rem': ''">
+							<p class="validator_information_content_title">{{
+								$t('ExplorerLang.validatorDetail.votedProposalsTitle') }}</p>
+							<div class="delegations_table_container">
+								<el-table :data="votedProposals.items" style="width: 100%"
+								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
+									<el-table-column prop="id" :label="$t('ExplorerLang.table.proposalId')"
+									                 :min-width="ColumnMinWidth.proposalId">
+										 <template v-slot:default="{ row }">
+											<router-link v-if="row.link" :to="`/ProposalsDetail/${row.id}`">{{ row.id }}</router-link>
+										 	<span v-else>{{ row.id }}</span>
+										 </template>
+									</el-table-column>
+									<el-table-column prop="title" :min-width="ColumnMinWidth.proposalTitle" :label="$t('ExplorerLang.table.title')"></el-table-column>
+									<el-table-column prop="status" :label="$t('ExplorerLang.table.proposalStatus')"
+									                :min-width="ColumnMinWidth.proposalStatus"></el-table-column>
+									<el-table-column prop="voted" :label="$t('ExplorerLang.table.voted')"
+									                  :min-width="ColumnMinWidth.voteOption"></el-table-column>
+									<el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+										<template v-slot:default="{ row }">
+											<el-tooltip :content="row.hash" placement="top" :disabled="!row.hash">
+											<router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>
+											</el-tooltip>
+										</template>
+									</el-table-column>
+								</el-table>
+							</div>
+							<m-pagination v-if="votedProposals.total > pageSize" :page-size="pageSize"
+							              :total="votedProposals.total"
+							              :page-change="pageChange('getVotedProposals')"></m-pagination>
+						</div>
+					</div>
+				</div>
+
 				<!-- Delegation Txs -->
-				<div class="delegations_txs_wrap">
+				<div class="delegations_txs_wrap clearfloat" v-show="delegationTxs.items && delegationTxs.items.length > 0">
 					<div class="delegations_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.delegationsTxsTitle') }}</p>
@@ -100,7 +177,7 @@
 					</div>
 				</div>
 				<!-- Validation Txs -->
-				<div class="validation_txs_wrap">
+				<div class="validation_txs_wrap clearfloat" v-show="validationTxs.items && validationTxs.items.length > 0">
 					<div class="validation_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.validationTxsTitle') }}</p>
@@ -108,6 +185,17 @@
 						<m-pagination v-if="validationTxs.total > pageSize" :page-size="pageSize"
 						              :total="validationTxs.total"
 						              :page-change="pageChange('getValidationTxs')"></m-pagination>
+					</div>
+				</div>
+				<!-- Gov Txs -->
+				<div class="gov_txs_wrap clearfloat" v-show="govTxs.items && govTxs.items.length > 0">
+					<div class="gov_txs_container">
+						<p class="gov_information_content_title">{{
+							$t('ExplorerLang.validatorDetail.govTxsTitle') }}</p>
+						<GovTxsList class="gov_txs_table_containers" :dataList="govTxs.items" />
+						<m-pagination v-if="govTxs.total > pageSize" :page-size="pageSize"
+						              :total="govTxs.total"
+						              :page-change="pageChange('getGovTxs')"></m-pagination>
 					</div>
 				</div>
 			</div>
@@ -120,27 +208,33 @@
 	import ValidatorCommissionInformation from './ValidatorCommissionInformation'
 	import MPagination from '../common/MPagination'
 	import Tools from '../../util/Tools.js'
-	import Constants,{ TxStatus,ColumnMinWidth,decimals } from '../../constant/index.js'
+	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum } from '../../constant/index.js'
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
 		getUnbondingDelegationsApi,
 		getDelegationTxsApi,
-		getValidationTxsApi
+		getValidationTxsApi,
+		getDepositedProposalsApi,
+		getVotedProposalsApi,
+		getGovTxsApi
 	} from "@/service/api"
 	import {TxHelper} from '../../helper/TxHelper.js'
-	import { getMainToken, converCoin,addressRoute } from '@/helper/IritaHelper';
+	import { getMainToken, converCoin,addressRoute,formatMoniker } from '@/helper/IritaHelper';
 	import { getAmountByTx } from '@/helper/txListAmoutHelper'
 	import DelegationTxsList from '@/components/common/DelegationTxsList'
 	import ValidationTxsList from '@/components/common/ValidationTxsList'
-	
+	import GovTxsList from '@/components/common/GovTxsList'
+
 	export default {
 		name: '',
-		components: {ValidatorInformation, ValidatorCommissionInformation, MPagination,DelegationTxsList,ValidationTxsList},
+		components: {ValidatorInformation, ValidatorCommissionInformation, MPagination,DelegationTxsList,ValidationTxsList,GovTxsList},
 		props: {},
 		data () {
 			return {
 				Tools,
+				monikerNum,
+				formatMoniker,
 				amountDecimals: decimals.amount,
 				sharesDecimals: decimals.shares,
 				ColumnMinWidth,
@@ -151,11 +245,13 @@
 				delegations: {
 					total: 0,
 					currentPage: 1,
+					useCount: true,
 					items: [],
 				},
 				unbondingDelegations: {
 					total: 0,
 					currentPage: 1,
+					useCount: true,
 					items: [],
 				},
 				delegationTxs: {
@@ -169,6 +265,22 @@
 					items: [],
 				},
 				mainToken:{},
+				depositedProposals: {
+					total: 0,
+					currentPage: 1,
+					items: [],
+				},
+				votedProposals: {
+					total: 0,
+					currentPage: 1,
+					items: [],
+				},
+				govTxs: {
+					total: 0,
+					currentPage: 1,
+					items: [],
+				},
+				proposalTitleNum: 20
 			}
 		},
 		computed: {},
@@ -178,8 +290,11 @@
 			this.getValidatorsInfo()
 			this.getDelegations()
 			this.getUnbondingDelegations()
+			this.getDepositedProposals()
+			this.getVotedProposals()
 			this.getDelegationTxs()
 			this.getValidationTxs()
+			this.getGovTxs()
 		},
 		mounted () {
 		},
@@ -195,8 +310,11 @@
 				this.validatorStatus = Tools.firstWordUpperCase(res.status)
 			},
 			async getDelegations (page = 1) {
-				const res = await getValidatorsDelegationsApi(this.$route.params.param, page, this.pageSize, true)
-				this.delegations.total = res.count
+				const res = await getValidatorsDelegationsApi(this.$route.params.param, page, this.pageSize, this.delegations.useCount)
+				if(res.count) {
+					this.delegations.total = res.count;
+					this.delegations.useCount = false;
+				}
 				this.delegations.items = []
 				res.data.forEach( async item => {
 					let amount = await converCoin(item.amount)
@@ -212,8 +330,11 @@
 				})
 			},
 			async getUnbondingDelegations (page = 1) {
-				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, true)
-				this.unbondingDelegations.total = res.count
+				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, this.unbondingDelegations.useCount)
+				if(res.count) {
+					this.unbondingDelegations.total = res.count;
+					this.unbondingDelegations.useCount = false;
+				}
 				this.unbondingDelegations.items = []
 				res.data.forEach(async item => {
 					let amount = await converCoin({
@@ -221,7 +342,7 @@
 						denom: this.mainToken.min_unit
 					})
 					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
-					item.until = Tools.format2UTC(item.until)
+					item.until = Tools.getFormatDate(new Date(item.until).getTime())
 					this.unbondingDelegations.items.push({
 						address: item.address,
 						amount: item.amount,
@@ -233,6 +354,7 @@
 			async getDelegationTxs (page = 1) {
 				const res = await getDelegationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.delegationTxs.total = res.count
+				this.delegationTxs.currentPage = res.pageNum
 				this.delegationTxs.items = []
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
@@ -263,7 +385,7 @@
 						toMonikers,
 						Tx_Type: (item.msgs || []).map(item=>item.type),
 						MsgsNum: msgsNumber,
-						Tx_Fee: fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+						Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
@@ -273,6 +395,7 @@
 			async getValidationTxs (page = 1) {
 				const res = await getValidationTxsApi(this.$route.params.param, page, this.pageSize)
 				this.validationTxs.total = res.count
+				this.validationTxs.currentPage = res.pageNum
 				this.validationTxs.items = []
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0
@@ -295,12 +418,110 @@
 						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${this.mainToken.symbol.toUpperCase()}` : '--' : '--',
 						'Tx_Type': (item.msgs || []).map(item=>item.type),
 						MsgsNum: msgsNumber,
-						'Tx_Fee': fee && fee.amount ? `${Tools.formatPriceToFixed(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+						'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,
 					})				
 				}
+			},
+			async getDepositedProposals (page = 1) {
+				try {
+					const res = await getDepositedProposalsApi(this.$route.params.param, page, this.pageSize, true)
+					this.depositedProposals.items = []
+					if(res) {
+						this.depositedProposals.total = res.count
+						if(res.data && res.data.length > 0) {
+							for (const deposit of res.data) {
+								let deposits = null;
+								if(deposit.amount && deposit.amount.length>0) {
+									deposits = await converCoin(deposit.amount[0])
+								}
+								this.depositedProposals.items.push({
+									id: deposit.proposal_id,
+									proposer: deposit.proposer,
+									moniker: deposit.moniker,
+									submited: String(deposit.submited),
+									hash: deposit.tx_hash,
+									deposit: deposits ? `${Tools.formatPriceToFixed(deposits.amount,this.amountDecimals)} ${deposits.denom.toLocaleUpperCase()}` : '--',
+									link: deposit.proposal_link,
+								})
+							}
+						}
+					}
+				} catch(e) {
+					console.error(e)
+				}	
+			},
+			async getVotedProposals (page = 1) {
+				try {
+					const res = await getVotedProposalsApi(this.$route.params.param, page, this.pageSize, true)
+					this.votedProposals.items = []
+					if(res) {
+						this.votedProposals.total = res.count
+						if(res.data && res.data.length > 0) {
+							this.votedProposals.items = res.data.map(vote => {
+								return {
+									id: vote.proposal_id,
+									title: Tools.formatString(vote.title, this.proposalTitleNum, '...'),
+									status: vote.status,
+									voted: vote.voted,
+									hash: vote.tx_hash,
+									link: vote.proposal_link,
+								}
+							})
+						}
+					}
+				} catch(e) {
+					console.error(e)
+				}	
+			},
+			async getGovTxs (page = 1) {
+				try {
+						let res = await getGovTxsApi(this.$route.params.param, page, this.pageSize);
+						this.govTxs.items = [];
+						if(res.data && res.data.length > 0) {
+							this.govTxs.total = res.count
+							this.govTxs.currentPage = res.pageNum
+							for (const item of res.data) {
+								let msgsNumber = item.msgs ? item.msgs.length : 0
+								const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+								const time = Tools.getDisplayDate(item.time)
+								let amount = null
+								let msg = item.msgs && item.msgs[0]
+								if(msg) {
+									if(msg.type == "deposit") {
+										let unit = msg.msg && msg.msg.amount && msg.msg.amount[0]
+										if(unit) {
+											amount = await converCoin(unit)
+										}
+									} else {
+										let unit = msg.msg && msg.msg.initial_deposit && msg.msg.initial_deposit[0]
+										if(unit) {
+											amount = await converCoin(unit)
+										}
+									}
+								}
+								this.govTxs.items.push({
+									Tx_Hash: item.tx_hash,
+									Block: item.height,
+									proposalType: item.ex && item.ex.type,
+									proposalId: item.ex && item.ex.id,
+									proposalTitle: item.ex && item.ex.title && Tools.formatString(item.ex.title, this.proposalTitleNum, '...'),
+									amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
+									'Tx_Type': (item.msgs || []).map(item=>item.type),
+									MsgsNum: msgsNumber,
+									'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+									'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
+									'Tx_Status': TxStatus[item.status],
+									Timestamp: time,
+									proposalLink: item.ex && item.ex.proposal_link
+								})
+							}
+						}
+					} catch(e) {
+						console.error(e)
+					}
 			},
 			formatAddress (address) {
 				return Tools.formatValidatorAddress(address)
@@ -327,6 +548,7 @@
 	}
 	
 	.vaildtor_detail_container {
+		margin-bottom: 0.2rem;
 		.vaildtor_detail_content {
 			max-width: 12rem;
 			margin: 0 auto;
@@ -353,7 +575,7 @@
 			
 			.delegations_wrap {
 				margin: 0 auto;
-				
+				margin-top: 0.1rem;
 				.delegations_container {
 					display: flex;
 					
@@ -362,8 +584,8 @@
 						line-height: 0.2rem;
 						color: $t_first_c;
 						font-size:  $s18;
-						margin-top: 0.3rem;
-						padding-left: 0.2rem;
+						margin-top: 0.2rem;
+						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
 					
@@ -374,11 +596,14 @@
 					.second_table_container {
 						margin-left: 0.2rem;
 						width: calc(50% - 0.1rem);
+						.validator_information_content_title {
+							white-space: nowrap;
+						}
 					}
 					
 					.delegations_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 					}
 				}
@@ -391,21 +616,21 @@
 			
 			.delegations_txs_wrap {
 				margin: 0 auto;
-				
+				margin-top: 0.1rem;
 				.delegations_txs_container {
 					.validator_information_content_title {
 						height: 0.2rem;
 						line-height: 0.2rem;
 						color: $t_first_c;
 						font-size:  $s18;
-						margin-top: 0.3rem;
-						padding-left: 0.2rem;
+						margin-top: 0.2rem;
+						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
 					
 					.delegations_txs_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 
 						.status_icon{
@@ -424,7 +649,7 @@
 			
 			.validation_txs_wrap {
 				margin: 0 auto;
-				margin-bottom: 0.5rem;
+				margin-top: 0.1rem;
 				
 				.validation_txs_container {
 					.validator_information_content_title {
@@ -432,15 +657,46 @@
 						line-height: 0.2rem;
 						color: $t_first_c;
 						font-size:  $s18;
-						margin-top: 0.3rem;
-						padding-left: 0.2rem;
+						margin-top: 0.2rem;
+						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
 					
 					.validation_txs_table_container {
 						overflow-x: auto;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
+					}
+					
+					.common_pagination_content {
+						margin-top: 0.2rem;
+						float: right;
+						// margin-bottom: 0.5rem;
+					}
+				}
+			}
+
+			.gov_txs_wrap {
+				margin: 0 auto;
+				margin-top: 0.1rem;
+				margin-bottom: 0.2rem;
+				
+				.gov_txs_container {
+					.gov_information_content_title {
+						height: 0.2rem;
+						line-height: 0.2rem;
+						color: $t_first_c;
+						font-size:  $s18;
+						margin-top: 0.2rem;
+						// padding-left: 0.2rem;
+						margin-bottom: 0.2rem !important;
+					}
+					
+					.gov_txs_table_containers {
+						// width: 100%;
+						// overflow-x: auto;
+						// border: 0.01rem solid $bd_first_c;
+						// background: $bg_white_c;
 					}
 					
 					.common_pagination_content {
@@ -471,6 +727,11 @@
 				}
 				.validation_txs_wrap {
 					.validation_txs_container {
+						margin: 0 0.2rem;
+					}
+				}
+				.gov_txs_wrap {
+					.gov_txs_container {
 						margin: 0 0.2rem;
 					}
 				}
@@ -519,7 +780,7 @@
 		.vaildtor_detail_container {
 			.vaildtor_detail_content {
 				.vaildtor_detail_title_container {
-					margin-left: 0.2rem;
+					margin-left: 0.1rem;
 				}
 				.delegations_wrap {
 					.delegations_container{
@@ -534,6 +795,45 @@
 				.validation_txs_wrap {
 					.validation_txs_container {
 						margin: 0 0.1rem;
+					}
+				}
+				.gov_txs_wrap {
+					.gov_txs_container {
+						margin: 0 0.1rem;
+					}
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 510px){
+		.vaildtor_detail_container {
+			.vaildtor_detail_content {
+				.delegations_wrap {
+					.delegations_container{
+						.validator_information_content_title {
+							// padding-left: 0.05rem;
+						}
+					}
+				}
+				.delegations_txs_wrap {
+					.delegations_txs_container{
+						.validator_information_content_title {
+							// padding-left: 0.05rem;
+						}
+					}
+				}
+				.validation_txs_wrap {
+					.validation_txs_container {
+						.validator_information_content_title {
+							// padding-left: 0.05rem;
+						}
+					}
+				}
+				.gov_txs_wrap {
+					.gov_txs_container {
+						.validator_information_content_title {
+							// padding-left: 0.05rem;
+						}
 					}
 				}
 			}

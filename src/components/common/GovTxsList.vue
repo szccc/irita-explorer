@@ -1,10 +1,10 @@
 <template>
-  <div class="validation_txs_list">
-    <div class="validation_txs_table_container">
-      <el-table :data="dataList" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-        <el-table-column class-name="hash_status"  align="left" prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
+  <div class="gov_txs_list">
+    <div class="gov_txs_table_container">
+      <el-table :data="dataList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+        <el-table-column class-name="hash_status" align="left" prop="Tx_Hash" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.txHash">
           <template v-slot:default="{ row }">
-            <div class="validation_txs_table_container_status">
+            <div class="gov_txs_table_container_status">
               <div class="status">
                 <img class="status_icon" :src="require(`../../assets/${row.Tx_Status == 'Success' ? 'success.png' : 'failed.png'}`)" />
               </div>
@@ -21,35 +21,25 @@
             <router-link style="font-family: Arial;" :to="'/block/' + row.Block" :style="{ color: '$theme_c !important' }">{{ row.Block }} </router-link>
           </template>
         </el-table-column>
-        <el-table-column  :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
+        <el-table-column prop="proposalType" :label="$t('ExplorerLang.table.proposalType')" :min-width="ColumnMinWidth.proposalType">
           <template v-slot:default="{ row }">
-            <el-tooltip :disabled="row.OperatorMonikers === '--' && row.OperatorAddr === '--' " :content="`${row.OperatorAddr}`">
-              <span v-if="row.OperatorAddr === $route.params.param || row.OperatorAddr == '--'">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers,monikerNum.otherTable) : formatAddress(row.OperatorAddr) }}</span>
-              <span v-else @click="addressRoute(row.OperatorAddr)" class="address_link link_style justify">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers,monikerNum.otherTable) : formatAddress(row.OperatorAddr) }}</span>
-            </el-tooltip>
+            <span v-if="row.proposalType">{{ row.proposalType }}</span>
+            <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column prop="OperatorAddr" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
+        <el-table-column prop="proposalId" :label="$t('ExplorerLang.table.proposalID')" :min-width="ColumnMinWidth.proposalID">
           <template v-slot:default="{ row }">
-            <span v-if="/^[1-9]\d*$/.test(row.OperatorAddr)" class="skip_route">
-              <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.OperatorAddr }} Validators</router-link>
-            </span>
-            <div class="name_address" v-show="!/^[0-9]\d*$/.test(row.OperatorAddr) && row.OperatorAddr && row.OperatorAddr !== '--'">
-              <el-tooltip :content="`${row.OperatorAddr}`">
-                <span v-if="row.OperatorAddr === $route.params.param">{{ formatAddress(row.OperatorAddr) }}</span>
-                <span v-else @click="addressRoute(row.OperatorAddr)" class="address_link link_style justify">
-                  {{ formatAddress(row.OperatorAddr) }}
-                </span>
-              </el-tooltip>
-            </div>
-            <span class="no_skip" v-show="/^[0]\d*$/.test(row.OperatorAddr) || row.OperatorAddr === '--'">--</span>
+            <router-link v-if="row.proposalId && row.proposalLink" :to="`/ProposalsDetail/${row.proposalId}`">{{ row.proposalId }}</router-link>
+            <span v-else>{{ row.proposalId || '--'}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="Self-Bonded" :label="$t('ExplorerLang.table.selfBonded')" :min-width="ColumnMinWidth.selfBond">
+        <el-table-column prop="proposalTitle" :label="$t('ExplorerLang.table.proposalTitle')" :min-width="ColumnMinWidth.proposalTitle">
           <template v-slot:default="{ row }">
-            <span>{{ row.SelfBonded }}</span>
+            <router-link v-if="row.proposalTitle && row.proposalLink" :to="`/ProposalsDetail/${row.proposalId}`">{{ row.proposalTitle }}</router-link>
+            <span v-else>{{row.proposalTitle || '--'}}</span>
           </template>
         </el-table-column>
+        <el-table-column class-name="amount" prop="amount" align="right" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')"></el-table-column>
         <el-table-column class-name="tx_type" prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :min-width="ColumnMinWidth.txType">
           <template v-slot:default="{ row }">
             <el-tooltip :content="row.Tx_Type.join(',')" placement="top" :disabled="row.Tx_Type.length <= 1">
@@ -58,7 +48,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"> </el-table-column>
-        <el-table-column v-if="prodConfig.shielding.fee" prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
+        <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
         <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <el-tooltip :disabled="row.Tx_Signer === '--'" :content="`${row.Tx_Signer}`">
@@ -73,12 +63,11 @@
 </template>
 
 <script>
-import Tools from '@/util/Tools'
-import prodConfig from "@/productionConfig"
-import { ColumnMinWidth,monikerNum } from '@/constant'
-import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
+import Tools from "@/util/Tools";
+import { ColumnMinWidth, monikerNum } from "@/constant";
+import { addressRoute, formatMoniker } from "@/helper/IritaHelper";
 export default {
-  name: 'ValidationTxsList',
+  name: "GovTxsList",
   components: {},
   props: {
     dataList: {
@@ -90,11 +79,10 @@ export default {
     return {
       ColumnMinWidth,
       Tools,
-      prodConfig,
       addressRoute,
       formatMoniker,
-      monikerNum
-    }
+      monikerNum,
+    };
   },
   computed: {},
   watch: {},
@@ -102,27 +90,27 @@ export default {
   mounted() {},
   methods: {
     formatAddress(address) {
-      return Tools.formatValidatorAddress(address)
+      return Tools.formatValidatorAddress(address);
     },
     formatTxHash(TxHash) {
       if (TxHash) {
-        return Tools.formatTxHash(TxHash)
+        return Tools.formatTxHash(TxHash);
       }
     },
     getDisplayTxType(types = []) {
-      let type = types[0] || ''
+      let type = types[0] || "";
       if (type && types.length > 1) {
-        type += this.$t('ExplorerLang.unit.ellipsis')
+        type += this.$t("ExplorerLang.unit.ellipsis");
       }
-      return type
+      return type;
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
-.validation_txs_list {
-  .validation_txs_table_container {
+.gov_txs_list {
+  .gov_txs_table_container {
     a {
       color: $t_link_c !important;
     }
@@ -131,18 +119,21 @@ export default {
             margin-left: 0.1rem;
         }
     }
-    .validation_txs_table_container_status {
-        display: flex;
-        .status {
-            .status_icon{
-                width:0.13rem;
-                height:0.13rem;
-                margin-right:0.05rem;
-            }
+    .gov_txs_table_container_status {
+      display: flex;
+      .status {
+        .status_icon {
+          width: 0.13rem;
+          height: 0.13rem;
+          margin-right: 0.05rem;
         }
+      }
     }
     /deep/ .cell {
       padding: 0;
+    }
+    /deep/ .amount {
+      padding-right: 20px;
     }
   }
 }

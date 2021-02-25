@@ -15,13 +15,24 @@
 						</div>
 					</div>
 					<div class="block_list_pagination_content">
-						<el-table class="table"  :data="blockList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
+						<el-table class="table"  :data="blockList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 							<el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
 								<template slot-scope="scope">
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 								</template>
 							</el-table-column>
+							<el-table-column v-if="productionConfig.blockList.proposer" :min-width="ColumnMinWidth.proposer" :label="$t('ExplorerLang.table.proposer')">
+								<template slot-scope="scope">
+										<span v-if="scope.row.proposerAddress !== '' && scope.row.proposerAddress !== '--'">
+											<router-link class="common_link_style" :to="`/staking/${scope.row.proposerAddress}`">{{scope.row.proposerValue}}</router-link>
+										</span>
+										<span v-if="scope.row.proposerAddress === '' && scope.row.proposerValue">{{scope.row.proposerValue}}</span>
+										<span v-if="scope.row.proposerAddress === '--'">--</span>
+								</template>
+							</el-table-column>
 							<el-table-column :min-width="ColumnMinWidth.txn" prop="numTxs" :label="$t('ExplorerLang.table.transactions')"></el-table-column>
+							<!-- <el-table-column v-if="productionConfig.blockList.validtors" :min-width="ColumnMinWidth.validatorValue" prop="validatorValue" :label="$t('ExplorerLang.table.validators')"></el-table-column> -->
+							<!-- <el-table-column v-if="productionConfig.blockList.votingPower" :min-width="ColumnMinWidth.votingPowerValue" prop="votingPowerValue" :label="$t('ExplorerLang.table.votingPower')"></el-table-column> -->
 							<el-table-column :min-width="ColumnMinWidth.time" prop="time" :label="$t('ExplorerLang.table.timestamp')"></el-table-column>
 							<el-table-column :min-width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerLang.table.age')"></el-table-column>
 						</el-table>
@@ -40,12 +51,15 @@
 	import MPagination from "./common/MPagination";
 	import { getBlockList, getLatestBlock } from "../service/api";
 	import { ColumnMinWidth } from '../constant';
+	import productionConfig from '@/productionConfig.js';
+
 	export default {
 		name: "BlockList",
 		components: {MPagination},
 		data() {
 			return {
 				ColumnMinWidth,
+				productionConfig,
 				pageNumber: 1,
 				pageSize: 20,
 				dataCount: 0,
@@ -66,6 +80,10 @@
 						this.dataCount = blockData.count;
 						this.blockList = blockData.data.map( item => {
 							return{
+								proposerAddress:item.proposer_addr || '--',
+								proposerValue: item.proposer_moniker || ( item.proposer_addr || '--'),
+								// validatorValue: `${item.precommit_validator_num || 0} / ${item.total_validator_num || 0}`,
+								// votingPowerValue: item.precommit_voting_power ? `${Tools.formatPerNumber((Number(item.precommit_voting_power) / item.total_voting_power) * 100)} %` : '--',
 								height: item.height,
 								time: Tools.getDisplayDate(item.time),
 								Time: item.time,
@@ -162,12 +180,13 @@
                         width:100%;
                         overflow-x: auto;
 						.el-table{
+							overflow-x: auto;
 							.el-table__header-wrapper{
 								/*position: fixed;*/
 								/*z-index: 10;*/
 							}
 							/deep/ .el-table__body-wrapper {
-								overflow: hidden;
+								overflow: auto;
 							}
 						}
                         @media screen and (min-width: 910px) and (max-width: 1280px){
@@ -184,7 +203,7 @@
 
 
 					.block_list_current_height_content{
-						padding:0.3rem 0 0.1rem 0.1rem;
+						padding:0.3rem 0 0.16rem 0;
 						text-align: left;
                         display:flex;
                         align-items: center;

@@ -21,13 +21,25 @@
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link v-if="formatAddress(scope.row.nftName) != '--'" :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.nftName)}}</router-link>
-							<span v-else>{{'--'}}</span>
+							<el-tooltip 
+										:content="scope.row.nftName"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.nftName)">
+								<router-link v-if="formatAddress(scope.row.nftName) != '--'" :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.nftName)}}</router-link>
+								<span v-else>{{'--'}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
 						<template slot-scope="scope">
-							<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.id)}}</router-link>
+							<el-tooltip 
+										:content="scope.row.id"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.id)">
+								<router-link :to="`/nft/token?denom=${scope.row.denomId}&&tokenId=${scope.row.id}`">{{formatAddress(scope.row.id)}}</router-link>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
@@ -103,7 +115,7 @@
 							<span class="serviceNameText" v-if="scope.row.isChildren && scope.row.index==0">{{getRespondCount(scope.row.count)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
+					<el-table-column class-name="tx_type" :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
 					                 prop="txType"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.state" :label="$t('ExplorerLang.table.requestStatus')">
 						<template slot-scope="scope">
@@ -123,20 +135,30 @@
 					<el-table-column :min-width="ColumnMinWidth.addressTxHash" :label="$t('ExplorerLang.table.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
-								<img class="status_icon"
-								     :src="require(`../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
+								<div class="status">
+									<img class="status_icon"
+										:src="require(`../assets/${scope.row.status==TX_STATUS.success?'success.png':'failed.png'}`)"/>
+								</div>
 								<el-tooltip :content="scope.row.txHash"
 								            placement="top">
-									<router-link :to="`/tx?txHash=${scope.row.txHash}`">
-										{{formatTxHash(scope.row.txHash)}}
-									</router-link>
+									<div>
+										<router-link :to="`/tx?txHash=${scope.row.txHash}`">
+											{{formatTxHash(scope.row.txHash)}}
+										</router-link>
+									</div>
 								</el-tooltip>
 							</div>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
-							<span>{{formatAddress(scope.row.requestContextId)}}</span>
+							<el-tooltip 
+										:content="scope.row.requestContextId"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.requestContextId)">
+								<span>{{formatAddress(scope.row.requestContextId)}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
@@ -252,25 +274,35 @@
 							<span v-if="!scope.row.serviceName">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
+					<el-table-column class-name="tx_type" :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
 					                 prop="type"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
 						<template slot-scope="scope">
 							<div class="respond_transaction_content_hash">
-								<img class="status_icon"
+								<div class="status">
+									<img class="status_icon"
 								     :src="require(`../assets/${scope.row.respondStatus==TX_STATUS.success?'success.png':'failed.png'}`)"/>
+								</div>
 								<el-tooltip :content="scope.row.respondHash"
 								            placement="top">
-									<router-link :to="`/tx?txHash=${scope.row.respondHash}`">
-										{{formatTxHash(scope.row.respondHash)}}
-									</router-link>
+									<div>
+										<router-link :to="`/tx?txHash=${scope.row.respondHash}`">
+											{{formatTxHash(scope.row.respondHash)}}
+										</router-link>
+									</div>	
 								</el-tooltip>
 							</div>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
-							<span>{{formatAddress(scope.row.requestContextId)}}</span>
+							<el-tooltip 
+										:content="scope.row.requestContextId"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.requestContextId)">
+								<span>{{formatAddress(scope.row.requestContextId)}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.blockListHeight" :label="$t('ExplorerLang.table.block')">
@@ -298,14 +330,18 @@
 					<el-table-column :min-width="ColumnMinWidth.requestHash" :label="$t('ExplorerLang.table.requestHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
-								<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
+								<div class="status">
+									<img v-if="scope.row.requestHash && scope.row.requestHash !='--'" class="status_icon"
 								     src="../assets/success.png"/>
+								</div>
 								<el-tooltip v-if="scope.row.requestHash && scope.row.requestHash != '--'"
 								            :content="scope.row.requestHash"
 								            placement="top">
-									<router-link :to="`/tx?txHash=${scope.row.requestHash}`">
-										{{formatTxHash(scope.row.requestHash)}}
-									</router-link>
+									<div>
+										<router-link :to="`/tx?txHash=${scope.row.requestHash}`">
+											{{formatTxHash(scope.row.requestHash)}}
+										</router-link>
+									</div>
 								</el-tooltip>
 								<span v-else>{{'--'}}</span>
 							</div>
@@ -555,10 +591,10 @@
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
-	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth,monikerNum} from '../constant';
+	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth,monikerNum,ibcDenomPrefix} from '../constant';
 	import AddressInformationComponent from "./AddressInformationComponent";
 	import LargeString from './common/LargeString';
-	import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
+	import { addressRoute,formatMoniker } from '@/helper/IritaHelper';
 	import {
 		getNfts,
 		getAddressTxList,
@@ -574,6 +610,7 @@
 		getUnBondingDelegationListApi,
 		getRewardsItemsApi,
 		getValidatorRewardsApi,
+		getIbcTransferByHash
 	} from "@/service/api";
 	import BigNumber from 'bignumber.js'
 	import moveDecimal from 'move-decimal-point'
@@ -599,7 +636,7 @@
 				denomArray: [],
 				address: '',
 				pageNum: 1,
-				pageSize: 10,
+				pageSize: 5,
 				txList: [],
 				totalTxNumber: 0,
 				providerTxList: [],
@@ -938,7 +975,6 @@
 					console.error(e);
 					this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
 				}
-				
 			},
 			consumerTxPageChange (pageNum) {
 				this.consumerTxPageNum = pageNum;
@@ -1124,9 +1160,17 @@
 			},
 			async getAssetList () {
 				let assetList = [];
+				let balanceAmountsArr = [];
+				// console.time('amount')
+				for (let key in this.assetList) {
+					let item = this.assetList[key];
+					balanceAmountsArr.push(item && item.amount ? converCoin(item) : {});
+				}
+				let balanceAmounts = await Promise.all(balanceAmountsArr);
 			 	for (let key in this.assetList) {
 			 		let item = this.assetList[key];
-			 		let balanceAmount = item && item.amount ? await converCoin(item) : {};
+			 		// let balanceAmount = item && item.amount ? await converCoin(item) : {};
+			 		let balanceAmount = balanceAmounts[key]
 			 		if (item && item.denom && item.denom === this.mainToken.min_unit) {
 						assetList.unshift({
 							token: this.mainToken.symbol.toUpperCase(),
@@ -1144,9 +1188,17 @@
 						});
 					} else {
 						if(balanceAmount && balanceAmount.denom) {
+							let denom = balanceAmount.denom;
+							if(denom.startsWith(ibcDenomPrefix)){
+								let hash = denom.replace(ibcDenomPrefix,'')
+								let res = await getIbcTransferByHash(hash)
+								if(res && res.denom_trace && res.denom_trace.base_denom) {
+									denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase()
+								}
+							}
 							assetList.push({
-								token: balanceAmount.denom.toUpperCase(),
-								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
+								token: item.denom.toUpperCase(),
+								balance: balanceAmount.amount ? `${new BigNumber(balanceAmount.amount).toFormat()} ${denom.toUpperCase()}` : 0,
 								delegated: 0,
 								unBonding: 0,
 								rewards: 0,
@@ -1155,7 +1207,8 @@
 						}
 					}
 			 	}
-				 this.assetsItems = assetList;
+				this.assetsItems = assetList;
+				//  console.timeEnd('amount')
 			},
 			pageNation (dataArray) {
 				let index = 0;
@@ -1328,7 +1381,8 @@
 						address: item.address,
 						amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)} ${amount.denom.toUpperCase()}`,
 						block: item.height,
-						endTime: Tools.format2UTC(item.end_time),
+						// endTime: Tools.format2UTC(item.end_time),
+						endTime: Tools.getFormatDate(new Date(item.end_time).getTime()),
 						moniker: item.moniker
 					});
 				}
@@ -1382,7 +1436,7 @@
 				color: $t_first_c;
 				font-size: $s18;
 				line-height: 0.21rem;
-				margin: 0.3rem 0 0.15rem 0.25rem;
+				margin: 0.3rem 0 0.15rem 0rem;
 				text-align: left;
 				font-family: Arial;
 				font-weight: 600;
@@ -1407,7 +1461,7 @@
 				
 				.address_tab_content {
 					display: flex;
-					margin-left: 0.28rem;
+					// margin-left: 0.28rem;
 					
 					.address_tab_item {
 						cursor: pointer;
@@ -1435,7 +1489,7 @@
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
-				border: 0.01rem solid $bd_first_c;
+				// border: 0.01rem solid $bd_first_c;
 				margin-bottom: 0.48rem;			
 			}
 			
@@ -1444,7 +1498,17 @@
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
-				border: 0.01rem solid $bd_first_c;
+				// border: 0.01rem solid $bd_first_c;
+				.address_transaction_content_hash {
+					display: flex;
+					.status {
+						.status_icon{
+							width:0.13rem;
+							height:0.13rem;
+							margin-right:0.05rem;
+						}
+					}
+				}
 				.serviceNameText {
 					color: $t_second_c;
 				}
@@ -1471,13 +1535,28 @@
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
-				border: 0.01rem solid $bd_first_c;
+				// border: 0.01rem solid $bd_first_c;
 				
 				.respond_transaction_content_hash {
 					display: flex;
-					align-items: center;
+					.status {
+						.status_icon{
+							width:0.13rem;
+							height:0.13rem;
+							margin-right:0.05rem;
+						}
+					}
 				}
-				
+				.address_transaction_content_hash {
+					display: flex;
+					.status {
+						.status_icon{
+							width:0.13rem;
+							height:0.13rem;
+							margin-right:0.05rem;
+						}
+					}
+				}
 				.provider_transaction_content_available {
 					display: flex;
 					align-items: center;
@@ -1497,7 +1576,7 @@
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
-				border: 0.01rem solid $bd_first_c;
+				// border: 0.01rem solid $bd_first_c;
 				
 				.address_transaction_content_hash {
 					display: flex;
@@ -1657,8 +1736,8 @@
 						color: $t_first_c;
 						font-size: $s18;
 						margin-top: 0.3rem;
-						padding-left: 0.2rem;
-						margin-bottom: 0.2rem !important;
+						// padding-left: 0.2rem;
+						margin-bottom: 0.06rem !important;
 						text-align: left;
 						
 						.address_information_delegation_value,
@@ -1682,7 +1761,7 @@
 					.delegations_table_container {
 						overflow-x: auto;
 						border-radius: 0.05rem;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						min-height: 2.34rem;
 						background: $bg_white_c;
 					}
@@ -1699,7 +1778,7 @@
 				font-size: $s18;
 				color: $t_first_c;
 				line-height: 0.21rem;
-				margin: 0.27rem 0 0 0.2rem;
+				margin: 0.27rem 0 0 0rem;
 				
 				.address_information_redelegation_rewards_value {
 					font-size: $s14;
@@ -1718,7 +1797,7 @@
 					margin-right: 0.2rem;
 					
 					.address_information_detail_option {
-						padding: 0 0 0.1rem 0.2rem;
+						padding: 0 0 0.1rem 0rem;
 						
 						.address_information_detail_option_name {
 							font-size: $s14;
@@ -1738,7 +1817,7 @@
 						overflow-x: auto;
 						box-sizing: border-box;
 						border-radius: 0.05rem;
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						min-height: 2.34rem;
 						background: $bg_white_c;
 					}
@@ -1757,7 +1836,7 @@
 						width: 100%;
 						font-size: $s18;
 						color: $t_first_c;
-						padding: 0 0 0.06rem 0.2rem;
+						padding: 0 0 0.06rem 0rem;
 						
 						.address_information_validator_rewards_value {
 							font-size: $s14;
@@ -1768,7 +1847,7 @@
 					}
 					
 					.address_information_detail_content {
-						border: 0.01rem solid $bd_first_c;
+						// border: 0.01rem solid $bd_first_c;
 						border-radius: 0.05rem;
 						background: $bg_white_c;
 						box-sizing: border-box;
@@ -1931,7 +2010,7 @@
 						display: block;
 						// margin-left: 0.2rem;
 						.validator_information_content_title {
-							padding-left: 0rem;
+							// padding-left: 0rem;
 						}
 						
 						.one_table_container {
@@ -2200,6 +2279,7 @@
 		.address_container_content {
 			.address_content_wrap {
 				.address_content_title {
+					display: block;
 					.address_content_title_first {
 					}
 					
@@ -2310,7 +2390,9 @@
 				.address_information_redelegation_tx_container {
 					.address_information_delegator_rewards_content {				
 						.address_information_detail_option {
+							display: block;
 							.address_information_detail_option_value {
+								display: block;
 							}
 						}
 						
@@ -2324,7 +2406,6 @@
 						
 						.address_information_detail_content {
 							.address_information_detail_option {
-								
 								.address_information_detail_option_name {
 									min-width: 1.2rem;
 									margin-right: 0.01rem;

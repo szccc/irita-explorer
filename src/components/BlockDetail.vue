@@ -70,13 +70,13 @@
 			<div class="block_validator_set_container" v-if="moduleSupport('107', prodConfig.navFuncList)">
 				<div class="block_validator_set_title">{{$t('ExplorerLang.blockDetail.validatorSet')}}</div>
 				<div class="block_validator_set_content">
-					<el-table class="table"  :data="validatorSetList" stripe :empty-text="$t('ExplorerLang.table.emptyDescription')">
+					<el-table class="table"  :data="validatorSetList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
 						<el-table-column type="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
 						<el-table-column prop="moniker"  :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
 							<template v-slot:default="{ row }">
 								<div class="moniker_conent">
-									<div class="proposer_img_content">
-										<img :style="{visibility:row.flProposer ? 'visible' : 'hidden'}" src="../assets/proposer_img.png"/>
+									<div class="proposer_img_content" v-if="row.flProposer">
+										<img src="../assets/proposer_img.png"/>
 									</div>
 									<span class="skip_route">
 										<el-tooltip popper-class="tooltip" :disabled="!row.isTooltip" :content="row.monikerValue" placement="bottom">
@@ -90,9 +90,15 @@
 						<el-table-column  prop="OperatorAddress" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
 							<template v-slot:default="{ row }">
 								<div class="common_hover_address_parent skip_route">
-									<span v-if="row.OperatorAddress !== '--'"  @click="addressRoute(row.OperatorAddress)" style="font-family: Arial" class="link_style common_font_style address_link">{{formatAddress(row.OperatorAddress)}}
-									</span>
-									<span v-else>{{ row.OperatorAddress }}</span>
+									<el-tooltip 
+										:content="row.OperatorAddress"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(row.OperatorAddress)">
+										<span v-if="row.OperatorAddress !== '--'"  @click="addressRoute(row.OperatorAddress)" style="font-family: Arial" class="link_style common_font_style address_link">{{formatAddress(row.OperatorAddress)}}
+										</span>
+										<span v-else>{{ row.OperatorAddress }}</span>
+									</el-tooltip>
 								</div>
 							</template>
 						</el-table-column>
@@ -100,11 +106,10 @@
 						<el-table-column  align="right" prop="ProposerPriority" :min-width="ColumnMinWidth.proposerPriority" :label="$t('ExplorerLang.table.proposerPriority')"></el-table-column>
 						<el-table-column  align="right" prop="VotingPower" :min-width="ColumnMinWidth.votingPower" :label="$t('ExplorerLang.table.votingPower')"></el-table-column>
 					</el-table>
-
 				</div>
-				<div class="pagination" style='margin-top:0.2rem;margin-bottom: 0.2rem;'
-				     v-if="flShowValidatorListSetPagination">
-					<m-pagination :total="validatorSetListCount"
+				<div class="pagination" style='margin-top:0.2rem;margin-bottom: 0.2rem;'>
+					<m-pagination v-show="validatorSetListCount > pageSize"
+								  :total="validatorSetListCount"
 					              :pageSize="pageSize"
 					              :page="validatorSetPageNum"
 					              :page-change="pageChangeValidatorSet">
@@ -159,7 +164,6 @@
 				inflationValue: null,
 				timestampValue: '',
 				validatorSetList: [],
-				flShowValidatorListSetPagination: false,
 				validatorSetListCount: 0,
 				pageSize: 10,
 				validatorSetPageNum: 1,
@@ -295,7 +299,8 @@
 			async getValidatorSetList () {
 				try {
 					let data = await getValidatorSetList(this.validatorSetPageNum, this.pageSize, this.$route.params.height)
-					if (data.data.length > 0) {
+					if (data && data.data && data.data.length > 0) {
+						this.validatorSetListCount = data.count;
 						this.validatorSetList = data.data.map(item => {
 							return {
 								'monikerValue': item.moniker,
@@ -438,7 +443,7 @@
 			}
 			
 			.block_validator_set_container {
-				margin-top: 0.1rem;
+				margin: 0.1rem 0rem 0.2rem 0rem;
 				padding-bottom: 0.01rem;
 				
 				.block_validator_set_title {

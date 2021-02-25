@@ -5,7 +5,7 @@ import bech32 from 'bech32'
 import moveDecimal from 'move-decimal-point'
 import Constant from '../constant/index.js'
 import { getConfig } from '@/helper/IritaHelper'
-
+import { utcOffset,isShowUTC } from '../productionConfig'
 export default class Tools {
   /**
    * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -56,12 +56,20 @@ export default class Tools {
   static format38(str) {
     if (str && str.length > 11) {
       return `${str.substring(0, 3)}...${str.substring(str.length - 8)}`
-    } else if (str && str.length < 11) {
+    } else if (str && str.length <= 11) {
       return str
     }
     return ''
   }
 
+  /**
+   * 
+   * 是否显示tooltip
+   */
+  static disabled (str) {
+    return str && str.length <= 11
+  }
+  
   /**
    * 格式化空格
    */
@@ -80,28 +88,56 @@ export default class Tools {
   /**
    * 转换时间格式
    * */
+  static getDisplayDate (timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
+    let offset = utcOffset || '+0';
+    let isShow = isShowUTC === false ? false : true;
+    if (isShow) {
+      if (offset && offset !=="+0") {
+        return moment(timestamp * 1000)
+        .utcOffset(Number(offset))
+        .format(format) + ' UTC' + offset
+      } else {
+        return moment(timestamp * 1000)
+        .utcOffset(Number(offset))
+        .format(format) + ' UTC'
+      }
+    } else {
+        return moment(timestamp * 1000)
+        .utcOffset(Number(offset))
+        .format(format)
+    }
+  }
   // static getDisplayDate(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
   //   return moment(timestamp * 1000)
-  //     .utcOffset(+480)
-  //     .format(format)
-  // }
-  static getDisplayDate(timestamp, format = 'YYYY-MM-DD HH:mm:ss') {
-    return moment(timestamp * 1000)
-      .local()
-      .format(format)
-  }
-
-  // static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
-  //   return moment(date)
-  //     .utcOffset(+480)
+  //     .local()
   //     .format(format)
   // }
 
   static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
-    return moment(date)
-      .local()
-      .format(format)
+    let offset = utcOffset || '+0';
+    let isShow = isShowUTC === false ? false : true;
+    if (isShow) {
+      if (offset && offset !=="+0") {
+        return moment(date)
+        .utcOffset(Number(offset))
+        .format(format) + ' UTC' + offset
+      } else {
+        return moment(date)
+        .utcOffset(Number(offset))
+        .format(format) + ' UTC'
+      }
+    } else {
+        return moment(date)
+        .utcOffset(Number(offset))
+        .format(format)
+    }
   }
+
+  // static getFormatDate(date, format = 'YYYY-MM-DD HH:mm:ss') {
+  //   return moment(date)
+  //     .local()
+  //     .format(format)
+  // }
 
   static getTimestamp () {
     return Math.floor(new Date().getTime() / 1000)
@@ -182,6 +218,7 @@ export default class Tools {
   static subStrings(value, afterPointLength) {
     //截取指定小数位长度字符串
     if (value) {
+      value = String(value)
       let arr = value.split('.')
       arr[1] = arr[1] || ''
       if (arr[1].toString().length > afterPointLength) {
@@ -297,14 +334,31 @@ export default class Tools {
     }
     return flag
   }
+  // 保留小数，不使用四舍五入
+  static toDecimal (num, decimal) {
+    num = this.FormatScientificNotationToNumber(num).toString();
+    let index = num.indexOf('.');
+    if (index !== -1) {
+      num = num.substring(0, decimal + index + 1)
+    } else {
+      num = num.substring(0)
+    }
+    return parseFloat(num).toFixed(decimal)
+  }
 
-  static formatPerNumber (num) {
+  static formatPerNumber (num,model="decimal") {
     if (typeof num === 'number' && !Object.is(num, NaN)) {
       let afterPoint = String(num).split('.')[1]
       let afterPointLong = (afterPoint && afterPoint.length) || 0
       if (afterPointLong > 2 && num !== 0) {
+        if (model = "decimal") {
+          return this.toDecimal(num,4)
+        }
         return num.toFixed(4)
       } else {
+        if (model = "decimal") {
+          return this.toDecimal(num,2)
+        }
         return num.toFixed(2)
       }
     }
@@ -348,10 +402,11 @@ export default class Tools {
       return `${tokens} / ${allTokens}`
   }
 
-  static formatPercentageNumbers (numerator,denominator) {
+  static formatPercentageNumbers (numerator,denominator,symbol='%') {
     let part = new BigNumber(numerator)
     let total = new BigNumber(denominator)
-    let result = (part.dividedBy(total) * 100).toFixed(2) + '%'
+    // let result = (part.dividedBy(total) * 100).toFixed(2) + symbol
+    let result = this.toDecimal(part.dividedBy(total) * 100,2) + symbol
     return result
   }
 

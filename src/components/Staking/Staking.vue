@@ -9,9 +9,9 @@
         <m-tabs class="staking_m_tabs" :data="stakingStatusTitleList" :chose="selectStakingStatus"></m-tabs>
       </div>
       <div class="staking_table_list_content">
-        <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData" :default-sort="{ prop: 'votingPower', order: 'descending' }">
-          <el-table-column key="1" align="center" type="index" class="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
-          <el-table-column key="2" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatorMoniker" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
+        <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
+          <el-table-column key="index" align="center" type="index" class="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
+          <el-table-column key="moniker" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatorMoniker" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
               <div style="display: flex;align-items: center;position: relative">
                 <span class="avatar" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;display: flex;align-items: center;justify-content: center">{{ row.validatorIconSrc }}</span>
@@ -22,7 +22,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column key="3" prop="operatorAddress" align="left" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
+          <el-table-column key="operatorAddress" prop="operatorAddress" align="left" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.operatorAddress" placement="top">
@@ -33,17 +33,17 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column key="4" align="center" prop="commission" :min-width="ColumnMinWidth.commission" :sort-method="commissionSort" :label="$t('ExplorerLang.table.commission')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="5" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="6" class-name="votingPower" v-if="titleStatus === 'Active'" align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="7" v-if="titleStatus === 'Active'" align="right" prop="uptime" :min-width="ColumnMinWidth.uptime" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="8" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="9" class-name="delegators" v-if="titleStatus !== 'Jailed'" min-width="ColumnMinWidth.delegators" align="center" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="10" class-name="bondHeight" align="center" prop="bondHeight" :min-width="ColumnMinWidth.bondHeight" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="11" align="center" v-if="titleStatus !== 'Active'" prop="unbondingHeight" :width="ColumnMinWidth.unbondingHeight" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="commission" align="center" prop="commission" :min-width="ColumnMinWidth.commission" :sort-method="commissionSort" :label="$t('ExplorerLang.table.commission')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="bondedToken" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="votingPower" v-if="titleStatus === 'Active' && productionConfig.table.votingPower" class-name="votingPower"  align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="uptime" v-if="titleStatus === 'Active'" align="right" prop="uptime" :min-width="ColumnMinWidth.uptime" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="selfBond" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="delegators" class-name="delegators" v-if="titleStatus !== 'Jailed'" min-width="ColumnMinWidth.delegators" align="center" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <!-- <el-table-column key="bondHeight" class-name="bondHeight" align="center" prop="bondHeight" :min-width="ColumnMinWidth.bondHeight" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column> -->
+          <el-table-column key="unbondingHeight" align="center" v-if="titleStatus !== 'Active'" prop="unbondingHeight" :min-width="ColumnMinWidth.unbondingHeight" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
         </el-table>
         <div class="pagination_content">
-          <m-pagination :page-size="1" :total="1" :page="1"></m-pagination>
+          <m-pagination :page-size="pageSize" :total="count" :page="pageNum" :page-change="pageChange"></m-pagination>
         </div>
       </div>
     </div>
@@ -65,10 +65,13 @@ export default {
   props: {},
   data() {
     return {
+      productionConfig,
       decimalNamber: 2,
       percentum:4,
       ColumnMinWidth,
       count: 0,
+      pageSize: 100,
+      pageNum: 1,
       titleStatus: this.$t('ExplorerLang.staking.status.active'),
       stakingStatusTitleList: [
         {
@@ -88,6 +91,7 @@ export default {
         },
       ],
       tableData: [],
+      type:''
     }
   },
   computed: {},
@@ -129,12 +133,21 @@ export default {
     },
     selectStakingStatus(i, v) {
       this.titleStatus = v.title
+      this.pageNum = 1
+      this.tableData = []
+      this.count=0
       this.getValidatorsList(v.name)
     },
+    pageChange(pageNum){
+				if (this.pageNum == pageNum) {return;}
+				this.pageNum = pageNum;
+				this.getValidatorsList(this.type)
+		},
     async getValidatorsList(type) {
       let mainToken = await getMainToken();
       try{
-          let res = await getValidatorsListApi(1,100,true,type)
+          let res = await getValidatorsListApi(this.pageNum,this.pageSize,true,type)
+          this.type = type
           this.count = res && res.count ? res.count : 0
           let result = res && res.data ? res.data : null
           if (result) {
@@ -143,7 +156,7 @@ export default {
                 let regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g
                 let replaceMoniker = item.description.moniker.replace(regex, '')
                 let validatorIconSrc = replaceMoniker ? Tools.firstWordUpperCase(replaceMoniker.match(/^[0-9a-zA-Z\u4E00-\u9FA5]/g)[0]) : ''
-                let selfBond = await converCoin(item.self_bond)
+                let selfBond =item.self_bond && item.self_bond.amount && await converCoin(item.self_bond)
                 let bondedToken = await converCoin({
                   amount: item.tokens,
                   denom: mainToken.min_unit
@@ -158,9 +171,9 @@ export default {
                   bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)} ${bondedToken.denom.toLocaleUpperCase()}`,
                   uptime: Tools.FormatUptime(item.uptime),
                   votingPower: `${(item.voting_rate * 100).toFixed(this.percentum)}%`,
-                  selfBond: `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}`,
+                  selfBond: selfBond ? `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}` : `0.00 ${mainToken.symbol.toLocaleUpperCase()}`,
                   delegatorNum: item.delegator_num,
-                  bondHeight: Number(item.bond_height),
+                  // bondHeight: Number(item.bond_height),
                   unbondingHeight: Number(item.unbonding_height),
                   // unbondingTime: new Date(item.unbonding_time).getTime() > 0 ? Tools.format2UTC(item.unbonding_time) : '--',
                   // identity: item.description.identity,
@@ -191,10 +204,9 @@ a {
     padding: 0 0.15rem;
     text-align: left;
     .staking_title_container {
-      margin: 0.28rem 0 0.1rem 0;
+      margin: 0.30rem 0 0rem 0;
       text-align: left;
       display: flex;
-      line-height: 0.3rem;
       color: $t_first_c;
       font-size: $s18;
       font-weight: bold;
@@ -203,7 +215,7 @@ a {
       }
     }
     .staking_tab_content {
-      margin-bottom: 0.1rem;
+      margin: 0.16rem 0rem;
       .staking_m_tabs {
         margin-top: -0.2rem;
       }
@@ -226,9 +238,9 @@ a {
       /deep/ .votingPower .cell {
         min-width: 1.30rem;
       }
-      /deep/ .bondHeight .cell {
-        padding-right: 0.07rem;
-      }
+      // /deep/ .bondHeight .cell {
+      //   padding-right: 0.07rem;
+      // }
       /deep/ .sort_table {
         overflow: auto hidden;
         .sort-caret.ascending,
@@ -246,7 +258,7 @@ a {
         width: 100%;
         display: flex;
         justify-content: flex-end;
-        margin: 0.05rem 0 0.2rem 0;
+        margin: 0.1rem 0 0.2rem 0;
       }
     }
   }

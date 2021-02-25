@@ -2,12 +2,18 @@
   <div class="delegation_txs_list">
     <div class="delegations_txs_table_container">
       <el-table :data="dataList" style="width: 100%" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-        <el-table-column prop="Tx_Hash" align="center" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.addressTxHash">
+        <el-table-column class-name="hash_status" prop="Tx_Hash" align="left" :label="$t('ExplorerLang.table.txHash')" :min-width="ColumnMinWidth.addressTxHash">
           <template v-slot:default="{ row }">
-            <img class="status_icon" :src="require(`../../assets/${row.Tx_Status == 'Success' ? 'success.png' : 'failed.png'}`)" />
-            <el-tooltip :content="`${row.Tx_Hash}`">
-              <router-link :to="`/tx?txHash=${row.Tx_Hash}`" :style="{ color: '$theme_c !important' }">{{ formatTxHash(row.Tx_Hash) }} </router-link>
-            </el-tooltip>
+            <div class="delegations_txs_table_container_status">
+              <div class="status">
+                <img class="status_icon" :src="require(`../../assets/${row.Tx_Status == 'Success' ? 'success.png' : 'failed.png'}`)" />
+              </div>
+              <el-tooltip :content="`${row.Tx_Hash}`">
+                <div>
+                  <router-link :to="`/tx?txHash=${row.Tx_Hash}`" :style="{ color: '$theme_c !important' }">{{ formatTxHash(row.Tx_Hash) }} </router-link>
+                </div>
+              </el-tooltip>
+            </div>  
           </template>
         </el-table-column>
         <el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" :min-width="ColumnMinWidth.blockListHeight">
@@ -48,7 +54,7 @@
             <span class="no_skip" v-show="/^[0]\d*$/.test(row.To) || row.To === '--'">--</span>
           </template>
         </el-table-column>
-        <el-table-column prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :min-width="ColumnMinWidth.txType">
+        <el-table-column class-name="tx_type" prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :min-width="ColumnMinWidth.txType">
           <template v-slot:default="{ row }">
             <el-tooltip :content="row.Tx_Type.join(',')" placement="top" :disabled="row.Tx_Type.length <= 1">
               <span>{{ getDisplayTxType(row.Tx_Type) }}</span>
@@ -119,16 +125,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    /deep/ .hash_status {
+        .cell {
+            margin-left: 0.1rem;
+        }
+    }
     .delegation_txs_list {
         .delegations_txs_table_container {
             a {
                 color: $t_link_c !important;
             }
-            .status_icon {
-                width: 0.13rem;
-                height: 0.13rem;
-                margin-right: 0.05rem;
-			      }   
+            .delegations_txs_table_container_status {
+                display: flex;
+                .status {
+                    // margin-left: 0.1rem;
+                    .status_icon{
+                        width:0.13rem;
+                        height:0.13rem;
+                        margin-right:0.05rem;
+                    }
+                }
+            }
             /deep/ .cell {
               padding: 0;
             }

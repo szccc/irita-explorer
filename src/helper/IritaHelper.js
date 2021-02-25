@@ -1,6 +1,7 @@
-import { getConfig as getConfigApi } from "@/service/api";
+import { getConfig as getConfigApi,getIbcTransferByHash } from "@/service/api";
 import moveDecimal from 'move-decimal-point'
 import Tools from "../util/Tools";
+// import { ibcDenomPrefix } from '../constant';
 
 export async function getConfig(){
     let config = window.sessionStorage.getItem('config');
@@ -33,7 +34,7 @@ export async function getMainToken(){
     return mainToken;
 }
 
-export async function converCoin(_coin){
+export async function converCoin (_coin) {
     let { tokenData=[] } = await getConfig();
     let coin = {
         denom:'',
@@ -58,6 +59,13 @@ export async function converCoin(_coin){
         }
     })
     if (!displayCoin.denom) {
+        // if (coin && coin.denom && coin.denom.startsWith(ibcDenomPrefix)) {
+        //     let hash = coin.denom.replace(ibcDenomPrefix,'')
+        //     let res = await getIbcTransferByHash(hash)
+        //     if(res && res.denom_trace && res.denom_trace.base_denom) {
+        //         coin.denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase()
+        //     }
+        // }
         console.warn('Denom did not match');
         return coin;
     }

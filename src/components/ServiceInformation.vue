@@ -172,7 +172,7 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
+                        <el-table-column class-name="tx_type" :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
                                          prop="type"></el-table-column>
 
                         <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
@@ -502,7 +502,7 @@
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
                 border-radius: 5px;
-                border: 1px solid $bd_first_c;
+                // border: 1px solid $bd_first_c;
                 .service_information_definition_title {
                     font-size: $s18;
                     color: $t_first_c;
@@ -547,7 +547,7 @@
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 margin-bottom: 0.48rem;
                 border-radius: 5px;
-                border: 1px solid $bd_first_c;
+                // border: 1px solid $bd_first_c;
                 overflow-x: auto;
                 .service_information_binding_title {
                     font-size: $s18;
@@ -571,7 +571,7 @@
                 box-sizing: border-box;
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 border-radius: 5px;
-                border: 1px solid $bd_first_c;
+                // border: 1px solid $bd_first_c;
                 .service_information_transaction_title {
                     font-size: $s18;
                     color: $t_first_c;
