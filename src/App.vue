@@ -97,4 +97,13 @@ export default {
     cursor:pointer;
     font-weight: normal !important;
   }
+
+  .el-table .cell {
+    word-break: break-word !important;
+  }
+
+  .tx_type .cell span {
+    white-space: nowrap;
+    text-overflow:ellipsis;
+  }
 </style>

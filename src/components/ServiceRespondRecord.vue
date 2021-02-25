@@ -389,6 +389,7 @@
                 padding: 0.25rem 0.27rem 0.2rem 0.27rem;
                 border-radius:5px;
                 border:1px solid $bd_first_c;
+                margin-bottom: 0.2rem;
                 .service_respond_record_transaction_title {
                     font-size: $s18;
                     color: $t_first_c;

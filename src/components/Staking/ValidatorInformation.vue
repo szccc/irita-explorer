@@ -27,6 +27,8 @@
 					</p>
 					<!-- details 详情 -->
 					<p class="validation_information_details" v-if="details">{{details}}</p>
+					<!-- security_contact  -->
+					<p class="validation_information_details" v-if="securityContact">{{securityContact}}</p>
 					<!-- 没有网站、身份、详情，则显示没有信息 -->
 					<p class="validation_information_no_more" v-if="!website && !identity && !details">~ {{$t('ExplorerLang.validatorDetail.validatorInformation.validatorTip')}} ~</p>
 				</div>
@@ -124,6 +126,7 @@
 				identity:'',
 				// 详情
 				details:'',
+				securityContact:'',
 				// 验证人的状态
 				validationStatus:'',
 				// 是否有链接需跳转
@@ -187,14 +190,14 @@
 						isCopyIcon:false,
 						flAddressLink:false,
 					},
-					{
-						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.bondHeight'),
-						dataName:'bond_height',
-						value:'',
-						isToolTip:false,
-						isCopyIcon:false,
-						flAddressLink:false,
-					},
+					// {
+					// 	label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.bondHeight'),
+					// 	dataName:'bond_height',
+					// 	value:'',
+					// 	isToolTip:false,
+					// 	isCopyIcon:false,
+					// 	flAddressLink:false,
+					// },
 					{
 						label:this.$t('ExplorerLang.validatorDetail.validatorInformation.validationAssetInfoArr.unbondingHeight'),
 						dataName:'unbonding_height',
@@ -264,6 +267,7 @@
 				this.validatorIconHref = information.icons ? information.icons : replaceMoniker ? '' : require('../../assets/default_validator_icon.svg');
 				this.moniker = information.description.moniker;
 				this.website = information.description.website ? information.description.website : '';
+				this.securityContact = information.description.security_contact ? information.description.security_contact : '';
 				if(information.description.identity){
 					// 如果有identity数据，发送请求，拿到keyBaseName
 					this.getKeyBaseName(information.description.identity)
@@ -272,13 +276,12 @@
 				this.details = information.description.details ? information.description.details : '';
 				// 处理右侧需渲染的详细数据，设置value
 				this.validationAssetInfoArr.forEach( item => {
-					// console.log(information,'取值')
 					if(item.dataName !== 'address'){
 						if(item.dataName === 'uptime'){
 							item.value = Tools.FormatUptime(information[item.dataName]);
 						}else if(item.dataName === 'self_power') {
 							item.value = information.status === "active"
-								? `${information.self_power} (${Tools.formatPerNumber((information.self_power / information.total_power) * 100,this.percentageFixedNumber)} %)`
+								? `${information.self_power} (${Tools.formatPerNumber((information.self_power / information.total_power) * 100,this.percentageFixedNumber)}%)`
 								: "";
 						}else if(item.dataName === 'missed_blocks_count'){
 							item.value = `${information.missed_blocks_count} in ${information.stats_blocks_window} blocks`;
@@ -289,7 +292,6 @@
 						}
 					}
 				})
-				// console.log(this.validationAssetInfoArr,2)
 			},
 			// 处理需打开的网站地址
 			openUrl(url) {
@@ -346,7 +348,7 @@ a {
 	.validation_information_wrap{
 		max-width: 12.8rem;
 		margin: 0 auto;
-		border:0.01rem solid $bd_first_c;
+		// border:0.01rem solid $bd_first_c;
 		.validation_information_content{
 			width: 100%;
 			background: $bg_white_c;
@@ -450,7 +452,7 @@ a {
 						.validation_information_item_value_content{
 							display: flex;
 							span{
-								word-break: break-all;
+								word-break: break-word;
 							}
 							.validation_information_item_value{
 								margin-right: 0.06rem;

@@ -28,10 +28,9 @@
 						<template slot-scope="scope">
 							<el-tooltip 
 										:content="scope.row.owner"
-										class="item"
 										placement="top"
 										effect="dark"
-										:disabled="!scope.row.owner">
+										:disabled="Tools.disabled(scope.row.owner)">
 								<span v-if="!scope.row.owner">{{formatAddress(scope.row.owner)}}</span>
 								<router-link v-else :to="`/address/${scope.row.owner}`">{{formatAddress(scope.row.owner)}}</router-link>
 							</el-tooltip>
@@ -39,14 +38,26 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<router-link v-if="formatAddress(scope.row.nft_name) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
-							<span v-else>{{formatAddress(scope.row.nft_name)}}</span>
+							<el-tooltip 
+										:content="scope.row.nft_name"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.nft_name)">
+								<router-link v-if="formatAddress(scope.row.nft_name) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
+								<span v-else>{{formatAddress(scope.row.nft_name)}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
 						<template slot-scope="scope">
-							<router-link v-if="formatAddress(scope.row.nft_id) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
-							<span v-else>{{formatAddress(scope.row.nft_id)}}</span>
+							<el-tooltip 
+										:content="scope.row.nft_name"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.nft_id)">
+								<router-link v-if="formatAddress(scope.row.nft_id) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
+								<span v-else>{{formatAddress(scope.row.nft_id)}}</span>
+							</el-tooltip>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.nftListDate" :label="$t('ExplorerLang.table.data')" prop="tokenData">
@@ -57,7 +68,11 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
-							<a v-if="scope.row.tokenUri" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+							<div v-if="scope.row.tokenUri">
+								<a v-if="Tools.testUrl(scope.row.tokenUri)" :href="scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+								<a v-else-if="startStr(scope.row.tokenUri)" :href="'http://' + scope.row.tokenUri" target="_blank">{{scope.row.tokenUri}}</a>
+								<span v-else>{{scope.row.tokenUri}}</span>
+							</div>
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
@@ -97,6 +112,7 @@
             }
 			return {
 				ColumnMinWidth,
+				Tools,
 				nftList: [
 					{
 						value:'',
@@ -113,6 +129,7 @@
 				allCount:0,
 				LargeStringMinHeight: 69,
 				LargeStringLineHeight: 23,
+				Tools
 			}
 		},
 		mounted(){
@@ -123,6 +140,9 @@
             }
 		},
 		methods:{
+			startStr(url){
+				return url.startsWith('www.')
+			},
 			tableRowKey(row){
 				return `${row.denom_id}-${row.nft_id}`
 			},
@@ -191,7 +211,7 @@
 					}catch (e) {
 						console.error(e)
 					}
-			},
+			}
 		}
 	}
 </script>
@@ -307,7 +327,7 @@
 			padding:0 0.15rem;
 			.nft_list_header_content{
 				width: 100%;
-				margin: 0.3rem 0 0.1rem 0;
+				margin: 0.3rem 0 0.16rem 0;
 				.el-select{
 					/deep/ .el-input{
 						.el-input__inner{
@@ -439,7 +459,8 @@
 			.nef_list_table_container{
 				//margin-top: 0.05rem;
 				/deep/ .cell {
-					padding: 0rem 0.05rem;
+					// padding: 0rem 0.05rem;
+					padding: 0rem 0rem 0rem 0.15rem;
 				}
 			}
 			.pagination_content{

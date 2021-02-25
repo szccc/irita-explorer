@@ -2,7 +2,7 @@
   <div class="asset_info_container">
     <div class="asset_info_list_container">
       <div class="asset_title_container">
-        <span>{{ tokenID }} {{ $t('ExplorerLang.asset.detalils') }}</span>
+        <span>{{ tokenID }} {{ $t('ExplorerLang.asset.details') }}</span>
       </div>
       <div class="asset_info_list_content">
         <div class="asset_info_kflower_contennt">
@@ -82,6 +82,11 @@ export default {
           key: this.$t('ExplorerLang.asset.decimal'),
           value: '',
         },
+        {
+          id: 'min_unit',
+          key: this.$t('ExplorerLang.asset.minUnit'),
+          value: '',
+        },
       ],
     }
   },
@@ -131,7 +136,7 @@ a {
     max-width: 12rem;
     margin: 0 auto;
     .asset_title_container {
-      margin: 0.28rem 0 0.1rem 0;
+      margin: 0.28rem 0 0.16rem 0;
       text-align: left;
       display: flex;
       line-height: 0.3rem;
@@ -147,8 +152,7 @@ a {
         box-sizing: border-box;
         padding: 0.2rem;
         display: flex;
-        border: 0.01rem solid #e7e9eb;
-        margin-top: 0.1rem;
+        margin: 0.1rem 0 0.2rem 0;
         background: #fff;
         .kflower_left_content {
           flex: 1;

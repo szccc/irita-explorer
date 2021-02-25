@@ -58,7 +58,7 @@ export default {
     },
     data() {
         return {
-            currentPage: 1,
+            currentPage: this.page || 1,
             currentRange: []
         };
     },
@@ -139,7 +139,7 @@ export default {
         }
     },
     mounted() {
-	    this.currentPage = this.page;
+        this.currentPage = this.page;
         this.forRange();
     }
 };

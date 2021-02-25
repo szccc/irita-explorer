@@ -132,7 +132,7 @@
                                     })
                                 }
                             } catch (e) {
-                                console.log(e)
+                                console.error(e)
                             }
                         }
                         this.serviceList = serviceList.data;
@@ -304,7 +304,7 @@
 
 			.service_list_title{
                 text-align: left;
-                margin: 0.3rem 0 0.15rem 0;
+                margin: 0.3rem 0 0rem 0;
                 width: 100%;
                 box-sizing: border-box;
                 font-size: $s18;
@@ -313,7 +313,7 @@
 			}
             .nft_list_header_content{
                 width: 100%;
-                margin: 0.3rem 0 0.1rem 0;
+                margin: 0.16rem 0 0.16rem 0;
                 .el-select{
                     /deep/ .el-input{
                         .el-input__inner{
@@ -452,7 +452,7 @@
                 padding:0.28rem 0.28rem 0.18rem 0.28rem;
                 background: $bg_white_c;
                 border-radius:5px;
-                border:1px solid $bd_first_c;
+                // border:1px solid $bd_first_c;
                 overflow-x: auto;
                 .service_information_available_container{
                     display:flex;

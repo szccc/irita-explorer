@@ -58,9 +58,16 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
-				<span><span v-for="(item,index) in provider" :key="index"
+				<span>
+					<!-- <span v-for="(item,index) in provider" :key="index"
 				                   @click="addressRoute(item)" class="address_link">{{item}}
-								   </span></span>
+					</span> -->
+					<span @click="addressRoute(provider)" class="address_link">{{provider}} </span>
+				</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.bindService.options')}}：</span>
+				<span>{{options}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.owner')}}：</span>
@@ -154,8 +161,15 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					<a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
-					<span v-else>{{tokenUri}}</span>
+					<!-- <a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<span v-else>{{tokenUri}}</span> -->
+					<div class="wrap" v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a class="text" v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a class="text" v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span class="text" v-else>{{tokenUri}}</span>
+					</div>
+					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
+					<span v-else>--</span>
 				</template>
 			</p>
 		
@@ -198,8 +212,15 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					<a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
-					<span v-else>{{tokenUri}}</span>
+					<!-- <a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<span v-else>{{tokenUri}}</span> -->
+					<div class="wrap" v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a class="text" v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a class="text" v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span class="text" v-else>{{tokenUri}}</span>
+					</div>
+					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
+					<span v-else>--</span>
 				</template>
 			</p>
 		</div>
@@ -234,8 +255,15 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
 				<template>
-					<a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
-					<span v-else>{{tokenUri}}</span>
+					<!-- <a v-if="tokenUri !== '--' && tokenUri !== '[do-not-modify]'" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+					<span v-else>{{tokenUri}}</span> -->
+					<div class="wrap" v-if="tokenUri && tokenUri !== '[do-not-modify]'">
+								<a class="text" v-if="Tools.testUrl(tokenUri)" :href="tokenUri" target="_blank">{{tokenUri}}</a>
+								<a class="text" v-else-if="startStr(tokenUri)" :href="'http://' + tokenUri" target="_blank">{{tokenUri}}</a>
+								<span class="text" v-else>{{tokenUri}}</span>
+					</div>
+					<span v-else-if=" tokenUri === '[do-not-modify]'">{{tokenUri}}</span>
+					<span v-else>--</span>
 				</template>
 			</p>
 		</div>
@@ -292,6 +320,10 @@
 				<span>{{$t('ExplorerLang.transactionInformation.respondService.requestId')}}：</span>
 				<span>{{(requestId || '').toUpperCase()}}</span>
 			</p>
+			<!-- <p>
+				<span>{{$t('ExplorerLang.transactionInformation.requestContextId')}}：</span>
+				<span>{{(requestContextId || '').toUpperCase()}}</span>
+			</p> -->
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
 				<template>
@@ -521,7 +553,7 @@
 				</template>
 			</p>
 		</div>
-		<div v-if="txType === TX_TYPE.recv_packet">
+		<div v-if="txType === TX_TYPE.recv_packet && prodConfig.txDetail && prodConfig.txDetail.ibc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.packet')}}：</span>
 				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
@@ -558,6 +590,61 @@
 				</template>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.recv_packet && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
+				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofCommitment')}}：</span>
+				<LargeString v-if="proofCommitment" :text="proofCommitment"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<!-- MsgTypeIBCTransfer -->
+		<div v-if="txType === TX_TYPE.transfer">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.sourcePort')}}：</span>
+				<span>{{sourcePort}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.sourceChannel')}}：</span>
+				<span>{{sourceChannel}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.token')}}：</span>
+				<LargeString v-if="token" :text="token"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.sender')}}：</span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.receiver')}}：</span>
+				<span>{{receiver}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.timeoutHeight')}}：</span>
+				<span>{{timeoutHeight}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.timeoutTimestamp')}}：</span>
+				<span>{{timeoutTimestamp}}</span>
+			</p>
+		</div>
 		<div v-if="txType === TX_TYPE.create_identity || txType === TX_TYPE.update_identity">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.identity.id')}}：</span>
@@ -591,7 +678,7 @@
 				</template>
 			</p>
 		</div>
-		<div v-if="txType === TX_TYPE.create_client || txType === TX_TYPE.update_client">
+		<div v-if="txType === TX_TYPE.create_client && prodConfig.txDetail && prodConfig.txDetail.ibc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.clientID')}}：</span>
 				<span>{{clientID}}</span>
@@ -608,6 +695,464 @@
 				</template>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.create_client && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
+				<LargeString v-if="clientState" :text="clientState"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusState')}}：</span>
+				<span>{{consensusState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.update_client">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.client.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
+				<LargeString v-if="header" :text="header"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.upgrade_client">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
+				<span>{{clientState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusState')}}：</span>
+				<span>{{consensusState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUpgradeClient')}}：</span>
+				<span>{{proofUpgradeClient}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUpgradeConsensusState')}}：</span>
+				<span>{{proofUpgradeConsensusState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.submit_misbehaviour">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.misbehaviour')}}：</span>
+				<span>{{misbehaviour}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.connection_open_init">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterparty')}}：</span>
+				<LargeString v-if="counterparty" :text="counterparty"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.version')}}：</span>
+				<LargeString v-if="version" :text="version"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.delayPeriod')}}：</span>
+				<span>{{delayPeriod}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.connection_open_try">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientID')}}：</span>
+				<span>{{clientID}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.previousConnectionId')}}：</span>
+				<span>{{previousConnectionId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
+				<span>{{clientState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterparty')}}：</span>
+				<LargeString v-if="counterparty" :text="counterparty"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.delayPeriod')}}：</span>
+				<span>{{delayPeriod}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyVersions')}}：</span>
+				<LargeString v-if="counterpartyVersions" :text="counterpartyVersions"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofInit')}}：</span>
+				<span>{{proofInit}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofClient')}}：</span>
+				<span>{{proofClient}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofConsensus')}}：</span>
+				<span>{{proofConsensus}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusHeight')}}：</span>
+				<LargeString v-if="consensusHeight" :text="consensusHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.connection_open_ack">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.connectionId')}}：</span>
+				<span>{{connectionId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyConnectionId')}}：</span>
+				<span>{{counterpartyConnectionId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.version')}}：</span>
+				<LargeString v-if="version" :text="version"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
+				<span>{{clientState}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofTry')}}：</span>
+				<span>{{proofTry}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofClient')}}：</span>
+				<span>{{proofClient}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofConsensus')}}：</span>
+				<span>{{proofConsensus}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusHeight')}}：</span>
+				<LargeString v-if="consensusHeight" :text="consensusHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.connection_open_confirm">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.connectionId')}}：</span>
+				<span>{{connectionId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofAck')}}：</span>
+				<span>{{proofAck}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_open_init">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channel')}}：</span>
+				<LargeString v-if="channel" :text="channel"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_open_try">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.previousChannelId')}}：</span>
+				<span>{{previousChannelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channel')}}：</span>
+				<LargeString v-if="channel" :text="channel"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion')}}：</span>
+				<span>{{counterpartyVersion}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofInit')}}：</span>
+				<span>{{proofInit}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_open_ack">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channelId')}}：</span>
+				<span>{{channelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyChannelId')}}：</span>
+				<span>{{counterpartyChannelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion')}}：</span>
+				<span>{{counterpartyVersion}}</span>
+			</p>
+			<!-- <p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofTry')}}：</span>
+				<span>{{proofTry}}</span>
+			</p> -->
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofTry')}}：</span>
+				<LargeString v-if="proofTry" :text="proofTry"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_open_confirm">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channelId')}}：</span>
+				<span>{{channelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofAck')}}：</span>
+				<span>{{proofAck}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_close_init">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channelId')}}：</span>
+				<span>{{channelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.channel_close_confirm">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.portId')}}：</span>
+				<span>{{portId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.channelId')}}：</span>
+				<span>{{channelId}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofInit')}}：</span>
+				<span>{{proofInit}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.timeout_packet">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
+				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
+				<span>{{proofUnreceived}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv')}}：</span>
+				<span>{{nextSequenceRecv}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.timeout_on_close_packet">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
+				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
+				<span>{{proofUnreceived}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofClose')}}：</span>
+				<span>{{proofClose}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv')}}：</span>
+				<span>{{nextSequenceRecv}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>		
+		<div v-if="txType === TX_TYPE.acknowledge_packet">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
+				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.acknowledgement')}}：</span>
+				<span>{{acknowledgement}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofAcked')}}：</span>
+				<span>{{proofAcked}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
+				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
+				<template>
+					<span v-if="signer === '--'">{{signer}}</span>
+					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
+				</template>
+			</p>
+		</div>
+
 		<div v-if="txType === TX_TYPE.begin_redelegate">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.amount')}}</span>
@@ -698,6 +1243,10 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.details')}}</span>
 				<span>{{details}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.staking.securityContact')}}</span>
+				<span>{{securityContact}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
@@ -1134,6 +1683,10 @@
 				<span>{{ name }}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.minUnit')}}: </span>
+				<span>{{ minUnit }}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.asset.decimal')}}: </span>
 				<span>{{ decimal }}</span>
 			</p>
@@ -1235,16 +1788,216 @@
 				</template>
 			</p>
 		</div>
+		<div v-if="txType === TX_TYPE.burn_token">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.symbol')}}: </span>
+				<template>
+					<span v-if="symbol === '--'">{{symbol}}</span>
+					<router-link v-else :to="'/assets/' + symbol">{{symbol}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.sender')}}: </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.asset.amount')}}: </span>
+				<span>{{ amount }}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.deposit">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.depositor')}}: </span>
+				<template>
+					<span v-if="depositor === '--'">{{depositor}}</span>
+					<span v-else @click="addressRoute(depositor)" class="address_link">{{depositor}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.proposalID')}}: </span>
+				<template>
+					<span v-if="proposalID === '--'">{{proposalID}}</span>
+					<router-link :to="`/ProposalsDetail/${proposalID}`">{{proposalID}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.deposit')}}: </span>
+				<span>{{deposit}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.vote">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.voter')}}: </span>
+				<template>
+					<span v-if="voter === '--'">{{voter}}</span>
+					<span v-else @click="addressRoute(voter)" class="address_link">{{voter}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.proposalID')}}: </span>
+				<template>
+					<span v-if="proposalID === '--'">{{proposalID}}</span>
+					<router-link :to="`/ProposalsDetail/${proposalID}`">{{proposalID}}</router-link>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.option')}}: </span>
+				<span>{{option}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.submit_proposal">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.proposer')}} : </span>
+				<template>
+					<span v-if="proposer === '--'">{{proposer}}</span>
+					<span v-else @click="addressRoute(proposer)" class="address_link">{{proposer}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.title')}}: </span>
+				<span>{{title}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.initialDeposit')}}: </span>
+				<span>{{initialDeposit}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.gov.description')}} : </span>
+				<span>{{description}}</span>
+			</p>
+			<p v-if="parameter">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.parameter')}} : </span>
+				<span>{{parameter}}</span>
+			</p>
+			<p v-if="name">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.name')}} : </span>
+				<span>{{name}}</span>
+			</p>
+			<p v-if="time">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.time')}} : </span>
+				<span>{{time}}</span>
+			</p>
+			<p v-if="switchHeight">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.switchHeight')}} : </span>
+				<span>{{switchHeight}}</span>
+			</p>
+			<p v-if="info">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.info')}} : </span>
+				<span>{{info}}</span>
+			</p>
+			<p v-if="switchHeight">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.upgradedClientState')}} : </span>
+				<span>{{upgradedClientState}}</span>
+			</p>
+			<p v-if="recipient">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.recipient')}} : </span>
+				<span>{{recipient}}</span>
+			</p>
+			<p v-if="amount">
+				<span>{{$t('ExplorerLang.transactionInformation.gov.amount')}} : </span>
+				<span>{{amount}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.multisend">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.multisend.inputs')}}: </span>
+				<span>
+					<p v-for="(input,index) in inputs" :key="index">
+						<span @click="addressRoute(input.address)" class="address_link">{{input.address}}</span>
+						<span>{{input.amount}}</span>
+					</p>
+				</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.multisend.outputs')}}: </span>
+				<span>
+					<p v-for="(output,index) in outputs" :key="index">
+						<span @click="addressRoute(output.address)" class="address_link">{{output.address}}</span>
+						<span>{{output.amount}}</span>
+					</p>
+				</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.create_htlc">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.to')}} : </span>
+				<template>
+					<span v-if="to === '--'">{{to}}</span>
+					<span v-else @click="addressRoute(to)" class="address_link">{{to}}</span>
+				</template>
+			</p>
+			<p v-if="receiverOnOtherChain">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.receiverOnOtherChain')}} : </span>
+				<span>{{receiverOnOtherChain}}</span>
+			</p>
+			<p v-if="amount">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
+				<span>{{amount}}</span>
+			</p>
+			<p v-if="hashLock">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
+				<span>{{hashLock}}</span>
+			</p>
+			<p v-if="timestamp">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.timestamp')}} : </span>
+				<span>{{timestamp}}</span>
+			</p>
+			<p v-if="timeLock">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.timeLock')}} : </span>
+				<span>{{timeLock}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.claim_htlc">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p v-if="hashLock">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
+				<span>{{hashLock}}</span>
+			</p>
+			<p v-if="secret">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.secret')}} : </span>
+				<span>{{secret}}</span>
+			</p>
+		</div>
+		<div v-if="txType === TX_TYPE.refund_htlc">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
+				<template>
+					<span v-if="sender === '--'">{{sender}}</span>
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
+				</template>
+			</p>
+			<p v-if="hashLock">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
+				<span>{{hashLock}}</span>
+			</p>
+		</div>
 	</div>
 </template>
 
 <script>
-	import {TX_TYPE} from '../../constant';
+	import {TX_TYPE,voteOptions,formatVoteOptions} from '../../constant';
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
-	import { converCoin,getMainToken,addressRoute } from "../../helper/IritaHelper"
-	import axios from '@/axios'
+	import { converCoin,getMainToken,addressRoute } from "../../helper/IritaHelper";
+	import prodConfig from "../../productionConfig";
+	import axios from '@/axios';
 	export default {
 		name: "txMessage",
 		components: {LargeString},
@@ -1265,6 +2018,7 @@
 		data () {
 			return {
 				Tools,
+				prodConfig,
 				addressRoute,
 				TX_TYPE,
 				// txHash : '',
@@ -1392,7 +2146,68 @@
 				mintable:'',
 				originalOwner:'',
 				newOwner:'',
-				superMode:''
+				superMode:'',
+				proposalID:'',
+				option: '',
+				voter: '',
+				proposer:'',
+				title:'',
+				initialDeposit: '',
+				description: '',
+				parameter:'',
+				time: '',
+				switchHeight: '',
+				info: '',
+				recipient:'',
+				upgradedClientState:'',
+				minUnit:'',
+				options: '',
+				clientState:'',
+				consensusState: '',
+				proofUpgradeClient:'',
+				proofUpgradeConsensusState :'',
+				misbehaviour:'',
+				counterparty:'',
+				version:'',
+				delayPeriod:'',
+				previousConnectionId:'',
+				counterpartyVersions:'',
+				proofHeight:'',
+				proofInit:'',
+				proofClient:'',
+				proofConsensus:'',
+				consensusHeight:'',
+				connectionId:'',
+				counterpartyConnectionId:'',
+				proofTry:'',
+				proofAck:'',
+				portId: '',
+				channel:'',
+				previousChannelId: '',
+				counterpartyVersion: '',
+				channelId: '',
+				counterpartyChannelId: '',
+				packet: '',
+				proofUnreceived: '',
+				nextSequenceRecv: '',
+				proofClose:'',
+				acknowledgement: '',
+				proofAcked: '',
+				proofCommitment:'',
+				sourcePort: '',
+				sourceChannel: '',
+				token: '',
+				sender: '',
+				receiver: '',
+				timeoutHeight: '',
+				timeoutTimestamp: '',
+				inputs:[],
+				outputs:[],
+				receiverOnOtherChain:'',
+				hashLock:'',
+				timestamp:'',
+				timeLock:'',
+				secret:''
 			}
 		},
 		computed: {
@@ -1459,10 +2274,13 @@
 								this.owner = msg.owner || '--';
 								this.pricing = msg.pricing || '--';
 								this.qos = msg.qos || '--';
+								this.options = msg.options || '--';
 								break;
 							case TX_TYPE.send:
-								this.from = msg.fromaddress || '--';
-								this.to = msg.toaddress || '--';
+								// this.from = msg.fromaddress || '--';
+								// this.to = msg.toaddress || '--';
+								this.from = msg.from_address || '--';
+								this.to = msg.to_address || '--';
 								if (msg.amount && msg.amount.length) {
 									let amount = await converCoin(msg.amount[0]);
 									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
@@ -1524,29 +2342,29 @@
 								this.requestContextId = (msg.ex || {}).request_context_id || '--';
 								this.result = msg.result || '--';
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								break;
 							case TX_TYPE.pause_request_context:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.start_request_context:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name || (msg.ex || {}).service_name  || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.kill_request_context:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								break;
 							case TX_TYPE.update_request_context:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.requestContextId = msg.request_context_id || '--';
 								this.consumer = msg.consumer || '--';
 								this.provider = msg.providers || '--';
@@ -1562,7 +2380,7 @@
 								break;
 							case TX_TYPE.update_service_binding:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
@@ -1576,13 +2394,13 @@
 								break;
 							case TX_TYPE.disable_service_binding:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.enable_service_binding:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								if (msg.deposit && msg.deposit.length) {
 									let amount = await converCoin(msg.deposit[0]);
@@ -1594,19 +2412,26 @@
 								break;
 							case TX_TYPE.refund_service_deposit:
 								// this.serviceName = (msg.ex || {}).service_name || '--';
-								this.serviceName = msg.service_name || '--';
+								this.serviceName = msg.service_name ||  (msg.ex || {}).service_name || '--';
 								this.provider = msg.provider || '--';
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.recv_packet:
-								this.packet = JSON.stringify(msg.packet || {}) || '--';
-								this.proof = msg.proof || '--';
-								this.proofHeight = msg.proof_height || '--';
-								this.proofPath = JSON.stringify(msg.proof_path || []) || '--';
-								this.proofData = msg.proof_data || '--';
-								this.clientID = msg.client_id || '--';
-								this.module = msg.module || '--';
-								this.signer = msg.signer || '--';
+								if(prodConfig.txDetail && prodConfig.txDetail.ibc) {
+									this.packet = JSON.stringify(msg.packet || {}) || '--';
+									this.proof = msg.proof || '--';
+									this.proofHeight = msg.proof_height || '--';
+									this.proofPath = JSON.stringify(msg.proof_path || []) || '--';
+									this.proofData = msg.proof_data || '--';
+									this.clientID = msg.client_id || '--';
+									this.module = msg.module || '--';
+									this.signer = msg.signer || '--';
+								} else {
+									this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
+									this.proofCommitment = msg.proof_commitment || '--';
+									this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+									this.signer = msg.signer || '--';
+								}
 								break;
 							case TX_TYPE.create_identity:
 							case TX_TYPE.update_identity:
@@ -1619,6 +2444,16 @@
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.create_client:
+								if(prodConfig.txDetail && prodConfig.txDetail.ibc) {
+									this.clientID = msg.client_id || '--';
+									this.header = JSON.stringify(msg.header || {}) || '--';
+									this.signer = msg.signer || '--';
+								} else {
+									this.clientState = msg.client_state || '--';
+									this.consensusState = msg.consensus_state || '--';
+									this.signer = msg.signer || '--';
+								}
+								break;
 							case TX_TYPE.update_client:
 								this.clientID = msg.client_id || '--';
 								this.header = JSON.stringify(msg.header || {}) || '--';
@@ -1654,18 +2489,24 @@
 								this.commissionMaxChangeRate = `${Tools.formatPercentage(msg.commission.max_change_rate)} %`
 								this.website = msg.description.website || '--';
 								this.details = msg.description.details || '--';
-								this.minSelfDelegation = msg.min_self_delegation || '--'
+								this.minSelfDelegation = msg.min_self_delegation || '--';
+								this.securityContact = msg.description && msg.description.security_contact || '--';
 								break;
 							case TX_TYPE.withdraw_delegator_reward:
 								this.from = msg.validator_address;
 								this.to = msg.delegator_address;
 								(this.events || []).forEach((item) => {
 									if(item.type === 'withdraw_rewards') {
-										(item.attributes || []).forEach((attr) => {
-											if (attr.key == 'amount') {
-												amount = attr.value || '--';
-											}
-										});
+										let isAmount = (item.attributes || []).some(item => {
+											return item.value == msg.validator_address
+										})
+										if(isAmount) {
+											(item.attributes || []).forEach((attr) => {
+												if (attr.key == 'amount') {
+													amount = attr.value || '--';
+												}
+											});
+										}
 									}
 								});
 								if( amount && amount !== '--') {
@@ -1717,8 +2558,7 @@
 							case TX_TYPE.delegate:
 								this.from = msg.delegator_address;
 								this.to = msg.validator_address;
-								let delegateAmount = await converCoin(msg.delegation)
-								amount = await converCoin(msg.delegation);
+								amount = await converCoin(msg.amount);
 								this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--'
 								this.toMoniker = this.getMoniker(this.to,this.monikers)
 								this.fromMoniker = this.getMoniker(this.from,this.monikers)
@@ -1840,6 +2680,7 @@
 								this.maxSupply = msg.max_supply || '--';
 								this.mintable = msg.mintable;
 								this.owner = msg.owner || '--';
+								this.minUnit = msg.min_unit || '--';
 							break;
 							case TX_TYPE.edit_token:
 								this.symbol = msg.symbol || '--';
@@ -1858,6 +2699,235 @@
 								this.symbol = msg.symbol || '--';
 								this.originalOwner = msg.src_owner || '--';
 								this.newOwner = msg.dst_owner || '--';
+							break;
+							case TX_TYPE.burn_token:
+								this.symbol = msg.symbol || '--';
+								this.sender = msg.sender || '--';
+								this.amount = msg.amount || '--';
+							break;
+							case TX_TYPE.deposit:
+								if(msg.amount && msg.amount.length > 0) {
+									let deposit = await converCoin(msg.amount[0]);
+									this.deposit = `${deposit.amount} ${deposit.denom.toUpperCase()}`;
+								} else {
+									this.deposit = '--'
+								}
+								this.depositor = msg.depositor || '--';
+								this.proposalID = msg.proposal_id || '--';
+							break;
+							case TX_TYPE.vote:
+								this.voter = msg.voter || '--';
+								this.proposalID = msg.proposal_id || '--';
+								this.option = msg.option ? formatVoteOptions[voteOptions[msg.option]] : '--';
+							break;
+							case TX_TYPE.submit_proposal:
+								this.proposer = msg.proposer || '--';
+								if(msg.initial_deposit && msg.initial_deposit.length > 0) {
+									let initialDeposit = await converCoin(msg.initial_deposit[0]);
+									this.initialDeposit = `${initialDeposit.amount} ${initialDeposit.denom.toUpperCase()}`;
+								} else {
+									this.initialDeposit = '--'
+								}
+								this.title = msg.content && msg.content.title || '--'
+								this.description = msg.content && msg.content.description || '--'
+								this.parameter = msg.content && msg.content.changes
+								let plan = msg.content &&  msg.content.plan
+								if(plan) {
+									this.name = plan.name
+									let timestamp = plan.time  && Math.floor(new Date(plan.time).getTime() / 1000)
+									this.time = timestamp && Tools.getDisplayDate(timestamp)
+									this.switchHeight = plan.height ? plan.height : '--'
+									if(this.switchHeight && this.switchHeight !== '--') {
+										this.time = '--'
+									} else {
+										this.time = timestamp && Tools.getDisplayDate(timestamp)
+									}
+									this.info = plan.info
+									this.upgradedClientState = plan.upgradedclientstate || '--'
+								}
+								this.recipient = msg.content && msg.content.recipient
+								let n = msg.content && msg.content.amount && msg.content.amount[0]
+								if(n) {
+									n = await converCoin(n)
+									if(n.amount !== '0') {
+										this.amount = `${n.amount} ${n.denom.toUpperCase()}`
+									} else {
+										this.amount = '--'
+									}
+									
+								}
+							break;
+							case TX_TYPE.upgrade_client:
+								this.clientID = msg.client_id || '--';
+								this.clientState = msg.client_state || '--';
+								this.consensusState = msg.consensus_state || '--';
+								this.proofUpgradeClient = msg.proof_upgrade_client || '--';
+								this.proofUpgradeConsensusState = msg.proof_upgrade_consensus_state || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.submit_misbehaviour:
+								this.clientID = msg.client_id || '--';
+								this.misbehaviour = msg.misbehaviour || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.connection_open_init:
+								this.clientID = msg.client_id || '--';
+								this.counterparty = msg.counterparty ? JSON.stringify(msg.counterparty) : '--';
+								this.version = msg.version ? JSON.stringify(msg.version) : '--';
+								this.delayPeriod = msg.delay_period || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.connection_open_try:
+								this.clientID = msg.client_id || '--';
+								this.previousConnectionId  = msg.previous_connection_id  || '--';
+								this.clientState = msg.client_state || '--';
+								this.counterparty = msg.counterparty ? JSON.stringify(msg.counterparty) : '--';
+								this.delayPeriod = msg.delay_period || '--';
+								this.counterpartyVersions = msg.counterparty_versions ? JSON.stringify(msg.counterparty_versions) : '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.proofInit = msg.proof_init || '--';
+								this.proofClient = msg.proof_client || '--';
+								this.proofConsensus = msg.proof_consensus || '--';
+								this.consensusHeight = msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.connection_open_ack:
+								this.connectionId = msg.connection_id || '--';
+								this.counterpartyConnectionId = msg.counterparty_connection_id || '--';
+								this.version = msg.version ? JSON.stringify(msg.version) : '--';
+								this.clientState = msg.client_state  || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.proofTry = msg.proof_try || '--';
+								this.proofClient = msg.proof_client || '--';
+								this.proofConsensus = msg.proof_consensus || '--';
+								this.consensusHeight = msg.consensus_height ? JSON.stringify(msg.consensus_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.connection_open_confirm:
+								this.connectionId = msg.connection_id || '--';
+								this.proofAck = msg.proof_ack || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_open_init:
+								this.portId = msg.port_id || '--';
+								this.channel = msg.channel ? JSON.stringify(msg.channel) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_open_try:
+								this.portId = msg.port_id || '--';
+								this.previousChannelId = msg.previous_channel_id || '--';
+								this.channel = msg.channel ? JSON.stringify(msg.channel) : '--';
+								this.counterpartyVersion = msg.counterparty_version || '--';
+								this.proofInit  = msg.proof_init || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_open_ack:
+								this.portId = msg.port_id || '--';
+								this.channelId = msg.channel_id || '--';
+								this.counterpartyChannelId = msg.counterparty_channel_id || '--',
+								this.counterpartyVersion = msg.counterparty_version || '--',
+								this.proofTry = msg.proof_try || '--',
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_open_confirm:
+								this.portId = msg.port_id || '--';
+								this.channelId = msg.channel_id || '--';
+								this.proofAck = msg.proof_ack || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_close_init:
+								this.portId = msg.port_id || '--';
+								this.channelId = msg.channel_id || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.channel_close_confirm:
+								this.portId = msg.port_id || '--';
+								this.channelId = msg.channel_id || '--';
+								this.proofInit = msg.proof_init || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.timeout_packet:
+								this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
+								this.proofUnreceived = msg.proof_unreceived || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.nextSequenceRecv = msg.next_sequence_recv || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.timeout_on_close_packet:
+								this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
+								this.proofUnreceived = msg.proof_unreceived || '--';
+								this.proofClose = msg.proof_close || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.nextSequenceRecv = msg.next_sequence_recv || '--';
+								this.signer = msg.signer || '--';
+							break;
+							case TX_TYPE.acknowledge_packet:
+								this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
+								this.acknowledgement = msg.acknowledgement || '--';
+								this.proofAcked = msg.proof_acked || '--';
+								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
+								this.signer = msg.signer || '--';
+							break;
+							// MsgTypeIBCTransfer
+							case TX_TYPE.transfer:
+								this.sourcePort = msg.source_port || '--';
+								this.sourceChannel = msg.source_channel || '--';
+								this.token = msg.token ? JSON.stringify(msg.token) : '--';
+								this.sender = msg.sender || '--';
+								this.receiver = msg.receiver || '--';
+								this.timeoutHeight = msg.timeout_height ? JSON.stringify(msg.timeout_height) : '--';
+								let timeoutTimestamp = msg.timeout_timestamp  && Math.floor(new Date(msg.timeout_timestamp).getTime() / 1000);
+								timeoutTimestamp ? this.timeoutTimestamp = Tools.getDisplayDate(timeoutTimestamp) : this.timeoutTimestamp ='--';
+							break;
+							case TX_TYPE.multisend:
+								this.inputs = [];
+								this.outputs = [];
+								if(msg && msg.inputs.length >0) {
+									for (const input of msg.inputs) {
+										let n = input.coins && input.coins[0] && await converCoin(input.coins[0])
+										this.inputs.push({
+											address: input.address,
+											amount: n ? `${n.amount} ${n.denom.toUpperCase()}` : '--'
+										})
+									}
+									for (const output of msg.outputs) {
+										let n = output.coins && output.coins[0] && await converCoin(output.coins[0])
+										this.outputs.push({
+											address: output.address,
+											amount: n ? `${n.amount} ${n.denom.toUpperCase()}` : '--'
+										})
+									}
+								}
+							break;
+							case TX_TYPE.create_htlc:
+								this.sender = msg.sender || '--';
+								this.to = msg.to || '--';
+								this.receiverOnOtherChain = msg.receiverOnOtherChain || '--';
+								if(msg.amount && msg.amount[0]) {
+									let amount = await converCoin(msg.amount[0]);
+									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
+								} else {
+									this.amount = '--';
+								}
+								this.hashLock = msg.hashLock || '--';
+								let timestamp = msg.timestamp  && Math.floor(new Date(msg.timestamp).getTime() / 1000);
+								timestamp ? this.timestamp = Tools.getDisplayDate(timestamp) : this.timestamp ='--';
+								let timeLock = msg.timeLock  && Math.floor(new Date(msg.timeLock).getTime() / 1000);
+								timeLock ? this.timeLock = Tools.getDisplayDate(timeLock) : this.timeLock ='--';
+							break;
+							case TX_TYPE.claim_htlc:
+								this.sender = msg.sender || '--';
+								this.hashLock = msg.hashLock || '--';
+								this.secret = msg.secret || '--';
+							break;
+							case TX_TYPE.refund_htlc:
+								this.sender = msg.sender || '--';
+								this.hashLock = msg.hashLock || '--';
 							break;
 						}
 					}
@@ -1896,7 +2966,10 @@
 					})
 				}
 				return moniker
-			}
+			},
+			startStr(url){
+				return url.startsWith('www.')
+			},
 		}
 	}
 </script>
@@ -1907,7 +2980,7 @@
 	}
 	
 	.tx_message_content {
-		padding: 0.48rem 0;
+		padding: 0.36rem 0;
 		background: $bg_white_c;
 		font-size: $s14;
 		.record_container {
@@ -1969,7 +3042,17 @@
 				word-break: break-all;
 				line-height: 0.20rem;
 			}
-			
+			.wrap {
+				.text {
+					flex: 1;
+					text-align: left;
+					font-size: $s14;
+					color: $t_first_c;
+					word-break: break-all;
+					line-height: 0.20rem;
+					font-weight: normal;
+				}
+			}
 			a {
 				word-break: break-all;
 			}

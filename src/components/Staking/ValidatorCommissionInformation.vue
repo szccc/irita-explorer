@@ -157,12 +157,12 @@ import { converCoin } from '../../helper/IritaHelper.js';
 							denom: mainToken.min_unit
 						})
 						item.value =`${Tools.formatPriceToFixed(bonded_tokens.amount,this.irisTokenFixedNumber)} ${bonded_tokens.denom.toUpperCase()}`;
-						let self_bond = await converCoin(dataInfomation.self_bond)
-						let bonded_stake = bonded_tokens.amount - self_bond.amount
+						let self_bond = dataInfomation.self_bond && dataInfomation.self_bond.amount && await converCoin(dataInfomation.self_bond)
+						let bonded_stake = self_bond ? bonded_tokens.amount - self_bond.amount : bonded_tokens.amount
 						let selfBonded = {
 							label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.selfBonded'),
-							value: `${Tools.formatPriceToFixed(self_bond.amount,this.irisTokenFixedNumber)} ${self_bond.denom.toUpperCase()}
-								(${Tools.formatPerNumber((self_bond.amount / Number(bonded_tokens.amount)) * 100)} %)`
+							value: `${ self_bond ? Tools.formatPriceToFixed(self_bond.amount,this.irisTokenFixedNumber) : '0.00'} ${self_bond ? self_bond.denom.toUpperCase() : mainToken.symbol.toUpperCase()}
+								(${self_bond ? (Tools.formatPerNumber((self_bond.amount / Number(bonded_tokens.amount)) * 100)) : '0.00'} %)`
 						};
 						let delegatorBonded = {
 							label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.children.delegatorBonded'),
@@ -226,14 +226,14 @@ import { converCoin } from '../../helper/IritaHelper.js';
 				color: $t_first_c;
 				font-size: $s18;
 				line-height: 0.21rem;
-				padding-left: 0.2rem;
+				// padding-left: 0.2rem;
 			}
 		}
 		.validator_commission_information_wrap{
 			max-width: 12.8rem;
 			margin: 0 auto;
 			background: $bg_white_c;
-			border: 0.01rem solid $bd_first_c;
+			// border: 0.01rem solid $bd_first_c;
 			.validator_commission_information_content{
 				display: grid;
 				grid-template-columns: repeat(1,50% 50%);
@@ -308,6 +308,11 @@ import { converCoin } from '../../helper/IritaHelper.js';
 	}
 	@media screen and (max-width: 1050px){
 		.validator_commission_information_container{
+			.validator_commission_information_title{
+				span{
+					padding-left: 0.2rem;
+				}
+			}
 			.validator_commission_information_wrap{
 				margin: 0 0.2rem;
 				
@@ -335,6 +340,11 @@ import { converCoin } from '../../helper/IritaHelper.js';
 	}
 	@media screen and (max-width: 750px){
 		.validator_commission_information_container{
+			.validator_commission_information_title{
+				span{
+					padding-left: 0.15rem!important;
+				}
+			}
 			.validator_commission_information_wrap{
 				margin: 0 0.1rem;
 				overflow-x: auto;
@@ -344,6 +354,13 @@ import { converCoin } from '../../helper/IritaHelper.js';
 						overflow-x: auto;
 					}
 				}
+			}
+		}
+	}
+	@media screen and (max-width: 510px){
+		.validator_commission_information_title {
+			span {
+				padding-left: 0.15rem !important;
 			}
 		}
 	}

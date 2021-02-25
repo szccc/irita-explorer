@@ -5,7 +5,7 @@
 				<div class="address_information_asset_content">
 					<!-- 左侧 -->
 					<div class="address_information_asset_total_content">
-						<img src="../assets/iris_token_logo.svg" alt="">
+						<img :src="logoImg" alt="">
 						<!-- 信息展示 -->
 						<ul class="address_information_content">
 							<li class="address_information_item">
@@ -58,11 +58,12 @@
 
 <script>
 	import MClip from "./common/MClip";
-	import Tools from "../util/Tools"
+	import Tools from "../util/Tools";
 	import AddressInformationPie from "./AddressInformationPie";
-	import moveDecimal from 'move-decimal-point'
-	import { validatorStatus,numFormat } from '@/constant'
+	import moveDecimal from 'move-decimal-point';
+	import { validatorStatus,numFormat,product } from '@/constant';
 	import { getMainToken } from '@/helper/IritaHelper';
+	import productionConfig from '@/productionConfig.js';
 	export default {
 		name: "AddressInformationComponent",
 		components: {AddressInformationPie, MClip},
@@ -146,7 +147,20 @@
 								res.value = item.unBonding || "--";
 								res.numberValue = item.unBonding ? item.unBonding.replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
-							}else {
+							}else if(res.status === 'Rewards') {
+								res.value = item[Tools.firstWordLowerCase(res.status)] && item[Tools.firstWordLowerCase(res.status)] !== 0 ? item[Tools.firstWordLowerCase(res.status)] : "--";
+								res.numberValue = item[Tools.firstWordLowerCase(res.status)] ?
+									item[Tools.firstWordLowerCase(res.status)].replace(/[^\d.]/g,"") : 0;
+								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
+								switch (productionConfig.product) {
+									case product.stargate:
+										res.color = '#5A9FFF'
+										break;
+									default:
+										break;
+								}
+							}
+							else {
 								res.value = item[Tools.firstWordLowerCase(res.status)] && item[Tools.firstWordLowerCase(res.status)] !== 0 ? item[Tools.firstWordLowerCase(res.status)] : "--";
 								res.numberValue = item[Tools.firstWordLowerCase(res.status)] ?
 									item[Tools.firstWordLowerCase(res.status)].replace(/[^\d.]/g,"") : 0;
@@ -174,7 +188,16 @@
 				let mainToken = await getMainToken();
 				this.mainToken = mainToken && mainToken.symbol.toUpperCase()
 			}
-		}
+		},
+		computed: {
+			logoImg() {
+				let img = ''
+				try {
+					img = require('../assets/token_logo.svg')
+				} catch (e) {}
+				return img
+			},
+		},
 	}
 </script>
 
@@ -185,7 +208,7 @@
 		max-width: 12.8rem;
 		margin: 0 auto;
 		.address_information_component_content{
-			border: 0.01rem solid $bd_first_c;
+			// border: 0.01rem solid $bd_first_c;
 			.address_information_component_title{
 				color:$t_first_c;
 				font-size: $s18;
@@ -196,27 +219,31 @@
 				}
 			}
 			.address_information_asset_content{
-				max-width: 12.8rem;
+				max-width: 12rem;
 				box-sizing: border-box;
 				background: $bg_white_c;
-				padding: 0.3rem 0.2rem 0.2rem 0.2rem;
+				padding: 0.3rem 0rem;
 				display: grid;
 				grid-template-columns: repeat(3,50% 30% 20%);
 				.address_information_asset_total_content{
 					display: grid;
-					grid-template-columns: repeat(1,0.5rem auto);
-					margin-right: 0.15rem;
+					grid-template-columns: repeat(1,1rem auto);
+					border-right: 0.01rem dashed $bd_second_c;
 					img{
-						width: 0.4rem;
+						width: 0.55rem;
+						height: 0.55rem;
+						justify-self: center;
+  						align-self: center;
 					}
 					.address_information_content{
 						text-align: left;
 						.address_information_item{
 							display: grid;
-							grid-template-columns: repeat(1,1.1rem auto);
-							margin-top: 0.14rem;
+							grid-template-columns: repeat(1,0.95rem auto);
+							// margin-top: 0.14rem;
+							margin-top: 0.25rem;
 							.address_information_label{
-								width: 1.1rem;
+								// width: 1.1rem;
 								color: $t_second_c;
 								font-size: $s14;
 								line-height: 0.16rem;
@@ -225,7 +252,7 @@
 								display: flex;
 								color: $t_first_c;
 								font-size: $s14;
-								line-height: 0.2rem;
+								line-height: 0.16rem;
 								padding-right: 0.01rem;
 									.profiler_content{
 										padding: 0 0.12rem;
@@ -267,10 +294,11 @@
 					}
 				}
 				.address_information_asset_constitute_content{
-					display: grid;
-					grid-template-columns: repeat(1,auto);
-					grid-template-rows: repeat(4,auto);
+					// display: grid;
+					// grid-template-columns: repeat(1,auto);
+					// grid-template-rows: repeat(4,auto);
 					text-align: left;
+					margin-left: 0.78rem;
 					&:nth-of-type(1) {
 						span:nth-of-type(1){
 							background: $theme_c
@@ -279,7 +307,7 @@
 					.address_information_asset_constitute_item{
 						display: flex;
 						align-items: center;
-						margin-bottom: 0.1rem;
+						margin-top: 0.12rem;
 						span:nth-of-type(1){
 							display: inline-block;
 							width: 0.1rem;
@@ -295,6 +323,9 @@
 							font-size: $s14;
 							line-height: 0.16rem;
 						}
+					}
+					.address_information_asset_constitute_item:first-child{
+						margin-top: 0;
 					}
 				}
 				.address_information_asset_pir_content{
@@ -347,7 +378,7 @@
 							font-size: $s14;
 							line-height: 0.16rem;
 							color: $t_first_c;
-							word-break:break-all;
+							word-break:break-word;
 						}
 					}
 					.address_information_asset_list_item:last-child{
@@ -369,6 +400,10 @@
 						padding: 0.1rem;
 						grid-template-columns: repeat(1,auto);
 						.address_information_asset_total_content{
+							border: none;
+							img {
+								justify-self: start;
+							}
 							width: 100%;
 							grid-template-columns: repeat(1,auto);
 							.address_information_content{
@@ -383,7 +418,7 @@
 							}
 						}
 						.address_information_asset_constitute_content{
-							margin-top: 0.3rem;
+							margin: 0.3rem 0 0 0;
 							border-top: 0.01rem solid $bd_first_c;
 							width: 100%;
 							.address_information_asset_constitute_item:first-child{

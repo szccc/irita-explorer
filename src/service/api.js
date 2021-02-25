@@ -330,6 +330,11 @@ export function getTypeDeclarationApi(address){
     return get(url);
 }
 
+export function getTypeGovApi(address){
+    let url = `/txs/types/gov`;
+    return get(url);
+}
+
 export function getValidatorSetList (pageNum,pageSize,height) {
 	const url = `/blocks/validatorset?height=${height}&pageNum=${pageNum}&pageSize=${pageSize}&useCount=true`
 	return get(url)
@@ -361,4 +366,44 @@ export function getNativeAssetsTxsApi (pageNum, pageSize, useCount, type, symbol
 export function getNativeAssetDetailApi (symbol) {
     let url = `/asset/tokens/${symbol}`
 	return get(url)
+}
+
+export function getProposalsListApi (status,pageNum="",pageSize="", useCount=true) {
+    let url = `/gov/proposals?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&status=${status}`
+	return get(url)
+}
+
+export function getProposalsDetailApi (id) {
+    let url = `/gov/proposals/${id}`
+	return get(url)
+}
+
+export function getProposalDetailVotersApi (id,pageNum, pageSize, useCount,voterType) {
+    let url = `/gov/proposals/${id}/voter?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&voterType=${voterType}`
+	return get(url)
+}
+
+export function getProposalDetailDepositorApi (id,pageNum, pageSize, useCount) {
+    let url = `/gov/proposals/${id}/depositor?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`
+	return get(url)
+}
+
+export function getGovTxsApi(valAddress, pageNum, pageSize, useCount=true, type='', status='', beginTime='', endTime=''){
+    let url = `/txs/gov?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}&type=${type}&status=${status}&address=${valAddress}&beginTime=${beginTime}&endTime=${endTime}`
+    return get(url);
+}
+
+export function getDepositedProposalsApi (valAddress,pageNum,pageSize,useCount) {
+    let url = `/staking/validators/${valAddress}/deposit?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getVotedProposalsApi (valAddress,pageNum,pageSize,useCount) {
+    let url = `/staking/validators/${valAddress}/votes?pageNum=${pageNum}&pageSize=${pageSize}&useCount=${useCount}`;
+    return get(url);
+}
+
+export function getIbcTransferByHash(hash){
+    let url = `ibc/applications/transfer/v1beta1/denom_traces/${hash}`;
+    return getFromLcd(url);
 }

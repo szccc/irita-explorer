@@ -11,6 +11,8 @@
     "109":"Validation Txs",
     "110":"Native Asset",
     "111":"Native Asset Txs",
+    "112":"Proposals",
+    "113":"Gov Txs",
     "1000":"搜索"(排在末尾)
     "1001":"网络切换"(排在末尾)}*/
 
@@ -56,9 +58,11 @@ let config = {
     //页脚背景颜色 下半部分
     bgColor_bottom: '',
     //页脚版权信息   必填
-    copyright: 'copyright © 2020 边界智能',
+    copyright: 'copyright © 2021 边界智能',
     chainIdShow: true,
     versionShow: true,
+    //页脚右侧是否显示跳转链接
+    linkShow: true,
   },
   //导航栏功能列表 详见 导航栏功能映射 注：title为配置文案暂不支持国际化
   navFuncList: [
@@ -87,6 +91,13 @@ let config = {
       children: [
         { title: 'Native Asset', id: '110' },
         { title: 'Native Asset Txs', id: '111' },
+      ],
+    },
+    {
+      title: 'Gov',
+      children: [
+        { title: 'Proposals', id: '112' },
+        { title: 'Gov Txs', id: '113' },
       ],
     },
     '1000',
@@ -118,6 +129,12 @@ let config = {
     bgColor: {
       common: '',
     },
+  },
+  // 区块列表页面是否显示 Proposer、Validtors、Voting_Power
+  blockList: {
+    proposer: true,
+    validtors: true,
+    votingPower:true
   }
 }
 module.exports = config

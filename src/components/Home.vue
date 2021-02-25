@@ -69,18 +69,35 @@
 					</ul>
 				</div>
 			</div>
+			<div class="home_proposal_container">
+                <div class="home_proposal_container_content" v-for="item in votingPeriodDatas" :key="item.proposal_id">
+                    <div class="home_proposal_item_bar">
+                        <m-voting-card :votingBarObj="item" :showTitle="true"></m-voting-card>
+                    </div>
+                </div>
+                <div class="home_proposal_container_content"  v-for="v in depositPeriodDatas" :key="v.proposal_id">
+                    <div class="home_proposal_item_bar">
+                        <m-deposit-card :depositObj="v" :showTitle="true"></m-deposit-card>
+                    </div>
+                </div>
+            </div>
 		</div>
 	</div>
 </template>
 
 <script>
 	import Tools from "../util/Tools";
-	import { getBlockList } from "../service/api";
-	import {getTxList} from "../service/api";
+	import { getBlockList,getTxList } from "../service/api";
 	import StatisticalBar from './common/StatisticalBar';
+	import MDepositCard from "./common/MDepositCard";
+	import MVotingCard from "./common/MVotingCard";
+	import { getProposalsListApi } from '@/service/api.js';
+	import {proposalStatus} from '../constant';
+	import {moduleSupport} from "../helper/ModulesHelper";
+	import prodConfig from "../productionConfig";
     export default {
 		name: "Home",
-		components: {StatisticalBar},
+		components: {StatisticalBar,MDepositCard,MVotingCard},
 		data () {
 			return {
 				syncTimer:null,
@@ -88,16 +105,20 @@
 				latestTransaction:[],
 				blocksTimer: null,
 				transfersTimer:null,
-				screenWidth: document.body.clientWidth
+				screenWidth: document.body.clientWidth,
+				depositPeriodDatas:[],
+				votingPeriodDatas: []
 			}
 		},
 		mounted () {
 			this.getLastBlocks();
 			this.getTransaction();
+			this.gov();
 			clearInterval(this.syncTimer )
 			this.syncTimer = setInterval(() => {
 				this.getLastBlocks();
 				this.getTransaction();
+				this.gov();
 			},5000);
 			window.addEventListener("resize",this.monitorScreenWidth,false)
 		},
@@ -233,6 +254,28 @@
 			},
 			monitorScreenWidth() {
 				this.screenWidth = document.body.clientWidth
+			},
+			async getProposalsByStatus() {
+				try {
+					let res = await getProposalsListApi(`${proposalStatus.votingPeriod},${proposalStatus.depositPeriod}`)
+					if (res && res.data && res.data.length > 0) {
+						this.depositPeriodDatas = res.data.filter(v => v.status === proposalStatus.depositPeriod)
+						this.depositPeriodDatas = this.depositPeriodDatas.sort((a, b) => {
+							return b.proposal_id - a.proposal_id
+						})
+						this.votingPeriodDatas = res.data.filter(v => v.status === proposalStatus.votingPeriod)
+						this.votingPeriodDatas = this.votingPeriodDatas.sort((a, b) => {
+							return b.proposal_id - a.proposal_id
+						})
+					}
+				} catch (e) {
+					console.error(e)
+				}
+			},
+			gov() {
+				if(moduleSupport('112', prodConfig.navFuncList)) {
+					this.getProposalsByStatus();
+				}
 			}
 		},
 		destroyed () {
@@ -388,6 +431,34 @@
 					}
 				}
 			}
+			.home_proposal_container {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                box-sizing: border-box;
+				   text-align: left;
+				   margin: -0.2rem 0 0.4rem;
+                .home_proposal_container_content{
+					margin-bottom: 0.2rem;
+                    .home_proposal_item_bar {
+                        min-width: 5.9rem;
+                        flex: 1;
+                        width: auto;
+                        margin-right: 0.4rem;
+						.deposit_card_content {
+							min-height: 2.1rem !important;
+						}
+                    }
+
+                    .home_proposal_item_bar:nth-child(even) {
+                        margin-right: 0;
+                    }
+
+                    .home_proposal_item_bar:last-child {
+                        margin-right: 0;
+                    }
+                }
+            }
 		}
 	}
 	.fadeIn_animation{
@@ -499,6 +570,65 @@
 							}
 						}
 					}
+				}
+				.home_proposal_container{
+					display: flex;
+					flex-direction: column;
+					.home_proposal_item_bar{
+						margin-right: 0;
+					}
+					.home_proposal_item_bar:nth-child(even){
+						margin-right: 0;
+					}
+					.home_proposal_item_bar:last-child{
+						margin-right: 0;
+					}
+				}
+			}
+		}
+	}
+	@media screen and (min-width: 1000px) and (max-width: 1248px){
+		.home_container{
+			.home_content_wrap {
+				.home_proposal_container{
+					display: flex;
+					flex-direction: column;
+					.home_proposal_item_bar{
+						margin-right: 0;
+					}
+					.home_proposal_item_bar:nth-child(even){
+						margin-right: 0;
+					}
+					.home_proposal_item_bar:last-child{
+						margin-right: 0;
+					}
+				}
+			}
+		}
+
+	}
+	@media screen and (max-width: 910px){
+		.home_container{
+			.home_content_wrap{
+				.home_proposal_container{
+					display: flex;
+					flex-direction: column;
+					margin-bottom: 0.2rem;
+					.home_proposal_container_content{
+						width: 100%;
+						overflow-x: auto;
+						overflow-y: hidden;
+						.home_proposal_item_bar{
+							margin-right: 0;
+							margin-bottom: 0.2rem;
+							min-width: 3.45rem;
+							.deposit_card_content{
+								margin-bottom: 0;
+							}
+						}
+
+					}
+
 				}
 			}
 		}
