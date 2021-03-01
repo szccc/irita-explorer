@@ -221,7 +221,8 @@ export const ColumnMinWidth = {
   submited: '85',
   proposer: '245',
   validatorValue: '120',
-  votingPowerValue:'120'
+  votingPowerValue: '120',
+  ownerDetailDelegationsAmount: '135'
 }
 
 export const ModuleMap = {

@@ -386,7 +386,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.ownerDetailDelegationsAmount"></el-table-column>
 									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
 									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
