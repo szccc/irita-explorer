@@ -66,7 +66,6 @@ export default {
             }
         },
         handleData(res){
-            console.error(res)
             let data = [];
             for(let k in DISTRIBUTION){
                 let o = DISTRIBUTION[k];
@@ -89,92 +88,16 @@ export default {
 
                 data.push(o);
             }
-            console.error(data)
             this.dataList = data;
 
             this.setOption(data)
         },
         setOption(data) {
-            /*let data =  [
-                {
-                    name:'No. 1-5',
-                    value: 4,
-                    label:{
-                        show:false,
-                    },
-                    labelLine:{
-                        show:false,
-                    }
-                },
-                {
-                    name:'No. 6-10',
-                    value: 4,
-                    label:{
-                        show:false,
-                    },
-                    labelLine:{
-                        show:false,
-                    }
-                },
-                {
-                    name:'No. 11-50',
-                    value: 4,
-                    label:{
-                        show:false,
-                    },
-                    labelLine:{
-                        show:false,
-                    }
-                },
-                {
-                    name:'No. 51-100',
-                    value: 4,
-                    label:{
-                        show:false,
-                    },
-                    labelLine:{
-                        show:false,
-                    }
-                },
-                {
-                    name:'No. 101-500',
-                    value: 100,
-                    label:{
-                        show:false,
-                    },
-                    labelLine:{
-                        show:false,
-                    }
-                },
-                {
-                    name:'No. 501-100',
-                    value: 4,
-                    label:{
-                        show:false,
-                    },
-                    labelLine:{
-                        show:false,
-                    }
-                },
-                {
-                    name:'No. 1001-',
-                    value: 4,
-                    label:{
-                        show:false,
-                    },
-                    labelLine:{
-                        show:false,
-                    }
-                },
-
-
-            ]*/
             let option = {
                 tooltip: {
                     show: true,
                     confine: true,
                     formatter: function(v) {
-                       // console.log(v)
                         return `${v.marker}${v.data.name}: ${Tools.formatNum(Tools.bigNumberMultiply(v.data.percent, 100),2)}%<br/>
                         ${v.data.displayAmount} ${config.token.symbol.toUpperCase()}<br/>`;
                     }

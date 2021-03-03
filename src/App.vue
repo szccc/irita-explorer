@@ -44,7 +44,6 @@ export default {
     width: 100%;
     height: 100%;
     font-size: 625% !important;
-      scroll-behavior: smooth;
     -webkit-text-size-adjust: none;
   }
   body{
@@ -55,7 +54,6 @@ export default {
   }
  html body{
    height: 100%;
-     scroll-behavior: smooth;
     .el-menu--horizontal{
       .el-menu {
         background: $bg_white_c !important;

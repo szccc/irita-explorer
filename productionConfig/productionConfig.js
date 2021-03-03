@@ -104,8 +104,8 @@ let config = {
       title: 'Stats',
       children: [
           //main token
-        { title: 'BIF Rich List', id: '114' },
-        { title: 'BIF Stats', id: '115' },
+        { title: ' Rich List', id: '114' },
+        { title: ' Stats', id: '115' },
       ],
     },
     '1000',
@@ -146,9 +146,9 @@ let config = {
   },
   token:{
       //main token
-      minUnit:'ubif',
-      symbol:'bif',
-      decimal:6,
+      minUnit:'',
+      symbol:'',
+      decimal:0,
   }
 }
 module.exports = config
