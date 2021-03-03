@@ -340,7 +340,7 @@ export const validator_Status = {
 
 export const decimals = {
   amount: 2,
-  fee: 2,
+  fee: prodConfig.fee && prodConfig.fee.decimals || 2,
   shares: 4,
 }
 

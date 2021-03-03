@@ -213,7 +213,7 @@
                         this.isAvailable = available ? 'True' : 'False';
                         this.price = pricing;
                         this.qos = qos;
-                        if(deposit && deposit[0]) {
+                        if(deposit && deposit[0] && this.isShowFee) {
                             deposit = await converCoin(deposit[0])
                             this.deposit = `${deposit.amount} ${deposit.denom.toUpperCase()}`;
                         } else {

@@ -356,7 +356,7 @@ export default {
                 owner: mintTokenData && mintTokenData.owner,
                 token: mintTokenData && mintTokenData.symbol,
                 mintTo: mintTokenData && mintTokenData.to,
-                amount: (mintTokenData && Tools.toDecimal(mintTokenData.amount, decimals.fee)) || '--',
+                amount: (mintTokenData && Tools.toDecimal(mintTokenData.amount, decimals.amount)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
                 fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
@@ -386,7 +386,7 @@ export default {
               return {
                 token: burnTokenData && burnTokenData.symbol,
                 sender: burnTokenData && burnTokenData.sender,
-                amount: (burnTokenData && Tools.toDecimal(burnTokenData.amount, decimals.fee)) || '--',
+                amount: (burnTokenData && Tools.toDecimal(burnTokenData.amount, decimals.amount)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
                 fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',

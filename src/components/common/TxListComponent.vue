@@ -124,7 +124,7 @@
                 addressRoute,
                 formatMoniker,
                 monikerNum,
-                amountDecimals: decimals.amount,
+                feeDecimals: decimals.fee,
                 txDataList: []
             }
         },
@@ -191,7 +191,7 @@
                     if(fees && fees.length > 0 && this.isShowFee) {
                         let fee = await Promise.all(fees);
                         this.txDataList.forEach((item,index) => {
-                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.amountDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : '--';
+                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : '--';
                         })
                     }
                 }
