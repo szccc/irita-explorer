@@ -62,7 +62,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"></el-table-column>
-        <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
+        <el-table-column v-if="isShowFee" prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
         <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <el-tooltip :content="`${row.Tx_Signer}`">
@@ -88,6 +88,10 @@ export default {
       type: Array,
       required: true,
     },
+    isShowFee: {
+      type: Boolean,
+      required: true
+    }
   },
   data() {
     return {

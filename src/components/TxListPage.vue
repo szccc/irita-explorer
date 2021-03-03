@@ -62,11 +62,11 @@
             <div class="transaction_list_table_content">
                 <div class="table_list_content">
                     <!-- Delegation Txs -->
-					<DelegationTxsList :dataList="txList" v-if="this.$route.params.txType === 'delegations'" />
+					<DelegationTxsList :dataList="txList" :isShowFee="isShowFee" v-if="this.$route.params.txType === 'delegations'" />
                     <!-- Validation Txs -->
-					<ValidationTxsList :dataList="txList" v-if="this.$route.params.txType === 'validations'" />
+					<ValidationTxsList :dataList="txList" :isShowFee="isShowFee" v-if="this.$route.params.txType === 'validations'" />
 					<!-- Gov Txs -->
-					<GovTxsList :dataList="txList" v-if="this.$route.params.txType === 'governance'" />
+					<GovTxsList :dataList="txList" :isShowFee="isShowFee" v-if="this.$route.params.txType === 'governance'" />
                 </div>
                 <div class="pagination_nav_footer_content">
                     <keep-alive>
@@ -89,11 +89,13 @@
 	import DelegationTxsList from '@/components/common/DelegationTxsList'
 	import ValidationTxsList from '@/components/common/ValidationTxsList'
 	import GovTxsList from '@/components/common/GovTxsList'
+	import prodConfig from '../productionConfig';
 	export default {
 		name: "TransactionListPage",
 		components: {MPagination,DelegationTxsList,ValidationTxsList,GovTxsList},
 		data () {
 			return {
+				isShowFee: prodConfig.fee.isShowFee,
 				proposalTitleNum: 20,
 				amountDecimals: decimals.amount,
                 pageTitle:'',
@@ -337,21 +339,15 @@
 					try {
 						this.count = res.count;
 						if (res && res.data) {
-							sessionStorage.setItem('txTotal', res.count);
 							this.totalPageNum = Math.ceil((res.data / this.pageSize) === 0 ? 1 : (res.data / this.pageSize));
-							sessionStorage.setItem('txpagenum', JSON.stringify(this.totalPageNum));
 							if (res.data) {
 								this.txList = []
-								// let fees = []
-								// let amounts = []
-								// console.time('fee')
 								for (const item of res.data) {
 									if(item) {
 										let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
 										let amount = '--'
 										if (item.msgs && item.msgs.length === 1) {
 											formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
-											// amounts.push(item.msgs[0] ? getAmountByTx(item.msgs[0],item.events) : '--')
 											amount = item.msgs[0] ? await getAmountByTx(item.msgs[0],item.events) : '--'
 										} else {
 											formTO = '--'
@@ -364,36 +360,24 @@
 											})
 										}
 										const time = Tools.getDisplayDate(item.time)
-										// fees.push(item.fee && item.fee.amount && item.fee.amount.length > 0 ? converCoin(item.fee.amount[0]) :'--')
-										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+										const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 										this.txList.push({
 											Tx_Hash: item.tx_hash,
 											Block: item.height,
 											From: formTO.from || "--",
 											fromMonikers,
 											Amount: amount,
-											// Amount: '',
 											To: formTO.to || '--',
 											toMonikers,
 											Tx_Type: (item.msgs || []).map(item=>item.type),
 											MsgsNum: msgsNumber,
 											Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
-											// Tx_Fee: '',
 											Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 											Tx_Status: TxStatus[item.status],
 											Timestamp: time,
 										})
 									}
-									// if((fees && fees.length > 0) || (amounts && amounts.length > 0)  ) {
-									// 	let fee = await Promise.all(fees);
-										// let amount = await Promise.all(amounts);
-										// this.txList.forEach((item,index) => {
-										// 		this.txList[index].Tx_Fee = fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.amountDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : '--';
-												// this.txList[index].Amount = amount[index] ? amount[index] : '--';
-									// 	})
-									// }
 								}
-								// console.timeEnd('fee')
 							} else {
 								this.txList = [];
 								this.showNoData = true;
@@ -413,15 +397,13 @@
 					try {
 						this.count = res.count;
 						if (res && res.data) {
-							sessionStorage.setItem('txTotal', res.count);
 							this.totalPageNum = Math.ceil((res.data / this.pageSize) === 0 ? 1 : (res.data / this.pageSize));
-							sessionStorage.setItem('txpagenum', JSON.stringify(this.totalPageNum));
 							if (res.data) {
 								this.txList = []
 								for (const item of res.data) {
 									if(item) {
 										let msgsNumber = item.msgs ? item.msgs.length : 0
-										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+										const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 										const time = Tools.getDisplayDate(item.time)
 										let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
 										let OperatorMonikers
@@ -467,7 +449,7 @@
 							this.count = res.count
 							for (const item of res.data) {
 								let msgsNumber = item.msgs ? item.msgs.length : 0
-								const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+								const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 								const time = Tools.getDisplayDate(item.time)
 								let amount = null
 								let msg = item.msgs && item.msgs[0]

@@ -35,7 +35,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" v-if="isShowFee" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -76,7 +76,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" v-if="isShowFee" :min-width="ColumnMinWidth.fee"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -129,7 +129,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" v-if="isShowFee" :min-width="ColumnMinWidth.fee"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -171,7 +171,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" v-if="isShowFee" :min-width="ColumnMinWidth.fee"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -219,7 +219,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" v-if="isShowFee" :min-width="ColumnMinWidth.fee"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -236,6 +236,8 @@ import Tools from '../../util/Tools'
 import { getNativeAssetsTxsApi } from '@/service/api'
 import { ColumnMinWidth, TX_TYPE, decimals } from '@/constant'
 import { converCoin,addressRoute } from '../../helper/IritaHelper'
+import prodConfig from '../../productionConfig'
+
 export default {
   name: 'AssetTxsComponent',
   components: { MPagination },
@@ -247,6 +249,7 @@ export default {
   },
   data() {
     return {
+      isShowFee: prodConfig.fee.isShowFee,
       Tools,
       addressRoute,
       ColumnMinWidth,
@@ -284,10 +287,11 @@ export default {
         this.issueTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
           this.issueToken = await Promise.all(
             result.map(async item => {
               let issueTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 owner: issueTokenData && issueTokenData.owner,
                 symbol: issueTokenData && issueTokenData.symbol,
@@ -314,10 +318,11 @@ export default {
         this.editTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
           this.editToken = await Promise.all(
             result.map(async item => {
               let editTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 owner: editTokenData && editTokenData.owner,
                 token: editTokenData && editTokenData.symbol,
@@ -342,10 +347,11 @@ export default {
         this.mintTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
           this.mintToken = await Promise.all(
             result.map(async item => {
               let mintTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 owner: mintTokenData && mintTokenData.owner,
                 token: mintTokenData && mintTokenData.symbol,
@@ -372,10 +378,11 @@ export default {
         this.burnTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
           this.burnToken = await Promise.all(
             result.map(async item => {
               let burnTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 token: burnTokenData && burnTokenData.symbol,
                 sender: burnTokenData && burnTokenData.sender,
@@ -401,10 +408,11 @@ export default {
         this.transferTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
           this.transferToken = await Promise.all(
             result.map(async item => {
               let transferTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 token: transferTokenData && transferTokenData.symbol,
                 srcOwner: transferTokenData && transferTokenData.src_owner,

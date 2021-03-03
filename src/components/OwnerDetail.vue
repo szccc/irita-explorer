@@ -620,6 +620,7 @@
 		components: {MPagination, TxListComponent, AddressInformationComponent, LargeString},
 		data () {
 			return {
+				isShowFee: prodConfig.fee.isShowFee,
 				addressRoute,
 				formatMoniker,
 				monikerNum,

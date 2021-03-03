@@ -37,11 +37,11 @@
             <span>{{ timestamp }}</span>
           </p>
 
-          <p class="tx_information_list_item">
+          <p class="tx_information_list_item" v-if="isShowFee">
             <span>{{ $t('ExplorerLang.transactionInformation.fee') }}：</span>
             <span>{{ fee }}</span>
           </p>
-          <!-- <p class="tx_information_list_item">
+          <!-- <p class="tx_information_list_item" v-if="isShowFee">
             <span>{{ $t('ExplorerLang.transactionInformation.gasUsed') }}：</span>
             <span>{{ gasUsed }}</span>
           </p> -->
@@ -85,11 +85,13 @@ import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant'
 import { moduleSupport } from '../helper/ModulesHelper'
 import slef_axios from "../axios"
 import { getMainToken,converCoin,addressRoute } from '@/helper/IritaHelper';
+import prodConfig from '../productionConfig';
 export default {
   name: 'TxDetail',
   components: { MPagination, MClip, TxMessage },
   data() {
     return {
+      isShowFee: prodConfig.fee.isShowFee,
       Tools,
       moduleSupport,
       addressRoute,
@@ -168,7 +170,7 @@ export default {
           this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed'
           this.log = res.log || '--'
           this.timestamp = Tools.getDisplayDate(res.time) || '--'
-          if(res.fee && res.fee.amount[0]) {
+          if(res.fee && res.fee.amount[0] && this.isShowFee) {
             let fee = await converCoin(res.fee.amount[0])
             this.fee = `${fee.amount} ${fee.denom.toUpperCase()}`
           }
