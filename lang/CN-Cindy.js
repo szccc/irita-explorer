@@ -611,7 +611,7 @@ export const ExplorerLang = {
     },
     stats:{
         richList: `${prodConfig.token.symbol.toUpperCase()} Rich List`,
-        stats: `${prodConfig.token.symbol.toUpperCase()} Stats`,
+        stats: `${prodConfig.token.symbol.toUpperCase()} Token Stats`,
         id:'#',
         address:'Address',
         amount:`Amount(${prodConfig.token.symbol.toUpperCase()})`,

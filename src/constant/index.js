@@ -402,3 +402,38 @@ export const product = {
 }
 
 export const ibcDenomPrefix = 'ibc/'
+
+export const DISTRIBUTION_MAP = new Map([
+    ['1-5','No. 1-5'],
+    ['6-10','No. 6-10'],
+    ['11-50','No. 11-50'],
+    ['51-100','No. 51-100'],
+    ['101-500','No. 101-500'],
+    ['501-1000','No. 501-1000'],
+    ['1000-','No. 1000-'],
+])
+
+export const DISTRIBUTION = {
+    '1-5':{
+        name:'No. 1-5',
+    },
+    '6-10':{
+        name:'No. 6-10',
+    },
+    '11-50':{
+        name:'No. 11-50',
+    },
+    '51-100':{
+        name:'No. 51-100',
+    },
+    '101-500':{
+        name:'No. 101-500',
+    },
+    '501-1000':{
+        name:'No. 501-1000',
+    },
+    '1001-':{
+        name:'No. 1001-',
+    },
+
+}

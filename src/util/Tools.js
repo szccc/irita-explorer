@@ -5,7 +5,20 @@ import bech32 from 'bech32'
 import moveDecimal from 'move-decimal-point'
 import Constant from '../constant/index.js'
 import { getConfig } from '@/helper/IritaHelper'
-import { utcOffset,isShowUTC } from '../productionConfig'
+import config,{ utcOffset,isShowUTC } from '../productionConfig';
+
+const displayToken2ActualTxToken = Math.pow(10, config.token.decimal);
+
+BigNumber.config({
+    FORMAT: {
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        groupSize: 3,
+        secondaryGroupSize: 0,
+        fractionGroupSeparator: ' ',
+        fractionGroupSize: 0
+    }
+});
 export default class Tools {
   /**
    * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -42,7 +55,7 @@ export default class Tools {
 		}
 		return `${txHash.substring(0,3)}...${txHash.substring(txHash.length - 3)}`
   }
-  
+
   /**
    * 格式化地址
    */
@@ -63,13 +76,13 @@ export default class Tools {
   }
 
   /**
-   * 
+   *
    * 是否显示tooltip
    */
   static disabled (str) {
     return str && str.length <= 11
   }
-  
+
   /**
    * 格式化空格
    */
@@ -267,7 +280,7 @@ export default class Tools {
   static FormatScientificNotationToNumber(number) {
     let formattedNumber
     if (number.toString().indexOf('e') !== -1 || number.toString().indexOf('E') !== -1) {
-      formattedNumber = new BigNumber(number).toFixed().toString()
+      formattedNumber = new BigNumber(number.toString()).toFixed().toString()
     } else {
       formattedNumber = number
     }
@@ -389,7 +402,7 @@ export default class Tools {
       }else {
           tokens = `${Number(bondedTokens).toFixed(2)}`
       }
-      
+
       if(totalTokens >= billion){
           allTokens = `${(Number(totalTokens) / billion).toFixed(2)}B`
       }else if(totalTokens >= million){
@@ -414,4 +427,49 @@ export default class Tools {
     let reg = new RegExp('[a-zA-z]+://[^\s]*')
     return reg.test(url)
   }
+    //bigNumber的加减乘除
+    static bigNumberAdd(num1,num2){
+        return new BigNumber(num1).plus(num2).toNumber();
+    }
+    static bigNumberSubtract(num1,num2){
+        return new BigNumber(num1).minus(num2).toNumber();
+    }
+
+    static bigNumberMultiply(num1,num2){
+        if(isNaN(new BigNumber(num1).multipliedBy(num2).toNumber())){
+            return 0;
+        }else{
+            return new BigNumber(num1).multipliedBy(num2).toNumber();
+        }
+    }
+    static bigNumberDivide(num1,num2){
+        return new BigNumber(num1).div(num2).toNumber();
+    }
+
+    //实际交易数字转换成'1,223,021.2124'格式
+    static getDisplayNumber(num, val = 4){
+        return this.toFormat(Tools.formatNum(Tools.formatAmount(new BigNumber(num).toFixed()), val), val)
+    }
+
+    static formatAmount(num,p = displayToken2ActualTxToken){
+
+        return new BigNumber(num).div(p).toNumber();
+    }
+
+    static formatNum(num,val = 4){
+        return new BigNumber(num).toFixed(val,1);
+    }
+    static toFormat(num,count = 4,bool){
+
+        if(isNaN(num)){
+            return '';
+        }
+        if(bool){
+            return new BigNumber(num).toFormat();
+        }else{
+            return new BigNumber(num).toFormat(count);
+        }
+    }
+
+
 }

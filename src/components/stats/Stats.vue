@@ -11,7 +11,7 @@
                             Total Supply
                         </span>
                         <span class="stats_preview_content_content">
-                            2,000,231 IRIS
+                            {{ Tools.getDisplayNumber(supply) }} {{ config.token.symbol.toUpperCase() }}
                         </span>
                     </section>
                     <section class="stats_preview_content_item">
@@ -19,36 +19,16 @@
                             Circulation
                         </span>
                         <span class="stats_preview_content_content">
-                            2,000,231 IRIS
+                            {{ Tools.getDisplayNumber(circulation) }} {{ config.token.symbol.toUpperCase() }}
                         </span>
                     </section>
-                    <section class="stats_preview_content_item">
-                        <span class="stats_preview_content_title">
-                            Community Tax
 
-                        </span>
-                        <span class="stats_preview_content_content">
-                            <router-link :to="`/tx`">
-                                 2,000,231 IRIS
-                            </router-link>
-                        </span>
-                    </section>
-                    <section class="stats_preview_content_item">
-                        <span class="stats_preview_content_title">
-                            Burned
-                        </span>
-                        <span class="stats_preview_content_content">
-                            <router-link :to="`/tx`">
-                                 2,000,231 IRIS
-                            </router-link>
-                        </span>
-                    </section>
                     <section class="stats_preview_content_item">
                         <span class="stats_preview_content_title">
                             Bonded
                         </span>
                         <span class="stats_preview_content_content">
-                            2,000,231 IRIS
+                            {{  Tools.getDisplayNumber(bonded) }} {{ config.token.symbol.toUpperCase() }}
                         </span>
                     </section>
 
@@ -69,7 +49,9 @@
 
 <script>
 import PieChart from "@/components/stats/PieChart";
-
+import {fetchTokenStats} from "@/service/api";
+import config from '../../productionConfig';
+import Tools from "@/util/Tools";
 
 export default {
     name : "Stats",
@@ -77,16 +59,43 @@ export default {
 
         return {
             title:'',
+            config,
+            supply:'0',
+            circulation:'0',
+            bonded:'0',
+            Tools,
         }
     },
     components:{
         PieChart,
     },
     mounted(){
-
+        this.fetchTokenStats();
     },
     methods : {
+        async fetchTokenStats(){
+            try {
+                const res = await fetchTokenStats();
+                if(res){
+                    this.handleTokenStatsData(res);
+                }
+            }catch (e) {
 
+            }
+        },
+        handleTokenStatsData(data){
+            const {bonded_tokens, circulation_tokens, total_supply_tokens} = data;
+            if(bonded_tokens){
+                this.bonded = bonded_tokens.amount;
+            }
+            if(circulation_tokens){
+                this.circulation = circulation_tokens.amount;
+            }
+            if(total_supply_tokens){
+                this.supply = total_supply_tokens.amount;
+            }
+
+        }
     }
 }
 </script>
@@ -110,7 +119,7 @@ a {
                     flex-direction:row;
                     .stats_preview_content_item{
                         flex:1;
-                        margin-right:0.1rem;
+                        margin-right:0.2rem;
                         &:last-child{
                             margin-right:0;
                         }

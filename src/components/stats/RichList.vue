@@ -15,23 +15,20 @@
                     </el-tooltip>
                 </section>
                 <span class="asset_title_container_right">
-                    Updated
+                    Updated : {{ updateTime }}
                 </span>
             </div>
             <div class="asset_table_list_content">
                 <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
-                    <el-table-column :label="$t('ExplorerLang.stats.id')" prop="index" :min-width="ColumnMinWidth.totalSupply"></el-table-column>
-                    <el-table-column :label="$t('ExplorerLang.stats.address')" prop="owner" :min-width="ColumnMinWidth.assetListowner">
+                    <el-table-column :label="$t('ExplorerLang.stats.id')" prop="index" :min-width="ColumnMinWidth.No"></el-table-column>
+                    <el-table-column :label="$t('ExplorerLang.stats.address')" prop="owner" :min-width="ColumnMinWidth.proposer">
                         <template v-slot:default="{ row }">
-                            <span class="address_link" @click="addressRoute(row.owner)"> {{row.owner}}</span>
+                            <span class="address_link" @click="addressRoute(row.address)"> {{row.address}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column :label="$t('ExplorerLang.stats.amount')" prop="amount" :min-width="ColumnMinWidth.maxSupply"></el-table-column>
-                    <el-table-column :label="$t('ExplorerLang.stats.percentage')" prop="percentage" :min-width="ColumnMinWidth.mintable"></el-table-column>
+                    <el-table-column :label="$t('ExplorerLang.stats.percentage')" prop="percent" :min-width="ColumnMinWidth.mintable"></el-table-column>
                 </el-table>
-                <div class="pagination_content">
-                    <m-pagination :page-size="pageSize" :total="dataCount" :page="pageNumber" :page-change="pageChange"></m-pagination>
-                </div>
             </div>
         </div>
     </div>
@@ -40,10 +37,11 @@
 <script>
 import MPagination from '.././common/MPagination'
 import Tools from '../../util/Tools'
-import { getNativeAssetsListApi } from "@/service/api"
+import { fetchTokenRichList } from "@/service/api"
 import productionConfig from '@/productionConfig.js'
 import { ColumnMinWidth } from '@/constant'
 import { addressRoute } from '@/helper/IritaHelper'
+import moment from 'moment';
 export default {
     name: 'RichList',
     components: { MPagination },
@@ -57,41 +55,46 @@ export default {
             pageSize:30,
             pageNumber:1,
             dataCount:0,
+            updateTime:'',
         }
     },
-    computed: {},
-    watch: {},
-    created() {
-    },
+
     mounted() {
-        this.getNtvAssetsList()
+        this.fetchTokenRichList()
     },
     methods: {
-        async getNtvAssetsList() {
+        async fetchTokenRichList() {
             try{
-                let res = await getNativeAssetsListApi(this.pageNumber,this.pageSize,true)
-                this.dataCount = res && res.count ? res.count : 0
-                let result = res && res.data ? res.data : null
-                if (result) {
-                    this.tableData = result.map((item, index) => {
-                        return {
-                            index: (index+1),
-                            owner: item.owner,
-                            amount:0,
-                            percentage:'10%',
-                        }
-                    })
-                } else {
-                    this.tableData = []
+                let res = await fetchTokenRichList()
+                if (res) {
+                    this.handleData(res);
                 }
             }catch(err){
                 console.error(err);
             }
         },
-        pageChange(pageNum){
-            if (this.pageNumber == pageNum) {return;}
-            this.pageNumber = pageNum;
-            this.getNtvAssetsList()
+        handleData(data){
+            if(data){
+                console.log(data.data)
+                if(data.data && data.data.length > 0){
+                    this.tableData = data.data.map((item, index)=>{
+
+                        return {
+                            index: index + 1,
+                            address: item.address,
+                            amount: Tools.getDisplayNumber(item.balance.amount),
+                            percent:`${Tools.formatNum(Tools.bigNumberMultiply(item.percent, 100),2)}%`
+                        }
+                    })
+                    console.log(this.tableData)
+                }
+                if(data.updated_time){
+                    console.error()
+                    this.updateTime = `${moment(data.updated_time*1000).utc().format('YYYY-MM-DD HH:MM:SS')}+UTC`
+                }
+            }
+
+
         }
     },
 }
@@ -165,6 +168,7 @@ a {
         }
         .asset_table_list_content {
             width: 100%;
+            margin-bottom:.2rem;
             .pagination_content {
                 width: 100%;
                 display: flex;

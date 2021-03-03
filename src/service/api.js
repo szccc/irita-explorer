@@ -205,7 +205,7 @@ export async function getServiceBindingByServiceName(serviceName, provider){
     let res = await getFromLcd(url);
     if (res && res.result && res.result.value) {
         res.result = res.result.value;
-    } 
+    }
     return res;
 }
 
@@ -407,3 +407,22 @@ export function getIbcTransferByHash(hash){
     let url = `ibc/applications/transfer/v1beta1/denom_traces/${hash}`;
     return getFromLcd(url);
 }
+
+export function fetchTokenStats () {
+    let url = `/statistics/token_stats`;
+    return get(url);
+}
+
+export function fetchTokenDistribution () {
+    let url = `/statistics/account_total`;
+    return get(url);
+}
+
+export function fetchTokenRichList () {
+    let url = `/statistics/accounts`;
+    return get(url);
+}
+
+
+
+

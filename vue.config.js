@@ -7,7 +7,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target:'https://bifrost.iobscan.io/api',
+        target:'http://10.1.4.169:3000',
         secure: false,
         pathRewrite: { '^/api': '' },
       },

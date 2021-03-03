@@ -147,7 +147,8 @@ let config = {
   token:{
       //main token
       minUnit:'ubif',
-      symbol:'bif'
+      symbol:'bif',
+      decimal:6,
   }
 }
 module.exports = config

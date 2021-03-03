@@ -4,7 +4,11 @@
 
 <script>
 import echarts from'echarts';
-//require('echarts/lib/chart/pie')
+import { fetchTokenDistribution } from "@/service/api";
+import {DISTRIBUTION} from "@/constant";
+import config from '../../productionConfig';
+import Tools from "@/util/Tools";
+
 export default {
     name: "PieChart",
     props: {
@@ -18,389 +22,312 @@ export default {
     data() {
         return {
             chart: null,
-            timer: null
+            timer: null,
+            option:null,
+            dataList:[],
         };
     },
     mounted() {
         this.chart = echarts.init(document.getElementById('pie_chart'));
         //window.addEventListener("resize", this.windowResizeFunc);
-        this.setOption()
+        this.fetchTokenDistribution()
+        this.chart.on('legendselectchanged',(params)=> {
+            if(this.dataList && this.dataList.length > 0 && params && params.name){
+                let index = this.dataList.findIndex((item)=>item.name === params.name);
+                if(index >= 0){
+                    setTimeout(()=>{
+                        this.chart.dispatchAction({
+                            type: 'showTip',
+                            seriesIndex: 0,
+                            dataIndex: index
+                        });
+                    },10)
+                }
+            }
+
+            let o = this.chart.getOption();
+            o.legend[0].selected[params.name] = true;
+            this.chart.setOption(o)
+        })
     },
     destroyed() {
         //window.removeEventListener("resize", this.windowResizeFunc);
     },
 
     methods: {
-        setOption(newVal) {
-            let data =  [
+        async fetchTokenDistribution(){
+            try {
+                const res = await fetchTokenDistribution();
+                if(res){
+                    this.handleData(res);
+                }
+            }catch (e) {
+
+            }
+        },
+        handleData(res){
+            console.error(res)
+            let data = [];
+            for(let k in DISTRIBUTION){
+                let o = DISTRIBUTION[k];
+                o.id = k;
+                o.symbol = config.token.symbol.toUpperCase();
+                o.percent = 0;
+                o.value = 0;
+
+                if(k in res){
+                    o.percent = Tools.FormatScientificNotationToNumber(res[k].percent)
+                    o.value = res[k].total_amount.amount
+                }
+                o.displayAmount = Tools.getDisplayNumber(o.value);
+                o.label = {
+                    show:false,
+                }
+                o.labelLine = {
+                    show:false,
+                }
+
+                data.push(o);
+            }
+            console.error(data)
+            this.dataList = data;
+
+            this.setOption(data)
+        },
+        setOption(data) {
+            /*let data =  [
                 {
                     name:'No. 1-5',
                     value: 4,
-
                     label:{
-                        formatter(data){
-                            console.error(data)
-                            return [
-                                `{abg|}    {name|${data.name}}`,
-                                `100,000,233,1234 IRIS`
-                            ].join('\n')
-                        },
-
-                        borderWidth: 0,
-                        rich:{
-                            abg: {
-                                backgroundColor: '#1167ff',
-                                width: 10,
-                                align: 'right',
-                                height: 10,
-                                borderRadius: [5]
-                            },
-                            name:{
-                                color:'f00'
-                            }
-                        }
+                        show:false,
                     },
-                    labelLine: {
-                        normal: {
-                            lineStyle: {
-                                color: '#f00'
-                            },
-                            smooth: 0.1,
-                            length: 50,
-                            length2: 150,
-                        }
-                    },
+                    labelLine:{
+                        show:false,
+                    }
                 },
                 {
                     name:'No. 6-10',
                     value: 4,
-
                     label:{
-                        formatter(data){
-                            console.error(data)
-                            return [
-                                `{abg|}    {name|${data.name}}`,
-                                `100,000,233,1234 IRIS`
-                            ].join('\n')
-                        },
-
-                        borderWidth: 0,
-                        rich:{
-                            abg: {
-                                backgroundColor: '#1167ff',
-                                width: 10,
-                                align: 'right',
-                                height: 10,
-                                borderRadius: [5]
-                            },
-                            name:{
-                                color:'f00'
-                            }
-                        }
+                        show:false,
+                    },
+                    labelLine:{
+                        show:false,
                     }
                 },
                 {
                     name:'No. 11-50',
                     value: 4,
-
                     label:{
-                        formatter(data){
-                            console.error(data)
-                            return [
-                                `{abg|}    {name|${data.name}}`,
-                                `100,000,233,1234 IRIS`
-                            ].join('\n')
-                        },
-
-                        borderWidth: 0,
-                        rich:{
-                            abg: {
-                                backgroundColor: '#1167ff',
-                                width: 10,
-                                align: 'right',
-                                height: 10,
-                                borderRadius: [5]
-                            },
-                            name:{
-                                color:'f00'
-                            }
-                        },
-
+                        show:false,
                     },
-                    labelLine: {
-                        normal: {
-                            lineStyle: {
-                                color: '#1167ff'
-                            },
-                            smooth: 0.2,
-                            length: 100,
-                            length2: 50,
-                        }
-                    },
+                    labelLine:{
+                        show:false,
+                    }
                 },
                 {
                     name:'No. 51-100',
                     value: 4,
-
                     label:{
-                        formatter(data){
-                            console.error(data)
-                            return [
-                                `{abg|}    {name|${data.name}}`,
-                                `100,000,233,1234 IRIS`
-                            ].join('\n')
-                        },
-
-                        borderWidth: 0,
-                        rich:{
-                            abg: {
-                                backgroundColor: '#1167ff',
-                                width: 10,
-                                align: 'right',
-                                height: 10,
-                                borderRadius: [5]
-                            },
-                            name:{
-                                color:'f00'
-                            }
-                        }
+                        show:false,
+                    },
+                    labelLine:{
+                        show:false,
                     }
                 },
                 {
                     name:'No. 101-500',
                     value: 100,
-
                     label:{
-                        formatter(data){
-                            console.error(data)
-                            return [
-                                `{abg|}    {name|${data.name}}`,
-                                `100,000,233,1234 IRIS`
-                            ].join('\n')
-                        },
-
-                        borderWidth: 0,
-                        rich:{
-                            abg: {
-                                backgroundColor: '#1167ff',
-                                width: 10,
-                                align: 'right',
-                                height: 10,
-                                borderRadius: [5]
-                            },
-                            name:{
-                                color:'f00'
-                            }
-                        }
+                        show:false,
+                    },
+                    labelLine:{
+                        show:false,
                     }
                 },
                 {
                     name:'No. 501-100',
                     value: 4,
-
                     label:{
-                        formatter(data){
-                            console.error(data)
-                            return [
-                                `{abg|}    {name|${data.name}}`,
-                                `100,000,233,1234 IRIS`
-                            ].join('\n')
-                        },
-
-                        borderWidth: 0,
-                        rich:{
-                            abg: {
-                                backgroundColor: '#1167ff',
-                                width: 10,
-                                align: 'right',
-                                height: 10,
-                                borderRadius: [5]
-                            },
-                            name:{
-                                color:'f00'
-                            }
-                        }
+                        show:false,
+                    },
+                    labelLine:{
+                        show:false,
                     }
                 },
                 {
                     name:'No. 1001-',
                     value: 4,
-
                     label:{
-                        formatter(data){
-                            console.error(data)
-                            return [
-                                `{abg|}    {name|${data.name}}`,
-                                `100,000,233,1234 IRIS`
-                            ].join('\n')
-                        },
-
-                        borderWidth: 0,
-                        rich:{
-                            abg: {
-                                backgroundColor: '#1167ff',
-                                width: 10,
-                                align: 'right',
-                                height: 10,
-                                borderRadius: [5]
-                            },
-                            name:{
-                                color:'f00'
-                            }
-                        }
+                        show:false,
+                    },
+                    labelLine:{
+                        show:false,
                     }
                 },
 
 
-            ]
+            ]*/
             let option = {
                 tooltip: {
                     show: true,
                     confine: true,
                     formatter: function(v) {
-                        return `${v.marker}${v.data.nameValue}:<br/>
-                        ${v.data.value} (${v.data.value}%)`;
+                       // console.log(v)
+                        return `${v.marker}${v.data.name}: ${Tools.formatNum(Tools.bigNumberMultiply(v.data.percent, 100),2)}%<br/>
+                        ${v.data.displayAmount} ${config.token.symbol.toUpperCase()}<br/>`;
                     }
                 },
                 backgroundColor:'#ffffff',
-                /* color: [
-                     "#3598DB",
-                     "#FFA85C",
-                     "#C0CEFF",
-                     "#FFCF3A",
-                     "#A69DFF",
-                     "#93ED56",
-                     "#FF837E"
-                 ],*/
+                 color: [
+                     "#5470C6",
+                    "#91CC75",
+                    "#FAC858",
+                    "#EE6666",
+                    "#73C0DE",
+                    "#A17DD5",
+                    "#D39186",
+                 ],
                 legend: {
-                    /*orient: "vertical",
-                    x: "left",
-                    selectedMode: false,
+                    orient: "vertical",
                     data: data.map(v => {
                         return {
                             name: v.name,
                             textStyle: {
-                                rich: {
-                                    d: {
-                                        color: "#3598db",
-                                        padding: [0, 0, 0, 6]
-                                    }
+                                rich: this.$store.state.isMobile ?
+                                    {
+                                        a: {
+                                            padding: [-40, 0, 0, 6],
+                                            width:120,
+                                            fontSize:17,
+                                            align:'left',
+                                        },
+                                        b:{
+                                            padding: [-40, 0, 0, 0],
+                                            color: "#ccc",
+                                            width:14,
+                                            fontSize:15,
+                                            align:'left'
+                                        },
+                                        c:{
+                                            padding: [-40, 0, 0, 0],
+                                            width:30,
+                                            color:'#787C99',
+                                            fontSize:15,
+                                            align:'right',
+                                        },
+                                        d:{
+                                            width:250,
+                                            fontSize:17,
+                                            align:'right',
+                                            lineHeight:40,
+                                            padding:[-40,0,0,6]
+                                        },
+
+                                    }:{
+                                    a: {
+                                        padding: [0, 0, 0, 6],
+                                        width:120,
+                                        fontSize:16,
+                                        align:'left'
+                                    },
+                                    b:{
+                                        color: "#ccc",
+                                        width:14,
+                                        fontSize:15,
+                                        align:'left'
+                                    },
+                                    c:{
+                                        width:60,
+                                        color:'#787C99',
+                                        fontSize:15,
+                                        align:'right',
+                                    },
+                                    d:{
+                                        width:250,
+                                        fontSize:17,
+                                        align:'right',
+                                    },
+
                                 }
                             }
                         };
-                    })*/
-                    top: '5%',
-                    left: 'center',
+                    }),
+                    formatter:  (name)=>{
+                        let str = '', distributionItem = data.find((item)=>item.name === name);
+                        if(distributionItem){
+                            if(this.$store.state.isMobile){
+                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%}\n{d|${distributionItem.displayAmount} ${config.token.symbol.toUpperCase()}}`
+                            }else{
+                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%} {d|${distributionItem.displayAmount} ${config.token.symbol.toUpperCase()}}`
+
+                            }
+                        }
+                        return str;
+                    },
                 },
                 series: [
                     {
                         type: "pie",
-                        radius: ["30%", "60%"],
+                        radius: ["50%", "70%"],
                         avoidLabelOverlap: true, //是否启用防止标签重叠策略
                         minAngle: 5,
-                        center: [
-                            "50%",
-                            this.$store.state.isMobile
-                                ? 250 + data.length * 10
-                                : "55%"
-                        ],
+                        center: this.$store.state.isMobile ? ["50%", '25%']: ["25%", "55%"],
                         hoverOffset: this.$store.state.isMobile ? 10 : 0,
-                        /*label: {
-                            normal: {
-                                show: !this.$store.state.isMobile,
-                                formatter: function(params) {
-                                    let text = `${params.data.value} (${params.data.value}%)`;
-                                    let minLen = 100;
-                                    if (text.length > minLen) {
-                                        let len = Math.ceil(
-                                            text.length / minLen
-                                        );
-                                        let s = "";
-                                        for (let i = 0; i < len; i++) {
-                                            s +=
-                                                text.substring(
-                                                    i * minLen,
-                                                    (i + 1) * minLen
-                                                ) + "\n";
-                                        }
-                                        return `\n{b|${params.name}}\n{per|${s}}`;
-                                    } else {
-                                        return `\n{b|${params.name}}\n{per|${text}}`;
-                                    }
-                                },
-                                position: "outside",
-                                align: "left",
-                                rich: {
-                                    b: {
-                                        fontSize: 14,
-                                        lineHeight: 20,
-                                        color: "#f00",
-                                        align: "left"
-                                    },
-                                    per: {
-                                        fontSize: 14,
-                                        lineHeight: 20,
-                                        color: "#ff0",
-                                        align: "left"
-                                    }
-                                }
-                            },
-                            emphasis: {
-                                show: true
-                            }
-                        },*/
-                        /*labelLine: {
-                            normal: {
+                        data: data,
+                        labelLine:{
+                            show:false,
+                        },
+                        label: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            label: {
                                 show: true,
-                                length: 30,
-                                length2: 30,
-                                lineStyle: {
-                                    color: "#979797"
-                                }
-                            },
-                            emphasis: {
-                                show: !this.$store.state.isMobile
+                                fontSize: '60',
+                                fontWeight: 'bold'
                             }
-                        },*/
-                        data: data
+                        },
                     }
                 ]
             };
-            option.color= [
-                "#FFA85C",
-                "#C0CEFF",
-                "#FFCF3A",
-                "#A69DFF",
-                "#93ED56",
-                "#FF837E"
-            ];
-            /*if(this.$store.state.currentSkinStyle ===  Constant.CHAINID.IRISHUB){
-                option.color.unshift(skinStyle.skinStyle.MAINNETBGCOLOR)
-            }else if(this.$store.state.currentSkinStyle === Constant.CHAINID.FUXI){
-                option.color.unshift(skinStyle.skinStyle.TESTNETBGCOLOR)
-            }else if(this.$store.state.currentSkinStyle === Constant.CHAINID.NYANCAT){
-                option.color.unshift(skinStyle.skinStyle.NYANCATTESTNETBGCOLOR)
-            }else {
-                option.color.unshift(skinStyle.skinStyle.DEFAULTBGCOLOR)
-            }*/
+            if(this.$store.state.isMobile){
+                option.legend.bottom = "2%";
+                option.legend.left = "center";
 
+            }else{
+                option.legend.right = "3%";
+                option.legend.top = "center";
+
+            }
+            this.option = option;
             this.chart.setOption(option);
+            setTimeout(()=>{
+                this.chart.dispatchAction({
+                    type: 'showTip',
+                    seriesIndex: 0,
+                    dataIndex: 0
+                });
+            },10)
         },
-        /*windowResizeFunc() {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-                this.chart.resize();
-                this.setOption(this.data);
-            }, 500);
-        }*/
     },
 
 };
 </script>
 
 <style lang="scss" scoped>
+@media screen and (min-width: 910px){
+    #pie_chart {
+        height: 5rem;
+    }
 
-#pie_chart {
-    height: 5rem;
 }
+@media screen and (max-width: 910px){
+    #pie_chart {
+        height: 8rem;
+    }
+}
+
 </style>
