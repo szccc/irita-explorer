@@ -1,5 +1,4 @@
 setup:production
-	cnpm install
 
 run:
 	npm run serve
@@ -25,7 +24,8 @@ revert:
 
 production_params:
 	cp ./productionConfig/productionConfig.js ./src && \
-	node build-params.js
+	npm run replace
+
 
 pp:revert production_params
 

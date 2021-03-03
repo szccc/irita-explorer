@@ -63,7 +63,7 @@
                   @click="windowOpenUrl(item.uri)"><i :class="item.icon"></i>{{item.network_name}}</li>
           </ul>
       </div>
-      
+
       <div class="use_feature_mobile" v-if="featureShow">
         <div v-for="(item, index) in menuList" class="mobile_tab_item_wrap" :key="String(index)" :style="`color:${(prodConfig.nav || {}).color || ''}`">
           <span class="mobile_tab_item" @click="mobileMenuDidClick(item, index, false)" v-if="!item.children">
@@ -310,7 +310,7 @@ export default {
               item.icon = 'iconfont iconStargate'
           } else if (item.network_id === constant.CHAINID.COSMOSHUB) {
               item.icon = 'iconfont iconCosmosHub'
-          } 
+          }
           if (item.is_main) {
               this.mainnet = {...item};
           }
@@ -410,7 +410,9 @@ export default {
               .el-submenu__icon-arrow {
                 color: inherit !important;
               }
+                padding:0 5px;
             }
+
           }
         }
         .el-menu.el-menu--horizontal {

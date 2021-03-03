@@ -100,6 +100,14 @@ let config = {
         { title: 'Gov Txs', id: '113' },
       ],
     },
+    {
+      title: 'Stats',
+      children: [
+          //main token
+        { title: 'BIF Rich List', id: '114' },
+        { title: 'BIF Stats', id: '115' },
+      ],
+    },
     '1000',
     '1001',
   ],
@@ -135,6 +143,11 @@ let config = {
     proposer: true,
     validtors: true,
     votingPower:true
+  },
+  token:{
+      //main token
+      minUnit:'ubif',
+      symbol:'bif'
   }
 }
 module.exports = config

@@ -1,3 +1,4 @@
+import prodConfig from '../src/productionConfig';
 export const ExplorerLang = {
     common:{
         allTxStatus:'All Status',
@@ -344,7 +345,7 @@ export const ExplorerLang = {
             creator: 'Creator',
             providers: 'Providers',
             aggregateFunc: 'Aggregate Func',
-            valueJsonPath: 'Value Json Path',    
+            valueJsonPath: 'Value Json Path',
             responseThreshold: 'Response Threshold',
         },
         random: {
@@ -611,6 +612,17 @@ export const ExplorerLang = {
         name: 'Name',
         decimal: 'Decimal',
         minUnit: 'Min Unit'
+    },
+    stats:{
+        richList: `${prodConfig.token.symbol.toUpperCase()} Rich List`,
+        stats: `${prodConfig.token.symbol.toUpperCase()} Stats`,
+        id:'#',
+        address:'Address',
+        amount:`Amount(${prodConfig.token.symbol.toUpperCase()})`,
+        percentage:'Percentage',
+        title:`Top 100 Addresses by ${prodConfig.token.symbol.toUpperCase()}`,
+        help:'The assets include the balance tokens，delegated tokens, unbonding tokens and remaining tokens on the address.',
+        distribution:`${prodConfig.token.symbol.toUpperCase()} Token Distribution`,
     },
     // 新增
     gov: {

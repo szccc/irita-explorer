@@ -1,3 +1,4 @@
+import prodConfig from '../src/productionConfig';
 export const ExplorerLang = {
     common:{
         allTxStatus:'全部交易状态',
@@ -60,7 +61,7 @@ export const ExplorerLang = {
         certificate:'证书',
         credentials: '身份凭证',
         updateTime:'更新时间',
-        // 新增 
+        // 新增
         commission: 'Commission',
         bondedTokens: 'Bonded_Tokens',
         uptime: 'Uptime',
@@ -341,7 +342,7 @@ export const ExplorerLang = {
             creator: '创建者',
             providers: '提供者',
             aggregateFunc: '聚合函数',
-            valueJsonPath: 'Json值路径',    
+            valueJsonPath: 'Json值路径',
             responseThreshold: '响应阈值',
         },
         random: {
@@ -607,6 +608,17 @@ export const ExplorerLang = {
         name: 'Name',
         decimal: 'Decimal',
         minUnit: 'Min Unit'
+    },
+    stats:{
+        richList: `${prodConfig.token.symbol.toUpperCase()} Rich List`,
+        stats: `${prodConfig.token.symbol.toUpperCase()} Stats`,
+        id:'#',
+        address:'Address',
+        amount:`Amount(${prodConfig.token.symbol.toUpperCase()})`,
+        percentage:'Percentage',
+        title:`Top 100 Addresses by ${prodConfig.token.symbol.toUpperCase()}`,
+        help:'The assets include the balance tokens，delegated tokens, unbonding tokens and remaining tokens on the address.',
+        distribution:`${prodConfig.token.symbol.toUpperCase()} Token Distribution`,
     },
     gov: {
         proposalsTitle: 'Proposal List',

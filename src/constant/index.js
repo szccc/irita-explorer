@@ -87,13 +87,13 @@ export const TX_TYPE = {
   create_client: 'create_client', //和公有链ibc交易类型名称一致
   update_client: 'update_client', //和公有链ibc交易类型名称一致
   // Identity
-  create_identity: 'create_identity', 
-  update_identity: 'update_identity', 
-  // IBC 
+  create_identity: 'create_identity',
+  update_identity: 'update_identity',
+  // IBC
   transfer: 'transfer',
   timeout_packet: 'timeout_packet',
   // recv_packet: 'recv_packet',
-  
+
   // IBC => Other
   // create_client: 'create_client',
   // update_client: 'update_client',
@@ -111,7 +111,7 @@ export const TX_TYPE = {
   channel_close_confirm: 'channel_close_confirm',
   timeout_on_close_packet: 'timeout_on_close_packet',
   acknowledge_packet: 'acknowledge_packet',
-  
+
   // Random
   request_rand: 'request_rand',
 }
@@ -281,6 +281,15 @@ export const ModuleMap = {
     title: 'Gov Txs',
     link: '/txs/governance',
   },
+   '114': {
+    title: `${prodConfig.token.symbol.toUpperCase()} Rich List`,
+    link: '/stats/rich',
+  },
+   '115': {
+    title: `${prodConfig.token.symbol.toUpperCase()} Stats`,
+    link: '/stats/stats',
+  },
+
 }
 
 const CHAINID = {}
@@ -308,9 +317,9 @@ export const pageTitleConfig = {
   GovProposals: 'Proposal List',
   GovProposalsProposalDetails: 'Proposal Details',
   GovGovTxs: 'Gov Txs List',
-  StatsIRISRichList: 'IRIS Rich List',
-  StatsIRISRichListAddress: 'Address',
-  StatsIRISStats: 'IRIS Stats Analyse',
+  StatsRichList: `${prodConfig.token.symbol.toUpperCase()} Rich List`,
+  StatsRichListAddress: 'Address',
+  StatsStats: `${prodConfig.token.symbol.toUpperCase()} Stats Analyse`,
 }
 
 export const PubKeyAlgorithm = {
