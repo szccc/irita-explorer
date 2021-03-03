@@ -15,9 +15,9 @@
 						<div class="one_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.delegationsTitle') }}</p>
-							<div class="delegations_table_container">
+							<div class="delegations_table_container" ref="delegationsList">
 								<el-table :data="delegations.items" style="width: 100%"
-								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
+								          :empty-text="$t('ExplorerLang.table.emptyDescription')" id="element_del">
 									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
 									                 :width="ColumnMinWidth.iaaAddress">
 										<template v-slot:default="{ row }">
@@ -51,9 +51,9 @@
 						<div class="second_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}</p>
-							<div class="delegations_table_container">
+							<div class="delegations_table_container" ref="UnbondingDelList">
 								<el-table :data="unbondingDelegations.items" style="width: 100%"
-								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
+								          :empty-text="$t('ExplorerLang.table.emptyDescription')" id="element_undel">
 									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
 									                 :width="ColumnMinWidth.iaaAddress">
 										<template v-slot:default="{ row }">
@@ -300,8 +300,7 @@
 			this.getValidationTxs()
 			this.getGovTxs()
 		},
-		mounted () {
-		},
+		mounted () {},
 		methods: {
 			pageChange (key) {
 				return page => {
@@ -320,7 +319,7 @@
 					this.delegations.useCount = false;
 				}
 				this.delegations.items = []
-				res.data.forEach( async item => {
+				for (const item of res.data) {
 					let amount = await converCoin(item.amount)
 					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
 					let selfShares = Tools.formatPriceToFixed(item.self_shares, this.sharesDecimals)
@@ -331,7 +330,8 @@
 						shares,
 						// block: item.block,
 					})
-				})
+				}
+				this.changedHeight()
 			},
 			async getUnbondingDelegations (page = 1) {
 				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, this.unbondingDelegations.useCount)
@@ -340,7 +340,7 @@
 					this.unbondingDelegations.useCount = false;
 				}
 				this.unbondingDelegations.items = []
-				res.data.forEach(async item => {
+				for (const item of res.data) {
 					let amount = await converCoin({
 						amount: item.amount,
 						denom: this.mainToken.min_unit
@@ -353,6 +353,18 @@
 						block: item.block,
 						end_time: item.until,
 					})
+				}
+				this.changedHeight()
+			},
+			changedHeight () {
+				this.$nextTick(()=>{
+					if(this.delegations.items.length >= this.unbondingDelegations.items.length) {
+						this.$refs.UnbondingDelList.style.height =  document.getElementById('element_del').offsetHeight + 'px';
+						this.$refs.delegationsList.style.height =  document.getElementById('element_del').offsetHeight + 'px';
+					} else {
+						this.$refs.delegationsList.style.height = document.getElementById('element_undel').offsetHeight + 'px';
+						this.$refs.UnbondingDelList.style.height = document.getElementById('element_undel').offsetHeight + 'px';
+					}
 				})
 			},
 			async getDelegationTxs (page = 1) {
