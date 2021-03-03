@@ -234,6 +234,7 @@
 		data () {
 			return {
 				isShowFee: prodConfig.fee.isShowFee,
+				isShowDenom: prodConfig.fee.isShowDenom,
 				Tools,
 				monikerNum,
 				formatMoniker,
@@ -377,7 +378,7 @@
 						})
 					}
 					const time = Tools.getDisplayDate(item.time)
-					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+					const fee =  this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
 					this.delegationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
@@ -388,7 +389,7 @@
 						toMonikers,
 						Tx_Type: (item.msgs || []).map(item=>item.type),
 						MsgsNum: msgsNumber,
-						Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+						Tx_Fee: fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
@@ -402,7 +403,7 @@
 				this.validationTxs.items = []
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0
-					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+					const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
 					const time = Tools.getDisplayDate(item.time)
 					// let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--'
 					let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
@@ -421,7 +422,7 @@
 						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${this.mainToken.symbol.toUpperCase()}` : '--' : '--',
 						'Tx_Type': (item.msgs || []).map(item=>item.type),
 						MsgsNum: msgsNumber,
-						'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+						'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,
@@ -488,7 +489,7 @@
 							this.govTxs.currentPage = res.pageNum
 							for (const item of res.data) {
 								let msgsNumber = item.msgs ? item.msgs.length : 0
-								const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+								const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
 								const time = Tools.getDisplayDate(item.time)
 								let amount = null
 								let msg = item.msgs && item.msgs[0]
@@ -514,7 +515,7 @@
 									amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
 									'Tx_Type': (item.msgs || []).map(item=>item.type),
 									MsgsNum: msgsNumber,
-									'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+									'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 									'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 									'Tx_Status': TxStatus[item.status],
 									Timestamp: time,

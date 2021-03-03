@@ -250,6 +250,7 @@ export default {
   data() {
     return {
       isShowFee: prodConfig.fee.isShowFee,
+      isShowDenom: prodConfig.fee.isShowDenom,
       Tools,
       addressRoute,
       ColumnMinWidth,
@@ -288,6 +289,7 @@ export default {
         let result = res && res.data ? res.data : null
         if (result) {
           let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.issueToken = await Promise.all(
             result.map(async item => {
               let issueTokenData = item.msgs && item.msgs[0].msg
@@ -299,7 +301,7 @@ export default {
                 mintable: issueTokenData && Tools.firstWordUpperCase(String(issueTokenData.mintable)),
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -319,6 +321,7 @@ export default {
         let result = res && res.data ? res.data : null
         if (result) {
           let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.editToken = await Promise.all(
             result.map(async item => {
               let editTokenData = item.msgs && item.msgs[0].msg
@@ -328,7 +331,7 @@ export default {
                 token: editTokenData && editTokenData.symbol,
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -348,6 +351,7 @@ export default {
         let result = res && res.data ? res.data : null
         if (result) {
           let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.mintToken = await Promise.all(
             result.map(async item => {
               let mintTokenData = item.msgs && item.msgs[0].msg
@@ -359,7 +363,7 @@ export default {
                 amount: (mintTokenData && Tools.toDecimal(mintTokenData.amount, decimals.amount)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                fee: fee ?  isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -379,6 +383,7 @@ export default {
         let result = res && res.data ? res.data : null
         if (result) {
           let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.burnToken = await Promise.all(
             result.map(async item => {
               let burnTokenData = item.msgs && item.msgs[0].msg
@@ -389,7 +394,7 @@ export default {
                 amount: (burnTokenData && Tools.toDecimal(burnTokenData.amount, decimals.amount)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                fee: fee ?  isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -409,6 +414,7 @@ export default {
         let result = res && res.data ? res.data : null
         if (result) {
           let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.transferToken = await Promise.all(
             result.map(async item => {
               let transferTokenData = item.msgs && item.msgs[0].msg
@@ -419,7 +425,7 @@ export default {
                 dstOwner: transferTokenData && transferTokenData.dst_owner,
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }

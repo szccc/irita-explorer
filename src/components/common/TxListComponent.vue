@@ -117,6 +117,7 @@
         data(){
             return {
                 isShowFee: prodConfig.fee.isShowFee,
+                isShowDenom: prodConfig.fee.isShowDenom,
                 TX_TYPE,
                 TX_STATUS,
                 ColumnMinWidth,
@@ -191,7 +192,7 @@
                     if(fees && fees.length > 0 && this.isShowFee) {
                         let fee = await Promise.all(fees);
                         this.txDataList.forEach((item,index) => {
-                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : '--';
+                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
                         })
                     }
                 }
