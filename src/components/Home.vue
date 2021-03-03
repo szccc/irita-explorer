@@ -118,7 +118,6 @@
 			this.syncTimer = setInterval(() => {
 				this.getLastBlocks();
 				this.getTransaction();
-				this.gov();
 			},5000);
 			window.addEventListener("resize",this.monitorScreenWidth,false)
 		},
