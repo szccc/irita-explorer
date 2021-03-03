@@ -18,6 +18,7 @@ export default {
     }
   },
     mounted(){
+      // echart不能使用媒体查询
         if (window.innerWidth > 910) {
             this.$store.commit('isMobile',false);
         } else {
