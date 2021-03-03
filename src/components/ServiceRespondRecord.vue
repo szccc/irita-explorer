@@ -33,7 +33,7 @@
                         <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.qos')}}:</span>
                         <span>{{`${qos} ${$t('ExplorerLang.unit.blocks')}`}} </span>
                     </p>
-                    <p class="service_respond_record_text_content">
+                    <p v-if="isShowFee" class="service_respond_record_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.deposit')}}:</span>
                         <span>{{deposit}}</span>
                     </p>
@@ -167,6 +167,7 @@
         components : {MPagination},
         data(){
             return {
+                isShowFee: productionConfig.fee.isShowFee,
                 TX_STATUS,
                 productionConfig,
                 ColumnMinWidth,

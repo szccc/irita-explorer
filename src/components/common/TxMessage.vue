@@ -44,7 +44,7 @@
 				</router-link>
 				<span v-if="defineName == '--'"> -- </span>
 			</p>
-			<p>
+			<p v-if="isShowFee">
 				<span>{{$t('ExplorerLang.transactionInformation.pricing')}}：</span>
 				<span>{{pricing}}</span>
 			</p>
@@ -381,7 +381,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
 				<span>{{repeatedTotal}}</span>
 			</p>
-			<p>
+			<p v-if="isShowFee">
 				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
 				<span>{{serviceFeeCap}}</span>
 			</p>
@@ -459,7 +459,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
 				<span>{{repeatedTotal}}</span>
 			</p>
-			<p>
+			<p v-if="isShowFee">
 				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
 				<span>{{serviceFeeCap}}</span>
 			</p>
@@ -476,7 +476,7 @@
 				</router-link>
 				<span v-if="serviceName == '--'"> -- </span>
 			</p>
-			<p>
+			<p v-if="isShowFee">
 				 <span>{{$t('ExplorerLang.transactionInformation.pricing')}}：</span>
 				 <span>{{pricing}}</span>
 			 </p>
@@ -2017,6 +2017,7 @@
 		},
 		data () {
 			return {
+				isShowFee: prodConfig.fee.isShowFee,
 				Tools,
 				prodConfig,
 				addressRoute,
