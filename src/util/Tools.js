@@ -280,7 +280,7 @@ export default class Tools {
   static FormatScientificNotationToNumber(number) {
     let formattedNumber
     if (number.toString().indexOf('e') !== -1 || number.toString().indexOf('E') !== -1) {
-      formattedNumber = new BigNumber(number.toString()).toFixed().toString()
+      formattedNumber = new BigNumber(number).toFixed().toString()
     } else {
       formattedNumber = number
     }
