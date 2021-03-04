@@ -19,7 +19,16 @@
                             Circulation
                         </span>
                         <span class="stats_preview_content_content">
-                            {{ Tools.getDisplayNumber(circulation) }} {{ config.token.symbol.toUpperCase() }}
+                            {{ Tools.getDisplayNumber(circulation) ? `${Tools.getDisplayNumber(circulation)} ${config.token.symbol.toUpperCase()}` : '--' }}
+                        </span>
+                    </section>
+
+                    <section class="stats_preview_content_item">
+                        <span class="stats_preview_content_title">
+                            Community Tax
+                        </span>
+                        <span class="stats_preview_content_content">
+                            {{ Tools.getDisplayNumber(CommunityTax) }} {{ config.token.symbol.toUpperCase() }}
                         </span>
                     </section>
 
@@ -56,13 +65,13 @@ import Tools from "@/util/Tools";
 export default {
     name : "Stats",
     data(){
-
         return {
             title:'',
             config,
-            supply:'0',
-            circulation:'0',
-            bonded:'0',
+            supply:'0.0000',
+            circulation:'0.0000',
+            bonded:'0.0000',
+            CommunityTax:'0.0000',
             Tools,
         }
     },
@@ -84,7 +93,7 @@ export default {
             }
         },
         handleTokenStatsData(data){
-            const {bonded_tokens, circulation_tokens, total_supply_tokens} = data;
+            const {bonded_tokens, circulation_tokens, total_supply_tokens,community_tax} = data;
             if(bonded_tokens){
                 this.bonded = bonded_tokens.amount;
             }
@@ -94,7 +103,9 @@ export default {
             if(total_supply_tokens){
                 this.supply = total_supply_tokens.amount;
             }
-
+            if(community_tax) {
+                this.CommunityTax = community_tax.amount;
+            }
         }
     }
 }
