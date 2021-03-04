@@ -125,7 +125,7 @@ a {
                 display: flex;
                 justify-content: flex-start;
                 flex-direction:column;
-                align-items: start;
+                align-items: flex-start;
                 .stats_preview_content{
                     flex-direction:row;
                     .stats_preview_content_item{
@@ -204,7 +204,7 @@ a {
                     border-radius: .06rem;
                     display:flex;
                     flex-direction:column;
-                    align-items: start;
+                    align-items: flex-start;
                     //justify-content: center;
                     padding-top:0.16rem;
                     padding-left:0.2rem;
