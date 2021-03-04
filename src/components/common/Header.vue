@@ -6,7 +6,7 @@
           <img class="header_logo_content_icon" v-if="logoImg.length" :src="logoImg" alt="" />
           <div :style="`color:${(prodConfig.nav || {}).color || ''}`">
             <p class="header_logo_content_title">{{ (prodConfig.logo || {}).title || 'CSChain-Bond' }}</p>
-            <p class="header_logo_content_subTitle">{{ (prodConfig.logo || {}).subTitle || '债券应用链浏览器' }}</p>
+            <p class="header_logo_content_subTitle">{{ (prodConfig.logo || {}).subTitle }}</p>
           </div>
         </div>
         <div class="header_menu">
