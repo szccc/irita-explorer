@@ -329,9 +329,6 @@ export default {
         case product.nyancat:
           this.mainnet = {icon:'iconfont iconcaihongmao'};
           break;
-        case product.cosmosHub:
-          this.mainnet = {icon:'iconfont iconCosmosHub'};
-          break;
         default:
           break;
       }
