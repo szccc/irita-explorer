@@ -153,7 +153,7 @@ export const ColumnMinWidth = {
   blockListHeight: '76',
   txType: '194',
   address: '150',
-  iaaAddress: '124',
+  iaaAddress: '128',
   time: prodConfig.isShowUTC === false ? '155' : '205',
   txn: '115',
   blockAge: '120',

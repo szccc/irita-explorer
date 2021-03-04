@@ -1,7 +1,7 @@
 import moment from 'moment'
 import BigNumber from 'bignumber.js'
 import URLSearchParams from 'url-search-params'
-import bech32 from 'bech32'
+import { bech32 } from 'bech32'
 import moveDecimal from 'move-decimal-point'
 import Constant from '../constant/index.js'
 import { getConfig } from '@/helper/IritaHelper'
@@ -177,7 +177,8 @@ export default class Tools {
     }
   }
 
-  static isBech32(str) {
+  static isBech32 (str) {
+    debugger
     let allReg = new RegExp(/^[0-9a-zA-Z]*$/i)
     if (!allReg.test(str)) {
       return false
