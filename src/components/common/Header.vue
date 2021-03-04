@@ -318,6 +318,7 @@ export default {
       })
       switch (prodConfig.product) {
         case product.bifrost:
+          this.mainnet = {icon:'iconfont iconBI-01'};
           break;
         case product.stargate:
           this.mainnet = {icon:'iconfont iconStargate'};
@@ -327,6 +328,9 @@ export default {
           break;
         case product.nyancat:
           this.mainnet = {icon:'iconfont iconcaihongmao'};
+          break;
+        case product.cosmosHub:
+          this.mainnet = {icon:'iconfont iconCosmosHub'};
           break;
         default:
           break;
