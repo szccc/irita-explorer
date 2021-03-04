@@ -105,7 +105,16 @@ const router = new Router({
 		{
 			path: '/ProposalsDetail/:proposal_id',
 			component: () => import('@/components/Gov/ProposalsDetail.vue')
+		},
+		{
+			path: '/stats/rich',
+			component: () => import('@/components/stats/RichList.vue')
+		},
+		{
+			path: '/stats/stats',
+			component: () => import('@/components/stats/Stats.vue')
 		}
+
 	]
 })
 export default router

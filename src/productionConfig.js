@@ -10,7 +10,7 @@
     "108":"Delegation Txs",
     "109":"Validation Txs",
     "1000":"搜索"(始终排在末尾)}*/
- 
+
 let config = {
     //国际化 CN / EN 默认CN
     //暂时用英文，需要调整回去
