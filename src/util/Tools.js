@@ -178,7 +178,6 @@ export default class Tools {
   }
 
   static isBech32 (str) {
-    debugger
     let allReg = new RegExp(/^[0-9a-zA-Z]*$/i)
     if (!allReg.test(str)) {
       return false
