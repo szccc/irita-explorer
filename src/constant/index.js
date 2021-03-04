@@ -152,8 +152,8 @@ export const ColumnMinWidth = {
   blockHeight: '68',
   blockListHeight: '76',
   txType: '194',
-  // address: '126',
-  address: '155',
+  address: '150',
+  iaaAddress: '124',
   time: prodConfig.isShowUTC === false ? '155' : '205',
   txn: '115',
   blockAge: '120',
@@ -349,7 +349,7 @@ export const validator_Status = {
 
 export const decimals = {
   amount: 2,
-  fee: 2,
+  fee: prodConfig.fee && prodConfig.fee.decimals || 2,
   shares: 4,
 }
 

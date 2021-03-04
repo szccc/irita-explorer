@@ -15,11 +15,11 @@
 						<div class="one_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.delegationsTitle') }}</p>
-							<div class="delegations_table_container">
+							<div class="delegations_table_container" ref="delegationsList">
 								<el-table :data="delegations.items" style="width: 100%"
-								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
+								          :empty-text="$t('ExplorerLang.table.emptyDescription')" id="element_del">
 									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 :min-width="ColumnMinWidth.address">
+									                 :width="ColumnMinWidth.iaaAddress">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<span
@@ -51,11 +51,11 @@
 						<div class="second_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}</p>
-							<div class="delegations_table_container">
+							<div class="delegations_table_container" ref="UnbondingDelList">
 								<el-table :data="unbondingDelegations.items" style="width: 100%"
-								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
+								          :empty-text="$t('ExplorerLang.table.emptyDescription')" id="element_undel">
 									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 :min-width="ColumnMinWidth.address">
+									                 :width="ColumnMinWidth.iaaAddress">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<span 
@@ -79,7 +79,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="end_time" :label="$t('ExplorerLang.table.endTime')"
-									                 :min-width="ColumnMinWidth.time"></el-table-column>
+									                 :width="ColumnMinWidth.time"></el-table-column>
 								</el-table>
 							</div>
 							<m-pagination v-if="unbondingDelegations.total > pageSize" :page-size="pageSize"
@@ -170,7 +170,7 @@
 					<div class="delegations_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.delegationsTxsTitle') }}</p>
-						<DelegationTxsList class="delegations_txs_table_container" :dataList="delegationTxs.items" />
+						<DelegationTxsList class="delegations_txs_table_container" :isShowFee="isShowFee" :dataList="delegationTxs.items" />
 						<m-pagination v-if="delegationTxs.total > pageSize" :page-size="pageSize"
 						              :total="delegationTxs.total"
 						              :page-change="pageChange('getDelegationTxs')"></m-pagination>
@@ -181,7 +181,7 @@
 					<div class="validation_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.validationTxsTitle') }}</p>
-						<ValidationTxsList class="validation_txs_table_container" :dataList="validationTxs.items" />
+						<ValidationTxsList class="validation_txs_table_container" :isShowFee="isShowFee" :dataList="validationTxs.items" />
 						<m-pagination v-if="validationTxs.total > pageSize" :page-size="pageSize"
 						              :total="validationTxs.total"
 						              :page-change="pageChange('getValidationTxs')"></m-pagination>
@@ -192,7 +192,7 @@
 					<div class="gov_txs_container">
 						<p class="gov_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.govTxsTitle') }}</p>
-						<GovTxsList class="gov_txs_table_containers" :dataList="govTxs.items" />
+						<GovTxsList class="gov_txs_table_containers" :isShowFee="isShowFee" :dataList="govTxs.items" />
 						<m-pagination v-if="govTxs.total > pageSize" :page-size="pageSize"
 						              :total="govTxs.total"
 						              :page-change="pageChange('getGovTxs')"></m-pagination>
@@ -225,6 +225,7 @@
 	import DelegationTxsList from '@/components/common/DelegationTxsList'
 	import ValidationTxsList from '@/components/common/ValidationTxsList'
 	import GovTxsList from '@/components/common/GovTxsList'
+	import prodConfig from '../../productionConfig';
 
 	export default {
 		name: '',
@@ -232,10 +233,13 @@
 		props: {},
 		data () {
 			return {
+				isShowFee: prodConfig.fee.isShowFee,
+				isShowDenom: prodConfig.fee.isShowDenom,
 				Tools,
 				monikerNum,
 				formatMoniker,
 				amountDecimals: decimals.amount,
+				feeDecimals: decimals.fee,
 				sharesDecimals: decimals.shares,
 				ColumnMinWidth,
 				addressRoute,
@@ -296,8 +300,7 @@
 			this.getValidationTxs()
 			this.getGovTxs()
 		},
-		mounted () {
-		},
+		mounted () {},
 		methods: {
 			pageChange (key) {
 				return page => {
@@ -316,7 +319,7 @@
 					this.delegations.useCount = false;
 				}
 				this.delegations.items = []
-				res.data.forEach( async item => {
+				for (const item of res.data) {
 					let amount = await converCoin(item.amount)
 					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
 					let selfShares = Tools.formatPriceToFixed(item.self_shares, this.sharesDecimals)
@@ -327,7 +330,8 @@
 						shares,
 						// block: item.block,
 					})
-				})
+				}
+				this.changedHeight()
 			},
 			async getUnbondingDelegations (page = 1) {
 				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, this.unbondingDelegations.useCount)
@@ -336,7 +340,7 @@
 					this.unbondingDelegations.useCount = false;
 				}
 				this.unbondingDelegations.items = []
-				res.data.forEach(async item => {
+				for (const item of res.data) {
 					let amount = await converCoin({
 						amount: item.amount,
 						denom: this.mainToken.min_unit
@@ -349,6 +353,18 @@
 						block: item.block,
 						end_time: item.until,
 					})
+				}
+				this.changedHeight()
+			},
+			changedHeight () {
+				this.$nextTick(()=>{
+					if(this.delegations.items.length >= this.unbondingDelegations.items.length) {
+						this.$refs.UnbondingDelList.style.height =  document.getElementById('element_del').offsetHeight + 'px';
+						this.$refs.delegationsList.style.height =  document.getElementById('element_del').offsetHeight + 'px';
+					} else {
+						this.$refs.delegationsList.style.height = document.getElementById('element_undel').offsetHeight + 'px';
+						this.$refs.UnbondingDelList.style.height = document.getElementById('element_undel').offsetHeight + 'px';
+					}
 				})
 			},
 			async getDelegationTxs (page = 1) {
@@ -374,7 +390,7 @@
 						})
 					}
 					const time = Tools.getDisplayDate(item.time)
-					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+					const fee =  this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
 					this.delegationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
@@ -385,7 +401,7 @@
 						toMonikers,
 						Tx_Type: (item.msgs || []).map(item=>item.type),
 						MsgsNum: msgsNumber,
-						Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+						Tx_Fee: fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
@@ -399,7 +415,7 @@
 				this.validationTxs.items = []
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0
-					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+					const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
 					const time = Tools.getDisplayDate(item.time)
 					// let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--'
 					let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
@@ -418,7 +434,7 @@
 						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${this.mainToken.symbol.toUpperCase()}` : '--' : '--',
 						'Tx_Type': (item.msgs || []).map(item=>item.type),
 						MsgsNum: msgsNumber,
-						'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+						'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,
@@ -485,7 +501,7 @@
 							this.govTxs.currentPage = res.pageNum
 							for (const item of res.data) {
 								let msgsNumber = item.msgs ? item.msgs.length : 0
-								const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+								const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
 								const time = Tools.getDisplayDate(item.time)
 								let amount = null
 								let msg = item.msgs && item.msgs[0]
@@ -511,7 +527,7 @@
 									amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
 									'Tx_Type': (item.msgs || []).map(item=>item.type),
 									MsgsNum: msgsNumber,
-									'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+									'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 									'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 									'Tx_Status': TxStatus[item.status],
 									Timestamp: time,

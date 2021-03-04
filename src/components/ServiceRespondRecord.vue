@@ -33,7 +33,7 @@
                         <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.qos')}}:</span>
                         <span>{{`${qos} ${$t('ExplorerLang.unit.blocks')}`}} </span>
                     </p>
-                    <p class="service_respond_record_text_content">
+                    <p v-if="isShowFee" class="service_respond_record_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.deposit')}}:</span>
                         <span>{{deposit}}</span>
                     </p>
@@ -167,6 +167,7 @@
         components : {MPagination},
         data(){
             return {
+                isShowFee: productionConfig.fee.isShowFee,
                 TX_STATUS,
                 productionConfig,
                 ColumnMinWidth,
@@ -212,7 +213,7 @@
                         this.isAvailable = available ? 'True' : 'False';
                         this.price = pricing;
                         this.qos = qos;
-                        if(deposit && deposit[0]) {
+                        if(deposit && deposit[0] && this.isShowFee) {
                             deposit = await converCoin(deposit[0])
                             this.deposit = `${deposit.amount} ${deposit.denom.toUpperCase()}`;
                         } else {

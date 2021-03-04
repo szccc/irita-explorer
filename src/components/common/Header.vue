@@ -6,7 +6,7 @@
           <img class="header_logo_content_icon" v-if="logoImg.length" :src="logoImg" alt="" />
           <div :style="`color:${(prodConfig.nav || {}).color || ''}`">
             <p class="header_logo_content_title">{{ (prodConfig.logo || {}).title || 'CSChain-Bond' }}</p>
-            <p class="header_logo_content_subTitle">{{ (prodConfig.logo || {}).subTitle || '债券应用链浏览器' }}</p>
+            <p class="header_logo_content_subTitle">{{ (prodConfig.logo || {}).subTitle }}</p>
           </div>
         </div>
         <div class="header_menu">
@@ -318,6 +318,7 @@ export default {
       })
       switch (prodConfig.product) {
         case product.bifrost:
+          this.mainnet = {icon:'iconfont iconBI-01'};
           break;
         case product.stargate:
           this.mainnet = {icon:'iconfont iconStargate'};
@@ -410,7 +411,7 @@ export default {
               .el-submenu__icon-arrow {
                 color: inherit !important;
               }
-                padding:0 5px;
+                padding:0 12px;
             }
 
           }

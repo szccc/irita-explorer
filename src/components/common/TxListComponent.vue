@@ -37,7 +37,7 @@
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>
             </el-table-column>
-            <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
+            <el-table-column v-if="isShowFee" prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
                     <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
@@ -99,7 +99,8 @@
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
     import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals } from '../../constant';
-    import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper'
+    import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper';
+    import prodConfig from '../../productionConfig';
     export default {
         name : "TxList",
         components : {},
@@ -115,6 +116,8 @@
         },
         data(){
             return {
+                isShowFee: prodConfig.fee.isShowFee,
+                isShowDenom: prodConfig.fee.isShowDenom,
                 TX_TYPE,
                 TX_STATUS,
                 ColumnMinWidth,
@@ -122,7 +125,7 @@
                 addressRoute,
                 formatMoniker,
                 monikerNum,
-                amountDecimals: decimals.amount,
+                feeDecimals: decimals.fee,
                 txDataList: []
             }
         },
@@ -168,8 +171,9 @@
                                 fromMonikers = fromMonikers || item[from] || ''
                             })
                         }
-                        fees.push(tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? converCoin(tx.fee.amount[0]) :'--')
-                        // const fee = tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? await converCoin(tx.fee.amount[0]) :'--'
+                        if(this.isShowFee) {
+                            fees.push(tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? converCoin(tx.fee.amount[0]) :'--')
+                        }
                         this.txDataList.push({
                                 txHash : tx.tx_hash,
                                 blockHeight : tx.height,
@@ -182,14 +186,13 @@
                                 status : tx.status,
                                 msgCount : tx.msgs.length,
                                 time :Tools.getDisplayDate(tx.time),
-                                // Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
                                 Tx_Fee: '',
                         })
                     }
-                    if(fees && fees.length > 0) {
+                    if(fees && fees.length > 0 && this.isShowFee) {
                         let fee = await Promise.all(fees);
                         this.txDataList.forEach((item,index) => {
-                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.amountDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : '--';
+                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
                         })
                     }
                 }

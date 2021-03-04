@@ -58,7 +58,6 @@ export default {
             updateTime:'',
         }
     },
-
     mounted() {
         this.fetchTokenRichList()
     },
@@ -75,26 +74,21 @@ export default {
         },
         handleData(data){
             if(data){
-                console.log(data.data)
                 if(data.data && data.data.length > 0){
                     this.tableData = data.data.map((item, index)=>{
-
                         return {
                             index: index + 1,
                             address: item.address,
-                            amount: Tools.getDisplayNumber(item.balance.amount),
+                            amount: item.balance && item.balance.amount && Tools.getDisplayNumber(item.balance.amount),
                             percent:`${Tools.formatNum(Tools.bigNumberMultiply(item.percent, 100),2)}%`
                         }
                     })
-                    console.log(this.tableData)
                 }
                 if(data.updated_time){
-                    console.error()
-                    this.updateTime = `${moment(data.updated_time*1000).utc().format('YYYY-MM-DD HH:MM:SS')}+UTC`
+                    // this.updateTime = `${moment(data.updated_time*1000).utc().format('YYYY-MM-DD HH:MM:SS')}+UTC`
+                    this.updateTime = Tools.getDisplayDate(data.updated_time)
                 }
             }
-
-
         }
     },
 }
