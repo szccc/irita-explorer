@@ -410,7 +410,7 @@ export default {
               .el-submenu__icon-arrow {
                 color: inherit !important;
               }
-                padding:0 5px;
+                padding:0 12px;
             }
 
           }
