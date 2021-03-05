@@ -182,6 +182,7 @@
                                 </el-tooltip>
                             </template>
                         </el-table-column>
+                        <el-table-column v-if="isShowFee" prop="fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
                         <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                             <template slot-scope="scope">
 
@@ -238,7 +239,7 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./common/MPagination";
-    import { TX_STATUS,ColumnMinWidth } from '../constant';
+    import { TX_STATUS,ColumnMinWidth,decimals } from '../constant';
     import {
         getAllServiceTxTypes,
         getServiceDetail,
@@ -248,12 +249,16 @@
     } from "../service/api";
     import { TxHelper } from "../helper/TxHelper";
     import LargeString from './common/LargeString';
+    import { converCoin } from '@/helper/IritaHelper';
     import productionConfig from '@/productionConfig.js'
     export default {
         name : "ServiceInformation",
         components : {MPagination,LargeString},
         data(){
             return {
+                isShowFee: productionConfig.fee.isShowFee,
+                isShowDenom: productionConfig.fee.isShowDenom,
+                feeDecimals: decimals.fee,
                 TX_STATUS,
                 productionConfig,
                 ColumnMinWidth,
@@ -390,8 +395,19 @@
                         this.txPageNum,
                         this.txPageSize
                     );
-
-                    this.transactionArray = res.data.map((item) =>{
+                    let fees = [];
+                    let fee = [];
+                    if(res.data && res.data.length > 0) {
+                        for (const tx of res.data) {
+                            if(this.isShowFee) {
+                                fees.push(tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? converCoin(tx.fee.amount[0]) :'--')
+                            }
+                        }
+                    }
+                    if(fees && fees.length > 0 && this.isShowFee) {
+                        fee = await Promise.all(fees);
+                    }
+                    this.transactionArray = res.data.map((item,index) =>{
                         let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
                         let requestContextId = TxHelper.getContextId(item.msgs[0], item.events) || '--';
                         let from = (addrObj && addrObj.from) ? addrObj.from : '--',
@@ -404,6 +420,7 @@
                             txHash : item.hash,
                             id : requestContextId,
                             to,
+                            fee: fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--',
                             height : item.height,
                             timestamp : Tools.getDisplayDate(item.time)
                         };
