@@ -436,24 +436,26 @@ export default class Tools {
     }
 
     static bigNumberMultiply(num1,num2){
-        if(isNaN(new BigNumber(num1).multipliedBy(num2).toNumber())){
+        /*if(isNaN(new BigNumber(num1).multipliedBy(num2).toNumber())){
             return 0;
         }else{
             return new BigNumber(num1).multipliedBy(num2).toNumber();
-        }
+        }*/
+        return moveDecimal(num1 + '', (num2 + '').length - 1);
     }
     static bigNumberDivide(num1,num2){
-        return new BigNumber(num1).div(num2).toNumber();
+        /*return new BigNumber(num1).div(num2).toNumber();*/
+        return moveDecimal(num1 + '', ((num2 + '').length - 1) * -1);
     }
 
     //实际交易数字转换成'1,223,021.2124'格式
     static getDisplayNumber(num, val = 4){
-        return this.toFormat(Tools.formatNum(Tools.formatAmount(new BigNumber(num).toFixed()), val), val)
+        return this.toFormat(Tools.formatNum(Tools.formatAmount(num), val), val)
     }
 
     static formatAmount(num,p = displayToken2ActualTxToken){
 
-        return new BigNumber(num).div(p).toNumber();
+        return Tools.bigNumberDivide(num, p);
     }
 
     static formatNum(num,val = 4){
