@@ -4,7 +4,7 @@
             <div class="asset_title_container">
                 <section class="asset_title_container_left">
                     <span class="asset_sub_title _left">{{ $t('ExplorerLang.stats.richList') }}</span>
-                    |
+                    <span class="asset_sub_title _center">|</span>
                     <span class="asset_sub_title _right">{{ $t('ExplorerLang.stats.title') }}</span>
                     <el-tooltip class="item"
                                 effect="dark"
@@ -140,6 +140,9 @@ a {
                     font-family: Arial-BoldMT, Arial;
                     font-weight: normal;
                     color: #171D44;
+                }
+                ._center {
+                    margin-top: -0.04rem;
                 }
                 ._right {
                     margin: 0 0.1rem;
