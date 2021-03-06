@@ -386,7 +386,8 @@ a {
           span:nth-of-type(1) {
             margin-right: 0.15rem;
             text-align: left;
-            min-width: 1.5rem;
+            // min-width: 1.5rem;
+            min-width: 1.64rem;
             color: $t_second_c;
             font-size: $s14;
             line-height: 0.16rem;

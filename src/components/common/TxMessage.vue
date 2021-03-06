@@ -2908,27 +2908,27 @@
 							case TX_TYPE.create_htlc:
 								this.sender = msg.sender || '--';
 								this.to = msg.to || '--';
-								this.receiverOnOtherChain = msg.receiverOnOtherChain || '--';
+								this.receiverOnOtherChain = msg.receiver_on_other_chain || '--';
 								if(msg.amount && msg.amount[0]) {
 									let amount = await converCoin(msg.amount[0]);
 									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
 								} else {
 									this.amount = '--';
 								}
-								this.hashLock = msg.hashLock || '--';
-								let timestamp = msg.timestamp  && Math.floor(new Date(msg.timestamp).getTime() / 1000);
-								timestamp ? this.timestamp = Tools.getDisplayDate(timestamp) : this.timestamp ='--';
-								let timeLock = msg.timeLock  && Math.floor(new Date(msg.timeLock).getTime() / 1000);
-								timeLock ? this.timeLock = Tools.getDisplayDate(timeLock) : this.timeLock ='--';
+								this.hashLock = msg.hash_lock || '--';
+								this.timestamp = msg.timestamp ? `${msg.timestamp} s` : '--';
+								this.timeLock = msg.time_lock ? `${msg.time_lock} block` : '--';
+								// let timeLock = msg.time_lock  && Math.floor(new Date(msg.time_lock).getTime() / 1000);
+								// timeLock ? this.timeLock = Tools.getDisplayDate(timeLock) : this.timeLock ='--';
 							break;
 							case TX_TYPE.claim_htlc:
 								this.sender = msg.sender || '--';
-								this.hashLock = msg.hashLock || '--';
+								this.hashLock = msg.hash_lock || '--';
 								this.secret = msg.secret || '--';
 							break;
 							case TX_TYPE.refund_htlc:
 								this.sender = msg.sender || '--';
-								this.hashLock = msg.hashLock || '--';
+								this.hashLock = msg.hash_lock || '--';
 							break;
 						}
 					}
@@ -3028,7 +3028,8 @@
 			span:nth-of-type(1) {
 				margin-right: 0.15rem;
 				color: $t_second_c;
-				min-width: 1.52rem;
+				// min-width: 1.52rem;
+				min-width: 1.64rem;
 				text-align: left;
 				font-size: $s14;
 				font-family: Arial;

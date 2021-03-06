@@ -684,8 +684,8 @@
 				validatorMoniker: '',
 				validatorStatus: '',
 				OperatorAddress: '',
-				fixedNumber: 2,
-				
+				fixedNumber: 2, // 展示2位小数
+				computerNumber: 5, // 计算保留5位小数
 				totalDelegatorReward: 0,
 				totalDelegatorRewardValue: 0,
 				totalUnBondingDelegator: 0,
@@ -1181,10 +1181,10 @@
 							unBondingValue: this.totalUnBondingDelegator ? this.totalUnBondingDelegator : 0,
 							unBonding: this.totalUnBondingDelegator ? `${Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
 							rewards: this.allRewardsValue ? this.allRewardsValue : 0,
-							totalAmount: `${Tools.formatStringToFixedNumber(new BigNumber((Number(Tools.formatStringToFixedNumber(balanceAmount.amount.toString(), this.fixedNumber)) +
-								Number(Tools.formatStringToFixedNumber(this.totalDelegator.toString(), this.fixedNumber)) +
-								Number(Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.fixedNumber)) +
-								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.fixedNumber))).toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
+							totalAmount: `${Tools.formatStringToFixedNumber(new BigNumber((Number(Tools.formatStringToFixedNumber(balanceAmount.amount.toString(), this.computerNumber)) +
+								Number(Tools.formatStringToFixedNumber(this.totalDelegator.toString(), this.computerNumber)) +
+								Number(Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.computerNumber)) +
+								Number(Tools.formatStringToFixedNumber(this.allRewardsAmountValue.toString(), this.computerNumber))).toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
 						});
 					} else {
 						if(balanceAmount && balanceAmount.denom) {
@@ -1343,7 +1343,8 @@
 							if (commission) {
 								let amount = await converCoin(commission)
 								this.validatorRewardsValue = amount.amount
-								this.totalValidatorRewards = `${ Number(amount.amount).toFixed(2)} ${this.mainToken.symbol.toUpperCase()}` || '--'
+								// this.totalValidatorRewards = `${ Number(amount.amount).toFixed(2)} ${this.mainToken.symbol.toUpperCase()}` || '--'
+								this.totalValidatorRewards = `${Tools.formatStringToFixedNumber(new BigNumber(amount.amount.toString()).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` || '--'
 								this.allRewardsAmountValue = Number(this.delegatorRewardsValue) + Number(amount.amount)
 							} else {
 								this.totalValidatorRewards = '--'
