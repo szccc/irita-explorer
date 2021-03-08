@@ -26,8 +26,8 @@
                             <span class="address_link" @click="addressRoute(row.address)"> {{row.address}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('ExplorerLang.stats.amount')" prop="amount" :min-width="ColumnMinWidth.maxSupply"></el-table-column>
-                    <el-table-column :label="$t('ExplorerLang.stats.percentage')" prop="percent" :min-width="ColumnMinWidth.mintable"></el-table-column>
+                    <el-table-column :label="$t('ExplorerLang.stats.amount')" align="right" prop="amount" :min-width="ColumnMinWidth.maxSupply"></el-table-column>
+                    <el-table-column :label="$t('ExplorerLang.stats.percentage')" align="right" prop="percent" :min-width="ColumnMinWidth.mintable"></el-table-column>
                 </el-table>
             </div>
         </div>
