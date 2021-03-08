@@ -142,7 +142,7 @@ export default {
                                         },
                                         d:{
                                             width:250,
-                                            fontSize:17,
+                                            fontSize:16,
                                             align:'right',
                                             lineHeight:40,
                                             padding:[-40,0,0,6]
@@ -169,7 +169,7 @@ export default {
                                     },
                                     d:{
                                         width:250,
-                                        fontSize:17,
+                                        fontSize:16,
                                         align:'right',
                                     },
 
