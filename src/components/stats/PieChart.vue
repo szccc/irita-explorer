@@ -145,7 +145,8 @@ export default {
                                             fontSize:17,
                                             align:'right',
                                             lineHeight:40,
-                                            padding:[-40,0,0,6]
+                                            padding:[-40,0,0,6],
+                                            fontFamily:'ArialMT'
                                         },
 
                                     }:{
@@ -171,6 +172,7 @@ export default {
                                         width:250,
                                         fontSize:17,
                                         align:'right',
+                                        fontFamily:'ArialMT'
                                     },
 
                                 }
