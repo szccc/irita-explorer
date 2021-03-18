@@ -327,8 +327,8 @@ export const ExplorerLang = {
             output: '输出数量 :',
             deadline: '截止日期 :',
             sender: '发送者 :',
-            exactIrisAmt: '增加的iris数量 :',
-            minIrisAmt: '最少iris数量 :',
+            exactIrisAmt: '增加的iris数量 :', //需修改
+            minIrisAmt: '最少iris数量 :', //需修改
             maxToken: '最大可兑换数量 :',
             minToken: '最少可兑换数量 :',
             minLiquidity: '流动性凭证 :',
