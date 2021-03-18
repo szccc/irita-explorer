@@ -2577,7 +2577,7 @@
 								this.outputAddress = msg.output.address || '--';
 								let output = await converCoin(msg.output.coin)
 								this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
-								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
+								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
 								this.sender = msg.sender || '--';
@@ -2589,7 +2589,7 @@
 								let maxToken = await converCoin(msg.max_token)
 								this.maxToken = `${maxToken.amount} ${maxToken.denom.toLocaleUpperCase()}`;
 								this.minLiquidity = msg.min_liquidity || '--';
-								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
+								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.remove_liquidity:
 								this.sender = msg.sender || '--';
@@ -2605,7 +2605,7 @@
 									denom: mainToken.min_unit
 								})
 								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
-								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
+								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.unjail:
 							this.operatorAddress = msg.address || '--';
