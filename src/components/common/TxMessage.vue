@@ -2600,11 +2600,7 @@
 									denom: mainToken.min_unit
 								})
 								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
-							    let minToken = await converCoin({
-									amount: msg.min_token,
-									denom: mainToken.min_unit
-								})
-								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
+								this.minToken = msg.min_token;
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.unjail:
