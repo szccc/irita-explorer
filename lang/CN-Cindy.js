@@ -327,12 +327,14 @@ export const ExplorerLang = {
             output: '输出数量 :',
             deadline: '截止日期 :',
             sender: '发送者 :',
-            exactIrisAmt: '增加的iris数量 :',
-            minIrisAmt: '最少iris数量 :',
+            exactIrisAmt: '增加的iris数量 :', //需修改
+            minIrisAmt: '最少iris数量 :', //需修改
             maxToken: '最大可兑换数量 :',
             minToken: '最少可兑换数量 :',
             minLiquidity: '流动性凭证 :',
             withdrawLiquidity: '提出流动性凭证 :',
+            amount: 'Amount :', // 新增
+            tokenPair: 'Token Pair', // 新增
         },
         oracle: {
             feedName: '任务名称',
@@ -438,10 +440,13 @@ export const ExplorerLang = {
             sender: 'Sender',
             to: 'To',
             receiverOnOtherChain: 'ReceiverOnOtherChain',
+            senderOnOtherChain: 'SenderOnOtherChain',
             amount: 'Amount',
             hashLock: 'HashLock',
             timestamp: 'Timestamp',
             timeLock: 'TimeLock',
+            transfer: 'transfer',
+            id: 'id',
             secret: 'Secret',
         }
     },

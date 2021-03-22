@@ -330,12 +330,14 @@ export const ExplorerLang = {
             output: 'Output :',
             deadline: 'Deadline :',
             sender: 'Sender :',
-            exactIrisAmt: 'Exact Iris Amt :',
-            minIrisAmt: 'Min Iris Amt :',
+            exactIrisAmt: 'Exact Standard Amt :',
+            minIrisAmt: 'Min Standard Amt :',
             maxToken: 'Max Token :',
             minToken: 'Min Token :',
             minLiquidity: 'Min Liquidity :',
             withdrawLiquidity: 'Withdraw Liquidity :',
+            amount: 'Amount :', // 新增
+            tokenPair: 'Token Pair', // 新增
         },
         oracle: {
             feedName: 'Feed Name',
@@ -441,10 +443,13 @@ export const ExplorerLang = {
             sender: 'Sender',
             to: 'To',
             receiverOnOtherChain: 'ReceiverOnOtherChain',
+            senderOnOtherChain: 'SenderOnOtherChain',
             amount: 'Amount',
             hashLock: 'HashLock',
             timestamp: 'Timestamp',
             timeLock: 'TimeLock',
+            transfer: 'transfer',
+            id: 'id',
             secret: 'Secret',
         }
     },

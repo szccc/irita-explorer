@@ -1421,6 +1421,10 @@
 				<span>{{output}}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.tokenPair')}}</span>
+				<span>{{tokenPair || '--'}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>		
@@ -1440,6 +1444,10 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.maxToken')}}</span>
 				<span>{{maxToken}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.amount')}}</span>
+				<span>{{amount || '--'}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minLiquidity')}}</span>
@@ -1469,6 +1477,14 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minToken')}}</span>
 				<span>{{minToken}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.amount')}}</span>
+				<span>{{amount || '--'}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.tokenPair')}}</span>
+				<span>{{tokenPair || '--'}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
@@ -1940,6 +1956,10 @@
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.receiverOnOtherChain')}} : </span>
 				<span>{{receiverOnOtherChain}}</span>
 			</p>
+			<p v-if="senderOnOtherChain">
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.senderOnOtherChain')}} : </span>
+				<span>{{senderOnOtherChain}}</span>
+			</p>
 			<p v-if="amount">
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
 				<span>{{amount}}</span>
@@ -1956,6 +1976,10 @@
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.timeLock')}} : </span>
 				<span>{{timeLock}}</span>
 			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.transfer')}} : </span>
+				<span>{{transfer}}</span>
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.claim_htlc">
 			<p>
@@ -1965,9 +1989,9 @@
 					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
 				</template>
 			</p>
-			<p v-if="hashLock">
+			<p v-if="id">
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
-				<span>{{hashLock}}</span>
+				<span>{{id}}</span>
 			</p>
 			<p v-if="secret">
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.secret')}} : </span>
@@ -2205,10 +2229,13 @@
 				inputs:[],
 				outputs:[],
 				receiverOnOtherChain:'',
+				senderOnOtherChain:'',
 				hashLock:'',
 				timestamp:'',
 				timeLock:'',
-				secret:''
+				secret:'',
+				transfer: '',
+				tokenPair: '',
 			}
 		},
 		computed: {
@@ -2570,6 +2597,15 @@
 								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.swap_order:
+								(this.events || []).forEach(event => {
+									if(event.type === 'remove_liquidity') {
+										(event.attributes || []).forEach(attribute => {
+											if(attribute.key === 'token_pair') {
+												this.tokenPair = attribute.value;
+											}
+										})
+									}
+								})
 								this.isBuyOrder = msg.is_buy_order;
 								this.inputAddress = msg.input.address || '--';
 								let input = await converCoin(msg.input.coin)
@@ -2580,31 +2616,58 @@
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
-								this.sender = msg.sender || '--';
-								let exactIrisAmt = await converCoin({
-									amount: msg.exact_iris_amt,
-									denom: mainToken.min_unit
+								(this.events || []).forEach(event => {
+									if(event.type === 'transfer') {
+										(event.attributes || []).forEach(attribute => {
+											if(attribute.key === 'amount') {
+												if(attribute.value && attribute.value.includes(",")) {
+													this.amount = attribute.value
+												}
+											}
+										})
+									}
 								})
-								this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
-								let maxToken = await converCoin(msg.max_token)
+								this.sender = msg.sender || '--';
+								// let exactIrisAmt = await converCoin({
+								// 	amount: msg.exact_iris_amt,
+								// 	denom: mainToken.min_unit
+								// })
+								// this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
+								this.exactIrisAmt = msg.exact_iris_amt;
+								let maxToken = await converCoin(msg.max_token);
 								this.maxToken = `${maxToken.amount} ${maxToken.denom.toLocaleUpperCase()}`;
 								this.minLiquidity = msg.min_liquidity || '--';
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.remove_liquidity:
+								(this.events || []).forEach(event => {
+									if(event.type === 'transfer') {
+										(event.attributes || []).forEach(attribute => {
+											if(attribute.key === 'amount') {
+												if(attribute.value && attribute.value.includes(",")) {
+													this.amount = attribute.value
+												}
+											}
+										})
+									}
+									if(event.type === 'remove_liquidity') {
+										(event.attributes || []).forEach(attribute => {
+											if(attribute.key === 'token_pair') {
+												this.tokenPair = attribute.value;
+											}
+										})
+									}
+								})
 								this.sender = msg.sender || '--';
 								let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
 								this.withdrawLiquidity = `${withdrawLiquidity.amount} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
-								let minIrisAmt = await converCoin({
-									amount: msg.min_iris_amt,
-									denom: mainToken.min_unit
-								})
-								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
-							    let minToken = await converCoin({
-									amount: msg.min_token,
-									denom: mainToken.min_unit
-								})
-								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
+								// let minIrisAmt = await converCoin({
+								// 	amount: msg.min_iris_amt,
+								// 	denom: mainToken.min_unit
+								// })
+								// this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
+								this.minIrisAmt = msg.min_iris_amt;
+								this.minToken = msg.min_token;
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.unjail:
@@ -2909,6 +2972,7 @@
 								this.sender = msg.sender || '--';
 								this.to = msg.to || '--';
 								this.receiverOnOtherChain = msg.receiver_on_other_chain || '--';
+								this.senderOnOtherChain = msg.sender_on_other_chain || '--';
 								if(msg.amount && msg.amount[0]) {
 									let amount = await converCoin(msg.amount[0]);
 									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
@@ -2918,12 +2982,13 @@
 								this.hashLock = msg.hash_lock || '--';
 								this.timestamp = msg.timestamp ? `${msg.timestamp} s` : '--';
 								this.timeLock = msg.time_lock ? `${msg.time_lock} block` : '--';
+								this.transfer = msg.transfer === false ? false : msg.transfer || "--";
 								// let timeLock = msg.time_lock  && Math.floor(new Date(msg.time_lock).getTime() / 1000);
 								// timeLock ? this.timeLock = Tools.getDisplayDate(timeLock) : this.timeLock ='--';
 							break;
 							case TX_TYPE.claim_htlc:
 								this.sender = msg.sender || '--';
-								this.hashLock = msg.hash_lock || '--';
+								this.id = msg.id || '--';
 								this.secret = msg.secret || '--';
 							break;
 							case TX_TYPE.refund_htlc:
