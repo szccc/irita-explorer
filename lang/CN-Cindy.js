@@ -438,10 +438,13 @@ export const ExplorerLang = {
             sender: 'Sender',
             to: 'To',
             receiverOnOtherChain: 'ReceiverOnOtherChain',
+            senderOnOtherChain: 'SenderOnOtherChain',
             amount: 'Amount',
             hashLock: 'HashLock',
             timestamp: 'Timestamp',
             timeLock: 'TimeLock',
+            transfer: 'transfer',
+            id: 'id',
             secret: 'Secret',
         }
     },
