@@ -1421,6 +1421,10 @@
 				<span>{{output}}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.tokenPair')}}</span>
+				<span>{{tokenPair || '--'}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>		
@@ -1440,6 +1444,10 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.maxToken')}}</span>
 				<span>{{maxToken}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.amount')}}</span>
+				<span>{{amount || '--'}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minLiquidity')}}</span>
@@ -1469,6 +1477,14 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minToken')}}</span>
 				<span>{{minToken}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.amount')}}</span>
+				<span>{{amount || '--'}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.tokenPair')}}</span>
+				<span>{{tokenPair || '--'}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
@@ -2219,6 +2235,7 @@
 				timeLock:'',
 				secret:'',
 				transfer: '',
+				tokenPair: '',
 			}
 		},
 		computed: {
@@ -2580,6 +2597,15 @@
 								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.swap_order:
+								(this.events || []).forEach(event => {
+									if(event.type === 'remove_liquidity') {
+										(event.attributes || []).forEach(attribute => {
+											if(attribute.key === 'token_pair') {
+												this.tokenPair = attribute.value;
+											}
+										})
+									}
+								})
 								this.isBuyOrder = msg.is_buy_order;
 								this.inputAddress = msg.input.address || '--';
 								let input = await converCoin(msg.input.coin)
@@ -2590,6 +2616,17 @@
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
+								(this.events || []).forEach(event => {
+									if(event.type === 'transfer') {
+										(event.attributes || []).forEach(attribute => {
+											if(attribute.key === 'amount') {
+												if(attribute.value && attribute.value.includes(",")) {
+													this.amount = attribute.value
+												}
+											}
+										})
+									}
+								})
 								this.sender = msg.sender || '--';
 								// let exactIrisAmt = await converCoin({
 								// 	amount: msg.exact_iris_amt,
@@ -2603,14 +2640,33 @@
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.remove_liquidity:
+								(this.events || []).forEach(event => {
+									if(event.type === 'transfer') {
+										(event.attributes || []).forEach(attribute => {
+											if(attribute.key === 'amount') {
+												if(attribute.value && attribute.value.includes(",")) {
+													this.amount = attribute.value
+												}
+											}
+										})
+									}
+									if(event.type === 'remove_liquidity') {
+										(event.attributes || []).forEach(attribute => {
+											if(attribute.key === 'token_pair') {
+												this.tokenPair = attribute.value;
+											}
+										})
+									}
+								})
 								this.sender = msg.sender || '--';
 								let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
 								this.withdrawLiquidity = `${withdrawLiquidity.amount} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
-								let minIrisAmt = await converCoin({
-									amount: msg.min_iris_amt,
-									denom: mainToken.min_unit
-								})
-								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
+								// let minIrisAmt = await converCoin({
+								// 	amount: msg.min_iris_amt,
+								// 	denom: mainToken.min_unit
+								// })
+								// this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
+								this.minIrisAmt = msg.min_iris_amt;
 								this.minToken = msg.min_token;
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
