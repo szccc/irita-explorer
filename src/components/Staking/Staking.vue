@@ -34,10 +34,26 @@
             </template>
           </el-table-column>
           <el-table-column key="commission" align="center" prop="commission" :min-width="ColumnMinWidth.commission" :sort-method="commissionSort" :label="$t('ExplorerLang.table.commission')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="bondedToken" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="bondedToken" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']">
+             <template slot="header">
+                    <span>{{ $t('ExplorerLang.table.bondedTokens')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column key="votingPower" v-if="titleStatus === 'Active' && productionConfig.table.votingPower" class-name="votingPower"  align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="uptime" v-if="titleStatus === 'Active'" align="right" prop="uptime" :min-width="ColumnMinWidth.uptime" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="selfBond" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="selfBond" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']">
+              <template slot="header">
+                    <span>{{ $t('ExplorerLang.table.selfBonded')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column key="delegators" class-name="delegators" v-if="titleStatus !== 'Jailed'" min-width="ColumnMinWidth.delegators" align="center" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <!-- <el-table-column key="bondHeight" class-name="bondHeight" align="center" prop="bondHeight" :min-width="ColumnMinWidth.bondHeight" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column> -->
           <el-table-column key="unbondingHeight" align="center" v-if="titleStatus !== 'Active'" prop="unbondingHeight" :min-width="ColumnMinWidth.unbondingHeight" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
@@ -51,14 +67,14 @@
 </template>
 
 <script>
-import MTabs from '.././common/MTabs'
-import MPagination from '.././common/MPagination'
-import Tools from '../../util/Tools'
-import BigNumber from 'bignumber.js'
-import { getValidatorsListApi } from "@/service/api"
-import productionConfig from '@/productionConfig.js'
+import MTabs from '.././common/MTabs';
+import MPagination from '.././common/MPagination';
+import Tools from '../../util/Tools';
+import BigNumber from 'bignumber.js';
+import { getValidatorsListApi } from "@/service/api";
+import productionConfig from '@/productionConfig.js';
 import { getMainToken,converCoin,formatMoniker } from '@/helper/IritaHelper';
-import { ColumnMinWidth,monikerNum } from '@/constant'
+import { ColumnMinWidth,monikerNum,mainTokenSymbol } from '@/constant';
 export default {
   name: 'Staking',
   components: { MTabs, MPagination },
@@ -91,7 +107,8 @@ export default {
         },
       ],
       tableData: [],
-      type:''
+      type:'',
+      mainTokenSymbol
     }
   },
   computed: {},
@@ -168,10 +185,12 @@ export default {
                   moniker: formatMoniker(item.description.moniker, monikerNum.validatorList),
                   operatorAddress: item.operator_address,
                   commission: `${(item.commission.commission_rates.rate * 100).toFixed(this.decimalNamber)} %`,
-                  bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)} ${bondedToken.denom.toLocaleUpperCase()}`,
+                  // bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)} ${bondedToken.denom.toLocaleUpperCase()}`,
+                  bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)}`,
                   uptime: Tools.FormatUptime(item.uptime),
                   votingPower: `${(item.voting_rate * 100).toFixed(this.percentum)}%`,
-                  selfBond: selfBond ? `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}` : `0.00 ${mainToken.symbol.toLocaleUpperCase()}`,
+                  // selfBond: selfBond ? `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}` : `0.00 ${mainToken.symbol.toLocaleUpperCase()}`,
+                  selfBond: selfBond ? `${Tools.subStrings(selfBond.amount, this.decimalNamber)}` : `0.00`,
                   delegatorNum: item.delegator_num,
                   // bondHeight: Number(item.bond_height),
                   unbondingHeight: Number(item.unbonding_height),
@@ -245,7 +264,7 @@ a {
         overflow: auto hidden;
         .sort-caret.ascending,
         .sort-caret.descending {
-          margin-left: 0.05rem;
+          margin-left: 0.07rem;
         }
       }
       /deep/ .el-table .descending .sort-caret.descending {
@@ -259,6 +278,12 @@ a {
         display: flex;
         justify-content: flex-end;
         margin: 0.1rem 0 0.2rem 0;
+      }
+      /deep/ .yiwen_icon {
+          vertical-align: -0.1em;
+          font-weight: normal;
+          margin-top: 0.03rem;
+          margin-right: -0.08rem;
       }
     }
   }

@@ -386,7 +386,15 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.ownerDetailDelegationsAmount"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.ownerDetailDelegationsAmount">
+										<template slot="header">
+											<span>{{ $t('ExplorerLang.table.amount')}}</span>
+											<el-tooltip :content="mainTokenSymbol"
+														placement="top">
+												<i class="iconfont iconyiwen yiwen_icon" />
+											</el-tooltip>
+										</template >
+									</el-table-column>
 									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
 									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- <el-table-column prop="block" :label="$t('ExplorerLang.table.block')" min-width="100">
@@ -426,7 +434,15 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 :min-width="ColumnMinWidth.amount"></el-table-column>
+									                 :min-width="ColumnMinWidth.amount">
+										<template slot="header">
+											<span>{{ $t('ExplorerLang.table.amount')}}</span>
+											<el-tooltip :content="mainTokenSymbol"
+														placement="top">
+												<i class="iconfont iconyiwen yiwen_icon" />
+											</el-tooltip>
+										</template >
+									</el-table-column>
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')"
 									                 :min-width="ColumnMinWidth.blockListHeight">
 										<template v-slot:default="{ row }">
@@ -481,7 +497,15 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.amount">
+										<template slot="header">
+											<span>{{ $t('ExplorerLang.table.amount')}}</span>
+											<el-tooltip :content="mainTokenSymbol"
+														placement="top">
+												<i class="iconfont iconyiwen yiwen_icon" />
+											</el-tooltip>
+										</template >
+									</el-table-column>
 								</el-table>
 							</div>
 						</div>
@@ -591,7 +615,7 @@
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
-	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth,monikerNum,ibcDenomPrefix} from '../constant';
+	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth,monikerNum,ibcDenomPrefix,mainTokenSymbol} from '../constant';
 	import AddressInformationComponent from "./AddressInformationComponent";
 	import LargeString from './common/LargeString';
 	import { addressRoute,formatMoniker } from '@/helper/IritaHelper';
@@ -620,6 +644,7 @@
 		components: {MPagination, TxListComponent, AddressInformationComponent, LargeString},
 		data () {
 			return {
+				mainTokenSymbol,
 				addressRoute,
 				formatMoniker,
 				monikerNum,
@@ -1365,7 +1390,8 @@
 						let amount = await converCoin(item.amount)
 						this.delegationsItems.push({
 							address: item.address,
-							amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)} ${amount.denom.toUpperCase()}`,
+							// amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)} ${amount.denom.toUpperCase()}`,
+							amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)}`,
 							shares: new BigNumber((Number(item.shares)).toFixed(2)).toFormat(),
 							block: item.height,
 							moniker: item.moniker
@@ -1380,7 +1406,8 @@
 					let amount = await converCoin(item.amount)
 					this.unBondingDelegationsItems.push({
 						address: item.address,
-						amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)} ${amount.denom.toUpperCase()}`,
+						// amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)} ${amount.denom.toUpperCase()}`,
+						amount: `${Tools.formatStringToFixedNumber(amount.amount.toString(), this.fixedNumber)}`,
 						block: item.height,
 						// endTime: Tools.format2UTC(item.end_time),
 						endTime: Tools.getFormatDate(new Date(item.end_time).getTime()),
@@ -1399,7 +1426,8 @@
 					}
 					this.rewardsItems.push({
 						address: item.validator_address,
-						amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
+						// amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`,
+						amount: `${Tools.formatStringToFixedNumber(new BigNumber(item.reward[0].amount).toFormat(), this.fixedNumber)}`,
 						moniker: item.moniker
 					});
 				}

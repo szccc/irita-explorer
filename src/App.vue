@@ -114,4 +114,9 @@ export default {
     white-space: nowrap;
     text-overflow:ellipsis;
   }
+
+  .yiwen_icon {
+      font-weight: normal;
+      margin-left: 0.05rem;
+  }
 </style>

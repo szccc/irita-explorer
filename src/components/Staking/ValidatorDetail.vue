@@ -32,7 +32,15 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.delegationsAmount"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.delegationsAmount">
+										<template slot="header">
+											<span>{{ $t('ExplorerLang.table.amount')}}</span>
+											<el-tooltip :content="mainTokenSymbol"
+														placement="top">
+												<i class="iconfont iconyiwen yiwen_icon" />
+											</el-tooltip>
+										</template >
+									</el-table-column>
 									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
 									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- 待处理 -->
@@ -68,7 +76,15 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.amount">
+										<template slot="header">
+											<span>{{ $t('ExplorerLang.table.amount')}}</span>
+											<el-tooltip :content="mainTokenSymbol"
+														placement="top">
+												<i class="iconfont iconyiwen yiwen_icon" />
+											</el-tooltip>
+										</template >
+									</el-table-column>
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')" align="left"
 									                 :min-width="ColumnMinWidth.blockListHeight">
 										<template v-slot:default="{ row }">
@@ -114,8 +130,16 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="deposit" align="right" :label="$t('ExplorerLang.table.deposit')"
-									                :min-width="ColumnMinWidth.amount"></el-table-column>
-									<el-table-column prop="submited" :label="$t('ExplorerLang.table.submited')"
+									                :min-width="ColumnMinWidth.amount">
+										<template slot="header">
+											<span>{{ $t('ExplorerLang.table.deposit')}}</span>
+											<el-tooltip :content="mainTokenSymbol"
+														placement="top">
+												<i class="iconfont iconyiwen yiwen_icon" />
+											</el-tooltip>
+										</template >
+									</el-table-column>
+									<el-table-column prop="submited" align="center" :label="$t('ExplorerLang.table.submited')"
 									                  :min-width="ColumnMinWidth.submited"></el-table-column>
 									<el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
 										<template v-slot:default="{ row }">
@@ -204,11 +228,11 @@
 </template>
 
 <script>
-	import ValidatorInformation from './ValidatorInformation'
-	import ValidatorCommissionInformation from './ValidatorCommissionInformation'
-	import MPagination from '../common/MPagination'
-	import Tools from '../../util/Tools.js'
-	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum } from '../../constant/index.js'
+	import ValidatorInformation from './ValidatorInformation';
+	import ValidatorCommissionInformation from './ValidatorCommissionInformation';
+	import MPagination from '../common/MPagination';
+	import Tools from '../../util/Tools.js';
+	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum,mainTokenSymbol } from '../../constant/index.js';
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
@@ -218,13 +242,13 @@
 		getDepositedProposalsApi,
 		getVotedProposalsApi,
 		getGovTxsApi
-	} from "@/service/api"
-	import {TxHelper} from '../../helper/TxHelper.js'
+	} from "@/service/api";
+	import {TxHelper} from '../../helper/TxHelper.js';
 	import { getMainToken, converCoin,addressRoute,formatMoniker } from '@/helper/IritaHelper';
-	import { getAmountByTx } from '@/helper/txListAmoutHelper'
-	import DelegationTxsList from '@/components/common/DelegationTxsList'
-	import ValidationTxsList from '@/components/common/ValidationTxsList'
-	import GovTxsList from '@/components/common/GovTxsList'
+	import { getAmountByTx } from '@/helper/txListAmoutHelper';
+	import DelegationTxsList from '@/components/common/DelegationTxsList';
+	import ValidationTxsList from '@/components/common/ValidationTxsList';
+	import GovTxsList from '@/components/common/GovTxsList';
 	import prodConfig from '../../productionConfig';
 
 	export default {
@@ -233,6 +257,7 @@
 		props: {},
 		data () {
 			return {
+				mainTokenSymbol,
 				isShowFee: prodConfig.fee.isShowFee,
 				isShowDenom: prodConfig.fee.isShowDenom,
 				Tools,
@@ -321,7 +346,8 @@
 				this.delegations.items = []
 				for (const item of res.data) {
 					let amount = await converCoin(item.amount)
-					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					// item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)}`
 					let selfShares = Tools.formatPriceToFixed(item.self_shares, this.sharesDecimals)
 					let shares = `${selfShares} (${Tools.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
 					this.delegations.items.push({
@@ -345,7 +371,8 @@
 						amount: item.amount,
 						denom: this.mainToken.min_unit
 					})
-					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					// item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)}`
 					item.until = Tools.getFormatDate(new Date(item.until).getTime())
 					this.unbondingDelegations.items.push({
 						address: item.address,
@@ -401,7 +428,8 @@
 						toMonikers,
 						Tx_Type: (item.msgs || []).map(item=>item.type),
 						MsgsNum: msgsNumber,
-						Tx_Fee: fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+						// Tx_Fee: fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+						Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
@@ -431,10 +459,12 @@
 						// Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
 						OperatorAddr,
 						OperatorMonikers: OperatorMonikers || '--',
-						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${this.mainToken.symbol.toUpperCase()}` : '--' : '--',
+						// SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${this.mainToken.symbol.toUpperCase()}` : '--' : '--',
+						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation}` : '--' : '--',
 						'Tx_Type': (item.msgs || []).map(item=>item.type),
 						MsgsNum: msgsNumber,
-						'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+						// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+						'Tx_Fee': fee && fee.amount ?  `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,
@@ -459,7 +489,8 @@
 									moniker: deposit.moniker,
 									submited: String(deposit.submited),
 									hash: deposit.tx_hash,
-									deposit: deposits ? `${Tools.formatPriceToFixed(deposits.amount,this.amountDecimals)} ${deposits.denom.toLocaleUpperCase()}` : '--',
+									// deposit: deposits ? `${Tools.formatPriceToFixed(deposits.amount,this.amountDecimals)} ${deposits.denom.toLocaleUpperCase()}` : '--',
+									deposit: deposits ? `${Tools.formatPriceToFixed(deposits.amount,this.amountDecimals)}` : '--',
 									link: deposit.proposal_link,
 								})
 							}
@@ -524,10 +555,12 @@
 									proposalType: item.ex && item.ex.type,
 									proposalId: item.ex && item.ex.id,
 									proposalTitle: item.ex && item.ex.title && Tools.formatString(item.ex.title, this.proposalTitleNum, '...'),
-									amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
+									// amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
+									amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)}` : '--',
 									'Tx_Type': (item.msgs || []).map(item=>item.type),
 									MsgsNum: msgsNumber,
-									'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+									// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+									'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 									'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 									'Tx_Status': TxStatus[item.status],
 									Timestamp: time,

@@ -37,7 +37,15 @@
             <span class="no_skip" v-show="/^[0]\d*$/.test(row.From) || row.From === '--'">--</span>
           </template>
         </el-table-column>
-        <el-table-column align="right" class-name="amount" prop="Amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.delegationTxsAmount"></el-table-column>
+        <el-table-column align="right" class-name="amount" prop="Amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.delegationTxsAmount">
+            <template slot="header">
+                <span>{{ $t('ExplorerLang.table.amount')}}</span>
+                <el-tooltip :content="mainTokenSymbol"
+                            placement="top">
+                    <i class="iconfont iconyiwen yiwen_icon" />
+                </el-tooltip>
+            </template >
+        </el-table-column>
         <el-table-column prop="To" row-class-name="left" align="left" :label="$t('ExplorerLang.table.to')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <span v-if="/^[1-9]\d*$/.test(row.To)" class="skip_route">
@@ -62,7 +70,15 @@
           </template>
         </el-table-column>
         <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"></el-table-column>
-        <el-table-column v-if="isShowFee" prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
+        <el-table-column v-if="isShowFee" prop="Tx_Fee" align="right" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee">
+          <template slot="header">
+              <span>{{ $t('ExplorerLang.table.fee')}}</span>
+              <el-tooltip :content="mainTokenSymbol"
+                          placement="top">
+                  <i class="iconfont iconyiwen yiwen_icon" />
+              </el-tooltip>
+          </template >
+        </el-table-column>
         <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <el-tooltip :content="`${row.Tx_Signer}`">
@@ -78,7 +94,7 @@
 
 <script>
 import Tools from '@/util/Tools'
-import { ColumnMinWidth,monikerNum } from '@/constant'
+import { ColumnMinWidth,monikerNum,mainTokenSymbol } from '@/constant'
 import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
 export default {
   name: 'DelegationTxsList',
@@ -99,7 +115,8 @@ export default {
         Tools,
         addressRoute,
         formatMoniker,
-        monikerNum
+        monikerNum,
+        mainTokenSymbol
     }
   },
   computed: {},
@@ -129,7 +146,7 @@ export default {
 <style lang="scss" scoped>
     /deep/ .hash_status {
         .cell {
-            margin-left: 0.1rem;
+            // margin-left: 0.1rem;
         }
     }
     .delegation_txs_list {
@@ -149,7 +166,7 @@ export default {
                 }
             }
             /deep/ .cell {
-              padding: 0;
+              // padding: 0;
             }
             /deep/ .amount {
               padding-right: 0.2rem;

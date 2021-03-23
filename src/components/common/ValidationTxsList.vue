@@ -49,6 +49,13 @@
           <template v-slot:default="{ row }">
             <span>{{ row.SelfBonded }}</span>
           </template>
+          <template slot="header">
+                <span>{{ $t('ExplorerLang.table.selfBonded')}}</span>
+                <el-tooltip :content="mainTokenSymbol"
+                            placement="top">
+                    <i class="iconfont iconyiwen yiwen_icon" />
+                </el-tooltip>
+          </template >
         </el-table-column>
         <el-table-column class-name="tx_type" prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :min-width="ColumnMinWidth.txType">
           <template v-slot:default="{ row }">
@@ -58,7 +65,15 @@
           </template>
         </el-table-column>
         <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"> </el-table-column>
-        <el-table-column v-if="isShowFee" prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
+        <el-table-column v-if="isShowFee" prop="Tx_Fee" align="right" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee">
+          <template slot="header">
+              <span>{{ $t('ExplorerLang.table.fee')}}</span>
+              <el-tooltip :content="mainTokenSymbol"
+                          placement="top">
+                  <i class="iconfont iconyiwen yiwen_icon" />
+              </el-tooltip>
+          </template >
+        </el-table-column>
         <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <el-tooltip :disabled="row.Tx_Signer === '--'" :content="`${row.Tx_Signer}`">
@@ -74,7 +89,7 @@
 
 <script>
 import Tools from '@/util/Tools'
-import { ColumnMinWidth,monikerNum } from '@/constant'
+import { ColumnMinWidth,monikerNum,mainTokenSymbol } from '@/constant'
 import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
 export default {
   name: 'ValidationTxsList',
@@ -95,7 +110,8 @@ export default {
       Tools,
       addressRoute,
       formatMoniker,
-      monikerNum
+      monikerNum,
+      mainTokenSymbol
     }
   },
   computed: {},
@@ -130,7 +146,7 @@ export default {
     }
     /deep/ .hash_status {
         .cell {
-            margin-left: 0.1rem;
+            // margin-left: 0.1rem;
         }
     }
     .validation_txs_table_container_status {
@@ -144,7 +160,7 @@ export default {
         }
     }
     /deep/ .cell {
-      padding: 0;
+      // padding: 0;
     }
   }
 }

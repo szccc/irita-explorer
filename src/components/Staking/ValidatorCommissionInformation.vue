@@ -41,7 +41,7 @@
 	import ValidatorDetailScatter from "./ValidatorDetailScatter";
 	import { getValidatorRewardsApi } from "@/service/api"
 	import { getMainToken} from '@/helper/IritaHelper';
-import { converCoin } from '../../helper/IritaHelper.js';
+	import { converCoin } from '../../helper/IritaHelper.js';
 	export default {
 		name: "ValidatorCommissionInformation",
 		components: {ValidatorDetailScatter},
