@@ -58,13 +58,23 @@
           </template >
         </el-table-column>
         <el-table-column class-name="tx_type" prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :min-width="ColumnMinWidth.txType">
-          <template v-slot:default="{ row }">
+          <!-- <template v-slot:default="{ row }">
             <el-tooltip :content="row.Tx_Type.join(',')" placement="top" :disabled="row.Tx_Type.length <= 1">
               <span>{{ getDisplayTxType(row.Tx_Type) }}</span>
             </el-tooltip>
+          </template> -->
+          <template v-slot:default="{ row }">
+              <el-tooltip :content="row.Tx_Type.join(',')"
+                          placement="top-start"
+                          :disabled="row.MsgsNum <= 1">
+                  <div class="ty_type_message">
+                      <span>{{getDisplayTxType(row.Tx_Type)}}</span>
+                      <span class="message_number" v-if="row.MsgsNum != 1">+{{row.MsgsNum - 1}}</span>
+                  </div>
+              </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"> </el-table-column>
+        <!-- <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"> </el-table-column> -->
         <el-table-column v-if="isShowFee" prop="Tx_Fee" align="right" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee">
           <template slot="header">
               <span>{{ $t('ExplorerLang.table.fee')}}</span>
@@ -127,12 +137,16 @@ export default {
         return Tools.formatTxHash(TxHash)
       }
     },
-    getDisplayTxType(types = []) {
-      let type = types[0] || ''
-      if (type && types.length > 1) {
-        type += this.$t('ExplorerLang.unit.ellipsis')
-      }
-      return type
+    getDisplayTxType(types=[]){
+        let type = types[0] || '';
+        if (type && types.length > 1) {
+            types.forEach(item => {
+                if(type.length > item.length) {
+                    type = item
+                }
+            })
+        }
+        return type;
     },
   },
 }

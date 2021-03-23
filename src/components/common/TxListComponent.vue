@@ -26,17 +26,20 @@
             <el-table-column class-name="tx_type"  :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.txType.join(',')"
-                                placement="top"
-                                :disabled="scope.row.txType.length <= 1">
-                        <span>{{getDisplayTxType(scope.row.txType) }}</span>
+                                placement="top-start"
+                                :disabled="scope.row.msgCount <= 1">
+                        <div class="ty_type_message">
+                            <span>{{getDisplayTxType(scope.row.txType)}}</span>
+                            <span class="message_number" v-if="scope.row.msgCount != 1">+{{scope.row.msgCount - 1}}</span>
+                        </div>
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column align="center" :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
+            <!-- <el-table-column align="center" :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
                 <template slot-scope="scope">
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column v-if="isShowFee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
                 <template slot="header">
                     <span>{{ $t('ExplorerLang.table.fee')}}</span>
@@ -153,7 +156,12 @@
             getDisplayTxType(types=[]){
                 let type = types[0] || '';
                 if (type && types.length > 1) {
-                    type += this.$t('ExplorerLang.unit.ellipsis');
+                    types.forEach(item => {
+                        if(type.length > item.length) {
+                            type = item
+                        }
+                    })
+                    // type += this.$t('ExplorerLang.unit.ellipsis');
                 }
                 return type;
             },
@@ -219,7 +227,7 @@
     }
     /deep/ .hash_status {
         .cell {
-            margin-left: 0.05rem;
+            // margin-left: 0.05rem;
         }
     }
     .tx_list_content{
@@ -239,7 +247,7 @@
             margin: 0.1rem 0 0.2rem 0;
         }
         /deep/ .cell {
-            padding: 0 0.04rem;
+            // padding: 0 0.04rem;
         }
     }
 </style>
