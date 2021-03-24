@@ -2598,7 +2598,7 @@
 								break;
 							case TX_TYPE.swap_order:
 								(this.events || []).forEach(event => {
-									if(event.type === 'remove_liquidity') {
+									if(event.type === 'swap') {
 										(event.attributes || []).forEach(attribute => {
 											if(attribute.key === 'token_pair') {
 												this.tokenPair = attribute.value;
