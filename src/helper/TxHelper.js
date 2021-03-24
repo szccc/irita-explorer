@@ -10,7 +10,7 @@ export class TxHelper {
             to : '--'
         };
         if(!msgs || !msgs.msg) return res;
-        const {type, msg} = msgs;
+        const { type, msg } = msgs;
         switch (type){
             case TX_TYPE.send:
                 res.from = msg.from_address;
@@ -128,6 +128,16 @@ export class TxHelper {
                 break;
             case TX_TYPE.submit_proposal:
                 res.from = msg.proposer;
+                break;
+            case TX_TYPE.add_liquidity:
+                res.from = msg.sender;
+                break;
+            case TX_TYPE.remove_liquidity:
+                res.from = msg.sender;
+                break;
+            case TX_TYPE.swap_order:
+                res.from = msg.input && msg.input.address;
+                res.to = msg.output && msg.output.address;
                 break;
         }
         return res;

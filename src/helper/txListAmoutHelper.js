@@ -82,6 +82,7 @@ export async function getAmountByTx (message,events) {
 				let poolAmount = msg && msg.amount && msg.amount.length > 0 ? await converCoin(msg.amount[0]) : null
 				// amount = poolAmount && poolAmount.amount  && poolAmount.denom? `${Tools.formatPriceToFixed(poolAmount.amount,amountDecimals)} ${poolAmount.denom.toLocaleUpperCase()}` : '--'
 				amount = poolAmount && poolAmount.amount  && poolAmount.denom? `${Tools.formatPriceToFixed(poolAmount.amount,amountDecimals)}` : '--'
+				break;
 			
 		}
 		return amount
