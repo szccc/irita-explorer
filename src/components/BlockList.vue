@@ -10,9 +10,9 @@
 								<router-link :to="`/block/${latestBlockHeight}`">{{latestBlockHeight}}</router-link>
 							</span>
 						</div>
-						<div class="pagination_content">
+						<!-- <div class="pagination_content">
 							<m-pagination :page-size="pageSize" :total="dataCount" :page="pageNumber" :page-change="pageChange"></m-pagination>
-						</div>
+						</div> -->
 					</div>
 					<div class="block_list_pagination_content">
 						<el-table class="table"  :data="blockList" :empty-text="$t('ExplorerLang.table.emptyDescription')">

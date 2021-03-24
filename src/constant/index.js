@@ -145,8 +145,8 @@ export const ValidatorStatus = {
 }
 
 export const ColumnMinWidth = {
-  txHash: '110',
-  addressTxHash: '114',
+  txHash: '130',
+  addressTxHash: '130',
   respondHash: '128',
   requestHash: '118',
   blockHeight: '75',

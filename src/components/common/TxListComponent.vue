@@ -18,11 +18,6 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
-                <template slot-scope="scope">
-                    <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
-                </template>
-            </el-table-column>
             <el-table-column class-name="tx_type"  :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.txType.join(',')"
@@ -40,15 +35,6 @@
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>
             </el-table-column> -->
-            <el-table-column v-if="isShowFee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
-                <template slot="header">
-                    <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                    <el-tooltip :content="mainTokenSymbol"
-                                placement="top">
-                        <i class="iconfont iconyiwen yiwen_icon" />
-                    </el-tooltip>
-                </template>
-            </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
                     <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
@@ -84,7 +70,12 @@
                     <span v-show="Number(scope.row.msgCount) > 1"> --</span>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.signer')">
+            <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+                <template slot-scope="scope">
+                    <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
+                </template>
+            </el-table-column>
+            <!-- <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.signer')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.signer"
                                 placement="top"
@@ -96,12 +87,22 @@
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
                 </template>
+            </el-table-column> -->
+            <el-table-column v-if="isShowFee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
+                <template slot="header">
+                    <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+                </template>
             </el-table-column>
-            <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
+            <!-- <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
                 <template slot-scope="scope">
                     <span>{{scope.row.time}}</span>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
+            <el-table-column :min-width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerLang.table.age')"></el-table-column>
         </el-table>
     </div>
 </template>
@@ -138,7 +139,8 @@
                 monikerNum,
                 feeDecimals: decimals.fee,
                 txDataList: [],
-                mainTokenSymbol
+                mainTokenSymbol,
+                txListTimer:null
             }
         },
         watch:{
@@ -202,10 +204,18 @@
                                 signer : tx.signers[0],
                                 status : tx.status,
                                 msgCount : tx.msgs.length,
-                                time :Tools.getDisplayDate(tx.time),
+                                // time :Tools.getDisplayDate(tx.time),
                                 Tx_Fee: '',
-                                mainTokenSymbol: this.mainTokenSymbol
+                                Time: tx.time,
+                                ageTime: Tools.formatAge(Tools.getTimestamp(),tx.time*1000,"ago",">")
                         })
+                        clearInterval(this.txListTimer);
+                        this.txListTimer = setInterval(() => {
+                            this.txDataList.map(item => {
+                                item.ageTime = Tools.formatAge(Tools.getTimestamp(),item.Time*1000,"ago",">");
+                                return item
+                            })
+                        },1000)
                     }
                     if(fees && fees.length > 0 && this.isShowFee) {
                         let fee = await Promise.all(fees);
@@ -217,6 +227,9 @@
                     }
                 }
             }
+        },
+        beforeDestroy() {
+            clearInterval(this.txListTimer)
         }
     }
 </script>
