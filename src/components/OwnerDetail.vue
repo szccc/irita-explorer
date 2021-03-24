@@ -1174,13 +1174,14 @@
 			 		if (item && item.denom && item.denom === this.mainToken.min_unit) {
 						assetList.unshift({
 							token: this.mainToken.symbol.toUpperCase(),
-							balance: balanceAmount  && balanceAmount.amount ? `${Tools.formatStringToFixedNumber(balanceAmount.amount, this.fixedNumber)} ${balanceAmount.denom.toUpperCase()}` : 0,
+							balance: balanceAmount  && balanceAmount.amount ? `${new BigNumber(Tools.formatStringToFixedNumber(balanceAmount.amount, this.fixedNumber)).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
 							balanceNumber: balanceAmount.amount,
 							delegatedValue: this.totalDelegator ? this.totalDelegator : 0,
 							delegated: this.totalDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(this.totalDelegator).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
 							unBondingValue: this.totalUnBondingDelegator ? this.totalUnBondingDelegator : 0,
-							unBonding: this.totalUnBondingDelegator ? `${Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
-							rewards: this.allRewardsValue ? this.allRewardsValue : 0,
+							unBonding: this.totalUnBondingDelegator ? `${Tools.formatStringToFixedNumber(new BigNumber(this.totalUnBondingDelegator).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}` : 0,
+							rewards: this.allRewardsValue ? `${Tools.formatStringToFixedNumber(new BigNumber(this.allRewardsAmountValue).toFormat(), this.fixedNumber)} ${this.mainToken.symbol.toUpperCase()}`: 0,
+							rewardsValue: this.allRewardsAmountValue ? this.allRewardsAmountValue : 0,
 							totalAmount: `${Tools.formatStringToFixedNumber(new BigNumber((Number(Tools.formatStringToFixedNumber(balanceAmount.amount.toString(), this.computerNumber)) +
 								Number(Tools.formatStringToFixedNumber(this.totalDelegator.toString(), this.computerNumber)) +
 								Number(Tools.formatStringToFixedNumber(this.totalUnBondingDelegator.toString(), this.computerNumber)) +
