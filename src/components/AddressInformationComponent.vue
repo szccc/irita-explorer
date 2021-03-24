@@ -28,8 +28,8 @@
 					<ul class="address_information_asset_constitute_content" v-show="flShowAssetInfo(assetConstitute)">
 						<li class="address_information_asset_constitute_item" v-for="(item,index) in assetConstitute" :key="index">
 							<span :style="{background:item.color}" ></span>
-							<span >{{item.label}}</span>
-							<span >{{item.value}}</span>
+							<span>{{item.label}}</span>
+							<span :id="item.status" :style="{'text-align': 'right','width': maxWidth + 'px','white-space': 'nowrap'}">{{item.value}}</span>
 						</li>
 					</ul>
 					<!-- 右侧图形 -->
@@ -114,16 +114,32 @@
 				unbonding:'',
 				rewards:'',
 				otherTokenList:[],
-				mainToken:''
+				mainToken:'',
+				maxWidth: 100,
 			}
 		},
-		created() {
-			this.getCurrentMainToken()
+		async created() {
+			await this.getCurrentMainToken()
 		},
 		watch:{
-			data(){
-				this.assetInformation = this.data;
-				this.formatAssetInformation(this.assetInformation)
+			data: {
+				handler() {
+					this.assetInformation = this.data;
+					this.formatAssetInformation(this.assetInformation)
+				},
+				immediate:true
+			},
+			assetConstitute: {
+				handler() {
+					let valueWidth = '';
+					this.assetConstitute.forEach(item => {
+						if(item.value.length > valueWidth.length) {
+								valueWidth = item.value
+						}
+					})
+					this.maxWidth = (valueWidth.length * 8.5) || 100; 
+				},
+				deep: true
 			}
 		},
 		mounted () {
@@ -138,7 +154,7 @@
 				return res
 			},
 
-			async formatAssetInformation(assetInformation){
+		     formatAssetInformation(assetInformation){
 				assetInformation.forEach( item => {
 					if(item && item.token === (this.mainToken || '').toUpperCase()){
 						this.totalAmount = item.totalAmount;
@@ -147,7 +163,7 @@
 								res.value = item.unBonding || "--";
 								res.numberValue = item.unBonding ? item.unBonding.replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
-							}else if(res.status === 'Rewards') {
+							 }else if(res.status === 'Rewards') {
 								res.value = item[Tools.firstWordLowerCase(res.status)] && item[Tools.firstWordLowerCase(res.status)] !== 0 ? item[Tools.firstWordLowerCase(res.status)] : "--";
 								res.numberValue = item[Tools.firstWordLowerCase(res.status)] ?
 									item[Tools.firstWordLowerCase(res.status)].replace(/[^\d.]/g,"") : 0;
@@ -317,7 +333,7 @@
 						span:nth-of-type(2){
 							font-size: $s14;
 							line-height: 0.16rem;
-							width: 1rem;
+							width: 0.7rem;
 						}
 						span:nth-of-type(3){
 							font-size: $s14;
