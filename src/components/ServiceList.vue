@@ -3,7 +3,7 @@
 		<div class="service_list_content_wrap">
             <div class="service_list_content_wrap_title">
                 <div class="service_list_title">
-                    {{ txCount }} {{$t('ExplorerLang.service.services')}}
+                    {{ txCount }} {{$t('ExplorerLang.service.services')}}{{txCount > 1 && $t('ExplorerLang.service.services').length > 2 ? 's':'' }}
                 </div>
                 <div class="nft_list_header_content">
                     <el-input v-model="iptVal"

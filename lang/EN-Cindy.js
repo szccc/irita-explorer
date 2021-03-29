@@ -211,7 +211,7 @@ export const ExplorerLang = {
         createTime: 'Timestamp',
     },
     service: {
-        services: 'iService List',
+        services: 'iService',
         from: 'From',
         description: 'Description',
         status: 'Status',

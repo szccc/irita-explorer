@@ -2,7 +2,7 @@
 	<div class="nft_list_container">
 		<div class="nft_list_content_wrap">
 			<div class="nft_list_header_content">
-				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerLang.nftAsset.assets')}}</h3>
+				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerLang.nftAsset.assets')}}{{allCount>1 ? 'S' : ''}}</h3>
 				<el-select popper-class="tooltip" v-model="denom" >
 					<el-option v-for="(item, index) in nftList"
 							   :key="index"
@@ -19,6 +19,30 @@
 			</div>
 			<div class="nef_list_table_container">
 				<el-table class="table" :data="denomArray" :empty-text="$t('ExplorerLang.table.emptyDescription')" :default-sort="{ prop: 'last_block_time', order: 'descending' }">
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
+						<template slot-scope="scope">
+							<el-tooltip 
+										:content="scope.row.nft_name"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.nft_id)">
+								<router-link v-if="formatAddress(scope.row.nft_id) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
+								<span v-else>{{formatAddress(scope.row.nft_id)}}</span>
+							</el-tooltip>
+						</template>
+					</el-table-column>
+					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
+						<template slot-scope="scope">
+							<el-tooltip 
+										:content="scope.row.nft_name"
+										placement="top"
+										effect="dark"
+										:disabled="Tools.disabled(scope.row.nft_name)">
+								<router-link v-if="formatAddress(scope.row.nft_name) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
+								<span v-else>{{formatAddress(scope.row.nft_name)}}</span>
+							</el-tooltip>
+						</template>
+					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.nftListDenom" show-overflow-tooltip :label="$t('ExplorerLang.table.denom')">
 						<template slot-scope="scope">
 							{{scope.row.denom_name || scope.row.denom_id}}
@@ -36,36 +60,12 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
-						<template slot-scope="scope">
-							<el-tooltip 
-										:content="scope.row.nft_name"
-										placement="top"
-										effect="dark"
-										:disabled="Tools.disabled(scope.row.nft_name)">
-								<router-link v-if="formatAddress(scope.row.nft_name) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_name)}}</router-link>
-								<span v-else>{{formatAddress(scope.row.nft_name)}}</span>
-							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
-						<template slot-scope="scope">
-							<el-tooltip 
-										:content="scope.row.nft_name"
-										placement="top"
-										effect="dark"
-										:disabled="Tools.disabled(scope.row.nft_id)">
-								<router-link v-if="formatAddress(scope.row.nft_id) !== '--'" :to="`/nft/token?denom=${scope.row.denom_id}&&tokenId=${scope.row.nft_id}`">{{formatAddress(scope.row.nft_id)}}</router-link>
-								<span v-else>{{formatAddress(scope.row.nft_id)}}</span>
-							</el-tooltip>
-						</template>
-					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.nftListDate" :label="$t('ExplorerLang.table.data')" prop="tokenData">
+					<!-- <el-table-column :min-width="ColumnMinWidth.nftListDate" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
 							<LargeString :key="scope.row.tokenData" v-if="scope.row.tokenData" :text="scope.row.tokenData"  mode="cell" textWidth="300px" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 							<span v-else>--</span>
 						</template>
-					</el-table-column>
+					</el-table-column> -->
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')" prop="tokenUri">
 						<template slot-scope="scope">
 							<div v-if="scope.row.tokenUri">
