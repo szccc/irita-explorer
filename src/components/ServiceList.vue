@@ -1,16 +1,18 @@
 <template>
 	<div class="service_list_container_content">
 		<div class="service_list_content_wrap">
-			<div class="service_list_title">
-                {{ txCount }} {{$t('ExplorerLang.service.services')}}
-            </div>
-            <div class="nft_list_header_content">
-                <el-input v-model="iptVal"
-                          @change="handleSearchClick"
-                          :placeholder="$t('ExplorerLang.service.placeHolder')"></el-input>
-                <div class="tx_type_mobile_content">
-                    <div class="search_btn" @click="handleSearchClick">{{$t('ExplorerLang.nftAsset.search')}}</div>
-                    <div class="reset_btn" @click="reset"><i class="iconfont iconzhongzhi"></i></div>
+            <div class="service_list_content_wrap_title">
+                <div class="service_list_title">
+                    {{ txCount }} {{$t('ExplorerLang.service.services')}}
+                </div>
+                <div class="nft_list_header_content">
+                    <el-input v-model="iptVal"
+                            @change="handleSearchClick"
+                            :placeholder="$t('ExplorerLang.service.placeHolder')"></el-input>
+                    <div class="tx_type_mobile_content">
+                        <div class="search_btn" @click="handleSearchClick">{{$t('ExplorerLang.nftAsset.search')}}</div>
+                        <div class="reset_btn" @click="reset"><i class="iconfont iconzhongzhi"></i></div>
+                    </div>
                 </div>
             </div>
 			<div class="service_list_content" v-for="(service,index) in serviceList" :key="index">
@@ -234,10 +236,8 @@
             }
             .nft_list_header_content{
                 display: flex;
-                flex-direction:column;
-                justify-content: flex-start;
                 .el-select{
-                    margin-bottom:0.1rem;
+                    // margin-bottom:0.1rem;
                     /deep/ .el-input{
                         //width: 1.8rem;
                         .el-input__inner{
@@ -259,7 +259,7 @@
                 }
 
                 /deep/ .el-input{
-                    margin-bottom:0.1rem;
+                    // margin-bottom:0.1rem;
                     .el-input__inner{
                         padding-left: 0.07rem;
                         height: 0.32rem;
@@ -272,10 +272,20 @@
                 }
                 .tx_type_mobile_content{
                     justify-content: flex-end;
-                    margin-bottom:0.1rem;
+                    // margin-bottom:0.1rem;
                 }
             }
 
+        }
+        @media screen and (max-width: 540px){ 
+            .service_list_content_wrap_title {
+                flex-direction: column;
+                .nft_list_header_content {
+                   .el-input,.tx_type_mobile_content {
+                       margin-bottom: 0px;
+                   }
+                }
+            }
         }
 		.service_list_content_wrap{
 			margin: 0 auto;
@@ -301,19 +311,20 @@
 
                 }
             }
-
+            .service_list_content_wrap_title{
+                display: flex;
+                margin: 0.3rem 0 0.13rem 0rem;
+            }
 			.service_list_title{
                 text-align: left;
-                margin: 0.3rem 0 0rem 0;
-                width: 100%;
+                margin-right: 0.2rem;
+                line-height: 0.32rem;
                 box-sizing: border-box;
                 font-size: $s18;
                 font-weight: 600;
                 color: $t_first_c;
 			}
             .nft_list_header_content{
-                width: 100%;
-                margin: 0.16rem 0 0.16rem 0;
                 .el-select{
                     /deep/ .el-input{
                         .el-input__inner{
