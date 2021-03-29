@@ -313,7 +313,7 @@
             }
             .service_list_content_wrap_title{
                 display: flex;
-                margin: 0.3rem 0 0.13rem 0rem;
+                margin: 0.3rem 0 0.16rem 0rem;
             }
 			.service_list_title{
                 text-align: left;
