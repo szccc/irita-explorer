@@ -50,10 +50,10 @@ export default class Tools {
 	 * 格式化hash
 	 * */
 	static formatTxHash(txHash = ''){
-		if (txHash.length <= 6) {
+		if (txHash.length <= 8) {
 			return txHash;
 		}
-		return `${txHash.substring(0,3)}...${txHash.substring(txHash.length - 3)}`
+		return `${txHash.substring(0,4)}...${txHash.substring(txHash.length - 4)}`
   }
 
   /**
@@ -305,15 +305,6 @@ export default class Tools {
     } else {
       return str + '.00'
     }
-  }
-
-  /**
-   * format txHash
-   * param String
-   * return String
-   */
-  static formatTxHash(txHash) {
-    return `${txHash.substring(0, 3)}...${txHash.substring(txHash.length - 3)}`
   }
 
   /**

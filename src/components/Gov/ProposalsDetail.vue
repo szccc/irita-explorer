@@ -253,7 +253,15 @@
                 </el-tooltip>
               </template>
             </el-table-column>
-            <el-table-column prop="amount" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')"></el-table-column>
+            <el-table-column prop="amount" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')">
+              <template slot="header">
+                  <span>{{ $t('ExplorerLang.table.amount')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template >
+            </el-table-column>
             <el-table-column prop="type" :min-width="ColumnMinWidth.proposalType" :label="$t('ExplorerLang.table.type')"></el-table-column>
             <el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
               <template v-slot:default="{ row }">
@@ -276,7 +284,7 @@
 </template>
 
 <script>
-import { proposalStatus, proposalType, ColumnMinWidth, monikerNum,decimals,formatVoteOptions } from '../../constant'
+import { proposalStatus, proposalType, ColumnMinWidth, monikerNum,decimals,formatVoteOptions,mainTokenSymbol } from '../../constant'
 import Tools from '../../util/Tools'
 import { getProposalsDetailApi, getProposalDetailVotersApi, getProposalDetailDepositorApi } from '../../service/api'
 import { addressRoute, converCoin, formatMoniker } from '@/helper/IritaHelper'
@@ -294,6 +302,7 @@ export default {
   props: {},
   data() {
     return {
+      mainTokenSymbol,
       formatMoniker,
       monikerNum,
       ColumnMinWidth,
@@ -592,7 +601,8 @@ export default {
               let amount = '--'
               if (depositor.amount && depositor.amount.length > 0) {
                 let n = await converCoin(depositor.amount[0])
-                amount = `${Tools.formatPriceToFixed(n.amount,decimals.amount)} ${n.denom.toLocaleUpperCase()}`
+                // amount = `${Tools.formatPriceToFixed(n.amount,decimals.amount)} ${n.denom.toLocaleUpperCase()}`
+                amount = `${Tools.formatPriceToFixed(n.amount,decimals.amount)}`
               }
               this.depositorData.push({
                 depositor: depositor.address,

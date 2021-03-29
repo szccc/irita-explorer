@@ -67,7 +67,7 @@
                         <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
             </div>
-            <TxListComponent v-if="transactionArray.length" :txData="transactionArray"></TxListComponent>
+            <TxListComponent :txData="transactionArray"></TxListComponent>
             <div class="pagination_content">
                 <keep-alive>
                     <m-pagination :page-size="Number(pageSize)"

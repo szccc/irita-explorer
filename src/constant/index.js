@@ -145,13 +145,14 @@ export const ValidatorStatus = {
 }
 
 export const ColumnMinWidth = {
-  txHash: '103',
-  addressTxHash: '114',
+  txHash: '130',
+  addressTxHash: '130',
   respondHash: '128',
   requestHash: '118',
-  blockHeight: '68',
+  blockHeight: '75',
   blockListHeight: '76',
-  txType: '194',
+  txType: '260',
+  govTxType: '120',
   address: '150',
   iaaAddress: '128',
   time: prodConfig.isShowUTC === false ? '155' : '205',
@@ -184,18 +185,21 @@ export const ColumnMinWidth = {
   certificateFull: '650',
   credentials: '220',
   commission: '110',
-  bondedTokens: '150',
+  bondedTokens: '155',
   uptime: '100',
-  selfBond: '110',
+  selfBond: '125',
   delegators: '121',
   bondHeight: '122',
   unbondingHeight: '155',
-  amount: '110',
+  // amount: '115',
+  amount: '130',
+  amountAndDenom: '150',
   delegationsAmount: '165',
   delegationTxsAmount: '155',
   delegationTxsFrom: '126',
   shares: '251',
-  fee: '110',
+  fee: '80',
+  feeAndDenom: "110",
   consensus: '340',
   proposerPriority: '200',
   message: '90',
@@ -211,18 +215,18 @@ export const ColumnMinWidth = {
   maxSupply: '150',
   mintable: '120',
   proposalId: '60',
-  proposalID: '100',
+  proposalID: '105',
   proposalTitle: '185',
   proposalType: '173',
   proposalStatusIcon: '133',
   proposalStatus: '115',
   strip: '120',
   voteOption: '120',
-  submited: '85',
+  submited: '128',
   proposer: '245',
   validatorValue: '120',
   votingPowerValue: '120',
-  ownerDetailDelegationsAmount: '135'
+  ownerDetailDelegationsAmount: '135',
 }
 
 export const ModuleMap = {
@@ -425,5 +429,7 @@ export const DISTRIBUTION = {
     '1001-':{
         name:'No. 1001-',
     },
-
 }
+
+export const mainTokenSymbol = prodConfig && prodConfig.token && prodConfig.token.symbol && prodConfig.token.symbol.toLocaleUpperCase()
+

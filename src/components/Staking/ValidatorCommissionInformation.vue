@@ -18,7 +18,8 @@
 					<ul class="validator_commission_bonded_list">
 						<li class="validator_commission_bonded_item" v-for="(item,index) in bondedAndCommissionArr" :key="index">
 							<p class="validator_commission_parent_content">
-								<span>{{item.label}} <i @click="showChildren(index)" v-if="item.flShowSelectIcon" :class="item.flShowChildren ? 'el-icon-caret-top' : 'el-icon-caret-bottom'"></i></span>
+								<!-- <span>{{item.label}} <i @click="showChildren(index)" v-if="item.flShowSelectIcon" :class="item.flShowChildren ? 'el-icon-caret-top' : 'el-icon-caret-bottom'"></i></span> -->
+								<span>{{item.label}}</span>
 								<span>{{item.value}}</span>
 							</p>
 							<ul class="validator_commission_children_content" v-if="item.flShowChildren">
@@ -41,7 +42,7 @@
 	import ValidatorDetailScatter from "./ValidatorDetailScatter";
 	import { getValidatorRewardsApi } from "@/service/api"
 	import { getMainToken} from '@/helper/IritaHelper';
-import { converCoin } from '../../helper/IritaHelper.js';
+	import { converCoin } from '../../helper/IritaHelper.js';
 	export default {
 		name: "ValidatorCommissionInformation",
 		components: {ValidatorDetailScatter},
@@ -73,7 +74,7 @@ import { converCoin } from '../../helper/IritaHelper.js';
 						dataName:'bonded_tokens',
 						value:'',
 						flShowSelectIcon:true,
-						flShowChildren:false,
+						flShowChildren: true,
 						children:[
 						
 						]
@@ -112,7 +113,7 @@ import { converCoin } from '../../helper/IritaHelper.js';
 						label:this.$t('ExplorerLang.validatorDetail.commissionInfo.bondedAndCommissionArr.commissionRateRange'),
 						dataName:'commissionRateRange',
 						flShowSelectIcon:true,
-						flShowChildren:false,
+						flShowChildren: true,
 						value:'',
 						children:[
 						

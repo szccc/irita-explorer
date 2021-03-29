@@ -114,4 +114,24 @@ export default {
     white-space: nowrap;
     text-overflow:ellipsis;
   }
+
+  .yiwen_icon {
+      font-weight: normal;
+      margin-left: 0.05rem;
+  }
+  .ty_type_message {
+    display: flex;
+    align-items: center;
+    // justify-content: space-between;
+  }
+  .message_number {
+    margin-left: 0.08rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F4F4F4;
+    width: 0.35rem;
+    height: 0.18rem;
+    border-radius: 4px;
+  }
 </style>

@@ -136,10 +136,17 @@ export default {
       failTipStyle:false,
       fee:'',
       monikers:[],
+      timeData: 0,
+      timestampTimer: null
     }
   },
   mounted() {
-    this.getTransactionInformation()
+    this.getTransactionInformation();
+    this.timestampTimer = setInterval(() => {
+      if(this.timeData) {
+        this.timestamp = this.formatTimestampAndAge(this.timeData)
+      }
+    }, 1000);
   },
   watch:{
       gasPrice(){
@@ -169,7 +176,12 @@ export default {
           this.blockHeight = res.height || '--'
           this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed'
           this.log = res.log || '--'
-          this.timestamp = Tools.getDisplayDate(res.time) || '--'
+          if(res.time) {
+            this.timeData = res.time
+            this.timestamp = this.formatTimestampAndAge(res.time)
+          } else {
+            this.timestamp = "--"
+          }
           if(res.fee && res.fee.amount[0] && this.isShowFee) {
             let fee = await converCoin(res.fee.amount[0])
             this.fee = `${fee.amount} ${fee.denom.toUpperCase()}`
@@ -238,6 +250,11 @@ export default {
           console.error(e)
           this.$message.error(this.$t('ExplorerLang.message.requestFailed'))
       }
+    },
+    formatTimestampAndAge(second) {
+       const timestamp = Tools.getDisplayDate(second);
+       const age = Tools.formatAge(Tools.getTimestamp(),second*1000,"ago",">");
+       return `${timestamp}  (${age})`
     },
     pageChange(pageNum) {
       if (this.pageNum === pageNum) return
@@ -327,6 +344,9 @@ export default {
         }
     }
   },
+  beforeDestroy() {
+    clearInterval(this.timestampTimer)
+  }
 }
 </script>
 

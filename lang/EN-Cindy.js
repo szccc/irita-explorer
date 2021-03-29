@@ -108,7 +108,8 @@ export const ExplorerLang = {
         proposer: 'Proposer',
         validators: 'Validators',
         votingPower: 'Voting_Power',
-        sender: 'Sender'
+        sender: 'Sender',
+        more: 'More'
     },
     unit:{
         ellipsis:' ,...',
@@ -210,7 +211,7 @@ export const ExplorerLang = {
         createTime: 'Timestamp',
     },
     service: {
-        services: 'iService List',
+        services: 'iService',
         from: 'From',
         description: 'Description',
         status: 'Status',

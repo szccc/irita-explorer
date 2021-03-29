@@ -1,63 +1,65 @@
 <template>
     <div class="transaction_list_page_container">
-        <div class="title_container">
-            <span v-if="$route.params.txType === 'delegations'">{{ $t('ExplorerLang.transactions.delegationTxsList')}}</span>
-            <span v-if="$route.params.txType === 'validations'">{{$t('ExplorerLang.transactions.validationTxsList')}}</span>
-            <span v-if="$route.params.txType === 'governance'">{{$t('ExplorerLang.transactions.govTxsList')}}</span>
-			<span>{{ count }} {{$t('ExplorerLang.transactions.txs')}}</span>
-        </div>
-        <div class="transaction_list_title_wrap">
-            <div class="transaction_list_title_content">
-                <div class="filter_container">
-                    <div class="filter_tx_type_statue_content">
-                        <el-select popper-class="tooltip" v-model="value" filterable :change="filterTxByTxType(value)">
-                            <el-option v-for="(item, index) in txTypeListArray"
-                                       :key="index"
-                                       :label="item.label"
-                                       :value="item.value">
-                            </el-option>
-                        </el-select>
+		<div class="transaction_list_page_container_title">
+			<div class="title_container">
+				<span v-if="$route.params.txType === 'delegations'">{{ $t('ExplorerLang.transactions.delegationTxsList')}}</span>
+				<span v-if="$route.params.txType === 'validations'">{{$t('ExplorerLang.transactions.validationTxsList')}}</span>
+				<span v-if="$route.params.txType === 'governance'">{{$t('ExplorerLang.transactions.govTxsList')}}</span>
+				<span>{{ count }} {{$t('ExplorerLang.transactions.txs')}}</span>
+			</div>
+			<div class="transaction_list_title_wrap">
+				<div class="transaction_list_title_content">
+					<div class="filter_container">
+						<div class="filter_tx_type_statue_content">
+							<el-select popper-class="tooltip" v-model="value" filterable :change="filterTxByTxType(value)">
+								<el-option v-for="(item, index) in txTypeListArray"
+										:key="index"
+										:label="item.label"
+										:value="item.value">
+								</el-option>
+							</el-select>
 
-                        <el-select popper-class="tooltip" v-model="statusValue" :change="filterTxByStatus(statusValue)">
-                            <el-option v-for="(item, index) in status"
-                                       :key="index"
-                                       :label="item.label"
-                                       :value="item.value"></el-option>
-                        </el-select>
-                    </div>
-                    <div class="select_date_content">
-                        <el-date-picker  type="date"
-										 popper-class="tooltip"
-                                         v-model="startTime"
-                                         @change="getStartTime(startTime)"
-                                         :picker-options="PickerOptions"
-                                         :editable="false"
-                                         value-format="yyyy-MM-dd"
-                                         :placeholder="$t('ExplorerLang.common.selectDate')">
-                        </el-date-picker>
-                        <span class="joint_mark">~</span>
-                        <el-date-picker  type="date"
-										 popper-class="tooltip"
-                                         v-model="endTime"
-                                         :picker-options="PickerOptions"
-                                         value-format="yyyy-MM-dd"
-                                         @change="getEndTime(endTime)"
-                                         :editable="false"
-                                         :placeholder="$t('ExplorerLang.common.selectDate')">
-                        </el-date-picker>
-                        <div class="tooltip_content">
-                            <el-tooltip popper-class="tooltip"  :content="$t('ExplorerLang.transactions.tooltip')">
-                                <i class="iconfont iconyiwen"></i>
-                            </el-tooltip>
-                        </div>
-                    </div>
-                    <div class="reset_search_content">
-                        <div class="tx_search_btn" @click="getFilterTxs">{{$t('ExplorerLang.transactions.search')}}</div>
-                        <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+							<el-select popper-class="tooltip" v-model="statusValue" :change="filterTxByStatus(statusValue)">
+								<el-option v-for="(item, index) in status"
+										:key="index"
+										:label="item.label"
+										:value="item.value"></el-option>
+							</el-select>
+						</div>
+						<div class="select_date_content">
+							<el-date-picker  type="date"
+											popper-class="tooltip"
+											v-model="startTime"
+											@change="getStartTime(startTime)"
+											:picker-options="PickerOptions"
+											:editable="false"
+											value-format="yyyy-MM-dd"
+											:placeholder="$t('ExplorerLang.common.selectDate')">
+							</el-date-picker>
+							<span class="joint_mark">~</span>
+							<el-date-picker  type="date"
+											popper-class="tooltip"
+											v-model="endTime"
+											:picker-options="PickerOptions"
+											value-format="yyyy-MM-dd"
+											@change="getEndTime(endTime)"
+											:editable="false"
+											:placeholder="$t('ExplorerLang.common.selectDate')">
+							</el-date-picker>
+							<div class="tooltip_content">
+								<el-tooltip popper-class="tooltip"  :content="$t('ExplorerLang.transactions.tooltip')">
+									<i class="iconfont iconyiwen"></i>
+								</el-tooltip>
+							</div>
+						</div>
+						<div class="reset_search_content">
+							<div class="tx_search_btn" @click="getFilterTxs">{{$t('ExplorerLang.transactions.search')}}</div>
+							<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
         <div class="transaction_list_table_container">
             <div class="transaction_list_table_content">
                 <div class="table_list_content">
@@ -372,7 +374,8 @@
 											toMonikers,
 											Tx_Type: (item.msgs || []).map(item=>item.type),
 											MsgsNum: msgsNumber,
-											Tx_Fee: fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+											// Tx_Fee: fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+											Tx_Fee: fee && fee.amount ?  `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 											Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 											Tx_Status: TxStatus[item.status],
 											Timestamp: time,
@@ -418,10 +421,12 @@
 												Block: item.height,
 												OperatorAddr,
 												OperatorMonikers: OperatorMonikers || '--',
-												SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--' : '--',
+												// SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--' : '--',
+												SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation}` : '--' : '--',
 												'Tx_Type': (item.msgs || []).map(item=>item.type),
 												MsgsNum: msgsNumber,
-												'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+												// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+												'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 												'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 												'Tx_Status': TxStatus[item.status],
 												Timestamp: time,
@@ -473,10 +478,12 @@
 									proposalType: item.ex && item.ex.type,
 									proposalId: item.ex && item.ex.id,
 									proposalTitle: item.ex && item.ex.title && Tools.formatString(item.ex.title, this.proposalTitleNum, '...'),
-									amount: amount ? `${Tools.toDecimal(amount.amount,this.feeDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
+									// amount: amount ? `${Tools.toDecimal(amount.amount,this.feeDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
+									amount: amount ? `${Tools.toDecimal(amount.amount,this.feeDecimals)}` : '--',
 									'Tx_Type': (item.msgs || []).map(item=>item.type),
 									MsgsNum: msgsNumber,
-									'Tx_Fee': fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+									// 'Tx_Fee': fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+									'Tx_Fee': fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 									'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 									'Tx_Status': TxStatus[item.status],
 									Timestamp: time,
@@ -510,30 +517,27 @@
 
 <style scoped lang="scss">
 	.transaction_list_page_container {
-		.title_container {
-			// max-width: 12.8rem;
+		.transaction_list_page_container_title {
 			max-width: 12rem;
 			margin: 0.3rem auto;
-			margin-bottom: 0rem;
-			text-align: left;
+			margin-bottom: 0.13rem;
 			display: flex;
-			line-height: 0.3rem;
+		}
+		.title_container {
+			text-align: left;
+			line-height: 0.32rem;
 			color: $t_first_c;
 			font-size: $s18;
 			font-weight: bold;
-			
-			span {
+			margin-right: 0.2rem;
+			span:nth-child(1) {
 				margin-right: 0.1rem;
 			}
 		}
 		.transaction_list_title_wrap {
-			width: 100%;
-			// position: fixed;
-			// z-index: 3;
 			background-color: $bg_cancel_c;
-			// padding-top: 0.54rem;
 			.transaction_list_title_content {
-				height: 0.64rem;
+				// height: 0.64rem;
 				display: flex;
 				align-items: center;
 				// max-width: 12.8rem;
@@ -695,14 +699,16 @@
 	
 	@media screen and (max-width: 1248px) {
 		.transaction_list_page_container {
+			.transaction_list_page_container_title {
+				margin-left:0.24rem;
+			}
 			.title_container {
-				margin: 0.3rem 0.24rem 0rem 0.24rem;
 				span {
 				}
 			}
 			.transaction_list_title_wrap {
 				.transaction_list_title_content {
-					margin: 0 0.24rem;
+					// margin: 0 0.24rem;
 					.filter_container {		
 						.filter_tx_type_statue_content {
 						}
@@ -724,6 +730,50 @@
 			}
 			.transaction_list_table_container {
 				margin: 0 0.24rem;				
+				.transaction_list_table_content {				
+					.table_list_content {
+					}				
+					.pagination_nav_footer_content {
+					}
+					
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 1053px) {
+		.transaction_list_page_container {
+			.transaction_list_page_container_title {
+				display: block;
+			}
+			.title_container {
+				margin-bottom: 0.1rem;
+				span {
+				}
+			}
+			.transaction_list_title_wrap {
+				.transaction_list_title_content {
+					// margin: 0 0.24rem;
+					.filter_container {		
+						.filter_tx_type_statue_content {
+						}
+						
+						.select_date_content {
+
+						}
+						
+						.reset_search_content {
+							.reset_btn {
+							}
+							
+							.tx_search_btn {
+							}
+						}
+					}
+					
+				}
+			}
+			.transaction_list_table_container {			
 				.transaction_list_table_content {				
 					.table_list_content {
 					}				
@@ -811,6 +861,9 @@
 
 	@media screen and (max-width: 768px) {
 		.transaction_list_page_container {
+			.transaction_list_page_container_title {
+				margin: 0px;
+			}
 			.title_container {
 				margin: 0.3rem 0.12rem 0rem 0.12rem;
 				span {

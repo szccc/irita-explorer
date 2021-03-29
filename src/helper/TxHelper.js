@@ -10,7 +10,7 @@ export class TxHelper {
             to : '--'
         };
         if(!msgs || !msgs.msg) return res;
-        const {type, msg} = msgs;
+        const { type, msg } = msgs;
         switch (type){
             case TX_TYPE.send:
                 res.from = msg.from_address;

@@ -18,26 +18,36 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
-                <template slot-scope="scope">
-                    <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
-                </template>
-            </el-table-column>
             <el-table-column class-name="tx_type"  :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.txType.join(',')"
-                                placement="top"
-                                :disabled="scope.row.txType.length <= 1">
-                        <span>{{getDisplayTxType(scope.row.txType) }}</span>
+                                placement="top-start"
+                                :disabled="scope.row.msgCount <= 1">
+                        <div class="ty_type_message">
+                            <span>{{getDisplayTxType(scope.row.txType)}}</span>
+                            <span class="message_number" v-if="scope.row.msgCount != 1">+{{scope.row.msgCount - 1}}</span>
+                        </div>
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column align="center" :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
+            <el-table-column align="right" class-name="amount" prop="amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.amountAndDenom">
+                <!-- <template slot="header">
+                    <span>{{ $t('ExplorerLang.table.amount')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+                </template > -->
+                <template slot-scope="scope">
+                        <span v-if="scope.row.msgCount == 1">{{scope.row.amount}}</span>
+                        <router-link v-else :to="`/tx?txHash=${scope.row.txHash}`">{{$t('ExplorerLang.table.more')}}</router-link>
+                </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
                 <template slot-scope="scope">
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>
-            </el-table-column>
-            <el-table-column v-if="isShowFee" prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
+            </el-table-column> -->
             <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
                     <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
@@ -73,7 +83,12 @@
                     <span v-show="Number(scope.row.msgCount) > 1"> --</span>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.signer')">
+            <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+                <template slot-scope="scope">
+                    <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
+                </template>
+            </el-table-column>
+            <!-- <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.signer')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.signer"
                                 placement="top"
@@ -85,12 +100,22 @@
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
                 </template>
+            </el-table-column> -->
+            <el-table-column v-if="isShowFee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
+                <template slot="header">
+                    <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+                </template>
             </el-table-column>
-            <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
+            <!-- <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
                 <template slot-scope="scope">
                     <span>{{scope.row.time}}</span>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
+            <el-table-column :width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerLang.table.age')"></el-table-column>
         </el-table>
     </div>
 </template>
@@ -98,8 +123,9 @@
 <script>
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
-    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals } from '../../constant';
+    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,mainTokenSymbol } from '../../constant';
     import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper';
+    import {getAmountByTx} from "../../helper/txListAmoutHelper";
     import prodConfig from '../../productionConfig';
     export default {
         name : "TxList",
@@ -126,7 +152,9 @@
                 formatMoniker,
                 monikerNum,
                 feeDecimals: decimals.fee,
-                txDataList: []
+                txDataList: [],
+                mainTokenSymbol,
+                txListTimer:null
             }
         },
         watch:{
@@ -144,7 +172,12 @@
             getDisplayTxType(types=[]){
                 let type = types[0] || '';
                 if (type && types.length > 1) {
-                    type += this.$t('ExplorerLang.unit.ellipsis');
+                    types.forEach(item => {
+                        if(type.length > item.length) {
+                            type = item
+                        }
+                    })
+                    // type += this.$t('ExplorerLang.unit.ellipsis');
                 }
                 return type;
             },
@@ -160,8 +193,10 @@
                 this.txDataList = []
                 if(this.txData && this.txData.length) {
                     let fees = []
+                    let amounts = []
                     for (const tx of this.txData) {
                         let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
+                        amounts.push(tx.msgs[0] ? getAmountByTx(tx.msgs[0],tx.events,true) : '--')
                         let from = addrObj.from || '--',
                             to =  addrObj.to || '--';
                         let fromMonikers,toMonikers
@@ -185,18 +220,39 @@
                                 signer : tx.signers[0],
                                 status : tx.status,
                                 msgCount : tx.msgs.length,
-                                time :Tools.getDisplayDate(tx.time),
+                                // time :Tools.getDisplayDate(tx.time),
                                 Tx_Fee: '',
+                                Time: tx.time,
+                                amount: '',
+                                ageTime: Tools.formatAge(Tools.getTimestamp(),tx.time*1000,"ago",">")
                         })
+                        clearInterval(this.txListTimer);
+                        this.txListTimer = setInterval(() => {
+                            this.txDataList.map(item => {
+                                item.ageTime = Tools.formatAge(Tools.getTimestamp(),item.Time*1000,"ago",">");
+                                return item
+                            })
+                        },1000)
                     }
                     if(fees && fees.length > 0 && this.isShowFee) {
                         let fee = await Promise.all(fees);
                         this.txDataList.forEach((item,index) => {
-                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
+                                // this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
+                                // remove denom
+                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
+                        })
+                    }
+                    if(amounts && amounts.length > 0) {
+                        let amount = await Promise.all(amounts)
+                        this.txDataList.forEach((item,index) => {
+                            this.txDataList[index].amount = amount[index]
                         })
                     }
                 }
             }
+        },
+        beforeDestroy() {
+            clearInterval(this.txListTimer)
         }
     }
 </script>
@@ -207,7 +263,7 @@
     }
     /deep/ .hash_status {
         .cell {
-            margin-left: 0.05rem;
+            // margin-left: 0.05rem;
         }
     }
     .tx_list_content{
@@ -227,7 +283,7 @@
             margin: 0.1rem 0 0.2rem 0;
         }
         /deep/ .cell {
-            padding: 0 0.04rem;
+            // padding: 0 0.04rem;
         }
     }
 </style>
