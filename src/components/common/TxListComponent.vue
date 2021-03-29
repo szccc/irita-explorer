@@ -30,6 +30,19 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
+            <el-table-column align="right" class-name="amount" prop="amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.amountAndDenom">
+                <!-- <template slot="header">
+                    <span>{{ $t('ExplorerLang.table.amount')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+                </template > -->
+                <template slot-scope="scope">
+                        <span v-if="scope.row.msgCount == 1">{{scope.row.amount}}</span>
+                        <router-link v-else :to="`/tx?txHash=${scope.row.txHash}`">{{$t('ExplorerLang.table.more')}}</router-link>
+                </template>
+            </el-table-column>
             <!-- <el-table-column align="center" :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
                 <template slot-scope="scope">
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
@@ -102,7 +115,7 @@
                     <span>{{scope.row.time}}</span>
                 </template>
             </el-table-column> -->
-            <el-table-column :min-width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerLang.table.age')"></el-table-column>
+            <el-table-column :width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerLang.table.age')"></el-table-column>
         </el-table>
     </div>
 </template>
@@ -112,6 +125,7 @@
     import {TxHelper} from "../../helper/TxHelper";
     import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,mainTokenSymbol } from '../../constant';
     import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper';
+    import {getAmountByTx} from "../../helper/txListAmoutHelper";
     import prodConfig from '../../productionConfig';
     export default {
         name : "TxList",
@@ -179,8 +193,10 @@
                 this.txDataList = []
                 if(this.txData && this.txData.length) {
                     let fees = []
+                    let amounts = []
                     for (const tx of this.txData) {
                         let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
+                        amounts.push(tx.msgs[0] ? getAmountByTx(tx.msgs[0],tx.events,true) : '--')
                         let from = addrObj.from || '--',
                             to =  addrObj.to || '--';
                         let fromMonikers,toMonikers
@@ -207,6 +223,7 @@
                                 // time :Tools.getDisplayDate(tx.time),
                                 Tx_Fee: '',
                                 Time: tx.time,
+                                amount: '',
                                 ageTime: Tools.formatAge(Tools.getTimestamp(),tx.time*1000,"ago",">")
                         })
                         clearInterval(this.txListTimer);
@@ -223,6 +240,12 @@
                                 // this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
                                 // remove denom
                                 this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
+                        })
+                    }
+                    if(amounts && amounts.length > 0) {
+                        let amount = await Promise.all(amounts)
+                        this.txDataList.forEach((item,index) => {
+                            this.txDataList[index].amount = amount[index]
                         })
                     }
                 }

@@ -108,7 +108,8 @@ export const ExplorerLang = {
         proposer: 'Proposer',
         validators: 'Validators',
         votingPower: 'Voting_Power',
-        sender: 'Sender'
+        sender: 'Sender',
+        more: 'More'
     },
     unit:{
         ellipsis:' ,...',

@@ -45,6 +45,10 @@
                     <i class="iconfont iconyiwen yiwen_icon" />
                 </el-tooltip>
             </template >
+            <template v-slot:default="{ row }">
+                        <span v-if="row.MsgsNum == 1">{{row.amount || '--'}}</span>
+                        <router-link v-else :to="`/tx?txHash=${row.Tx_Hash}`">{{$t('ExplorerLang.table.more')}}</router-link>
+            </template>
         </el-table-column>
         <el-table-column prop="To" row-class-name="left" align="left" :label="$t('ExplorerLang.table.to')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">

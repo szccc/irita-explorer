@@ -35,7 +35,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" v-if="isShowFee" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" v-if="isShowFee" prop="fee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -76,7 +76,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" v-if="isShowFee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -115,7 +115,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.amount"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.block')" prop="block" :min-width="ColumnMinWidth.block">
             <template v-slot:default="{ row }">
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
@@ -129,7 +129,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" v-if="isShowFee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -157,7 +157,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.amount"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.block')" prop="block" :min-width="ColumnMinWidth.block">
             <template v-slot:default="{ row }">
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
@@ -171,7 +171,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" v-if="isShowFee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -219,7 +219,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" v-if="isShowFee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -487,6 +487,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+/deep/ th.is-right {
+  text-align: center;
+}
+
 a {
   color: $t_link_c !important;
 }
