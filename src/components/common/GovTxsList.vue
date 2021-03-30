@@ -49,7 +49,7 @@
           </template >
           <template v-slot:default="{ row }">
                         <span v-if="row.MsgsNum == 1">{{row.amount || '--'}}</span>
-                        <router-link v-else :to="`/tx?txHash=${row.Tx_Hash}`">{{$t('ExplorerLang.table.more')}}</router-link>
+                        <router-link v-else :to="`/tx?txHash=${row.Tx_Hash}`">{{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i></router-link>
             </template>
         </el-table-column>
         <el-table-column class-name="tx_type" prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :min-width="ColumnMinWidth.govTxType">

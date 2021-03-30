@@ -35,7 +35,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" v-if="isShowFee" prop="fee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" v-if="isShowFee" prop="fee" :width="ColumnMinWidth.fee">
+              <template slot="header">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -76,7 +84,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
+              <template slot="header">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -129,7 +145,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
+              <template slot="header">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -171,7 +195,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
+              <template slot="header">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -219,7 +251,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.feeAndDenom"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
+              <template slot="header">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -234,7 +274,7 @@
 import MPagination from '.././common/MPagination'
 import Tools from '../../util/Tools'
 import { getNativeAssetsTxsApi } from '@/service/api'
-import { ColumnMinWidth, TX_TYPE, decimals } from '@/constant'
+import { ColumnMinWidth, TX_TYPE, decimals,mainTokenSymbol } from '@/constant'
 import { converCoin,addressRoute } from '../../helper/IritaHelper'
 import prodConfig from '../../productionConfig'
 
@@ -249,6 +289,7 @@ export default {
   },
   data() {
     return {
+      mainTokenSymbol,
       isShowFee: prodConfig.fee.isShowFee,
       isShowDenom: prodConfig.fee.isShowDenom,
       Tools,
@@ -301,7 +342,8 @@ export default {
                 mintable: issueTokenData && Tools.firstWordUpperCase(String(issueTokenData.mintable)),
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                // fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -331,7 +373,8 @@ export default {
                 token: editTokenData && editTokenData.symbol,
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                // fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -363,7 +406,8 @@ export default {
                 amount: (mintTokenData && Tools.toDecimal(mintTokenData.amount, decimals.amount)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ?  isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                // fee: fee ?  isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -394,7 +438,8 @@ export default {
                 amount: (burnTokenData && Tools.toDecimal(burnTokenData.amount, decimals.amount)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ?  isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                // fee: fee ?  isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -425,7 +470,8 @@ export default {
                 dstOwner: transferTokenData && transferTokenData.dst_owner,
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                // fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -488,9 +534,9 @@ export default {
 
 <style lang="scss" scoped>
 
-/deep/ th.is-right {
-  text-align: center;
-}
+// /deep/ th.is-right {
+//   text-align: center;
+// }
 
 a {
   color: $t_link_c !important;

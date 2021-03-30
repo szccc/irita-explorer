@@ -46,8 +46,8 @@
                 </el-tooltip>
             </template >
             <template v-slot:default="{ row }">
-                        <span v-if="row.MsgsNum == 1">{{row.amount || '--'}}</span>
-                        <router-link v-else :to="`/tx?txHash=${row.Tx_Hash}`">{{$t('ExplorerLang.table.more')}}</router-link>
+                        <span v-if="row.MsgsNum == 1 && !row.isShowMore">{{row.Amount}}</span>
+                        <router-link v-else :to="`/tx?txHash=${row.Tx_Hash}`">{{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i></router-link>
             </template>
         </el-table-column>
         <el-table-column prop="To" row-class-name="left" align="left" :label="$t('ExplorerLang.table.to')" :min-width="ColumnMinWidth.address">
@@ -66,7 +66,7 @@
             <span class="no_skip" v-show="/^[0]\d*$/.test(row.To) || row.To === '--'">--</span>
           </template>
         </el-table-column>
-        <el-table-column class-name="tx_type" prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :min-width="ColumnMinWidth.txType">
+        <el-table-column class-name="tx_type" prop="Tx_Type" :label="$t('ExplorerLang.table.txType')" :width="ColumnMinWidth.txType">
           <!-- <template v-slot:default="{ row }">
             <el-tooltip :content="row.Tx_Type.join(',')" placement="top" :disabled="row.Tx_Type.length <= 1">
               <span>{{ getDisplayTxType(row.Tx_Type) }}</span>
