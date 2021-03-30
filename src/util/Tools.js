@@ -377,7 +377,7 @@ export default class Tools {
     let million = 1000000;
     if(value > million){
       return `${value/million}M`
-            }else {
+    }else {
       return value
     }
   }
@@ -464,5 +464,13 @@ export default class Tools {
         }
     }
 
-
+    // 1024678.666 → 1.02m
+    static formatMillion(value,n=2){
+      let million = 1000000;
+      if(value > million){
+        return `${Math.floor((value/million) * Math.pow(10, n)) / Math.pow(10, n)}m`
+      }else {
+        return value
+      }
+    }
 }
