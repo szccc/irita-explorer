@@ -83,7 +83,7 @@
 <script>
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
-	import {pageTitleConfig, TxStatus,decimals} from "../constant";
+	import {pageTitleConfig, TxStatus,decimals,TX_TYPE} from "../constant";
 	import {TxHelper} from '@/helper/TxHelper.js'
 	import {getTypeStakingApi, getTypeDeclarationApi, getDelegationTxsApi, getValidationTxsApi,getGovTxsApi,getTypeGovApi} from "@/service/api";
 	import {converCoin,getMainToken} from "../helper/IritaHelper";
@@ -362,6 +362,11 @@
 												fromMonikers = fromMonikers || it[formTO.from] || ''
 											})
 										}
+										let isShowMore = false;
+										// const type = item.msgs && item.msgs[0] && item.msgs[0].type;
+										// if(type && type === TX_TYPE.withdraw_delegator_reward) {
+										// 	isShowMore = true
+										// }
 										const time = Tools.getDisplayDate(item.time)
 										const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 										this.txList.push({
@@ -379,6 +384,7 @@
 											Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 											Tx_Status: TxStatus[item.status],
 											Timestamp: time,
+											isShowMore
 										})
 									}
 								}

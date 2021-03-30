@@ -172,7 +172,7 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column class-name="tx_type" :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
+                        <el-table-column class-name="tx_type" :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
                                          prop="type"></el-table-column>
 
                         <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">

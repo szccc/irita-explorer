@@ -18,7 +18,7 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column class-name="tx_type"  :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
+            <el-table-column class-name="tx_type"  :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.txType.join(',')"
                                 placement="top-start"
@@ -39,8 +39,8 @@
                     </el-tooltip>
                 </template > -->
                 <template slot-scope="scope">
-                        <span v-if="scope.row.msgCount == 1">{{scope.row.amount}}</span>
-                        <router-link v-else :to="`/tx?txHash=${scope.row.txHash}`">{{$t('ExplorerLang.table.more')}}</router-link>
+                        <span v-if="scope.row.msgCount == 1 && !scope.row.isShowMore">{{scope.row.amount}}</span>
+                        <router-link v-else :to="`/tx?txHash=${scope.row.txHash}`">{{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i></router-link>
                 </template>
             </el-table-column>
             <!-- <el-table-column align="center" :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
@@ -209,6 +209,11 @@
                         if(this.isShowFee) {
                             fees.push(tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? converCoin(tx.fee.amount[0]) :'--')
                         }
+                        let isShowMore = false;
+                        const type = tx.msgs && tx.msgs[0] && tx.msgs[0].type;
+                        if(type && (type === TX_TYPE.add_liquidity || type === TX_TYPE.remove_liquidity || type === TX_TYPE.withdraw_delegator_reward)) {
+                            isShowMore = true
+                        }
                         this.txDataList.push({
                                 txHash : tx.tx_hash,
                                 blockHeight : tx.height,
@@ -224,7 +229,8 @@
                                 Tx_Fee: '',
                                 Time: tx.time,
                                 amount: '',
-                                ageTime: Tools.formatAge(Tools.getTimestamp(),tx.time*1000,"ago",">")
+                                ageTime: Tools.formatAge(Tools.getTimestamp(),tx.time*1000,"ago",">"),
+                                isShowMore
                         })
                         clearInterval(this.txListTimer);
                         this.txListTimer = setInterval(() => {

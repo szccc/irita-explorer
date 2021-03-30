@@ -17,14 +17,14 @@ export default {
       key: new Date(),
     }
   },
-    mounted(){
-      // echart不能使用媒体查询
-        if (window.innerWidth > 910) {
-            this.$store.commit('isMobile',false);
-        } else {
-            this.$store.commit('isMobile',true);
-        }
-    }
+  mounted(){
+    // echart不能使用媒体查询
+      if (window.innerWidth > 910) {
+          this.$store.commit('isMobile',false);
+      } else {
+          this.$store.commit('isMobile',true);
+      }
+  }
 }
 </script>
 
@@ -133,5 +133,8 @@ export default {
     width: 0.35rem;
     height: 0.18rem;
     border-radius: 4px;
+  }
+  .more_icontiaozhuan {
+      font-size: 12px !important;
   }
 </style>

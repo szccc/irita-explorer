@@ -151,7 +151,7 @@ export const ColumnMinWidth = {
   requestHash: '118',
   blockHeight: '75',
   blockListHeight: '76',
-  txType: '260',
+  txType: '261',
   govTxType: '120',
   address: '150',
   iaaAddress: '128',
