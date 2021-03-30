@@ -449,9 +449,11 @@ export const ExplorerLang = {
             hashLock: 'HashLock',
             timestamp: 'Timestamp',
             timeLock: 'TimeLock',
-            transfer: 'transfer',
+            transfer: 'Mode',
             id: 'Id',
             secret: 'Secret',
+            secret: 'Secret',
+            recipient: 'Recipient'
         }
     },
     addressDetail: {
