@@ -1972,10 +1972,10 @@
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
 				<span>{{hashLock}}</span>
 			</p>
-			<p>
+			<!-- <p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.timestamp')}} : </span>
 				<span>{{timestamp}}</span>
-			</p>
+			</p> -->
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.timeLock')}} : </span>
 				<span>{{timeLock}}</span>
