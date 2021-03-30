@@ -621,7 +621,7 @@ export const ExplorerLang = {
         stats: `${prodConfig.token.symbol.toUpperCase()} Token Stats`,
         id:'#',
         address:'Address',
-        amount:`Amount(${prodConfig.token.symbol.toUpperCase()})`,
+        amount:`Amount`,
         percentage:'Percentage',
         title:`Top 100 Addresses by ${prodConfig.token.symbol.toUpperCase()}`,
         help:'The assets include the balance tokens，delegated tokens, unbonding tokens and remaining tokens on the address.',

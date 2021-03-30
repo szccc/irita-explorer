@@ -1940,7 +1940,7 @@
 		<div v-if="txType === TX_TYPE.create_htlc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.id')}} : </span>
-				<span>{{id}}</span>
+				<span>{{id || '--'}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
@@ -1992,7 +1992,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
-				<span>{{amount}}</span>
+				<span>{{amount || '--'}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.secret')}} : </span>
@@ -3039,6 +3039,9 @@
 										})
 									}
 								})
+								if(!this.recipient) {
+									this.recipient = '--'
+								}
 								this.transfer = transfer === 'false' ? 'HTLC' : 'HTLT';
 								this.sender = msg.sender || '--';
 								this.id = msg.id || '--';
