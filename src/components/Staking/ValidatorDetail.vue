@@ -141,7 +141,7 @@
 									</el-table-column>
 									<el-table-column prop="submited" align="center" :label="$t('ExplorerLang.table.submited')"
 									                  :min-width="ColumnMinWidth.submited"></el-table-column>
-									<el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+									<el-table-column prop="hash" :width="ColumnMinWidth.txHashShort" :label="$t('ExplorerLang.table.txHash')">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="row.hash" placement="top" :disabled="!Boolean(row.hash)">
 												<router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>
@@ -173,7 +173,7 @@
 									                :min-width="ColumnMinWidth.proposalStatus"></el-table-column>
 									<el-table-column prop="voted" :label="$t('ExplorerLang.table.voted')"
 									                  :min-width="ColumnMinWidth.voteOption"></el-table-column>
-									<el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+									<el-table-column prop="hash" :width="ColumnMinWidth.txHashShort" :label="$t('ExplorerLang.table.txHash')">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="row.hash" placement="top" :disabled="!row.hash">
 											<router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>

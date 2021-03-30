@@ -101,7 +101,7 @@
                     </el-tooltip>
                 </template>
             </el-table-column> -->
-            <el-table-column v-if="isShowFee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
+            <el-table-column v-if="isShowFee" align="right" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
                 <template slot="header">
                     <span>{{ $t('ExplorerLang.table.fee')}}</span>
                     <el-tooltip :content="mainTokenSymbol"

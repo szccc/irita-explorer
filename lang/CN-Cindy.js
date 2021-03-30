@@ -447,7 +447,7 @@ export const ExplorerLang = {
             timestamp: 'Timestamp',
             timeLock: 'TimeLock',
             transfer: 'transfer',
-            id: 'id',
+            id: 'Id',
             secret: 'Secret',
         }
     },

@@ -1990,7 +1990,7 @@
 				</template>
 			</p>
 			<p v-if="id">
-				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.id')}} : </span>
 				<span>{{id}}</span>
 			</p>
 			<p v-if="secret">

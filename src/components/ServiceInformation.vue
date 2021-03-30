@@ -172,8 +172,18 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column class-name="tx_type" :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
-                                         prop="type"></el-table-column>
+                        <el-table-column class-name="tx_type" :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
+                            <template slot-scope="scope">
+                                <el-tooltip :content="scope.row.type.join(',')"
+                                            placement="top-start"
+                                            :disabled="scope.row.msgCount <= 1">
+                                    <div class="ty_type_message">
+                                        <span>{{getDisplayTxType(scope.row.type)}}</span>
+                                        <span class="message_number" v-if="scope.row.msgCount != 1">+{{scope.row.msgCount - 1}}</span>
+                                    </div>
+                                </el-tooltip>
+                            </template>
+                        </el-table-column>
 
                         <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
                             <template slot-scope="scope">
@@ -182,7 +192,15 @@
                                 </el-tooltip>
                             </template>
                         </el-table-column>
-                        <el-table-column v-if="isShowFee" prop="fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
+                        <el-table-column v-if="isShowFee" prop="fee" :label="$t('ExplorerLang.table.fee')" align="right" :min-width="ColumnMinWidth.fee">
+                            <template slot="header">
+                                <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                                <el-tooltip :content="mainTokenSymbol"
+                                            placement="top">
+                                    <i class="iconfont iconyiwen yiwen_icon" />
+                                </el-tooltip>
+                            </template >
+                        </el-table-column>
                         <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                             <template slot-scope="scope">
 
@@ -239,7 +257,7 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./common/MPagination";
-    import { TX_STATUS,ColumnMinWidth,decimals } from '../constant';
+    import { TX_STATUS,ColumnMinWidth,decimals,mainTokenSymbol } from '../constant';
     import {
         getAllServiceTxTypes,
         getServiceDetail,
@@ -256,6 +274,7 @@
         components : {MPagination,LargeString},
         data(){
             return {
+                mainTokenSymbol,
                 isShowFee: productionConfig.fee.isShowFee,
                 isShowDenom: productionConfig.fee.isShowDenom,
                 feeDecimals: decimals.fee,
@@ -414,13 +433,16 @@
                             to = (addrObj && addrObj.to) ? addrObj.to : '--',
                             msgs = item.msgs || [{}];
                         return {
-                            type : item.msgs.length > 1 ? '--' : item.msgs[0].type,
+                            // type : item.msgs.length > 1 ? '--' : item.msgs[0].type,
+                            type : (item.msgs || []).map(item=>item.type),
+                            msgCount: item.msgs.length,
                             from,
                             status : item.status,
                             txHash : item.hash,
                             id : requestContextId,
                             to,
-                            fee: fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--',
+                            // fee: fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--',
+                            fee: fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--',
                             height : item.height,
                             timestamp : Tools.getDisplayDate(item.time)
                         };
@@ -468,6 +490,17 @@
             },
             formatAddress(address){
                 return Tools.formatValidatorAddress(address)
+            },
+            getDisplayTxType(types=[]){
+                let type = types[0] || '';
+                if (type && types.length > 1) {
+                    types.forEach(item => {
+                        if(type.length > item.length) {
+                            type = item
+                        }
+                    })
+                }
+                return type;
             },
         }
     }

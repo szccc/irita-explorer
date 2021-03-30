@@ -210,7 +210,7 @@
                 }
 
                 /deep/ .el-input{
-                    max-width: 3.5rem;
+                    min-width: 3.5rem;
                     .el-input__inner{
                         padding-left: 0.07rem;
                         height: 0.32rem;
