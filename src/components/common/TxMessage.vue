@@ -1939,6 +1939,14 @@
 		</div>
 		<div v-if="txType === TX_TYPE.create_htlc">
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.id')}} : </span>
+				<span>{{id}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
+				<span>{{amount}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
 				<template>
 					<span v-if="sender === '--'">{{sender}}</span>
@@ -1952,27 +1960,23 @@
 					<span v-else @click="addressRoute(to)" class="address_link">{{to}}</span>
 				</template>
 			</p>
-			<p v-if="receiverOnOtherChain">
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.receiverOnOtherChain')}} : </span>
 				<span>{{receiverOnOtherChain}}</span>
 			</p>
-			<p v-if="senderOnOtherChain">
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.senderOnOtherChain')}} : </span>
 				<span>{{senderOnOtherChain}}</span>
 			</p>
-			<p v-if="amount">
-				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
-				<span>{{amount}}</span>
-			</p>
-			<p v-if="hashLock">
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
 				<span>{{hashLock}}</span>
 			</p>
-			<p v-if="timestamp">
+			<!-- <p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.timestamp')}} : </span>
 				<span>{{timestamp}}</span>
-			</p>
-			<p v-if="timeLock">
+			</p> -->
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.timeLock')}} : </span>
 				<span>{{timeLock}}</span>
 			</p>
@@ -1983,19 +1987,34 @@
 		</div>
 		<div v-if="txType === TX_TYPE.claim_htlc">
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.id')}} : </span>
+				<span>{{id}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
+				<span>{{amount}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.secret')}} : </span>
+				<span>{{secret}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
 				<template>
 					<span v-if="sender === '--'">{{sender}}</span>
 					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
 				</template>
 			</p>
-			<p v-if="id">
-				<span>{{$t('ExplorerLang.transactionInformation.htlc.id')}} : </span>
-				<span>{{id}}</span>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.recipient')}} : </span>
+				<template>
+					<span v-if="recipient === '--'">{{recipient}}</span>
+					<span v-else @click="addressRoute(recipient)" class="address_link">{{recipient}}</span>
+				</template>
 			</p>
-			<p v-if="secret">
-				<span>{{$t('ExplorerLang.transactionInformation.htlc.secret')}} : </span>
-				<span>{{secret}}</span>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.transfer')}} : </span>
+				<span>{{transfer}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.refund_htlc">
@@ -2969,24 +2988,58 @@
 								}
 							break;
 							case TX_TYPE.create_htlc:
+								(this.events || []).forEach(item=> {
+									if(item.type === 'create_htlc') {
+										(item.attributes || []).forEach(attrs => {
+											if(attrs.key === 'id') {
+												this.id = attrs.value
+											}
+										})
+									}
+								})
 								this.sender = msg.sender || '--';
 								this.to = msg.to || '--';
 								this.receiverOnOtherChain = msg.receiver_on_other_chain || '--';
 								this.senderOnOtherChain = msg.sender_on_other_chain || '--';
 								if(msg.amount && msg.amount[0]) {
-									let amount = await converCoin(msg.amount[0]);
-									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
+									this.amount = `${msg.amount[0].amount} ${msg.amount[0].denom}`;
 								} else {
 									this.amount = '--';
 								}
 								this.hashLock = msg.hash_lock || '--';
-								this.timestamp = msg.timestamp ? `${msg.timestamp} s` : '--';
+								// this.timestamp = msg.timestamp ? `${msg.timestamp} s` : '--';
+								this.timestamp = Tools.getDisplayDate(msg.timestamp) || '--';
 								this.timeLock = msg.time_lock ? `${msg.time_lock} block` : '--';
-								this.transfer = msg.transfer === false ? false : msg.transfer || "--";
+								this.transfer = msg.transfer === false ? 'HTLC' : 'HTLT';
 								// let timeLock = msg.time_lock  && Math.floor(new Date(msg.time_lock).getTime() / 1000);
 								// timeLock ? this.timeLock = Tools.getDisplayDate(timeLock) : this.timeLock ='--';
 							break;
 							case TX_TYPE.claim_htlc:
+								let transfer;
+								let numberTransfer = 0;
+								(this.events || []).forEach(event => {
+									if(event.type === 'claim_htlc') {
+										(event.attributes || []).forEach(item => {
+											if(item.key === 'transfer')  {
+												transfer = item.value
+											}
+										})
+									}
+									if(event.type === "transfer") {
+										numberTransfer++
+									}
+									if(event.type === "transfer" && numberTransfer === 2) {
+										(event.attributes || []).forEach(item => {
+											if(item.key === 'amount')  {
+												this.amount = item.value
+											}
+											if(item.key === 'recipient') {
+												this.recipient = item.value
+											}
+										})
+									}
+								})
+								this.transfer = transfer === 'false' ? 'HTLC' : 'HTLT';
 								this.sender = msg.sender || '--';
 								this.id = msg.id || '--';
 								this.secret = msg.secret || '--';
