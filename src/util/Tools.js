@@ -473,4 +473,15 @@ export default class Tools {
         return value
       }
     }
+    
+  static isJSON (str) {
+      if (str.length < 120) {
+        return false
+      }
+      try {
+          let obj = JSON.parse(str);
+          return !!obj && typeof obj === 'object';
+      } catch (e) {}
+      return false;
+    }
 }

@@ -2,7 +2,7 @@
 	<div class="tx_message_content" v-if="hide">
 		<p>
 			<span>{{$t('ExplorerLang.transactionInformation.txType')}}：</span>
-			<span>{{txType}}</span>
+			<span>{{TX_TYPE_DISPLAY[txType] || txType}}</span>
 		</p>
 		<div v-if="txType === TX_TYPE.define_service">
 			<p>
@@ -18,7 +18,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
-				<LargeString v-if="schemas" :text="schemas" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(schemas)" v-if="schemas" :text="schemas" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
@@ -156,7 +156,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(tokenData)" v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -207,7 +207,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString v-if="tokenData" :text="tokenData"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(tokenData)" v-if="tokenData" :text="tokenData"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -250,7 +250,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(tokenData)" v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -278,7 +278,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
-				<LargeString v-if="schema" :text="schema"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
+				<LargeString :isShowPre="Tools.isJSON(schema)" v-if="schema" :text="schema"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
@@ -2034,7 +2034,7 @@
 </template>
 
 <script>
-	import {TX_TYPE,voteOptions,formatVoteOptions} from '../../constant';
+	import {TX_TYPE,voteOptions,formatVoteOptions,TX_TYPE_DISPLAY} from '../../constant';
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
@@ -2060,6 +2060,7 @@
 		},
 		data () {
 			return {
+				TX_TYPE_DISPLAY,
 				isShowFee: prodConfig.fee.isShowFee,
 				Tools,
 				prodConfig,

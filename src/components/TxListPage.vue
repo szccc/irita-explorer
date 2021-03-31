@@ -83,8 +83,8 @@
 <script>
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
-	import {pageTitleConfig, TxStatus,decimals,TX_TYPE} from "../constant";
-	import {TxHelper} from '@/helper/TxHelper.js'
+	import {pageTitleConfig, TxStatus,decimals,TX_TYPE,TX_TYPE_DISPLAY} from "../constant";
+	import {TxHelper} from '@/helper/TxHelper.js';
 	import {getTypeStakingApi, getTypeDeclarationApi, getDelegationTxsApi, getValidationTxsApi,getGovTxsApi,getTypeGovApi} from "@/service/api";
 	import {converCoin,getMainToken} from "../helper/IritaHelper";
 	import {getAmountByTx} from "../helper/txListAmoutHelper";
@@ -303,7 +303,7 @@
 						typeArray = res.map(item => {
 							return {
 								value: item,
-								label: item
+								label: TX_TYPE_DISPLAY[item] || itme
 							}
 						});
 						this.txTypeListArray = [
@@ -377,7 +377,7 @@
 											Amount: amount,
 											To: formTO.to || '--',
 											toMonikers,
-											Tx_Type: (item.msgs || []).map(item=>item.type),
+											Tx_Type: (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 											MsgsNum: msgsNumber,
 											// Tx_Fee: fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 											Tx_Fee: fee && fee.amount ?  `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
@@ -429,7 +429,7 @@
 												OperatorMonikers: OperatorMonikers || '--',
 												// SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--' : '--',
 												SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation}` : '--' : '--',
-												'Tx_Type': (item.msgs || []).map(item=>item.type),
+												'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 												MsgsNum: msgsNumber,
 												// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 												'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
@@ -486,7 +486,7 @@
 									proposalTitle: item.ex && item.ex.title && Tools.formatString(item.ex.title, this.proposalTitleNum, '...'),
 									// amount: amount ? `${Tools.toDecimal(amount.amount,this.feeDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
 									amount: amount ? `${Tools.toDecimal(amount.amount,this.feeDecimals)}` : '--',
-									'Tx_Type': (item.msgs || []).map(item=>item.type),
+									'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 									MsgsNum: msgsNumber,
 									// 'Tx_Fee': fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 									'Tx_Fee': fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',

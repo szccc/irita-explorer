@@ -67,6 +67,10 @@ export async function getAmountByTx (message, events, isShowDenom) {
 			case TX_TYPE.send:
 				if (msg.amount && msg.amount.length === 1) {
 					const sendAmount = msg && msg.amount.length > 0 ? await converCoin(msg.amount[0]) : null
+					// todo duanjie denom handle
+					if (sendAmount.denom && sendAmount.denom.length > 4) {
+						sendAmount.denom = sendAmount.denom.substring(0,4) + '...'
+					}
 					amount = sendAmount && sendAmount.amount && sendAmount.denom ?  isShowDenom ? `${Tools.formatPriceToFixed(sendAmount.amount,amountDecimals) } ${sendAmount.denom.toLocaleUpperCase()}` : `${Tools.formatPriceToFixed(sendAmount.amount,amountDecimals) }` : '--';
 				}
 				break;
@@ -173,7 +177,11 @@ export async function getAmountByTx (message, events, isShowDenom) {
 				break;
 			case TX_TYPE.create_htlc:
 				if(msg.amount && msg.amount[0]) {
-				 	let amountMaxUnit = await converCoin(msg.amount[0]);
+					let amountMaxUnit = await converCoin(msg.amount[0]);
+					// todo duanjie denom handle
+					if (amountMaxUnit.denom && amountMaxUnit.denom.length > 4) {
+						amountMaxUnit.denom = amountMaxUnit.denom.substring(0,4) + '...'
+					}
 					amount = isShowDenom ? `${amountMaxUnit.amount} ${amountMaxUnit.denom.toUpperCase()}` : `${amountMaxUnit.amount}`;
 				}
 				break;

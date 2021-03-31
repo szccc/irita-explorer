@@ -26,7 +26,7 @@
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.schema')}}：</span>
-                        <LargeString v-if="schemas" :text="schemas"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+                        <LargeString :isShowPre="Tools.isJSON(schemas)" v-if="schemas" :text="schemas"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.tags')}}：</span>
@@ -257,7 +257,7 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./common/MPagination";
-    import { TX_STATUS,ColumnMinWidth,decimals,mainTokenSymbol } from '../constant';
+    import { TX_STATUS,ColumnMinWidth,decimals,mainTokenSymbol,TX_TYPE_DISPLAY } from '../constant';
     import {
         getAllServiceTxTypes,
         getServiceDetail,
@@ -434,7 +434,7 @@
                             msgs = item.msgs || [{}];
                         return {
                             // type : item.msgs.length > 1 ? '--' : item.msgs[0].type,
-                            type : (item.msgs || []).map(item=>item.type),
+                            type : (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
                             msgCount: item.msgs.length,
                             from,
                             status : item.status,
@@ -462,7 +462,7 @@
                     res.data.forEach((type) =>{
                         this.txTypeOption.push({
                             value : type.typeName,
-                            item : type.typeName,
+                            label : TX_TYPE_DISPLAY[type.typeName],
                         });
                     });
                 } catch (e) {

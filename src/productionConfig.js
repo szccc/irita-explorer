@@ -36,7 +36,7 @@
   Bifrost,STARGATE
 */
 
- 
+
 let config = {
     //国际化 CN / EN 默认CN
     lang:'EN',
@@ -69,7 +69,7 @@ let config = {
         //页脚背景颜色 下半部分  
         bgColor_bottom:'',
         //页脚版权信息   必填
-        copyright:'Copyright © IRISplorer 2021 All Rights Reserved.',
+        copyright:`Copyright © IRISplorer 2021 All Rights Reserved.`,
         chainIdShow: true,
         versionShow: true,
         //页脚右侧是否显示跳转链接
@@ -159,17 +159,17 @@ let config = {
     table: {
         votingPower: true // Validator List中Voting_Power是否显示 
     },
-    utcOffset: '+0', // 页面转换时区,默认值为 +0
-    isShowUTC: true, // 是否显示时区,默认值为true
+    utcOffset: '+8', // 页面转换时区,默认值为 +0
+    isShowUTC: false, // 是否显示时区,默认值为true
     fee: {
       isShowFee: true, // 是否展示fee
       isShowDenom: true, //列表中fee是否展示单位
-      decimals: 2 // 列表中fee展示的数值精度
+      decimals: 4 // 列表中fee展示的数值精度
     },
     token:{
       //main token
-      minUnit:'uiris', 
-      symbol:'iris',
+      minUnit:'ubif', 
+      symbol:'bif',
       decimal: 6,
     },
 }
