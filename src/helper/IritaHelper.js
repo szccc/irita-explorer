@@ -62,12 +62,12 @@ export async function converCoin (_coin) {
     
     // handle htltbcbnb => bnb and htltbcbusd  => busd
     if (coin.denom === 'htltbcbnb') {
-        displayCoin.denom = 'bnb';
+        displayCoin.denom = 'htltbcbnb';
         displayCoin.amount = moveDecimal(String(coin.amount || 0),-8);
     }
 
     if (coin.denom === 'htltbcbusd') {
-        displayCoin.denom = 'busd';
+        displayCoin.denom = 'htltbcbusd';
         displayCoin.amount = moveDecimal(String(coin.amount || 0),-8);
     }
 
