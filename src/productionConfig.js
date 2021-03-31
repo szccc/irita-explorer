@@ -36,141 +36,141 @@
   Bifrost,STARGATE
 */
 
-
+ 
 let config = {
-    //国际化 CN / EN 默认CN
-    lang:'EN',
-    //浏览器标签标题 必填
-    title:'Internet of Blockchains Scan - IRIS Hub',
-    //主题色 作用于非直接干预的文字、背景、边框颜色(如输入框边框高亮、首页卡片图标等) 优先级较低
-    themeColor:'#3264FD',
-    //通用背景色
-    background: '#F8F8F8',
-    logo:{
-        //logo标题 必填
-        title:'IRISHUB',
-        //logo副标题 必填
-        subTitle:'irishub-1',
-    },
-    product:'IRISHUB',
-    nav:{
-        //nav导航文字颜色
-        color:'',
-        //nav导航文字高亮颜色
-        activeTextColor:'',
-        //nav背景颜色 上半部分
-        bgColor:'#3264FD'
-    },
-    footer:{
-        //页脚文字背景颜色
-        color:'',
-        //页脚背景颜色 上半部分
-        bgColor_top:'',
-        //页脚背景颜色 下半部分  
-        bgColor_bottom:'',
-        //页脚版权信息   必填
-        copyright:`Copyright © IRISplorer 2021 All Rights Reserved.`,
-        chainIdShow: true,
-        versionShow: true,
-        //页脚右侧是否显示跳转链接
-        linkShow: false
-    },
-    //导航栏功能列表 详见 导航栏功能映射 注：title为配置文案暂不支持国际化
-    navFuncList:[
-        { title: 'Blockchain', id: '100' },
-        { title: 'Transactions', id: '101' },
-        {
-          title: 'Staking',
-          children: [
-            { title: 'Vaildators', id: '107' },
-            { title: 'Delegation Txs', id: '108' },
-            { title: 'Validation Txs', id: '109' },
-          ],
-        },
-        {
-          title: 'NFT',
-          children: [
-            { title: 'NFT', id: '103' },
-            { title: 'Denom', id: '104' },
-          ],
-        },
-        { title: 'iService', id: '105' },
-        {
-          title: 'Asset',
-          children: [
-            { title: 'Native Asset', id: '110' },
-            { title: 'Native Asset Txs', id: '111' },
-          ],
-        },
-        {
-          title: 'Gov',
-          children: [
-            { title: 'Proposals', id: '112' },
-            { title: 'Gov Txs', id: '113' },
-          ],
-        },
-        {
-          title: 'Stats',
-          children: [
-              //main token
-            { title: 'IRIS Rich List', id: '114' },
-            { title: 'IRIS Stats', id: '115' },
-          ],
-        },
-        '1000',
-        '1001',
-    ],
-    //首页卡片配置
-    homeCard:[200,201,203,209,208,204,205,206],
-    text:{
-        //预设字体颜色
-        color:{
-            //一级文字色
-            first: '',
-            //二级文字色
-            second: '',
-            //三级文字色
-            third: '',
-            //四级文字色
-            fourth: '',
-            //链接文字色
-            link: '#3264FD',
-        }
-    },
-    button:{
-        //预设按钮字体颜色
-        color:{
-            common:'#fff',
-        },
-        //预设按钮背景颜色
-        bgColor:{
-            common:'#3264FD',
-        }
-    },
-    // 区块列表页面是否显示 Proposer
-    blockList: {
-        proposer: true,
-    },
-    // 切换交易
-    txDetail: {
-        ibc: false // 交易是否切换成联盟链IBC交易
-    },
-    // 控制表格中列的显示和隐藏
-    table: {
-        votingPower: true // Validator List中Voting_Power是否显示 
-    },
-    utcOffset: '+8', // 页面转换时区,默认值为 +0
-    isShowUTC: false, // 是否显示时区,默认值为true
-    fee: {
-      isShowFee: true, // 是否展示fee
-      isShowDenom: true, //列表中fee是否展示单位
-      decimals: 4 // 列表中fee展示的数值精度
-    },
-    token:{
-      //main token
-      minUnit:'ubif', 
-      symbol:'bif',
-      decimal: 6,
-    },
+  //国际化 CN / EN 默认CN
+  lang:'EN',
+  //浏览器标签标题 必填
+  title:'Internet of Blockchains Scan - IRIS Hub',
+  //主题色 作用于非直接干预的文字、背景、边框颜色(如输入框边框高亮、首页卡片图标等) 优先级较低
+  themeColor:'#3264FD',
+  //通用背景色
+  background: '#F8F8F8',
+  logo:{
+      //logo标题 必填
+      title:'IRISHUB',
+      //logo副标题 必填
+      subTitle:'irishub-1',
+  },
+  product:'IRISHUB',
+  nav:{
+      //nav导航文字颜色
+      color:'',
+      //nav导航文字高亮颜色
+      activeTextColor:'',
+      //nav背景颜色 上半部分
+      bgColor:'#3264FD'
+  },
+  footer:{
+      //页脚文字背景颜色
+      color:'',
+      //页脚背景颜色 上半部分
+      bgColor_top:'',
+      //页脚背景颜色 下半部分  
+      bgColor_bottom:'',
+      //页脚版权信息   必填
+      copyright:'Copyright © IRISplorer 2021 All Rights Reserved.',
+      chainIdShow: true,
+      versionShow: true,
+      //页脚右侧是否显示跳转链接
+      linkShow: false
+  },
+  //导航栏功能列表 详见 导航栏功能映射 注：title为配置文案暂不支持国际化
+  navFuncList:[
+      { title: 'Blockchain', id: '100' },
+      { title: 'Transactions', id: '101' },
+      {
+        title: 'Staking',
+        children: [
+          { title: 'Vaildators', id: '107' },
+          { title: 'Delegation Txs', id: '108' },
+          { title: 'Validation Txs', id: '109' },
+        ],
+      },
+      {
+        title: 'NFT',
+        children: [
+          { title: 'NFT', id: '103' },
+          { title: 'Denom', id: '104' },
+        ],
+      },
+      { title: 'iService', id: '105' },
+      {
+        title: 'Asset',
+        children: [
+          { title: 'Native Asset', id: '110' },
+          { title: 'Native Asset Txs', id: '111' },
+        ],
+      },
+      {
+        title: 'Gov',
+        children: [
+          { title: 'Proposals', id: '112' },
+          { title: 'Gov Txs', id: '113' },
+        ],
+      },
+      {
+        title: 'Stats',
+        children: [
+            //main token
+          { title: 'IRIS Rich List', id: '114' },
+          { title: 'IRIS Stats', id: '115' },
+        ],
+      },
+      '1000',
+      '1001',
+  ],
+  //首页卡片配置
+  homeCard:[200,201,203,209,208,204,205,206],
+  text:{
+      //预设字体颜色
+      color:{
+          //一级文字色
+          first: '',
+          //二级文字色
+          second: '',
+          //三级文字色
+          third: '',
+          //四级文字色
+          fourth: '',
+          //链接文字色
+          link: '#3264FD',
+      }
+  },
+  button:{
+      //预设按钮字体颜色
+      color:{
+          common:'#fff',
+      },
+      //预设按钮背景颜色
+      bgColor:{
+          common:'#3264FD',
+      }
+  },
+  // 区块列表页面是否显示 Proposer
+  blockList: {
+      proposer: true,
+  },
+  // 切换交易
+  txDetail: {
+      ibc: false // 交易是否切换成联盟链IBC交易
+  },
+  // 控制表格中列的显示和隐藏
+  table: {
+      votingPower: true // Validator List中Voting_Power是否显示 
+  },
+  utcOffset: '+0', // 页面转换时区,默认值为 +0
+  isShowUTC: true, // 是否显示时区,默认值为true
+  fee: {
+    isShowFee: true, // 是否展示fee
+    isShowDenom: true, //列表中fee是否展示单位
+    decimals: 2 // 列表中fee展示的数值精度
+  },
+  token:{
+    //main token
+    minUnit:'uiris', 
+    symbol:'iris',
+    decimal: 6,
+  },
 }
 module.exports = config;
