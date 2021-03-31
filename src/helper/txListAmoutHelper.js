@@ -128,7 +128,7 @@ export async function getAmountByTx (message, events, isShowDenom) {
 				if(content) {
 					content = await converCoin(content)
 					if(content.amount !== '0') {
-						amount = isShowDenom ? `${content.amount} ${content.denom.toUpperCase()}` : `${content.amount}`
+						amount = isShowDenom ? `${Tools.formatPriceToFixed(content.amount,amountDecimals)} ${content.denom.toUpperCase()}` : `${Tools.formatPriceToFixed(content.amount,amountDecimals)}`
 					} else {
 						amount = '--'
 					}
@@ -137,7 +137,7 @@ export async function getAmountByTx (message, events, isShowDenom) {
 					let initialDeposit = msg.initial_deposit && msg.initial_deposit[0];
 					if (initialDeposit) {
 						initialDeposit = await converCoin(initialDeposit)
-						amount = isShowDenom ? `${initialDeposit.amount} ${initialDeposit.denom.toUpperCase()}` : `${initialDeposit.amount}`
+						amount = isShowDenom ? `${Tools.formatPriceToFixed(initialDeposit.amount,amountDecimals)} ${initialDeposit.denom.toUpperCase()}` : `${Tools.formatPriceToFixed(initialDeposit.amount,amountDecimals)}`
 					}
 				}
 				break;
@@ -174,7 +174,7 @@ export async function getAmountByTx (message, events, isShowDenom) {
 			case TX_TYPE.create_htlc:
 				if(msg.amount && msg.amount[0]) {
 					let amountMaxUnit = await converCoin(msg.amount[0]);
-					amount = isShowDenom ? `${amountMaxUnit.amount} ${amountMaxUnit.denom.toUpperCase()}` : `${amountMaxUnit.amount}`;
+					amount = isShowDenom ? `${Tools.formatPriceToFixed(amountMaxUnit.amount,amountDecimals)} ${amountMaxUnit.denom.toUpperCase()}` : `${Tools.formatPriceToFixed(amountMaxUnit.amount,amountDecimals)}`;
 				}
 				break;
 			case TX_TYPE.claim_htlc:
