@@ -26,7 +26,15 @@
                             <span class="address_link" @click="addressRoute(row.address)"> {{row.address}}</span>
                         </template>
                     </el-table-column>
-                    <el-table-column :label="$t('ExplorerLang.stats.amount')" align="right" prop="amount" :min-width="ColumnMinWidth.maxSupply"></el-table-column>
+                    <el-table-column align="right" prop="amount" :min-width="ColumnMinWidth.maxSupply">
+                        <template slot="header">
+                            <span>{{ $t('ExplorerLang.stats.amount')}}</span>
+                            <el-tooltip :content="mainTokenSymbol"
+                                        placement="top">
+                                <i class="iconfont iconyiwen yiwen_icon" />
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
                     <el-table-column :label="$t('ExplorerLang.stats.percentage')" align="right" prop="percent" :min-width="ColumnMinWidth.mintable"></el-table-column>
                 </el-table>
             </div>
@@ -39,7 +47,7 @@ import MPagination from '.././common/MPagination'
 import Tools from '../../util/Tools'
 import { fetchTokenRichList } from "@/service/api"
 import productionConfig from '@/productionConfig.js'
-import { ColumnMinWidth } from '@/constant'
+import { ColumnMinWidth,mainTokenSymbol } from '@/constant'
 import { addressRoute } from '@/helper/IritaHelper'
 import moment from 'moment';
 export default {
@@ -48,6 +56,7 @@ export default {
     props: {},
     data() {
         return {
+            mainTokenSymbol,
             Tools,
             addressRoute,
             ColumnMinWidth,

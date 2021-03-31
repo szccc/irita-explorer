@@ -24,7 +24,7 @@
                                 placement="top-start"
                                 :disabled="scope.row.msgCount <= 1">
                         <div class="ty_type_message">
-                            <span>{{getDisplayTxType(scope.row.txType)}}</span>
+                            <span>{{TxHelper.getDisplayTxType(scope.row.txType)}}</span>
                             <span class="message_number" v-if="scope.row.msgCount != 1">+{{scope.row.msgCount - 1}}</span>
                         </div>
                     </el-tooltip>
@@ -123,7 +123,7 @@
 <script>
     import Tools from "../../util/Tools"
     import {TxHelper} from "../../helper/TxHelper";
-    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,mainTokenSymbol } from '../../constant';
+    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,mainTokenSymbol,TX_TYPE_DISPLAY } from '../../constant';
     import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper';
     import {getAmountByTx} from "../../helper/txListAmoutHelper";
     import prodConfig from '../../productionConfig';
@@ -142,6 +142,7 @@
         },
         data(){
             return {
+                TxHelper,
                 isShowFee: prodConfig.fee.isShowFee,
                 isShowDenom: prodConfig.fee.isShowDenom,
                 TX_TYPE,
@@ -168,18 +169,6 @@
         methods : {
             isValid(value){
                 return (!value || !value.length || value == '--') ? false : true;
-            },
-            getDisplayTxType(types=[]){
-                let type = types[0] || '';
-                if (type && types.length > 1) {
-                    types.forEach(item => {
-                        if(type.length > item.length) {
-                            type = item
-                        }
-                    })
-                    // type += this.$t('ExplorerLang.unit.ellipsis');
-                }
-                return type;
             },
             formatTxHash(TxHash){
                 if(TxHash){
@@ -217,7 +206,7 @@
                         this.txDataList.push({
                                 txHash : tx.tx_hash,
                                 blockHeight : tx.height,
-                                txType :(tx.msgs || []).map(item=>item.type),
+                                txType :(tx.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
                                 from,
                                 fromMonikers,
                                 toMonikers,

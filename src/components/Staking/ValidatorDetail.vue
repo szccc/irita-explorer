@@ -232,7 +232,7 @@
 	import ValidatorCommissionInformation from './ValidatorCommissionInformation';
 	import MPagination from '../common/MPagination';
 	import Tools from '../../util/Tools.js';
-	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum,mainTokenSymbol } from '../../constant/index.js';
+	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum,mainTokenSymbol,TX_TYPE_DISPLAY } from '../../constant/index.js';
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
@@ -426,7 +426,7 @@
 						Amount: amount,
 						To: formTO.to || '--',
 						toMonikers,
-						Tx_Type: (item.msgs || []).map(item=>item.type),
+						Tx_Type: (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 						MsgsNum: msgsNumber,
 						// Tx_Fee: fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
@@ -461,7 +461,7 @@
 						OperatorMonikers: OperatorMonikers || '--',
 						// SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${this.mainToken.symbol.toUpperCase()}` : '--' : '--',
 						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation}` : '--' : '--',
-						'Tx_Type': (item.msgs || []).map(item=>item.type),
+						'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 						MsgsNum: msgsNumber,
 						// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						'Tx_Fee': fee && fee.amount ?  `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
@@ -557,7 +557,7 @@
 									proposalTitle: item.ex && item.ex.title && Tools.formatString(item.ex.title, this.proposalTitleNum, '...'),
 									// amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
 									amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)}` : '--',
-									'Tx_Type': (item.msgs || []).map(item=>item.type),
+									'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 									MsgsNum: msgsNumber,
 									// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 									'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',

@@ -11,6 +11,7 @@ const i18n = new VueI18n({
   },
 })
 
+// 链上
 export const TX_TYPE = {
   // service
   define_service: 'define_service',
@@ -116,6 +117,112 @@ export const TX_TYPE = {
   request_rand: 'request_rand',
 }
 
+// 展示
+export const TX_TYPE_DISPLAY = {
+  // service
+  define_service: 'DefineService',
+  bind_service: 'BindService',
+  call_service: 'CallService',
+  respond_service: 'RespondService',
+  update_service_binding: 'UpdateServiceBinding',
+  disable_service_binding: 'DisableServiceBinding',
+  enable_service_binding: 'EnableServiceBinding',
+  refund_service_deposit: 'RefundServiceDeposit',
+  pause_request_context: 'PauseRequestContext',
+  start_request_context: 'StartRequestContext',
+  kill_request_context: 'KillRequestContext',
+  update_request_context: 'UpdateRequestContext',
+  create_record: 'CreateRecord',
+  'service/set_withdraw_address': 'ServiceSetWithdrawAddress',
+  withdraw_earned_fees: 'WithdrawEarnedFees',
+  // nft
+  burn_nft: 'NFTBurn',
+  transfer_nft: 'NFTTransfer',
+  edit_nft: 'NFTEdit',
+  issue_denom: 'IssueDenom',
+  mint_nft: 'NFTMint',
+  // Token
+  issue_token: 'IssueToken',
+  edit_token: 'EditToken',
+  mint_token: 'MintToken',
+  transfer_token_owner: 'TransferTokenOwner',
+  burn_token: 'BurnToken',
+  //Bank
+  send: 'Transfer',
+  multisend: 'MultiSend',
+  //Crisis
+  verify_invariant: 'VerifyInvariant',
+  //Evidence
+  submit_evidence: 'SubmitEvidence',
+  //Staking
+  begin_unbonding: 'Undelegate',
+  edit_validator: 'EditValidator',
+  create_validator: 'CreateValidator',
+  delegate: 'Delegate',
+  begin_redelegate: 'BeginRedelegate',
+  // Slashing
+  unjail: 'Unjail',
+  // Distribution
+  set_withdraw_address: 'SetWithdrawAddress',
+  withdraw_delegator_reward: 'WithdrawDelegatorReward',
+  withdraw_validator_commission: 'WithdrawValidatorCommission',
+  fund_community_pool: 'FundCommunityPool',
+  // Gov
+  deposit: 'Deposit',
+  vote: 'Vote',
+  submit_proposal: 'SubmitProposal',
+  // Coinswap
+  add_liquidity: 'AddLiquidity',
+  remove_liquidity: 'RemoveLiquidity',
+  swap_order: 'SwapOrder',
+  // Htlc
+  create_htlc: 'CreateHTLC',
+  claim_htlc: 'ClaimHTLC',
+  refund_htlc: 'RefundHTLC',
+  // Guardian
+  add_profiler: 'AddProfiler',
+  delete_profiler: 'DeleteProfiler',
+  add_trustee: 'AddTrustee',
+  delete_trustee: 'DeleteTrustee',
+  // Oracle
+  create_feed: 'CreateFeed',
+  start_feed: 'StartFeed',
+  pause_feed: 'PauseFeed',
+  edit_feed: 'EditFeed',
+  // CrossChain 联盟链
+  recv_packet: 'RecvPacket',     //和公有链ibc交易类型名称一致
+  create_client: 'CreateClient', //和公有链ibc交易类型名称一致
+  update_client: 'UpdateClient', //和公有链ibc交易类型名称一致
+  // Identity
+  create_identity: 'CreateIdentity',
+  update_identity: 'UpdateIdentity',
+  // IBC
+  transfer: 'Transfer',
+  timeout_packet: 'TimeoutPacket',
+  // recv_packet: 'recv_packet',
+
+  // IBC => Other
+  // create_client: 'create_client',
+  // update_client: 'update_client',
+  upgrade_client: 'UpgradeClient',
+  submit_misbehaviour: 'SubmitMisbehaviour',
+  connection_open_init: 'ConnectionOpenInit',
+  connection_open_try: 'ConnectionOpenTry',
+  connection_open_ack: 'ConnectionOpenAck',
+  connection_open_confirm: 'ConnectionOpenConfirm',
+  channel_open_init: 'ChannelOpenInit',
+  channel_open_try: 'ChannelOpenTry',
+  channel_open_ack: 'ChannelOpenAck',
+  channel_open_confirm: 'ChannelOpenConfirm',
+  channel_close_init: 'ChannelCloseInit',
+  channel_close_confirm: 'ChannelCloseConfirm',
+  timeout_on_close_packet: 'TimeoutOnClosePacket',
+  acknowledge_packet: 'AcknowledgePacket',
+
+  // Random
+  request_rand: 'RequestRand',
+}
+
 export const LEVEL_TX_TYPE = {
   Transfer: 'Transfer',
   Staking: 'Staking',
@@ -150,9 +257,9 @@ export const ColumnMinWidth = {
   addressTxHash: '130',
   respondHash: '128',
   requestHash: '118',
-  blockHeight: '75',
-  blockListHeight: '78',
-  txType: '261',
+  blockHeight: '85',
+  blockListHeight: '85',
+  txType: '258',
   govTxType: '120',
   address: '150',
   iaaAddress: '128',

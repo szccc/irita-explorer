@@ -59,6 +59,18 @@ export async function converCoin (_coin) {
             displayCoin.amount = moveDecimal(String(coin.amount || 0),0-item.scale);
         }
     })
+    
+    // handle htltbcbnb => bnb and htltbcbusd  => busd
+    if (coin.denom === 'htltbcbnb') {
+        displayCoin.denom = 'bnb';
+        displayCoin.amount = moveDecimal(String(coin.amount || 0),-8);
+    }
+
+    if (coin.denom === 'htltbcbusd') {
+        displayCoin.denom = 'busd';
+        displayCoin.amount = moveDecimal(String(coin.amount || 0),-8);
+    }
+
     if (!displayCoin.denom) {
         // if (coin && coin.denom && coin.denom.startsWith(ibcDenomPrefix)) {
         //     let hash = coin.denom.replace(ibcDenomPrefix,'')
