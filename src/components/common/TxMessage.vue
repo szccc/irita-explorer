@@ -2332,13 +2332,14 @@
 								// this.to = msg.toaddress || '--';
 								this.from = msg.from_address || '--';
 								this.to = msg.to_address || '--';
+								this.amountArray = [];
 								if (msg.amount && msg.amount.length > 0) {
-									this.amountArray = [];
 									for (const item of msg.amount) {
 										const amount = await converCoin(item);
 										this.amountArray.push(`${amount.amount} ${amount.denom.toUpperCase()}` || '--')
 									}
 								}
+								this.amountArray && this.amountArray.length > 0 ? '' : this.amountArray = ['--']
 								break;
 							case TX_TYPE.call_service:
 								this.consumer = msg.consumer || '--';
