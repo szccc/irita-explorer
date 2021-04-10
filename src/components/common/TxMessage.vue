@@ -291,7 +291,9 @@
 		<div v-if="txType === TX_TYPE.send">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.send.amount')}}：</span>
-				<span>{{amount}}</span>
+				<span>
+					<p style="margin-bottom: 0.05rem" v-for="item in amountArray" :key="item">{{item}}</p>
+				</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
@@ -2256,6 +2258,7 @@
 				secret:'',
 				transfer: '',
 				tokenPair: '',
+				amountArray:[],
 			}
 		},
 		computed: {
@@ -2329,11 +2332,14 @@
 								// this.to = msg.toaddress || '--';
 								this.from = msg.from_address || '--';
 								this.to = msg.to_address || '--';
-								if (msg.amount && msg.amount.length) {
-									let amount = await converCoin(msg.amount[0]);
-									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
+								this.amountArray = [];
+								if (msg.amount && msg.amount.length > 0) {
+									for (const item of msg.amount) {
+										const amount = await converCoin(item);
+										this.amountArray.push(`${amount.amount} ${amount.denom.toUpperCase()}` || '--')
+									}
 								}
-								this.amount = this.amount || '--'
+								this.amountArray && this.amountArray.length > 0 ? '' : this.amountArray = ['--']
 								break;
 							case TX_TYPE.call_service:
 								this.consumer = msg.consumer || '--';
