@@ -21,7 +21,7 @@
             <router-link style="font-family: Arial;" :to="'/block/' + row.Block" :style="{ color: '$theme_c !important' }">{{ row.Block }} </router-link>
           </template>
         </el-table-column>
-        <el-table-column  :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
+        <el-table-column class-name="moniker" :label="$t('ExplorerLang.table.name')" :min-width="ColumnMinWidth.validatirName">
           <template v-slot:default="{ row }">
             <el-tooltip :disabled="row.OperatorMonikers === '--' && row.OperatorAddr === '--' " :content="`${row.OperatorAddr}`">
               <span v-if="row.OperatorAddr === $route.params.param || row.OperatorAddr == '--'">{{ row.OperatorMonikers !== '--' ? formatMoniker(row.OperatorMonikers,monikerNum.otherTable) : formatAddress(row.OperatorAddr) }}</span>
@@ -29,7 +29,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="OperatorAddr" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
+        <el-table-column class-name="operator" prop="OperatorAddr" :label="$t('ExplorerLang.table.operator')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <span v-if="/^[1-9]\d*$/.test(row.OperatorAddr)" class="skip_route">
               <router-link :to="`/tx?txHash=${row.Tx_Hash}`">{{ row.OperatorAddr }} Validators</router-link>
@@ -84,7 +84,7 @@
               </el-tooltip>
           </template >
         </el-table-column>
-        <el-table-column prop="Tx_Signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
+        <el-table-column prop="Tx_Signer" class-name="signer" :label="$t('ExplorerLang.table.signer')" :min-width="ColumnMinWidth.address">
           <template v-slot:default="{ row }">
             <el-tooltip :disabled="row.Tx_Signer === '--'" :content="`${row.Tx_Signer}`">
               <span @click="addressRoute(row.Tx_Signer)" class="address_link link_style justify">{{ formatAddress(row.Tx_Signer) }} </span>

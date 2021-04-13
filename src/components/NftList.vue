@@ -48,7 +48,7 @@
 							{{scope.row.denom_name || scope.row.denom_id}}
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.owner')" >
+					<el-table-column class-name="address" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.owner')" >
 						<template slot-scope="scope">
 							<el-tooltip 
 										:content="scope.row.owner"
@@ -453,6 +453,7 @@
 						padding: 0.05rem 0.18rem;
 						font-size: $s14;
 						line-height: 0.2rem;
+						white-space: nowrap;
 					}
 				}
 			}

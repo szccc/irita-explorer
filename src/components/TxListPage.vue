@@ -670,6 +670,7 @@
 							padding: 0.05rem 0.18rem;
 							font-size: $s14;
 							line-height: 0.2rem;
+							white-space: nowrap;
 						}
 					}
 				}

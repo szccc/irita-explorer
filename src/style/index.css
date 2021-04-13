@@ -210,3 +210,16 @@ td, th {
     min-height: 0.48rem !important;
     height: 0.48rem !important;
 }
+
+@font-face {
+    font-family: 'DroidSansMono';
+    src: url('../font/DroidSansMono-enMp.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Verdana';
+    src: url('../font/Verdana.ttf');
+    font-weight: normal;
+    font-style: normal;
+}

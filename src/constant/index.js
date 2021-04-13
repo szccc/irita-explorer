@@ -252,17 +252,17 @@ export const ValidatorStatus = {
 }
 
 export const ColumnMinWidth = {
-  txHash: '130',
-  txHashShort: '110', // Validator Details
-  addressTxHash: '130',
+  txHash: '135',
+  txHashShort: '113', // Validator Details
+  addressTxHash: '135',
   respondHash: '128',
-  requestHash: '118',
+  requestHash: '138',
   blockHeight: '85',
   blockListHeight: '85',
   txType: '258',
   govTxType: '120',
   address: '150',
-  iaaAddress: '128',
+  iaaAddress: '139',
   time: prodConfig.isShowUTC === false ? '158' : '205',
   txn: '115',
   blockAge: '120',
@@ -306,7 +306,7 @@ export const ColumnMinWidth = {
   amountAndDenom: '150',
   delegationsAmount: '165',
   delegationTxsAmount: '155',
-  delegationTxsFrom: '126',
+  delegationTxsFrom: '146',
   shares: '251',
   fee: '85',
   // feeAndDenom: "110",
@@ -324,7 +324,7 @@ export const ColumnMinWidth = {
   totalSupply: '160',
   maxSupply: '150',
   mintable: '120',
-  proposalId: '60',
+  proposalId: '56',
   proposalID: '105',
   proposalTitle: '185',
   proposalType: '173',
@@ -474,7 +474,7 @@ export default {
 export const monikerNum = {
   validatorList: 8,
   home: 12,
-  otherTable: 15,
+  otherTable: 11,
 }
 
 export const proposalStatus = {

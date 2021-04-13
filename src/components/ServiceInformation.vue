@@ -58,7 +58,7 @@
                     {{$t('ExplorerLang.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
                     <el-table class="table" :data="serviceList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.address"
+                        <el-table-column class-name="address" :min-width="ColumnMinWidth.address"
                                          :label="$t('ExplorerLang.table.provider')">
                             <template slot-scope="scope">
                                 <span>
@@ -156,7 +156,7 @@
 
                 <div class="service_information_transaction_table_content">
                     <el-table class="table" :data="transactionArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+                        <el-table-column class-name="hash_status" :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.status === TX_STATUS.success"
@@ -185,7 +185,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
+                        <el-table-column class-name="requestId" :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="scope.row.id" :disabled="!isValid(scope.row.id)">
                                     <span>{{formatAddress(scope.row.id)}}</span>
@@ -201,7 +201,7 @@
                                 </el-tooltip>
                             </template >
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
+                        <el-table-column class-name="from" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                             <template slot-scope="scope">
 
                                 <el-tooltip placement="top" :content="scope.row.from"
@@ -214,7 +214,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
+                        <el-table-column class-name="to" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="String(scope.row.to)"
                                             :key="Math.random()"
@@ -683,6 +683,7 @@
                             padding: 0.05rem 0.18rem;
                             font-size: $s14;
                             line-height: 0.2rem;
+                            white-space: nowrap;
                         }
                         .reset_btn {
                             cursor: pointer;

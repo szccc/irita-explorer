@@ -1,7 +1,7 @@
 <template>
     <div class="tx_list_content">
-        <el-table class="table" :data="txDataList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-            <el-table-column class-name="hash_status" align="left" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+        <el-table class="table columns-fit" :data="txDataList" :empty-text="$t('ExplorerLang.table.emptyDescription')" ref="listTable" :class="loading ? null : 'visible'">
+            <el-table-column class-name="hash_status" align="left" :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
                         <div class="status">
@@ -18,7 +18,8 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column class-name="tx_type"  :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
+            <!-- <el-table-column class-name="tx_type"  :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"> -->
+            <el-table-column class-name="tx_type"  :min-width="colWidthList[1]" :label="$t('ExplorerLang.table.txType')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.txType.join(',')"
                                 placement="top-start"
@@ -30,7 +31,8 @@
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column align="right" class-name="amount" prop="amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.amountAndDenom">
+            <!-- <el-table-column align="right" class-name="amount" prop="amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.amountAndDenom"> -->
+            <el-table-column align="right" class-name="amount" prop="amount" :label="$t('ExplorerLang.table.amount')" :width="colWidthList[2]">
                 <!-- <template slot="header">
                     <span>{{ $t('ExplorerLang.table.amount')}}</span>
                     <el-tooltip :content="mainTokenSymbol"
@@ -48,7 +50,7 @@
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>
             </el-table-column> -->
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
+            <el-table-column :min-width="ColumnMinWidth.address" class-name="from" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
                     <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
                                 placement="top"
@@ -63,7 +65,7 @@
                     <span v-if="!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ">--</span>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
+            <el-table-column :min-width="ColumnMinWidth.address" class-name="to" :label="$t('ExplorerLang.table.to')">
                 <template slot-scope="scope">
                     <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="String(scope.row.to)"
                                 placement="top"
@@ -83,7 +85,8 @@
                     <span v-show="Number(scope.row.msgCount) > 1"> --</span>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
+            <!-- <el-table-column :min-width="ColumnMinWidth.blockHeight" class-name="block" :label="$t('ExplorerLang.table.block')"> -->
+            <el-table-column :min-width="colWidthList[5]" class-name="block" :label="$t('ExplorerLang.table.block')">
                 <template slot-scope="scope">
                     <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
                 </template>
@@ -101,7 +104,7 @@
                     </el-tooltip>
                 </template>
             </el-table-column> -->
-            <el-table-column v-if="isShowFee" align="right" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
+            <el-table-column v-if="isShowFee" align="right" class-name="fee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
                 <template slot="header">
                     <span>{{ $t('ExplorerLang.table.fee')}}</span>
                     <el-tooltip :content="mainTokenSymbol"
@@ -121,7 +124,7 @@
 </template>
 
 <script>
-    import Tools from "../../util/Tools"
+    import Tools from "../../util/Tools";
     import {TxHelper} from "../../helper/TxHelper";
     import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,mainTokenSymbol,TX_TYPE_DISPLAY } from '../../constant';
     import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper';
@@ -142,6 +145,7 @@
         },
         data(){
             return {
+                tyepWidth: ColumnMinWidth.txType,
                 TxHelper,
                 isShowFee: prodConfig.fee.isShowFee,
                 isShowDenom: prodConfig.fee.isShowDenom,
@@ -155,7 +159,9 @@
                 feeDecimals: decimals.fee,
                 txDataList: [],
                 mainTokenSymbol,
-                txListTimer:null
+                txListTimer:null,
+                colWidthList: [],
+                loading: false,
             }
         },
         watch:{
@@ -179,6 +185,7 @@
                 return Tools.formatValidatorAddress(address)
             },
             async formatTxData() {
+                this.loading = true;
                 this.txDataList = []
                 if(this.txData && this.txData.length) {
                     let fees = []
@@ -243,6 +250,12 @@
                             this.txDataList[index].amount = amount[index]
                         })
                     }
+                    this.$nextTick(() => {
+                        setTimeout(() => {
+                            this.colWidthList = this.$adjustColumnWidth(this.$refs['listTable'].$el);
+                            this.loading = false;
+                        });
+                    });
                 }
             }
         },
@@ -253,6 +266,28 @@
 </script>
 
 <style scoped lang="scss">
+    /deep/.columns-fit {
+        .el-table__header-wrapper, .el-table__body-wrapper {
+            visibility: hidden;
+        }
+
+        &.visible {
+            .el-table__header-wrapper, .el-table__body-wrapper {
+            visibility: visible;
+            }
+        }
+
+        .el-table__body-wrapper {
+            overflow: auto;
+        }
+
+        td>.cell {
+            display: inline-block;
+            white-space: nowrap;
+            width: auto;
+            overflow: auto;
+        }
+    }
     a {
         color: $t_link_c !important;
     }
@@ -280,5 +315,21 @@
         /deep/ .cell {
             // padding: 0 0.04rem;
         }
+    }
+    /deep/ .hash_status .cell {
+        padding-left:20px;
+        padding-right: 0px;
+    }
+    /deep/ .amount  .cell {
+        padding-right:10px;
+    }
+    /deep/ .from .cell {
+        padding-left:40px;
+    }
+    /deep/ .fee  .cell {
+        padding-right:40px;
+    }
+    /deep/ .block  .cell {
+        padding-left: 0px;
     }
 </style>

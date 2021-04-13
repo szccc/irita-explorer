@@ -150,7 +150,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
+					<el-table-column class-name="requestId" :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
 							<el-tooltip 
 										:content="scope.row.requestContextId"
@@ -294,7 +294,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
+					<el-table-column class-name="requestId" :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
 							<el-tooltip 
 										:content="scope.row.requestContextId"
@@ -1714,6 +1714,7 @@
 						padding: 0.05rem 0.18rem;
 						font-size: $s14;
 						line-height: 0.2rem;
+						white-space: nowrap;
 					}
 					
 					.address_transaction_condition_action {

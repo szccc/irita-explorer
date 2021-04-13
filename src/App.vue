@@ -108,6 +108,7 @@ export default {
 
   .el-table .cell {
     word-break: break-word !important;
+    overflow: visible !important;
   }
 
   .tx_type .cell span {
@@ -136,5 +137,9 @@ export default {
   }
   .more_icontiaozhuan {
       font-size: 12px !important;
+  }
+  
+  td.from,td.hash_status,td.to,td.moniker,td.operator,td.signer,td.address,td.requestId {
+      font-family: DroidSansMono;
   }
 </style>

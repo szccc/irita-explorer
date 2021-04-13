@@ -4,7 +4,7 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.issueTokenTxs') }}</div>
       <div class="native_asset_list_table_content">
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="issueToken">
-          <el-table-column :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.owner" placement="top">
@@ -15,7 +15,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.symbol')" prop="symbol" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.symbol')" prop="symbol" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.symbol"> {{ row.symbol }}</router-link>
             </template>
@@ -27,7 +27,7 @@
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column :label="$t('ExplorerLang.table.txHash')" class-name="hash_status" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">
@@ -55,12 +55,12 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.editTokenTxs') }}</div>
       <div class="native_asset_list_table_content">
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="editToken">
-          <el-table-column :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.token"> {{ row.token }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.owner" placement="top">
@@ -76,7 +76,7 @@
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column class-name="hash_status" :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">
@@ -104,12 +104,12 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.mintTokenTxs') }}</div>
       <div class="native_asset_list_table_content">
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="mintToken">
-          <el-table-column :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.token"> {{ row.token }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.owner" placement="top">
@@ -120,7 +120,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.mintTo')" prop="mintTo" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="to" :label="$t('ExplorerLang.table.mintTo')" prop="mintTo" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.mintTo" placement="top">
@@ -137,7 +137,7 @@
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column class-name="hash_status" :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">
@@ -165,12 +165,12 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.burnTokenTxs') }}</div>
       <div class="native_asset_list_table_content">
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="burnToken">
-          <el-table-column :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.token"> {{ row.token }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.sender')" prop="sender" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="sender" :label="$t('ExplorerLang.table.sender')" prop="sender" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.sender" placement="top">
@@ -187,7 +187,7 @@
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column class-name="hash_status" :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">
@@ -215,12 +215,12 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.transferOwnerTxs') }}</div>
       <div class="native_asset_list_table_content" >
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="transferToken">
-          <el-table-column :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.token"> {{ row.token }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.srcOwner')" prop="srcOwner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.srcOwner')" prop="srcOwner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <el-tooltip popper-class="tooltip" :content="row.srcOwner" placement="top">
                 <span class="address_link"  @click="addressRoute(row.srcOwner)">
@@ -229,7 +229,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.dstOwner')" prop="dstOwner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.dstOwner')" prop="dstOwner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <el-tooltip popper-class="tooltip" :content="row.dstOwner" placement="top">
                 <span class="address_link"  @click="addressRoute(row.dstOwner)">
@@ -243,7 +243,7 @@
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column class-name="hash_status" :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">

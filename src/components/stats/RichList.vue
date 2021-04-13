@@ -21,7 +21,7 @@
             <div class="asset_table_list_content">
                 <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
                     <el-table-column :label="$t('ExplorerLang.stats.id')" prop="index" :min-width="ColumnMinWidth.No"></el-table-column>
-                    <el-table-column :label="$t('ExplorerLang.stats.address')" prop="owner" :min-width="ColumnMinWidth.proposer">
+                    <el-table-column class-name="address" :label="$t('ExplorerLang.stats.address')" prop="owner" :min-width="ColumnMinWidth.proposer">
                         <template v-slot:default="{ row }">
                             <span class="address_link" @click="addressRoute(row.address)"> {{row.address}}</span>
                         </template>

@@ -30,7 +30,7 @@
                 </div>
                 <div class="table">
                     <el-table :data="service.bindList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
+                        <el-table-column class-name="address" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
                             <template slot-scope="scope">
                                 <span>
                                     <el-tooltip placement="top" :content="scope.row.provider">
@@ -453,6 +453,7 @@
                         padding: 0.05rem 0.18rem;
                         font-size: $s14;
                         line-height: 0.2rem;
+                        white-space: nowrap;
                     }
                 }
             }

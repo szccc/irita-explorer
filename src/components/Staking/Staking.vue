@@ -11,7 +11,7 @@
       <div class="staking_table_list_content">
         <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
           <el-table-column key="index" align="center" type="index" class="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
-          <el-table-column key="moniker" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatorMoniker" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
+          <el-table-column class-name="moniker" key="moniker" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatorMoniker" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
               <div style="display: flex;align-items: center;position: relative">
                 <span class="avatar" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;display: flex;align-items: center;justify-content: center">{{ row.validatorIconSrc }}</span>
@@ -22,7 +22,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column key="operatorAddress" prop="operatorAddress" align="left" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
+          <el-table-column class-name="operator" key="operatorAddress" prop="operatorAddress" align="left" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.operatorAddress" placement="top">
