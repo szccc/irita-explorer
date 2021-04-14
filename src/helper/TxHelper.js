@@ -138,6 +138,14 @@ export class TxHelper {
                 res.from = msg.input && msg.input.address;
                 res.to = msg.output && msg.output.address;
                 break;
+            case TX_TYPE.create_htlc:
+                res.from = msg.sender;
+                res.to = msg.to;
+                break;
+            case TX_TYPE.claim_htlc:
+                res.from = msg.sender;
+                res.to = msg.recipient;
+                break;
         }
         return res;
     }
@@ -258,6 +266,11 @@ export class TxHelper {
             ibcObj = {
                 value: LEVEL_TX_TYPE.IBC,
                 label: LEVEL_TX_TYPE.IBC,
+                children:[]
+            },
+            htlcObj = {
+                value: LEVEL_TX_TYPE.HTLC,
+                label: LEVEL_TX_TYPE.HTLC,
                 children:[]
             },
             crossChainObj = {
@@ -665,23 +678,23 @@ export class TxHelper {
                     });
                 break;
                 case TX_TYPE.create_htlc:
-                    othersObj.children.push({
+                    htlcObj.children.push({
                         value: TX_TYPE.create_htlc,
                         label: TX_TYPE_DISPLAY[TX_TYPE.create_htlc]
                     });
                 break;
                 case TX_TYPE.claim_htlc:
-                    othersObj.children.push({
+                    htlcObj.children.push({
                         value: TX_TYPE.claim_htlc,
                         label: TX_TYPE_DISPLAY[TX_TYPE.claim_htlc]
                     });
                 break;
-                case TX_TYPE.refund_htlc:
-                    othersObj.children.push({
-                        value: TX_TYPE.refund_htlc,
-                        label: TX_TYPE_DISPLAY[TX_TYPE.refund_htlc]
-                    });
-                break;
+                // case TX_TYPE.refund_htlc:
+                //     othersObj.children.push({
+                //         value: TX_TYPE.refund_htlc,
+                //         label: TX_TYPE_DISPLAY[TX_TYPE.refund_htlc]
+                //     });
+                // break;
                 case TX_TYPE.verify_invariant:
                     othersObj.children.push({
                         value: TX_TYPE.verify_invariant,
@@ -805,7 +818,7 @@ export class TxHelper {
                 
 			}
         });
-		allTxType.push(tansferObj,stakingObj,iServiceObj,nftObj,coinswapObj,identityObj,ibcObj,crossChainObj,oracleObj,randomObj,recordObj,assetObj,govObj,othersObj);
+		allTxType.push(tansferObj,stakingObj,iServiceObj,nftObj,coinswapObj,identityObj,ibcObj,htlcObj,crossChainObj,oracleObj,randomObj,recordObj,assetObj,govObj,othersObj);
         allTxType = allTxType.filter(item => item.children.length)
         return allTxType
     }

@@ -192,7 +192,7 @@
                     let amounts = []
                     for (const tx of this.txData) {
                         let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
-                        amounts.push(tx.msgs[0] ? getAmountByTx(tx.msgs[0],tx.events,true) : '--')
+                        amounts.push(tx.msgs[0] ? getAmountByTx(tx.msgs[0],tx.events,true) : '--');
                         let from = addrObj.from || '--',
                             to =  addrObj.to || '--';
                         let fromMonikers,toMonikers
@@ -207,8 +207,11 @@
                         }
                         let isShowMore = false;
                         const type = tx.msgs && tx.msgs[0] && tx.msgs[0].type;
-                        if(type && (type === TX_TYPE.add_liquidity || type === TX_TYPE.remove_liquidity || type === TX_TYPE.withdraw_delegator_reward)) {
+                        if(type && (type === TX_TYPE.add_liquidity || type === TX_TYPE.remove_liquidity)) {
                             isShowMore = true
+                        }
+                        if(tx.type === TX_TYPE.send) {
+                            tx.msgs[0].msg.amount.length > 1 ? isShowMore = true : ''
                         }
                         this.txDataList.push({
                                 txHash : tx.tx_hash,
