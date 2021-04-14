@@ -9,7 +9,5 @@ export default function(el) {
         widthList[i].push(td.scrollWidth);
     });
   });
-  console.log(widthList);
-  console.log(widthList.map(width => Math.max(...width)))
   return widthList.map(width => Math.max(...width));
 }
