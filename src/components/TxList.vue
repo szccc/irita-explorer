@@ -243,7 +243,7 @@
                 this.beginTime = '';
                 this.endTime = '';
                 this.pageNum = 1;
-                this.pageSize = 10;
+                this.pageSize = 30;
                 this.resetUrl();
                 this.getTxList()
                 this.txTypeArray=['']
