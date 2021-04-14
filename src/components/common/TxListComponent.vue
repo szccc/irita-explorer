@@ -327,7 +327,7 @@
         padding-left:40px;
     }
     /deep/ .fee  .cell {
-        padding-right:40px;
+        padding-right: 30px;
     }
     /deep/ .block  .cell {
         padding-left: 0px;
