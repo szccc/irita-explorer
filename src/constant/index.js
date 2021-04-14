@@ -72,7 +72,7 @@ export const TX_TYPE = {
   // Htlc
   create_htlc: 'create_htlc',
   claim_htlc: 'claim_htlc',
-  refund_htlc: 'refund_htlc',
+  // refund_htlc: 'refund_htlc', //删除
   // Guardian
   add_profiler: 'add_profiler',
   delete_profiler: 'delete_profiler',
@@ -178,7 +178,7 @@ export const TX_TYPE_DISPLAY = {
   // Htlc
   create_htlc: 'CreateHTLC',
   claim_htlc: 'ClaimHTLC',
-  refund_htlc: 'RefundHTLC',
+  // refund_htlc: 'RefundHTLC', // 删除
   // Guardian
   add_profiler: 'AddProfiler',
   delete_profiler: 'DeleteProfiler',
@@ -231,6 +231,7 @@ export const LEVEL_TX_TYPE = {
   Coinswap: 'Coinswap',
   Identity: 'Identity',
   IBC: 'IBC',
+  HTLC: 'HTLC',
   Oracle: 'Oracle',
   Random: 'Random',
   Record: 'Record',
@@ -261,7 +262,7 @@ export const ColumnMinWidth = {
   blockListHeight: '85',
   txType: '258',
   govTxType: '120',
-  address: '150',
+  address: '165',
   iaaAddress: '139',
   time: prodConfig.isShowUTC === false ? '158' : '205',
   txn: '115',

@@ -98,21 +98,8 @@ export async function getAmountByTx (message, events, isShowDenom) {
 			case TX_TYPE.set_withdraw_address:
 				break;
 			case TX_TYPE.withdraw_delegator_reward:
-				(events || []).forEach((item) => {
-					if(item.type === 'withdraw_rewards') {
-						(item.attributes || []).forEach((attr) => {
-							if (attr.key == 'amount') {
-								amount = attr.value || '--';
-							}
-						});
-					}
-				});
-				if( amount && amount !== '--' && typeof amount !== 'object') {
-					amount = await converCoin(amount);
-					amount = isShowDenom ? `${Tools.toDecimal(amount.amount,amountDecimals)} ${amount.denom.toUpperCase()}` : `${Tools.toDecimal(amount.amount,amountDecimals)}`;
-				} else {
-					amount = '--'
-				}
+				let rewardAmount = msg &&  msg.amount ? await converCoin(msg.amount) : null
+				amount = rewardAmount && rewardAmount.amount  && rewardAmount.denom ? isShowDenom ? `${Tools.toDecimal(rewardAmount.amount,amountDecimals)} ${rewardAmount.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(rewardAmount.amount,amountDecimals)}` : '--'
 				break;
 			case TX_TYPE.withdraw_validator_commission:
 				break;
@@ -179,6 +166,10 @@ export async function getAmountByTx (message, events, isShowDenom) {
 				}
 				break;
 			case TX_TYPE.claim_htlc:
+				if(msg.amount) {
+					let amountMaxUnit = await converCoin(msg.amount);
+					amount = isShowDenom ? `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)} ${amountMaxUnit.denom.toUpperCase()}` : `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)}`;
+				}
 				break;
 			case TX_TYPE.refund_htlc:
 				break;
