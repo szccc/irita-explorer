@@ -27,7 +27,7 @@
                             {{scope.row.denomId}}
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.txHash"
+                    <el-table-column class-name="hash_status" :min-width="ColumnMinWidth.txHash"
                                      :label="$t('ExplorerLang.table.createHash')" >
                         <template slot-scope="scope">
                             <el-tooltip v-if="scope.row.hash !== ''"
@@ -51,7 +51,7 @@
                             </a>
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.address"
+                    <el-table-column class-name="address" :min-width="ColumnMinWidth.address"
                                      :label="$t('ExplorerLang.table.creator')" >
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.sender"
@@ -276,6 +276,7 @@
                         padding: 0.05rem 0.18rem;
                         font-size: $s14;
                         line-height: 0.2rem;
+                        white-space: nowrap;
                     }
                 }
             }

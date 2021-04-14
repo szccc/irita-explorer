@@ -44,7 +44,7 @@
 					</el-table-column>
 					<el-table-column :width="ColumnMinWidth.schema" :label="$t('ExplorerLang.table.data')" prop="tokenData">
 						<template slot-scope="scope">
-							<LargeString :key="scope.row.nftName + scope.row.id + nftKey" v-if="scope.row.tokenData" :text="scope.row.tokenData" mode="cell" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+							<LargeString :isShowPre="Tools.isJSON(scope.row.tokenData)" :key="scope.row.nftName + scope.row.id + nftKey" v-if="scope.row.tokenData" :text="scope.row.tokenData" mode="cell" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 						</template>
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.URI" :label="$t('ExplorerLang.table.uri')"
@@ -150,7 +150,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
+					<el-table-column class-name="requestId" :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
 							<el-tooltip 
 										:content="scope.row.requestContextId"
@@ -294,7 +294,7 @@
 							</div>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
+					<el-table-column class-name="requestId" :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
 							<el-tooltip 
 										:content="scope.row.requestContextId"
@@ -370,7 +370,7 @@
 							<div class="delegations_table_container">
 								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')"
 								          :data="delegationsItems" style="width: 100%">
-									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
+									<el-table-column class-name="address" prop="address" :label="$t('ExplorerLang.table.address')"
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
@@ -418,7 +418,7 @@
 							<div class="delegations_table_container">
 								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')"
 								          :data="unBondingDelegationsItems" style="width: 100%">
-									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
+									<el-table-column class-name="address" prop="address" :label="$t('ExplorerLang.table.address')"
 									                 :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
@@ -481,7 +481,7 @@
 							<div>
 								<el-table :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="rewardsItems"
 								          style="width: 100%">
-									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
+									<el-table-column class-name="address" prop="address" :label="$t('ExplorerLang.table.address')"
 									                 align="left" :min-width="ColumnMinWidth.address">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
@@ -1714,6 +1714,7 @@
 						padding: 0.05rem 0.18rem;
 						font-size: $s14;
 						line-height: 0.2rem;
+						white-space: nowrap;
 					}
 					
 					.address_transaction_condition_action {

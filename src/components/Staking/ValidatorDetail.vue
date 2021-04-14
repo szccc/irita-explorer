@@ -18,7 +18,7 @@
 							<div class="delegations_table_container" ref="delegationsList">
 								<el-table :data="delegations.items" style="width: 100%"
 								          :empty-text="$t('ExplorerLang.table.emptyDescription')" id="element_del">
-									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
+									<el-table-column class-name="address" prop="address" :label="$t('ExplorerLang.table.address')"
 									                 :width="ColumnMinWidth.iaaAddress">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
@@ -62,7 +62,7 @@
 							<div class="delegations_table_container" ref="UnbondingDelList">
 								<el-table :data="unbondingDelegations.items" style="width: 100%"
 								          :empty-text="$t('ExplorerLang.table.emptyDescription')" id="element_undel">
-									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
+									<el-table-column class-name="address" prop="address" :label="$t('ExplorerLang.table.address')"
 									                 :width="ColumnMinWidth.iaaAddress">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
@@ -121,7 +121,7 @@
 											<span v-else>{{ row.id }}</span>
 										</template>
 									</el-table-column>
-									<el-table-column prop="proposer" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.proposer')">
+									<el-table-column class-name="address" prop="proposer" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.proposer')">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="row.proposer" placement="top" :disabled="Boolean(row.moniker)">
 												<router-link v-if="row.link" :to="`/address/${row.proposer}`">{{ formatMoniker(row.moniker, monikerNum.otherTable) || formatAddress(row.proposer) }}</router-link>
@@ -141,7 +141,7 @@
 									</el-table-column>
 									<el-table-column prop="submited" align="center" :label="$t('ExplorerLang.table.submited')"
 									                  :min-width="ColumnMinWidth.submited"></el-table-column>
-									<el-table-column prop="hash" :width="ColumnMinWidth.txHashShort" :label="$t('ExplorerLang.table.txHash')">
+									<el-table-column class-name="hash_status" prop="hash" :width="ColumnMinWidth.txHashShort" :label="$t('ExplorerLang.table.txHash')">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="row.hash" placement="top" :disabled="!Boolean(row.hash)">
 												<router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>
@@ -173,7 +173,7 @@
 									                :min-width="ColumnMinWidth.proposalStatus"></el-table-column>
 									<el-table-column prop="voted" :label="$t('ExplorerLang.table.voted')"
 									                  :min-width="ColumnMinWidth.voteOption"></el-table-column>
-									<el-table-column prop="hash" :width="ColumnMinWidth.txHashShort" :label="$t('ExplorerLang.table.txHash')">
+									<el-table-column class-name="hash_status" prop="hash" :width="ColumnMinWidth.txHashShort" :label="$t('ExplorerLang.table.txHash')">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="row.hash" placement="top" :disabled="!row.hash">
 											<router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>

@@ -149,6 +149,6 @@
         text-indent: -3em
     }
     pre {
-        overflow-x: hidden;
+        // overflow-x: hidden;
     }
 </style>
