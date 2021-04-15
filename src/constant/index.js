@@ -370,7 +370,7 @@ export const ModuleMap = {
     link: '/identities',
   },
   '107': {
-    title: 'Vaildators',
+    title: 'Validators',
     link: '/staking',
   },
   '108': {

@@ -6,7 +6,7 @@
     "104":"数据类别",
     "105":"服务浏览",
     "106":"身份ID",
-    "107":"Vaildators",
+    "107":"Validators",
     "108":"Delegation Txs",
     "109":"Validation Txs",
     "110":"Native Asset",
@@ -81,7 +81,7 @@ let config = {
       {
         title: 'Staking',
         children: [
-          { title: 'Vaildators', id: '107' },
+          { title: 'Validators', id: '107' },
           { title: 'Delegation Txs', id: '108' },
           { title: 'Validation Txs', id: '109' },
         ],
