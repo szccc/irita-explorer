@@ -305,7 +305,7 @@ export default {
                                             denom: mainToken.min_unit,
                                             amount: Number(statisticsNetwork.total_supply)
                                         })])
-                                        itemObj.footerLabel = Tools.formatBondedTokens(Number(bonded_tokens.amount),Number(total_supply.amount))
+                                        itemObj.footerLabel = Tools.formatBondedTokens(Number(bonded_tokens.amount || 0),Number(total_supply.amount || 0))
                                     } else {
                                         itemObj.value = '--';
                                         itemObj.footerLabel = `${statisticsNetwork.bonded_tokens || '--'} / ${statisticsNetwork.total_supply || '--'}`;
