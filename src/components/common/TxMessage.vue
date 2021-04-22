@@ -2358,7 +2358,7 @@
 								}
 								this.serviceFeeCap = this.serviceFeeCap || '--'
 								this.serviceName = msg.service_name || '--';
-								this.superMode = msg.super_mode;
+								this.superMode = msg.super_mode || '--';
 								this.timeout = msg.timeout || '--';
 								(this.events || []).forEach((item) => {
 									(item.attributes || []).forEach((attr) => {
