@@ -132,7 +132,7 @@
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.addressTxHash" :label="$t('ExplorerLang.table.txHash')">
+					<el-table-column class-name="hash_status" :min-width="ColumnMinWidth.addressTxHash" :label="$t('ExplorerLang.table.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<div class="status">
@@ -161,7 +161,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
+					<el-table-column class-name="address" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
 						<template slot-scope="scope">
 							<el-tooltip v-if="scope.row.txType==TX_TYPE_DISPLAY.respond_service"
 							            :content="scope.row.provider"
@@ -252,7 +252,7 @@
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
+					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
 						<template slot-scope="scope">
 							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
@@ -276,7 +276,7 @@
 					</el-table-column>
 					<el-table-column class-name="tx_type" :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
 					                 prop="type"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
+					<el-table-column class-name="hash_status" :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
 						<template slot-scope="scope">
 							<div class="respond_transaction_content_hash">
 								<div class="status">
@@ -316,7 +316,7 @@
 							<span>{{Tools.getDisplayDate(scope.row.time)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.consumer')">
+					<el-table-column class-name="address" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.consumer')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.consumer" placement="top">
 								<router-link v-if="scope.row.consumer && scope.row.consumer.length"
@@ -327,7 +327,7 @@
 							<span v-if="!scope.row.consumer">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.requestHash" :label="$t('ExplorerLang.table.requestHash')">
+					<el-table-column class-name="hash_status" :min-width="ColumnMinWidth.requestHash" :label="$t('ExplorerLang.table.requestHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<div class="status">
