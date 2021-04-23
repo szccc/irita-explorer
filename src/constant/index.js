@@ -258,7 +258,7 @@ export const ColumnMinWidth = {
   txHash: '135',
   txHashShort: '113', // Validator Details
   addressTxHash: '135',
-  respondHash: '128',
+  respondHash: '138',
   requestHash: '138',
   blockHeight: '85',
   blockListHeight: '85',

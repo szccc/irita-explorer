@@ -103,7 +103,6 @@ export const ExplorerLang = {
         submited: 'Submited',
         proposalStatus: 'Status',
         voted: 'voted',
-        proposer: 'Proposer',
         validators: 'Validators',
         votingPower: 'Voting_Power',
         sender: 'Sender',
