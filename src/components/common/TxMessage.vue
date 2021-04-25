@@ -339,7 +339,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.respondService.output')}}：</span>
-				<span>{{output}}</span>
+				<LargeString :isShowPre="Tools.isJSON(output)" v-if="output" :text="output"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.call_service">
@@ -363,7 +363,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.callService.input')}}：</span>
-				<span>{{input}}</span>
+				<LargeString :isShowPre="Tools.isJSON(input)" v-if="input" :text="input"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
