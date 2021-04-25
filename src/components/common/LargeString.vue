@@ -2,9 +2,7 @@
     <span :class="`tx_message_content_largeStr ${mode=='cell'?'flex-row':'flex-colum'}`">
         <template v-if="isShowPre">
             <pre v-if="isLarge" ref="text" :style="`width:${textWidth || 'auto'}`">{{ !text || text.includes("...") ? text : JSON.stringify(JSON.parse(text),null,'\t').replace(/^\s*/g,"")}}</pre>
-            <pre v-else class="text" :class=" !showDesc ? 'width': ''" :style="`width:${textWidth || 'auto'}`">
-                {{!text_f || text_f.includes("...") ? text_f : JSON.stringify(JSON.parse(text_f),null,'\t').replace(/^\s*/g,"")}}
-            </pre>
+            <pre v-else class="text" :class=" !showDesc ? 'width': ''" :style="`width:${textWidth || 'auto'}`">{{!text_f || text_f.includes("...") ? text_f : JSON.stringify(JSON.parse(text_f),null,'\t').replace(/^\s*/g,"")}}</pre>
         </template>
         <template v-else>
             <span v-if="isLarge" ref="text" :style="`width:${textWidth || 'auto'}`">{{text}}</span>
@@ -146,7 +144,7 @@
         text-indent: 0;
     }
     pre.text {
-        text-indent: -3em
+        // text-indent: -3em
     }
     pre {
         // overflow-x: hidden;
