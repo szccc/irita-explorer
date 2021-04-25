@@ -124,10 +124,10 @@ export default {
       return a - b
     },
     bigNumberSort(a, b, c) {
-      a = a.substring(0, a.length - c).replace(/,/g, '')
-      b = b.substring(0, b.length - c).replace(/,/g, '')
-      a = new BigNumber(a).toNumber()
-      b = new BigNumber(b).toNumber()
+      // a = a.substring(0, a.length - c).replace(/,/g, '')
+      // b = b.substring(0, b.length - c).replace(/,/g, '')
+      a = new BigNumber(a || 0).toNumber()
+      b = new BigNumber(b|| 0).toNumber()
       return a - b
     },
     commissionSort(a, b) {
@@ -143,6 +143,8 @@ export default {
       return this.percentSort(a.uptime, b.uptime, 1)
     },
     selfBondSort(a, b) {
+      console.log('原始数据',a.selfBond, b.selfBond);
+      console.log('处理后',this.bigNumberSort(a.selfBond, b.selfBond, 5));
       return this.bigNumberSort(a.selfBond, b.selfBond, 5)
     },
     formatAddress(address) {
