@@ -295,7 +295,7 @@ export default {
                                     itemObj.value = statisticsDb.validatorNumCount
                                     break;                      
                                 case 209:
-                                    if(statisticsNetwork.total_supply && statisticsNetwork.bonded_tokens) {
+                                    if(Number(statisticsNetwork.total_supply) && Number(statisticsNetwork.bonded_tokens)) {
                                         itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
                                         let mainToken  = await getMainToken()
                                         let [bonded_tokens,total_supply] = await Promise.all([converCoin({
