@@ -124,10 +124,10 @@ export default {
       return a - b
     },
     bigNumberSort(a, b, c) {
-      a = a.substring(0, a.length - c).replace(/,/g, '')
-      b = b.substring(0, b.length - c).replace(/,/g, '')
-      a = new BigNumber(a).toNumber()
-      b = new BigNumber(b).toNumber()
+      // a = a.substring(0, a.length - c).replace(/,/g, '')
+      // b = b.substring(0, b.length - c).replace(/,/g, '')
+      a = new BigNumber(a || 0).toNumber()
+      b = new BigNumber(b|| 0).toNumber()
       return a - b
     },
     commissionSort(a, b) {

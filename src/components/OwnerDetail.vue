@@ -132,7 +132,7 @@
 							<router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.addressTxHash" :label="$t('ExplorerLang.table.txHash')">
+					<el-table-column class-name="hash_status" :min-width="ColumnMinWidth.addressTxHash" :label="$t('ExplorerLang.table.txHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<div class="status">
@@ -161,16 +161,16 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
+					<el-table-column class-name="address" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.provider')">
 						<template slot-scope="scope">
-							<el-tooltip v-if="scope.row.txType==TX_TYPE.respond_service"
+							<el-tooltip v-if="scope.row.txType==TX_TYPE_DISPLAY.respond_service"
 							            :content="scope.row.provider"
 							            placement="top">
 								<router-link :to="`/address/${scope.row.provider}`">
 									{{formatAddress(scope.row.provider)}}
 								</router-link>
 							</el-tooltip>
-							<div v-if="scope.row.txType==TX_TYPE.call_service">
+							<div v-if="scope.row.txType==TX_TYPE_DISPLAY.call_service">
 								<el-tooltip v-if="(scope.row.provider || []).length === 1"
 								            :content="scope.row.provider[0]"
 								            placement="top">
@@ -252,7 +252,7 @@
 							<span>{{`${scope.row.time}`}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
+					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.disabledTime')">
 						<template slot-scope="scope">
 							<span>{{scope.row.isAvailable ? '--' : scope.row.unbindTime}}</span>
 						</template>
@@ -276,7 +276,7 @@
 					</el-table-column>
 					<el-table-column class-name="tx_type" :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
 					                 prop="type"></el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
+					<el-table-column class-name="hash_status" :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
 						<template slot-scope="scope">
 							<div class="respond_transaction_content_hash">
 								<div class="status">
@@ -316,7 +316,7 @@
 							<span>{{Tools.getDisplayDate(scope.row.time)}}</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.consumer')">
+					<el-table-column class-name="address" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.consumer')">
 						<template slot-scope="scope">
 							<el-tooltip :content="scope.row.consumer" placement="top">
 								<router-link v-if="scope.row.consumer && scope.row.consumer.length"
@@ -327,7 +327,7 @@
 							<span v-if="!scope.row.consumer">--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.requestHash" :label="$t('ExplorerLang.table.requestHash')">
+					<el-table-column class-name="hash_status" :min-width="ColumnMinWidth.requestHash" :label="$t('ExplorerLang.table.requestHash')">
 						<template slot-scope="scope">
 							<div class="address_transaction_content_hash">
 								<div class="status">
@@ -615,7 +615,7 @@
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
-	import Constant, {TX_TYPE, TX_STATUS, ColumnMinWidth,monikerNum,ibcDenomPrefix,mainTokenSymbol} from '../constant';
+	import Constant, {TX_TYPE,TX_TYPE_DISPLAY,TX_STATUS, ColumnMinWidth,monikerNum,ibcDenomPrefix,mainTokenSymbol} from '../constant';
 	import AddressInformationComponent from "./AddressInformationComponent";
 	import LargeString from './common/LargeString';
 	import { addressRoute,formatMoniker } from '@/helper/IritaHelper';
@@ -650,6 +650,7 @@
 				monikerNum,
 				TX_TYPE,
 				TX_STATUS,
+				TX_TYPE_DISPLAY,
 				ColumnMinWidth,
 				prodConfig,
 				moduleSupport,
@@ -956,7 +957,7 @@
 								serviceName: item.msgs[0].msg.service_name || '--',
 								txHash: item.tx_hash,
 								blockHeight: item.height,
-								txType: item.type,
+								txType: TX_TYPE_DISPLAY[item.type],
 								provider: item.msgs[0].msg.providers,
 								time: Tools.getDisplayDate(item.time),
 								state:"Running",
@@ -984,7 +985,7 @@
 		                        		serviceName:(r.msgs[0].msg.ex || {}).service_name || '',
 										txHash: r.tx_hash,
 										blockHeight: r.height,
-										txType: r.type,
+										txType: TX_TYPE_DISPLAY[r.type],
 										provider: r.msgs[0].msg.provider,
 										time: Tools.getDisplayDate(r.time),
 										requestContextId: (r.msgs[0].msg.ex || {}).request_context_id,
@@ -1011,7 +1012,10 @@
 					const res = await getRespondServiceRecord('', this.$route.params.param, this.respondRecordPageNum, this.respondRecordPageSize);
 					if (res) {
 						this.respondRecordCount = res.count;
-						this.respondRecordList = res.data || [];
+						this.respondRecordList = (res.data || []).map(tx => {
+							tx.type = TX_TYPE_DISPLAY[tx.type]
+							return tx
+						});
 					}
 				} catch (e) {
 					console.error(e);

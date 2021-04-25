@@ -273,16 +273,21 @@ export default {
     .title_content {
       line-height: 1;
       font-size: 0.16rem;
+      max-width: 480px;
+      overflow: hidden;
+      text-overflow: ellipsis;
       .proposal_id_content {
         color: $t_second_c;
         margin-right: 0.1rem;
       }
       .proposal_title {
         color: $theme_c;
+        white-space: nowrap;
       }
     }
     .view_all_content {
       color: $theme_c;
+      min-width: 0.65rem;
       span {
         line-height: 1;
         border-bottom: 0.01rem solid $theme_c;
@@ -462,12 +467,15 @@ export default {
     }
   }
 }
-@media screen and (max-width: 910px) {
+@media screen and (max-width: 1280px) {
   .deposit_card_content {
     margin: 0 0 0.2rem 0;
     .deposit_title_container {
        flex-direction: row;
     }
+  }
+  .title_content {
+    max-width: none !important; 
   }
 }
 </style>

@@ -109,7 +109,7 @@
                         <el-table-column :min-width="ColumnMinWidth.time"
                                          :label="$t('ExplorerLang.table.bindTime')"
                                          prop="bindTime"></el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.time"
+                        <el-table-column :width="ColumnMinWidth.time"
                                          :label="$t('ExplorerLang.table.disabledTime')"
                                          prop="disabledTime"></el-table-column>
                     </el-table>
