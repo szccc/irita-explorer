@@ -2,7 +2,7 @@
 	<div class="nft_list_container">
 		<div class="nft_list_content_wrap">
 			<div class="nft_list_header_content">
-				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerLang.nftAsset.assets')}}{{allCount>1 ? 'S' : ''}}</h3>
+				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerLang.nftAsset.assets')}}{{allCount>1 ? 's' : ''}}</h3>
 				<el-select popper-class="tooltip" v-model="denom" >
 					<el-option v-for="(item, index) in nftList"
 							   :key="index"
@@ -43,7 +43,7 @@
 							</el-tooltip>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.nftListDenom" show-overflow-tooltip :label="$t('ExplorerLang.table.denom')">
+					<el-table-column :min-width="ColumnMinWidth.nftListDenom" :label="$t('ExplorerLang.table.denom')">
 						<template slot-scope="scope">
 							{{scope.row.denom_name || scope.row.denom_id}}
 						</template>
@@ -76,7 +76,7 @@
 							<span v-else>--</span>
 						</template>
 					</el-table-column>
-					<el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="last_block_time">
+					<el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="last_block_time">
 						<template slot-scope="scope">
 							<span>{{scope.row.last_block_time}}</span>
 						</template>
