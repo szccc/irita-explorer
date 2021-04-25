@@ -143,8 +143,6 @@ export default {
       return this.percentSort(a.uptime, b.uptime, 1)
     },
     selfBondSort(a, b) {
-      console.log('原始数据',a.selfBond, b.selfBond);
-      console.log('处理后',this.bigNumberSort(a.selfBond, b.selfBond, 5));
       return this.bigNumberSort(a.selfBond, b.selfBond, 5)
     },
     formatAddress(address) {
