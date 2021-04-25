@@ -64,6 +64,8 @@
 						this.version = `Node Version ${nodeInfo.application_version.name} v${nodeInfo.application_version.version || '--'}`;
 					} else if (prodConfig.product == product.nyancat || prodConfig.product == product.irishub) {
 						this.version = `Node Version irishub ${nodeInfo.application_version.version || '--'}`;
+					} else if(prodConfig.product == product.cschainOtc) {
+						this.version = `Node Version cschain ${nodeInfo.application_version.version || '--'}`;
 					} else {
 						this.version = `Node Version ${nodeInfo.application_version.version || '--'}`;
 					}

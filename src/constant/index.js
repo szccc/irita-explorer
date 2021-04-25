@@ -515,7 +515,8 @@ export const product = {
   stargate: 'STARGATE',
   cosmosHub: 'Cosmos Hub',
   nyancat: 'NYANCAT',
-  irishub: 'IRISHUB'
+  irishub: 'IRISHUB',
+  cschainOtc: 'CSChain-OTC'
 }
 
 export const ibcDenomPrefix = 'ibc/'
