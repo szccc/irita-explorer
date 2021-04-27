@@ -61,7 +61,7 @@
 				if (nodeInfo) {
 					this.chainId = `Chain ID ${nodeInfo.node_info.network || '--'}`;
 					if(prodConfig.product == product.cosmosHub) {
-						this.version = `Node Version ${nodeInfo.application_version.name} v${nodeInfo.application_version.version || '--'}`;
+						this.version = `Node Version ${nodeInfo.application_version.name} ${nodeInfo.application_version.version || '--'}`;
 					} else if (prodConfig.product == product.nyancat || prodConfig.product == product.irishub) {
 						this.version = `Node Version irishub ${nodeInfo.application_version.version || '--'}`;
 					} else if(prodConfig.product == product.cschainOtc) {
