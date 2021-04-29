@@ -255,7 +255,7 @@ a {
       }
 
       /deep/ .votingPower .cell {
-        min-width: 1.30rem;
+        min-width: 1.26rem;
       }
       // /deep/ .bondHeight .cell {
       //   padding-right: 0.07rem;
