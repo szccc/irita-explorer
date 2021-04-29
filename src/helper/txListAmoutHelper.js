@@ -65,7 +65,7 @@ export async function getAmountByTx (message, events, isShowDenom) {
 				amount = msg.amount || '--';
 				break;
 			case TX_TYPE.send:
-				if (msg.amount && msg.amount.length === 1) {
+				if (msg && msg.amount && msg.amount.length === 1) {
 					const sendAmount = msg && msg.amount.length > 0 ? await converCoin(msg.amount[0]) : null
 					// formatPriceToFixed 四舍五入 toDecimal 截取 
 					amount = sendAmount && sendAmount.amount && sendAmount.denom ?  isShowDenom ? `${Tools.toDecimal(sendAmount.amount,amountDecimals) } ${sendAmount.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(sendAmount.amount,amountDecimals) }` : '--';

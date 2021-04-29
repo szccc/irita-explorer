@@ -211,7 +211,7 @@
                             isShowMore = true
                         }
                         if(tx.type === TX_TYPE.send) {
-                            tx.msgs[0].msg.amount.length > 1 ? isShowMore = true : ''
+                            tx && tx.msgs && tx.msgs[0] && tx.msgs[0].msg && tx.msgs[0].msg.amount && tx.msgs[0].msg.amount.length > 1 ? isShowMore = true : ''
                         }
                         this.txDataList.push({
                                 txHash : tx.tx_hash,
