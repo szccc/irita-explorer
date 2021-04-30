@@ -25,7 +25,7 @@
 
                     <section class="stats_preview_content_item">
                         <span class="stats_preview_content_title">
-                            Community Tax
+                            Community Pool
                         </span>
                         <span class="stats_preview_content_content">
                             {{ Tools.getDisplayNumber(CommunityTax) }} {{ config.token.symbol.toUpperCase() }}
