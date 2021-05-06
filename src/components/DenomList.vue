@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="nef_list_table_container">
-                <el-table class="table" :data="denomList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                <el-table class="table table_overflow_x" :data="denomList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')">
                         <template slot-scope="scope">
                             {{scope.row.denomName}}

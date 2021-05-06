@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <el-table class="table" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                <el-table class="table table_overflow_x" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.identity" :label="$t('ExplorerLang.table.identity')">
                         <template slot-scope="scope">
                             <!-- <el-tooltip :content="scope.row.id"

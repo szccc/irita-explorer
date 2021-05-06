@@ -138,8 +138,14 @@ export default {
   .more_icontiaozhuan {
       font-size: 12px !important;
   }
-  
   td.from,td.hash_status,td.to,td.moniker,td.operator,td.signer,td.address,td.requestId {
       font-family: DroidSansMono;
+  }
+  .table_overflow_x,
+  .el-table {
+    overflow-x: auto !important;
+  }
+  .el-table__header-wrapper,.el-table__body-wrapper {
+    overflow: visible !important;
   }
 </style>

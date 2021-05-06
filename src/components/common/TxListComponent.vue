@@ -1,6 +1,6 @@
 <template>
     <div class="tx_list_content">
-        <el-table class="table columns-fit" :data="txDataList" :empty-text="$t('ExplorerLang.table.emptyDescription')" ref="listTable" :class="loading ? null : 'visible'">
+        <el-table class="table columns-fit table_overflow_x" :data="txDataList" :empty-text="$t('ExplorerLang.table.emptyDescription')" ref="listTable" :class="loading ? null : 'visible'">
             <el-table-column class-name="hash_status" align="left" :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
@@ -276,7 +276,7 @@
 
         &.visible {
             .el-table__header-wrapper, .el-table__body-wrapper {
-            visibility: visible;
+                visibility: visible;
             }
         }
 
