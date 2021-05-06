@@ -270,15 +270,15 @@
 
 <style scoped lang="scss">
     /deep/.columns-fit {
-        .el-table__header-wrapper, .el-table__body-wrapper {
-            visibility: hidden;
-        }
+        // .el-table__header-wrapper, .el-table__body-wrapper {
+        //     visibility: hidden;
+        // }
 
-        &.visible {
-            .el-table__header-wrapper, .el-table__body-wrapper {
-                visibility: visible;
-            }
-        }
+        // &.visible {
+        //     .el-table__header-wrapper, .el-table__body-wrapper {
+        //         visibility: visible;
+        //     }
+        // }
 
         .el-table__body-wrapper {
             overflow: auto;
