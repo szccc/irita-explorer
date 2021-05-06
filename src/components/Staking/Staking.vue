@@ -9,7 +9,7 @@
         <m-tabs class="staking_m_tabs" :data="stakingStatusTitleList" :chose="selectStakingStatus"></m-tabs>
       </div>
       <div class="staking_table_list_content">
-        <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
+        <el-table class="sort_table table_overflow_x" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
           <el-table-column key="index" align="center" type="index" class="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
           <el-table-column class-name="moniker" key="moniker" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatorMoniker" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
@@ -250,7 +250,8 @@ a {
         padding: 0;
       }
       /deep/ .delegators .cell {
-        min-width: 1.21rem;
+        // min-width: 1.21rem;
+        min-width: 1.17rem;
         padding-right: 0.05rem;
       }
 
@@ -261,7 +262,7 @@ a {
       //   padding-right: 0.07rem;
       // }
       /deep/ .sort_table {
-        overflow: auto hidden;
+        overflow-x: auto;
         .sort-caret.ascending,
         .sort-caret.descending {
           margin-left: 0.07rem;

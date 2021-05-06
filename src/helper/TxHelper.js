@@ -746,7 +746,7 @@ export class TxHelper {
                 case TX_TYPE.connection_open_init:
                     othersObj.children.push({
                         value: TX_TYPE.connection_open_init,
-                        label: TX_TYPE_DISPLAY[TX_TYPE.connection_open_try]
+                        label: TX_TYPE_DISPLAY[TX_TYPE.connection_open_init]
                     });
                 break;  
                 case TX_TYPE.connection_open_try:

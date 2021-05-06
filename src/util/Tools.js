@@ -479,8 +479,8 @@ export default class Tools {
         return false
       }
       try {
-          let obj = JSON.parse(str);
-          return !!obj && typeof obj === 'object';
+        let obj = JSON.parse(str);
+        return obj && typeof obj === 'object';
       } catch (e) {}
       return false;
     }
