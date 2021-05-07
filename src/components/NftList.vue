@@ -2,7 +2,7 @@
 	<div class="nft_list_container">
 		<div class="nft_list_content_wrap">
 			<div class="nft_list_header_content">
-				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerLang.nftAsset.assets')}}{{allCount>1 ? 's' : ''}}</h3>
+				<h3 class="nft_list_header_title">{{allCount}} {{$t('ExplorerLang.nftAsset.assets')}}{{allCount>1 && isShowPlurality ? 's' : ''}}</h3>
 				<el-select popper-class="tooltip" v-model="denom" >
 					<el-option v-for="(item, index) in nftList"
 							   :key="index"
@@ -102,6 +102,8 @@
 	import MPagination from "./common/MPagination";
 	import { ColumnMinWidth } from '../constant';
 	import LargeString from './common/LargeString';
+	import productionConfig from '@/productionConfig.js';
+
 	export default {
 		name: "NftList",
 		components: {MPagination, LargeString},
@@ -138,6 +140,11 @@
             if(this.$store.state.tempDenomId){
                 this.$store.commit('SET_TEMP_DENOM_ID','');
             }
+		},
+		computed: {
+			isShowPlurality() {
+				return productionConfig.lang === 'EN'
+			}
 		},
 		methods:{
 			startStr(url){
