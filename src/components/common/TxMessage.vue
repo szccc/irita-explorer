@@ -1082,7 +1082,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
-				<span>{{proofUnreceived}}</span>
+				<LargeString v-if="proofUnreceived" :text="proofUnreceived"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
