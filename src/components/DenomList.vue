@@ -2,7 +2,7 @@
     <div class="denom_list_container">
         <div class="denom_list_content_wrap">
             <div class="denom_list_header_content">
-                <h3 class="denom_list_header_title">{{count}} {{$t('ExplorerLang.denom.title')}}{{count>1 ? 's' : ''}}</h3>
+                <h3 class="denom_list_header_title">{{count}} {{$t('ExplorerLang.denom.title')}}{{count>1 && isShowPlurality ? 's' : ''}}</h3>
                 <el-input v-model="input"
                           @change="handleSearchClick"
                           :placeholder="$t('ExplorerLang.denom.placeHolder')"></el-input>
@@ -87,6 +87,8 @@
     import Tools from "../util/Tools";
     import MPagination from "./common/MPagination";
     import { ColumnMinWidth } from '../constant';
+    import productionConfig from '@/productionConfig.js';
+
     export default {
         name: "DenomList",
         components: {MPagination},
@@ -105,6 +107,11 @@
         mounted(){
             this.getDenoms()
         },
+        computed: {
+			isShowPlurality() {
+				return productionConfig.lang === 'EN'
+			}
+		},
         methods:{
             reset(){
                 this.input = '';
