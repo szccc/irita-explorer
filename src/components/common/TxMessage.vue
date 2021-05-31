@@ -2553,7 +2553,7 @@
 							case TX_TYPE.withdraw_delegator_reward:
 								this.from = msg.validator_address;
 								this.to = msg.delegator_address;
-								(this.events || []).forEach((item) => {
+								;(this.events || []).forEach((item) => {
 									if(item.type === 'withdraw_rewards') {
 										let isAmount = (item.attributes || []).some(item => {
 											return item.value == msg.validator_address
@@ -2567,6 +2567,24 @@
 										}
 									}
 								});
+								// todo duanjie  withdraw_delegator_reward to address 取值
+								// (this.events || []).forEach(item => {
+								// 	if(item.type === 'transfer') {
+								// 		let isTransfer = (item.attributes || []).some(item => {
+								// 			return item.value == amount
+								// 		})
+								// 		if(isTransfer) {
+								// 			(item.attributes || []).forEach((attr) => {
+								// 				if (attr.key == 'recipient') {
+								// 					this.to = attr.value || '--';
+								// 				}
+								// 			});
+								// 		}
+								// 	}
+								// })
+								// if(!this.to) {
+								// 	this.to = '--'
+								// }
 								if( amount && amount !== '--') {
 									amount = await converCoin(amount);
 									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;

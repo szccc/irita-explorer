@@ -444,8 +444,8 @@
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0
 					const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
+					const selfBonded = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.value ? await converCoin(item.msgs[0].msg.value) : '--' : '--';
 					const time = Tools.getDisplayDate(item.time)
-					// let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--'
 					let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
 					let OperatorMonikers
 					if(item.monikers.length) {
@@ -456,11 +456,9 @@
 					this.validationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
-						// Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
 						OperatorAddr,
 						OperatorMonikers: OperatorMonikers || '--',
-						// SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${this.mainToken.symbol.toUpperCase()}` : '--' : '--',
-						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation}` : '--' : '--',
+						SelfBonded: selfBonded.amount || '--',
 						'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 						MsgsNum: msgsNumber,
 						// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
