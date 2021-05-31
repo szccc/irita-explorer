@@ -2567,6 +2567,7 @@
 										}
 									}
 								});
+								// todo duanjie  withdraw_delegator_reward to address 取值
 								// (this.events || []).forEach(item => {
 								// 	if(item.type === 'transfer') {
 								// 		let isTransfer = (item.attributes || []).some(item => {
