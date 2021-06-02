@@ -6,7 +6,7 @@
     "104":"数据类别",
     "105":"服务浏览",
     "106":"身份ID",
-    "107":"Vaildators",
+    "107":"Validators",
     "108":"Delegation Txs",
     "109":"Validation Txs",
     "110":"Native Asset",
@@ -33,9 +33,8 @@
 */
 
 /*产品
-  Bifrost,STARGATE
+  Bifrost,STARGATE,Cosmos Hub,NYANCAT,IRISHUB
 */
-
  
 let config = {
   //国际化 CN / EN 默认CN
@@ -49,8 +48,8 @@ let config = {
   logo:{
       //logo标题 必填
       title:'IRISHUB',
-      //logo副标题 必填
-      subTitle:'irishub-1',
+      //logo副标题
+      subTitle:'',
   },
   product:'IRISHUB',
   nav:{
@@ -82,7 +81,7 @@ let config = {
       {
         title: 'Staking',
         children: [
-          { title: 'Vaildators', id: '107' },
+          { title: 'Validators', id: '107' },
           { title: 'Delegation Txs', id: '108' },
           { title: 'Validation Txs', id: '109' },
         ],
@@ -163,12 +162,11 @@ let config = {
   isShowUTC: true, // 是否显示时区,默认值为true
   fee: {
     isShowFee: true, // 是否展示fee
-    isShowDenom: true, //列表中fee是否展示单位
-    decimals: 2 // 列表中fee展示的数值精度
+    isShowDenom: false, //列表中fee是否展示单位
+    decimals: 4 // 列表中fee展示的数值精度
   },
   token:{
     //main token
-    minUnit:'uiris', 
     symbol:'iris',
     decimal: 6,
   },

@@ -205,7 +205,7 @@ export default {
                         switch(item) {
                             case 201:
                                 // itemObj.value = statisticsNetwork.txCount;
-                                // itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime) 
+                                // itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime)
                                 break;
                              case 202:
                                 itemObj.value = statisticsDb.validatorCount;
@@ -227,7 +227,7 @@ export default {
                                 break;
                             case 208:
                                 itemObj.value = statisticsDb.validatorNumCount
-                                break;                      
+                                break;
                             case 209:
                                 // if(statisticsNetwork.total_supply) {
                                 //     itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
@@ -271,7 +271,7 @@ export default {
                             switch(item) {
                                 case 201:
                                     itemObj.value = statisticsNetwork.txCount;
-                                    itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime) 
+                                    itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime)
                                     break;
                                 case 202:
                                     itemObj.value = statisticsDb.validatorCount;
@@ -293,16 +293,16 @@ export default {
                                     break;
                                 case 208:
                                     itemObj.value = statisticsDb.validatorNumCount
-                                    break;                      
+                                    break;
                                 case 209:
                                     if(Number(statisticsNetwork.total_supply) && Number(statisticsNetwork.bonded_tokens)) {
                                         itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
                                         let mainToken  = await getMainToken()
                                         let [bonded_tokens,total_supply] = await Promise.all([converCoin({
-                                            denom: mainToken.min_unit,
+                                            denom: mainToken.denom,
                                             amount: Number(statisticsNetwork.bonded_tokens)
                                         }),converCoin({
-                                            denom: mainToken.min_unit,
+                                            denom: mainToken.denom,
                                             amount: Number(statisticsNetwork.total_supply)
                                         })])
                                         itemObj.footerLabel = Tools.formatBondedTokens(Number(bonded_tokens.amount || 0),Number(total_supply.amount || 0))
@@ -535,7 +535,7 @@ export default {
                     flex-direction: row;
                     justify-content: space-between;
                     align-items: center;
-                    
+
                     .statistical_validator_top_content{
                         .statistical_validator_header{
                             margin-bottom: 0.15rem;

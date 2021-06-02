@@ -668,7 +668,6 @@ export const ExplorerLang = {
             parameterDetails: 'Parameter Details',
             submitTime: 'Submit Time',
             depositEndTime: 'Deposit End Time',
-            totalDeposit: 'Total Deposit',
             burned: 'Burned',
             votingStartTime: 'Voting Start Time',
             votingEndTime: 'Voting End Time',

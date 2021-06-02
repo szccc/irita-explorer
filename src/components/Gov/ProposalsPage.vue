@@ -240,7 +240,7 @@ export default {
             v.type = v.content && v.content.type;
             v.min_deposit_number = Number(v.min_deposit);
             let n = await converCoin({
-              denom: mainToken.min_unit,
+              denom: mainToken.denom,
               amount: v.min_deposit_number,
             });
             v.min_deposit_format = `${n.amount} ${n.denom.toUpperCase()}`;

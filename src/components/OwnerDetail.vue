@@ -21,7 +21,7 @@
 					<el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')"  prop="denomName"></el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenName')" >
 						<template slot-scope="scope">
-							<el-tooltip 
+							<el-tooltip
 										:content="scope.row.nftName"
 										placement="top"
 										effect="dark"
@@ -33,7 +33,7 @@
 					</el-table-column>
 					<el-table-column :min-width="ColumnMinWidth.tokenId" :label="$t('ExplorerLang.table.tokenId')" >
 						<template slot-scope="scope">
-							<el-tooltip 
+							<el-tooltip
 										:content="scope.row.id"
 										placement="top"
 										effect="dark"
@@ -152,7 +152,7 @@
 					</el-table-column>
 					<el-table-column class-name="requestId" :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
-							<el-tooltip 
+							<el-tooltip
 										:content="scope.row.requestContextId"
 										placement="top"
 										effect="dark"
@@ -289,14 +289,14 @@
 										<router-link :to="`/tx?txHash=${scope.row.respondHash}`">
 											{{formatTxHash(scope.row.respondHash)}}
 										</router-link>
-									</div>	
+									</div>
 								</el-tooltip>
 							</div>
 						</template>
 					</el-table-column>
 					<el-table-column class-name="requestId" :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
 						<template slot-scope="scope">
-							<el-tooltip 
+							<el-tooltip
 										:content="scope.row.requestContextId"
 										placement="top"
 										effect="dark"
@@ -602,7 +602,7 @@
 					</m-pagination>
 				</div>
 			</div>
-		
+
 		</div>
 	</div>
 
@@ -723,7 +723,7 @@
 				validatorRewardsValue: 0,
 				allRewardsValue: 0,
 				allRewardsAmountValue: 0,
-				
+
 				tablePageSize: 5,
 				flDelegationNextPage: false,
 				flUnBondingDelegationNextPage: false,
@@ -816,7 +816,7 @@
 					this.getAssetList()
 					this.getDelegationList()
 					this.getUnBondingDelegationList()
-					
+
 				}
 				if(moduleSupport('103', prodConfig.navFuncList)){
 					this.tabList.push(this.nftCount)
@@ -825,14 +825,14 @@
 				if(moduleSupport('106', prodConfig.navFuncList)){
 					this.tabList.push(this.identity)
 					this.getIdentityList();
-					
+
 				}
 				if(moduleSupport('105', prodConfig.navFuncList)){
 					this.tabList.push(this.iService)
 					this.getRspondRecordList();
 					this.getProviderTxList();
 					this.getConsumerTxList();
-					
+
 				}
 				this.tabList.push(this.tx)
 				this.tabList[0].isActive = true
@@ -864,7 +864,7 @@
 								this.isTx =true
 								this.getTxByAddress();
 								this.getAllTxType();
-							
+
 						}
 					}
 				})
@@ -894,7 +894,7 @@
 								owner: item.owner,
 								tokenData: item.tokenData,
 								tokenUri: item.tokenUri,
-								
+
 							}
 						})
 					}
@@ -1021,7 +1021,7 @@
 					console.error(e);
 					this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
 				}
-				
+
 			},
 			respondRecordPageChange (pageNum) {
 				this.respondRecordPageNum = pageNum;
@@ -1073,7 +1073,7 @@
 					console.error(e);
 					this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
 				}
-				
+
 			},
 			formatTxHash (TxHash) {
 				if (TxHash) {
@@ -1124,7 +1124,7 @@
 						};
 					}
 				}
-				
+
 			},
 			getRespondCount (count) {
 				return this.$t('ExplorerLang.unit.totalRespond').replace(/\$\{\%value\%\}/, count);
@@ -1166,7 +1166,7 @@
 						let arrayIndexOneData;
 						if (res.amount) {
 							res.amount.forEach(item => {
-								if (item.denom === this.mainToken.min_unit) {
+								if (item.denom === this.mainToken.denom) {
 									arrayIndexOneData = item
 								}
 							});
@@ -1200,7 +1200,7 @@
 			 		let item = this.assetList[key];
 			 		// let balanceAmount = item && item.amount ? await converCoin(item) : {};
 			 		let balanceAmount = balanceAmounts[key]
-			 		if (item && item.denom && item.denom === this.mainToken.min_unit) {
+			 		if (item && item.denom && item.denom === this.mainToken.denom) {
 						assetList.unshift({
 							token: this.mainToken.symbol.toUpperCase(),
 							balance: balanceAmount  && balanceAmount.amount ? `${new BigNumber(Tools.formatStringToFixedNumber(balanceAmount.amount, this.fixedNumber)).toFormat()} ${balanceAmount.denom.toUpperCase()}` : 0,
@@ -1278,7 +1278,7 @@
 							// 		}
 							// 	}
 							// });
-							
+
 							let totalAmount = res.reduce((total, item) => {
 								return Number(item.amount.amount) + Number(total)
 							}, 0);
@@ -1339,7 +1339,7 @@
 							if (item.reward && item.reward.length === 0) {
 								item.reward.push({
 									amount: 0,
-									denom: this.mainToken.min_unit
+									denom: this.mainToken.denom
 								})
 							}
 						});
@@ -1456,14 +1456,14 @@
 		height: 0.48rem !important;
 		min-height: 0.48rem !important;
 	}
-	
+
 	.address_container_content {
 		padding: 0 0.15rem;
-		
+
 		.address_content_wrap {
 			max-width: 12rem;
 			margin: 0 auto;
-			
+
 			.address_content_title {
 				display: flex;
 				justify-content: flex-start;
@@ -1474,12 +1474,12 @@
 				text-align: left;
 				font-family: Arial;
 				font-weight: 600;
-				
+
 				.address_content_title_first {
 					white-space: nowrap;
 					margin-right: 0.05rem;
 				}
-				
+
 				.address_content_title_address {
 					font-size: $s16;
 					font-family: Arial;
@@ -1489,14 +1489,14 @@
 					word-break: break-all;
 				}
 			}
-			
+
 			.address_tab_container {
 				margin-bottom: 0.16rem;
-				
+
 				.address_tab_content {
 					display: flex;
 					// margin-left: 0.28rem;
-					
+
 					.address_tab_item {
 						cursor: pointer;
 						width: 1.2rem;
@@ -1507,26 +1507,26 @@
 						font-size: 0.14rem;
 						background-color: $bg_white_c;
 					}
-					
+
 					.address_tab_item:last-child {
 						border-right: 0.01rem solid $bd_first_c
 					}
 				}
-				
+
 				.active_content {
 					background: $bg_button_c !important;
 					color: $t_white_c;
 				}
 			}
-			
+
 			.address_content {
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
 				// border: 0.01rem solid $bd_first_c;
-				margin-bottom: 0.48rem;			
+				margin-bottom: 0.48rem;
 			}
-			
+
 			.consumer_transaction_content {
 				margin-bottom: 0.48rem;
 				background: $bg_white_c;
@@ -1550,11 +1550,11 @@
 					display: flex;
 					align-items: center;
 				}
-				
+
 				.consumer_transaction_content_available {
 					display: flex;
 					align-items: center;
-					
+
 					.consumer_transaction_content_available_icon {
 						width: 0.1rem;
 						height: 0.1rem;
@@ -1563,14 +1563,14 @@
 					}
 				}
 			}
-			
+
 			.provider_transaction_content {
 				margin-bottom: 0.48rem;
 				background: $bg_white_c;
 				padding: 0.25rem;
 				border-radius: 0.05rem;
 				// border: 0.01rem solid $bd_first_c;
-				
+
 				.respond_transaction_content_hash {
 					display: flex;
 					.status {
@@ -1594,7 +1594,7 @@
 				.provider_transaction_content_available {
 					display: flex;
 					align-items: center;
-					
+
 					.provider_transaction_content_available_icon {
 						width: 0.1rem;
 						height: 0.1rem;
@@ -1603,7 +1603,7 @@
 					}
 				}
 			}
-			
+
 			.address_transaction_content {
 				// margin-top: 0.48rem;
 				margin-bottom: 0.2rem;
@@ -1611,19 +1611,19 @@
 				padding: 0.25rem;
 				border-radius: 0.05rem;
 				// border: 0.01rem solid $bd_first_c;
-				
+
 				.address_transaction_content_hash {
 					display: flex;
 					align-items: center;
 				}
-				
+
 				.address_transaction_condition_container {
 					width: 100%;
 					display: flex;
 					justify-content: flex-start;
 					margin-bottom: 0.4rem;
 					align-items: center;
-					
+
 					.address_transaction_condition_count {
 						font-size: $s14;
 						margin-right: 0.42rem;
@@ -1639,10 +1639,10 @@
 							}
 							input:-moz-placeholder{    /* Firefox版本4-18 */
 								color: $t_first_c;
-							}              
+							}
 							input::-moz-placeholder{    /* Firefox版本19+ */
 								color: $t_first_c;
-							}              
+							}
 							input:-ms-input-placeholder{   /* IE浏览器 */
 								color: $t_first_c;
 							}
@@ -1676,23 +1676,23 @@
 					/deep/ .el-select {
 						width: 1.3rem;
 						margin-right: 0.22rem;
-						
+
 						.el-input {
 							.el-input__inner {
 								padding-left: 0.07rem;
 								height: 0.32rem;
 								font-size: $s14 !important;
 								line-height: 0.32rem;
-								
+
 								&::-webkit-input-placeholder {
 									font-size: $s14 !important;
 								}
 							}
-							
+
 							.el-input__inner:focus {
 								border-color: $theme_c !important;
 							}
-							
+
 							.el-input__suffix {
 								.el-input__suffix-inner {
 									.el-input__icon {
@@ -1701,15 +1701,15 @@
 								}
 							}
 						}
-						
+
 						.is-focus {
 							.el-input__inner {
 								border-color: $theme_c !important;
 							}
 						}
-						
+
 					}
-					
+
 					.search_btn {
 						cursor: pointer;
 						background: $bg_button_c;
@@ -1720,17 +1720,17 @@
 						line-height: 0.2rem;
 						white-space: nowrap;
 					}
-					
+
 					.address_transaction_condition_action {
 						display: flex;
-						
+
 						.reset_btn {
 							background: $bg_button_c;
 							color: $t_button_c;
 							border-radius: 0.04rem;
 							margin-left: 0.1rem;
 							cursor: pointer;
-							
+
 							i {
 								padding: 0.08rem;
 								font-size: $s14;
@@ -1739,10 +1739,10 @@
 							}
 						}
 					}
-					
+
 				}
 			}
-			
+
 			.content_title {
 				color: $t_first_c;
 				margin-bottom: 0.4rem;
@@ -1752,19 +1752,19 @@
 				font-weight: 600;
 				line-height: 22px;
 			}
-			
+
 			.status_icon {
 				width: 0.13rem;
 				height: 0.13rem;
 				margin-right: 0.05rem;
 			}
-			
+
 			.delegations_wrap {
 				margin: 0 auto;
-				
+
 				.delegations_container {
 					display: flex;
-					
+
 					.validator_information_content_title {
 						height: 0.2rem;
 						line-height: 0.2rem;
@@ -1774,7 +1774,7 @@
 						// padding-left: 0.2rem;
 						margin-bottom: 0.06rem !important;
 						text-align: left;
-						
+
 						.address_information_delegation_value,
 						.address_information_unbonding_delegation_value {
 							font-size: $s14;
@@ -1783,16 +1783,16 @@
 							margin-left: 0.15rem;
 						}
 					}
-					
+
 					.one_table_container {
 						width: calc(50% - 0.1rem);
 					}
-					
+
 					.second_table_container {
 						margin-left: 0.2rem;
 						width: calc(50% - 0.1rem);
 					}
-					
+
 					.delegations_table_container {
 						overflow-x: auto;
 						border-radius: 0.05rem;
@@ -1801,20 +1801,20 @@
 						background: $bg_white_c;
 					}
 				}
-				
+
 				.common_pagination_content {
 					margin-top: 0.2rem;
 					float: right;
 				}
 			}
-			
+
 			.address_information_redelegation_header_title {
 				text-align: left;
 				font-size: $s18;
 				color: $t_first_c;
 				line-height: 0.21rem;
 				margin: 0.27rem 0 0 0rem;
-				
+
 				.address_information_redelegation_rewards_value {
 					font-size: $s14;
 					color: $t_second_c;
@@ -1822,7 +1822,7 @@
 					margin-left: 0.15rem;
 				}
 			}
-			
+
 			.address_information_redelegation_tx_container {
 				text-align: left;
 				display: flex;
@@ -1830,16 +1830,16 @@
 				.address_information_delegator_rewards_content {
 					width: calc(50% - 0.1rem);
 					margin-right: 0.2rem;
-					
+
 					.address_information_detail_option {
 						padding: 0 0 0.1rem 0rem;
-						
+
 						.address_information_detail_option_name {
 							font-size: $s14;
 							color: $t_second_c;
 							margin-right: 0.1rem;
 						}
-						
+
 						.address_information_detail_option_value {
 							font-size: $s14;
 							a {
@@ -1847,7 +1847,7 @@
 							}
 						}
 					}
-					
+
 					.address_information_list_content {
 						overflow-x: auto;
 						box-sizing: border-box;
@@ -1856,23 +1856,23 @@
 						min-height: 2.34rem;
 						background: $bg_white_c;
 					}
-					
+
 					.pagination_content {
 						margin-top: 0.2rem;
 						display: flex;
 						justify-content: flex-end;
 					}
 				}
-				
+
 				.address_information_detail_container {
 					width: calc(50% - 0.1rem);
-					
+
 					.address_information_redelegation_title {
 						width: 100%;
 						font-size: $s18;
 						color: $t_first_c;
 						padding: 0 0 0.06rem 0rem;
-						
+
 						.address_information_validator_rewards_value {
 							font-size: $s14;
 							color: $t_second_c;
@@ -1880,7 +1880,7 @@
 							margin-left: 0.15rem;
 						}
 					}
-					
+
 					.address_information_detail_content {
 						// border: 0.01rem solid $bd_first_c;
 						border-radius: 0.05rem;
@@ -1888,11 +1888,11 @@
 						box-sizing: border-box;
 						padding: 0.2rem;
 						min-height: 2.34rem;
-						
+
 						.address_information_detail_option {
 							display: flex;
 							align-items: center;
-							
+
 							.address_information_detail_option_name {
 								min-width: 1.3rem;
 								font-size: $s14;
@@ -1900,17 +1900,17 @@
 								line-height: 0.16rem;
 								margin-right: 0.3rem;
 							}
-							
+
 							.address_information_detail_option_value {
 								font-size: $s14;
 								color: $t_first_c;
 								margin-right: 0.1rem;
-								
+
 								a {
 									color: $theme_c !important;
 								}
 							}
-							
+
 							.address_information_address_status_active {
 								background: $theme_c;
 								font-size: $s12;
@@ -1919,7 +1919,7 @@
 								border-radius: 0.22rem;
 								margin-right: 0.1rem;
 							}
-							
+
 							.address_information_address_status_candidate {
 								background: $bg_candidate_c;
 								font-size: $s12;
@@ -1928,7 +1928,7 @@
 								border-radius: 0.22rem;
 								margin-right: 0.1rem;
 							}
-							
+
 							.address_information_address_status_jailed {
 								background: $bg_jailed_c;
 								font-size: $s12;
@@ -1938,11 +1938,11 @@
 								margin-right: 0.1rem;
 							}
 						}
-						
+
 					}
 				}
 			}
-			
+
 			.pagination_content {
 				margin: 0.2rem 0 0.2rem 0;
 				display: flex;
@@ -1950,63 +1950,63 @@
 			}
 		}
 	}
-	
+
 	@media screen and (max-width: 1280px) {
 		.address_container_content {
 			.address_content_wrap {
 				.address_content_title {
 					.address_content_title_first {
 					}
-					
+
 					.address_content_title_address {
 					}
 				}
-				
+
 				.address_asset_content {
 				}
-				
+
 				.consumer_transaction_content {
 					.consumer_transaction_content_hash {
 					}
-					
+
 					.consumer_transaction_content_available {
 						.consumer_transaction_content_available_icon {
 						}
 					}
-					
+
 					.pagination_content {
 					}
 				}
-				
+
 				.provider_transaction_content {
 					.respond_transaction_content_hash {
 					}
-					
+
 					.provider_transaction_content_available {
 						.provider_transaction_content_available_icon {
 						}
 					}
-					
+
 					.pagination_content {
 					}
 				}
-				
+
 				.address_transaction_content {
 					.address_transaction_content_hash {
 					}
-					
+
 					.address_transaction_condition_container {
 						.address_transaction_condition_count {
 						}
-						
+
 						/deep/ .el-select {
 							.el-input {
 								.el-input__inner {
 								}
-								
+
 								.el-input__inner:focus {
 								}
-								
+
 								.el-input__suffix {
 									.el-input__suffix-inner {
 										.el-input__icon {
@@ -2014,32 +2014,32 @@
 									}
 								}
 							}
-							
+
 							.is-focus {
 								.el-input__inner {
 								}
 							}
 						}
-						
+
 						.search_btn {
 						}
-						
+
 						.reset_btn {
 							i {
 							}
 						}
 					}
-					
+
 					.pagination_content {
 					}
 				}
-				
+
 				.content_title {
 				}
-				
+
 				.status_icon {
 				}
-				
+
 				.delegations_wrap {
 					.delegations_container {
 						display: block;
@@ -2047,35 +2047,35 @@
 						.validator_information_content_title {
 							// padding-left: 0rem;
 						}
-						
+
 						.one_table_container {
 							width: 100%;
 						}
-						
+
 						.second_table_container {
 							width: 100%;
 							margin-left: 0rem;
 						}
-						
+
 						.delegations_table_container {
 						}
-						
+
 						.common_pagination_content {
 						}
 					}
 				}
-				
+
 				.address_information_redelegation_header_title {
 					margin-left: 0rem;
 				}
-				
+
 				.address_information_redelegation_tx_container {
 					flex-direction: column;
 					// margin: 0 0.1rem;
 					.address_information_delegator_rewards_content {
 						width: 100%;
 						margin-right: 0;
-						
+
 						.address_information_detail_option {
 							padding-left: 0;
 							display: flex;
@@ -2084,19 +2084,19 @@
 								word-break: break-word;
 							}
 						}
-						
+
 						.address_information_list_content {
 							overflow-x: auto;
 						}
 					}
-					
+
 					.address_information_detail_container {
 						width: 100%;
-						
+
 						.address_information_redelegation_title {
 							padding: 0.2rem 0;
 						}
-						
+
 						.address_information_detail_content {
 							.address_information_detail_option {
 								display: flex;
@@ -2109,14 +2109,14 @@
 									display: flex;
 									margin: 0.05rem 0;
 								}
-								
+
 								.address_information_detail_option_value {
 									word-break: break-word;
 								}
 							}
 						}
 					}
-					
+
 					.hide_style {
 						display: none;
 					}
@@ -2124,64 +2124,64 @@
 			}
 		}
 	}
-	
+
 	@media screen and (max-width: 768px) {
 		.address_container_content {
 			.address_content_wrap {
 				.address_content_title {
 					.address_content_title_first {
 					}
-					
+
 					.address_content_title_address {
 					}
 				}
-				
+
 				.address_content {
 				}
-				
+
 				.consumer_transaction_content {
 					.consumer_transaction_content_hash {
 					}
-					
+
 					.consumer_transaction_content_available {
 						.consumer_transaction_content_available_icon {
 						}
 					}
 				}
-				
+
 				.provider_transaction_content {
 					.respond_transaction_content_hash {
 					}
-					
+
 					.provider_transaction_content_available {
 						.provider_transaction_content_available_icon {
 						}
 					}
 				}
-				
+
 				.address_transaction_content {
 					.address_transaction_content_hash {
 					}
-					
+
 					.address_transaction_condition_container {
 						flex-direction: column;
 						align-items: flex-start;
-						
+
 						.address_transaction_condition_count {
 							margin-bottom: 0.1rem;
 						}
-						
+
 						/deep/ .el-select {
 							width: 100%;
 							margin-bottom: 0.1rem;
-							
+
 							.el-input {
 								.el-input__inner {
 								}
-								
+
 								.el-input__inner:focus {
 								}
-								
+
 								.el-input__suffix {
 									.el-input__suffix-inner {
 										.el-input__icon {
@@ -2189,29 +2189,29 @@
 									}
 								}
 							}
-							
+
 							.is-focus {
 								.el-input__inner {
 								}
 							}
 						}
-						
+
 						.search_btn {
 						}
-						
+
 						.reset_btn {
 							i {
 							}
 						}
 					}
 				}
-				
+
 				.content_title {
 				}
-				
+
 				.status_icon {
 				}
-				
+
 				.pagination_content {
 				}
 			}
@@ -2224,7 +2224,7 @@
 					margin-left: 0rem;
 					.address_content_title_first {
 					}
-					
+
 					.address_content_title_address {
 					}
 				}
@@ -2234,47 +2234,47 @@
 					}
 				}
 				.address_content {
-					
+
 				}
-				
+
 				.consumer_transaction_content {
 					.consumer_transaction_content_hash {
 					}
-					
+
 					.consumer_transaction_content_available {
 						.consumer_transaction_content_available_icon {
 						}
 					}
 				}
-				
+
 				.provider_transaction_content {
 					.respond_transaction_content_hash {
 					}
-					
+
 					.provider_transaction_content_available {
 						.provider_transaction_content_available_icon {
 						}
 					}
 				}
-				
+
 				.address_transaction_content {
 					.address_transaction_content_hash {
 					}
-					
+
 					.address_transaction_condition_container {
 
 						.address_transaction_condition_count {
 						}
-						
+
 						/deep/ .el-select {
-							
+
 							.el-input {
 								.el-input__inner {
 								}
-								
+
 								.el-input__inner:focus {
 								}
-								
+
 								.el-input__suffix {
 									.el-input__suffix-inner {
 										.el-input__icon {
@@ -2282,29 +2282,29 @@
 									}
 								}
 							}
-							
+
 							.is-focus {
 								.el-input__inner {
 								}
 							}
 						}
-						
+
 						.search_btn {
 						}
-						
+
 						.reset_btn {
 							i {
 							}
 						}
 					}
 				}
-				
+
 				.content_title {
 				}
-				
+
 				.status_icon {
 				}
-				
+
 				.pagination_content {
 				}
 			}
@@ -2317,56 +2317,56 @@
 					display: block;
 					.address_content_title_first {
 					}
-					
+
 					.address_content_title_address {
 					}
 				}
-				
+
 				.address_asset_content {
 				}
-				
+
 				.consumer_transaction_content {
 					.consumer_transaction_content_hash {
 					}
-					
+
 					.consumer_transaction_content_available {
 						.consumer_transaction_content_available_icon {
 						}
 					}
-					
+
 					.pagination_content {
 					}
 				}
-				
+
 				.provider_transaction_content {
 					.respond_transaction_content_hash {
 					}
-					
+
 					.provider_transaction_content_available {
 						.provider_transaction_content_available_icon {
 						}
 					}
-					
+
 					.pagination_content {
 					}
 				}
-				
+
 				.address_transaction_content {
 					.address_transaction_content_hash {
 					}
-					
+
 					.address_transaction_condition_container {
 						.address_transaction_condition_count {
 						}
-						
+
 						/deep/ .el-select {
 							.el-input {
 								.el-input__inner {
 								}
-								
+
 								.el-input__inner:focus {
 								}
-								
+
 								.el-input__suffix {
 									.el-input__suffix-inner {
 										.el-input__icon {
@@ -2374,71 +2374,71 @@
 									}
 								}
 							}
-							
+
 							.is-focus {
 								.el-input__inner {
 								}
 							}
 						}
-						
+
 						.search_btn {
 						}
-						
+
 						.reset_btn {
 							i {
 							}
 						}
 					}
-					
+
 					.pagination_content {
 					}
 				}
-				
+
 				.content_title {
 				}
-				
+
 				.status_icon {
 				}
-				
+
 				.delegations_wrap {
 					.delegations_container {
 						.validator_information_content_title {
 						}
-						
+
 						.one_table_container {
 						}
-						
+
 						.second_table_container {
 						}
-						
+
 						.delegations_table_container {
 						}
-						
+
 						.common_pagination_content {
 						}
 					}
 				}
-				
+
 				.address_information_redelegation_header_title {
 				}
-				
+
 				.address_information_redelegation_tx_container {
-					.address_information_delegator_rewards_content {				
+					.address_information_delegator_rewards_content {
 						.address_information_detail_option {
 							display: block;
 							.address_information_detail_option_value {
 								display: block;
 							}
 						}
-						
+
 						.address_information_list_content {
 						}
 					}
-					
+
 					.address_information_detail_container {
 						.address_information_redelegation_title {
 						}
-						
+
 						.address_information_detail_content {
 							.address_information_detail_option {
 								.address_information_detail_option_name {
@@ -2447,13 +2447,13 @@
 								}
 								.validator_status_content {
 								}
-								
+
 								.address_information_detail_option_value {
 								}
 							}
 						}
 					}
-					
+
 					.hide_style {
 					}
 				}

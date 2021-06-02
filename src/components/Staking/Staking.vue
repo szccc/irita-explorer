@@ -168,7 +168,7 @@ export default {
           this.count = res && res.count ? res.count : 0
           let result = res && res.data ? res.data : null
           if (result) {
-            this.tableData =  
+            this.tableData =
               await Promise.all(result.map( async item => {
                 let regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g
                 let replaceMoniker = item.description.moniker.replace(regex, '')
@@ -176,7 +176,7 @@ export default {
                 let selfBond =item.self_bond && item.self_bond.amount && await converCoin(item.self_bond)
                 let bondedToken = await converCoin({
                   amount: item.tokens,
-                  denom: mainToken.min_unit
+                  denom: mainToken.denom
                 })
                 return {
                   validatorStatus: status,
@@ -241,7 +241,7 @@ a {
     }
     .staking_table_list_content {
       width: 100%;
-      
+
       .avatar {
         background: $bg_avatar;
       }

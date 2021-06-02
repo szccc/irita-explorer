@@ -211,7 +211,7 @@
 							item.formatCommissionRote = (Number(item.commission_rate) * 100).toFixed(0);
 							let bonded_tokens = await converCoin({
 								amount: item.bonded_tokens,
-								denom: mainToken.min_unit
+								denom: mainToken.denom
 							})
 							item.formatBondedToken = Tools.subStrings(bonded_tokens.amount,6)
 							if(item.operator_address === this.$route.params.param){
@@ -219,7 +219,7 @@
 								this.currentValidatorBondedTokenArr.push([item.formatCommissionRote,item.formatBondedToken,item.moniker]);
 							}else {
 								this.otherValidatorBondedTokenArr.push([item.formatCommissionRote,item.formatBondedToken,item.moniker]);
-								
+
 							}
 						});
 						this.initCharts();

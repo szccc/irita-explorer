@@ -66,7 +66,7 @@
 									                 :width="ColumnMinWidth.iaaAddress">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<span 
+												<span
 												             @click="addressRoute(row.address)"
 															 class="address_link"
 												             :style="{ color: '$theme_c !important' }">{{
@@ -369,7 +369,7 @@
 				for (const item of res.data) {
 					let amount = await converCoin({
 						amount: item.amount,
-						denom: this.mainToken.min_unit
+						denom: this.mainToken.denom
 					})
 					// item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
 					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)}`
@@ -433,7 +433,7 @@
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
-					})					
+					})
 				}
 			},
 			async getValidationTxs (page = 1) {
@@ -466,7 +466,7 @@
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,
-					})				
+					})
 				}
 			},
 			async getDepositedProposals (page = 1) {
@@ -496,7 +496,7 @@
 					}
 				} catch(e) {
 					console.error(e)
-				}	
+				}
 			},
 			async getVotedProposals (page = 1) {
 				try {
@@ -519,7 +519,7 @@
 					}
 				} catch(e) {
 					console.error(e)
-				}	
+				}
 			},
 			async getGovTxs (page = 1) {
 				try {
@@ -593,7 +593,7 @@
 	a {
 		color: $t_link_c !important;
 	}
-	
+
 	.vaildtor_detail_container {
 		margin-bottom: 0.2rem;
 		.vaildtor_detail_content {
@@ -601,7 +601,7 @@
 			margin: 0 auto;
 			padding: 0 0.15rem;
 			text-align: left;
-			
+
 			.vaildtor_detail_title_container {
 				margin: 0.3rem 0 0.1rem 0;
 				text-align: left;
@@ -610,22 +610,22 @@
 				color: $t_first_c;
 				font-size: $s18;
 				font-weight: bold;
-				
+
 				span {
 					margin-right: 0.1rem;
 				}
 			}
-			
+
 			.validation_information_container {
 				margin-top: 0.1rem;
 			}
-			
+
 			.delegations_wrap {
 				margin: 0 auto;
 				margin-top: 0.1rem;
 				.delegations_container {
 					display: flex;
-					
+
 					.validator_information_content_title {
 						height: 0.2rem;
 						line-height: 0.2rem;
@@ -635,11 +635,11 @@
 						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
-					
+
 					.one_table_container {
 						width: calc(50% - 0.1rem);
 					}
-					
+
 					.second_table_container {
 						margin-left: 0.2rem;
 						width: calc(50% - 0.1rem);
@@ -647,20 +647,20 @@
 							white-space: nowrap;
 						}
 					}
-					
+
 					.delegations_table_container {
 						overflow-x: auto;
 						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 					}
 				}
-				
+
 				.common_pagination_content {
 					margin-top: 0.2rem;
 					float: right;
 				}
 			}
-			
+
 			.delegations_txs_wrap {
 				margin: 0 auto;
 				margin-top: 0.1rem;
@@ -674,7 +674,7 @@
 						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
-					
+
 					.delegations_txs_table_container {
 						overflow-x: auto;
 						// border: 0.01rem solid $bd_first_c;
@@ -686,18 +686,18 @@
 							margin-right:0.05rem;
 						}
 					}
-					
+
 					.common_pagination_content {
 						margin-top: 0.2rem;
 						float: right;
 					}
 				}
 			}
-			
+
 			.validation_txs_wrap {
 				margin: 0 auto;
 				margin-top: 0.1rem;
-				
+
 				.validation_txs_container {
 					.validator_information_content_title {
 						height: 0.2rem;
@@ -708,13 +708,13 @@
 						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
-					
+
 					.validation_txs_table_container {
 						overflow-x: auto;
 						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 					}
-					
+
 					.common_pagination_content {
 						margin-top: 0.2rem;
 						float: right;
@@ -727,7 +727,7 @@
 				margin: 0 auto;
 				margin-top: 0.1rem;
 				margin-bottom: 0.2rem;
-				
+
 				.gov_txs_container {
 					.gov_information_content_title {
 						height: 0.2rem;
@@ -738,14 +738,14 @@
 						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
-					
+
 					.gov_txs_table_containers {
 						// width: 100%;
 						// overflow-x: auto;
 						// border: 0.01rem solid $bd_first_c;
 						// background: $bg_white_c;
 					}
-					
+
 					.common_pagination_content {
 						margin-top: 0.2rem;
 						float: right;
@@ -791,30 +791,30 @@
 			.vaildtor_detail_content {
 				.vaildtor_detail_title_container {
 				}
-				
+
 				.validation_information_container {
 				}
-				
+
 				.delegations_wrap {
 					.delegations_container {
 						display: block;
 						margin-left: 0.2rem;
-						
+
 						.validator_information_content_title {
 						}
-						
+
 						.one_table_container {
 							width: 100%;
 						}
-						
+
 						.second_table_container {
 							width: 100%;
 							margin-left: 0rem;
 						}
-						
+
 						.delegations_table_container {
 						}
-						
+
 						.common_pagination_content {
 						}
 					}

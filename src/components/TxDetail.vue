@@ -187,7 +187,7 @@ export default {
             this.fee = `${fee.amount} ${fee.denom.toUpperCase()}`
           }
           this.fee = this.fee || '--'
-          // this.gasUsed=res.fee.gas || '--' 
+          // this.gasUsed=res.fee.gas || '--'
           // this.signer = res.signers && res.signers[0] || '--'
           if(res.signers && res.signers.length > 0) {
             this.signer = res.signers

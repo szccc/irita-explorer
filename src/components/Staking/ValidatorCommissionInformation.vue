@@ -66,7 +66,7 @@
 						flShowSelectIcon:false,
 						flShowChildren:false,
 						children:[
-						
+
 						]
 					},
 					{
@@ -76,7 +76,7 @@
 						flShowSelectIcon:true,
 						flShowChildren: true,
 						children:[
-						
+
 						]
 					},
 					{
@@ -86,7 +86,7 @@
 						flShowChildren:false,
 						value:'',
 						children:[
-						
+
 						]
 					},
 					{
@@ -96,7 +96,7 @@
 						flShowChildren:false,
 						value:'',
 						children:[
-						
+
 						]
 					},
 					{
@@ -106,7 +106,7 @@
 						flShowChildren:false,
 						value:'',
 						children:[
-						
+
 						]
 					},
 					{
@@ -116,7 +116,7 @@
 						flShowChildren: true,
 						value:'',
 						children:[
-						
+
 						]
 					},
 				]
@@ -155,7 +155,7 @@
 					}else if(item.dataName === 'bonded_tokens'){
 						let bonded_tokens = await converCoin({
 							amount: dataInfomation.bonded_tokens,
-							denom: mainToken.min_unit
+							denom: mainToken.denom
 						})
 						item.value =`${Tools.formatPriceToFixed(bonded_tokens.amount,this.irisTokenFixedNumber)} ${bonded_tokens.denom.toUpperCase()}`;
 						let self_bond = dataInfomation.self_bond && dataInfomation.self_bond.amount && await converCoin(dataInfomation.self_bond)
@@ -174,7 +174,7 @@
 					}else if(item.dataName === 'delegator_shares'){
 						// let delegator_shares = await converCoin({
 						// 	amount: dataInfomation.delegator_shares,
-						// 	denom: mainToken.min_unit
+						// 	denom: mainToken.denom
 						// })
 						// item.value = `${Tools.formatPriceToFixed(delegator_shares.amount,this.irisTokenFixedNumber)} ${delegator_shares.denom.toUpperCase()}`
 						item.value = `${Tools.formatPriceToFixed(dataInfomation.delegator_shares,this.irisTokenFixedNumber)}`
@@ -316,7 +316,7 @@
 			}
 			.validator_commission_information_wrap{
 				margin: 0 0.2rem;
-				
+
 				.validator_commission_information_content{
 					width: 100%;
 					grid-template-columns: repeat(1,auto);

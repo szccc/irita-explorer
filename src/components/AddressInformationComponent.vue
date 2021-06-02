@@ -137,7 +137,7 @@
 								valueWidth = item.value
 						}
 					})
-					this.maxWidth = (valueWidth.length * 8.5) || 100; 
+					this.maxWidth = (valueWidth.length * 8.5) || 100;
 				},
 				deep: true
 			}
@@ -345,7 +345,7 @@
 					}
 				}
 				.address_information_asset_pir_content{
-				
+
 				}
 			}
 			.address_information_asset_list_container{

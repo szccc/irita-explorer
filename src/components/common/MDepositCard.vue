@@ -162,7 +162,7 @@ export default {
       if (depositObj.min_deposit) {
         let amount = await converCoin({
           amount: depositObj.min_deposit,
-          denom: token.min_unit,
+          denom: token.denom,
         })
         this.minDepositToken = amount.amount
         this.minDepositTokenDenom = amount.denom.toUpperCase()
@@ -475,7 +475,7 @@ export default {
     }
   }
   .title_content {
-    max-width: none !important; 
+    max-width: none !important;
   }
 }
 </style>
