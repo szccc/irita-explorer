@@ -2792,7 +2792,7 @@
 								this.maxSupply = msg.max_supply || '--';
 								this.mintable = msg.mintable;
 								this.owner = msg.owner || '--';
-								this.minUnit = msg.denom || '--';
+								this.minUnit = msg.min_unit || '--';
 							break;
 							case TX_TYPE.edit_token:
 								this.symbol = msg.symbol || '--';

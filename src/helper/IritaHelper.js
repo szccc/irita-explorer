@@ -107,7 +107,7 @@ export function converCoinSync (_coin,tokenData=[]) {
     tokenData.forEach((item)=>{
         if ( item.denom == coin.denom ) {
             displayCoin.denom = item.symbol;
-            displayCoin.amount = moveDecimal(String(coin.amount || 0),0-item.scale);
+            displayCoin.amount = moveDecimal(String(coin.amount || 0),0-Number(item.scale));
         }
     })
     if (!displayCoin.denom) {
