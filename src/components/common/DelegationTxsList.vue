@@ -13,7 +13,7 @@
                   <router-link :to="`/tx?txHash=${row.Tx_Hash}`" :style="{ color: '$theme_c !important' }">{{ formatTxHash(row.Tx_Hash) }} </router-link>
                 </div>
               </el-tooltip>
-            </div>  
+            </div>
           </template>
         </el-table-column>
         <el-table-column prop="Block" :label="$t('ExplorerLang.table.block')" :min-width="ColumnMinWidth.blockListHeight">
@@ -40,7 +40,7 @@
         <el-table-column align="right" class-name="amount" prop="Amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.delegationTxsAmount">
             <template slot="header">
                 <span>{{ $t('ExplorerLang.table.amount')}}</span>
-                <el-tooltip :content="mainTokenSymbol"
+                <el-tooltip :content="$store.state.mainToken"
                             placement="top">
                     <i class="iconfont iconyiwen yiwen_icon" />
                 </el-tooltip>
@@ -87,7 +87,7 @@
         <el-table-column v-if="isShowFee" prop="Tx_Fee" align="right" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee">
           <template slot="header">
               <span>{{ $t('ExplorerLang.table.fee')}}</span>
-              <el-tooltip :content="mainTokenSymbol"
+              <el-tooltip :content="$store.state.mainToken"
                           placement="top">
                   <i class="iconfont iconyiwen yiwen_icon" />
               </el-tooltip>
@@ -108,7 +108,7 @@
 
 <script>
 import Tools from '@/util/Tools'
-import { ColumnMinWidth,monikerNum,mainTokenSymbol } from '@/constant'
+import { ColumnMinWidth,monikerNum } from '@/constant'
 import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
 export default {
   name: 'DelegationTxsList',
@@ -130,7 +130,6 @@ export default {
         addressRoute,
         formatMoniker,
         monikerNum,
-        mainTokenSymbol
     }
   },
   computed: {},

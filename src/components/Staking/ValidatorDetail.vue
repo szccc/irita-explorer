@@ -35,7 +35,7 @@
 									                 align="right" :min-width="ColumnMinWidth.delegationsAmount">
 										<template slot="header">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="mainTokenSymbol"
+											<el-tooltip :content="$store.state.mainToken"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -79,7 +79,7 @@
 									                 align="right" :min-width="ColumnMinWidth.amount">
 										<template slot="header">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="mainTokenSymbol"
+											<el-tooltip :content="$store.state.mainToken"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -133,7 +133,7 @@
 									                :min-width="ColumnMinWidth.amount">
 										<template slot="header">
 											<span>{{ $t('ExplorerLang.table.deposit')}}</span>
-											<el-tooltip :content="mainTokenSymbol"
+											<el-tooltip :content="$store.state.mainToken"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -232,7 +232,7 @@
 	import ValidatorCommissionInformation from './ValidatorCommissionInformation';
 	import MPagination from '../common/MPagination';
 	import Tools from '../../util/Tools.js';
-	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum,mainTokenSymbol,TX_TYPE_DISPLAY } from '../../constant/index.js';
+	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum,TX_TYPE_DISPLAY } from '../../constant/index.js';
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
@@ -257,7 +257,6 @@
 		props: {},
 		data () {
 			return {
-				mainTokenSymbol,
 				isShowFee: prodConfig.fee.isShowFee,
 				isShowDenom: prodConfig.fee.isShowDenom,
 				Tools,

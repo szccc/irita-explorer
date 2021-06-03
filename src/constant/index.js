@@ -400,11 +400,11 @@ export const ModuleMap = {
     link: '/txs/governance',
   },
    '114': {
-    title: `${prodConfig.token.symbol.toUpperCase()} Rich List`,
+    title: '${mainToken} Rich List',
     link: '/stats/rich',
   },
    '115': {
-    title: `${prodConfig.token.symbol.toUpperCase()} Stats`,
+    title: '${mainToken} Stats',
     link: '/stats/stats',
   },
 
@@ -435,9 +435,9 @@ export const pageTitleConfig = {
   GovProposals: 'Proposal List',
   GovProposalsProposalDetails: 'Proposal Details',
   GovGovTxs: 'Gov Txs List',
-  StatsRichList: `${prodConfig.token.symbol.toUpperCase()} Rich List`,
+  StatsRichList: '${mainToken} Rich List',
   StatsRichListAddress: 'Address',
-  StatsStats: `${prodConfig.token.symbol.toUpperCase()} Stats Analyse`,
+  StatsStats: '${mainToken} Stats Analyse',
 }
 
 export const PubKeyAlgorithm = {
@@ -544,6 +544,3 @@ export const DISTRIBUTION = {
         name:'No. 1001-',
     },
 }
-
-export const mainTokenSymbol = prodConfig && prodConfig.token && prodConfig.token.symbol && prodConfig.token.symbol.toLocaleUpperCase()
-

@@ -37,7 +37,7 @@
           <el-table-column key="bondedToken" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']">
              <template slot="header">
                     <span>{{ $t('ExplorerLang.table.bondedTokens')}}</span>
-                    <el-tooltip :content="mainTokenSymbol"
+                    <el-tooltip :content="$store.state.mainToken"
                                 placement="top">
                         <i class="iconfont iconyiwen yiwen_icon" />
                     </el-tooltip>
@@ -48,7 +48,7 @@
           <el-table-column key="selfBond" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']">
               <template slot="header">
                     <span>{{ $t('ExplorerLang.table.selfBonded')}}</span>
-                    <el-tooltip :content="mainTokenSymbol"
+                    <el-tooltip :content="$store.state.mainToken"
                                 placement="top">
                         <i class="iconfont iconyiwen yiwen_icon" />
                     </el-tooltip>
@@ -74,7 +74,7 @@ import BigNumber from 'bignumber.js';
 import { getValidatorsListApi } from "@/service/api";
 import productionConfig from '@/productionConfig.js';
 import { getMainToken,converCoin,formatMoniker } from '@/helper/IritaHelper';
-import { ColumnMinWidth,monikerNum,mainTokenSymbol } from '@/constant';
+import { ColumnMinWidth,monikerNum } from '@/constant';
 export default {
   name: 'Staking',
   components: { MTabs, MPagination },
@@ -108,7 +108,6 @@ export default {
       ],
       tableData: [],
       type:'',
-      mainTokenSymbol
     }
   },
   computed: {},

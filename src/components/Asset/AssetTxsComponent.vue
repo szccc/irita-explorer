@@ -38,7 +38,7 @@
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" v-if="isShowFee" prop="fee" :width="ColumnMinWidth.fee">
               <template slot="header">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="mainTokenSymbol"
+                  <el-tooltip :content="$store.state.mainToken"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -87,7 +87,7 @@
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
               <template slot="header">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="mainTokenSymbol"
+                  <el-tooltip :content="$store.state.mainToken"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -148,7 +148,7 @@
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
               <template slot="header">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="mainTokenSymbol"
+                  <el-tooltip :content="mainToke$store.state.mainTokennSymbol"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -198,7 +198,7 @@
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
               <template slot="header">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="mainTokenSymbol"
+                  <el-tooltip :content="$store.state.mainToken"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -254,7 +254,7 @@
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
               <template slot="header">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="mainTokenSymbol"
+                  <el-tooltip :content="$store.state.mainToken"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -274,7 +274,7 @@
 import MPagination from '.././common/MPagination'
 import Tools from '../../util/Tools'
 import { getNativeAssetsTxsApi } from '@/service/api'
-import { ColumnMinWidth, TX_TYPE, decimals,mainTokenSymbol } from '@/constant'
+import { ColumnMinWidth, TX_TYPE, decimals } from '@/constant'
 import { converCoin,addressRoute } from '../../helper/IritaHelper'
 import prodConfig from '../../productionConfig'
 
@@ -289,7 +289,6 @@ export default {
   },
   data() {
     return {
-      mainTokenSymbol,
       isShowFee: prodConfig.fee.isShowFee,
       isShowDenom: prodConfig.fee.isShowDenom,
       Tools,

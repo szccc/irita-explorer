@@ -42,7 +42,7 @@
         <el-table-column class-name="amount" prop="amount" align="right" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')">
           <template slot="header">
               <span>{{ $t('ExplorerLang.table.amount')}}</span>
-              <el-tooltip :content="mainTokenSymbol"
+              <el-tooltip :content="$store.state.mainToken"
                           placement="top">
                   <i class="iconfont iconyiwen yiwen_icon" />
               </el-tooltip>
@@ -73,7 +73,7 @@
         <el-table-column v-if="isShowFee" prop="Tx_Fee" align="right" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee">
           <template slot="header">
               <span>{{ $t('ExplorerLang.table.fee')}}</span>
-              <el-tooltip :content="mainTokenSymbol"
+              <el-tooltip :content="$store.state.mainToken"
                           placement="top">
                   <i class="iconfont iconyiwen yiwen_icon" />
               </el-tooltip>
@@ -94,7 +94,7 @@
 
 <script>
 import Tools from "@/util/Tools";
-import { ColumnMinWidth, monikerNum,mainTokenSymbol } from "@/constant";
+import { ColumnMinWidth, monikerNum } from "@/constant";
 import { addressRoute, formatMoniker } from "@/helper/IritaHelper";
 export default {
   name: "GovTxsList",
@@ -116,7 +116,6 @@ export default {
       addressRoute,
       formatMoniker,
       monikerNum,
-      mainTokenSymbol
     };
   },
   computed: {},

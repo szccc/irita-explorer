@@ -2044,7 +2044,7 @@
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
-	import { converCoin,getMainToken,addressRoute } from "../../helper/IritaHelper";
+	import { converCoin,addressRoute } from "../../helper/IritaHelper";
 	import prodConfig from "../../productionConfig";
 	import axios from '@/axios';
 	export default {
@@ -2278,7 +2278,6 @@
 			async getTransactionInformation () {
 				try {
 					const message = this.msg;
-					let mainToken = await getMainToken()
 					if (message) {
 						let msg = message.msg;
 						this.txType = message.type || '--';

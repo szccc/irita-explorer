@@ -3,7 +3,7 @@
         <div class="stats_content_wrap">
             <div class="stats_content_header_wrap">
                 <div class="total_stats_content">
-                    {{$t('ExplorerLang.stats.stats')}}
+                    {{ $store.state.mainToken }} {{$t('ExplorerLang.stats.stats')}}
                 </div>
                 <div class="stats_preview_content">
                     <section class="stats_preview_content_item">
@@ -11,7 +11,7 @@
                             Total Supply
                         </span>
                         <span class="stats_preview_content_content">
-                            {{ Tools.getDisplayNumber(supply) }} {{ config.token.symbol.toUpperCase() }}
+                            {{ Tools.getDisplayNumber(supply) }} {{ $store.state.mainToken }}
                         </span>
                     </section>
                     <section class="stats_preview_content_item">
@@ -19,7 +19,7 @@
                             Circulation
                         </span>
                         <span class="stats_preview_content_content">
-                            {{ Tools.getDisplayNumber(circulation) ? `${Tools.getDisplayNumber(circulation)} ${config.token.symbol.toUpperCase()}` : '--' }}
+                            {{ Tools.getDisplayNumber(circulation) ? `${Tools.getDisplayNumber(circulation)} ${$store.state.mainToken}` : '--' }}
                         </span>
                     </section>
 
@@ -28,7 +28,7 @@
                             Community Pool
                         </span>
                         <span class="stats_preview_content_content">
-                            {{ Tools.getDisplayNumber(CommunityTax) }} {{ config.token.symbol.toUpperCase() }}
+                            {{ Tools.getDisplayNumber(CommunityTax) }} {{ $store.state.mainToken }}
                         </span>
                     </section>
 
@@ -37,7 +37,7 @@
                             Bonded
                         </span>
                         <span class="stats_preview_content_content">
-                            {{  Tools.getDisplayNumber(bonded) }} {{ config.token.symbol.toUpperCase() }}
+                            {{  Tools.getDisplayNumber(bonded) }} {{ $store.state.mainToken }}
                         </span>
                     </section>
 
@@ -46,7 +46,7 @@
             </div>
             <div class="stats_content_header_wrap">
                 <div class="total_stats_content">
-                    {{$t('ExplorerLang.stats.distribution')}}
+                    {{ $store.state.mainToken }} {{$t('ExplorerLang.stats.distribution')}}
                 </div>
                 <div class="stats_preview_content_pie_container">
                     <PieChart />
@@ -61,6 +61,7 @@ import PieChart from "@/components/stats/PieChart";
 import {fetchTokenStats} from "@/service/api";
 import config from '../../productionConfig';
 import Tools from "@/util/Tools";
+import { converCoin } from "@/helper/IritaHelper";
 
 export default {
     name : "Stats",
@@ -92,19 +93,19 @@ export default {
 
             }
         },
-        handleTokenStatsData(data){
+        async handleTokenStatsData(data){
             const {bonded_tokens, circulation_tokens, total_supply_tokens,community_tax} = data;
             if(bonded_tokens){
-                this.bonded = bonded_tokens.amount;
+                this.bonded = (await converCoin(bonded_tokens) || {amount: 0}).amount;
             }
             if(circulation_tokens){
-                this.circulation = circulation_tokens.amount;
+                this.circulation = (await converCoin(circulation_tokens) || {amount: 0}).amount;
             }
             if(total_supply_tokens){
-                this.supply = total_supply_tokens.amount;
+                this.supply = (await converCoin(total_supply_tokens) || {amount: 0}).amount;
             }
             if(community_tax) {
-                this.CommunityTax = community_tax.amount;
+                this.CommunityTax = (await converCoin(community_tax) || {amount: 0}).amount;
             }
         }
     }

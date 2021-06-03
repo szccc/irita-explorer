@@ -107,7 +107,7 @@
             <el-table-column v-if="isShowFee" align="right" class-name="fee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
                 <template slot="header">
                     <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                    <el-tooltip :content="mainTokenSymbol"
+                    <el-tooltip :content="$store.state.mainToken"
                                 placement="top">
                         <i class="iconfont iconyiwen yiwen_icon" />
                     </el-tooltip>
@@ -126,7 +126,7 @@
 <script>
     import Tools from "../../util/Tools";
     import {TxHelper} from "../../helper/TxHelper";
-    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,mainTokenSymbol,TX_TYPE_DISPLAY } from '../../constant';
+    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,TX_TYPE_DISPLAY } from '../../constant';
     import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper';
     import {getAmountByTx} from "../../helper/txListAmoutHelper";
     import prodConfig from '../../productionConfig';
@@ -158,7 +158,6 @@
                 monikerNum,
                 feeDecimals: decimals.fee,
                 txDataList: [],
-                mainTokenSymbol,
                 txListTimer:null,
                 colWidthList: [],
                 loading: false,

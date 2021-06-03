@@ -389,7 +389,7 @@
 									                 align="right" :min-width="ColumnMinWidth.ownerDetailDelegationsAmount">
 										<template slot="header">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="mainTokenSymbol"
+											<el-tooltip :content="$store.state.mainToken"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -437,7 +437,7 @@
 									                 :min-width="ColumnMinWidth.amount">
 										<template slot="header">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="mainTokenSymbol"
+											<el-tooltip :content="$store.state.mainToken"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -500,7 +500,7 @@
 									                 align="right" :min-width="ColumnMinWidth.amount">
 										<template slot="header">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="mainTokenSymbol"
+											<el-tooltip :content="$store.state.mainToken"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -615,7 +615,7 @@
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import TxListComponent from "./common/TxListComponent";
 	import prodConfig from "../productionConfig"
-	import Constant, {TX_TYPE,TX_TYPE_DISPLAY,TX_STATUS, ColumnMinWidth,monikerNum,ibcDenomPrefix,mainTokenSymbol} from '../constant';
+	import Constant, {TX_TYPE,TX_TYPE_DISPLAY,TX_STATUS, ColumnMinWidth,monikerNum,ibcDenomPrefix} from '../constant';
 	import AddressInformationComponent from "./AddressInformationComponent";
 	import LargeString from './common/LargeString';
 	import { addressRoute,formatMoniker } from '@/helper/IritaHelper';
@@ -644,7 +644,6 @@
 		components: {MPagination, TxListComponent, AddressInformationComponent, LargeString},
 		data () {
 			return {
-				mainTokenSymbol,
 				addressRoute,
 				formatMoniker,
 				monikerNum,

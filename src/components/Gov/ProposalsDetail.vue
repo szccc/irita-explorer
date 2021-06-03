@@ -256,7 +256,7 @@
             <el-table-column prop="amount" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')">
               <template slot="header">
                   <span>{{ $t('ExplorerLang.table.amount')}}</span>
-                  <el-tooltip :content="mainTokenSymbol"
+                  <el-tooltip :content="$store.state.mainToken"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -284,7 +284,7 @@
 </template>
 
 <script>
-import { proposalStatus, proposalType, ColumnMinWidth, monikerNum,decimals,formatVoteOptions,mainTokenSymbol } from '../../constant'
+import { proposalStatus, proposalType, ColumnMinWidth, monikerNum,decimals,formatVoteOptions } from '../../constant'
 import Tools from '../../util/Tools'
 import { getProposalsDetailApi, getProposalDetailVotersApi, getProposalDetailDepositorApi } from '../../service/api'
 import { addressRoute, converCoin, formatMoniker } from '@/helper/IritaHelper'
@@ -302,7 +302,6 @@ export default {
   props: {},
   data() {
     return {
-      mainTokenSymbol,
       formatMoniker,
       monikerNum,
       ColumnMinWidth,
@@ -728,8 +727,8 @@ a {
   .proposal_table {
     margin: 0.2rem 0;
     .proposal_table_title{
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
     .proposals_table_title_div {

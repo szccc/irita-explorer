@@ -99,12 +99,10 @@ export const ExplorerLang = {
         proposalID: 'Proposal_ID',
         proposalTitle: 'Proposal_Title',
         proposer: 'Proposer',
-        deposit: 'Deposit',
         submited: 'Submited',
         proposalStatus: 'Status',
         voted: 'voted',
         validators: 'Validators',
-        votingPower: 'Voting_Power',
         sender: 'Sender',
         more: 'More'
     },
@@ -616,15 +614,15 @@ export const ExplorerLang = {
         minUnit: 'Min Unit'
     },
     stats:{
-        richList: `${prodConfig.token.symbol.toUpperCase()} Rich List`,
-        stats: `${prodConfig.token.symbol.toUpperCase()} Token Stats`,
+        richList: `Rich List`,
+        stats: `Token Stats`,
         id:'#',
         address:'Address',
         amount:`Amount`,
         percentage:'Percentage',
-        title:`Top 100 Addresses by ${prodConfig.token.symbol.toUpperCase()}`,
+        title:`Top 100 Addresses by`,
         help:'The assets include the balance tokens，delegated tokens, unbonding tokens and remaining tokens on the address.',
-        distribution:`${prodConfig.token.symbol.toUpperCase()} Token Distribution`,
+        distribution:`Token Distribution`,
     },
     gov: {
         proposalsTitle: 'Proposal List',

@@ -51,7 +51,7 @@
           </template>
           <template slot="header">
                 <span>{{ $t('ExplorerLang.table.selfBonded')}}</span>
-                <el-tooltip :content="mainTokenSymbol"
+                <el-tooltip :content="$store.state.mainToken"
                             placement="top">
                     <i class="iconfont iconyiwen yiwen_icon" />
                 </el-tooltip>
@@ -78,7 +78,7 @@
         <el-table-column v-if="isShowFee" prop="Tx_Fee" align="right" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee">
           <template slot="header">
               <span>{{ $t('ExplorerLang.table.fee')}}</span>
-              <el-tooltip :content="mainTokenSymbol"
+              <el-tooltip :content="$store.state.mainToken"
                           placement="top">
                   <i class="iconfont iconyiwen yiwen_icon" />
               </el-tooltip>
@@ -99,7 +99,7 @@
 
 <script>
 import Tools from '@/util/Tools'
-import { ColumnMinWidth,monikerNum,mainTokenSymbol } from '@/constant'
+import { ColumnMinWidth,monikerNum } from '@/constant'
 import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
 export default {
   name: 'ValidationTxsList',
@@ -121,7 +121,6 @@ export default {
       addressRoute,
       formatMoniker,
       monikerNum,
-      mainTokenSymbol
     }
   },
   computed: {},

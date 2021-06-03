@@ -3,11 +3,11 @@ import BigNumber from 'bignumber.js'
 import URLSearchParams from 'url-search-params'
 import { bech32 } from 'bech32'
 import moveDecimal from 'move-decimal-point'
-import Constant from '../constant/index.js'
-import { getConfig } from '@/helper/IritaHelper'
-import config,{ utcOffset,isShowUTC } from '../productionConfig';
+//import Constant from '../constant/index.js'
+//import { getConfig } from '@/helper/IritaHelper'
+import { utcOffset,isShowUTC } from '../productionConfig';
 
-const displayToken2ActualTxToken = Math.pow(10, config.token.decimal);
+//const displayToken2ActualTxToken = Math.pow(10, config.token.decimal);
 
 BigNumber.config({
     FORMAT: {
@@ -441,13 +441,13 @@ export default class Tools {
 
     //实际交易数字转换成'1,223,021.2124'格式
     static getDisplayNumber(num, val = 4){
-        return this.toFormat(Tools.formatNum(Tools.formatAmount(num), val), val)
+        return Tools.toFormat(Tools.formatNum(num, val), val)
     }
 
-    static formatAmount(num,p = displayToken2ActualTxToken){
+    /*static formatAmount(num,p = displayToken2ActualTxToken){
 
         return Tools.bigNumberDivide(num, p);
-    }
+    }*/
 
     static formatNum(num,val = 4){
         return new BigNumber(num).toFixed(val,1);
@@ -473,7 +473,7 @@ export default class Tools {
         return value
       }
     }
-    
+
   static isJSON (str) {
       if (str.length < 120) {
         return false
