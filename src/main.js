@@ -197,13 +197,32 @@ Vue.prototype.$message = Message;
 
 Vue.config.productionTip = false;
 (async function(){
-    let mainToken = await getMainToken();
-    store.state.mainToken = mainToken && mainToken.symbol.toUpperCase();
-    new Vue({
-        i18n,
-        router,
-        store,
-        render: h => h(App),
-    }).$mount('#app')
+    let failedIndex = 0;
+    async function queryMainToken(){
+        let mainToken = await getMainToken().catch(()=>{
+            if(failedIndex <= 4){
+                setTimeout(()=>{
+                    queryMainToken()
+                    failedIndex++;
+                }, 500)
+            }else{
+                render({symbol:''});
+            }
+        });
+        if(mainToken){
+            render(mainToken)
+        }
+
+    }
+    function render(token){
+        store.state.mainToken = token && token.symbol.toUpperCase();
+        new Vue({
+            i18n,
+            router,
+            store,
+            render: h => h(App),
+        }).$mount('#app')
+    }
+    queryMainToken();
 }())
 

@@ -6,7 +6,7 @@ import Tools from "../util/Tools";
 export async function getConfig(){
     let config = window.sessionStorage.getItem('config');
     if (!config) {
-        config = await getConfigApi().catch((e)=>{console.error(e)});
+        config = await getConfigApi().catch((e)=>{throw e});
         if (config) {
             window.sessionStorage.setItem('config',JSON.stringify(config));
         }else{
@@ -19,7 +19,7 @@ export async function getConfig(){
 }
 
 export async function getMainToken(){
-    let config = await getConfig();
+    let config = await getConfig().catch(e=>{throw e});
     let defaultData = {
         denom: "",
         scale: "1",
