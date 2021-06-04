@@ -387,9 +387,9 @@
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
 									                 align="right" :min-width="ColumnMinWidth.ownerDetailDelegationsAmount">
-										<template slot="header">
+										<template slot="header" slot-scope="scope">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="$store.state.mainToken"
+											<el-tooltip :content="mainTokenSymbol"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -435,9 +435,9 @@
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
 									                 :min-width="ColumnMinWidth.amount">
-										<template slot="header">
+										<template slot="header" slot-scope="scope">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="$store.state.mainToken"
+											<el-tooltip :content="mainTokenSymbol"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -498,9 +498,9 @@
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
 									                 align="right" :min-width="ColumnMinWidth.amount">
-										<template slot="header">
+										<template slot="header" slot-scope="scope">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="$store.state.mainToken"
+											<el-tooltip :content="mainTokenSymbol"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -773,6 +773,7 @@
 				},
 				LargeStringMinHeight: 69,
 				LargeStringLineHeight:23,
+                mainTokenSymbol:'',
 			}
 		},
 		watch: {
@@ -804,8 +805,16 @@
 			document.documentElement.scrollTop = 0;
 			this.address = this.$route.params.param
 			this.getTabList()
+			this.setMainToken()
+
 		},
 		methods: {
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
+            },
 			getTabList(){
 				this.tabList = []
 				if(moduleSupport('107', prodConfig.navFuncList)){

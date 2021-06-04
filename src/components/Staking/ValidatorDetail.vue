@@ -33,9 +33,9 @@
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
 									                 align="right" :min-width="ColumnMinWidth.delegationsAmount">
-										<template slot="header">
+										<template slot="header" slot-scope="scope">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="$store.state.mainToken"
+											<el-tooltip :content="mainTokenSymbol"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -77,9 +77,9 @@
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
 									                 align="right" :min-width="ColumnMinWidth.amount">
-										<template slot="header">
+										<template slot="header" slot-scope="scope">
 											<span>{{ $t('ExplorerLang.table.amount')}}</span>
-											<el-tooltip :content="$store.state.mainToken"
+											<el-tooltip :content="mainTokenSymbol"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -131,9 +131,9 @@
 									</el-table-column>
 									<el-table-column prop="deposit" align="right" :label="$t('ExplorerLang.table.deposit')"
 									                :min-width="ColumnMinWidth.amount">
-										<template slot="header">
+										<template slot="header" slot-scope="scope">
 											<span>{{ $t('ExplorerLang.table.deposit')}}</span>
-											<el-tooltip :content="$store.state.mainToken"
+											<el-tooltip :content="mainTokenSymbol"
 														placement="top">
 												<i class="iconfont iconyiwen yiwen_icon" />
 											</el-tooltip>
@@ -308,7 +308,8 @@
 					currentPage: 1,
 					items: [],
 				},
-				proposalTitleNum: 20
+				proposalTitleNum: 20,
+                mainTokenSymbol:'',
 			}
 		},
 		computed: {},
@@ -324,13 +325,21 @@
 			this.getValidationTxs()
 			this.getGovTxs()
 		},
-		mounted () {},
+		mounted () {
+		    this.setMainToken();
+        },
 		methods: {
 			pageChange (key) {
 				return page => {
 					this[key](page)
 				}
 			},
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
+            },
 			async getValidatorsInfo () {
 				let res = await getValidatorsInfoApi(this.$route.params.param)
 				this.validationInformation = res

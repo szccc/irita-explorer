@@ -8,7 +8,7 @@ import { fetchTokenDistribution } from "@/service/api";
 import {DISTRIBUTION} from "@/constant";
 import config from '../../productionConfig';
 import Tools from "@/util/Tools";
-import { converCoin } from "@/helper/IritaHelper";
+import { converCoin, getMainToken } from "@/helper/IritaHelper";
 
 export default {
     name: "PieChart",
@@ -26,6 +26,7 @@ export default {
             timer: null,
             option:null,
             dataList:[],
+            mainTokenSymbol:'',
         };
     },
     mounted() {
@@ -50,6 +51,7 @@ export default {
             o.legend[0].selected[params.name] = true;
             this.chart.setOption(o)
         })
+        this.setMainToken();
     },
     destroyed() {
         //window.removeEventListener("resize", this.windowResizeFunc);
@@ -64,6 +66,12 @@ export default {
                 }
             }catch (e) {
 
+            }
+        },
+        async setMainToken(){
+            let mainToken = await getMainToken();
+            if(mainToken && mainToken.symbol){
+                this.mainTokenSymbol = mainToken.symbol.toUpperCase();
             }
         },
         async handleData(res){
@@ -105,7 +113,7 @@ export default {
                     confine: true,
                     formatter: (v)=> {
                         return `${v.marker}${v.data.name}: ${Tools.formatNum(Tools.bigNumberMultiply(v.data.percent, 100),2)}%<br/>
-                        ${v.data.displayAmount} ${this.$store.state.mainToken}<br/>`;
+                        ${v.data.displayAmount} ${this.mainTokenSymbol}<br/>`;
                     }
                 },
                 backgroundColor:'#ffffff',
@@ -189,9 +197,9 @@ export default {
                         let str = '', distributionItem = data.find((item)=>item.name === name);
                         if(distributionItem){
                             if(this.$store.state.isMobile){
-                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%}\n{d|${distributionItem.displayAmount} ${this.$store.state.mainToken}}`
+                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%}\n{d|${distributionItem.displayAmount} ${this.mainTokenSymbol}}`
                             }else{
-                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%} {d|${distributionItem.displayAmount} ${this.$store.state.mainToken}}`
+                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%} {d|${distributionItem.displayAmount} ${this.mainTokenSymbol}}`
 
                             }
                         }

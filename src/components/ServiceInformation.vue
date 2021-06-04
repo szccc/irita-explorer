@@ -193,9 +193,9 @@
                             </template>
                         </el-table-column>
                         <el-table-column v-if="isShowFee" prop="fee" :label="$t('ExplorerLang.table.fee')" align="right" :min-width="ColumnMinWidth.fee">
-                            <template slot="header">
+                            <template slot="header" slot-scope="scope">
                                 <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                                <el-tooltip :content="$store.state.mainToken"
+                                <el-tooltip :content="mainTokenSymbol"
                                             placement="top">
                                     <i class="iconfont iconyiwen yiwen_icon" />
                                 </el-tooltip>
@@ -267,7 +267,7 @@
     } from "../service/api";
     import { TxHelper } from "../helper/TxHelper";
     import LargeString from './common/LargeString';
-    import { converCoin } from '@/helper/IritaHelper';
+    import { converCoin, getMainToken } from '@/helper/IritaHelper';
     import productionConfig from '@/productionConfig.js'
     export default {
         name : "ServiceInformation",
@@ -327,7 +327,8 @@
                     },
                 ],
                 LargeStringMinHeight: 80,
-                LargeStringLineHeight:16
+                LargeStringLineHeight:16,
+                mainTokenSymbol:'',
 
             }
         },
@@ -336,11 +337,18 @@
             this.getServiceBindingList();
             this.getServiceTransaction();
             this.getAllTxType();
+            this.setMainToken();
         },
         methods : {
             pageChange(pageNum){
                 this.txPageNum = pageNum;
                 this.getServiceTransaction();
+            },
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
             },
             isValid(value){
                 return (!value || !value.length || value=="--") ? false : true;

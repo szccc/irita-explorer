@@ -36,9 +36,9 @@
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" v-if="isShowFee" prop="fee" :width="ColumnMinWidth.fee">
-              <template slot="header">
+              <template slot="header" slot-scope="scope">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="$store.state.mainToken"
+                  <el-tooltip :content="mainTokenSymbol"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -85,9 +85,9 @@
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
-              <template slot="header">
+              <template slot="header"  slot-scope="scope">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="$store.state.mainToken"
+                  <el-tooltip :content="mainTokenSymbol"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -148,7 +148,7 @@
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
               <template slot="header">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="mainToke$store.state.mainTokennSymbol"
+                  <el-tooltip :content="setMainToken"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -196,9 +196,9 @@
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
-              <template slot="header">
+              <template slot="header" slot-scope="scope">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="$store.state.mainToken"
+                  <el-tooltip :content="mainTokenSymbol"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -252,9 +252,9 @@
             </template>
           </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
-              <template slot="header">
+              <template slot="header" slot-scope="scope">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="$store.state.mainToken"
+                  <el-tooltip :content="mainTokenSymbol"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>
@@ -275,7 +275,7 @@ import MPagination from '.././common/MPagination'
 import Tools from '../../util/Tools'
 import { getNativeAssetsTxsApi } from '@/service/api'
 import { ColumnMinWidth, TX_TYPE, decimals } from '@/constant'
-import { converCoin,addressRoute } from '../../helper/IritaHelper'
+import { converCoin, addressRoute, getMainToken } from '../../helper/IritaHelper'
 import prodConfig from '../../productionConfig'
 
 export default {
@@ -309,6 +309,7 @@ export default {
       burnTokenCurrentPageNum: 1,
       transferTokenCurrentPageNum: 1,
       pageSize: 10,
+        mainTokenSymbol:'',
     }
   },
   computed: {},
@@ -320,8 +321,15 @@ export default {
     this.getMintToken()
     this.getBurnToken()
     this.getTransferToken()
+    this.setMainToken()
   },
   methods: {
+      async setMainToken(){
+          let mainToken = await getMainToken();
+          if(mainToken && mainToken.symbol){
+              this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+          }
+      },
     async getIssueToken() {
       try {
         let res = await this.getNativeAssets(this.issueTokenCurrentPageNum, this.pageSize, true, TX_TYPE.issue_token,this.symbol)

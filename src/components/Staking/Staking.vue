@@ -35,9 +35,9 @@
           </el-table-column>
           <el-table-column key="commission" align="center" prop="commission" :min-width="ColumnMinWidth.commission" :sort-method="commissionSort" :label="$t('ExplorerLang.table.commission')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="bondedToken" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']">
-             <template slot="header">
+             <template slot="header" slot-scope="scope">
                     <span>{{ $t('ExplorerLang.table.bondedTokens')}}</span>
-                    <el-tooltip :content="$store.state.mainToken"
+                    <el-tooltip :content="mainTokenSymbol"
                                 placement="top">
                         <i class="iconfont iconyiwen yiwen_icon" />
                     </el-tooltip>
@@ -46,9 +46,9 @@
           <el-table-column key="votingPower" v-if="titleStatus === 'Active' && productionConfig.table.votingPower" class-name="votingPower"  align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="uptime" v-if="titleStatus === 'Active'" align="right" prop="uptime" :min-width="ColumnMinWidth.uptime" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="selfBond" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']">
-              <template slot="header">
+              <template slot="header" slot-scope="scope">
                     <span>{{ $t('ExplorerLang.table.selfBonded')}}</span>
-                    <el-tooltip :content="$store.state.mainToken"
+                    <el-tooltip :content="mainTokenSymbol"
                                 placement="top">
                         <i class="iconfont iconyiwen yiwen_icon" />
                     </el-tooltip>
@@ -108,6 +108,7 @@ export default {
       ],
       tableData: [],
       type:'',
+        mainTokenSymbol:'',
     }
   },
   computed: {},
@@ -115,13 +116,21 @@ export default {
   created() {
     this.getValidatorsList(this.stakingStatusTitleList[0].name)
   },
-  mounted() {},
+  mounted() {
+      this.setMainToken();
+  },
   methods: {
     percentSort(a, b, c) {
       a = Number(a.substring(0, a.length - c))
       b = Number(b.substring(0, b.length - c))
       return a - b
     },
+      async setMainToken(){
+          let mainToken = await getMainToken();
+          if(mainToken && mainToken.symbol){
+              this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+          }
+      },
     bigNumberSort(a, b, c) {
       // a = a.substring(0, a.length - c).replace(/,/g, '')
       // b = b.substring(0, b.length - c).replace(/,/g, '')

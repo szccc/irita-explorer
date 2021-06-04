@@ -38,9 +38,9 @@
           </template>
         </el-table-column>
         <el-table-column align="right" class-name="amount" prop="Amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.delegationTxsAmount">
-            <template slot="header">
+            <template slot="header" slot-scope="scope">
                 <span>{{ $t('ExplorerLang.table.amount')}}</span>
-                <el-tooltip :content="$store.state.mainToken"
+                <el-tooltip :content="mainTokenSymbol"
                             placement="top">
                     <i class="iconfont iconyiwen yiwen_icon" />
                 </el-tooltip>
@@ -85,9 +85,9 @@
         </el-table-column>
         <!-- <el-table-column align="center" prop="MsgsNum" :label="$t('ExplorerLang.table.message')" :min-width="ColumnMinWidth.message"></el-table-column> -->
         <el-table-column v-if="isShowFee" prop="Tx_Fee" align="right" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee">
-          <template slot="header">
+          <template slot="header" slot-scope="scope">
               <span>{{ $t('ExplorerLang.table.fee')}}</span>
-              <el-tooltip :content="$store.state.mainToken"
+              <el-tooltip :content="mainTokenSymbol"
                           placement="top">
                   <i class="iconfont iconyiwen yiwen_icon" />
               </el-tooltip>
@@ -109,7 +109,7 @@
 <script>
 import Tools from '@/util/Tools'
 import { ColumnMinWidth,monikerNum } from '@/constant'
-import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
+import { addressRoute, formatMoniker, getMainToken } from '@/helper/IritaHelper'
 export default {
   name: 'DelegationTxsList',
   components: {},
@@ -130,16 +130,25 @@ export default {
         addressRoute,
         formatMoniker,
         monikerNum,
+        mainTokenSymbol:'',
     }
   },
   computed: {},
   watch: {},
   created() {},
-  mounted() {},
+  mounted() {
+      this.setMainToken();
+  },
   methods: {
     formatAddress(address) {
       return Tools.formatValidatorAddress(address)
     },
+      async setMainToken(){
+          let mainToken = await getMainToken();
+          if(mainToken && mainToken.symbol){
+              this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+          }
+      },
     formatTxHash(TxHash) {
       if (TxHash) {
         return Tools.formatTxHash(TxHash)

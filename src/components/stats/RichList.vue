@@ -3,9 +3,9 @@
         <div class="asset_content">
             <div class="asset_title_container">
                 <section class="asset_title_container_left">
-                    <span class="asset_sub_title _left">{{ $store.state.mainToken }} {{ $t('ExplorerLang.stats.richList') }}</span>
+                    <span class="asset_sub_title _left">{{ mainTokenSymbol }} {{ $t('ExplorerLang.stats.richList') }}</span>
                     <span class="asset_sub_title _center">|</span>
-                    <span class="asset_sub_title _right">{{ $t('ExplorerLang.stats.title') }} {{ $store.state.mainToken }}</span>
+                    <span class="asset_sub_title _right">{{ $t('ExplorerLang.stats.title') }} {{ mainTokenSymbol }}</span>
                     <el-tooltip class="item"
                                 effect="dark"
                                 transition="el-fade-in-linear"
@@ -27,9 +27,9 @@
                         </template>
                     </el-table-column>
                     <el-table-column align="right" prop="amount" :min-width="ColumnMinWidth.maxSupply">
-                        <template slot="header">
+                        <template slot="header" slot-scope="scope">
                             <span>{{ $t('ExplorerLang.stats.amount')}}</span>
-                            <el-tooltip :content="$store.state.mainToken"
+                            <el-tooltip :content="mainTokenSymbol"
                                         placement="top">
                                 <i class="iconfont iconyiwen yiwen_icon" />
                             </el-tooltip>
@@ -48,7 +48,7 @@ import Tools from '../../util/Tools'
 import { fetchTokenRichList } from "@/service/api"
 import productionConfig from '@/productionConfig.js'
 import { ColumnMinWidth } from '@/constant'
-import { addressRoute } from '@/helper/IritaHelper'
+import { addressRoute, getMainToken } from '@/helper/IritaHelper'
 import moment from 'moment';
 import {converCoin} from "@/helper/IritaHelper";
 
@@ -66,10 +66,12 @@ export default {
             pageNumber:1,
             dataCount:0,
             updateTime:'',
+            mainTokenSymbol:'hello',
         }
     },
     mounted() {
         this.fetchTokenRichList()
+        this.setMainToken()
     },
     methods: {
         async fetchTokenRichList() {
@@ -82,6 +84,15 @@ export default {
                 console.error(err);
             }
         },
+        async setMainToken(){
+            let mainToken = await getMainToken();
+            if(mainToken && mainToken.symbol){
+                this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+            }
+        },
+        handle(a){
+            console.log(a)
+        },
         async handleData(data){
             if(data){
                 if(data.data && data.data.length > 0){
@@ -93,7 +104,8 @@ export default {
                             index: i + 1,
                             address: data.data[i].address,
                             amount,
-                            percent:`${Tools.formatNum(Tools.bigNumberMultiply(data.data[i].percent, 100),2)}%`
+                            percent:`${Tools.formatNum(Tools.bigNumberMultiply(data.data[i].percent, 100),2)}%`,
+                            tooltip:'world'
                         })
                     }
                     this.tableData = tableData;

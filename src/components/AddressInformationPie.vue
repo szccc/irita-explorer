@@ -7,6 +7,7 @@
 	import productionConfig from '@/productionConfig.js';
 	import bigNumber from "bignumber.js"
 	import Tools from "@/util/Tools"
+    import { getMainToken } from "@/helper/IritaHelper";
 	var echarts = require('echarts/lib/echarts')
 	require('echarts/lib/component/legend')
 	require('echarts/lib/component/tooltip')
@@ -25,6 +26,7 @@
 				testnetNyancatThemeStyle:["#0D9388","#FFA300","#67E523","#8E66FF"],
 				defaultThemeStyle:["#0580D3","#FFA300","#67E523","#8E66FF"],
 				stargateThemeStyle:["#6958CA","#FFA300","#67E523","#5A9FFF"],
+                mainTokenSymbol:'',
 			}
 		},
 		watch:{
@@ -40,8 +42,16 @@
 				type: Array
 			}
 		},
-		mounted () {},
+		mounted () {
+		    this.setMainToken();
+        },
 		methods:{
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
+            },
 			async initCharts(){
 				this.addressInformationCharts = echarts.init(document.getElementById('address_information_chart'));
 				let echartsOption = {
@@ -51,7 +61,7 @@
 							left: 10,
 						},
 						formatter: (data) => {
-							return `<span style="max-width: 1.2rem;word-break: break-all;">${data.name}: <br/>${new bigNumber(data.value).toFormat()} ${this.$store.state.mainToken} (${data.data.formatPercent}%)</span>`
+							return `<span style="max-width: 1.2rem;word-break: break-all;">${data.name}: <br/>${new bigNumber(data.value).toFormat()} ${this.mainTokenSymbol} (${data.data.formatPercent}%)</span>`
 						}
 					},
 					legend: {

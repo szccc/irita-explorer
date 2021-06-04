@@ -16,7 +16,7 @@
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
-								<span class="address_information_value">{{ $store.state.mainToken ||'--' }}</span>
+								<span class="address_information_value">{{ mainTokenSymbol ||'--' }}</span>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
@@ -63,6 +63,7 @@
 	import moveDecimal from 'move-decimal-point';
 	import { validatorStatus,numFormat,product } from '@/constant';
 	import productionConfig from '@/productionConfig.js';
+    import { getMainToken } from "@/helper/IritaHelper";
 	export default {
 		name: "AddressInformationComponent",
 		components: {AddressInformationPie, MClip},
@@ -114,6 +115,7 @@
 				rewards:'',
 				otherTokenList:[],
 				maxWidth: 100,
+                mainTokenSymbol:'',
 			}
 		},
 		watch:{
@@ -140,6 +142,7 @@
 		mounted () {
 			this.assetInformation = this.data;
 			this.formatAssetInformation(this.assetInformation)
+            this.setMainToken();
 		},
 		methods:{
 			flShowAssetInfo(data){
@@ -148,10 +151,15 @@
 				 });
 				return res
 			},
-
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
+            },
 		     formatAssetInformation(assetInformation){
 				assetInformation.forEach( item => {
-					if(item && item.token === this.$store.state.mainToken){
+					if(item && item.token === this.mainTokenSymbol){
 						this.totalAmount = item.totalAmount;
 						this.assetConstitute.forEach( res => {
 							 if(res.status === 'UnBonding'){
@@ -181,7 +189,7 @@
 					}
 				});
 				this.otherTokenList = assetInformation.filter((item) => {
-					return item.token !== this.$store.state.mainToken
+					return item.token !== this.mainTokenSymbol
 				})
 			},
 			formatDecimalNumberToFixedNumber(total,data) {
