@@ -105,7 +105,7 @@
                 </template>
             </el-table-column> -->
             <el-table-column v-if="isShowFee" align="right" class-name="fee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
-                <template slot="header">
+                <template slot="header" slot-scope="scope">
                     <span>{{ $t('ExplorerLang.table.fee')}}</span>
                     <el-tooltip :content="mainTokenSymbol"
                                 placement="top">
@@ -126,8 +126,8 @@
 <script>
     import Tools from "../../util/Tools";
     import {TxHelper} from "../../helper/TxHelper";
-    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,mainTokenSymbol,TX_TYPE_DISPLAY } from '../../constant';
-    import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper';
+    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,TX_TYPE_DISPLAY } from '../../constant';
+    import { addressRoute, formatMoniker, converCoin, getMainToken } from '@/helper/IritaHelper';
     import {getAmountByTx} from "../../helper/txListAmoutHelper";
     import prodConfig from '../../productionConfig';
     export default {
@@ -158,10 +158,11 @@
                 monikerNum,
                 feeDecimals: decimals.fee,
                 txDataList: [],
-                mainTokenSymbol,
                 txListTimer:null,
                 colWidthList: [],
                 loading: false,
+                mainTokenSymbol:'',
+
             }
         },
         watch:{
@@ -172,9 +173,18 @@
         created(){
             this.formatTxData()
         },
+        mounted(){
+            this.setMainToken();
+        },
         methods : {
             isValid(value){
                 return (!value || !value.length || value == '--') ? false : true;
+            },
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
             },
             formatTxHash(TxHash){
                 if(TxHash){

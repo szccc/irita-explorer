@@ -8,6 +8,7 @@ import { fetchTokenDistribution } from "@/service/api";
 import {DISTRIBUTION} from "@/constant";
 import config from '../../productionConfig';
 import Tools from "@/util/Tools";
+import { converCoin, getMainToken } from "@/helper/IritaHelper";
 
 export default {
     name: "PieChart",
@@ -25,6 +26,7 @@ export default {
             timer: null,
             option:null,
             dataList:[],
+            mainTokenSymbol:'',
         };
     },
     mounted() {
@@ -49,6 +51,7 @@ export default {
             o.legend[0].selected[params.name] = true;
             this.chart.setOption(o)
         })
+        this.setMainToken();
     },
     destroyed() {
         //window.removeEventListener("resize", this.windowResizeFunc);
@@ -65,20 +68,31 @@ export default {
 
             }
         },
-        handleData(res){
+        async setMainToken(){
+            let mainToken = await getMainToken();
+            if(mainToken && mainToken.symbol){
+                this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+            }
+        },
+        async handleData(res){
             let data = [];
             for(let k in DISTRIBUTION){
                 let o = DISTRIBUTION[k];
                 o.id = k;
-                o.symbol = config.token.symbol.toUpperCase();
                 o.percent = 0;
                 o.value = 0;
 
                 if(k in res){
                     o.percent = Tools.FormatScientificNotationToNumber(res[k].percent)
                     o.value = res[k].total_amount.amount
+                    o.denom = res[k].total_amount.denom
                 }
-                o.displayAmount = Tools.getDisplayNumber(o.value);
+                let t = await converCoin({
+                    denom: o.denom,
+                    amount:o.value,
+                }) || {denom: '', amount:0}
+                o.displayAmount = Tools.getDisplayNumber(t.amount);
+                o.symbol = t.denom;
                 o.label = {
                     show:false,
                 }
@@ -97,9 +111,9 @@ export default {
                 tooltip: {
                     show: true,
                     confine: true,
-                    formatter: function(v) {
+                    formatter: (v)=> {
                         return `${v.marker}${v.data.name}: ${Tools.formatNum(Tools.bigNumberMultiply(v.data.percent, 100),2)}%<br/>
-                        ${v.data.displayAmount} ${config.token.symbol.toUpperCase()}<br/>`;
+                        ${v.data.displayAmount} ${this.mainTokenSymbol}<br/>`;
                     }
                 },
                 backgroundColor:'#ffffff',
@@ -183,9 +197,9 @@ export default {
                         let str = '', distributionItem = data.find((item)=>item.name === name);
                         if(distributionItem){
                             if(this.$store.state.isMobile){
-                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%}\n{d|${distributionItem.displayAmount} ${config.token.symbol.toUpperCase()}}`
+                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%}\n{d|${distributionItem.displayAmount} ${this.mainTokenSymbol}}`
                             }else{
-                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%} {d|${distributionItem.displayAmount} ${config.token.symbol.toUpperCase()}}`
+                                str = `{a|${name}} {b||} {c|${Tools.formatNum(Tools.bigNumberMultiply(distributionItem.percent, 100),2)}%} {d|${distributionItem.displayAmount} ${this.mainTokenSymbol}}`
 
                             }
                         }

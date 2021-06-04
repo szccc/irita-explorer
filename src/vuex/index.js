@@ -11,6 +11,7 @@ const store = new Vuex.Store({
             symbol:'',
             isMobile:false,
         },
+        mainToken:'',
     },
     mutations : {
         SET_TEMP_DENOM_ID(state, data){
@@ -21,6 +22,9 @@ const store = new Vuex.Store({
         },
         isMobile(state, data){
             state.isMobile = data;
+        },
+        setMainToken(state, data){
+            state.mainToken = data || '';
         }
     }
 });

@@ -6,7 +6,7 @@
     "104":"数据类别",
     "105":"服务浏览",
     "106":"身份ID",
-    "107":"Vaildators",
+    "107":"Validators",
     "108":"Delegation Txs",
     "109":"Validation Txs",
     "110":"Native Asset",
@@ -17,7 +17,7 @@
     "115":"IRIS Stats",
     "1000":"搜索"(排在末尾)
     "1001":"网络切换"(排在末尾)}*/
-    
+
 /*首页指标映射id{
     "200":"最新区块"(排在首位),
     "201":"交易数量",
@@ -33,10 +33,9 @@
 */
 
 /*产品
-  Bifrost,STARGATE
+  Bifrost,STARGATE,Cosmos Hub,NYANCAT,IRISHUB
 */
 
- 
 let config = {
   //国际化 CN / EN 默认CN
   lang:'EN',
@@ -49,8 +48,8 @@ let config = {
   logo:{
       //logo标题 必填
       title:'IRISHUB',
-      //logo副标题 必填
-      subTitle:'irishub-1',
+      //logo副标题
+      subTitle:'',
   },
   product:'IRISHUB',
   nav:{
@@ -66,7 +65,7 @@ let config = {
       color:'',
       //页脚背景颜色 上半部分
       bgColor_top:'',
-      //页脚背景颜色 下半部分  
+      //页脚背景颜色 下半部分
       bgColor_bottom:'',
       //页脚版权信息   必填
       copyright:'Copyright © IRISplorer 2021 All Rights Reserved.',
@@ -82,7 +81,7 @@ let config = {
       {
         title: 'Staking',
         children: [
-          { title: 'Vaildators', id: '107' },
+          { title: 'Validators', id: '107' },
           { title: 'Delegation Txs', id: '108' },
           { title: 'Validation Txs', id: '109' },
         ],
@@ -113,8 +112,8 @@ let config = {
         title: 'Stats',
         children: [
             //main token
-          { title: 'IRIS Rich List', id: '114' },
-          { title: 'IRIS Stats', id: '115' },
+          { title: '${mainToken} Rich List', id: '114' },
+          { title: '${mainToken} Stats', id: '115' },
         ],
       },
       '1000',
@@ -157,20 +156,14 @@ let config = {
   },
   // 控制表格中列的显示和隐藏
   table: {
-      votingPower: true // Validator List中Voting_Power是否显示 
+      votingPower: true // Validator List中Voting_Power是否显示
   },
   utcOffset: '+0', // 页面转换时区,默认值为 +0
   isShowUTC: true, // 是否显示时区,默认值为true
   fee: {
     isShowFee: true, // 是否展示fee
-    isShowDenom: true, //列表中fee是否展示单位
-    decimals: 2 // 列表中fee展示的数值精度
-  },
-  token:{
-    //main token
-    minUnit:'uiris', 
-    symbol:'iris',
-    decimal: 6,
-  },
+    isShowDenom: false, //列表中fee是否展示单位
+    decimals: 4 // 列表中fee展示的数值精度
+  }
 }
 module.exports = config;

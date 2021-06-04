@@ -11,6 +11,7 @@ import locale from 'element-ui/lib/locale';
 import VueI18n from 'vue-i18n';
 import prodConfig from "./productionConfig";
 import adjustColumnWidth from '@/helper/adjustColumnWidth';
+import {getMainToken} from "@/helper/IritaHelper";
 
 Vue.prototype.$adjustColumnWidth = adjustColumnWidth;
 
@@ -195,9 +196,33 @@ Vue.prototype.$message = Message;
 
 
 Vue.config.productionTip = false;
-new Vue({
-  i18n,
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+(async function(){
+    let failedIndex = 0;
+    async function queryMainToken(){
+        let mainToken = await getMainToken().catch(()=>{
+            if(failedIndex <= 4){
+                setTimeout(()=>{
+                    queryMainToken()
+                    failedIndex++;
+                }, 500)
+            }else{
+                render({symbol:''});
+            }
+        });
+        if(mainToken){
+            render(mainToken)
+        }
+
+    }
+    function render(token){
+        store.state.mainToken = token && token.symbol.toUpperCase();
+        new Vue({
+            i18n,
+            router,
+            store,
+            render: h => h(App),
+        }).$mount('#app')
+    }
+    queryMainToken();
+}())
+

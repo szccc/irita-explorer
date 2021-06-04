@@ -6,7 +6,7 @@ import Tools from "../util/Tools";
 export async function getConfig(){
     let config = window.sessionStorage.getItem('config');
     if (!config) {
-        config = await getConfigApi().catch((e)=>{console.error(e)});
+        config = await getConfigApi().catch((e)=>{throw e});
         if (config) {
             window.sessionStorage.setItem('config',JSON.stringify(config));
         }else{
@@ -19,9 +19,9 @@ export async function getConfig(){
 }
 
 export async function getMainToken(){
-    let config = await getConfig();
+    let config = await getConfig().catch(e=>{throw e});
     let defaultData = {
-        min_unit: "",
+        denom: "",
         scale: "1",
         symbol: ""
     };
@@ -54,14 +54,15 @@ export async function converCoin (_coin) {
     }
 
     tokenData.forEach((item)=>{
-        if ( item.min_unit == coin.denom ) {
+        if ( item.denom === coin.denom ) {
             displayCoin.denom = item.symbol;
-            displayCoin.amount = moveDecimal(String(coin.amount || 0),0-item.scale);
+            displayCoin.amount = moveDecimal(String(coin.amount || 0),0-Number(item.scale));
         }
     })
-    
+
     // handle htltbcbnb => bnb and htltbcbusd  => busd
-    if (coin.denom === 'htltbcbnb') {
+    //all token should be configured in db
+    /*if (coin.denom === 'htltbcbnb') {
         displayCoin.denom = 'htltbcbnb';
         displayCoin.amount = moveDecimal(String(coin.amount || 0),-8);
     }
@@ -69,7 +70,7 @@ export async function converCoin (_coin) {
     if (coin.denom === 'htltbcbusd') {
         displayCoin.denom = 'htltbcbusd';
         displayCoin.amount = moveDecimal(String(coin.amount || 0),-8);
-    }
+    }*/
 
     if (!displayCoin.denom) {
         // if (coin && coin.denom && coin.denom.startsWith(ibcDenomPrefix)) {
@@ -79,13 +80,13 @@ export async function converCoin (_coin) {
         //         coin.denom = (ibcDenomPrefix + res.denom_trace.base_denom).toUpperCase()
         //     }
         // }
-        console.warn('Denom did not match');
+        console.error('Denom did not match', _coin);
         return coin;
     }
     return displayCoin;
 }
 
-// 同步 
+// 同步
 export function converCoinSync (_coin,tokenData=[]) {
     let coin = {
         denom:'',
@@ -104,9 +105,9 @@ export function converCoinSync (_coin,tokenData=[]) {
     }
 
     tokenData.forEach((item)=>{
-        if ( item.min_unit == coin.denom ) {
+        if ( item.denom == coin.denom ) {
             displayCoin.denom = item.symbol;
-            displayCoin.amount = moveDecimal(String(coin.amount || 0),0-item.scale);
+            displayCoin.amount = moveDecimal(String(coin.amount || 0),0-Number(item.scale));
         }
     })
     if (!displayCoin.denom) {
@@ -120,7 +121,7 @@ export function converCoinSync (_coin,tokenData=[]) {
 export async function addressRoute (address) {
     let { addressPrefix = {} } = await getConfig();
     if (addressPrefix.iva) {
-        let length = addressPrefix.iva.length 
+        let length = addressPrefix.iva.length
         if(address) {
             if (address.substring(0, length) === addressPrefix.iva) {
                 return this.$router.push(`/staking/${address}`)

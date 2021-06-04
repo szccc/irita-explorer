@@ -84,7 +84,7 @@ import { getTxDetail, getRelevanceTxList } from '../service/api'
 import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant'
 import { moduleSupport } from '../helper/ModulesHelper'
 import slef_axios from "../axios"
-import { getMainToken,converCoin,addressRoute } from '@/helper/IritaHelper';
+import { converCoin,addressRoute } from '@/helper/IritaHelper';
 import prodConfig from '../productionConfig';
 export default {
   name: 'TxDetail',
@@ -165,7 +165,6 @@ export default {
   methods: {
     async getTransactionInformation() {
       try {
-        let mainToken = await getMainToken();
         const res = await getTxDetail(this.$route.query.txHash)
         // console.log(res,'交易展示数据')
         if (res) {
@@ -187,7 +186,7 @@ export default {
             this.fee = `${fee.amount} ${fee.denom.toUpperCase()}`
           }
           this.fee = this.fee || '--'
-          // this.gasUsed=res.fee.gas || '--' 
+          // this.gasUsed=res.fee.gas || '--'
           // this.signer = res.signers && res.signers[0] || '--'
           if(res.signers && res.signers.length > 0) {
             this.signer = res.signers

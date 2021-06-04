@@ -21,7 +21,7 @@
             :active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'"
           >
             <component v-for="(item, index) in menuList" :is="item.children ? 'el-submenu' : 'el-menu-item'" :index="String(index + 1)" :key="index">
-              <router-link v-if="!item.children" :to="item.link">{{ item.title }}</router-link>
+              <router-link v-if="!item.children" :to="item.link || ''">{{ item.title }}</router-link>
               <template v-else>
                 <template slot="title">
                   {{ item.title }}
@@ -110,7 +110,7 @@ import constant,{ ModuleMap,product } from '../../constant'
 import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
-import { getConfig,addressRoute } from "@/helper/IritaHelper"
+import { getConfig, addressRoute, getMainToken } from "@/helper/IritaHelper"
 export default {
   data() {
     return {
@@ -129,7 +129,8 @@ export default {
       // currentNetworkClass:'',
       flShowNetWorkMenu:false,
       mainnet:{},
-      constant
+      constant,
+        mainToken:'',
     }
   },
   computed: {
@@ -141,15 +142,13 @@ export default {
       return img
     },
   },
-  beforeMount() {
-    this.menuList = this.loadModules(prodConfig.navFuncList)
-  },
   created() {
     this.getConfigApi()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
     this.setActiveIndex();
+      this.menuList = this.loadModules(prodConfig.navFuncList)
   },
   watch: {
     $route: {
@@ -171,7 +170,7 @@ export default {
           } else if (ModuleMap[item.id]) {
             let menu = ModuleMap[item.id]
             if (item.title) {
-              menu.title = item.title
+              menu.title = item.title.replace('\$\{mainToken\}', this.$store.state.mainToken)
             }
             menuList.push(menu)
           }
@@ -183,7 +182,7 @@ export default {
           }
         })
       }
-      return menuList
+       return menuList;
     },
     handleSelect(key, keyPath) {},
     handleParentTitleClick(index) {

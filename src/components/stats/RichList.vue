@@ -3,9 +3,9 @@
         <div class="asset_content">
             <div class="asset_title_container">
                 <section class="asset_title_container_left">
-                    <span class="asset_sub_title _left">{{ $t('ExplorerLang.stats.richList') }}</span>
+                    <span class="asset_sub_title _left">{{ mainTokenSymbol }} {{ $t('ExplorerLang.stats.richList') }}</span>
                     <span class="asset_sub_title _center">|</span>
-                    <span class="asset_sub_title _right">{{ $t('ExplorerLang.stats.title') }}</span>
+                    <span class="asset_sub_title _right">{{ $t('ExplorerLang.stats.title') }} {{ mainTokenSymbol }}</span>
                     <el-tooltip class="item"
                                 effect="dark"
                                 transition="el-fade-in-linear"
@@ -27,7 +27,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column align="right" prop="amount" :min-width="ColumnMinWidth.maxSupply">
-                        <template slot="header">
+                        <template slot="header" slot-scope="scope">
                             <span>{{ $t('ExplorerLang.stats.amount')}}</span>
                             <el-tooltip :content="mainTokenSymbol"
                                         placement="top">
@@ -47,16 +47,17 @@ import MPagination from '.././common/MPagination'
 import Tools from '../../util/Tools'
 import { fetchTokenRichList } from "@/service/api"
 import productionConfig from '@/productionConfig.js'
-import { ColumnMinWidth,mainTokenSymbol } from '@/constant'
-import { addressRoute } from '@/helper/IritaHelper'
+import { ColumnMinWidth } from '@/constant'
+import { addressRoute, getMainToken } from '@/helper/IritaHelper'
 import moment from 'moment';
+import {converCoin} from "@/helper/IritaHelper";
+
 export default {
     name: 'RichList',
     components: { MPagination },
     props: {},
     data() {
         return {
-            mainTokenSymbol,
             Tools,
             addressRoute,
             ColumnMinWidth,
@@ -65,10 +66,12 @@ export default {
             pageNumber:1,
             dataCount:0,
             updateTime:'',
+            mainTokenSymbol:'hello',
         }
     },
     mounted() {
         this.fetchTokenRichList()
+        this.setMainToken()
     },
     methods: {
         async fetchTokenRichList() {
@@ -81,17 +84,31 @@ export default {
                 console.error(err);
             }
         },
-        handleData(data){
+        async setMainToken(){
+            let mainToken = await getMainToken();
+            if(mainToken && mainToken.symbol){
+                this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+            }
+        },
+        handle(a){
+            console.log(a)
+        },
+        async handleData(data){
             if(data){
                 if(data.data && data.data.length > 0){
-                    this.tableData = data.data.map((item, index)=>{
-                        return {
-                            index: index + 1,
-                            address: item.address,
-                            amount: item.balance && item.balance.amount && Tools.getDisplayNumber(item.balance.amount),
-                            percent:`${Tools.formatNum(Tools.bigNumberMultiply(item.percent, 100),2)}%`
-                        }
-                    })
+                    let tableData = [];
+                    for(let i = 0; i < data.data.length; i++){
+                        let t = await converCoin(data.data[i].balance) || {denom: '', amount:0}
+                        let amount = Tools.getDisplayNumber(t.amount);
+                        tableData.push({
+                            index: i + 1,
+                            address: data.data[i].address,
+                            amount,
+                            percent:`${Tools.formatNum(Tools.bigNumberMultiply(data.data[i].percent, 100),2)}%`,
+                            tooltip:'world'
+                        })
+                    }
+                    this.tableData = tableData;
                 }
                 if(data.updated_time){
                     // this.updateTime = `${moment(data.updated_time*1000).utc().format('YYYY-MM-DD HH:MM:SS')}+UTC`

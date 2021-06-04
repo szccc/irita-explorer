@@ -35,7 +35,7 @@
           </el-table-column>
           <el-table-column key="commission" align="center" prop="commission" :min-width="ColumnMinWidth.commission" :sort-method="commissionSort" :label="$t('ExplorerLang.table.commission')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="bondedToken" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']">
-             <template slot="header">
+             <template slot="header" slot-scope="scope">
                     <span>{{ $t('ExplorerLang.table.bondedTokens')}}</span>
                     <el-tooltip :content="mainTokenSymbol"
                                 placement="top">
@@ -46,7 +46,7 @@
           <el-table-column key="votingPower" v-if="titleStatus === 'Active' && productionConfig.table.votingPower" class-name="votingPower"  align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="uptime" v-if="titleStatus === 'Active'" align="right" prop="uptime" :min-width="ColumnMinWidth.uptime" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="selfBond" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']">
-              <template slot="header">
+              <template slot="header" slot-scope="scope">
                     <span>{{ $t('ExplorerLang.table.selfBonded')}}</span>
                     <el-tooltip :content="mainTokenSymbol"
                                 placement="top">
@@ -74,7 +74,7 @@ import BigNumber from 'bignumber.js';
 import { getValidatorsListApi } from "@/service/api";
 import productionConfig from '@/productionConfig.js';
 import { getMainToken,converCoin,formatMoniker } from '@/helper/IritaHelper';
-import { ColumnMinWidth,monikerNum,mainTokenSymbol } from '@/constant';
+import { ColumnMinWidth,monikerNum } from '@/constant';
 export default {
   name: 'Staking',
   components: { MTabs, MPagination },
@@ -108,7 +108,7 @@ export default {
       ],
       tableData: [],
       type:'',
-      mainTokenSymbol
+        mainTokenSymbol:'',
     }
   },
   computed: {},
@@ -116,13 +116,21 @@ export default {
   created() {
     this.getValidatorsList(this.stakingStatusTitleList[0].name)
   },
-  mounted() {},
+  mounted() {
+      this.setMainToken();
+  },
   methods: {
     percentSort(a, b, c) {
       a = Number(a.substring(0, a.length - c))
       b = Number(b.substring(0, b.length - c))
       return a - b
     },
+      async setMainToken(){
+          let mainToken = await getMainToken();
+          if(mainToken && mainToken.symbol){
+              this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+          }
+      },
     bigNumberSort(a, b, c) {
       // a = a.substring(0, a.length - c).replace(/,/g, '')
       // b = b.substring(0, b.length - c).replace(/,/g, '')
@@ -168,7 +176,7 @@ export default {
           this.count = res && res.count ? res.count : 0
           let result = res && res.data ? res.data : null
           if (result) {
-            this.tableData =  
+            this.tableData =
               await Promise.all(result.map( async item => {
                 let regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g
                 let replaceMoniker = item.description.moniker.replace(regex, '')
@@ -176,7 +184,7 @@ export default {
                 let selfBond =item.self_bond && item.self_bond.amount && await converCoin(item.self_bond)
                 let bondedToken = await converCoin({
                   amount: item.tokens,
-                  denom: mainToken.min_unit
+                  denom: mainToken.denom
                 })
                 return {
                   validatorStatus: status,
@@ -241,7 +249,7 @@ a {
     }
     .staking_table_list_content {
       width: 100%;
-      
+
       .avatar {
         background: $bg_avatar;
       }

@@ -76,7 +76,7 @@
                                 <span>
                                     <router-link
                                             :to="`service/respond/${$route.query.serviceName}/${scope.row.provider}`">
-                                        {{`${scope.row.respondTimes} ${$t('ExplorerLang.unit.time')}`}} 
+                                        {{`${scope.row.respondTimes} ${$t('ExplorerLang.unit.time')}`}}
                                     </router-link>
                                 </span>
                             </template>
@@ -193,7 +193,7 @@
                             </template>
                         </el-table-column>
                         <el-table-column v-if="isShowFee" prop="fee" :label="$t('ExplorerLang.table.fee')" align="right" :min-width="ColumnMinWidth.fee">
-                            <template slot="header">
+                            <template slot="header" slot-scope="scope">
                                 <span>{{ $t('ExplorerLang.table.fee')}}</span>
                                 <el-tooltip :content="mainTokenSymbol"
                                             placement="top">
@@ -235,7 +235,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" 
+                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')"
                                          prop="timestamp"></el-table-column>
                     </el-table>
                 </div>
@@ -257,7 +257,7 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./common/MPagination";
-    import { TX_STATUS,ColumnMinWidth,decimals,mainTokenSymbol,TX_TYPE_DISPLAY } from '../constant';
+    import { TX_STATUS,ColumnMinWidth,decimals,TX_TYPE_DISPLAY } from '../constant';
     import {
         getAllServiceTxTypes,
         getServiceDetail,
@@ -267,14 +267,13 @@
     } from "../service/api";
     import { TxHelper } from "../helper/TxHelper";
     import LargeString from './common/LargeString';
-    import { converCoin } from '@/helper/IritaHelper';
+    import { converCoin, getMainToken } from '@/helper/IritaHelper';
     import productionConfig from '@/productionConfig.js'
     export default {
         name : "ServiceInformation",
         components : {MPagination,LargeString},
         data(){
             return {
-                mainTokenSymbol,
                 isShowFee: productionConfig.fee.isShowFee,
                 isShowDenom: productionConfig.fee.isShowDenom,
                 feeDecimals: decimals.fee,
@@ -328,7 +327,8 @@
                     },
                 ],
                 LargeStringMinHeight: 80,
-                LargeStringLineHeight:16
+                LargeStringLineHeight:16,
+                mainTokenSymbol:'',
 
             }
         },
@@ -337,11 +337,18 @@
             this.getServiceBindingList();
             this.getServiceTransaction();
             this.getAllTxType();
+            this.setMainToken();
         },
         methods : {
             pageChange(pageNum){
                 this.txPageNum = pageNum;
                 this.getServiceTransaction();
+            },
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
             },
             isValid(value){
                 return (!value || !value.length || value=="--") ? false : true;
@@ -517,10 +524,10 @@
             box-sizing: border-box;
             .service_information_transaction_condition_container{
                 .service_information_transaction_condition_count {
-                    
+
                 }
                 /deep/ .el-select {
-                    
+
                 }
                 .search_btn {
 

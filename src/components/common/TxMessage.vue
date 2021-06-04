@@ -172,7 +172,7 @@
 					<span v-else>--</span>
 				</template>
 			</p>
-		
+
 		</div>
 		<div v-if="txType === TX_TYPE.transfer_nft">
 			<p>
@@ -202,7 +202,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
 				<template>
 					<span v-if="sender === '--'">{{sender}}</span>
-					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span> 
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
 				</template>
 			</p>
 			<p>
@@ -1128,7 +1128,7 @@
 					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
 				</template>
 			</p>
-		</div>		
+		</div>
 		<div v-if="txType === TX_TYPE.acknowledge_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
@@ -1225,7 +1225,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
-				<span>{{commissionRate}} 
+				<span>{{commissionRate}}
 					<el-tooltip placement="top" v-if="commissionRate">
   						<div slot="content" >
 							<p>Max Rate : {{commissionMaxRate || '--'}}</p>
@@ -1429,7 +1429,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
-			</p>		
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.add_liquidity">
 			<p>
@@ -1458,7 +1458,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
-			</p>	
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.remove_liquidity">
 			<p>
@@ -1491,7 +1491,7 @@
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
-			</p>	
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.unjail">
 			<p>
@@ -1509,7 +1509,7 @@
 					<span v-if="serviceName == '--'"> -- </span>
 					<router-link v-else :to="`/service?serviceName=${serviceName}`">
 						{{serviceName}}
-					</router-link>	
+					</router-link>
 				</template>
 			</p>
 			<p>
@@ -2044,7 +2044,7 @@
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
-	import { converCoin,getMainToken,addressRoute } from "../../helper/IritaHelper";
+	import { converCoin,addressRoute } from "../../helper/IritaHelper";
 	import prodConfig from "../../productionConfig";
 	import axios from '@/axios';
 	export default {
@@ -2278,7 +2278,6 @@
 			async getTransactionInformation () {
 				try {
 					const message = this.msg;
-					let mainToken = await getMainToken()
 					if (message) {
 						let msg = message.msg;
 						this.txType = message.type || '--';
@@ -2536,7 +2535,7 @@
 								this.identity = msg.description.identity || '--';
 								if(msg && msg.value && msg.value.amount ) {
 									let selfBond = await converCoin(msg.value)
-									this.selfBond = `${selfBond.amount} ${selfBond.denom.toUpperCase()}` || '--'; 
+									this.selfBond = `${selfBond.amount} ${selfBond.denom.toUpperCase()}` || '--';
 								}else {
 									this.selfBond = '--'
 								}
@@ -2602,7 +2601,7 @@
 								this.delegatorAddress = msg.delegator_address;
 								this.withdrawAddress = msg.withdraw_address;
 								break;
-							case TX_TYPE.begin_unbonding:	
+							case TX_TYPE.begin_unbonding:
 								if(msg.amount) {
 									let amount = await converCoin(msg.amount);
 									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
@@ -2678,7 +2677,7 @@
 								this.sender = msg.sender || '--';
 								// let exactIrisAmt = await converCoin({
 								// 	amount: msg.exact_iris_amt,
-								// 	denom: mainToken.min_unit
+								// 	denom: mainToken.denom
 								// })
 								// this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
 								this.exactIrisAmt = msg.exact_iris_amt;
@@ -2711,7 +2710,7 @@
 								this.withdrawLiquidity = `${withdrawLiquidity.amount} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
 								// let minIrisAmt = await converCoin({
 								// 	amount: msg.min_iris_amt,
-								// 	denom: mainToken.min_unit
+								// 	denom: mainToken.denom
 								// })
 								// this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
 								this.minIrisAmt = msg.min_iris_amt;
@@ -2720,7 +2719,7 @@
 								break;
 							case TX_TYPE.unjail:
 							this.operatorAddress = msg.address || '--';
-							break;	
+							break;
 							case TX_TYPE.create_feed:
 							this.serviceName = msg.serviceName || msg.service_name || '--';
 							this.feedName = msg.feed_name || '--';
@@ -2740,7 +2739,7 @@
 							this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
 							this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
 							this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
-							break;	
+							break;
 							case TX_TYPE.start_feed:
 							this.feedName = msg.feed_name || '--';
 							this.creator = msg.creator || '--';
@@ -2866,7 +2865,7 @@
 									} else {
 										this.amount = '--'
 									}
-									
+
 								}
 							break;
 							case TX_TYPE.upgrade_client:
@@ -3132,7 +3131,7 @@
 	a {
 		color: $t_link_c !important;
 	}
-	
+
 	.tx_message_content {
 		padding: 0.36rem 0;
 		background: $bg_white_c;
@@ -3141,30 +3140,30 @@
 			display: flex;
 			width: 100%;
 			max-width: 12rem;
-			
+
 			.record_content {
 				width: 100%;
-				
+
 				.record_name {
 					color: $t_second_c;
 					min-width: 1.5rem;
 					text-align: left;
 					font-size: $s14;
 				}
-				
+
 				.record_list_content {
 					flex: 1;
 					width: 100%;
 					box-sizing: border-box;
 					background: $bg_cancel_c;
 					border-radius: 0.05rem;
-					
+
 					/deep/ .el-table {
 						background: $bg_cancel_c;
-						
+
 						tr {
 							background: $bg_cancel_c;
-							
+
 							th {
 								background: $bg_cancel_c;
 							}
@@ -3173,7 +3172,7 @@
 				}
 			}
 		}
-		
+
 		p {
 			display: flex;
 			margin-bottom: 0.26rem;
@@ -3188,7 +3187,7 @@
 				font-family: Arial;
 				font-weight: 600;
 			}
-			
+
 			span:nth-of-type(2) {
 				flex: 1;
 				text-align: left;
@@ -3212,7 +3211,7 @@
 				word-break: break-all;
 			}
 		}
-		
+
 		p:last-child {
 			margin-bottom: 0;
 		}
@@ -3220,50 +3219,50 @@
 		.website_link{
 			font-size:  $s14;
 			line-height: 0.16rem;
-			color:$theme_c !important; 
+			color:$theme_c !important;
 			cursor: pointer;
 		}
 
 	}
-	
+
 	@media screen and (max-width: 768px) {
 		.tx_message_content {
-			
+
 			.record_container {
-				
+
 				.record_content {
-					
+
 					.record_name {
 						min-width: 1.4rem;
 					}
-					
+
 					.record_list_content {
-						
+
 						/deep/ .el-table {
-							
+
 							tr {
-								
+
 								th {
-								
+
 								}
 							}
 						}
 					}
 				}
 			}
-			
+
 			p {
 				span:nth-of-type(1) {
 					min-width: 1.4rem;
 				}
-				
+
 				span:nth-of-type(2) {
-				
+
 				}
 			}
-			
+
 			p:last-child {
-			
+
 			}
 		}
 	}
