@@ -291,10 +291,10 @@ export default class Tools {
    * 格式化数字的类型是string的数字并在小数点后面补零
    */
   static formatStringToFixedNumber (str, splitNum) {
-    // todo duanjie 2.765286733838689e-9 科学计数法
     if (str.toString().indexOf('e-') !== -1) {
-      return str 
-    } else if (str.toString().indexOf('.') !== -1) {
+      str = String(Number(str).toFixed(splitNum + 1))
+    }
+    if (str.toString().indexOf('.') !== -1) {
         let splitString = str.split('.')[1]
         if (splitString.length > splitNum) {
           return str.split('.')[0] + '.' + splitString.substr(0, splitNum)
