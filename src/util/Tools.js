@@ -290,18 +290,21 @@ export default class Tools {
   /**
    * 格式化数字的类型是string的数字并在小数点后面补零
    */
-  static formatStringToFixedNumber(str, splitNum) {
-    if (str.toString().indexOf('.') !== -1) {
-      let splitString = str.split('.')[1]
-      if (splitString.length > splitNum) {
-        return str.split('.')[0] + '.' + splitString.substr(0, splitNum)
-      } else {
-        let diffNum = 2 - splitString.length
-        for (let i = 0; i < diffNum; i++) {
-          splitString += '0'
+  static formatStringToFixedNumber (str, splitNum) {
+    // todo duanjie 2.765286733838689e-9 科学计数法
+    if (str.toString().indexOf('e-') !== -1) {
+      return str 
+    } else if (str.toString().indexOf('.') !== -1) {
+        let splitString = str.split('.')[1]
+        if (splitString.length > splitNum) {
+          return str.split('.')[0] + '.' + splitString.substr(0, splitNum)
+        } else {
+          let diffNum = 2 - splitString.length
+          for (let i = 0; i < diffNum; i++) {
+            splitString += '0'
+          }
+          return str.split('.')[0] + '.' + splitString
         }
-        return str.split('.')[0] + '.' + splitString
-      }
     } else {
       return str + '.00'
     }
