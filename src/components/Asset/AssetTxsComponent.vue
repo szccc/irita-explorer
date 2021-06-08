@@ -148,7 +148,7 @@
           <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
               <template slot="header">
                   <span>{{ $t('ExplorerLang.table.fee')}}</span>
-                  <el-tooltip :content="setMainToken"
+                  <el-tooltip :content="mainTokenSymbol"
                               placement="top">
                       <i class="iconfont iconyiwen yiwen_icon" />
                   </el-tooltip>

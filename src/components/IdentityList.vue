@@ -124,8 +124,6 @@
                             }
                         });
                         this.count = res.count;
-                        this.pageSize = res.pageSize;
-                        this.pageNum = res.pageNum;
                     }else{
                         this.count = 0;
                         this.identityList = [];

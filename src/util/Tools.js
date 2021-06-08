@@ -290,18 +290,21 @@ export default class Tools {
   /**
    * 格式化数字的类型是string的数字并在小数点后面补零
    */
-  static formatStringToFixedNumber(str, splitNum) {
+  static formatStringToFixedNumber (str, splitNum) {
+    if (str.toString().indexOf('e-') !== -1) {
+      str = String(Number(str).toFixed(splitNum + 1))
+    }
     if (str.toString().indexOf('.') !== -1) {
-      let splitString = str.split('.')[1]
-      if (splitString.length > splitNum) {
-        return str.split('.')[0] + '.' + splitString.substr(0, splitNum)
-      } else {
-        let diffNum = 2 - splitString.length
-        for (let i = 0; i < diffNum; i++) {
-          splitString += '0'
+        let splitString = str.split('.')[1]
+        if (splitString.length > splitNum) {
+          return str.split('.')[0] + '.' + splitString.substr(0, splitNum)
+        } else {
+          let diffNum = 2 - splitString.length
+          for (let i = 0; i < diffNum; i++) {
+            splitString += '0'
+          }
+          return str.split('.')[0] + '.' + splitString
         }
-        return str.split('.')[0] + '.' + splitString
-      }
     } else {
       return str + '.00'
     }
