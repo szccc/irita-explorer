@@ -335,7 +335,7 @@ export const ExplorerLang = {
             minLiquidity: 'Min Liquidity :',
             withdrawLiquidity: 'Withdraw Liquidity :',
             amount: 'Amount :', // 新增
-            tokenPair: 'Token Pair', // 新增
+            tokenPair: 'Token Pair :', // 新增
         },
         oracle: {
             feedName: 'Feed Name',
