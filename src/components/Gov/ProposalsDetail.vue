@@ -608,8 +608,8 @@ export default {
               let amount = '--'
               if (depositor.amount && depositor.amount.length > 0) {
                 let n = await converCoin(depositor.amount[0])
-                // amount = `${Tools.formatPriceToFixed(n.amount,decimals.amount)} ${n.denom.toLocaleUpperCase()}`
-                amount = `${Tools.formatPriceToFixed(n.amount,decimals.amount)}`
+                // amount = `${Tools.toDecimal(n.amount,decimals.amount)} ${n.denom.toLocaleUpperCase()}`
+                amount = `${Tools.toDecimal(n.amount,decimals.amount)}`
               }
               this.depositorData.push({
                 depositor: depositor.address,

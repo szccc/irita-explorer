@@ -291,8 +291,8 @@ export default class Tools {
    * 格式化数字的类型是string的数字并在小数点后面补零
    */
   static formatStringToFixedNumber (str, splitNum) {
-    if (str.toString().indexOf('e-') !== -1) {
-      str = String(Number(str).toFixed(splitNum + 1))
+    if (str.toString().indexOf('e') !== -1 || str.toString().indexOf('E') !== -1) {
+      str = new BigNumber(str).toFixed().toString()
     }
     if (str.toString().indexOf('.') !== -1) {
         let splitString = str.split('.')[1]
