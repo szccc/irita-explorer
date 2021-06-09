@@ -354,9 +354,9 @@
 				this.delegations.items = []
 				for (const item of res.data) {
 					let amount = await converCoin(item.amount)
-					// item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
-					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)}`
-					let selfShares = Tools.formatPriceToFixed(item.self_shares, this.sharesDecimals)
+					// item.amount = `${Tools.toDecimal(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					item.amount = `${Tools.toDecimal(amount.amount,this.amountDecimals)}`
+					let selfShares = Tools.toDecimal(item.self_shares, this.sharesDecimals)
 					let shares = `${selfShares} (${Tools.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
 					this.delegations.items.push({
 						address: item.address,
@@ -379,8 +379,8 @@
 						amount: item.amount,
 						denom: this.mainToken.denom
 					})
-					// item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
-					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)}`
+					// item.amount = `${Tools.toDecimal(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					item.amount = `${Tools.toDecimal(amount.amount,this.amountDecimals)}`
 					item.until = Tools.getFormatDate(new Date(item.until).getTime())
 					this.unbondingDelegations.items.push({
 						address: item.address,
@@ -495,8 +495,8 @@
 									moniker: deposit.moniker,
 									submited: String(deposit.submited),
 									hash: deposit.tx_hash,
-									// deposit: deposits ? `${Tools.formatPriceToFixed(deposits.amount,this.amountDecimals)} ${deposits.denom.toLocaleUpperCase()}` : '--',
-									deposit: deposits ? `${Tools.formatPriceToFixed(deposits.amount,this.amountDecimals)}` : '--',
+									// deposit: deposits ? `${Tools.toDecimal(deposits.amount,this.amountDecimals)} ${deposits.denom.toLocaleUpperCase()}` : '--',
+									deposit: deposits ? `${Tools.toDecimal(deposits.amount,this.amountDecimals)}` : '--',
 									link: deposit.proposal_link,
 								})
 							}
@@ -561,8 +561,8 @@
 									proposalType: item.ex && item.ex.type,
 									proposalId: item.ex && item.ex.id,
 									proposalTitle: item.ex && item.ex.title && Tools.formatString(item.ex.title, this.proposalTitleNum, '...'),
-									// amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
-									amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)}` : '--',
+									// amount: amount ? `${Tools.toDecimal(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
+									amount: amount ? `${Tools.toDecimal(amount.amount,this.amountDecimals)}` : '--',
 									'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 									MsgsNum: msgsNumber,
 									// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
