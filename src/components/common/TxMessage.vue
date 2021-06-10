@@ -597,6 +597,19 @@
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
 				<LargeString :isShowPre="Tools.isJSON(packet)" v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.ibc.amount')}}</span>
+                <span>{{amount.amount}} {{ (amount.denom || '').toUpperCase()}}</span>
+            </p>
+            <p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.from')}}：</span>
+                <span>{{ sender }}</span>
+			</p>
+            <p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.to')}}：</span>
+                <span>{{ receiver }}</span>
+			</p>
+
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofCommitment')}}：</span>
 				<LargeString v-if="proofCommitment" :text="proofCommitment"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
@@ -625,7 +638,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.token')}}：</span>
-				<LargeString :isShowPre="Tools.isJSON(token)" v-if="token" :text="token"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+                <span>{{ token.amount }} {{ (token.denom || '').toUpperCase() }}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.sender')}}：</span>
@@ -636,7 +649,10 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.receiver')}}：</span>
-				<span>{{receiver}}</span>
+                <template>
+                    <span v-if="sender === '--'">{{receiver}}</span>
+                    <span v-else @click="addressRoute(receiver)" class="address_link">{{receiver}}</span>
+                </template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.timeoutHeight')}}：</span>
@@ -1080,6 +1096,18 @@
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
 				<LargeString :isShowPre="Tools.isJSON(packet)" v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.ibc.amount')}}</span>
+                <span>{{amount.amount}} {{ (amount.denom || '').toUpperCase()}}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.ibc.from')}}：</span>
+                <span>{{ sender }}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.ibc.to')}}：</span>
+                <span>{{ receiver }}</span>
+            </p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
 				<LargeString v-if="proofUnreceived" :text="proofUnreceived"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
@@ -2097,7 +2125,6 @@
 				output: '',
 				// errorMessage : '',
 				// chainId : '',
-				description: '',
 				author: '',
 				authorDescription: '',
 				// idlContent : '',
@@ -2204,12 +2231,10 @@
 				proposer:'',
 				title:'',
 				initialDeposit: '',
-				description: '',
 				parameter:'',
 				time: '',
 				switchHeight: '',
 				info: '',
-				recipient:'',
 				upgradedClientState:'',
 				minUnit:'',
 				options: '',
@@ -2223,7 +2248,6 @@
 				delayPeriod:'',
 				previousConnectionId:'',
 				counterpartyVersions:'',
-				proofHeight:'',
 				proofInit:'',
 				proofClient:'',
 				proofConsensus:'',
@@ -2238,7 +2262,6 @@
 				counterpartyVersion: '',
 				channelId: '',
 				counterpartyChannelId: '',
-				packet: '',
 				proofUnreceived: '',
 				nextSequenceRecv: '',
 				proofClose:'',
@@ -2248,7 +2271,6 @@
 				sourcePort: '',
 				sourceChannel: '',
 				token: '',
-				sender: '',
 				receiver: '',
 				timeoutHeight: '',
 				timeoutTimestamp: '',
@@ -2474,6 +2496,7 @@
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.recv_packet:
+							    console.log(msg)
 								if(prodConfig.txDetail && prodConfig.txDetail.ibc) {
 									this.packet = JSON.stringify(msg.packet || {}) || '--';
 									this.proof = msg.proof || '--';
@@ -2488,6 +2511,14 @@
 									this.proofCommitment = msg.proof_commitment || '--';
 									this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
 									this.signer = msg.signer || '--';
+									if(msg.packet && msg.packet.data){
+									    this.sender = msg.packet.data.sender;
+									    this.receiver = msg.packet.data.receiver;
+                                        this.amount = await converCoin({
+                                            denom:msg.packet.data.denom,
+                                            amount:msg.packet.data.amount,
+                                        });
+                                    }
 								}
 								break;
 							case TX_TYPE.create_identity:
@@ -2655,11 +2686,35 @@
 								})
 								this.isBuyOrder = msg.is_buy_order;
 								this.inputAddress = msg.input.address || '--';
-								let input = await converCoin(msg.input.coin)
-								this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+								let transferList = this.events.filter(e=>e.type === TX_TYPE.transfer);
+								if(transferList && transferList.length > 1){
+								    let inputList = transferList[1].attributes,
+                                        outputList = transferList[transferList.length - 1].attributes;
+								    let inputItem = inputList.find(i=>i.key === 'amount'),
+                                        outputItem = outputList.find(i=>i.key === 'amount')
+
+                                    let inputAmount = inputItem.value.match(/\d+/g), inputDenom = '',
+                                        outputAmount = outputItem.value.match(/\d+/g), outputDenom = '';
+                                    if(inputAmount && inputAmount.length > 0){
+                                        inputDenom = inputItem.value.split(inputAmount[0])[1];
+                                    }
+                                    if(outputAmount && outputAmount.length > 0){
+                                        outputDenom = outputItem.value.split(outputAmount[0])[1];
+                                    }
+                                    let input = await converCoin({
+                                        denom:inputDenom,
+                                        amount:inputAmount[0]
+                                    })
+                                    this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+                                    let output = await converCoin({
+                                        denom:outputDenom,
+                                        amount:outputAmount[0]
+                                    })
+                                    this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
+
+                                }
+
 								this.outputAddress = msg.output.address || '--';
-								let output = await converCoin(msg.output.coin)
-								this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
@@ -2968,6 +3023,14 @@
 								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
 								this.nextSequenceRecv = msg.next_sequence_recv || '--';
 								this.signer = msg.signer || '--';
+                                if(msg.packet && msg.packet.data){
+                                    this.sender = msg.packet.data.sender;
+                                    this.receiver = msg.packet.data.receiver;
+                                    this.amount = await converCoin({
+                                        denom:msg.packet.data.denom,
+                                        amount:msg.packet.data.amount,
+                                    });
+                                }
 							break;
 							case TX_TYPE.timeout_on_close_packet:
 								this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
@@ -2988,7 +3051,7 @@
 							case TX_TYPE.transfer:
 								this.sourcePort = msg.source_port || '--';
 								this.sourceChannel = msg.source_channel || '--';
-								this.token = msg.token ? JSON.stringify(msg.token) : '--';
+								this.token = msg.token ?  await converCoin(msg.token) : '--';
 								this.sender = msg.sender || '--';
 								this.receiver = msg.receiver || '--';
 								this.timeoutHeight = msg.timeout_height ? JSON.stringify(msg.timeout_height) : '--';

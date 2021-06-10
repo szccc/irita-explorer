@@ -14,7 +14,7 @@ module.exports = {
       '/lcd': {
         target: 'http://192.168.150.40:1317',
         secure: false,
-        pathRewrite: { '^/lcd': '' },
+        //pathRewrite: { '^/lcd': '' },
       }
     },
   },

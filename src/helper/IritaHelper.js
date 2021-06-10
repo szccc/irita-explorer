@@ -1,7 +1,9 @@
 import { getConfig as getConfigApi,getIbcTransferByHash } from "@/service/api";
 import moveDecimal from 'move-decimal-point';
 import Tools from "../util/Tools";
+import { COSMOS_ADDRESS_PREFIX } from "@/constant";
 // import { ibcDenomPrefix } from '../constant';
+import {cfg} from "@/config";
 
 export async function getConfig(){
     let config = window.sessionStorage.getItem('config');
@@ -125,6 +127,8 @@ export async function addressRoute (address) {
         if(address) {
             if (address.substring(0, length) === addressPrefix.iva) {
                 return this.$router.push(`/staking/${address}`)
+            } else if (address.startsWith(COSMOS_ADDRESS_PREFIX)) {
+                window.open(`${cfg.cosmosXpAddress}/#/address/${address}`)
             } else {
                 return this.$router.push(`/address/${address}`)
             }

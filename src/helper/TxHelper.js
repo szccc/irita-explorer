@@ -15,6 +15,18 @@ export class TxHelper {
                 res.from = msg.from_address;
                 res.to = msg.to_address;
                 break;
+            case TX_TYPE.transfer:
+                res.from = msg.sender;
+                res.to = msg.receiver;
+                break;
+            case TX_TYPE.recv_packet:
+                res.from = msg.packet.data.sender;
+                res.to = msg.packet.data.receiver;
+                break;
+            case TX_TYPE.timeout_packet:
+                res.from = msg.packet.data.sender;
+                res.to = msg.packet.data.receiver;
+                break;
             case TX_TYPE.define_service:
                 res.from = msg.author;
                 break;
@@ -118,7 +130,7 @@ export class TxHelper {
             case TX_TYPE.transfer_token_owner:
                 res.from = msg.src_owner;
                 res.to = msg.dst_owner;
-                break; 
+                break;
             case TX_TYPE.deposit:
                 res.from = msg.depositor;
                 break;
@@ -224,7 +236,7 @@ export class TxHelper {
                     break;
                 case TX_TYPE.unjail:
                     operator = msg.address ? msg.address : '--'
-                    break; 
+                    break;
                 default:
                     operator = '--'
             }
@@ -742,13 +754,13 @@ export class TxHelper {
                         value: TX_TYPE.submit_misbehaviour,
                         label: TX_TYPE_DISPLAY[TX_TYPE.submit_misbehaviour]
                     });
-                break;  
+                break;
                 case TX_TYPE.connection_open_init:
                     othersObj.children.push({
                         value: TX_TYPE.connection_open_init,
                         label: TX_TYPE_DISPLAY[TX_TYPE.connection_open_init]
                     });
-                break;  
+                break;
                 case TX_TYPE.connection_open_try:
                     othersObj.children.push({
                         value: TX_TYPE.connection_open_try,
@@ -815,7 +827,7 @@ export class TxHelper {
                         label: TX_TYPE_DISPLAY[TX_TYPE.acknowledge_packet]
                     });
                 break;
-                
+
 			}
         });
 		allTxType.push(tansferObj,stakingObj,iServiceObj,nftObj,coinswapObj,identityObj,ibcObj,htlcObj,crossChainObj,oracleObj,randomObj,recordObj,assetObj,govObj,othersObj);

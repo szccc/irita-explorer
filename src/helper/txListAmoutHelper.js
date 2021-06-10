@@ -67,7 +67,7 @@ export async function getAmountByTx (message, events, isShowDenom) {
 			case TX_TYPE.send:
 				if (msg && msg.amount && msg.amount.length === 1) {
 					const sendAmount = msg && msg.amount.length > 0 ? await converCoin(msg.amount[0]) : null
-					// formatPriceToFixed 四舍五入 toDecimal 截取 
+					// formatPriceToFixed 四舍五入 toDecimal 截取
 					amount = sendAmount && sendAmount.amount && sendAmount.denom ?  isShowDenom ? `${Tools.toDecimal(sendAmount.amount,amountDecimals) } ${sendAmount.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(sendAmount.amount,amountDecimals) }` : '--';
 				}
 				break;
@@ -203,6 +203,11 @@ export async function getAmountByTx (message, events, isShowDenom) {
 			case TX_TYPE.update_identity:
 				break;
 			case TX_TYPE.transfer:
+			    console.error(message)
+                if(msg.token) {
+                    let amountMaxUnit = await converCoin(msg.token);
+                    amount = isShowDenom ? `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)} ${amountMaxUnit.denom.toUpperCase()}` : `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)}`;
+                }
 				break;
 			case TX_TYPE.timeout_packet:
 				break;

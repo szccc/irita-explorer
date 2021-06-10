@@ -544,3 +544,5 @@ export const DISTRIBUTION = {
         name:'No. 1001-',
     },
 }
+
+export const COSMOS_ADDRESS_PREFIX = 'cosmos';
