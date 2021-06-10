@@ -2055,7 +2055,11 @@
 				type: Object,
 				required: true,
 			},
-			events: {
+			msgIndex: {
+				type: Number,
+				required: true,
+			},
+			eventsNew: {
 				type: Array,
 				required: true,
 			},
@@ -2360,12 +2364,16 @@
 								this.serviceName = msg.service_name || '--';
 								this.superMode = msg.super_mode || '--';
 								this.timeout = msg.timeout || '--';
-								(this.events || []).forEach((item) => {
-									(item.attributes || []).forEach((attr) => {
-										if (attr.key == 'request_context_id') {
-											this.requestContextId = attr.value || '--';
-										}
-									});
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											(events.attributes || []).forEach((attr) => {
+												if (attr.key == 'request_context_id') {
+													this.requestContextId = attr.value || '--';
+												}
+											});
+										})
+									}
 								});
 								break;
 							case TX_TYPE.transfer_nft:
@@ -2552,21 +2560,29 @@
 								break;
 							case TX_TYPE.withdraw_delegator_reward:
 								this.from = msg.validator_address;
-								this.to = msg.delegator_address;
-								(this.events || []).forEach((item) => {
-									if(item.type === 'withdraw_rewards') {
-										let isAmount = (item.attributes || []).some(item => {
-											return item.value == msg.validator_address
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if (events.type == 'withdraw_rewards') {
+												(events.attributes || []).forEach((attr) => {
+													if (attr.key == 'amount') {
+														amount = attr.value || '--';
+													}
+												});
+											}
+											if(events.type === 'transfer') { 
+												(events.attributes || []).forEach((attr) => {
+													if (attr.key == 'recipient') {
+														this.to = attr.value || '--';
+													}
+												});
+											}
 										})
-										if(isAmount) {
-											(item.attributes || []).forEach((attr) => {
-												if (attr.key == 'amount') {
-													amount = attr.value || '--';
-												}
-											});
-										}
 									}
 								});
+								if(!this.to) {
+									this.to = '--';
+								}
 								if( amount && amount !== '--') {
 									amount = await converCoin(amount);
 									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
@@ -2627,15 +2643,19 @@
 								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.swap_order:
-								(this.events || []).forEach(event => {
-									if(event.type === 'swap') {
-										(event.attributes || []).forEach(attribute => {
-											if(attribute.key === 'token_pair') {
-												this.tokenPair = attribute.value;
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if(events.type === 'swap') {
+												(events.attributes || []).forEach(attribute => {
+													if(attribute.key === 'token_pair') {
+														this.tokenPair = attribute.value;
+													}
+												})
 											}
 										})
 									}
-								})
+								});
 								this.isBuyOrder = msg.is_buy_order;
 								this.inputAddress = msg.input.address || '--';
 								let input = await converCoin(msg.input.coin)
@@ -2646,17 +2666,21 @@
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
-								(this.events || []).forEach(event => {
-									if(event.type === 'transfer') {
-										(event.attributes || []).forEach(attribute => {
-											if(attribute.key === 'amount') {
-												if(attribute.value && attribute.value.includes(",")) {
-													this.amount = attribute.value
-												}
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if(events.type === 'transfer') {
+												(events.attributes || []).forEach(attribute => {
+													if(attribute.key === 'amount') {
+														if(attribute.value && attribute.value.includes(",")) {
+															this.amount = attribute.value
+														}
+													}
+												})
 											}
 										})
 									}
-								})
+								});
 								this.sender = msg.sender || '--';
 								// let exactIrisAmt = await converCoin({
 								// 	amount: msg.exact_iris_amt,
@@ -2670,24 +2694,28 @@
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.remove_liquidity:
-								(this.events || []).forEach(event => {
-									if(event.type === 'transfer') {
-										(event.attributes || []).forEach(attribute => {
-											if(attribute.key === 'amount') {
-												if(attribute.value && attribute.value.includes(",")) {
-													this.amount = attribute.value
-												}
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if(events.type === 'transfer') {
+												(events.attributes || []).forEach(attribute => {
+													if(attribute.key === 'amount') {
+														if(attribute.value && attribute.value.includes(",")) {
+															this.amount = attribute.value
+														}
+													}
+												})
+											}
+											if(events.type === 'remove_liquidity') {
+												(events.attributes || []).forEach(attribute => {
+													if(attribute.key === 'token_pair') {
+														this.tokenPair = attribute.value;
+													}
+												})
 											}
 										})
 									}
-									if(event.type === 'remove_liquidity') {
-										(event.attributes || []).forEach(attribute => {
-											if(attribute.key === 'token_pair') {
-												this.tokenPair = attribute.value;
-											}
-										})
-									}
-								})
+								});
 								this.sender = msg.sender || '--';
 								let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
 								this.withdrawLiquidity = `${withdrawLiquidity.amount} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
@@ -2999,15 +3027,19 @@
 								}
 							break;
 							case TX_TYPE.create_htlc:
-								(this.events || []).forEach(item=> {
-									if(item.type === 'create_htlc') {
-										(item.attributes || []).forEach(attrs => {
-											if(attrs.key === 'id') {
-												this.id = attrs.value
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if(events.type === 'create_htlc') {
+												(events.attributes || []).forEach(attrs => {
+													if(attrs.key === 'id') {
+														this.id = attrs.value
+													}
+												})
 											}
 										})
 									}
-								})
+								});
 								this.sender = msg.sender || '--';
 								this.to = msg.to || '--';
 								this.receiverOnOtherChain = msg.receiver_on_other_chain || '--';
@@ -3027,32 +3059,32 @@
 							break;
 							case TX_TYPE.claim_htlc:
 								let transfer;
-								let numberTransfer = 0;
-								(this.events || []).forEach(event => {
-									if(event.type === 'claim_htlc') {
-										(event.attributes || []).forEach(item => {
-											if(item.key === 'transfer')  {
-												transfer = item.value
-											}
-											if(item.key == 'hash_lock') {
-												this.hashLock = item.value
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+												if(events.type === 'claim_htlc') {
+													(events.attributes || []).forEach(item => {
+														if(item.key === 'transfer')  {
+															transfer = item.value
+														}
+														if(item.key == 'hash_lock') {
+															this.hashLock = item.value
+														}
+													})
+												}
+												if(events.type === "transfer") {
+													(events.attributes || []).forEach(item => {
+														if(item.key === 'amount')  {
+															this.amount = item.value
+														}
+														if(item.key === 'recipient') {
+															this.recipient = item.value
+														}
+												})
 											}
 										})
 									}
-									if(event.type === "transfer") {
-										numberTransfer++
-									}
-									if(event.type === "transfer" && numberTransfer === 2) {
-										(event.attributes || []).forEach(item => {
-											if(item.key === 'amount')  {
-												this.amount = item.value
-											}
-											if(item.key === 'recipient') {
-												this.recipient = item.value
-											}
-										})
-									}
-								})
+								});
 								if(!this.recipient) {
 									this.recipient = '--'
 								}
