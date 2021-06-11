@@ -1082,7 +1082,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
-				<span>{{proofUnreceived}}</span>
+				<LargeString :isShowPre="Tools.isJSON(proofUnreceived)" v-if="proofUnreceived" :text="proofUnreceived"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
@@ -1107,7 +1107,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
-				<span>{{proofUnreceived}}</span>
+				<LargeString :isShowPre="Tools.isJSON(proofUnreceived)" v-if="proofUnreceived" :text="proofUnreceived"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofClose')}}：</span>
