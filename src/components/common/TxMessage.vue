@@ -2688,33 +2688,47 @@
 								});
 								this.isBuyOrder = msg.is_buy_order;
 								this.inputAddress = msg.input.address || '--';
-								let transferList = this.events.filter(e=>e.type === TX_TYPE.transfer);
+                                if(this.eventsNew && this.eventsNew.length > 0){
+                                    let currentEvents = this.eventsNew.find((e)=>e.msg_index === this.msgIndex);
+                                    if(currentEvents && currentEvents.events.length > 0){
+                                        let transferItem = currentEvents.events.find(e=>e.type === TX_TYPE.transfer);
+                                        if(transferItem && transferItem.attributes && transferItem.attributes.length > 0){
+                                            let amountList = transferItem.attributes.filter((t)=>t.key === 'amount');
+                                            if(amountList && amountList.length > 0){
+                                                let inputItem = amountList[0],
+                                                    outputItem = amountList[1]
+                                                let inputAmount = inputItem.value.match(/\d+/g), inputDenom = '',
+                                                    outputAmount = outputItem.value.match(/\d+/g), outputDenom = '';
+                                                if(inputAmount && inputAmount.length > 0){
+                                                    inputDenom = inputItem.value.split(inputAmount[0])[1];
+                                                }
+                                                if(outputAmount && outputAmount.length > 0){
+                                                    outputDenom = outputItem.value.split(outputAmount[0])[1];
+                                                }
+                                                let input = await converCoin({
+                                                    denom:inputDenom,
+                                                    amount:inputAmount[0]
+                                                })
+                                                this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+                                                let output = await converCoin({
+                                                    denom:outputDenom,
+                                                    amount:outputAmount[0]
+                                                })
+                                                this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
+                                            }
+                                        }
+                                    }
+                                }
+								/*let transferList = this.events.filter(e=>e.type === TX_TYPE.transfer);
 								if(transferList && transferList.length > 1){
 								    let inputList = transferList[1].attributes,
                                         outputList = transferList[transferList.length - 1].attributes;
 								    let inputItem = inputList.find(i=>i.key === 'amount'),
                                         outputItem = outputList.find(i=>i.key === 'amount')
 
-                                    let inputAmount = inputItem.value.match(/\d+/g), inputDenom = '',
-                                        outputAmount = outputItem.value.match(/\d+/g), outputDenom = '';
-                                    if(inputAmount && inputAmount.length > 0){
-                                        inputDenom = inputItem.value.split(inputAmount[0])[1];
-                                    }
-                                    if(outputAmount && outputAmount.length > 0){
-                                        outputDenom = outputItem.value.split(outputAmount[0])[1];
-                                    }
-                                    let input = await converCoin({
-                                        denom:inputDenom,
-                                        amount:inputAmount[0]
-                                    })
-                                    this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
-                                    let output = await converCoin({
-                                        denom:outputDenom,
-                                        amount:outputAmount[0]
-                                    })
-                                    this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
 
-                                }
+
+                                }*/
 
 								this.outputAddress = msg.output.address || '--';
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
