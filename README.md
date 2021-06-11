@@ -19,7 +19,7 @@ step1 产品化配置
 
 step2 build
 ```
-make setup_and_build
+npx cross-env VUE_APP_COSMOS_XP_ADDRESS=... && make setup_and_build
 ```
 step3 导出dist静态文件夹到指定服务
 step4 设置代理  详细参考 “## proxy”
@@ -38,3 +38,10 @@ proxy: {
           }
         }
 ```
+
+##环境变量
+
+|  name   | example  |  note  |
+|  ----  | ----  |   ----  | 
+| VUE_APP_COSMOS_XP_ADDRESS  | https://cosmoshub.iobscan.io |  cosmos单链浏览器地址 |
+| ...  | ... |  ... |

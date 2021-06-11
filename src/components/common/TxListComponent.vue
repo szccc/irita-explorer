@@ -52,7 +52,7 @@
             </el-table-column> -->
             <el-table-column :min-width="ColumnMinWidth.address" class-name="from" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
-                    <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
+                    <el-tooltip v-if="isValid(scope.row.from)" v-show="(Number(scope.row.msgCount) <= 1 && !scope.row.isIbc) || scope.row.isIbc" :content="scope.row.from"
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
                         <span v-if="isValid(scope.row.from) && address !== scope.row.from " class="address_link" @click="addressRoute(scope.row.from)">
@@ -62,12 +62,12 @@
                             {{  formatMoniker(scope.row.fromMonikers,monikerNum.otherTable) || formatAddress(scope.row.from)}}
                         </span>
                     </el-tooltip>
-                    <span v-if="!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ">--</span>
+                    <span v-if="(!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc">--</span>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" class-name="to" :label="$t('ExplorerLang.table.to')">
                 <template slot-scope="scope">
-                    <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="String(scope.row.to)"
+                    <el-tooltip v-show="(Number(scope.row.msgCount) <= 1 && !scope.row.isIbc) || scope.row.isIbc" :content="String(scope.row.to)"
                                 placement="top"
                                 :key="Math.random()"
                                 :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
@@ -82,7 +82,7 @@
                         </router-link>
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
-                    <span v-show="Number(scope.row.msgCount) > 1"> --</span>
+                    <span v-show="(!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc"> --</span>
                 </template>
             </el-table-column>
             <!-- <el-table-column :min-width="ColumnMinWidth.blockHeight" class-name="block" :label="$t('ExplorerLang.table.block')"> -->
@@ -130,6 +130,7 @@
     import { addressRoute, formatMoniker, converCoin, getMainToken } from '@/helper/IritaHelper';
     import {getAmountByTx} from "../../helper/txListAmoutHelper";
     import prodConfig from '../../productionConfig';
+
     export default {
         name : "TxList",
         components : {},
@@ -201,7 +202,22 @@
                     let fees = []
                     let amounts = []
                     for (const tx of this.txData) {
-                        let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
+                        let msg;
+                        let isIbc = false;
+                        if(tx.msgs.length > 0){
+                            let recvPacketItem = tx.msgs.find((m)=>{
+                                if(m.type === TX_TYPE.recv_packet || m.type === TX_TYPE.transfer || m.type === TX_TYPE.timeout_packet){
+                                    isIbc = true;
+                                    return true;
+                                }
+                            });
+                            if(recvPacketItem){
+                                msg = recvPacketItem;
+                            }else{
+                                msg = tx.msgs[0]
+                            }
+                        }
+                        let addrObj = TxHelper.getFromAndToAddressFromMsg(msg);
                         amounts.push(tx.msgs[0] ? getAmountByTx(tx.msgs[0],tx.events,true) : '--');
                         let from = addrObj.from || '--',
                             to =  addrObj.to || '--';
@@ -223,6 +239,7 @@
                         if(tx.type === TX_TYPE.send) {
                             tx && tx.msgs && tx.msgs[0] && tx.msgs[0].msg && tx.msgs[0].msg.amount && tx.msgs[0].msg.amount.length > 1 ? isShowMore = true : ''
                         }
+
                         this.txDataList.push({
                                 txHash : tx.tx_hash,
                                 blockHeight : tx.height,
@@ -239,7 +256,8 @@
                                 Time: tx.time,
                                 amount: '',
                                 ageTime: Tools.formatAge(Tools.getTimestamp(),tx.time*1000,"ago",">"),
-                                isShowMore
+                                isShowMore,
+                                isIbc
                         })
                         clearInterval(this.txListTimer);
                         this.txListTimer = setInterval(() => {

@@ -427,11 +427,14 @@ export const ExplorerLang = {
             proofCommitment: 'ProofCommitment',
             sourcePort: 'SourcePort',
             sourceChannel: 'SourceChannel',
-            token: 'Token',
+            token: 'Amount',
             sender: 'Sender',
             receiver: 'Receiver',
             timeoutHeight: 'TimeoutHeight',
-            timeoutTimestamp: 'TimeoutTimestamp'
+            timeoutTimestamp: 'TimeoutTimestamp',
+            from:'Sender',
+            to:'Receiver',
+            amount: 'Amount',
         },
         multisend: {
             inputs: 'Inputs',
