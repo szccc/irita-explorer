@@ -128,6 +128,7 @@ export async function addressRoute (address) {
             if (address.substring(0, length) === addressPrefix.iva) {
                 return this.$router.push(`/staking/${address}`)
             } else if (address.startsWith(COSMOS_ADDRESS_PREFIX)) {
+                console.log(cfg)
                 window.open(`${cfg.cosmosXpAddress}/#/address/${address}`)
             } else {
                 return this.$router.push(`/address/${address}`)
