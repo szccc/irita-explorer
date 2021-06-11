@@ -62,7 +62,9 @@
                             {{  formatMoniker(scope.row.fromMonikers,monikerNum.otherTable) || formatAddress(scope.row.from)}}
                         </span>
                     </el-tooltip>
-                    <span v-if="(!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc">--</span>
+                    <router-link v-if="(!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc">
+                        {{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i>
+                    </router-link>
                 </template>
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" class-name="to" :label="$t('ExplorerLang.table.to')">
@@ -82,7 +84,9 @@
                         </router-link>
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
-                    <span v-show="(!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc"> --</span>
+                    <router-link v-if="(!isValid(scope.row.to) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc">
+                        {{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i>
+                    </router-link>
                 </template>
             </el-table-column>
             <!-- <el-table-column :min-width="ColumnMinWidth.blockHeight" class-name="block" :label="$t('ExplorerLang.table.block')"> -->

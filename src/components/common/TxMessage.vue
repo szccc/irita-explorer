@@ -603,11 +603,11 @@
             </p>
             <p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.from')}}：</span>
-                <span>{{ sender }}</span>
+                <span @click="addressRoute(sender)" class="address_link">{{ sender }}</span>
 			</p>
             <p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.to')}}：</span>
-                <span>{{ receiver }}</span>
+                <span @click="addressRoute(receiver)" class="address_link">{{ receiver }}</span>
 			</p>
 
 			<p>
@@ -1102,11 +1102,11 @@
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.ibc.from')}}：</span>
-                <span>{{ sender }}</span>
+                <span @click="addressRoute(sender)" class="address_link">{{ sender }}</span>
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.ibc.to')}}：</span>
-                <span>{{ receiver }}</span>
+                <span @click="addressRoute(receiver)" class="address_link">{{ receiver }}</span>
             </p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
