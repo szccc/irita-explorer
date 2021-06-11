@@ -2059,9 +2059,12 @@
 				type: Number,
 				required: true,
 			},
-			eventsNew: {
+			events: {
 				type: Array,
 				required: true,
+			},
+			eventsNew: {
+				type: Array,
 			},
 			monikers: {
 				type: Array,
@@ -2364,17 +2367,27 @@
 								this.serviceName = msg.service_name || '--';
 								this.superMode = msg.super_mode || '--';
 								this.timeout = msg.timeout || '--';
-								(this.eventsNew || []).forEach((item) => {
-									if(item.msg_index === this.msgIndex) {
-										(item.events || []).forEach((events) => {
-											(events.attributes || []).forEach((attr) => {
-												if (attr.key == 'request_context_id') {
-													this.requestContextId = attr.value || '--';
-												}
-											});
-										})
-									}
-								});
+								if(this.eventsNew) {
+									(this.eventsNew || []).forEach((item) => {
+										if(item.msg_index === this.msgIndex) {
+											(item.events || []).forEach((events) => {
+												(events.attributes || []).forEach((attr) => {
+													if (attr.key == 'request_context_id') {
+														this.requestContextId = attr.value || '--';
+													}
+												});
+											})
+										}
+									});
+								} else {
+									(this.events || []).forEach((item) => {
+										(item.attributes || []).forEach((attr) => {
+											if (attr.key == 'request_context_id') {
+												this.requestContextId = attr.value || '--';
+											}
+										}); 
+									})
+								}
 								break;
 							case TX_TYPE.transfer_nft:
 								this.denom = msg.denom || '--';
