@@ -130,7 +130,6 @@
     import { addressRoute, formatMoniker, converCoin, getMainToken } from '@/helper/IritaHelper';
     import {getAmountByTx} from "../../helper/txListAmoutHelper";
     import prodConfig from '../../productionConfig';
-    import {cfg} from "@/config";
 
     export default {
         name : "TxList",
@@ -177,7 +176,6 @@
         },
         mounted(){
             this.setMainToken();
-            console.log(cfg)
         },
         methods : {
             isValid(value){
