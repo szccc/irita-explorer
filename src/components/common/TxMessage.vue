@@ -2367,7 +2367,7 @@
 								this.serviceName = msg.service_name || '--';
 								this.superMode = msg.super_mode || '--';
 								this.timeout = msg.timeout || '--';
-								if(this.eventsNew) {
+								if(this.eventsNew && this.eventsNew.length > 0) {
 									(this.eventsNew || []).forEach((item) => {
 										if(item.msg_index === this.msgIndex) {
 											(item.events || []).forEach((events) => {
