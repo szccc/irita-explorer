@@ -424,11 +424,14 @@ export const ExplorerLang = {
             proofCommitment: 'ProofCommitment',
             sourcePort: 'SourcePort',
             sourceChannel: 'SourceChannel',
-            token: 'Token',
+            token: 'Amount',
             sender: 'Sender',
             receiver: 'Receiver',
             timeoutHeight: 'TimeoutHeight',
-            timeoutTimestamp: 'TimeoutTimestamp'
+            timeoutTimestamp: 'TimeoutTimestamp',
+            from:'发送者',
+            to:'接收者',
+            amount: '数量 ',
         },
         multisend: {
             inputs: 'Inputs',
