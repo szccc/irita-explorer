@@ -62,7 +62,8 @@
                             {{  formatMoniker(scope.row.fromMonikers,monikerNum.otherTable) || formatAddress(scope.row.from)}}
                         </span>
                     </el-tooltip>
-                    <router-link v-if="(!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc">
+                    <router-link v-if="(!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc"
+                                 :to="`/tx?txHash=${scope.row.txHash}`">
                         {{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i>
                     </router-link>
                 </template>
@@ -82,9 +83,8 @@
                         <router-link v-else-if="isValid(scope.row.to)" :to="`/tx?txHash=${scope.row.txHash}`">
                             {{ `${scope.row.to.length} ${$t('ExplorerLang.unit.providers')}`}}
                         </router-link>
-                        <span v-else>{{'--'}}</span>
                     </el-tooltip>
-                    <router-link v-if="(!isValid(scope.row.to) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc">
+                    <router-link v-if="(!isValid(scope.row.to) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc" :to="`/tx?txHash=${scope.row.txHash}`">
                         {{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i>
                     </router-link>
                 </template>

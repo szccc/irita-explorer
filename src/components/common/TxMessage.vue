@@ -1278,7 +1278,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.staking.securityContact')}}</span>
 				<span>{{securityContact}}</span>
 			</p>
-		</div>
+		</p>
 		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
@@ -2718,17 +2718,19 @@
                                             }
                                         }
                                     }
+                                }else{
+                                    let input = await converCoin({
+                                        denom:msg.input.coin.denom,
+                                        amount:msg.input.coin.amount
+                                    })
+                                    this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+                                    let output = await converCoin({
+                                        denom:msg.output.coin.denom,
+                                        amount:msg.output.coin.amount
+                                    })
+                                    this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
                                 }
-								/*let transferList = this.events.filter(e=>e.type === TX_TYPE.transfer);
-								if(transferList && transferList.length > 1){
-								    let inputList = transferList[1].attributes,
-                                        outputList = transferList[transferList.length - 1].attributes;
-								    let inputItem = inputList.find(i=>i.key === 'amount'),
-                                        outputItem = outputList.find(i=>i.key === 'amount')
 
-
-
-                                }*/
 
 								this.outputAddress = msg.output.address || '--';
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
