@@ -289,12 +289,12 @@
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.send">
-			<div>
-				<span>{{$t('ExplorerLang.transactionInformation.send.amount')}}：</span>
-				<P>
-					<span style="margin-bottom: 0.05rem" v-for="item in amountArray" :key="item">{{item}}</span>
-				</p>
-			</div>
+			    <p>
+                    <span>{{$t('ExplorerLang.transactionInformation.send.amount')}}：</span>
+                    <span>
+                        <p style="margin-bottom: 0.05rem" v-for="item in amountArray" :key="item">{{item}}</p>
+                    </span>
+                </p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
 				<template>
@@ -603,11 +603,11 @@
             </p>
             <p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.from')}}：</span>
-                <span>{{ sender }}</span>
+                <span @click="addressRoute(sender)" class="address_link">{{ sender }}</span>
 			</p>
             <p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.to')}}：</span>
-                <span>{{ receiver }}</span>
+                <span @click="addressRoute(receiver)" class="address_link">{{ receiver }}</span>
 			</p>
 
 			<p>
@@ -1102,11 +1102,11 @@
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.ibc.from')}}：</span>
-                <span>{{ sender }}</span>
+                <span @click="addressRoute(sender)" class="address_link">{{ sender }}</span>
             </p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.ibc.to')}}：</span>
-                <span>{{ receiver }}</span>
+                <span @click="addressRoute(receiver)" class="address_link">{{ receiver }}</span>
             </p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
@@ -1215,7 +1215,7 @@
 				<span>{{from}}</span>
 			</p>-->
 		</div>
-		<div v-if="txType === TX_TYPE.create_validator">
+		<p v-if="txType === TX_TYPE.create_validator">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
 				<template>
@@ -1251,9 +1251,9 @@
 				<span>{{$t('ExplorerLang.transactionInformation.staking.consensusPubkey')}}</span>
 				<span>{{consensusPubkey}}</span>
 			</p>
-			<div>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
-				<div>{{commissionRate}}
+				<span>{{commissionRate}}
 					<el-tooltip placement="top" v-if="commissionRate">
   						<div slot="content" >
 							<p>Max Rate : {{commissionMaxRate || '--'}}</p>
@@ -1261,8 +1261,8 @@
 						</div>
 						<i class="iconfont icontishi"></i>
 					</el-tooltip>
-				</div>
-			</div>
+				</span>
+			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.website')}}</span>
 				<template>
@@ -1278,7 +1278,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.staking.securityContact')}}</span>
 				<span>{{securityContact}}</span>
 			</p>
-		</div>
+		</p>
 		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
@@ -1948,24 +1948,24 @@
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.multisend">
-			<div>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.multisend.inputs')}}: </span>
-				<div>
+				<span>
 					<p v-for="(input,index) in inputs" :key="index">
 						<span @click="addressRoute(input.address)" class="address_link">{{input.address}}</span>
 						<span>{{input.amount}}</span>
 					</p>
-				</div>
-			</div>
-			<div>
+				</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.multisend.outputs')}}: </span>
-				<div>
+				<span>
 					<p v-for="(output,index) in outputs" :key="index">
 						<span @click="addressRoute(output.address)" class="address_link">{{output.address}}</span>
 						<span>{{output.amount}}</span>
 					</p>
-				</div>
-			</div>
+				</span>
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.create_htlc">
 			<p>
@@ -2731,17 +2731,19 @@
                                             }
                                         }
                                     }
+                                }else{
+                                    let input = await converCoin({
+                                        denom:msg.input.coin.denom,
+                                        amount:msg.input.coin.amount
+                                    })
+                                    this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+                                    let output = await converCoin({
+                                        denom:msg.output.coin.denom,
+                                        amount:msg.output.coin.amount
+                                    })
+                                    this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
                                 }
-								/*let transferList = this.events.filter(e=>e.type === TX_TYPE.transfer);
-								if(transferList && transferList.length > 1){
-								    let inputList = transferList[1].attributes,
-                                        outputList = transferList[transferList.length - 1].attributes;
-								    let inputItem = inputList.find(i=>i.key === 'amount'),
-                                        outputItem = outputList.find(i=>i.key === 'amount')
 
-
-
-                                }*/
 
 								this.outputAddress = msg.output.address || '--';
 								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
