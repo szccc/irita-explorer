@@ -1215,7 +1215,7 @@
 				<span>{{from}}</span>
 			</p>-->
 		</div>
-		<p v-if="txType === TX_TYPE.create_validator">
+		<div v-if="txType === TX_TYPE.create_validator">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.operatorAddress')}}</span>
 				<template>
@@ -1278,7 +1278,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.staking.securityContact')}}</span>
 				<span>{{securityContact}}</span>
 			</p>
-		</p>
+		</div>
 		<div v-if="txType === TX_TYPE.withdraw_delegator_reward">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.from')}}</span>
