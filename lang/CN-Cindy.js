@@ -332,7 +332,7 @@ export const ExplorerLang = {
             minLiquidity: '流动性凭证 :',
             withdrawLiquidity: '提出流动性凭证 :',
             amount: 'Amount :', // 新增
-            tokenPair: 'Token Pair', // 新增
+            tokenPair: 'Token Pair :', // 新增
         },
         oracle: {
             feedName: '任务名称',
