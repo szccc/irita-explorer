@@ -191,14 +191,6 @@ export async function getAmountByTx (message, events, isShowDenom) {
 				break;
 			// 联盟链和公有链 ibc交易类型名称一致
 			case TX_TYPE.recv_packet:
-				if (message?.msg?.packet?.data) {
-					let data = message?.msg?.packet?.data;
-                    let amountMaxUnit = await converCoin({
-						denom:data.denom,
-						amount:data.amount
-					});
-                    amount = isShowDenom ? `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)} ${amountMaxUnit.denom.toUpperCase()}` : `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)}`;
-                }
 				break;
 			// 联盟链和公有链 ibc交易类型名称一致
 			case TX_TYPE.create_client:
