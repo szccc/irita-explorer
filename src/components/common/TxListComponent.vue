@@ -52,7 +52,7 @@
             </el-table-column> -->
             <el-table-column :min-width="ColumnMinWidth.address" class-name="from" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
-                    <el-tooltip v-if="isValid(scope.row.from)" v-show="(Number(scope.row.msgCount) <= 1 && !scope.row.isIbc) || scope.row.isIbc" :content="scope.row.from"
+                    <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
                                 placement="top"
                                 :disabled="!isValid(scope.row.from)">
                         <span v-if="isValid(scope.row.from) && address !== scope.row.from " class="address_link" @click="addressRoute(scope.row.from)">
@@ -62,7 +62,7 @@
                             {{  formatMoniker(scope.row.fromMonikers,monikerNum.otherTable) || formatAddress(scope.row.from)}}
                         </span>
                     </el-tooltip>
-                    <router-link v-if="(!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc"
+                    <router-link v-if="!isValid(scope.row.from) || Number(scope.row.msgCount) > 1"
                                  :to="`/tx?txHash=${scope.row.txHash}`">
                         {{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i>
                     </router-link>
@@ -70,7 +70,7 @@
             </el-table-column>
             <el-table-column :min-width="ColumnMinWidth.address" class-name="to" :label="$t('ExplorerLang.table.to')">
                 <template slot-scope="scope">
-                    <el-tooltip v-show="(Number(scope.row.msgCount) <= 1 && !scope.row.isIbc) || scope.row.isIbc" :content="String(scope.row.to)"
+                    <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="String(scope.row.to)"
                                 placement="top"
                                 :key="Math.random()"
                                 :disabled="!isValid(scope.row.to) || Array.isArray(scope.row.to)">
@@ -84,7 +84,7 @@
                             {{ `${scope.row.to.length} ${$t('ExplorerLang.unit.providers')}`}}
                         </router-link>
                     </el-tooltip>
-                    <router-link v-if="(!isValid(scope.row.to) || Number(scope.row.msgCount) > 1 ) && !scope.row.isIbc" :to="`/tx?txHash=${scope.row.txHash}`">
+                    <router-link v-if="!isValid(scope.row.to) || Number(scope.row.msgCount) > 1" :to="`/tx?txHash=${scope.row.txHash}`">
                         {{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i>
                     </router-link>
                 </template>
@@ -207,11 +207,9 @@
                     let amounts = []
                     for (const tx of this.txData) {
                         let msg;
-                        let isIbc = false;
                         if(tx.msgs.length > 0){
                             let recvPacketItem = tx.msgs.find((m)=>{
                                 if(m.type === TX_TYPE.recv_packet || m.type === TX_TYPE.transfer || m.type === TX_TYPE.timeout_packet){
-                                    isIbc = true;
                                     return true;
                                 }
                             });
@@ -261,7 +259,6 @@
                                 amount: '',
                                 ageTime: Tools.formatAge(Tools.getTimestamp(),tx.time*1000,"ago",">"),
                                 isShowMore,
-                                isIbc
                         })
                         clearInterval(this.txListTimer);
                         this.txListTimer = setInterval(() => {
