@@ -57,6 +57,10 @@
             isShowPre: {
                 type: Boolean,
                 default: false
+            },
+            expand:{
+                type:Boolean,
+                required:false
             }
         },
         data(){
@@ -73,9 +77,14 @@
         },
         mounted(){
             setTimeout( () => {
-                    this.$nextTick(()=>{ 
+                    this.$nextTick(()=>{
                     let height = this.$refs.text.offsetHeight;
-                    this.showDesc = height <= this.minHeight
+                    if(this.expand){
+                        this.showDesc = true;
+                    }else{
+                        this.showDesc = height <= this.minHeight
+                    }
+
                     this.isLarge = false
                     if(this.lineHeight) {
                         this.isHeight  = height > this.lineHeight

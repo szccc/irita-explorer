@@ -191,6 +191,13 @@ export async function getAmountByTx (message, events, isShowDenom) {
 				break;
 			// 联盟链和公有链 ibc交易类型名称一致
 			case TX_TYPE.recv_packet:
+                if(msg.packet && msg.packet.data) {
+                    let amountMaxUnit = await converCoin({
+                        amount:msg.packet.data.amount,
+                        denom:msg.packet.data.denom,
+                    });
+                    amount = isShowDenom ? `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)} ${amountMaxUnit.denom.toUpperCase()}` : `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)}`;
+                }
 				break;
 			// 联盟链和公有链 ibc交易类型名称一致
 			case TX_TYPE.create_client:
@@ -203,7 +210,6 @@ export async function getAmountByTx (message, events, isShowDenom) {
 			case TX_TYPE.update_identity:
 				break;
 			case TX_TYPE.transfer:
-			    console.error(message)
                 if(msg.token) {
                     let amountMaxUnit = await converCoin(msg.token);
                     amount = isShowDenom ? `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)} ${amountMaxUnit.denom.toUpperCase()}` : `${Tools.toDecimal(amountMaxUnit.amount,amountDecimals)}`;

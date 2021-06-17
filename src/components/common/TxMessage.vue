@@ -595,7 +595,9 @@
 		<div v-if="txType === TX_TYPE.recv_packet && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
-				<LargeString :isShowPre="Tools.isJSON(packet)" v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(packet)"
+                             expand
+                             v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
             <p>
                 <span>{{$t('ExplorerLang.transactionInformation.ibc.amount')}}</span>
