@@ -658,7 +658,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.timeoutHeight')}}：</span>
-				<LargeString :isShowPre="Tools.isJSON(timeoutHeight)" v-if="timeoutHeight" :text="timeoutHeight"  :minHeight="timeoutHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(timeoutHeight)" v-if="timeoutHeight" :text="timeoutHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.timeoutTimestamp')}}：</span>
