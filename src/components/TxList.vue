@@ -148,10 +148,7 @@
                 // }
                 if(this.txType){
                     url += `&txType=${this.txType}`;
-                    this.txTypeArray = TxHelper.getTxTypeArray(this.txTypeOption,this.txType)
-                } else {
-                    this.txTypeArray=['']
-                }
+                } 
                 if(this.statusValue){
                     url += `&status=${this.statusValue}`;
                 }
@@ -208,6 +205,7 @@
                         slot : 'allTxType',
                     });
                     this.txTypeOption = typeList;
+                    this.txTypeArray = TxHelper.getTxTypeArray(this.txTypeOption,this.txType)
                 }catch (e) {
                     console.error(e);
                     // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
