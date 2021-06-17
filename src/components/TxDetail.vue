@@ -148,6 +148,7 @@ export default {
         this.timestamp = this.formatTimestampAndAge(this.timeData)
       }
     }, 1000);
+    this.iosOnpageshow();
   },
   watch:{
       gasPrice(){
@@ -164,6 +165,17 @@ export default {
       }
   },
   methods: {
+    iosOnpageshow() {
+      let broswerRule = /^.*((iPhone)|(iPad)|(Safari))+.*$/;
+      if(broswerRule.test(navigator.userAgent)){
+         window.addEventListener("pageshow",this.bindPageshow,false);
+      }
+    },
+    bindPageshow(e) {
+      if(e.persisted || (window.performance && window.performance.navigation.type == 2)){
+          window.location.reload();
+      }
+    },
     async getTransactionInformation() {
       try {
         const res = await getTxDetail(this.$route.query.txHash)
@@ -347,6 +359,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timestampTimer)
+    window.removeEventListener("pageshow",this.bindPageshow,false);
   }
 }
 </script>
