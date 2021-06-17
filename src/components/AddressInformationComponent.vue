@@ -16,7 +16,7 @@
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.token') }}:</span>
-								<span class="address_information_value">{{ mainToken ||'--' }}</span>
+								<span class="address_information_value">{{ mainTokenSymbol ||'--' }}</span>
 							</li>
 							<li class="address_information_item">
 								<span class="address_information_label">{{ $t('ExplorerLang.addressInformation.content.totalAmount') }}:</span>
@@ -28,8 +28,8 @@
 					<ul class="address_information_asset_constitute_content" v-show="flShowAssetInfo(assetConstitute)">
 						<li class="address_information_asset_constitute_item" v-for="(item,index) in assetConstitute" :key="index">
 							<span :style="{background:item.color}" ></span>
-							<span >{{item.label}}</span>
-							<span >{{item.value}}</span>
+							<span>{{item.label}}</span>
+							<span :id="item.status" :style="{'text-align': 'right','width': maxWidth + 'px','white-space': 'nowrap'}">{{item.value}}</span>
 						</li>
 					</ul>
 					<!-- 右侧图形 -->
@@ -62,8 +62,8 @@
 	import AddressInformationPie from "./AddressInformationPie";
 	import moveDecimal from 'move-decimal-point';
 	import { validatorStatus,numFormat,product } from '@/constant';
-	import { getMainToken } from '@/helper/IritaHelper';
 	import productionConfig from '@/productionConfig.js';
+    import { getMainToken } from "@/helper/IritaHelper";
 	export default {
 		name: "AddressInformationComponent",
 		components: {AddressInformationPie, MClip},
@@ -114,21 +114,35 @@
 				unbonding:'',
 				rewards:'',
 				otherTokenList:[],
-				mainToken:''
+				maxWidth: 100,
+                mainTokenSymbol:'',
 			}
 		},
-		created() {
-			this.getCurrentMainToken()
-		},
 		watch:{
-			data(){
-				this.assetInformation = this.data;
-				this.formatAssetInformation(this.assetInformation)
+			data: {
+				handler() {
+					this.assetInformation = this.data;
+					this.formatAssetInformation(this.assetInformation)
+				},
+				immediate:true
+			},
+			assetConstitute: {
+				handler() {
+					let valueWidth = '';
+					this.assetConstitute.forEach(item => {
+						if(item.value.length > valueWidth.length) {
+								valueWidth = item.value
+						}
+					})
+					this.maxWidth = (valueWidth.length * 8.5) || 100;
+				},
+				deep: true
 			}
 		},
 		mounted () {
 			this.assetInformation = this.data;
 			this.formatAssetInformation(this.assetInformation)
+            this.setMainToken();
 		},
 		methods:{
 			flShowAssetInfo(data){
@@ -137,17 +151,22 @@
 				 });
 				return res
 			},
-
-			async formatAssetInformation(assetInformation){
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
+            },
+		     formatAssetInformation(assetInformation){
 				assetInformation.forEach( item => {
-					if(item && item.token === (this.mainToken || '').toUpperCase()){
+					if(item && item.token === this.mainTokenSymbol){
 						this.totalAmount = item.totalAmount;
 						this.assetConstitute.forEach( res => {
 							 if(res.status === 'UnBonding'){
 								res.value = item.unBonding || "--";
 								res.numberValue = item.unBonding ? item.unBonding.replace(/[^\d.]/g,"") : 0;
 								res.percent = this.formatDecimalNumberToFixedNumber(item.totalAmount.replace(/[^\d.]/g,""),res.numberValue)
-							}else if(res.status === 'Rewards') {
+							 }else if(res.status === 'Rewards') {
 								res.value = item[Tools.firstWordLowerCase(res.status)] && item[Tools.firstWordLowerCase(res.status)] !== 0 ? item[Tools.firstWordLowerCase(res.status)] : "--";
 								res.numberValue = item[Tools.firstWordLowerCase(res.status)] ?
 									item[Tools.firstWordLowerCase(res.status)].replace(/[^\d.]/g,"") : 0;
@@ -170,7 +189,7 @@
 					}
 				});
 				this.otherTokenList = assetInformation.filter((item) => {
-					return item.token !== (this.mainToken || '').toUpperCase()
+					return item.token !== this.mainTokenSymbol
 				})
 			},
 			formatDecimalNumberToFixedNumber(total,data) {
@@ -183,10 +202,6 @@
 					num = this.numFormat.num
 				}
 				return num;
-			},
-			async getCurrentMainToken() {
-				let mainToken = await getMainToken();
-				this.mainToken = mainToken && mainToken.symbol.toUpperCase()
 			}
 		},
 		computed: {
@@ -317,7 +332,7 @@
 						span:nth-of-type(2){
 							font-size: $s14;
 							line-height: 0.16rem;
-							width: 1rem;
+							width: 0.7rem;
 						}
 						span:nth-of-type(3){
 							font-size: $s14;
@@ -329,7 +344,7 @@
 					}
 				}
 				.address_information_asset_pir_content{
-				
+
 				}
 			}
 			.address_information_asset_list_container{

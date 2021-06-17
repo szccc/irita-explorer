@@ -253,7 +253,15 @@
                 </el-tooltip>
               </template>
             </el-table-column>
-            <el-table-column prop="amount" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')"></el-table-column>
+            <el-table-column prop="amount" :min-width="ColumnMinWidth.amount" :label="$t('ExplorerLang.table.amount')">
+              <template slot="header" slot-scope="scope">
+                  <span>{{ $t('ExplorerLang.table.amount')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template >
+            </el-table-column>
             <el-table-column prop="type" :min-width="ColumnMinWidth.proposalType" :label="$t('ExplorerLang.table.type')"></el-table-column>
             <el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
               <template v-slot:default="{ row }">
@@ -279,7 +287,7 @@
 import { proposalStatus, proposalType, ColumnMinWidth, monikerNum,decimals,formatVoteOptions } from '../../constant'
 import Tools from '../../util/Tools'
 import { getProposalsDetailApi, getProposalDetailVotersApi, getProposalDetailDepositorApi } from '../../service/api'
-import { addressRoute, converCoin, formatMoniker } from '@/helper/IritaHelper'
+import { addressRoute, converCoin, formatMoniker, getMainToken } from '@/helper/IritaHelper'
 import MDepositCard from '../common/MDepositCard'
 import MVotingCard from '../common/MVotingCard'
 import MPagination from '.././common/MPagination'
@@ -371,7 +379,8 @@ export default {
       depositorCount: 0,
       currentDepositorPageNum: 1,
       depositorData: [],
-      upgradedClientState:''
+      upgradedClientState:'',
+        mainTokenSymbol:'',
     }
   },
   computed: {},
@@ -380,9 +389,16 @@ export default {
     this.getProposalsDetail()
     this.getVoter()
     this.getDepositor()
+    this.setMainToken()
   },
   mounted() {},
   methods: {
+      async setMainToken(){
+          let mainToken = await getMainToken();
+          if(mainToken && mainToken.symbol){
+              this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+          }
+      },
     async getProposalsDetail() {
       try {
         let res = await getProposalsDetailApi(this.$route.params.proposal_id)
@@ -592,7 +608,8 @@ export default {
               let amount = '--'
               if (depositor.amount && depositor.amount.length > 0) {
                 let n = await converCoin(depositor.amount[0])
-                amount = `${Tools.formatPriceToFixed(n.amount,decimals.amount)} ${n.denom.toLocaleUpperCase()}`
+                // amount = `${Tools.toDecimal(n.amount,decimals.amount)} ${n.denom.toLocaleUpperCase()}`
+                amount = `${Tools.toDecimal(n.amount,decimals.amount)}`
               }
               this.depositorData.push({
                 depositor: depositor.address,
@@ -718,8 +735,8 @@ a {
   .proposal_table {
     margin: 0.2rem 0;
     .proposal_table_title{
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
     }
     .proposals_table_title_div {

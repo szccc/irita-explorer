@@ -2,7 +2,7 @@
 	<div class="tx_message_content" v-if="hide">
 		<p>
 			<span>{{$t('ExplorerLang.transactionInformation.txType')}}：</span>
-			<span>{{txType}}</span>
+			<span>{{TX_TYPE_DISPLAY[txType] || txType}}</span>
 		</p>
 		<div v-if="txType === TX_TYPE.define_service">
 			<p>
@@ -18,7 +18,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.schemas')}}：</span>
-				<LargeString v-if="schemas" :text="schemas" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(schemas)" v-if="schemas" :text="schemas" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.defineService.author')}}：</span>
@@ -44,7 +44,7 @@
 				</router-link>
 				<span v-if="defineName == '--'"> -- </span>
 			</p>
-			<p>
+			<p v-if="isShowFee">
 				<span>{{$t('ExplorerLang.transactionInformation.pricing')}}：</span>
 				<span>{{pricing}}</span>
 			</p>
@@ -156,7 +156,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(tokenData)" v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -172,7 +172,7 @@
 					<span v-else>--</span>
 				</template>
 			</p>
-		
+
 		</div>
 		<div v-if="txType === TX_TYPE.transfer_nft">
 			<p>
@@ -202,12 +202,12 @@
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
 				<template>
 					<span v-if="sender === '--'">{{sender}}</span>
-					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span> 
+					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
 				</template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString v-if="tokenData" :text="tokenData"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(tokenData)" v-if="tokenData" :text="tokenData"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -250,7 +250,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.data')}}：</span>
-				<LargeString v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(tokenData)" v-if="tokenData" :text="tokenData" :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.uri')}}：</span>
@@ -278,7 +278,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.schema')}}：</span>
-				<LargeString v-if="schema" :text="schema"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
+				<LargeString :isShowPre="Tools.isJSON(schema)" v-if="schema" :text="schema"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.issueDenom.sender')}}：</span>
@@ -289,10 +289,12 @@
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.send">
-			<p>
-				<span>{{$t('ExplorerLang.transactionInformation.send.amount')}}：</span>
-				<span>{{amount}}</span>
-			</p>
+			    <p>
+                    <span>{{$t('ExplorerLang.transactionInformation.send.amount')}}：</span>
+                    <span>
+                        <p style="margin-bottom: 0.05rem" v-for="item in amountArray" :key="item">{{item}}</p>
+                    </span>
+                </p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.from')}}：</span>
 				<template>
@@ -337,7 +339,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.respondService.output')}}：</span>
-				<span>{{output}}</span>
+				<LargeString :isShowPre="Tools.isJSON(output)" v-if="output" :text="output"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.call_service">
@@ -361,7 +363,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.callService.input')}}：</span>
-				<span>{{input}}</span>
+				<LargeString :isShowPre="Tools.isJSON(input)" v-if="input" :text="input"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight" />
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.provider')}}：</span>
@@ -381,7 +383,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
 				<span>{{repeatedTotal}}</span>
 			</p>
-			<p>
+			<p v-if="isShowFee">
 				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
 				<span>{{serviceFeeCap}}</span>
 			</p>
@@ -459,7 +461,7 @@
 				<span>{{$t('ExplorerLang.transactionInformation.repeatedTotal')}}：</span>
 				<span>{{repeatedTotal}}</span>
 			</p>
-			<p>
+			<p v-if="isShowFee">
 				<span>{{$t('ExplorerLang.transactionInformation.serviceFeeCap')}}：</span>
 				<span>{{serviceFeeCap}}</span>
 			</p>
@@ -476,7 +478,7 @@
 				</router-link>
 				<span v-if="serviceName == '--'"> -- </span>
 			</p>
-			<p>
+			<p v-if="isShowFee">
 				 <span>{{$t('ExplorerLang.transactionInformation.pricing')}}：</span>
 				 <span>{{pricing}}</span>
 			 </p>
@@ -556,7 +558,7 @@
 		<div v-if="txType === TX_TYPE.recv_packet && prodConfig.txDetail && prodConfig.txDetail.ibc">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.packet')}}：</span>
-				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(packet)"  v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.recvPacket.proof')}}：</span>
@@ -593,8 +595,23 @@
 		<div v-if="txType === TX_TYPE.recv_packet && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
-				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(packet)"
+                             expand
+                             v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.ibc.amount')}}</span>
+                <span>{{amount.amount}} {{ (amount.denom || '').toUpperCase()}}</span>
+            </p>
+            <p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.from')}}：</span>
+                <span @click="addressRoute(sender)" class="address_link">{{ sender }}</span>
+			</p>
+            <p>
+				<span>{{$t('ExplorerLang.transactionInformation.ibc.to')}}：</span>
+                <span @click="addressRoute(receiver)" class="address_link">{{ receiver }}</span>
+			</p>
+
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofCommitment')}}：</span>
 				<LargeString v-if="proofCommitment" :text="proofCommitment"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
@@ -623,7 +640,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.token')}}：</span>
-				<LargeString v-if="token" :text="token"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+                <span>{{ token.amount }} {{ (token.denom || '').toUpperCase() }}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.sender')}}：</span>
@@ -634,11 +651,14 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.receiver')}}：</span>
-				<span>{{receiver}}</span>
+                <template>
+                    <span v-if="sender === '--'">{{receiver}}</span>
+                    <span v-else @click="addressRoute(receiver)" class="address_link">{{receiver}}</span>
+                </template>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.timeoutHeight')}}：</span>
-				<span>{{timeoutHeight}}</span>
+				<LargeString :isShowPre="Tools.isJSON(timeoutHeight)" v-if="timeoutHeight" :text="timeoutHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.timeoutTimestamp')}}：</span>
@@ -685,7 +705,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
-				<LargeString v-if="header" :text="header"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(header)" v-if="header" :text="header"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -698,11 +718,11 @@
 		<div v-if="txType === TX_TYPE.create_client && !(prodConfig.txDetail && prodConfig.txDetail.ibc)">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
-				<LargeString v-if="clientState" :text="clientState"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(clientState)" v-if="clientState" :text="clientState"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusState')}}：</span>
-				<span>{{consensusState}}</span>
+				<LargeString :isShowPre="Tools.isJSON(consensusState)" v-if="consensusState" :text="consensusState"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -719,7 +739,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.client.header')}}：</span>
-				<LargeString v-if="header" :text="header"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(header)"  v-if="header" :text="header"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -782,11 +802,11 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterparty')}}：</span>
-				<LargeString v-if="counterparty" :text="counterparty"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(counterparty)" v-if="counterparty" :text="counterparty"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.version')}}：</span>
-				<LargeString v-if="version" :text="version"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(version)" v-if="version" :text="version"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.delayPeriod')}}：</span>
@@ -811,11 +831,11 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
-				<span>{{clientState}}</span>
+				<LargeString :isShowPre="Tools.isJSON(clientState)" v-if="clientState" :text="clientState"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterparty')}}：</span>
-				<LargeString v-if="counterparty" :text="counterparty"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(counterparty)" v-if="counterparty" :text="counterparty"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.delayPeriod')}}：</span>
@@ -823,27 +843,27 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyVersions')}}：</span>
-				<LargeString v-if="counterpartyVersions" :text="counterpartyVersions"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(counterpartyVersions)" v-if="counterpartyVersions" :text="counterpartyVersions"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)"  v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofInit')}}：</span>
-				<span>{{proofInit}}</span>
+				<LargeString v-if="proofInit" :text="proofInit"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofClient')}}：</span>
-				<span>{{proofClient}}</span>
+				<LargeString v-if="proofClient" :text="proofClient"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofConsensus')}}：</span>
-				<span>{{proofConsensus}}</span>
+				<LargeString v-if="proofConsensus" :text="proofConsensus"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusHeight')}}：</span>
-				<LargeString v-if="consensusHeight" :text="consensusHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(consensusHeight)" v-if="consensusHeight" :text="consensusHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -864,7 +884,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.version')}}：</span>
-				<LargeString v-if="version" :text="version"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(version)" v-if="version" :text="version"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.clientState')}}：</span>
@@ -872,7 +892,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)" v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofTry')}}：</span>
@@ -888,7 +908,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.consensusHeight')}}：</span>
-				<LargeString v-if="consensusHeight" :text="consensusHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(consensusHeight)" v-if="consensusHeight" :text="consensusHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -905,11 +925,11 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofAck')}}：</span>
-				<span>{{proofAck}}</span>
+				<LargeString :isShowPre="Tools.isJSON(proofAck)" v-if="proofAck" :text="proofAck"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)" v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -926,7 +946,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.channel')}}：</span>
-				<LargeString v-if="channel" :text="channel"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(channel)" v-if="channel" :text="channel"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -947,7 +967,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.channel')}}：</span>
-				<LargeString v-if="channel" :text="channel"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(channel)" v-if="channel" :text="channel"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.counterpartyVersion')}}：</span>
@@ -959,7 +979,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)"  v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -992,11 +1012,11 @@
 			</p> -->
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofTry')}}：</span>
-				<LargeString v-if="proofTry" :text="proofTry"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofTry)" v-if="proofTry" :text="proofTry"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)" v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -1021,7 +1041,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)" v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -1063,7 +1083,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)" v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -1076,15 +1096,27 @@
 		<div v-if="txType === TX_TYPE.timeout_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
-				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(packet)" v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.ibc.amount')}}</span>
+                <span>{{amount.amount}} {{ (amount.denom || '').toUpperCase()}}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.ibc.from')}}：</span>
+                <span @click="addressRoute(sender)" class="address_link">{{ sender }}</span>
+            </p>
+            <p>
+                <span>{{$t('ExplorerLang.transactionInformation.ibc.to')}}：</span>
+                <span @click="addressRoute(receiver)" class="address_link">{{ receiver }}</span>
+            </p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
-				<span>{{proofUnreceived}}</span>
+				<LargeString v-if="proofUnreceived" :text="proofUnreceived"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)" v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv')}}：</span>
@@ -1101,11 +1133,11 @@
 		<div v-if="txType === TX_TYPE.timeout_on_close_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
-				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(packet)" v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofUnreceived')}}：</span>
-				<span>{{proofUnreceived}}</span>
+				<LargeString :isShowPre="Tools.isJSON(proofUnreceived)" v-if="proofUnreceived" :text="proofUnreceived"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofClose')}}：</span>
@@ -1113,7 +1145,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)" v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.nextSequenceRecv')}}：</span>
@@ -1126,11 +1158,11 @@
 					<span v-else @click="addressRoute(signer)" class="address_link">{{signer}}</span>
 				</template>
 			</p>
-		</div>		
+		</div>
 		<div v-if="txType === TX_TYPE.acknowledge_packet">
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.packet')}}：</span>
-				<LargeString v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(packet)" v-if="packet" :text="packet"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.acknowledgement')}}：</span>
@@ -1138,11 +1170,11 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofAcked')}}：</span>
-				<span>{{proofAcked}}</span>
+				<LargeString :isShowPre="Tools.isJSON(proofAcked)" v-if="proofAcked" :text="proofAcked"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.ibc.proofHeight')}}：</span>
-				<LargeString v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+				<LargeString :isShowPre="Tools.isJSON(proofHeight)" v-if="proofHeight" :text="proofHeight"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.signer')}}：</span>
@@ -1223,7 +1255,7 @@
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.staking.commissionRate')}}</span>
-				<span>{{commissionRate}} 
+				<span>{{commissionRate}}
 					<el-tooltip placement="top" v-if="commissionRate">
   						<div slot="content" >
 							<p>Max Rate : {{commissionMaxRate || '--'}}</p>
@@ -1421,9 +1453,13 @@
 				<span>{{output}}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.tokenPair')}}</span>
+				<span>{{tokenPair || '--'}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
-			</p>		
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.add_liquidity">
 			<p>
@@ -1442,13 +1478,17 @@
 				<span>{{maxToken}}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.amount')}}</span>
+				<span>{{amount || '--'}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.minLiquidity')}}</span>
 				<span>{{minLiquidity}}</span>
 			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
-			</p>	
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.remove_liquidity">
 			<p>
@@ -1471,9 +1511,17 @@
 				<span>{{minToken}}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.amount')}}</span>
+				<span>{{amount || '--'}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.tokenPair')}}</span>
+				<span>{{tokenPair || '--'}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
-			</p>	
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.unjail">
 			<p>
@@ -1491,7 +1539,7 @@
 					<span v-if="serviceName == '--'"> -- </span>
 					<router-link v-else :to="`/service?serviceName=${serviceName}`">
 						{{serviceName}}
-					</router-link>	
+					</router-link>
 				</template>
 			</p>
 			<p>
@@ -1923,6 +1971,14 @@
 		</div>
 		<div v-if="txType === TX_TYPE.create_htlc">
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.id')}} : </span>
+				<span>{{id || '--'}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
+				<span>{{amount}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
 				<template>
 					<span v-if="sender === '--'">{{sender}}</span>
@@ -1936,28 +1992,44 @@
 					<span v-else @click="addressRoute(to)" class="address_link">{{to}}</span>
 				</template>
 			</p>
-			<p v-if="receiverOnOtherChain">
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.receiverOnOtherChain')}} : </span>
 				<span>{{receiverOnOtherChain}}</span>
 			</p>
-			<p v-if="amount">
-				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
-				<span>{{amount}}</span>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.senderOnOtherChain')}} : </span>
+				<span>{{senderOnOtherChain}}</span>
 			</p>
-			<p v-if="hashLock">
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
 				<span>{{hashLock}}</span>
 			</p>
-			<p v-if="timestamp">
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.timestamp')}} : </span>
 				<span>{{timestamp}}</span>
 			</p>
-			<p v-if="timeLock">
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.timeLock')}} : </span>
 				<span>{{timeLock}}</span>
 			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.transfer')}} : </span>
+				<span>{{transfer}}</span>
+			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.claim_htlc">
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.id')}} : </span>
+				<span>{{id}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.amount')}} : </span>
+				<span>{{amount || '--'}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.secret')}} : </span>
+				<span>{{secret}}</span>
+			</p>
 			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.htlc.sender')}} : </span>
 				<template>
@@ -1965,13 +2037,20 @@
 					<span v-else @click="addressRoute(sender)" class="address_link">{{sender}}</span>
 				</template>
 			</p>
-			<p v-if="hashLock">
-				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
-				<span>{{hashLock}}</span>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.recipient')}} : </span>
+				<template>
+					<span v-if="recipient === '--'">{{recipient}}</span>
+					<span v-else @click="addressRoute(recipient)" class="address_link">{{recipient}}</span>
+				</template>
 			</p>
-			<p v-if="secret">
-				<span>{{$t('ExplorerLang.transactionInformation.htlc.secret')}} : </span>
-				<span>{{secret}}</span>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.hashLock')}} : </span>
+				<span>{{hashLock || '--'}}</span>
+			</p>
+			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.htlc.transfer')}} : </span>
+				<span>{{transfer}}</span>
 			</p>
 		</div>
 		<div v-if="txType === TX_TYPE.refund_htlc">
@@ -1991,11 +2070,11 @@
 </template>
 
 <script>
-	import {TX_TYPE,voteOptions,formatVoteOptions} from '../../constant';
+	import {TX_TYPE,voteOptions,formatVoteOptions,TX_TYPE_DISPLAY} from '../../constant';
 	import Tools from "../../util/Tools";
 	import { TxHelper } from '../../helper/TxHelper';
     import LargeString from './LargeString';
-	import { converCoin,getMainToken,addressRoute } from "../../helper/IritaHelper";
+	import { converCoin,addressRoute } from "../../helper/IritaHelper";
 	import prodConfig from "../../productionConfig";
 	import axios from '@/axios';
 	export default {
@@ -2006,9 +2085,16 @@
 				type: Object,
 				required: true,
 			},
+			msgIndex: {
+				type: Number,
+				required: true,
+			},
 			events: {
 				type: Array,
 				required: true,
+			},
+			eventsNew: {
+				type: Array,
 			},
 			monikers: {
 				type: Array,
@@ -2017,6 +2103,8 @@
 		},
 		data () {
 			return {
+				TX_TYPE_DISPLAY,
+				isShowFee: prodConfig.fee.isShowFee,
 				Tools,
 				prodConfig,
 				addressRoute,
@@ -2046,7 +2134,6 @@
 				output: '',
 				// errorMessage : '',
 				// chainId : '',
-				description: '',
 				author: '',
 				authorDescription: '',
 				// idlContent : '',
@@ -2153,12 +2240,10 @@
 				proposer:'',
 				title:'',
 				initialDeposit: '',
-				description: '',
 				parameter:'',
 				time: '',
 				switchHeight: '',
 				info: '',
-				recipient:'',
 				upgradedClientState:'',
 				minUnit:'',
 				options: '',
@@ -2172,7 +2257,6 @@
 				delayPeriod:'',
 				previousConnectionId:'',
 				counterpartyVersions:'',
-				proofHeight:'',
 				proofInit:'',
 				proofClient:'',
 				proofConsensus:'',
@@ -2187,7 +2271,6 @@
 				counterpartyVersion: '',
 				channelId: '',
 				counterpartyChannelId: '',
-				packet: '',
 				proofUnreceived: '',
 				nextSequenceRecv: '',
 				proofClose:'',
@@ -2197,17 +2280,20 @@
 				sourcePort: '',
 				sourceChannel: '',
 				token: '',
-				sender: '',
 				receiver: '',
 				timeoutHeight: '',
 				timeoutTimestamp: '',
 				inputs:[],
 				outputs:[],
 				receiverOnOtherChain:'',
+				senderOnOtherChain:'',
 				hashLock:'',
 				timestamp:'',
 				timeLock:'',
-				secret:''
+				secret:'',
+				transfer: '',
+				tokenPair: '',
+				amountArray:[],
 			}
 		},
 		computed: {
@@ -2223,7 +2309,6 @@
 			async getTransactionInformation () {
 				try {
 					const message = this.msg;
-					let mainToken = await getMainToken()
 					if (message) {
 						let msg = message.msg;
 						this.txType = message.type || '--';
@@ -2281,11 +2366,14 @@
 								// this.to = msg.toaddress || '--';
 								this.from = msg.from_address || '--';
 								this.to = msg.to_address || '--';
-								if (msg.amount && msg.amount.length) {
-									let amount = await converCoin(msg.amount[0]);
-									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}` || '--';
+								this.amountArray = [];
+								if (msg.amount && msg.amount.length > 0) {
+									for (const item of msg.amount) {
+										const amount = await converCoin(item);
+										this.amountArray.push(`${amount.amount} ${amount.denom.toUpperCase()}` || '--')
+									}
 								}
-								this.amount = this.amount || '--'
+								this.amountArray && this.amountArray.length > 0 ? '' : this.amountArray = ['--']
 								break;
 							case TX_TYPE.call_service:
 								this.consumer = msg.consumer || '--';
@@ -2300,15 +2388,29 @@
 								}
 								this.serviceFeeCap = this.serviceFeeCap || '--'
 								this.serviceName = msg.service_name || '--';
-								this.superMode = msg.super_mode;
+								this.superMode = msg.super_mode || '--';
 								this.timeout = msg.timeout || '--';
-								(this.events || []).forEach((item) => {
-									(item.attributes || []).forEach((attr) => {
-										if (attr.key == 'request_context_id') {
-											this.requestContextId = attr.value || '--';
+								if(this.eventsNew && this.eventsNew.length > 0) {
+									(this.eventsNew || []).forEach((item) => {
+										if(item.msg_index === this.msgIndex) {
+											(item.events || []).forEach((events) => {
+												(events.attributes || []).forEach((attr) => {
+													if (attr.key == 'request_context_id') {
+														this.requestContextId = attr.value || '--';
+													}
+												});
+											})
 										}
 									});
-								});
+								} else {
+									(this.events || []).forEach((item) => {
+										(item.attributes || []).forEach((attr) => {
+											if (attr.key == 'request_context_id') {
+												this.requestContextId = attr.value || '--';
+											}
+										}); 
+									})
+								}
 								break;
 							case TX_TYPE.transfer_nft:
 								this.denom = msg.denom || '--';
@@ -2417,6 +2519,7 @@
 								this.owner = msg.owner || '--';
 								break;
 							case TX_TYPE.recv_packet:
+							    console.log(msg)
 								if(prodConfig.txDetail && prodConfig.txDetail.ibc) {
 									this.packet = JSON.stringify(msg.packet || {}) || '--';
 									this.proof = msg.proof || '--';
@@ -2431,6 +2534,14 @@
 									this.proofCommitment = msg.proof_commitment || '--';
 									this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
 									this.signer = msg.signer || '--';
+									if(msg.packet && msg.packet.data){
+									    this.sender = msg.packet.data.sender;
+									    this.receiver = msg.packet.data.receiver;
+                                        this.amount = await converCoin({
+                                            denom:msg.packet.data.denom,
+                                            amount:msg.packet.data.amount,
+                                        });
+                                    }
 								}
 								break;
 							case TX_TYPE.create_identity:
@@ -2456,7 +2567,7 @@
 								break;
 							case TX_TYPE.update_client:
 								this.clientID = msg.client_id || '--';
-								this.header = JSON.stringify(msg.header || {}) || '--';
+								this.header = msg.header || '--';
 								this.signer = msg.signer || '--';
 								break;
 							case TX_TYPE.begin_redelegate:
@@ -2478,7 +2589,7 @@
 								this.identity = msg.description.identity || '--';
 								if(msg && msg.value && msg.value.amount ) {
 									let selfBond = await converCoin(msg.value)
-									this.selfBond = `${selfBond.amount} ${selfBond.denom.toUpperCase()}` || '--'; 
+									this.selfBond = `${selfBond.amount} ${selfBond.denom.toUpperCase()}` || '--';
 								}else {
 									this.selfBond = '--'
 								}
@@ -2494,21 +2605,29 @@
 								break;
 							case TX_TYPE.withdraw_delegator_reward:
 								this.from = msg.validator_address;
-								this.to = msg.delegator_address;
-								(this.events || []).forEach((item) => {
-									if(item.type === 'withdraw_rewards') {
-										let isAmount = (item.attributes || []).some(item => {
-											return item.value == msg.validator_address
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if (events.type == 'withdraw_rewards') {
+												(events.attributes || []).forEach((attr) => {
+													if (attr.key == 'amount') {
+														amount = attr.value || '--';
+													}
+												});
+											}
+											if(events.type === 'transfer') {
+												(events.attributes || []).forEach((attr) => {
+													if (attr.key == 'recipient') {
+														this.to = attr.value || '--';
+													}
+												});
+											}
 										})
-										if(isAmount) {
-											(item.attributes || []).forEach((attr) => {
-												if (attr.key == 'amount') {
-													amount = attr.value || '--';
-												}
-											});
-										}
 									}
 								});
+								if(!this.to) {
+									this.to = '--';
+								}
 								if( amount && amount !== '--') {
 									amount = await converCoin(amount);
 									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
@@ -2526,7 +2645,7 @@
 								this.delegatorAddress = msg.delegator_address;
 								this.withdrawAddress = msg.withdraw_address;
 								break;
-							case TX_TYPE.begin_unbonding:	
+							case TX_TYPE.begin_unbonding:
 								if(msg.amount) {
 									let amount = await converCoin(msg.amount);
 									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
@@ -2569,46 +2688,134 @@
 								this.amount =  `${poolAmount.amount} ${poolAmount.denom.toLocaleUpperCase()}`
 								break;
 							case TX_TYPE.swap_order:
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if(events.type === 'swap') {
+												(events.attributes || []).forEach(attribute => {
+													if(attribute.key === 'token_pair') {
+														this.tokenPair = attribute.value;
+													}
+												})
+											}
+										})
+									}
+								});
 								this.isBuyOrder = msg.is_buy_order;
 								this.inputAddress = msg.input.address || '--';
-								let input = await converCoin(msg.input.coin)
-								this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+                                if(this.eventsNew && this.eventsNew.length > 0){
+                                    let currentEvents = this.eventsNew.find((e)=>e.msg_index === this.msgIndex);
+                                    if(currentEvents && currentEvents.events.length > 0){
+                                        let transferItem = currentEvents.events.find(e=>e.type === TX_TYPE.transfer);
+                                        if(transferItem && transferItem.attributes && transferItem.attributes.length > 0){
+                                            let amountList = transferItem.attributes.filter((t)=>t.key === 'amount');
+                                            if(amountList && amountList.length > 0){
+                                                let inputItem = amountList[0],
+                                                    outputItem = amountList[1]
+                                                let inputAmount = inputItem.value.match(/\d+/g), inputDenom = '',
+                                                    outputAmount = outputItem.value.match(/\d+/g), outputDenom = '';
+                                                if(inputAmount && inputAmount.length > 0){
+                                                    inputDenom = inputItem.value.split(inputAmount[0])[1];
+                                                }
+                                                if(outputAmount && outputAmount.length > 0){
+                                                    outputDenom = outputItem.value.split(outputAmount[0])[1];
+                                                }
+                                                let input = await converCoin({
+                                                    denom:inputDenom,
+                                                    amount:inputAmount[0]
+                                                })
+                                                this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+                                                let output = await converCoin({
+                                                    denom:outputDenom,
+                                                    amount:outputAmount[0]
+                                                })
+                                                this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
+                                            }
+                                        }
+                                    }
+                                }else{
+                                    let input = await converCoin({
+                                        denom:msg.input.coin.denom,
+                                        amount:msg.input.coin.amount
+                                    })
+                                    this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
+                                    let output = await converCoin({
+                                        denom:msg.output.coin.denom,
+                                        amount:msg.output.coin.amount
+                                    })
+                                    this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
+                                }
+
+
 								this.outputAddress = msg.output.address || '--';
-								let output = await converCoin(msg.output.coin)
-								this.output = `${output.amount} ${output.denom.toLocaleUpperCase()}`;
-								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
+								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.add_liquidity:
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if(events.type === 'transfer') {
+												(events.attributes || []).forEach(attribute => {
+													if(attribute.key === 'amount') {
+														if(attribute.value && attribute.value.includes(",")) {
+															this.amount = attribute.value
+														}
+													}
+												})
+											}
+										})
+									}
+								});
 								this.sender = msg.sender || '--';
-								let exactIrisAmt = await converCoin({
-									amount: msg.exact_iris_amt,
-									denom: mainToken.min_unit
-								})
-								this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
-								let maxToken = await converCoin(msg.max_token)
+								// let exactIrisAmt = await converCoin({
+								// 	amount: msg.exact_iris_amt,
+								// 	denom: mainToken.denom
+								// })
+								// this.exactIrisAmt = `${exactIrisAmt.amount} ${exactIrisAmt.denom.toLocaleUpperCase()}`;
+								this.exactIrisAmt = msg.exact_iris_amt;
+								let maxToken = await converCoin(msg.max_token);
 								this.maxToken = `${maxToken.amount} ${maxToken.denom.toLocaleUpperCase()}`;
 								this.minLiquidity = msg.min_liquidity || '--';
-								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
+								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.remove_liquidity:
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if(events.type === 'transfer') {
+												(events.attributes || []).forEach(attribute => {
+													if(attribute.key === 'amount') {
+														if(attribute.value && attribute.value.includes(",")) {
+															this.amount = attribute.value
+														}
+													}
+												})
+											}
+											if(events.type === 'remove_liquidity') {
+												(events.attributes || []).forEach(attribute => {
+													if(attribute.key === 'token_pair') {
+														this.tokenPair = attribute.value;
+													}
+												})
+											}
+										})
+									}
+								});
 								this.sender = msg.sender || '--';
 								let withdrawLiquidity = await converCoin(msg.withdraw_liquidity)
 								this.withdrawLiquidity = `${withdrawLiquidity.amount} ${withdrawLiquidity.denom.toLocaleUpperCase()}` ;
-								let minIrisAmt = await converCoin({
-									amount: msg.min_iris_amt,
-									denom: mainToken.min_unit
-								})
-								this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
-							    let minToken = await converCoin({
-									amount: msg.min_token,
-									denom: mainToken.min_unit
-								})
-								this.minToken = `${minToken.amount} ${minToken.denom.toLocaleUpperCase()}`;
-								this.deadline = Tools.getFormatDate(msg.deadline)  || '--';
+								// let minIrisAmt = await converCoin({
+								// 	amount: msg.min_iris_amt,
+								// 	denom: mainToken.denom
+								// })
+								// this.minIrisAmt = `${minIrisAmt.amount} ${minIrisAmt.denom.toLocaleUpperCase()}`;
+								this.minIrisAmt = msg.min_iris_amt;
+								this.minToken = msg.min_token;
+								this.deadline = Tools.getDisplayDate(msg.deadline)  || '--';
 								break;
 							case TX_TYPE.unjail:
 							this.operatorAddress = msg.address || '--';
-							break;	
+							break;
 							case TX_TYPE.create_feed:
 							this.serviceName = msg.serviceName || msg.service_name || '--';
 							this.feedName = msg.feed_name || '--';
@@ -2628,7 +2835,7 @@
 							this.repeatedFrequency = msg.repeatedFrequency !== 0 ? msg.repeated_frequency || '--' : '--';
 							this.responseThreshold = msg.responseThreshold !== 0 ? msg.response_threshold || '--' : '--';
 							this.timeout = msg.timeout !== 0 ? msg.timeout || '--' : '--';
-							break;	
+							break;
 							case TX_TYPE.start_feed:
 							this.feedName = msg.feed_name || '--';
 							this.creator = msg.creator || '--';
@@ -2754,7 +2961,7 @@
 									} else {
 										this.amount = '--'
 									}
-									
+
 								}
 							break;
 							case TX_TYPE.upgrade_client:
@@ -2857,6 +3064,14 @@
 								this.proofHeight = msg.proof_height ? JSON.stringify(msg.proof_height) : '--';
 								this.nextSequenceRecv = msg.next_sequence_recv || '--';
 								this.signer = msg.signer || '--';
+                                if(msg.packet && msg.packet.data){
+                                    this.sender = msg.packet.data.sender;
+                                    this.receiver = msg.packet.data.receiver;
+                                    this.amount = await converCoin({
+                                        denom:msg.packet.data.denom,
+                                        amount:msg.packet.data.amount,
+                                    });
+                                }
 							break;
 							case TX_TYPE.timeout_on_close_packet:
 								this.packet = msg.packet ? JSON.stringify(msg.packet) : '--';
@@ -2877,7 +3092,7 @@
 							case TX_TYPE.transfer:
 								this.sourcePort = msg.source_port || '--';
 								this.sourceChannel = msg.source_channel || '--';
-								this.token = msg.token ? JSON.stringify(msg.token) : '--';
+								this.token = msg.token ?  await converCoin(msg.token) : '--';
 								this.sender = msg.sender || '--';
 								this.receiver = msg.receiver || '--';
 								this.timeoutHeight = msg.timeout_height ? JSON.stringify(msg.timeout_height) : '--';
@@ -2905,29 +3120,75 @@
 								}
 							break;
 							case TX_TYPE.create_htlc:
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+											if(events.type === 'create_htlc') {
+												(events.attributes || []).forEach(attrs => {
+													if(attrs.key === 'id') {
+														this.id = attrs.value
+													}
+												})
+											}
+										})
+									}
+								});
 								this.sender = msg.sender || '--';
 								this.to = msg.to || '--';
-								this.receiverOnOtherChain = msg.receiverOnOtherChain || '--';
+								this.receiverOnOtherChain = msg.receiver_on_other_chain || '--';
+								this.senderOnOtherChain = msg.sender_on_other_chain || '--';
 								if(msg.amount && msg.amount[0]) {
-									let amount = await converCoin(msg.amount[0]);
-									this.amount = `${amount.amount} ${amount.denom.toUpperCase()}`;
+									this.amount = `${msg.amount[0].amount} ${msg.amount[0].denom}`;
 								} else {
 									this.amount = '--';
 								}
-								this.hashLock = msg.hashLock || '--';
-								let timestamp = msg.timestamp  && Math.floor(new Date(msg.timestamp).getTime() / 1000);
-								timestamp ? this.timestamp = Tools.getDisplayDate(timestamp) : this.timestamp ='--';
-								let timeLock = msg.timeLock  && Math.floor(new Date(msg.timeLock).getTime() / 1000);
-								timeLock ? this.timeLock = Tools.getDisplayDate(timeLock) : this.timeLock ='--';
+								this.hashLock = msg.hash_lock || '--';
+								// this.timestamp = msg.timestamp ? `${msg.timestamp} s` : '--';
+								this.timestamp = Tools.getDisplayDate(msg.timestamp) || '--';
+								this.timeLock = msg.time_lock ? `${msg.time_lock} block` : '--';
+								this.transfer = msg.transfer === false ? 'HTLC' : 'HTLT';
+								// let timeLock = msg.time_lock  && Math.floor(new Date(msg.time_lock).getTime() / 1000);
+								// timeLock ? this.timeLock = Tools.getDisplayDate(timeLock) : this.timeLock ='--';
 							break;
 							case TX_TYPE.claim_htlc:
+								let transfer;
+								(this.eventsNew || []).forEach((item) => {
+									if(item.msg_index === this.msgIndex) {
+										(item.events || []).forEach((events) => {
+												if(events.type === 'claim_htlc') {
+													(events.attributes || []).forEach(item => {
+														if(item.key === 'transfer')  {
+															transfer = item.value
+														}
+														if(item.key == 'hash_lock') {
+															this.hashLock = item.value
+														}
+													})
+												}
+												if(events.type === "transfer") {
+													(events.attributes || []).forEach(item => {
+														if(item.key === 'amount')  {
+															this.amount = item.value
+														}
+														if(item.key === 'recipient') {
+															this.recipient = item.value
+														}
+												})
+											}
+										})
+									}
+								});
+								if(!this.recipient) {
+									this.recipient = '--'
+								}
+								this.transfer = transfer === 'false' ? 'HTLC' : 'HTLT';
 								this.sender = msg.sender || '--';
-								this.hashLock = msg.hashLock || '--';
+								this.id = msg.id || '--';
 								this.secret = msg.secret || '--';
 							break;
 							case TX_TYPE.refund_htlc:
 								this.sender = msg.sender || '--';
-								this.hashLock = msg.hashLock || '--';
+								this.hashLock = msg.hash_lock || '--';
 							break;
 						}
 					}
@@ -2978,7 +3239,7 @@
 	a {
 		color: $t_link_c !important;
 	}
-	
+
 	.tx_message_content {
 		padding: 0.36rem 0;
 		background: $bg_white_c;
@@ -2987,30 +3248,30 @@
 			display: flex;
 			width: 100%;
 			max-width: 12rem;
-			
+
 			.record_content {
 				width: 100%;
-				
+
 				.record_name {
 					color: $t_second_c;
 					min-width: 1.5rem;
 					text-align: left;
 					font-size: $s14;
 				}
-				
+
 				.record_list_content {
 					flex: 1;
 					width: 100%;
 					box-sizing: border-box;
 					background: $bg_cancel_c;
 					border-radius: 0.05rem;
-					
+
 					/deep/ .el-table {
 						background: $bg_cancel_c;
-						
+
 						tr {
 							background: $bg_cancel_c;
-							
+
 							th {
 								background: $bg_cancel_c;
 							}
@@ -3019,7 +3280,7 @@
 				}
 			}
 		}
-		
+
 		p {
 			display: flex;
 			margin-bottom: 0.26rem;
@@ -3027,13 +3288,14 @@
 			span:nth-of-type(1) {
 				margin-right: 0.15rem;
 				color: $t_second_c;
-				min-width: 1.52rem;
+				// min-width: 1.52rem;
+				min-width: 1.64rem;
 				text-align: left;
 				font-size: $s14;
 				font-family: Arial;
 				font-weight: 600;
 			}
-			
+
 			span:nth-of-type(2) {
 				flex: 1;
 				text-align: left;
@@ -3057,7 +3319,7 @@
 				word-break: break-all;
 			}
 		}
-		
+
 		p:last-child {
 			margin-bottom: 0;
 		}
@@ -3065,50 +3327,50 @@
 		.website_link{
 			font-size:  $s14;
 			line-height: 0.16rem;
-			color:$theme_c !important; 
+			color:$theme_c !important;
 			cursor: pointer;
 		}
 
 	}
-	
+
 	@media screen and (max-width: 768px) {
 		.tx_message_content {
-			
+
 			.record_container {
-				
+
 				.record_content {
-					
+
 					.record_name {
 						min-width: 1.4rem;
 					}
-					
+
 					.record_list_content {
-						
+
 						/deep/ .el-table {
-							
+
 							tr {
-								
+
 								th {
-								
+
 								}
 							}
 						}
 					}
 				}
 			}
-			
+
 			p {
 				span:nth-of-type(1) {
 					min-width: 1.4rem;
 				}
-				
+
 				span:nth-of-type(2) {
-				
+
 				}
 			}
-			
+
 			p:last-child {
-			
+
 			}
 		}
 	}

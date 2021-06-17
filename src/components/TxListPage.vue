@@ -1,72 +1,74 @@
 <template>
     <div class="transaction_list_page_container">
-        <div class="title_container">
-            <span v-if="$route.params.txType === 'delegations'">{{ $t('ExplorerLang.transactions.delegationTxsList')}}</span>
-            <span v-if="$route.params.txType === 'validations'">{{$t('ExplorerLang.transactions.validationTxsList')}}</span>
-            <span v-if="$route.params.txType === 'governance'">{{$t('ExplorerLang.transactions.govTxsList')}}</span>
-			<span>{{ count }} {{$t('ExplorerLang.transactions.txs')}}</span>
-        </div>
-        <div class="transaction_list_title_wrap">
-            <div class="transaction_list_title_content">
-                <div class="filter_container">
-                    <div class="filter_tx_type_statue_content">
-                        <el-select popper-class="tooltip" v-model="value" filterable :change="filterTxByTxType(value)">
-                            <el-option v-for="(item, index) in txTypeListArray"
-                                       :key="index"
-                                       :label="item.label"
-                                       :value="item.value">
-                            </el-option>
-                        </el-select>
+		<div class="transaction_list_page_container_title">
+			<div class="title_container">
+				<span v-if="$route.params.txType === 'delegations'">{{ $t('ExplorerLang.transactions.delegationTxsList')}}</span>
+				<span v-if="$route.params.txType === 'validations'">{{$t('ExplorerLang.transactions.validationTxsList')}}</span>
+				<span v-if="$route.params.txType === 'governance'">{{$t('ExplorerLang.transactions.govTxsList')}}</span>
+				<span>{{ count }} {{$t('ExplorerLang.transactions.txs')}}</span>
+			</div>
+			<div class="transaction_list_title_wrap">
+				<div class="transaction_list_title_content">
+					<div class="filter_container">
+						<div class="filter_tx_type_statue_content">
+							<el-select popper-class="tooltip" v-model="value" filterable :change="filterTxByTxType(value)">
+								<el-option v-for="(item, index) in txTypeListArray"
+										:key="index"
+										:label="item.label"
+										:value="item.value">
+								</el-option>
+							</el-select>
 
-                        <el-select popper-class="tooltip" v-model="statusValue" :change="filterTxByStatus(statusValue)">
-                            <el-option v-for="(item, index) in status"
-                                       :key="index"
-                                       :label="item.label"
-                                       :value="item.value"></el-option>
-                        </el-select>
-                    </div>
-                    <div class="select_date_content">
-                        <el-date-picker  type="date"
-										 popper-class="tooltip"
-                                         v-model="startTime"
-                                         @change="getStartTime(startTime)"
-                                         :picker-options="PickerOptions"
-                                         :editable="false"
-                                         value-format="yyyy-MM-dd"
-                                         :placeholder="$t('ExplorerLang.common.selectDate')">
-                        </el-date-picker>
-                        <span class="joint_mark">~</span>
-                        <el-date-picker  type="date"
-										 popper-class="tooltip"
-                                         v-model="endTime"
-                                         :picker-options="PickerOptions"
-                                         value-format="yyyy-MM-dd"
-                                         @change="getEndTime(endTime)"
-                                         :editable="false"
-                                         :placeholder="$t('ExplorerLang.common.selectDate')">
-                        </el-date-picker>
-                        <div class="tooltip_content">
-                            <el-tooltip popper-class="tooltip"  :content="$t('ExplorerLang.transactions.tooltip')">
-                                <i class="iconfont iconyiwen"></i>
-                            </el-tooltip>
-                        </div>
-                    </div>
-                    <div class="reset_search_content">
-                        <div class="tx_search_btn" @click="getFilterTxs">{{$t('ExplorerLang.transactions.search')}}</div>
-                        <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+							<el-select popper-class="tooltip" v-model="statusValue" :change="filterTxByStatus(statusValue)">
+								<el-option v-for="(item, index) in status"
+										:key="index"
+										:label="item.label"
+										:value="item.value"></el-option>
+							</el-select>
+						</div>
+						<div class="select_date_content">
+							<el-date-picker  type="date"
+											popper-class="tooltip"
+											v-model="startTime"
+											@change="getStartTime(startTime)"
+											:picker-options="PickerOptions"
+											:editable="false"
+											value-format="yyyy-MM-dd"
+											:placeholder="$t('ExplorerLang.common.selectDate')">
+							</el-date-picker>
+							<span class="joint_mark">~</span>
+							<el-date-picker  type="date"
+											popper-class="tooltip"
+											v-model="endTime"
+											:picker-options="PickerOptions"
+											value-format="yyyy-MM-dd"
+											@change="getEndTime(endTime)"
+											:editable="false"
+											:placeholder="$t('ExplorerLang.common.selectDate')">
+							</el-date-picker>
+							<div class="tooltip_content">
+								<el-tooltip popper-class="tooltip"  :content="$t('ExplorerLang.transactions.tooltip')">
+									<i class="iconfont iconyiwen"></i>
+								</el-tooltip>
+							</div>
+						</div>
+						<div class="reset_search_content">
+							<div class="tx_search_btn" @click="getFilterTxs">{{$t('ExplorerLang.transactions.search')}}</div>
+							<div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
         <div class="transaction_list_table_container">
             <div class="transaction_list_table_content">
                 <div class="table_list_content">
                     <!-- Delegation Txs -->
-					<DelegationTxsList :dataList="txList" v-if="this.$route.params.txType === 'delegations'" />
+					<DelegationTxsList :dataList="txList" :isShowFee="isShowFee" v-if="this.$route.params.txType === 'delegations'" />
                     <!-- Validation Txs -->
-					<ValidationTxsList :dataList="txList" v-if="this.$route.params.txType === 'validations'" />
+					<ValidationTxsList :dataList="txList" :isShowFee="isShowFee" v-if="this.$route.params.txType === 'validations'" />
 					<!-- Gov Txs -->
-					<GovTxsList :dataList="txList" v-if="this.$route.params.txType === 'governance'" />
+					<GovTxsList :dataList="txList" :isShowFee="isShowFee" v-if="this.$route.params.txType === 'governance'" />
                 </div>
                 <div class="pagination_nav_footer_content">
                     <keep-alive>
@@ -81,21 +83,24 @@
 <script>
 	import Tools from "../util/Tools";
 	import MPagination from "./common/MPagination";
-	import {pageTitleConfig, TxStatus,decimals} from "../constant";
-	import {TxHelper} from '@/helper/TxHelper.js'
+	import {pageTitleConfig, TxStatus,decimals,TX_TYPE,TX_TYPE_DISPLAY} from "../constant";
+	import {TxHelper} from '@/helper/TxHelper.js';
 	import {getTypeStakingApi, getTypeDeclarationApi, getDelegationTxsApi, getValidationTxsApi,getGovTxsApi,getTypeGovApi} from "@/service/api";
 	import {converCoin,getMainToken} from "../helper/IritaHelper";
 	import {getAmountByTx} from "../helper/txListAmoutHelper";
 	import DelegationTxsList from '@/components/common/DelegationTxsList'
 	import ValidationTxsList from '@/components/common/ValidationTxsList'
 	import GovTxsList from '@/components/common/GovTxsList'
+	import prodConfig from '../productionConfig';
 	export default {
 		name: "TransactionListPage",
 		components: {MPagination,DelegationTxsList,ValidationTxsList,GovTxsList},
 		data () {
 			return {
+				isShowFee: prodConfig.fee.isShowFee,
+				isShowDenom: prodConfig.fee.isShowDenom,
 				proposalTitleNum: 20,
-				amountDecimals: decimals.amount,
+				feeDecimals: decimals.fee,
                 pageTitle:'',
 				totalPageNum: sessionStorage.getItem("txpagenum") ? JSON.parse(sessionStorage.getItem("txpagenum")) : 1,
 				currentPageNum: this.forCurrentPageNum(),
@@ -298,7 +303,7 @@
 						typeArray = res.map(item => {
 							return {
 								value: item,
-								label: item
+								label: TX_TYPE_DISPLAY[item] || itme
 							}
 						});
 						this.txTypeListArray = [
@@ -337,21 +342,15 @@
 					try {
 						this.count = res.count;
 						if (res && res.data) {
-							sessionStorage.setItem('txTotal', res.count);
 							this.totalPageNum = Math.ceil((res.data / this.pageSize) === 0 ? 1 : (res.data / this.pageSize));
-							sessionStorage.setItem('txpagenum', JSON.stringify(this.totalPageNum));
 							if (res.data) {
 								this.txList = []
-								// let fees = []
-								// let amounts = []
-								// console.time('fee')
 								for (const item of res.data) {
 									if(item) {
 										let msgsNumber = item.msgs ? item.msgs.length : 0, formTO;
 										let amount = '--'
 										if (item.msgs && item.msgs.length === 1) {
 											formTO = TxHelper.getFromAndToAddressFromMsg(item.msgs[0])
-											// amounts.push(item.msgs[0] ? getAmountByTx(item.msgs[0],item.events) : '--')
 											amount = item.msgs[0] ? await getAmountByTx(item.msgs[0],item.events) : '--'
 										} else {
 											formTO = '--'
@@ -363,37 +362,32 @@
 												fromMonikers = fromMonikers || it[formTO.from] || ''
 											})
 										}
+										let isShowMore = false;
+										// const type = item.msgs && item.msgs[0] && item.msgs[0].type;
+										// if(type && type === TX_TYPE.withdraw_delegator_reward) {
+										// 	isShowMore = true
+										// }
 										const time = Tools.getDisplayDate(item.time)
-										// fees.push(item.fee && item.fee.amount && item.fee.amount.length > 0 ? converCoin(item.fee.amount[0]) :'--')
-										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+										const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 										this.txList.push({
 											Tx_Hash: item.tx_hash,
 											Block: item.height,
 											From: formTO.from || "--",
 											fromMonikers,
 											Amount: amount,
-											// Amount: '',
 											To: formTO.to || '--',
 											toMonikers,
-											Tx_Type: (item.msgs || []).map(item=>item.type),
+											Tx_Type: (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 											MsgsNum: msgsNumber,
-											Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
-											// Tx_Fee: '',
+											// Tx_Fee: fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+											Tx_Fee: fee && fee.amount ?  `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 											Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 											Tx_Status: TxStatus[item.status],
 											Timestamp: time,
+											isShowMore
 										})
 									}
-									// if((fees && fees.length > 0) || (amounts && amounts.length > 0)  ) {
-									// 	let fee = await Promise.all(fees);
-										// let amount = await Promise.all(amounts);
-										// this.txList.forEach((item,index) => {
-										// 		this.txList[index].Tx_Fee = fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.amountDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : '--';
-												// this.txList[index].Amount = amount[index] ? amount[index] : '--';
-									// 	})
-									// }
 								}
-								// console.timeEnd('fee')
 							} else {
 								this.txList = [];
 								this.showNoData = true;
@@ -413,15 +407,14 @@
 					try {
 						this.count = res.count;
 						if (res && res.data) {
-							sessionStorage.setItem('txTotal', res.count);
 							this.totalPageNum = Math.ceil((res.data / this.pageSize) === 0 ? 1 : (res.data / this.pageSize));
-							sessionStorage.setItem('txpagenum', JSON.stringify(this.totalPageNum));
 							if (res.data) {
 								this.txList = []
 								for (const item of res.data) {
 									if(item) {
 										let msgsNumber = item.msgs ? item.msgs.length : 0
-										const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+										const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--';
+										const selfBonded = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.value ? await converCoin(item.msgs[0].msg.value) : '--' : '--';
 										const time = Tools.getDisplayDate(item.time)
 										let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
 										let OperatorMonikers
@@ -435,10 +428,11 @@
 												Block: item.height,
 												OperatorAddr,
 												OperatorMonikers: OperatorMonikers || '--',
-												SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${mainToken.symbol.toUpperCase()}` : '--' : '--',
-												'Tx_Type': (item.msgs || []).map(item=>item.type),
+												SelfBonded: selfBonded.amount || '--',
+												'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 												MsgsNum: msgsNumber,
-												'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+												// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+												'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 												'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 												'Tx_Status': TxStatus[item.status],
 												Timestamp: time,
@@ -467,7 +461,7 @@
 							this.count = res.count
 							for (const item of res.data) {
 								let msgsNumber = item.msgs ? item.msgs.length : 0
-								const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+								const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
 								const time = Tools.getDisplayDate(item.time)
 								let amount = null
 								let msg = item.msgs && item.msgs[0]
@@ -490,10 +484,12 @@
 									proposalType: item.ex && item.ex.type,
 									proposalId: item.ex && item.ex.id,
 									proposalTitle: item.ex && item.ex.title && Tools.formatString(item.ex.title, this.proposalTitleNum, '...'),
-									amount: amount ? `${Tools.toDecimal(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
-									'Tx_Type': (item.msgs || []).map(item=>item.type),
+									// amount: amount ? `${Tools.toDecimal(amount.amount,this.feeDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
+									amount: amount ? `${Tools.toDecimal(amount.amount,this.feeDecimals)}` : '--',
+									'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 									MsgsNum: msgsNumber,
-									'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+									// 'Tx_Fee': fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+									'Tx_Fee': fee && fee.amount ?  this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 									'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 									'Tx_Status': TxStatus[item.status],
 									Timestamp: time,
@@ -527,30 +523,27 @@
 
 <style scoped lang="scss">
 	.transaction_list_page_container {
-		.title_container {
-			// max-width: 12.8rem;
+		.transaction_list_page_container_title {
 			max-width: 12rem;
 			margin: 0.3rem auto;
-			margin-bottom: 0rem;
-			text-align: left;
+			margin-bottom: 0.13rem;
 			display: flex;
-			line-height: 0.3rem;
+		}
+		.title_container {
+			text-align: left;
+			line-height: 0.32rem;
 			color: $t_first_c;
 			font-size: $s18;
 			font-weight: bold;
-			
-			span {
+			margin-right: 0.2rem;
+			span:nth-child(1) {
 				margin-right: 0.1rem;
 			}
 		}
 		.transaction_list_title_wrap {
-			width: 100%;
-			// position: fixed;
-			// z-index: 3;
 			background-color: $bg_cancel_c;
-			// padding-top: 0.54rem;
 			.transaction_list_title_content {
-				height: 0.64rem;
+				// height: 0.64rem;
 				display: flex;
 				align-items: center;
 				// max-width: 12.8rem;
@@ -677,6 +670,7 @@
 							padding: 0.05rem 0.18rem;
 							font-size: $s14;
 							line-height: 0.2rem;
+							white-space: nowrap;
 						}
 					}
 				}
@@ -712,14 +706,16 @@
 	
 	@media screen and (max-width: 1248px) {
 		.transaction_list_page_container {
+			.transaction_list_page_container_title {
+				margin-left:0.24rem;
+			}
 			.title_container {
-				margin: 0.3rem 0.24rem 0rem 0.24rem;
 				span {
 				}
 			}
 			.transaction_list_title_wrap {
 				.transaction_list_title_content {
-					margin: 0 0.24rem;
+					// margin: 0 0.24rem;
 					.filter_container {		
 						.filter_tx_type_statue_content {
 						}
@@ -741,6 +737,50 @@
 			}
 			.transaction_list_table_container {
 				margin: 0 0.24rem;				
+				.transaction_list_table_content {				
+					.table_list_content {
+					}				
+					.pagination_nav_footer_content {
+					}
+					
+				}
+			}
+		}
+	}
+
+	@media screen and (max-width: 1053px) {
+		.transaction_list_page_container {
+			.transaction_list_page_container_title {
+				display: block;
+			}
+			.title_container {
+				margin-bottom: 0.1rem;
+				span {
+				}
+			}
+			.transaction_list_title_wrap {
+				.transaction_list_title_content {
+					// margin: 0 0.24rem;
+					.filter_container {		
+						.filter_tx_type_statue_content {
+						}
+						
+						.select_date_content {
+
+						}
+						
+						.reset_search_content {
+							.reset_btn {
+							}
+							
+							.tx_search_btn {
+							}
+						}
+					}
+					
+				}
+			}
+			.transaction_list_table_container {			
 				.transaction_list_table_content {				
 					.table_list_content {
 					}				
@@ -828,6 +868,9 @@
 
 	@media screen and (max-width: 768px) {
 		.transaction_list_page_container {
+			.transaction_list_page_container_title {
+				margin: 0px;
+			}
 			.title_container {
 				margin: 0.3rem 0.12rem 0rem 0.12rem;
 				span {

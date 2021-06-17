@@ -10,9 +10,9 @@
 								<router-link :to="`/block/${latestBlockHeight}`">{{latestBlockHeight}}</router-link>
 							</span>
 						</div>
-						<div class="pagination_content">
+						<!-- <div class="pagination_content">
 							<m-pagination :page-size="pageSize" :total="dataCount" :page="pageNumber" :page-change="pageChange"></m-pagination>
-						</div>
+						</div> -->
 					</div>
 					<div class="block_list_pagination_content">
 						<el-table class="table"  :data="blockList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
@@ -21,7 +21,7 @@
 									<router-link :to="`/block/${scope.row.height}`">{{scope.row.height}}</router-link>
 								</template>
 							</el-table-column>
-							<el-table-column v-if="productionConfig.blockList.proposer" :min-width="ColumnMinWidth.proposer" :label="$t('ExplorerLang.table.proposer')">
+							<el-table-column class-name="address" v-if="productionConfig.blockList.proposer" :min-width="ColumnMinWidth.proposer" :label="$t('ExplorerLang.table.proposer')">
 								<template slot-scope="scope">
 										<span v-if="scope.row.proposerAddress !== '' && scope.row.proposerAddress !== '--'">
 											<router-link class="common_link_style" :to="`/staking/${scope.row.proposerAddress}`">{{scope.row.proposerValue}}</router-link>

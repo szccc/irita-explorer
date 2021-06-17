@@ -1,7 +1,7 @@
 <template>
     <div class="tx_list_content">
-        <el-table class="table" :data="txDataList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-            <el-table-column class-name="hash_status" align="left" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+        <el-table class="table columns-fit table_overflow_x" :data="txDataList" :empty-text="$t('ExplorerLang.table.emptyDescription')" ref="listTable" :class="loading ? null : 'visible'">
+            <el-table-column class-name="hash_status" align="left" :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                 <template slot-scope="scope">
                     <div class="tx_transaction_content_hash">
                         <div class="status">
@@ -18,27 +18,39 @@
                     </div>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.blockHeight" :label="$t('ExplorerLang.table.block')">
-                <template slot-scope="scope">
-                    <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
-                </template>
-            </el-table-column>
-            <el-table-column class-name="tx_type"  :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
+            <!-- <el-table-column class-name="tx_type"  :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"> -->
+            <el-table-column class-name="tx_type"  :min-width="colWidthList[1]" :label="$t('ExplorerLang.table.txType')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.txType.join(',')"
-                                placement="top"
-                                :disabled="scope.row.txType.length <= 1">
-                        <span>{{getDisplayTxType(scope.row.txType) }}</span>
+                                placement="top-start"
+                                :disabled="scope.row.msgCount <= 1">
+                        <div class="ty_type_message">
+                            <span>{{TxHelper.getDisplayTxType(scope.row.txType)}}</span>
+                            <span class="message_number" v-if="scope.row.msgCount != 1">+{{scope.row.msgCount - 1}}</span>
+                        </div>
                     </el-tooltip>
                 </template>
             </el-table-column>
-            <el-table-column align="center" :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
+            <!-- <el-table-column align="right" class-name="amount" prop="amount" :label="$t('ExplorerLang.table.amount')" :min-width="ColumnMinWidth.amountAndDenom"> -->
+            <el-table-column align="right" class-name="amount" prop="amount" :label="$t('ExplorerLang.table.amount')" :width="colWidthList[2]">
+                <!-- <template slot="header">
+                    <span>{{ $t('ExplorerLang.table.amount')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+                </template > -->
+                <template slot-scope="scope">
+                        <span v-if="scope.row.msgCount == 1 && !scope.row.isShowMore">{{scope.row.amount}}</span>
+                        <router-link v-else :to="`/tx?txHash=${scope.row.txHash}`">{{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i></router-link>
+                </template>
+            </el-table-column>
+            <!-- <el-table-column align="center" :min-width="ColumnMinWidth.message" :label="$t('ExplorerLang.table.message')">
                 <template slot-scope="scope">
                     <span>{{scope.row.msgCount}} {{$t('ExplorerLang.unit.msgCountUnit')}}</span>
                 </template>
-            </el-table-column>
-            <el-table-column prop="Tx_Fee" :label="$t('ExplorerLang.table.fee')" :min-width="ColumnMinWidth.fee"></el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
+            </el-table-column> -->
+            <el-table-column :min-width="ColumnMinWidth.address" class-name="from" :label="$t('ExplorerLang.table.from')">
                 <template slot-scope="scope">
                     <el-tooltip v-if="isValid(scope.row.from)" v-show="Number(scope.row.msgCount) <= 1" :content="scope.row.from"
                                 placement="top"
@@ -50,10 +62,13 @@
                             {{  formatMoniker(scope.row.fromMonikers,monikerNum.otherTable) || formatAddress(scope.row.from)}}
                         </span>
                     </el-tooltip>
-                    <span v-if="!isValid(scope.row.from) || Number(scope.row.msgCount) > 1 ">--</span>
+                    <router-link v-if="!isValid(scope.row.from) || Number(scope.row.msgCount) > 1"
+                                 :to="`/tx?txHash=${scope.row.txHash}`">
+                        {{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i>
+                    </router-link>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
+            <el-table-column :min-width="ColumnMinWidth.address" class-name="to" :label="$t('ExplorerLang.table.to')">
                 <template slot-scope="scope">
                     <el-tooltip v-show="Number(scope.row.msgCount) <= 1" :content="String(scope.row.to)"
                                 placement="top"
@@ -68,12 +83,19 @@
                         <router-link v-else-if="isValid(scope.row.to)" :to="`/tx?txHash=${scope.row.txHash}`">
                             {{ `${scope.row.to.length} ${$t('ExplorerLang.unit.providers')}`}}
                         </router-link>
-                        <span v-else>{{'--'}}</span>
                     </el-tooltip>
-                    <span v-show="Number(scope.row.msgCount) > 1"> --</span>
+                    <router-link v-if="!isValid(scope.row.to) || Number(scope.row.msgCount) > 1" :to="`/tx?txHash=${scope.row.txHash}`">
+                        {{$t('ExplorerLang.table.more')}} <i class="iconfont icontiaozhuan more_icontiaozhuan"></i>
+                    </router-link>
                 </template>
             </el-table-column>
-            <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.signer')">
+            <!-- <el-table-column :min-width="ColumnMinWidth.blockHeight" class-name="block" :label="$t('ExplorerLang.table.block')"> -->
+            <el-table-column :min-width="colWidthList[5]" class-name="block" :label="$t('ExplorerLang.table.block')">
+                <template slot-scope="scope">
+                    <router-link :to="`/block/${scope.row.blockHeight}`">{{scope.row.blockHeight}}</router-link>
+                </template>
+            </el-table-column>
+            <!-- <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.signer')">
                 <template slot-scope="scope">
                     <el-tooltip :content="scope.row.signer"
                                 placement="top"
@@ -85,21 +107,34 @@
                         <span v-else>{{'--'}}</span>
                     </el-tooltip>
                 </template>
+            </el-table-column> -->
+            <el-table-column v-if="isShowFee" align="right" class-name="fee" prop="Tx_Fee" :min-width="ColumnMinWidth.fee">
+                <template slot="header" slot-scope="scope">
+                    <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+                </template>
             </el-table-column>
-            <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
+            <!-- <el-table-column :width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" prop="time">
                 <template slot-scope="scope">
                     <span>{{scope.row.time}}</span>
                 </template>
-            </el-table-column>
+            </el-table-column> -->
+            <el-table-column :width="ColumnMinWidth.blockAge" prop="ageTime" :label="$t('ExplorerLang.table.age')"></el-table-column>
         </el-table>
     </div>
 </template>
 
 <script>
-    import Tools from "../../util/Tools"
+    import Tools from "../../util/Tools";
     import {TxHelper} from "../../helper/TxHelper";
-    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals } from '../../constant';
-    import { addressRoute,formatMoniker,converCoin } from '@/helper/IritaHelper'
+    import { TX_TYPE,TX_STATUS,ColumnMinWidth,monikerNum,decimals,TX_TYPE_DISPLAY } from '../../constant';
+    import { addressRoute, formatMoniker, converCoin, getMainToken } from '@/helper/IritaHelper';
+    import {getAmountByTx} from "../../helper/txListAmoutHelper";
+    import prodConfig from '../../productionConfig';
+
     export default {
         name : "TxList",
         components : {},
@@ -115,6 +150,10 @@
         },
         data(){
             return {
+                tyepWidth: ColumnMinWidth.txType,
+                TxHelper,
+                isShowFee: prodConfig.fee.isShowFee,
+                isShowDenom: prodConfig.fee.isShowDenom,
                 TX_TYPE,
                 TX_STATUS,
                 ColumnMinWidth,
@@ -122,8 +161,13 @@
                 addressRoute,
                 formatMoniker,
                 monikerNum,
-                amountDecimals: decimals.amount,
-                txDataList: []
+                feeDecimals: decimals.fee,
+                txDataList: [],
+                txListTimer:null,
+                colWidthList: [],
+                loading: false,
+                mainTokenSymbol:'',
+
             }
         },
         watch:{
@@ -134,16 +178,18 @@
         created(){
             this.formatTxData()
         },
+        mounted(){
+            this.setMainToken();
+        },
         methods : {
             isValid(value){
                 return (!value || !value.length || value == '--') ? false : true;
             },
-            getDisplayTxType(types=[]){
-                let type = types[0] || '';
-                if (type && types.length > 1) {
-                    type += this.$t('ExplorerLang.unit.ellipsis');
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
                 }
-                return type;
             },
             formatTxHash(TxHash){
                 if(TxHash){
@@ -154,11 +200,27 @@
                 return Tools.formatValidatorAddress(address)
             },
             async formatTxData() {
+                this.loading = true;
                 this.txDataList = []
                 if(this.txData && this.txData.length) {
                     let fees = []
+                    let amounts = []
                     for (const tx of this.txData) {
-                        let addrObj = TxHelper.getFromAndToAddressFromMsg((tx.msgs || [])[0]);
+                        let msg;
+                        if(tx.msgs.length > 0){
+                            let recvPacketItem = tx.msgs.find((m)=>{
+                                if(m.type === TX_TYPE.recv_packet || m.type === TX_TYPE.transfer || m.type === TX_TYPE.timeout_packet){
+                                    return true;
+                                }
+                            });
+                            if(recvPacketItem){
+                                msg = recvPacketItem;
+                            }else{
+                                msg = tx.msgs[0]
+                            }
+                        }
+                        let addrObj = TxHelper.getFromAndToAddressFromMsg(msg);
+                        amounts.push(tx.msgs[0] ? getAmountByTx(tx.msgs[0],tx.events,true) : '--');
                         let from = addrObj.from || '--',
                             to =  addrObj.to || '--';
                         let fromMonikers,toMonikers
@@ -168,12 +230,22 @@
                                 fromMonikers = fromMonikers || item[from] || ''
                             })
                         }
-                        fees.push(tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? converCoin(tx.fee.amount[0]) :'--')
-                        // const fee = tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? await converCoin(tx.fee.amount[0]) :'--'
+                        if(this.isShowFee) {
+                            fees.push(tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? converCoin(tx.fee.amount[0]) :'--')
+                        }
+                        let isShowMore = false;
+                        const type = tx.msgs && tx.msgs[0] && tx.msgs[0].type;
+                        if(type && (type === TX_TYPE.add_liquidity || type === TX_TYPE.remove_liquidity)) {
+                            isShowMore = true
+                        }
+                        if(tx.type === TX_TYPE.send) {
+                            tx && tx.msgs && tx.msgs[0] && tx.msgs[0].msg && tx.msgs[0].msg.amount && tx.msgs[0].msg.amount.length > 1 ? isShowMore = true : ''
+                        }
+
                         this.txDataList.push({
                                 txHash : tx.tx_hash,
                                 blockHeight : tx.height,
-                                txType :(tx.msgs || []).map(item=>item.type),
+                                txType :(tx.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
                                 from,
                                 fromMonikers,
                                 toMonikers,
@@ -181,30 +253,79 @@
                                 signer : tx.signers[0],
                                 status : tx.status,
                                 msgCount : tx.msgs.length,
-                                time :Tools.getDisplayDate(tx.time),
-                                // Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+                                // time :Tools.getDisplayDate(tx.time),
                                 Tx_Fee: '',
+                                Time: tx.time,
+                                amount: '',
+                                ageTime: Tools.formatAge(Tools.getTimestamp(),tx.time*1000,"ago",">"),
+                                isShowMore,
                         })
+                        clearInterval(this.txListTimer);
+                        this.txListTimer = setInterval(() => {
+                            this.txDataList.map(item => {
+                                item.ageTime = Tools.formatAge(Tools.getTimestamp(),item.Time*1000,"ago",">");
+                                return item
+                            })
+                        },1000)
                     }
-                    if(fees && fees.length > 0) {
+                    if(fees && fees.length > 0 && this.isShowFee) {
                         let fee = await Promise.all(fees);
                         this.txDataList.forEach((item,index) => {
-                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.amountDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : '--';
+                                // this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
+                                // remove denom
+                                this.txDataList[index].Tx_Fee = fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--';
                         })
                     }
+                    if(amounts && amounts.length > 0) {
+                        let amount = await Promise.all(amounts)
+                        this.txDataList.forEach((item,index) => {
+                            this.txDataList[index].amount = amount[index]
+                        })
+                    }
+                    this.$nextTick(() => {
+                        setTimeout(() => {
+                            this.colWidthList = this.$adjustColumnWidth(this.$refs['listTable'].$el);
+                            this.loading = false;
+                        });
+                    });
                 }
             }
+        },
+        beforeDestroy() {
+            clearInterval(this.txListTimer)
         }
     }
 </script>
 
 <style scoped lang="scss">
+    /deep/.columns-fit {
+        // .el-table__header-wrapper, .el-table__body-wrapper {
+        //     visibility: hidden;
+        // }
+
+        // &.visible {
+        //     .el-table__header-wrapper, .el-table__body-wrapper {
+        //         visibility: visible;
+        //     }
+        // }
+
+        .el-table__body-wrapper {
+            overflow: auto;
+        }
+
+        td>.cell {
+            display: inline-block;
+            white-space: nowrap;
+            width: auto;
+            overflow: auto;
+        }
+    }
     a {
         color: $t_link_c !important;
     }
     /deep/ .hash_status {
         .cell {
-            margin-left: 0.05rem;
+            // margin-left: 0.05rem;
         }
     }
     .tx_list_content{
@@ -224,7 +345,23 @@
             margin: 0.1rem 0 0.2rem 0;
         }
         /deep/ .cell {
-            padding: 0 0.04rem;
+            // padding: 0 0.04rem;
         }
+    }
+    /deep/ .hash_status .cell {
+        padding-left:20px;
+        padding-right: 0px;
+    }
+    /deep/ .amount  .cell {
+        padding-right:10px;
+    }
+    /deep/ .from .cell {
+        padding-left:40px;
+    }
+    /deep/ .fee  .cell {
+        padding-right: 28px;
+    }
+    /deep/ .block  .cell {
+        padding-left: 0px;
     }
 </style>

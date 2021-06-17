@@ -4,7 +4,7 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.issueTokenTxs') }}</div>
       <div class="native_asset_list_table_content">
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="issueToken">
-          <el-table-column :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.owner" placement="top">
@@ -15,7 +15,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.symbol')" prop="symbol" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.symbol')" prop="symbol" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.symbol"> {{ row.symbol }}</router-link>
             </template>
@@ -27,7 +27,7 @@
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column :label="$t('ExplorerLang.table.txHash')" class-name="hash_status" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">
@@ -35,7 +35,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" v-if="isShowFee" prop="fee" :width="ColumnMinWidth.fee">
+              <template slot="header" slot-scope="scope">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -47,12 +55,12 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.editTokenTxs') }}</div>
       <div class="native_asset_list_table_content">
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="editToken">
-          <el-table-column :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.token"> {{ row.token }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.owner" placement="top">
@@ -68,7 +76,7 @@
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column class-name="hash_status" :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">
@@ -76,7 +84,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
+              <template slot="header"  slot-scope="scope">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -88,12 +104,12 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.mintTokenTxs') }}</div>
       <div class="native_asset_list_table_content">
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="mintToken">
-          <el-table-column :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.token"> {{ row.token }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.owner" placement="top">
@@ -104,7 +120,7 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.mintTo')" prop="mintTo" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="to" :label="$t('ExplorerLang.table.mintTo')" prop="mintTo" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.mintTo" placement="top">
@@ -115,13 +131,13 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.amount"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.block')" prop="block" :min-width="ColumnMinWidth.block">
             <template v-slot:default="{ row }">
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column class-name="hash_status" :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">
@@ -129,7 +145,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
+              <template slot="header">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -141,12 +165,12 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.burnTokenTxs') }}</div>
       <div class="native_asset_list_table_content">
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="burnToken">
-          <el-table-column :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.token"> {{ row.token }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.sender')" prop="sender" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="sender" :label="$t('ExplorerLang.table.sender')" prop="sender" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.sender" placement="top">
@@ -157,13 +181,13 @@
               </span>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.amount')" prop="amount" :min-width="ColumnMinWidth.amount"></el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.block')" prop="block" :min-width="ColumnMinWidth.block">
             <template v-slot:default="{ row }">
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column class-name="hash_status" :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">
@@ -171,7 +195,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
+              <template slot="header" slot-scope="scope">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -183,12 +215,12 @@
       <div class="txs_title">{{ $t('ExplorerLang.asset.transferOwnerTxs') }}</div>
       <div class="native_asset_list_table_content" >
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="transferToken">
-          <el-table-column :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.token')" prop="token" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
               <router-link :to="'/assets/' + row.token"> {{ row.token }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.srcOwner')" prop="srcOwner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.srcOwner')" prop="srcOwner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <el-tooltip popper-class="tooltip" :content="row.srcOwner" placement="top">
                 <span class="address_link"  @click="addressRoute(row.srcOwner)">
@@ -197,7 +229,7 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.dstOwner')" prop="dstOwner" :min-width="ColumnMinWidth.address">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.dstOwner')" prop="dstOwner" :min-width="ColumnMinWidth.address">
             <template v-slot:default="{ row }">
               <el-tooltip popper-class="tooltip" :content="row.dstOwner" placement="top">
                 <span class="address_link"  @click="addressRoute(row.dstOwner)">
@@ -211,7 +243,7 @@
               <router-link :to="'/block/' + row.block">{{ row.block }}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
+          <el-table-column class-name="hash_status" :label="$t('ExplorerLang.table.txHash')" prop="txHash" :min-width="ColumnMinWidth.txHash">
             <template v-slot:default="{ row }">
               <img class="status_icon" :src="require(`../../assets/${row.status === 1 ? 'success.png' : 'failed.png'}`)" />
               <el-tooltip :content="`${row.txHash}`">
@@ -219,7 +251,15 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.fee')" prop="fee" :min-width="ColumnMinWidth.fee"></el-table-column>
+          <el-table-column :label="$t('ExplorerLang.table.fee')" align="right" prop="fee" v-if="isShowFee" :width="ColumnMinWidth.fee">
+              <template slot="header" slot-scope="scope">
+                  <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                  <el-tooltip :content="mainTokenSymbol"
+                              placement="top">
+                      <i class="iconfont iconyiwen yiwen_icon" />
+                  </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column :label="$t('ExplorerLang.table.timestamp')" prop="time" :width="ColumnMinWidth.time"></el-table-column>
         </el-table>
         <div class="pagination_content">
@@ -235,7 +275,9 @@ import MPagination from '.././common/MPagination'
 import Tools from '../../util/Tools'
 import { getNativeAssetsTxsApi } from '@/service/api'
 import { ColumnMinWidth, TX_TYPE, decimals } from '@/constant'
-import { converCoin,addressRoute } from '../../helper/IritaHelper'
+import { converCoin, addressRoute, getMainToken } from '../../helper/IritaHelper'
+import prodConfig from '../../productionConfig'
+
 export default {
   name: 'AssetTxsComponent',
   components: { MPagination },
@@ -247,6 +289,8 @@ export default {
   },
   data() {
     return {
+      isShowFee: prodConfig.fee.isShowFee,
+      isShowDenom: prodConfig.fee.isShowDenom,
       Tools,
       addressRoute,
       ColumnMinWidth,
@@ -265,6 +309,7 @@ export default {
       burnTokenCurrentPageNum: 1,
       transferTokenCurrentPageNum: 1,
       pageSize: 10,
+        mainTokenSymbol:'',
     }
   },
   computed: {},
@@ -276,18 +321,27 @@ export default {
     this.getMintToken()
     this.getBurnToken()
     this.getTransferToken()
+    this.setMainToken()
   },
   methods: {
+      async setMainToken(){
+          let mainToken = await getMainToken();
+          if(mainToken && mainToken.symbol){
+              this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+          }
+      },
     async getIssueToken() {
       try {
         let res = await this.getNativeAssets(this.issueTokenCurrentPageNum, this.pageSize, true, TX_TYPE.issue_token,this.symbol)
         this.issueTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.issueToken = await Promise.all(
             result.map(async item => {
               let issueTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 owner: issueTokenData && issueTokenData.owner,
                 symbol: issueTokenData && issueTokenData.symbol,
@@ -295,7 +349,8 @@ export default {
                 mintable: issueTokenData && Tools.firstWordUpperCase(String(issueTokenData.mintable)),
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                // fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -314,16 +369,19 @@ export default {
         this.editTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.editToken = await Promise.all(
             result.map(async item => {
               let editTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 owner: editTokenData && editTokenData.owner,
                 token: editTokenData && editTokenData.symbol,
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                // fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -342,18 +400,21 @@ export default {
         this.mintTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.mintToken = await Promise.all(
             result.map(async item => {
               let mintTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 owner: mintTokenData && mintTokenData.owner,
                 token: mintTokenData && mintTokenData.symbol,
                 mintTo: mintTokenData && mintTokenData.to,
-                amount: (mintTokenData && Tools.toDecimal(mintTokenData.amount, decimals.fee)) || '--',
+                amount: (mintTokenData && Tools.toDecimal(mintTokenData.amount, decimals.amount)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                // fee: fee ?  isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -372,17 +433,20 @@ export default {
         this.burnTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.burnToken = await Promise.all(
             result.map(async item => {
               let burnTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 token: burnTokenData && burnTokenData.symbol,
                 sender: burnTokenData && burnTokenData.sender,
-                amount: (burnTokenData && Tools.toDecimal(burnTokenData.amount, decimals.fee)) || '--',
+                amount: (burnTokenData && Tools.toDecimal(burnTokenData.amount, decimals.amount)) || '--',
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                // fee: fee ?  isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -401,17 +465,20 @@ export default {
         this.transferTokenTotalPageNum = res && res.count ? res.count : 0
         let result = res && res.data ? res.data : null
         if (result) {
+          let isShowFee = this.isShowFee
+          let isShowDenom = this.isShowDenom
           this.transferToken = await Promise.all(
             result.map(async item => {
               let transferTokenData = item.msgs && item.msgs[0].msg
-              let fee = await converCoin(item.fee && item.fee.amount && item.fee.amount[0])
+              let fee = isShowFee && item.fee && item.fee.amount && item.fee.amount[0] ? await converCoin(item.fee.amount[0]) : ''
               return {
                 token: transferTokenData && transferTokenData.symbol,
                 srcOwner: transferTokenData && transferTokenData.src_owner,
                 dstOwner: transferTokenData && transferTokenData.dst_owner,
                 block: item.height,
                 txHash: item.tx_hash,
-                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : '--',
+                // fee: fee ? isShowDenom ? `${Tools.toDecimal(fee.amount, decimals.fee)} ${fee.denom.toUpperCase()}` || '--' : `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
+                fee: fee ? `${Tools.toDecimal(fee.amount, decimals.fee)}` : '--',
                 time: Tools.getDisplayDate(item.time),
                 status: item.status,
               }
@@ -473,6 +540,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+// /deep/ th.is-right {
+//   text-align: center;
+// }
+
 a {
   color: $t_link_c !important;
 }

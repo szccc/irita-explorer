@@ -2,7 +2,7 @@
     <div class="denom_list_container">
         <div class="denom_list_content_wrap">
             <div class="denom_list_header_content">
-                <h3 class="denom_list_header_title">{{count}} {{$t('ExplorerLang.denom.title')}}</h3>
+                <h3 class="denom_list_header_title">{{count}} {{$t('ExplorerLang.denom.title')}}{{count>1 && isShowPlurality ? 's' : ''}}</h3>
                 <el-input v-model="input"
                           @change="handleSearchClick"
                           :placeholder="$t('ExplorerLang.denom.placeHolder')"></el-input>
@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="nef_list_table_container">
-                <el-table class="table" :data="denomList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                <el-table class="table table_overflow_x" :data="denomList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.denom" :label="$t('ExplorerLang.table.denom')">
                         <template slot-scope="scope">
                             {{scope.row.denomName}}
@@ -27,7 +27,7 @@
                             {{scope.row.denomId}}
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.txHash"
+                    <el-table-column class-name="hash_status" :min-width="ColumnMinWidth.txHash"
                                      :label="$t('ExplorerLang.table.createHash')" >
                         <template slot-scope="scope">
                             <el-tooltip v-if="scope.row.hash !== ''"
@@ -51,7 +51,7 @@
                             </a>
                         </template>
                     </el-table-column>
-                    <el-table-column :min-width="ColumnMinWidth.address"
+                    <el-table-column class-name="address" :min-width="ColumnMinWidth.address"
                                      :label="$t('ExplorerLang.table.creator')" >
                         <template slot-scope="scope">
                             <el-tooltip :content="scope.row.sender"
@@ -87,6 +87,8 @@
     import Tools from "../util/Tools";
     import MPagination from "./common/MPagination";
     import { ColumnMinWidth } from '../constant';
+    import productionConfig from '@/productionConfig.js';
+
     export default {
         name: "DenomList",
         components: {MPagination},
@@ -105,6 +107,11 @@
         mounted(){
             this.getDenoms()
         },
+        computed: {
+			isShowPlurality() {
+				return productionConfig.lang === 'EN'
+			}
+		},
         methods:{
             reset(){
                 this.input = '';
@@ -276,6 +283,7 @@
                         padding: 0.05rem 0.18rem;
                         font-size: $s14;
                         line-height: 0.2rem;
+                        white-space: nowrap;
                     }
                 }
             }

@@ -6,7 +6,7 @@
           <img class="header_logo_content_icon" v-if="logoImg.length" :src="logoImg" alt="" />
           <div :style="`color:${(prodConfig.nav || {}).color || ''}`">
             <p class="header_logo_content_title">{{ (prodConfig.logo || {}).title || 'CSChain-Bond' }}</p>
-            <p class="header_logo_content_subTitle">{{ (prodConfig.logo || {}).subTitle || '债券应用链浏览器' }}</p>
+            <p class="header_logo_content_subTitle">{{ (prodConfig.logo || {}).subTitle }}</p>
           </div>
         </div>
         <div class="header_menu">
@@ -21,7 +21,7 @@
             :active-text-color="(prodConfig.nav || {}).activeTextColor || '#fff'"
           >
             <component v-for="(item, index) in menuList" :is="item.children ? 'el-submenu' : 'el-menu-item'" :index="String(index + 1)" :key="index">
-              <router-link v-if="!item.children" :to="item.link">{{ item.title }}</router-link>
+              <router-link v-if="!item.children" :to="item.link || ''">{{ item.title }}</router-link>
               <template v-else>
                 <template slot="title">
                   {{ item.title }}
@@ -63,7 +63,7 @@
                   @click="windowOpenUrl(item.uri)"><i :class="item.icon"></i>{{item.network_name}}</li>
           </ul>
       </div>
-      
+
       <div class="use_feature_mobile" v-if="featureShow">
         <div v-for="(item, index) in menuList" class="mobile_tab_item_wrap" :key="String(index)" :style="`color:${(prodConfig.nav || {}).color || ''}`">
           <span class="mobile_tab_item" @click="mobileMenuDidClick(item, index, false)" v-if="!item.children">
@@ -110,7 +110,7 @@ import constant,{ ModuleMap,product } from '../../constant'
 import prodConfig from '../../productionConfig'
 import { getBlockWithHeight, getTxDetail, getAddressTxList } from '@/service/api'
 import { moduleSupport } from "@/helper/ModulesHelper"
-import { getConfig,addressRoute } from "@/helper/IritaHelper"
+import { getConfig, addressRoute, getMainToken } from "@/helper/IritaHelper"
 export default {
   data() {
     return {
@@ -129,7 +129,8 @@ export default {
       // currentNetworkClass:'',
       flShowNetWorkMenu:false,
       mainnet:{},
-      constant
+      constant,
+        mainToken:'',
     }
   },
   computed: {
@@ -141,15 +142,13 @@ export default {
       return img
     },
   },
-  beforeMount() {
-    this.menuList = this.loadModules(prodConfig.navFuncList)
-  },
   created() {
     this.getConfigApi()
   },
   mounted() {
     // this.$Crypto.getCrypto('iris', 'testnet');
     this.setActiveIndex();
+      this.menuList = this.loadModules(prodConfig.navFuncList)
   },
   watch: {
     $route: {
@@ -171,7 +170,7 @@ export default {
           } else if (ModuleMap[item.id]) {
             let menu = ModuleMap[item.id]
             if (item.title) {
-              menu.title = item.title
+              menu.title = item.title.replace('\$\{mainToken\}', this.$store.state.mainToken)
             }
             menuList.push(menu)
           }
@@ -183,7 +182,7 @@ export default {
           }
         })
       }
-      return menuList
+       return menuList;
     },
     handleSelect(key, keyPath) {},
     handleParentTitleClick(index) {
@@ -310,7 +309,7 @@ export default {
               item.icon = 'iconfont iconStargate'
           } else if (item.network_id === constant.CHAINID.COSMOSHUB) {
               item.icon = 'iconfont iconCosmosHub'
-          } 
+          }
           if (item.is_main) {
               this.mainnet = {...item};
           }
@@ -318,6 +317,7 @@ export default {
       })
       switch (prodConfig.product) {
         case product.bifrost:
+          this.mainnet = {icon:'iconfont iconBI-01'};
           break;
         case product.stargate:
           this.mainnet = {icon:'iconfont iconStargate'};
@@ -327,6 +327,9 @@ export default {
           break;
         case product.nyancat:
           this.mainnet = {icon:'iconfont iconcaihongmao'};
+          break;
+        case product.irishub:
+          this.mainnet = {icon:'iconfont iconiris'};
           break;
         default:
           break;
@@ -410,7 +413,9 @@ export default {
               .el-submenu__icon-arrow {
                 color: inherit !important;
               }
+                padding:0 12px;
             }
+
           }
         }
         .el-menu.el-menu--horizontal {

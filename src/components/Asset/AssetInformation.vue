@@ -83,7 +83,7 @@ export default {
           value: '',
         },
         {
-          id: 'min_unit',
+          id: 'denom',
           key: this.$t('ExplorerLang.asset.minUnit'),
           value: '',
         },

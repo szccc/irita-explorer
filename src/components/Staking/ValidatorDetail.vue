@@ -15,11 +15,11 @@
 						<div class="one_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.delegationsTitle') }}</p>
-							<div class="delegations_table_container">
+							<div class="delegations_table_container" ref="delegationsList">
 								<el-table :data="delegations.items" style="width: 100%"
-								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
-									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 :min-width="ColumnMinWidth.address">
+								          :empty-text="$t('ExplorerLang.table.emptyDescription')" id="element_del">
+									<el-table-column class-name="address" prop="address" :label="$t('ExplorerLang.table.address')"
+									                 :width="ColumnMinWidth.iaaAddress">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
 												<span
@@ -32,7 +32,15 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.delegationsAmount"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.delegationsAmount">
+										<template slot="header" slot-scope="scope">
+											<span>{{ $t('ExplorerLang.table.amount')}}</span>
+											<el-tooltip :content="mainTokenSymbol"
+														placement="top">
+												<i class="iconfont iconyiwen yiwen_icon" />
+											</el-tooltip>
+										</template >
+									</el-table-column>
 									<el-table-column prop="shares" :label="$t('ExplorerLang.table.shares')" align="left"
 									                 :min-width="ColumnMinWidth.shares"></el-table-column>
 									<!-- 待处理 -->
@@ -51,14 +59,14 @@
 						<div class="second_table_container clearfloat">
 							<p class="validator_information_content_title">{{
 								$t('ExplorerLang.validatorDetail.unbondingDelegationsTitle') }}</p>
-							<div class="delegations_table_container">
+							<div class="delegations_table_container" ref="UnbondingDelList">
 								<el-table :data="unbondingDelegations.items" style="width: 100%"
-								          :empty-text="$t('ExplorerLang.table.emptyDescription')">
-									<el-table-column prop="address" :label="$t('ExplorerLang.table.address')"
-									                 :min-width="ColumnMinWidth.address">
+								          :empty-text="$t('ExplorerLang.table.emptyDescription')" id="element_undel">
+									<el-table-column class-name="address" prop="address" :label="$t('ExplorerLang.table.address')"
+									                 :width="ColumnMinWidth.iaaAddress">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="`${row.address}`">
-												<span 
+												<span
 												             @click="addressRoute(row.address)"
 															 class="address_link"
 												             :style="{ color: '$theme_c !important' }">{{
@@ -68,7 +76,15 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="amount" :label="$t('ExplorerLang.table.amount')"
-									                 align="right" :min-width="ColumnMinWidth.amount"></el-table-column>
+									                 align="right" :min-width="ColumnMinWidth.amount">
+										<template slot="header" slot-scope="scope">
+											<span>{{ $t('ExplorerLang.table.amount')}}</span>
+											<el-tooltip :content="mainTokenSymbol"
+														placement="top">
+												<i class="iconfont iconyiwen yiwen_icon" />
+											</el-tooltip>
+										</template >
+									</el-table-column>
 									<el-table-column prop="block" :label="$t('ExplorerLang.table.block')" align="left"
 									                 :min-width="ColumnMinWidth.blockListHeight">
 										<template v-slot:default="{ row }">
@@ -79,7 +95,7 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="end_time" :label="$t('ExplorerLang.table.endTime')"
-									                 :min-width="ColumnMinWidth.time"></el-table-column>
+									                 :width="ColumnMinWidth.time"></el-table-column>
 								</el-table>
 							</div>
 							<m-pagination v-if="unbondingDelegations.total > pageSize" :page-size="pageSize"
@@ -105,7 +121,7 @@
 											<span v-else>{{ row.id }}</span>
 										</template>
 									</el-table-column>
-									<el-table-column prop="proposer" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.proposer')">
+									<el-table-column class-name="address" prop="proposer" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.proposer')">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="row.proposer" placement="top" :disabled="Boolean(row.moniker)">
 												<router-link v-if="row.link" :to="`/address/${row.proposer}`">{{ formatMoniker(row.moniker, monikerNum.otherTable) || formatAddress(row.proposer) }}</router-link>
@@ -114,10 +130,18 @@
 										</template>
 									</el-table-column>
 									<el-table-column prop="deposit" align="right" :label="$t('ExplorerLang.table.deposit')"
-									                :min-width="ColumnMinWidth.amount"></el-table-column>
-									<el-table-column prop="submited" :label="$t('ExplorerLang.table.submited')"
+									                :min-width="ColumnMinWidth.amount">
+										<template slot="header" slot-scope="scope">
+											<span>{{ $t('ExplorerLang.table.deposit')}}</span>
+											<el-tooltip :content="mainTokenSymbol"
+														placement="top">
+												<i class="iconfont iconyiwen yiwen_icon" />
+											</el-tooltip>
+										</template >
+									</el-table-column>
+									<el-table-column prop="submited" align="center" :label="$t('ExplorerLang.table.submited')"
 									                  :min-width="ColumnMinWidth.submited"></el-table-column>
-									<el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+									<el-table-column class-name="hash_status" prop="hash" :width="ColumnMinWidth.txHashShort" :label="$t('ExplorerLang.table.txHash')">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="row.hash" placement="top" :disabled="!Boolean(row.hash)">
 												<router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>
@@ -149,7 +173,7 @@
 									                :min-width="ColumnMinWidth.proposalStatus"></el-table-column>
 									<el-table-column prop="voted" :label="$t('ExplorerLang.table.voted')"
 									                  :min-width="ColumnMinWidth.voteOption"></el-table-column>
-									<el-table-column prop="hash" :width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+									<el-table-column class-name="hash_status" prop="hash" :width="ColumnMinWidth.txHashShort" :label="$t('ExplorerLang.table.txHash')">
 										<template v-slot:default="{ row }">
 											<el-tooltip :content="row.hash" placement="top" :disabled="!row.hash">
 											<router-link :to="`/tx?txHash=${row.hash}`">{{ formatTxHash(row.hash) }}</router-link>
@@ -170,7 +194,7 @@
 					<div class="delegations_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.delegationsTxsTitle') }}</p>
-						<DelegationTxsList class="delegations_txs_table_container" :dataList="delegationTxs.items" />
+						<DelegationTxsList class="delegations_txs_table_container" :isShowFee="isShowFee" :dataList="delegationTxs.items" />
 						<m-pagination v-if="delegationTxs.total > pageSize" :page-size="pageSize"
 						              :total="delegationTxs.total"
 						              :page-change="pageChange('getDelegationTxs')"></m-pagination>
@@ -181,7 +205,7 @@
 					<div class="validation_txs_container">
 						<p class="validator_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.validationTxsTitle') }}</p>
-						<ValidationTxsList class="validation_txs_table_container" :dataList="validationTxs.items" />
+						<ValidationTxsList class="validation_txs_table_container" :isShowFee="isShowFee" :dataList="validationTxs.items" />
 						<m-pagination v-if="validationTxs.total > pageSize" :page-size="pageSize"
 						              :total="validationTxs.total"
 						              :page-change="pageChange('getValidationTxs')"></m-pagination>
@@ -192,7 +216,7 @@
 					<div class="gov_txs_container">
 						<p class="gov_information_content_title">{{
 							$t('ExplorerLang.validatorDetail.govTxsTitle') }}</p>
-						<GovTxsList class="gov_txs_table_containers" :dataList="govTxs.items" />
+						<GovTxsList class="gov_txs_table_containers" :isShowFee="isShowFee" :dataList="govTxs.items" />
 						<m-pagination v-if="govTxs.total > pageSize" :page-size="pageSize"
 						              :total="govTxs.total"
 						              :page-change="pageChange('getGovTxs')"></m-pagination>
@@ -204,11 +228,11 @@
 </template>
 
 <script>
-	import ValidatorInformation from './ValidatorInformation'
-	import ValidatorCommissionInformation from './ValidatorCommissionInformation'
-	import MPagination from '../common/MPagination'
-	import Tools from '../../util/Tools.js'
-	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum } from '../../constant/index.js'
+	import ValidatorInformation from './ValidatorInformation';
+	import ValidatorCommissionInformation from './ValidatorCommissionInformation';
+	import MPagination from '../common/MPagination';
+	import Tools from '../../util/Tools.js';
+	import Constants,{ TxStatus,ColumnMinWidth,decimals,monikerNum,TX_TYPE_DISPLAY } from '../../constant/index.js';
 	import {
 		getValidatorsInfoApi,
 		getValidatorsDelegationsApi,
@@ -218,13 +242,14 @@
 		getDepositedProposalsApi,
 		getVotedProposalsApi,
 		getGovTxsApi
-	} from "@/service/api"
-	import {TxHelper} from '../../helper/TxHelper.js'
+	} from "@/service/api";
+	import {TxHelper} from '../../helper/TxHelper.js';
 	import { getMainToken, converCoin,addressRoute,formatMoniker } from '@/helper/IritaHelper';
-	import { getAmountByTx } from '@/helper/txListAmoutHelper'
-	import DelegationTxsList from '@/components/common/DelegationTxsList'
-	import ValidationTxsList from '@/components/common/ValidationTxsList'
-	import GovTxsList from '@/components/common/GovTxsList'
+	import { getAmountByTx } from '@/helper/txListAmoutHelper';
+	import DelegationTxsList from '@/components/common/DelegationTxsList';
+	import ValidationTxsList from '@/components/common/ValidationTxsList';
+	import GovTxsList from '@/components/common/GovTxsList';
+	import prodConfig from '../../productionConfig';
 
 	export default {
 		name: '',
@@ -232,10 +257,13 @@
 		props: {},
 		data () {
 			return {
+				isShowFee: prodConfig.fee.isShowFee,
+				isShowDenom: prodConfig.fee.isShowDenom,
 				Tools,
 				monikerNum,
 				formatMoniker,
 				amountDecimals: decimals.amount,
+				feeDecimals: decimals.fee,
 				sharesDecimals: decimals.shares,
 				ColumnMinWidth,
 				addressRoute,
@@ -280,7 +308,8 @@
 					currentPage: 1,
 					items: [],
 				},
-				proposalTitleNum: 20
+				proposalTitleNum: 20,
+                mainTokenSymbol:'',
 			}
 		},
 		computed: {},
@@ -297,13 +326,20 @@
 			this.getGovTxs()
 		},
 		mounted () {
-		},
+		    this.setMainToken();
+        },
 		methods: {
 			pageChange (key) {
 				return page => {
 					this[key](page)
 				}
 			},
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
+            },
 			async getValidatorsInfo () {
 				let res = await getValidatorsInfoApi(this.$route.params.param)
 				this.validationInformation = res
@@ -316,10 +352,11 @@
 					this.delegations.useCount = false;
 				}
 				this.delegations.items = []
-				res.data.forEach( async item => {
+				for (const item of res.data) {
 					let amount = await converCoin(item.amount)
-					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
-					let selfShares = Tools.formatPriceToFixed(item.self_shares, this.sharesDecimals)
+					// item.amount = `${Tools.toDecimal(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					item.amount = `${Tools.toDecimal(amount.amount,this.amountDecimals)}`
+					let selfShares = Tools.toDecimal(item.self_shares, this.sharesDecimals)
 					let shares = `${selfShares} (${Tools.formatPerNumber( item.total_shares ? (Number(item.self_shares) / Number(item.total_shares)) * 100 : 100)}%)`
 					this.delegations.items.push({
 						address: item.address,
@@ -327,7 +364,8 @@
 						shares,
 						// block: item.block,
 					})
-				})
+				}
+				this.changedHeight()
 			},
 			async getUnbondingDelegations (page = 1) {
 				const res = await getUnbondingDelegationsApi(this.$route.params.param, page, this.pageSize, this.unbondingDelegations.useCount)
@@ -336,12 +374,13 @@
 					this.unbondingDelegations.useCount = false;
 				}
 				this.unbondingDelegations.items = []
-				res.data.forEach(async item => {
+				for (const item of res.data) {
 					let amount = await converCoin({
 						amount: item.amount,
-						denom: this.mainToken.min_unit
+						denom: this.mainToken.denom
 					})
-					item.amount = `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					// item.amount = `${Tools.toDecimal(amount.amount,this.amountDecimals)} ${amount.denom.toUpperCase()}`
+					item.amount = `${Tools.toDecimal(amount.amount,this.amountDecimals)}`
 					item.until = Tools.getFormatDate(new Date(item.until).getTime())
 					this.unbondingDelegations.items.push({
 						address: item.address,
@@ -349,6 +388,18 @@
 						block: item.block,
 						end_time: item.until,
 					})
+				}
+				this.changedHeight()
+			},
+			changedHeight () {
+				this.$nextTick(()=>{
+					if(this.delegations.items.length >= this.unbondingDelegations.items.length) {
+						this.$refs.UnbondingDelList.style.height =  document.getElementById('element_del').offsetHeight + 'px';
+						this.$refs.delegationsList.style.height =  document.getElementById('element_del').offsetHeight + 'px';
+					} else {
+						this.$refs.delegationsList.style.height = document.getElementById('element_undel').offsetHeight + 'px';
+						this.$refs.UnbondingDelList.style.height = document.getElementById('element_undel').offsetHeight + 'px';
+					}
 				})
 			},
 			async getDelegationTxs (page = 1) {
@@ -374,7 +425,7 @@
 						})
 					}
 					const time = Tools.getDisplayDate(item.time)
-					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+					const fee =  this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
 					this.delegationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
@@ -383,13 +434,14 @@
 						Amount: amount,
 						To: formTO.to || '--',
 						toMonikers,
-						Tx_Type: (item.msgs || []).map(item=>item.type),
+						Tx_Type: (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 						MsgsNum: msgsNumber,
-						Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+						// Tx_Fee: fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+						Tx_Fee: fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						Tx_Signer: item.signers[0] ? item.signers[0] : '--',
 						Tx_Status: TxStatus[item.status],
 						Timestamp: time,
-					})					
+					})
 				}
 			},
 			async getValidationTxs (page = 1) {
@@ -399,9 +451,9 @@
 				this.validationTxs.items = []
 				for (const item of res.data) {
 					let msgsNumber = item.msgs ? item.msgs.length : 0
-					const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+					const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
+					const selfBonded = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.value ? await converCoin(item.msgs[0].msg.value) : '--' : '--';
 					const time = Tools.getDisplayDate(item.time)
-					// let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.validator_address ? item.msgs[0].msg.validator_address : '--' : '--'
 					let OperatorAddr = item.msgs && item.msgs.length === 1 ? item.msgs[0] && TxHelper.getValidationTxsOperator(item.msgs[0]) : '--'
 					let OperatorMonikers
 					if(item.monikers.length) {
@@ -412,17 +464,17 @@
 					this.validationTxs.items.push({
 						Tx_Hash: item.tx_hash,
 						Block: item.height,
-						// Moniker: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.description && item.msgs[0].msg.description.moniker ? item.msgs[0].msg.description && item.msgs[0].msg.description.moniker : '--' : '--',
 						OperatorAddr,
 						OperatorMonikers: OperatorMonikers || '--',
-						SelfBonded: item.msgs && item.msgs.length === 1 ? item.msgs[0].msg && item.msgs[0].msg.min_self_delegation ? `${item.msgs[0].msg.min_self_delegation} ${this.mainToken.symbol.toUpperCase()}` : '--' : '--',
-						'Tx_Type': (item.msgs || []).map(item=>item.type),
+						SelfBonded: selfBonded.amount || '--',
+						'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 						MsgsNum: msgsNumber,
-						'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+						// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+						'Tx_Fee': fee && fee.amount ?  `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 						'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 						'Tx_Status': TxStatus[item.status],
 						Timestamp: time,
-					})				
+					})
 				}
 			},
 			async getDepositedProposals (page = 1) {
@@ -443,7 +495,8 @@
 									moniker: deposit.moniker,
 									submited: String(deposit.submited),
 									hash: deposit.tx_hash,
-									deposit: deposits ? `${Tools.formatPriceToFixed(deposits.amount,this.amountDecimals)} ${deposits.denom.toLocaleUpperCase()}` : '--',
+									// deposit: deposits ? `${Tools.toDecimal(deposits.amount,this.amountDecimals)} ${deposits.denom.toLocaleUpperCase()}` : '--',
+									deposit: deposits ? `${Tools.toDecimal(deposits.amount,this.amountDecimals)}` : '--',
 									link: deposit.proposal_link,
 								})
 							}
@@ -451,7 +504,7 @@
 					}
 				} catch(e) {
 					console.error(e)
-				}	
+				}
 			},
 			async getVotedProposals (page = 1) {
 				try {
@@ -474,7 +527,7 @@
 					}
 				} catch(e) {
 					console.error(e)
-				}	
+				}
 			},
 			async getGovTxs (page = 1) {
 				try {
@@ -485,7 +538,7 @@
 							this.govTxs.currentPage = res.pageNum
 							for (const item of res.data) {
 								let msgsNumber = item.msgs ? item.msgs.length : 0
-								const fee = item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) :'--'
+								const fee = this.isShowFee && item.fee && item.fee.amount && item.fee.amount.length > 0 ? await converCoin(item.fee.amount[0]) : ''
 								const time = Tools.getDisplayDate(item.time)
 								let amount = null
 								let msg = item.msgs && item.msgs[0]
@@ -508,10 +561,12 @@
 									proposalType: item.ex && item.ex.type,
 									proposalId: item.ex && item.ex.id,
 									proposalTitle: item.ex && item.ex.title && Tools.formatString(item.ex.title, this.proposalTitleNum, '...'),
-									amount: amount ? `${Tools.formatPriceToFixed(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
-									'Tx_Type': (item.msgs || []).map(item=>item.type),
+									// amount: amount ? `${Tools.toDecimal(amount.amount,this.amountDecimals)} ${amount.denom.toLocaleUpperCase()}` : '--',
+									amount: amount ? `${Tools.toDecimal(amount.amount,this.amountDecimals)}` : '--',
+									'Tx_Type': (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
 									MsgsNum: msgsNumber,
-									'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.amountDecimals)} ${fee.denom.toLocaleUpperCase()}` : '--',
+									// 'Tx_Fee': fee && fee.amount ? this.isShowDenom ? `${Tools.toDecimal(fee.amount,this.feeDecimals)} ${fee.denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
+									'Tx_Fee': fee && fee.amount ? `${Tools.toDecimal(fee.amount,this.feeDecimals)}` : '--',
 									'Tx_Signer': item.signers[0] ? item.signers[0] : '--',
 									'Tx_Status': TxStatus[item.status],
 									Timestamp: time,
@@ -546,7 +601,7 @@
 	a {
 		color: $t_link_c !important;
 	}
-	
+
 	.vaildtor_detail_container {
 		margin-bottom: 0.2rem;
 		.vaildtor_detail_content {
@@ -554,7 +609,7 @@
 			margin: 0 auto;
 			padding: 0 0.15rem;
 			text-align: left;
-			
+
 			.vaildtor_detail_title_container {
 				margin: 0.3rem 0 0.1rem 0;
 				text-align: left;
@@ -563,22 +618,22 @@
 				color: $t_first_c;
 				font-size: $s18;
 				font-weight: bold;
-				
+
 				span {
 					margin-right: 0.1rem;
 				}
 			}
-			
+
 			.validation_information_container {
 				margin-top: 0.1rem;
 			}
-			
+
 			.delegations_wrap {
 				margin: 0 auto;
 				margin-top: 0.1rem;
 				.delegations_container {
 					display: flex;
-					
+
 					.validator_information_content_title {
 						height: 0.2rem;
 						line-height: 0.2rem;
@@ -588,11 +643,11 @@
 						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
-					
+
 					.one_table_container {
 						width: calc(50% - 0.1rem);
 					}
-					
+
 					.second_table_container {
 						margin-left: 0.2rem;
 						width: calc(50% - 0.1rem);
@@ -600,20 +655,20 @@
 							white-space: nowrap;
 						}
 					}
-					
+
 					.delegations_table_container {
 						overflow-x: auto;
 						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 					}
 				}
-				
+
 				.common_pagination_content {
 					margin-top: 0.2rem;
 					float: right;
 				}
 			}
-			
+
 			.delegations_txs_wrap {
 				margin: 0 auto;
 				margin-top: 0.1rem;
@@ -627,7 +682,7 @@
 						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
-					
+
 					.delegations_txs_table_container {
 						overflow-x: auto;
 						// border: 0.01rem solid $bd_first_c;
@@ -639,18 +694,18 @@
 							margin-right:0.05rem;
 						}
 					}
-					
+
 					.common_pagination_content {
 						margin-top: 0.2rem;
 						float: right;
 					}
 				}
 			}
-			
+
 			.validation_txs_wrap {
 				margin: 0 auto;
 				margin-top: 0.1rem;
-				
+
 				.validation_txs_container {
 					.validator_information_content_title {
 						height: 0.2rem;
@@ -661,13 +716,13 @@
 						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
-					
+
 					.validation_txs_table_container {
 						overflow-x: auto;
 						// border: 0.01rem solid $bd_first_c;
 						background: $bg_white_c;
 					}
-					
+
 					.common_pagination_content {
 						margin-top: 0.2rem;
 						float: right;
@@ -680,7 +735,7 @@
 				margin: 0 auto;
 				margin-top: 0.1rem;
 				margin-bottom: 0.2rem;
-				
+
 				.gov_txs_container {
 					.gov_information_content_title {
 						height: 0.2rem;
@@ -691,14 +746,14 @@
 						// padding-left: 0.2rem;
 						margin-bottom: 0.2rem !important;
 					}
-					
+
 					.gov_txs_table_containers {
 						// width: 100%;
 						// overflow-x: auto;
 						// border: 0.01rem solid $bd_first_c;
 						// background: $bg_white_c;
 					}
-					
+
 					.common_pagination_content {
 						margin-top: 0.2rem;
 						float: right;
@@ -744,30 +799,30 @@
 			.vaildtor_detail_content {
 				.vaildtor_detail_title_container {
 				}
-				
+
 				.validation_information_container {
 				}
-				
+
 				.delegations_wrap {
 					.delegations_container {
 						display: block;
 						margin-left: 0.2rem;
-						
+
 						.validator_information_content_title {
 						}
-						
+
 						.one_table_container {
 							width: 100%;
 						}
-						
+
 						.second_table_container {
 							width: 100%;
 							margin-left: 0rem;
 						}
-						
+
 						.delegations_table_container {
 						}
-						
+
 						.common_pagination_content {
 						}
 					}

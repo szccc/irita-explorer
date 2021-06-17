@@ -9,9 +9,9 @@
         <m-tabs class="staking_m_tabs" :data="stakingStatusTitleList" :chose="selectStakingStatus"></m-tabs>
       </div>
       <div class="staking_table_list_content">
-        <el-table class="sort_table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
+        <el-table class="sort_table table_overflow_x" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
           <el-table-column key="index" align="center" type="index" class="index" :min-width="ColumnMinWidth.No" :label="$t('ExplorerLang.table.number')"></el-table-column>
-          <el-table-column key="moniker" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatorMoniker" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
+          <el-table-column class-name="moniker" key="moniker" align="left" prop="moniker" show-overflow-tooltip  :min-width="ColumnMinWidth.validatorMoniker" :label="$t('ExplorerLang.table.name')" sortable :sort-orders="['descending', 'ascending']">
             <template v-slot:default="{ row }">
               <div style="display: flex;align-items: center;position: relative">
                 <span class="avatar" style="width: 0.3rem;height: 0.3rem;border-radius: 0.3rem;overflow: hidden;display: flex;align-items: center;justify-content: center">{{ row.validatorIconSrc }}</span>
@@ -22,7 +22,7 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column key="operatorAddress" prop="operatorAddress" align="left" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
+          <el-table-column class-name="operator" key="operatorAddress" prop="operatorAddress" align="left" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.operator')">
             <template v-slot:default="{ row }">
               <span class="remove_default_style">
                 <el-tooltip popper-class="tooltip" :content="row.operatorAddress" placement="top">
@@ -34,10 +34,26 @@
             </template>
           </el-table-column>
           <el-table-column key="commission" align="center" prop="commission" :min-width="ColumnMinWidth.commission" :sort-method="commissionSort" :label="$t('ExplorerLang.table.commission')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="bondedToken" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="bondedToken" class-name="bondedToken" align="right" prop="bondedToken" :min-width="ColumnMinWidth.bondedTokens" :sort-method="bondedTokenSort" :label="$t('ExplorerLang.table.bondedTokens')" sortable :sort-orders="['descending', 'ascending']">
+             <template slot="header" slot-scope="scope">
+                    <span>{{ $t('ExplorerLang.table.bondedTokens')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column key="votingPower" v-if="titleStatus === 'Active' && productionConfig.table.votingPower" class-name="votingPower"  align="center" prop="votingPower" :min-width="ColumnMinWidth.votingPower" :sort-method="votingPowerSort" :label="$t('ExplorerLang.table.votingPower')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <el-table-column key="uptime" v-if="titleStatus === 'Active'" align="right" prop="uptime" :min-width="ColumnMinWidth.uptime" :sort-method="uptimeSort" :label="$t('ExplorerLang.table.uptime')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
-          <el-table-column key="selfBond" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
+          <el-table-column key="selfBond" align="right" prop="selfBond" :min-width="ColumnMinWidth.validatorSelfBond" :sort-method="selfBondSort" :label="$t('ExplorerLang.table.selfBonded')" sortable :sort-orders="['descending', 'ascending']">
+              <template slot="header" slot-scope="scope">
+                    <span>{{ $t('ExplorerLang.table.selfBonded')}}</span>
+                    <el-tooltip :content="mainTokenSymbol"
+                                placement="top">
+                        <i class="iconfont iconyiwen yiwen_icon" />
+                    </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column key="delegators" class-name="delegators" v-if="titleStatus !== 'Jailed'" min-width="ColumnMinWidth.delegators" align="center" prop="delegatorNum" width="117" :label="$t('ExplorerLang.table.delegators')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
           <!-- <el-table-column key="bondHeight" class-name="bondHeight" align="center" prop="bondHeight" :min-width="ColumnMinWidth.bondHeight" :label="$t('ExplorerLang.table.bondHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column> -->
           <el-table-column key="unbondingHeight" align="center" v-if="titleStatus !== 'Active'" prop="unbondingHeight" :min-width="ColumnMinWidth.unbondingHeight" :label="$t('ExplorerLang.table.unbondingHeight')" sortable :sort-orders="['descending', 'ascending']"> </el-table-column>
@@ -51,14 +67,14 @@
 </template>
 
 <script>
-import MTabs from '.././common/MTabs'
-import MPagination from '.././common/MPagination'
-import Tools from '../../util/Tools'
-import BigNumber from 'bignumber.js'
-import { getValidatorsListApi } from "@/service/api"
-import productionConfig from '@/productionConfig.js'
+import MTabs from '.././common/MTabs';
+import MPagination from '.././common/MPagination';
+import Tools from '../../util/Tools';
+import BigNumber from 'bignumber.js';
+import { getValidatorsListApi } from "@/service/api";
+import productionConfig from '@/productionConfig.js';
 import { getMainToken,converCoin,formatMoniker } from '@/helper/IritaHelper';
-import { ColumnMinWidth,monikerNum } from '@/constant'
+import { ColumnMinWidth,monikerNum } from '@/constant';
 export default {
   name: 'Staking',
   components: { MTabs, MPagination },
@@ -70,7 +86,7 @@ export default {
       percentum:4,
       ColumnMinWidth,
       count: 0,
-      pageSize: 100,
+      pageSize: 500,
       pageNum: 1,
       titleStatus: this.$t('ExplorerLang.staking.status.active'),
       stakingStatusTitleList: [
@@ -91,7 +107,8 @@ export default {
         },
       ],
       tableData: [],
-      type:''
+      type:'',
+        mainTokenSymbol:'',
     }
   },
   computed: {},
@@ -99,18 +116,26 @@ export default {
   created() {
     this.getValidatorsList(this.stakingStatusTitleList[0].name)
   },
-  mounted() {},
+  mounted() {
+      this.setMainToken();
+  },
   methods: {
     percentSort(a, b, c) {
       a = Number(a.substring(0, a.length - c))
       b = Number(b.substring(0, b.length - c))
       return a - b
     },
+      async setMainToken(){
+          let mainToken = await getMainToken();
+          if(mainToken && mainToken.symbol){
+              this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+          }
+      },
     bigNumberSort(a, b, c) {
-      a = a.substring(0, a.length - c).replace(/,/g, '')
-      b = b.substring(0, b.length - c).replace(/,/g, '')
-      a = new BigNumber(a).toNumber()
-      b = new BigNumber(b).toNumber()
+      // a = a.substring(0, a.length - c).replace(/,/g, '')
+      // b = b.substring(0, b.length - c).replace(/,/g, '')
+      a = new BigNumber(a || 0).toNumber()
+      b = new BigNumber(b|| 0).toNumber()
       return a - b
     },
     commissionSort(a, b) {
@@ -151,7 +176,7 @@ export default {
           this.count = res && res.count ? res.count : 0
           let result = res && res.data ? res.data : null
           if (result) {
-            this.tableData =  
+            this.tableData =
               await Promise.all(result.map( async item => {
                 let regex = /[^\w\u4e00-\u9fa50-9a-zA-Z]/g
                 let replaceMoniker = item.description.moniker.replace(regex, '')
@@ -159,7 +184,7 @@ export default {
                 let selfBond =item.self_bond && item.self_bond.amount && await converCoin(item.self_bond)
                 let bondedToken = await converCoin({
                   amount: item.tokens,
-                  denom: mainToken.min_unit
+                  denom: mainToken.denom
                 })
                 return {
                   validatorStatus: status,
@@ -168,10 +193,12 @@ export default {
                   moniker: formatMoniker(item.description.moniker, monikerNum.validatorList),
                   operatorAddress: item.operator_address,
                   commission: `${(item.commission.commission_rates.rate * 100).toFixed(this.decimalNamber)} %`,
-                  bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)} ${bondedToken.denom.toLocaleUpperCase()}`,
+                  // bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)} ${bondedToken.denom.toLocaleUpperCase()}`,
+                  bondedToken: `${Tools.subStrings(bondedToken.amount, this.decimalNamber)}`,
                   uptime: Tools.FormatUptime(item.uptime),
                   votingPower: `${(item.voting_rate * 100).toFixed(this.percentum)}%`,
-                  selfBond: selfBond ? `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}` : `0.00 ${mainToken.symbol.toLocaleUpperCase()}`,
+                  // selfBond: selfBond ? `${Tools.subStrings(selfBond.amount, this.decimalNamber)} ${selfBond.denom.toLocaleUpperCase()}` : `0.00 ${mainToken.symbol.toLocaleUpperCase()}`,
+                  selfBond: selfBond ? `${Tools.subStrings(selfBond.amount, this.decimalNamber)}` : `0.00`,
                   delegatorNum: item.delegator_num,
                   // bondHeight: Number(item.bond_height),
                   unbondingHeight: Number(item.unbonding_height),
@@ -222,7 +249,7 @@ a {
     }
     .staking_table_list_content {
       width: 100%;
-      
+
       .avatar {
         background: $bg_avatar;
       }
@@ -231,21 +258,22 @@ a {
         padding: 0;
       }
       /deep/ .delegators .cell {
-        min-width: 1.21rem;
+        // min-width: 1.21rem;
+        min-width: 1.17rem;
         padding-right: 0.05rem;
       }
 
       /deep/ .votingPower .cell {
-        min-width: 1.30rem;
+        min-width: 1.26rem;
       }
       // /deep/ .bondHeight .cell {
       //   padding-right: 0.07rem;
       // }
       /deep/ .sort_table {
-        overflow: auto hidden;
+        overflow-x: auto;
         .sort-caret.ascending,
         .sort-caret.descending {
-          margin-left: 0.05rem;
+          margin-left: 0.07rem;
         }
       }
       /deep/ .el-table .descending .sort-caret.descending {
@@ -259,6 +287,12 @@ a {
         display: flex;
         justify-content: flex-end;
         margin: 0.1rem 0 0.2rem 0;
+      }
+      /deep/ .yiwen_icon {
+          vertical-align: -0.1em;
+          font-weight: normal;
+          margin-top: 0.03rem;
+          margin-right: -0.08rem;
       }
     }
   }

@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <el-table class="table" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
+                <el-table class="table table_overflow_x" :data="identityList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
                     <el-table-column :min-width="ColumnMinWidth.identity" :label="$t('ExplorerLang.table.identity')">
                         <template slot-scope="scope">
                             <!-- <el-tooltip :content="scope.row.id"
@@ -124,8 +124,6 @@
                             }
                         });
                         this.count = res.count;
-                        this.pageSize = res.pageSize;
-                        this.pageNum = res.pageNum;
                     }else{
                         this.count = 0;
                         this.identityList = [];
@@ -262,6 +260,7 @@
                         padding: 0.05rem 0.18rem;
                         font-size: $s14;
                         line-height: 0.2rem;
+                        white-space: nowrap;
                     }
                 }
             }
