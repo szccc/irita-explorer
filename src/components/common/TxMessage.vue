@@ -1486,6 +1486,10 @@
 				<span>{{minLiquidity}}</span>
 			</p>
 			<p>
+				<span>{{$t('ExplorerLang.transactionInformation.coinswap.tokenPair')}}</span>
+				<span>{{tokenPair || '--'}}</span>
+			</p>
+			<p>
 				<span>{{$t('ExplorerLang.transactionInformation.coinswap.deadline')}}</span>
 				<span>{{deadline}}</span>
 			</p>
@@ -2692,9 +2696,21 @@
 									if(item.msg_index === this.msgIndex) {
 										(item.events || []).forEach((events) => {
 											if(events.type === 'swap') {
-												(events.attributes || []).forEach(attribute => {
+												(events.attributes || []).forEach(async attribute => {
 													if(attribute.key === 'token_pair') {
-														this.tokenPair = attribute.value;
+														let list = attribute.value.split('-');
+														if(list.length > 1){
+															let token1 = await converCoin({
+																denom:list[0],
+																amount:0
+															})
+															let token2 = await converCoin({
+																denom:list[1],
+																amount:0
+															})
+															this.tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
+														}
+														
 													}
 												})
 											}
@@ -2768,6 +2784,24 @@
 													}
 												})
 											}
+											if(events.type === 'add_liquidity') {
+												(events.attributes || []).forEach(async attribute => {
+													if(attribute.key === 'token_pair') {
+														let list = attribute.value.split('-');
+														if(list.length > 1){
+															let token1 = await converCoin({
+																denom:list[0],
+																amount:0
+															})
+															let token2 = await converCoin({
+																denom:list[1],
+																amount:0
+															})
+															this.tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
+														}
+													}
+												})
+											}
 										})
 									}
 								});
@@ -2801,9 +2835,20 @@
 												})
 											}
 											if(events.type === 'remove_liquidity') {
-												(events.attributes || []).forEach(attribute => {
+												(events.attributes || []).forEach(async attribute => {
 													if(attribute.key === 'token_pair') {
-														this.tokenPair = attribute.value;
+														let list = attribute.value.split('-');
+														if(list.length > 1){
+															let token1 = await converCoin({
+																denom:list[0],
+																amount:0
+															})
+															let token2 = await converCoin({
+																denom:list[1],
+																amount:0
+															})
+															this.tokenPair = `${token1.denom.toUpperCase()} - ${token2.denom.toUpperCase()}`;
+														}
 													}
 												})
 											}
