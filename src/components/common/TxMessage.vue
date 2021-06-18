@@ -2755,10 +2755,14 @@
 									if(item.msg_index === this.msgIndex) {
 										(item.events || []).forEach((events) => {
 											if(events.type === 'transfer') {
-												(events.attributes || []).forEach(attribute => {
+												(events.attributes || []).forEach(async attribute => {
 													if(attribute.key === 'amount') {
 														if(attribute.value && attribute.value.includes(",")) {
-															this.amount = attribute.value
+															const amount1 = this.getAmountByAmountStr(attribute.value.split(',')[0]);
+															const amount2 = this.getAmountByAmountStr(attribute.value.split(',')[1]);
+															const amountItem1 = await converCoin(amount1);
+															const amountItem2 = await converCoin(amount2);
+															this.amount = `${amountItem1.amount} ${amountItem1.denom.toUpperCase()}, ${amountItem2.amount} ${amountItem2.denom.toUpperCase()}`
 														}
 													}
 												})
@@ -2783,10 +2787,14 @@
 									if(item.msg_index === this.msgIndex) {
 										(item.events || []).forEach((events) => {
 											if(events.type === 'transfer') {
-												(events.attributes || []).forEach(attribute => {
+												(events.attributes || []).forEach(async attribute => {
 													if(attribute.key === 'amount') {
 														if(attribute.value && attribute.value.includes(",")) {
-															this.amount = attribute.value
+															const amount1 = this.getAmountByAmountStr(attribute.value.split(',')[0]);
+															const amount2 = this.getAmountByAmountStr(attribute.value.split(',')[1]);
+															const amountItem1 = await converCoin(amount1);
+															const amountItem2 = await converCoin(amount2);
+															this.amount = `${amountItem1.amount} ${amountItem1.denom.toUpperCase()}, ${amountItem2.amount} ${amountItem2.denom.toUpperCase()}`
 														}
 													}
 												})
@@ -3195,6 +3203,16 @@
 				} catch (e) {
 					console.error(e);
 				}
+			},
+			getAmountByAmountStr(str){
+				let amount = str.match(/\d+/g), denom = '';
+                if(amount && amount.length > 0){
+					denom = str.split(amount[0])[1];
+					return {
+						amount:amount[0], 
+						denom
+					}
+                }
 			},
 			// 处理需打开的网站地址
 			openUrl(url) {
