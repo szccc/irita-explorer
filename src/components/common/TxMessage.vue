@@ -2715,15 +2715,16 @@
                                                 let inputAmount = inputItem.value.match(/\d+/g), inputDenom = '',
                                                     outputAmount = outputItem.value.match(/\d+/g), outputDenom = '';
                                                 if(inputAmount && inputAmount.length > 0){
-                                                    inputDenom = inputItem.value.split(inputAmount[0])[1];
+                                                    inputDenom = inputItem.value.substr(inputAmount[0].length);
                                                 }
                                                 if(outputAmount && outputAmount.length > 0){
-                                                    outputDenom = outputItem.value.split(outputAmount[0])[1];
+													outputDenom = outputItem.value.substr(outputAmount[0].length);
                                                 }
                                                 let input = await converCoin({
                                                     denom:inputDenom,
                                                     amount:inputAmount[0]
-                                                })
+												})
+												
                                                 this.input = `${input.amount} ${input.denom.toLocaleUpperCase()}`;
                                                 let output = await converCoin({
                                                     denom:outputDenom,
@@ -3207,7 +3208,7 @@
 			getAmountByAmountStr(str){
 				let amount = str.match(/\d+/g), denom = '';
                 if(amount && amount.length > 0){
-					denom = str.split(amount[0])[1];
+					denom = str.substr(amount[0].length);
 					return {
 						amount:amount[0], 
 						denom
