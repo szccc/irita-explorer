@@ -16,6 +16,14 @@ export default {
     return {
       key: new Date(),
     }
+  },
+  mounted(){
+    // echart不能使用媒体查询
+      if (window.innerWidth > 910) {
+          this.$store.commit('isMobile',false);
+      } else {
+          this.$store.commit('isMobile',true);
+      }
   }
 }
 </script>
@@ -100,10 +108,44 @@ export default {
 
   .el-table .cell {
     word-break: break-word !important;
+    overflow: visible !important;
   }
 
   .tx_type .cell span {
     white-space: nowrap;
     text-overflow:ellipsis;
+  }
+
+  .yiwen_icon {
+      font-weight: normal;
+      margin-left: 0.05rem;
+  }
+  .ty_type_message {
+    display: flex;
+    align-items: center;
+    // justify-content: space-between;
+  }
+  .message_number {
+    margin-left: 0.08rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F4F4F4;
+    width: 0.35rem;
+    height: 0.18rem;
+    border-radius: 4px;
+  }
+  .more_icontiaozhuan {
+      font-size: 12px !important;
+  }
+  td.from,td.hash_status,td.to,td.moniker,td.operator,td.signer,td.address,td.requestId {
+      font-family: DroidSansMono;
+  }
+  .table_overflow_x,
+  .el-table {
+    overflow-x: auto !important;
+  }
+  .el-table__header-wrapper,.el-table__body-wrapper {
+    overflow: visible !important;
   }
 </style>

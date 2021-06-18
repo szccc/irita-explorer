@@ -37,11 +37,11 @@
             <span>{{ timestamp }}</span>
           </p>
 
-          <p class="tx_information_list_item">
+          <p class="tx_information_list_item" v-if="isShowFee">
             <span>{{ $t('ExplorerLang.transactionInformation.fee') }}：</span>
             <span>{{ fee }}</span>
           </p>
-          <!-- <p class="tx_information_list_item">
+          <!-- <p class="tx_information_list_item" v-if="isShowFee">
             <span>{{ $t('ExplorerLang.transactionInformation.gasUsed') }}：</span>
             <span>{{ gasUsed }}</span>
           </p> -->
@@ -65,7 +65,7 @@
               {{ $t('ExplorerLang.transactionInformation.transactionMessageTitle') }}
             </div>
             <div v-for="(item, index) in messages" :key="index">
-              <TxMessage :msg="item" :events="events" :monikers="monikers" />
+              <TxMessage :msg="item" :msgIndex="index" :eventsNew="eventsNew" :events="events" :monikers="monikers" />
               <div class="tx_information_tx_message_line" v-if="messages.length > 1 && index != messages.length - 1"></div>
             </div>
           </div>
@@ -84,12 +84,14 @@ import { getTxDetail, getRelevanceTxList } from '../service/api'
 import { TX_TYPE, TX_STATUS, ColumnMinWidth } from '../constant'
 import { moduleSupport } from '../helper/ModulesHelper'
 import slef_axios from "../axios"
-import { getMainToken,converCoin,addressRoute } from '@/helper/IritaHelper';
+import { converCoin,addressRoute } from '@/helper/IritaHelper';
+import prodConfig from '../productionConfig';
 export default {
   name: 'TxDetail',
   components: { MPagination, MClip, TxMessage },
   data() {
     return {
+      isShowFee: prodConfig.fee.isShowFee,
       Tools,
       moduleSupport,
       addressRoute,
@@ -110,6 +112,7 @@ export default {
       pageSize: 10,
       messages: [],
       events: [],
+      eventsNew: [],
       txHashValue: '',
       blockValue: '',
       statusValue: '',
@@ -134,10 +137,18 @@ export default {
       failTipStyle:false,
       fee:'',
       monikers:[],
+      timeData: 0,
+      timestampTimer: null
     }
   },
   mounted() {
-    this.getTransactionInformation()
+    this.getTransactionInformation();
+    this.timestampTimer = setInterval(() => {
+      if(this.timeData) {
+        this.timestamp = this.formatTimestampAndAge(this.timeData)
+      }
+    }, 1000);
+    this.iosOnpageshow();
   },
   watch:{
       gasPrice(){
@@ -154,26 +165,42 @@ export default {
       }
   },
   methods: {
+    iosOnpageshow() {
+      let broswerRule = /^.*((iPhone)|(iPad)|(Safari))+.*$/;
+      if(broswerRule.test(navigator.userAgent)){
+         window.addEventListener("pageshow",this.bindPageshow,false);
+      }
+    },
+    bindPageshow(e) {
+      if(e.persisted || (window.performance && window.performance.navigation.type == 2)){
+          window.location.reload();
+      }
+    },
     async getTransactionInformation() {
       try {
-        let mainToken = await getMainToken();
         const res = await getTxDetail(this.$route.query.txHash)
         // console.log(res,'交易展示数据')
         if (res) {
           this.monikers = res.monikers
           this.messages = res.msgs || []
           this.events = res.events
+          this.eventsNew = res.events_new
           this.txHash = res.tx_hash || '--'
           this.blockHeight = res.height || '--'
           this.status = res.status === TX_STATUS.success ? 'Success' : 'Failed'
           this.log = res.log || '--'
-          this.timestamp = Tools.getDisplayDate(res.time) || '--'
-          if(res.fee && res.fee.amount[0]) {
+          if(res.time) {
+            this.timeData = res.time
+            this.timestamp = this.formatTimestampAndAge(res.time)
+          } else {
+            this.timestamp = "--"
+          }
+          if(res.fee && res.fee.amount[0] && this.isShowFee) {
             let fee = await converCoin(res.fee.amount[0])
             this.fee = `${fee.amount} ${fee.denom.toUpperCase()}`
           }
           this.fee = this.fee || '--'
-          // this.gasUsed=res.fee.gas || '--' 
+          // this.gasUsed=res.fee.gas || '--'
           // this.signer = res.signers && res.signers[0] || '--'
           if(res.signers && res.signers.length > 0) {
             this.signer = res.signers
@@ -236,6 +263,11 @@ export default {
           console.error(e)
           this.$message.error(this.$t('ExplorerLang.message.requestFailed'))
       }
+    },
+    formatTimestampAndAge(second) {
+       const timestamp = Tools.getDisplayDate(second);
+       const age = Tools.formatAge(Tools.getTimestamp(),second*1000,"ago",">");
+       return `${timestamp}  (${age})`
     },
     pageChange(pageNum) {
       if (this.pageNum === pageNum) return
@@ -325,6 +357,10 @@ export default {
         }
     }
   },
+  beforeDestroy() {
+    clearInterval(this.timestampTimer)
+    window.removeEventListener("pageshow",this.bindPageshow,false);
+  }
 }
 </script>
 
@@ -384,7 +420,8 @@ a {
           span:nth-of-type(1) {
             margin-right: 0.15rem;
             text-align: left;
-            min-width: 1.5rem;
+            // min-width: 1.5rem;
+            min-width: 1.64rem;
             color: $t_second_c;
             font-size: $s14;
             line-height: 0.16rem;

@@ -67,7 +67,7 @@
                         <div class="reset_btn" @click="resetFilterCondition"><i class="iconfont iconzhongzhi"></i></div>
                     </div>
             </div>
-            <TxListComponent v-if="transactionArray.length" :txData="transactionArray"></TxListComponent>
+            <TxListComponent :txData="transactionArray"></TxListComponent>
             <div class="pagination_content">
                 <keep-alive>
                     <m-pagination :page-size="Number(pageSize)"
@@ -148,10 +148,7 @@
                 // }
                 if(this.txType){
                     url += `&txType=${this.txType}`;
-                    this.txTypeArray = TxHelper.getTxTypeArray(this.txTypeOption,this.txType)
-                } else {
-                    this.txTypeArray=['']
-                }
+                } 
                 if(this.statusValue){
                     url += `&status=${this.statusValue}`;
                 }
@@ -208,6 +205,7 @@
                         slot : 'allTxType',
                     });
                     this.txTypeOption = typeList;
+                    this.txTypeArray = TxHelper.getTxTypeArray(this.txTypeOption,this.txType)
                 }catch (e) {
                     console.error(e);
                     // this.$message.error(this.$t('ExplorerLang.message.requestFailed'));
@@ -243,7 +241,7 @@
                 this.beginTime = '';
                 this.endTime = '';
                 this.pageNum = 1;
-                this.pageSize = 10;
+                this.pageSize = 30;
                 this.resetUrl();
                 this.getTxList()
                 this.txTypeArray=['']
@@ -542,6 +540,7 @@
                             padding: 0.05rem 0.18rem;
                             font-size: $s14;
                             line-height: 0.2rem;
+                            white-space: nowrap;
                         }
                     }
                 //}

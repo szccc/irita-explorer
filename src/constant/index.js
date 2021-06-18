@@ -11,6 +11,7 @@ const i18n = new VueI18n({
   },
 })
 
+// 链上
 export const TX_TYPE = {
   // service
   define_service: 'define_service',
@@ -25,9 +26,10 @@ export const TX_TYPE = {
   start_request_context: 'start_request_context',
   kill_request_context: 'kill_request_context',
   update_request_context: 'update_request_context',
-  create_record: 'create_record',
   service_set_withdraw_address: 'service/set_withdraw_address',
   withdraw_earned_fees: 'withdraw_earned_fees',
+  // Record
+  create_record: 'create_record',
   // nft
   burn_nft: 'burn_nft',
   transfer_nft: 'transfer_nft',
@@ -71,7 +73,7 @@ export const TX_TYPE = {
   // Htlc
   create_htlc: 'create_htlc',
   claim_htlc: 'claim_htlc',
-  refund_htlc: 'refund_htlc',
+  // refund_htlc: 'refund_htlc', //删除
   // Guardian
   add_profiler: 'add_profiler',
   delete_profiler: 'delete_profiler',
@@ -87,13 +89,13 @@ export const TX_TYPE = {
   create_client: 'create_client', //和公有链ibc交易类型名称一致
   update_client: 'update_client', //和公有链ibc交易类型名称一致
   // Identity
-  create_identity: 'create_identity', 
-  update_identity: 'update_identity', 
-  // IBC 
+  create_identity: 'create_identity',
+  update_identity: 'update_identity',
+  // IBC
   transfer: 'transfer',
   timeout_packet: 'timeout_packet',
   // recv_packet: 'recv_packet',
-  
+
   // IBC => Other
   // create_client: 'create_client',
   // update_client: 'update_client',
@@ -111,9 +113,116 @@ export const TX_TYPE = {
   channel_close_confirm: 'channel_close_confirm',
   timeout_on_close_packet: 'timeout_on_close_packet',
   acknowledge_packet: 'acknowledge_packet',
-  
+
   // Random
   request_rand: 'request_rand',
+}
+
+// 展示
+export const TX_TYPE_DISPLAY = {
+  // service
+  define_service: 'DefineService',
+  bind_service: 'BindService',
+  call_service: 'CallService',
+  respond_service: 'RespondService',
+  update_service_binding: 'UpdateServiceBinding',
+  disable_service_binding: 'DisableServiceBinding',
+  enable_service_binding: 'EnableServiceBinding',
+  refund_service_deposit: 'RefundServiceDeposit',
+  pause_request_context: 'PauseRequestContext',
+  start_request_context: 'StartRequestContext',
+  kill_request_context: 'KillRequestContext',
+  update_request_context: 'UpdateRequestContext',
+  'service/set_withdraw_address': 'ServiceSetWithdrawAddress',
+  withdraw_earned_fees: 'WithdrawEarnedFees',
+   // Record
+   create_record: 'CreateRecord',
+  // nft
+  burn_nft: 'NFTBurn',
+  transfer_nft: 'NFTTransfer',
+  edit_nft: 'NFTEdit',
+  issue_denom: 'IssueDenom',
+  mint_nft: 'NFTMint',
+  // Token
+  issue_token: 'IssueToken',
+  edit_token: 'EditToken',
+  mint_token: 'MintToken',
+  transfer_token_owner: 'TransferTokenOwner',
+  burn_token: 'BurnToken',
+  //Bank
+  send: 'Transfer',
+  multisend: 'MultiSend',
+  //Crisis
+  verify_invariant: 'VerifyInvariant',
+  //Evidence
+  submit_evidence: 'SubmitEvidence',
+  //Staking
+  begin_unbonding: 'Undelegate',
+  edit_validator: 'EditValidator',
+  create_validator: 'CreateValidator',
+  delegate: 'Delegate',
+  begin_redelegate: 'BeginRedelegate',
+  // Slashing
+  unjail: 'Unjail',
+  // Distribution
+  set_withdraw_address: 'SetWithdrawAddress',
+  withdraw_delegator_reward: 'WithdrawDelegatorReward',
+  withdraw_validator_commission: 'WithdrawValidatorCommission',
+  fund_community_pool: 'FundCommunityPool',
+  // Gov
+  deposit: 'Deposit',
+  vote: 'Vote',
+  submit_proposal: 'SubmitProposal',
+  // Coinswap
+  add_liquidity: 'AddLiquidity',
+  remove_liquidity: 'RemoveLiquidity',
+  swap_order: 'SwapOrder',
+  // Htlc
+  create_htlc: 'CreateHTLC',
+  claim_htlc: 'ClaimHTLC',
+  // refund_htlc: 'RefundHTLC', // 删除
+  // Guardian
+  add_profiler: 'AddProfiler',
+  delete_profiler: 'DeleteProfiler',
+  add_trustee: 'AddTrustee',
+  delete_trustee: 'DeleteTrustee',
+  // Oracle
+  create_feed: 'CreateFeed',
+  start_feed: 'StartFeed',
+  pause_feed: 'PauseFeed',
+  edit_feed: 'EditFeed',
+  // CrossChain 联盟链
+  recv_packet: 'RecvPacket',     //和公有链ibc交易类型名称一致
+  create_client: 'CreateClient', //和公有链ibc交易类型名称一致
+  update_client: 'UpdateClient', //和公有链ibc交易类型名称一致
+  // Identity
+  create_identity: 'CreateIdentity',
+  update_identity: 'UpdateIdentity',
+  // IBC
+  transfer: 'Transfer',
+  timeout_packet: 'TimeoutPacket',
+  // recv_packet: 'recv_packet',
+
+  // IBC => Other
+  // create_client: 'create_client',
+  // update_client: 'update_client',
+  upgrade_client: 'UpgradeClient',
+  submit_misbehaviour: 'SubmitMisbehaviour',
+  connection_open_init: 'ConnectionOpenInit',
+  connection_open_try: 'ConnectionOpenTry',
+  connection_open_ack: 'ConnectionOpenAck',
+  connection_open_confirm: 'ConnectionOpenConfirm',
+  channel_open_init: 'ChannelOpenInit',
+  channel_open_try: 'ChannelOpenTry',
+  channel_open_ack: 'ChannelOpenAck',
+  channel_open_confirm: 'ChannelOpenConfirm',
+  channel_close_init: 'ChannelCloseInit',
+  channel_close_confirm: 'ChannelCloseConfirm',
+  timeout_on_close_packet: 'TimeoutOnClosePacket',
+  acknowledge_packet: 'AcknowledgePacket',
+
+  // Random
+  request_rand: 'RequestRand',
 }
 
 export const LEVEL_TX_TYPE = {
@@ -124,6 +233,7 @@ export const LEVEL_TX_TYPE = {
   Coinswap: 'Coinswap',
   Identity: 'Identity',
   IBC: 'IBC',
+  HTLC: 'HTLC',
   Oracle: 'Oracle',
   Random: 'Random',
   Record: 'Record',
@@ -145,16 +255,18 @@ export const ValidatorStatus = {
 }
 
 export const ColumnMinWidth = {
-  txHash: '103',
-  addressTxHash: '114',
-  respondHash: '128',
-  requestHash: '118',
-  blockHeight: '68',
-  blockListHeight: '76',
-  txType: '194',
-  // address: '126',
-  address: '155',
-  time: prodConfig.isShowUTC === false ? '155' : '205',
+  txHash: '135',
+  txHashShort: '113', // Validator Details
+  addressTxHash: '135',
+  respondHash: '138',
+  requestHash: '138',
+  blockHeight: '85',
+  blockListHeight: '85',
+  txType: '258',
+  govTxType: '120',
+  address: '165',
+  iaaAddress: '139',
+  time: prodConfig.isShowUTC === false ? '158' : '205',
   txn: '115',
   blockAge: '120',
   // validatirName: '120',
@@ -169,7 +281,8 @@ export const ColumnMinWidth = {
   respondTimes: '129',
   available: '100',
   qos: '195',
-  requestId: '150',
+  // requestId: '150',
+  requestId: '155',
   state: '127',
   serviceName: '135',
   No: '50',
@@ -184,18 +297,22 @@ export const ColumnMinWidth = {
   certificateFull: '650',
   credentials: '220',
   commission: '110',
-  bondedTokens: '150',
+  bondedTokens: '155',
   uptime: '100',
-  selfBond: '110',
+  // selfBond: '125',
+  selfBond: '130',
   delegators: '121',
   bondHeight: '122',
   unbondingHeight: '155',
-  amount: '110',
+  // amount: '115',
+  amount: '130',
+  amountAndDenom: '150',
   delegationsAmount: '165',
   delegationTxsAmount: '155',
-  delegationTxsFrom: '126',
+  delegationTxsFrom: '146',
   shares: '251',
-  fee: '110',
+  fee: '85',
+  // feeAndDenom: "110",
   consensus: '340',
   proposerPriority: '200',
   message: '90',
@@ -204,24 +321,25 @@ export const ColumnMinWidth = {
   nftListDenom: '100',
   nftListDate: '280',
   // timestamp: '145',
-  timestamp:  prodConfig.isShowUTC === false ? '145' : '205',
+  timestamp:  prodConfig.isShowUTC === false ? '158' : '205',
   symbol: '121',
   assetListowner: '430',
   totalSupply: '160',
-  maxSupply: '127',
-  mintable: '90',
-  proposalId: '60',
-  proposalID: '100',
+  maxSupply: '150',
+  mintable: '120',
+  proposalId: '56',
+  proposalID: '105',
   proposalTitle: '185',
   proposalType: '173',
   proposalStatusIcon: '133',
   proposalStatus: '115',
   strip: '120',
   voteOption: '120',
-  submited: '85',
+  submited: '128',
   proposer: '245',
   validatorValue: '120',
-  votingPowerValue:'120'
+  votingPowerValue: '120',
+  ownerDetailDelegationsAmount: '135',
 }
 
 export const ModuleMap = {
@@ -254,7 +372,7 @@ export const ModuleMap = {
     link: '/identities',
   },
   '107': {
-    title: 'Vaildators',
+    title: 'Validators',
     link: '/staking',
   },
   '108': {
@@ -281,6 +399,15 @@ export const ModuleMap = {
     title: 'Gov Txs',
     link: '/txs/governance',
   },
+   '114': {
+    title: '${mainToken} Rich List',
+    link: '/stats/rich',
+  },
+   '115': {
+    title: '${mainToken} Stats',
+    link: '/stats/stats',
+  },
+
 }
 
 const CHAINID = {}
@@ -308,9 +435,9 @@ export const pageTitleConfig = {
   GovProposals: 'Proposal List',
   GovProposalsProposalDetails: 'Proposal Details',
   GovGovTxs: 'Gov Txs List',
-  StatsIRISRichList: 'IRIS Rich List',
-  StatsIRISRichListAddress: 'Address',
-  StatsIRISStats: 'IRIS Stats Analyse',
+  StatsRichList: '${mainToken} Rich List',
+  StatsRichListAddress: 'Address',
+  StatsStats: '${mainToken} Stats Analyse',
 }
 
 export const PubKeyAlgorithm = {
@@ -339,7 +466,7 @@ export const validator_Status = {
 
 export const decimals = {
   amount: 2,
-  fee: 2,
+  fee: prodConfig.fee && prodConfig.fee.decimals || 2,
   shares: 4,
 }
 
@@ -350,7 +477,7 @@ export default {
 export const monikerNum = {
   validatorList: 8,
   home: 12,
-  otherTable: 15,
+  otherTable: 11,
 }
 
 export const proposalStatus = {
@@ -388,7 +515,34 @@ export const product = {
   stargate: 'STARGATE',
   cosmosHub: 'Cosmos Hub',
   nyancat: 'NYANCAT',
-  irishub: 'IRISHUB'
+  irishub: 'IRISHUB',
+  cschainOtc: 'CSChain-OTC'
 }
 
 export const ibcDenomPrefix = 'ibc/'
+
+export const DISTRIBUTION = {
+    '1-5':{
+        name:'No. 1-5',
+    },
+    '6-10':{
+        name:'No. 6-10',
+    },
+    '11-50':{
+        name:'No. 11-50',
+    },
+    '51-100':{
+        name:'No. 51-100',
+    },
+    '101-500':{
+        name:'No. 101-500',
+    },
+    '501-1000':{
+        name:'No. 501-1000',
+    },
+    '1001-':{
+        name:'No. 1001-',
+    },
+}
+
+export const COSMOS_ADDRESS_PREFIX = 'cosmos';

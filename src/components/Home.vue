@@ -92,7 +92,7 @@
 	import MDepositCard from "./common/MDepositCard";
 	import MVotingCard from "./common/MVotingCard";
 	import { getProposalsListApi } from '@/service/api.js';
-	import {proposalStatus} from '../constant';
+	import {proposalStatus,TX_TYPE_DISPLAY} from '../constant';
 	import {moduleSupport} from "../helper/ModulesHelper";
 	import prodConfig from "../productionConfig";
     export default {
@@ -118,7 +118,6 @@
 			this.syncTimer = setInterval(() => {
 				this.getLastBlocks();
 				this.getTransaction();
-				this.gov();
 			},5000);
 			window.addEventListener("resize",this.monitorScreenWidth,false)
 		},
@@ -143,7 +142,7 @@
 		},
 		methods:{
 			getDisplayTxType(types=[]){
-                let type = types[0] || '';
+                let type = TX_TYPE_DISPLAY[types[0]] || types[0] || '';
                 if (type && types.length > 1) {
                     type += this.$t('ExplorerLang.unit.ellipsis');
                 }

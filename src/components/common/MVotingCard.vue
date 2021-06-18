@@ -207,16 +207,21 @@
             .title_content{
                 line-height: 1;
                 font-size: 0.16rem;
+                max-width: 480px;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 .proposal_id_content{
                     color: $t_second_c;
                     margin-right: 0.1rem;
                 }
                 .proposal_title{
                     color: $theme_c;
+                    white-space: nowrap;
                 }
             }
             .view_all_content{
                 color: $theme_c;
+                min-width: 0.65rem;
                 span{
                     line-height: 1;
                     border-bottom: 0.01rem solid $theme_c;
@@ -394,6 +399,9 @@
             .voting_card_right_content{
                 display: flex;
             }
+        }
+        .title_content {
+            max-width: none !important; 
         }
     }
     @media screen and (max-width: 910px){

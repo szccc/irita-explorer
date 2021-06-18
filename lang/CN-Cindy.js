@@ -1,3 +1,4 @@
+import prodConfig from '../src/productionConfig';
 export const ExplorerLang = {
     common:{
         allTxStatus:'全部交易状态',
@@ -60,7 +61,7 @@ export const ExplorerLang = {
         certificate:'证书',
         credentials: '身份凭证',
         updateTime:'更新时间',
-        // 新增 
+        // 新增
         commission: 'Commission',
         bondedTokens: 'Bonded_Tokens',
         uptime: 'Uptime',
@@ -98,14 +99,12 @@ export const ExplorerLang = {
         proposalID: 'Proposal_ID',
         proposalTitle: 'Proposal_Title',
         proposer: 'Proposer',
-        deposit: 'Deposit',
         submited: 'Submited',
         proposalStatus: 'Status',
         voted: 'voted',
-        proposer: 'Proposer',
         validators: 'Validators',
-        votingPower: 'Voting_Power',
-        sender: 'Sender'
+        sender: 'Sender',
+        more: 'More'
     },
     unit:{
         ellipsis:' ,...',
@@ -326,12 +325,14 @@ export const ExplorerLang = {
             output: '输出数量 :',
             deadline: '截止日期 :',
             sender: '发送者 :',
-            exactIrisAmt: '增加的iris数量 :',
-            minIrisAmt: '最少iris数量 :',
+            exactIrisAmt: '增加的iris数量 :', //需修改
+            minIrisAmt: '最少iris数量 :', //需修改
             maxToken: '最大可兑换数量 :',
             minToken: '最少可兑换数量 :',
             minLiquidity: '流动性凭证 :',
             withdrawLiquidity: '提出流动性凭证 :',
+            amount: 'Amount :', // 新增
+            tokenPair: 'Token Pair :', // 新增
         },
         oracle: {
             feedName: '任务名称',
@@ -341,7 +342,7 @@ export const ExplorerLang = {
             creator: '创建者',
             providers: '提供者',
             aggregateFunc: '聚合函数',
-            valueJsonPath: 'Json值路径',    
+            valueJsonPath: 'Json值路径',
             responseThreshold: '响应阈值',
         },
         random: {
@@ -423,11 +424,14 @@ export const ExplorerLang = {
             proofCommitment: 'ProofCommitment',
             sourcePort: 'SourcePort',
             sourceChannel: 'SourceChannel',
-            token: 'Token',
+            token: 'Amount',
             sender: 'Sender',
             receiver: 'Receiver',
             timeoutHeight: 'TimeoutHeight',
-            timeoutTimestamp: 'TimeoutTimestamp'
+            timeoutTimestamp: 'TimeoutTimestamp',
+            from:'发送者',
+            to:'接收者',
+            amount: '数量 ',
         },
         multisend: {
             inputs: 'Inputs',
@@ -437,11 +441,15 @@ export const ExplorerLang = {
             sender: 'Sender',
             to: 'To',
             receiverOnOtherChain: 'ReceiverOnOtherChain',
+            senderOnOtherChain: 'SenderOnOtherChain',
             amount: 'Amount',
             hashLock: 'HashLock',
             timestamp: 'Timestamp',
             timeLock: 'TimeLock',
+            transfer: 'Mode',
+            id: 'Id',
             secret: 'Secret',
+            recipient: 'Recipient'
         }
     },
     addressDetail: {
@@ -608,6 +616,17 @@ export const ExplorerLang = {
         decimal: 'Decimal',
         minUnit: 'Min Unit'
     },
+    stats:{
+        richList: `Rich List`,
+        stats: `Token Stats`,
+        id:'#',
+        address:'Address',
+        amount:`Amount`,
+        percentage:'Percentage',
+        title:`Top 100 Addresses by`,
+        help:'The assets include the balance tokens，delegated tokens, unbonding tokens and remaining tokens on the address.',
+        distribution:`Token Distribution`,
+    },
     gov: {
         proposalsTitle: 'Proposal List',
         proposals: 'Proposals',
@@ -643,7 +662,6 @@ export const ExplorerLang = {
             parameterDetails: 'Parameter Details',
             submitTime: 'Submit Time',
             depositEndTime: 'Deposit End Time',
-            totalDeposit: 'Total Deposit',
             burned: 'Burned',
             votingStartTime: 'Voting Start Time',
             votingEndTime: 'Voting End Time',

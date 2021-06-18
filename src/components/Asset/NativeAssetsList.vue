@@ -6,12 +6,12 @@
       </div>
       <div class="asset_table_list_content">
         <el-table class="table" :empty-text="$t('ExplorerLang.table.emptyDescription')" :data="tableData">
-          <el-table-column :label="$t('ExplorerLang.table.symbol')" prop="symbol" :min-width="ColumnMinWidth.symbol">
+          <el-table-column class-name="symbol" :label="$t('ExplorerLang.table.symbol')" prop="symbol" :min-width="ColumnMinWidth.symbol">
             <template v-slot:default="{ row }">
                   <router-link :to="'/assets/' + row.symbol"> {{row.symbol}}</router-link>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.assetListowner">
+          <el-table-column class-name="address" :label="$t('ExplorerLang.table.owner')" prop="owner" :min-width="ColumnMinWidth.assetListowner">
             <template v-slot:default="{ row }">
                   <span class="address_link" @click="addressRoute(row.owner)"> {{row.owner}}</span>
             </template>

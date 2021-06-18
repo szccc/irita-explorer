@@ -26,7 +26,7 @@
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.schema')}}：</span>
-                        <LargeString v-if="schemas" :text="schemas"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
+                        <LargeString :isShowPre="Tools.isJSON(schemas)" v-if="schemas" :text="schemas"  :minHeight="LargeStringMinHeight" :lineHeight="LargeStringLineHeight"/>
                     </p>
                     <p class="service_information_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.tags')}}：</span>
@@ -58,7 +58,7 @@
                     {{$t('ExplorerLang.serviceDetail.serviceBindings.providers')}}</h3>
                 <div class="service_information_bindings_table_content">
                     <el-table class="table" :data="serviceList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.address"
+                        <el-table-column class-name="address" :min-width="ColumnMinWidth.address"
                                          :label="$t('ExplorerLang.table.provider')">
                             <template slot-scope="scope">
                                 <span>
@@ -76,7 +76,7 @@
                                 <span>
                                     <router-link
                                             :to="`service/respond/${$route.query.serviceName}/${scope.row.provider}`">
-                                        {{`${scope.row.respondTimes} ${$t('ExplorerLang.unit.time')}`}} 
+                                        {{`${scope.row.respondTimes} ${$t('ExplorerLang.unit.time')}`}}
                                     </router-link>
                                 </span>
                             </template>
@@ -109,7 +109,7 @@
                         <el-table-column :min-width="ColumnMinWidth.time"
                                          :label="$t('ExplorerLang.table.bindTime')"
                                          prop="bindTime"></el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.time"
+                        <el-table-column :width="ColumnMinWidth.time"
                                          :label="$t('ExplorerLang.table.disabledTime')"
                                          prop="disabledTime"></el-table-column>
                     </el-table>
@@ -156,7 +156,7 @@
 
                 <div class="service_information_transaction_table_content">
                     <el-table class="table" :data="transactionArray" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
+                        <el-table-column class-name="hash_status" :min-width="ColumnMinWidth.txHash" :label="$t('ExplorerLang.table.txHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.status === TX_STATUS.success"
@@ -172,17 +172,36 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column class-name="tx_type" :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
-                                         prop="type"></el-table-column>
+                        <el-table-column class-name="tx_type" :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')">
+                            <template slot-scope="scope">
+                                <el-tooltip :content="scope.row.type.join(',')"
+                                            placement="top-start"
+                                            :disabled="scope.row.msgCount <= 1">
+                                    <div class="ty_type_message">
+                                        <span>{{getDisplayTxType(scope.row.type)}}</span>
+                                        <span class="message_number" v-if="scope.row.msgCount != 1">+{{scope.row.msgCount - 1}}</span>
+                                    </div>
+                                </el-tooltip>
+                            </template>
+                        </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
+                        <el-table-column class-name="requestId" :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="scope.row.id" :disabled="!isValid(scope.row.id)">
                                     <span>{{formatAddress(scope.row.id)}}</span>
                                 </el-tooltip>
                             </template>
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
+                        <el-table-column v-if="isShowFee" prop="fee" :label="$t('ExplorerLang.table.fee')" align="right" :min-width="ColumnMinWidth.fee">
+                            <template slot="header" slot-scope="scope">
+                                <span>{{ $t('ExplorerLang.table.fee')}}</span>
+                                <el-tooltip :content="mainTokenSymbol"
+                                            placement="top">
+                                    <i class="iconfont iconyiwen yiwen_icon" />
+                                </el-tooltip>
+                            </template >
+                        </el-table-column>
+                        <el-table-column class-name="from" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.from')">
                             <template slot-scope="scope">
 
                                 <el-tooltip placement="top" :content="scope.row.from"
@@ -195,7 +214,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
+                        <el-table-column class-name="to" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.to')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="String(scope.row.to)"
                                             :key="Math.random()"
@@ -216,7 +235,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" 
+                        <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')"
                                          prop="timestamp"></el-table-column>
                     </el-table>
                 </div>
@@ -238,7 +257,7 @@
 <script>
     import Tools from "../util/Tools"
     import MPagination from "./common/MPagination";
-    import { TX_STATUS,ColumnMinWidth } from '../constant';
+    import { TX_STATUS,ColumnMinWidth,decimals,TX_TYPE_DISPLAY } from '../constant';
     import {
         getAllServiceTxTypes,
         getServiceDetail,
@@ -248,12 +267,16 @@
     } from "../service/api";
     import { TxHelper } from "../helper/TxHelper";
     import LargeString from './common/LargeString';
+    import { converCoin, getMainToken } from '@/helper/IritaHelper';
     import productionConfig from '@/productionConfig.js'
     export default {
         name : "ServiceInformation",
         components : {MPagination,LargeString},
         data(){
             return {
+                isShowFee: productionConfig.fee.isShowFee,
+                isShowDenom: productionConfig.fee.isShowDenom,
+                feeDecimals: decimals.fee,
                 TX_STATUS,
                 productionConfig,
                 ColumnMinWidth,
@@ -304,7 +327,8 @@
                     },
                 ],
                 LargeStringMinHeight: 80,
-                LargeStringLineHeight:16
+                LargeStringLineHeight:16,
+                mainTokenSymbol:'',
 
             }
         },
@@ -313,11 +337,18 @@
             this.getServiceBindingList();
             this.getServiceTransaction();
             this.getAllTxType();
+            this.setMainToken();
         },
         methods : {
             pageChange(pageNum){
                 this.txPageNum = pageNum;
                 this.getServiceTransaction();
+            },
+            async setMainToken(){
+                let mainToken = await getMainToken();
+                if(mainToken && mainToken.symbol){
+                    this.mainTokenSymbol = mainToken.symbol.toUpperCase();
+                }
             },
             isValid(value){
                 return (!value || !value.length || value=="--") ? false : true;
@@ -390,20 +421,35 @@
                         this.txPageNum,
                         this.txPageSize
                     );
-
-                    this.transactionArray = res.data.map((item) =>{
+                    let fees = [];
+                    let fee = [];
+                    if(res.data && res.data.length > 0) {
+                        for (const tx of res.data) {
+                            if(this.isShowFee) {
+                                fees.push(tx.fee && tx.fee.amount && tx.fee.amount.length > 0 ? converCoin(tx.fee.amount[0]) :'--')
+                            }
+                        }
+                    }
+                    if(fees && fees.length > 0 && this.isShowFee) {
+                        fee = await Promise.all(fees);
+                    }
+                    this.transactionArray = res.data.map((item,index) =>{
                         let addrObj = TxHelper.getFromAndToAddressFromMsg(item.msgs[0]);
                         let requestContextId = TxHelper.getContextId(item.msgs[0], item.events) || '--';
                         let from = (addrObj && addrObj.from) ? addrObj.from : '--',
                             to = (addrObj && addrObj.to) ? addrObj.to : '--',
                             msgs = item.msgs || [{}];
                         return {
-                            type : item.msgs.length > 1 ? '--' : item.msgs[0].type,
+                            // type : item.msgs.length > 1 ? '--' : item.msgs[0].type,
+                            type : (item.msgs || []).map(item=>TX_TYPE_DISPLAY[item.type] || item.type),
+                            msgCount: item.msgs.length,
                             from,
                             status : item.status,
                             txHash : item.hash,
                             id : requestContextId,
                             to,
+                            // fee: fee[index] && fee[index].amount ?  this.isShowDenom ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)} ${fee[index].denom.toLocaleUpperCase()}` : `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--',
+                            fee: fee[index] && fee[index].amount ? `${Tools.toDecimal(fee[index].amount,this.feeDecimals)}` : '--',
                             height : item.height,
                             timestamp : Tools.getDisplayDate(item.time)
                         };
@@ -423,7 +469,7 @@
                     res.data.forEach((type) =>{
                         this.txTypeOption.push({
                             value : type.typeName,
-                            item : type.typeName,
+                            label : TX_TYPE_DISPLAY[type.typeName],
                         });
                     });
                 } catch (e) {
@@ -452,6 +498,17 @@
             formatAddress(address){
                 return Tools.formatValidatorAddress(address)
             },
+            getDisplayTxType(types=[]){
+                let type = types[0] || '';
+                if (type && types.length > 1) {
+                    types.forEach(item => {
+                        if(type.length > item.length) {
+                            type = item
+                        }
+                    })
+                }
+                return type;
+            },
         }
     }
 </script>
@@ -467,10 +524,10 @@
             box-sizing: border-box;
             .service_information_transaction_condition_container{
                 .service_information_transaction_condition_count {
-                    
+
                 }
                 /deep/ .el-select {
-                    
+
                 }
                 .search_btn {
 
@@ -633,6 +690,7 @@
                             padding: 0.05rem 0.18rem;
                             font-size: $s14;
                             line-height: 0.2rem;
+                            white-space: nowrap;
                         }
                         .reset_btn {
                             cursor: pointer;

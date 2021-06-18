@@ -52,8 +52,9 @@ import prodConfig from "../../productionConfig"
 import { getDbStatistics,getNetworkStatistics } from "../../service/api";
 import Tools from "../../util/Tools";
 import {moduleSupport} from "../../helper/ModulesHelper";
-import { addressRoute,formatMoniker } from '@/helper/IritaHelper'
+import { addressRoute,formatMoniker,getMainToken,converCoin } from '@/helper/IritaHelper'
 import { monikerNum } from '../../constant'
+
 export default {
   name: 'StatisticalBar',
   data () {
@@ -204,7 +205,7 @@ export default {
                         switch(item) {
                             case 201:
                                 // itemObj.value = statisticsNetwork.txCount;
-                                // itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime) 
+                                // itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime)
                                 break;
                              case 202:
                                 itemObj.value = statisticsDb.validatorCount;
@@ -226,7 +227,7 @@ export default {
                                 break;
                             case 208:
                                 itemObj.value = statisticsDb.validatorNumCount
-                                break;                      
+                                break;
                             case 209:
                                 // if(statisticsNetwork.total_supply) {
                                 //     itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
@@ -264,47 +265,56 @@ export default {
                     }
                     this.proposerAddress = statisticsNetwork.operator_addr;
                     this.currentBlockHeight = statisticsNetwork.blockHeight;
-                    prodConfig.homeCard.forEach(item => {
-                        if(item === 200) return
-                        let itemObj = this.navigationObj[item]
-                        switch(item) {
-                            case 201:
-                                itemObj.value = statisticsNetwork.txCount;
-                                itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime) 
-                                break;
-                             case 202:
-                                itemObj.value = statisticsDb.validatorCount;
-                                break;
-                            case 203:
-                                itemObj.value = `${statisticsDb.avgBlockTime}s`
-                                break;
-                            case 204:
-                                itemObj.value = statisticsDb.assetCount
-                                break;
-                            case 205:
-                                itemObj.value = statisticsDb.denomCount
-                                break;
-                            case 206:
-                                itemObj.value = statisticsDb.serviceCount
-                                break;
-                            case 207:
-                                itemObj.value = statisticsDb.identityCount
-                                break;
-                            case 208:
-                                itemObj.value = statisticsDb.validatorNumCount
-                                break;                      
-                            case 209:
-                                if(statisticsNetwork.total_supply) {
-                                    itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
-                                    itemObj.footerLabel = Tools.formatBondedTokens(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
-                                } else {
-                                    itemObj.value = '--';
-                                    itemObj.footerLabel = `${statisticsNetwork.bonded_tokens || '--'} / ${statisticsNetwork.total_supply || '--'}`;
-                                }
-                                break;
+                    for (const item of prodConfig.homeCard) {
+                        if(item !== 200)  {
+                            let itemObj = this.navigationObj[item]
+                            switch(item) {
+                                case 201:
+                                    itemObj.value = statisticsNetwork.txCount;
+                                    itemObj.footerLabel = Tools.getDisplayDate(statisticsNetwork.latestBlockTime)
+                                    break;
+                                case 202:
+                                    itemObj.value = statisticsDb.validatorCount;
+                                    break;
+                                case 203:
+                                    itemObj.value = `${statisticsDb.avgBlockTime}s`
+                                    break;
+                                case 204:
+                                    itemObj.value = statisticsDb.assetCount
+                                    break;
+                                case 205:
+                                    itemObj.value = statisticsDb.denomCount
+                                    break;
+                                case 206:
+                                    itemObj.value = statisticsDb.serviceCount
+                                    break;
+                                case 207:
+                                    itemObj.value = statisticsDb.identityCount
+                                    break;
+                                case 208:
+                                    itemObj.value = statisticsDb.validatorNumCount
+                                    break;
+                                case 209:
+                                    if(Number(statisticsNetwork.total_supply) && Number(statisticsNetwork.bonded_tokens)) {
+                                        itemObj.value = Tools.formatPercentageNumbers(statisticsNetwork.bonded_tokens,statisticsNetwork.total_supply)
+                                        let mainToken  = await getMainToken()
+                                        let [bonded_tokens,total_supply] = await Promise.all([converCoin({
+                                            denom: mainToken.denom,
+                                            amount: Number(statisticsNetwork.bonded_tokens)
+                                        }),converCoin({
+                                            denom: mainToken.denom,
+                                            amount: Number(statisticsNetwork.total_supply)
+                                        })])
+                                        itemObj.footerLabel = Tools.formatBondedTokens(Number(bonded_tokens.amount || 0),Number(total_supply.amount || 0))
+                                    } else {
+                                        itemObj.value = '--';
+                                        itemObj.footerLabel = `${statisticsNetwork.bonded_tokens || '--'} / ${statisticsNetwork.total_supply || '--'}`;
+                                    }
+                                    break;
+                            }
+                            this.navigationArray.push(itemObj)
                         }
-                        this.navigationArray.push(itemObj)
-                    })
+                    }
                     if(!moduleSupport('107', prodConfig.navFuncList)) {
                         this.navigationArray.unshift({
                             id:200,
@@ -525,7 +535,7 @@ export default {
                     flex-direction: row;
                     justify-content: space-between;
                     align-items: center;
-                    
+
                     .statistical_validator_top_content{
                         .statistical_validator_header{
                             margin-bottom: 0.15rem;

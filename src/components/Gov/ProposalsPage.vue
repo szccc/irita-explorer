@@ -1,7 +1,7 @@
 <template>
   <div class="proposals_list_page_wrap">
     <div class="proposals_list_content">
-      <div class="proposals_title_container">
+      <div class="proposals_title_container" v-if="votingPeriodDatas.length !== 0 || depositPeriodDatas.length !== 0">
         <span>{{ $t("ExplorerLang.gov.proposalsTitle") }}</span>
         <span>{{ count }} {{ $t("ExplorerLang.gov.proposals") }}</span>
       </div>
@@ -57,7 +57,11 @@
         </div>
       </div>
       <div class="proposals_list">
-        <div class="proposals_icon">
+        <div class="proposals_icon" :class="votingPeriodDatas.length !== 0 || depositPeriodDatas.length !== 0 ? 'flex_right' : ''">
+          <div class="proposals_title" v-if="votingPeriodDatas.length === 0 && depositPeriodDatas.length === 0">
+            <span>{{ $t("ExplorerLang.gov.proposalsTitle") }}</span>
+            <span>{{ count }} {{ $t("ExplorerLang.gov.proposals") }}</span>
+          </div>
           <div class="icon_list">
             <div>
               <i style="margin-left: 0;"></i>
@@ -236,7 +240,7 @@ export default {
             v.type = v.content && v.content.type;
             v.min_deposit_number = Number(v.min_deposit);
             let n = await converCoin({
-              denom: mainToken.min_unit,
+              denom: mainToken.denom,
               amount: v.min_deposit_number,
             });
             v.min_deposit_format = `${n.amount} ${n.denom.toUpperCase()}`;
@@ -467,7 +471,7 @@ a {
     margin: 0 auto;
     padding: 0 0.15rem;
     text-align: left;
-    .proposals_title_container {
+    .proposals_title_container, .proposals_title {
       margin: 0.3rem 0 0 0;
       text-align: left;
       display: flex;
@@ -558,10 +562,16 @@ a {
     .proposals_list {
       .proposals_icon {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        .proposals_title {
+          padding: 0.30rem 0 0.16rem 0;
+          margin-top: 0rem;
+          display: flex;
+          align-items: center;
+        }
         .icon_list {
           display: flex;
-          padding: 0.16rem 0;
+          padding: 0.30rem 0 0.16rem 0;
           div {
             font-size: $s14;
             color: $t_second_c;
@@ -588,6 +598,9 @@ a {
             }
           }
         }
+      }
+      .flex_right {
+          justify-content: flex-end;
       }
       .proposals_list_table_content {
         .proposals_table {
@@ -617,6 +630,37 @@ a {
   }
 }
 
+@media screen and (max-width: 760px) {
+  .proposals_list_page_wrap {
+    .proposals_list_content {
+      .proposals_list {
+        .proposals_icon {
+          flex-direction: column;
+          .proposals_title {
+            padding-bottom: 0.1rem;
+          }
+          .icon_list {
+            padding: 0 0 0.1rem 0;
+            div {
+              i {
+              }
+              img {
+              }
+              span {
+              }
+            }
+          }
+        }
+        .flex_right {
+          flex-direction: row;
+          .icon_list {
+            padding: 0.30rem 0 0.16rem 0;
+          }
+        }
+      }
+    }
+  }
+}
 @media screen and (max-width: 615px) {
   .proposals_list_page_wrap {
     .proposals_list_content {

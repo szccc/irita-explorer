@@ -33,7 +33,7 @@
                         <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.qos')}}:</span>
                         <span>{{`${qos} ${$t('ExplorerLang.unit.blocks')}`}} </span>
                     </p>
-                    <p class="service_respond_record_text_content">
+                    <p v-if="isShowFee" class="service_respond_record_text_content">
                         <span>{{$t('ExplorerLang.serviceDetail.serviceBindings.deposit')}}:</span>
                         <span>{{deposit}}</span>
                     </p>
@@ -71,7 +71,7 @@
                 </h3>
                 <div class="service_respond_record_transaction_table_content">
                     <el-table class="table" :data="txList" :empty-text="$t('ExplorerLang.table.emptyDescription')">
-                        <el-table-column :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
+                        <el-table-column class-name="hash_status" :min-width="ColumnMinWidth.respondHash" :label="$t('ExplorerLang.table.respondHash')">
                             <template slot-scope="scope">
                                 <img class="service_tx_status"
                                      v-if="scope.row.respondStatus === TX_STATUS.success"
@@ -87,10 +87,10 @@
 
                             </template>
                         </el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
+                        <el-table-column :width="ColumnMinWidth.txType" :label="$t('ExplorerLang.table.txType')"
                                          prop="type"></el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
+                        <el-table-column class-name="requestId" :min-width="ColumnMinWidth.requestId" :label="$t('ExplorerLang.table.requestId')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="scope.row.requestContextId"
                                             v-if="scope.row.requestContextId">
@@ -112,7 +112,7 @@
 
                         <el-table-column :min-width="ColumnMinWidth.time" :label="$t('ExplorerLang.table.timestamp')" 
                                          prop="time"></el-table-column>
-                        <el-table-column :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.consumer')">
+                        <el-table-column class-name="address" :min-width="ColumnMinWidth.address" :label="$t('ExplorerLang.table.consumer')">
                             <template slot-scope="scope">
                                 <el-tooltip placement="top" :content="scope.row.consumer">
                                     <router-link :to="`/address/${scope.row.consumer}`">{{formatAddress(scope.row.consumer)}}
@@ -121,7 +121,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column :min-width="ColumnMinWidth.requestHash"
+                        <el-table-column class-name="hash_status" :min-width="ColumnMinWidth.requestHash"
                                          :label="$t('ExplorerLang.table.requestHash')">
                                 <template slot-scope="scope">
                                     <img class="service_tx_status"
@@ -167,6 +167,7 @@
         components : {MPagination},
         data(){
             return {
+                isShowFee: productionConfig.fee.isShowFee,
                 TX_STATUS,
                 productionConfig,
                 ColumnMinWidth,
@@ -212,7 +213,7 @@
                         this.isAvailable = available ? 'True' : 'False';
                         this.price = pricing;
                         this.qos = qos;
-                        if(deposit && deposit[0]) {
+                        if(deposit && deposit[0] && this.isShowFee) {
                             deposit = await converCoin(deposit[0])
                             this.deposit = `${deposit.amount} ${deposit.denom.toUpperCase()}`;
                         } else {
@@ -448,6 +449,7 @@
                         padding: 0.05rem 0.18rem;
                         font-size: $s14;
                         line-height: 0.2rem;
+                        white-space: nowrap;
                     }
                 }
                 .service_respond_record_transaction_table_content {

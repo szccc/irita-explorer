@@ -1,11 +1,24 @@
 import moment from 'moment'
 import BigNumber from 'bignumber.js'
 import URLSearchParams from 'url-search-params'
-import bech32 from 'bech32'
+import { bech32 } from 'bech32'
 import moveDecimal from 'move-decimal-point'
-import Constant from '../constant/index.js'
-import { getConfig } from '@/helper/IritaHelper'
-import { utcOffset,isShowUTC } from '../productionConfig'
+//import Constant from '../constant/index.js'
+//import { getConfig } from '@/helper/IritaHelper'
+import { utcOffset,isShowUTC } from '../productionConfig';
+
+//const displayToken2ActualTxToken = Math.pow(10, config.token.decimal);
+
+BigNumber.config({
+    FORMAT: {
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        groupSize: 3,
+        secondaryGroupSize: 0,
+        fractionGroupSeparator: ' ',
+        fractionGroupSize: 0
+    }
+});
 export default class Tools {
   /**
    * 根据展示的需求拼接字符串展示成 > xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs ago 或者 xxdxxhxxmxxs
@@ -37,12 +50,12 @@ export default class Tools {
 	 * 格式化hash
 	 * */
 	static formatTxHash(txHash = ''){
-		if (txHash.length <= 6) {
+		if (txHash.length <= 8) {
 			return txHash;
 		}
-		return `${txHash.substring(0,3)}...${txHash.substring(txHash.length - 3)}`
+		return `${txHash.substring(0,4)}...${txHash.substring(txHash.length - 4)}`
   }
-  
+
   /**
    * 格式化地址
    */
@@ -63,13 +76,13 @@ export default class Tools {
   }
 
   /**
-   * 
+   *
    * 是否显示tooltip
    */
   static disabled (str) {
     return str && str.length <= 11
   }
-  
+
   /**
    * 格式化空格
    */
@@ -164,7 +177,7 @@ export default class Tools {
     }
   }
 
-  static isBech32(str) {
+  static isBech32 (str) {
     let allReg = new RegExp(/^[0-9a-zA-Z]*$/i)
     if (!allReg.test(str)) {
       return false
@@ -277,30 +290,24 @@ export default class Tools {
   /**
    * 格式化数字的类型是string的数字并在小数点后面补零
    */
-  static formatStringToFixedNumber(str, splitNum) {
+  static formatStringToFixedNumber (str, splitNum) {
+    if (str.toString().indexOf('e') !== -1 || str.toString().indexOf('E') !== -1) {
+      str = new BigNumber(str).toFixed().toString()
+    }
     if (str.toString().indexOf('.') !== -1) {
-      let splitString = str.split('.')[1]
-      if (splitString.length > splitNum) {
-        return str.split('.')[0] + '.' + splitString.substr(0, splitNum)
-      } else {
-        let diffNum = 2 - splitString.length
-        for (let i = 0; i < diffNum; i++) {
-          splitString += '0'
+        let splitString = str.split('.')[1]
+        if (splitString.length > splitNum) {
+          return str.split('.')[0] + '.' + splitString.substr(0, splitNum)
+        } else {
+          let diffNum = 2 - splitString.length
+          for (let i = 0; i < diffNum; i++) {
+            splitString += '0'
+          }
+          return str.split('.')[0] + '.' + splitString
         }
-        return str.split('.')[0] + '.' + splitString
-      }
     } else {
       return str + '.00'
     }
-  }
-
-  /**
-   * format txHash
-   * param String
-   * return String
-   */
-  static formatTxHash(txHash) {
-    return `${txHash.substring(0, 3)}...${txHash.substring(txHash.length - 3)}`
   }
 
   /**
@@ -373,7 +380,7 @@ export default class Tools {
     let million = 1000000;
     if(value > million){
       return `${value/million}M`
-            }else {
+    }else {
       return value
     }
   }
@@ -389,7 +396,7 @@ export default class Tools {
       }else {
           tokens = `${Number(bondedTokens).toFixed(2)}`
       }
-      
+
       if(totalTokens >= billion){
           allTokens = `${(Number(totalTokens) / billion).toFixed(2)}B`
       }else if(totalTokens >= million){
@@ -414,4 +421,70 @@ export default class Tools {
     let reg = new RegExp('[a-zA-z]+://[^\s]*')
     return reg.test(url)
   }
+    //bigNumber的加减乘除
+    static bigNumberAdd(num1,num2){
+        return new BigNumber(num1).plus(num2).toNumber();
+    }
+    static bigNumberSubtract(num1,num2){
+        return new BigNumber(num1).minus(num2).toNumber();
+    }
+
+    static bigNumberMultiply(num1,num2){
+        /*if(isNaN(new BigNumber(num1).multipliedBy(num2).toNumber())){
+            return 0;
+        }else{
+            return new BigNumber(num1).multipliedBy(num2).toNumber();
+        }*/
+        return moveDecimal(num1 + '', (num2 + '').length - 1);
+    }
+    static bigNumberDivide(num1,num2){
+        /*return new BigNumber(num1).div(num2).toNumber();*/
+        return moveDecimal(num1 + '', ((num2 + '').length - 1) * -1);
+    }
+
+    //实际交易数字转换成'1,223,021.2124'格式
+    static getDisplayNumber(num, val = 4){
+        return Tools.toFormat(Tools.formatNum(num, val), val)
+    }
+
+    /*static formatAmount(num,p = displayToken2ActualTxToken){
+
+        return Tools.bigNumberDivide(num, p);
+    }*/
+
+    static formatNum(num,val = 4){
+        return new BigNumber(num).toFixed(val,1);
+    }
+    static toFormat(num,count = 4,bool){
+
+        if(isNaN(num)){
+            return '';
+        }
+        if(bool){
+            return new BigNumber(num).toFormat();
+        }else{
+            return new BigNumber(num).toFormat(count);
+        }
+    }
+
+    // 1024678.666 → 1.02m
+    static formatMillion(value,n=2){
+      let million = 1000000;
+      if(value > million){
+        return `${Math.floor((value/million) * Math.pow(10, n)) / Math.pow(10, n)}m`
+      }else {
+        return value
+      }
+    }
+
+  static isJSON (str) {
+      if (str.length < 120) {
+        return false
+      }
+      try {
+        let obj = JSON.parse(str);
+        return obj && typeof obj === 'object';
+      } catch (e) {}
+      return false;
+    }
 }

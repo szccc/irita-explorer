@@ -1,6 +1,10 @@
 <template>
     <span :class="`tx_message_content_largeStr ${mode=='cell'?'flex-row':'flex-colum'}`">
-        <template>
+        <template v-if="isShowPre">
+            <pre v-if="isLarge" ref="text" :style="`width:${textWidth || 'auto'}`">{{ !text || text.endsWith("...") ? text : JSON.stringify(JSON.parse(text),null,'\t').replace(/^\s*/g,"")}}</pre>
+            <pre v-else class="text" :class=" !showDesc ? 'width': ''" :style="`width:${textWidth || 'auto'}`">{{!text_f || text_f.endsWith("...") ? text_f : JSON.stringify(JSON.parse(text_f),null,'\t').replace(/^\s*/g,"")}}</pre>
+        </template>
+        <template v-else>
             <span v-if="isLarge" ref="text" :style="`width:${textWidth || 'auto'}`">{{text}}</span>
             <span v-else class="text" :class=" !showDesc ? 'width': ''" :style="`width:${textWidth || 'auto'}`">
                 {{text_f}}
@@ -19,7 +23,7 @@
 
 <script>
     export default {
-        name : "TxList",
+        name : "LargeString",
         components : {},
         props:{
             text:{
@@ -50,6 +54,14 @@
                 type:Number,
                 default: 0
             },
+            isShowPre: {
+                type: Boolean,
+                default: false
+            },
+            expand:{
+                type:Boolean,
+                required:false
+            }
         },
         data(){
             return {
@@ -65,9 +77,14 @@
         },
         mounted(){
             setTimeout( () => {
-                    this.$nextTick(()=>{ 
+                    this.$nextTick(()=>{
                     let height = this.$refs.text.offsetHeight;
-                    this.showDesc = height <= this.minHeight
+                    if(this.expand){
+                        this.showDesc = true;
+                    }else{
+                        this.showDesc = height <= this.minHeight
+                    }
+
                     this.isLarge = false
                     if(this.lineHeight) {
                         this.isHeight  = height > this.lineHeight
@@ -131,5 +148,14 @@
             font-weight: 400;
             margin-left: 0rem;
             white-space: nowrap;
-        }
+    }
+    .text.width {
+        text-indent: 0;
+    }
+    pre.text {
+        // text-indent: -3em
+    }
+    pre {
+        // overflow-x: hidden;
+    }
 </style>
