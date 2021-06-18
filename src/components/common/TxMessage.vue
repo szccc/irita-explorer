@@ -2408,7 +2408,7 @@
 											if (attr.key == 'request_context_id') {
 												this.requestContextId = attr.value || '--';
 											}
-										}); 
+										});
 									})
 								}
 								break;
@@ -2711,7 +2711,7 @@
                                             let amountList = transferItem.attributes.filter((t)=>t.key === 'amount');
                                             if(amountList && amountList.length > 0){
                                                 let inputItem = amountList[0],
-                                                    outputItem = amountList[1]
+                                                    outputItem = amountList[amountList.length - 1]
                                                 let inputAmount = inputItem.value.match(/\d+/g), inputDenom = '',
                                                     outputAmount = outputItem.value.match(/\d+/g), outputDenom = '';
                                                 if(inputAmount && inputAmount.length > 0){
